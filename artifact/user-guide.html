@@ -1,0 +1,600 @@
+<title>Hierarchy Network Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap">
+<style>
+  :root {
+    --leaf:    #2A5C45;
+    --leaf-lt: #3A7A5E;
+    --amber:   #C87820;
+    --amber-lt:#E8A040;
+    --ink:     #1B2920;
+    --muted:   #5A6E62;
+    --rule:    #D4CEC6;
+    --paper:   #F4EFE8;
+    --card:    #FFFFFF;
+    --step-bg: #EDF4F0;
+    --tag-bg:  #E6F0EB;
+    --tag-fg:  #1E4D35;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink:     #E8F0EA;
+      --muted:   #8FA898;
+      --rule:    #2C3D34;
+      --paper:   #111B16;
+      --card:    #192420;
+      --step-bg: #1A2D24;
+      --tag-bg:  #1E3028;
+      --tag-fg:  #7EC8A0;
+      --leaf-lt: #4A9A74;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink:     #E8F0EA;
+    --muted:   #8FA898;
+    --rule:    #2C3D34;
+    --paper:   #111B16;
+    --card:    #192420;
+    --step-bg: #1A2D24;
+    --tag-bg:  #1E3028;
+    --tag-fg:  #7EC8A0;
+    --leaf-lt: #4A9A74;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 17px; scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--leaf); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--leaf);
+    color: #fff;
+    padding: 64px 24px 56px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before,
+  .hero::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    border-radius: 60% 60% 0 0 / 30px;
+    opacity: 0.12;
+  }
+  .hero::before {
+    top: -18px;
+    height: 90px;
+    background: #fff;
+  }
+  .hero::after {
+    bottom: -22px;
+    height: 80px;
+    background: var(--paper);
+    border-radius: 0 0 60% 60% / 30px;
+    opacity: 1;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.18;
+    text-wrap: balance;
+    margin-bottom: 18px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero p {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.82);
+    max-width: 520px;
+    margin: 0 auto 30px;
+    text-wrap: balance;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 40px;
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #fff;
+  }
+  .tree-icon {
+    width: 22px; height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 740px; margin: 0 auto; padding: 0 22px; }
+  .section { padding: 52px 0 0; }
+  .section:last-child { padding-bottom: 72px; }
+
+  /* ── SECTION HEADING ── */
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+  .section h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.45rem, 3.5vw, 2rem);
+    font-weight: 600;
+    line-height: 1.22;
+    text-wrap: balance;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .section > p.lead {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin-bottom: 34px;
+  }
+  hr.divider {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 52px 0 0;
+  }
+
+  /* ── FEATURE CARDS ── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .feature-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 24px 20px;
+    border: 1px solid var(--rule);
+  }
+  .feature-icon {
+    width: 42px; height: 42px;
+    background: var(--step-bg);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+    color: var(--leaf);
+  }
+  .feature-card h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .feature-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 0 18px;
+    position: relative;
+  }
+  .step + .step { margin-top: 0; }
+  .step-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .step-num {
+    width: 40px; height: 40px;
+    background: var(--leaf);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .step-line {
+    width: 2px;
+    flex: 1;
+    background: var(--rule);
+    margin: 4px 0;
+    min-height: 24px;
+  }
+  .step:last-child .step-line { display: none; }
+  .step-body {
+    padding: 6px 0 32px;
+  }
+  .step-body h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 7px;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+  .step-body p {
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .step-body .note {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 7px;
+    background: var(--tag-bg);
+    color: var(--tag-fg);
+    border-radius: 8px;
+    padding: 9px 13px;
+    font-size: 0.84rem;
+    line-height: 1.45;
+    margin-top: 10px;
+    font-weight: 500;
+  }
+
+  /* ── VIEW CARDS (tree/directory/map) ── */
+  .view-cards { display: flex; flex-direction: column; gap: 14px; }
+  .view-card {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 16px;
+    align-items: start;
+    background: var(--card);
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--leaf);
+  }
+  .view-card.amber { border-left-color: var(--amber); }
+  .view-card.blue  { border-left-color: #4A90D9; }
+  .view-card .view-icon {
+    width: 44px; height: 44px;
+    background: var(--step-bg);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--leaf);
+    flex-shrink: 0;
+  }
+  .view-card.amber .view-icon { color: var(--amber); }
+  .view-card.blue  .view-icon { color: #4A90D9; }
+  .view-card h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+  .view-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .view-card .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-fg);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-top: 7px;
+  }
+
+  /* ── TIPS ── */
+  .tips-list { display: flex; flex-direction: column; gap: 12px; }
+  .tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 16px 18px;
+    border: 1px solid var(--rule);
+    font-size: 0.91rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .tip-bullet {
+    width: 8px; height: 8px;
+    background: var(--amber);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+  .tip strong { color: var(--ink); font-weight: 600; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 28px 22px;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 500px) {
+    .feature-grid { grid-template-columns: 1fr; }
+    .view-card { grid-template-columns: 1fr; }
+    .view-card .view-icon { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <svg class="tree-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M11 20V12M11 12L7 8M11 12L15 8M7 8L5 5M7 8L9 5M15 8L13 5M15 8L17 5"/>
+    </svg>
+    Hierarchy Network
+  </div>
+  <h1>Your family's story, all in one place</h1>
+  <p>See how everyone is connected — from grandparents to grandchildren — on a living, interactive family tree anyone can explore.</p>
+  <div class="hero-badge">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/>
+    </svg>
+    No technical knowledge needed
+  </div>
+</section>
+
+<div class="page">
+
+  <!-- WHAT YOU CAN DO -->
+  <section class="section">
+    <div class="section-label">What this app does</div>
+    <h2>Four things, done simply</h2>
+    <p class="lead">The app has four views. You don't need to use all of them — start with the tree and explore from there.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M11 19V11M11 11L7 7M11 11L15 7M7 7L5 4M7 7L9 4M15 7L13 4M15 7L17 4"/>
+          </svg>
+        </div>
+        <h3>Family Tree</h3>
+        <p>A visual diagram showing parents, children, spouses, and siblings — solid lines for family, dashed lines for spouses.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="9" cy="7" r="3"/><path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="8" r="2"/><path d="M19 18c0-2.2-1.8-4-4-4"/>
+          </svg>
+        </div>
+        <h3>Member Directory</h3>
+        <p>Browse everyone alphabetically. Filter by profession or city. Tap any card to see a full profile.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="11" cy="10" r="3"/><path d="M11 3a7 7 0 0 1 7 7c0 4-7 11-7 11S4 14 4 10a7 7 0 0 1 7-7z"/>
+          </svg>
+        </div>
+        <h3>Location Map</h3>
+        <p>See where family members live around the world. Dot size shows how many people are in each city.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M12 2a4 4 0 0 1 4 4c0 2-4 8-4 8S8 8 8 6a4 4 0 0 1 4-4z" opacity=".4"/>
+            <path d="M4 15l2 2m0-2l-2 2M18 15l-2 2m0-2l2 2"/>
+            <path d="M8 18h6M11 18v3"/>
+          </svg>
+        </div>
+        <h3>Your Profile</h3>
+        <p>Submit your name, photo, profession, city, and a short bio. The family admin reviews and publishes it.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- HOW TO BUILD YOUR PROFILE -->
+  <section class="section">
+    <div class="section-label">Getting started</div>
+    <h2>How to add yourself to the tree</h2>
+    <p class="lead">You don't need a login to submit your profile. Just fill in a short form and the family admin will add you.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Open the app and tap "Submit Profile"</h3>
+          <p>Find the <strong>Submit Profile</strong> button in the top-right corner of any page. Tap it to open the profile form. This is open to everyone — no account needed.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Fill in your details</h3>
+          <p>The only required field is your <strong>full name</strong>. Everything else — profession, city, date of birth, photo, and a short bio — is optional but helps family members recognise you.</p>
+          <div class="note">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;margin-top:1px">
+              <circle cx="7" cy="7" r="5"/><path d="M7 5v2.5L8.5 9"/>
+            </svg>
+            For your photo, paste a link to an image (e.g. from Google Photos or a shared drive). Direct photo upload is coming soon.
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Submit and wait for approval</h3>
+          <p>Tap <strong>Submit</strong>. Your profile goes to the family admin for review. Once approved, you'll appear in the tree, directory, and map automatically.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Your connections are added by the admin</h3>
+          <p>After your profile is approved, the admin links you to your parents, spouse, and children in the tree. If something looks wrong — a missing connection, a wrong name — let the admin know to fix it.</p>
+          <div class="note">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;margin-top:1px">
+              <path d="M7 2L7 7M7 7L4.5 4.5M7 7L9.5 4.5"/>
+              <path d="M3 10h8"/>
+            </svg>
+            Tell the admin: your parents' names, your spouse's name, and your children's names. This is how they build the connections.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- EXPLORING THE APP -->
+  <section class="section">
+    <div class="section-label">Navigating the app</div>
+    <h2>Three ways to explore your family</h2>
+    <p class="lead">Use the left sidebar (or the menu on mobile) to switch between views at any time.</p>
+    <div class="view-cards">
+      <div class="view-card">
+        <div class="view-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M12 21V13M12 13L8 9M12 13L16 9M8 9L6 6M8 9L10 6M16 9L14 6M16 9L18 6"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Hierarchy Tree</h3>
+          <p>The main view. Every person is a card. Solid lines connect parents and children; dashed lines connect spouses. <strong>Click any card</strong> to see that person's full profile and family connections. Use the zoom controls (bottom-left) to zoom in and out. Use the minimap (bottom-right) to jump to a different part of a large tree.</p>
+          <span class="tag">Tip: click "Focus Lineage" on any person to show only their branch</span>
+        </div>
+      </div>
+      <div class="view-card amber">
+        <div class="view-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="11" cy="11" r="6"/><path d="M20 20l-3-3"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Member Directory</h3>
+          <p>A searchable list of everyone in the tree. Type a name, profession, or city in the search box. Use the dropdowns to filter by profession or location. Tap <strong>View Profile</strong> on any card for full details, or <strong>Focus Lineage</strong> to jump to their branch in the tree.</p>
+          <span class="tag" style="background:rgba(200,120,32,0.12);color:#8B5210;">Tap "Submit Profile" here to add yourself</span>
+        </div>
+      </div>
+      <div class="view-card blue">
+        <div class="view-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="11" r="3"/><path d="M12 3a8 8 0 0 1 8 8c0 5-8 13-8 13S4 16 4 11a8 8 0 0 1 8-8z"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Location Map</h3>
+          <p>A world map with dots where family members live. Larger dots mean more people in that city. Click a dot to see who lives there. Only the city is shown — not home addresses — so everyone's privacy is protected.</p>
+          <span class="tag" style="background:rgba(74,144,217,0.12);color:#1A5F9E;">Only city-level location, never exact addresses</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- READING A PROFILE -->
+  <section class="section">
+    <div class="section-label">Profile details</div>
+    <h2>What you'll see on someone's profile</h2>
+    <p class="lead">Click any person in the tree or directory to open their profile panel on the right side of the screen.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num" style="background:var(--amber)">i</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Name, generation & photo</h3>
+          <p>At the top you'll see their photo (or initials), full name, and which generation they belong to. Generation 1 is the oldest on the tree; higher numbers are younger.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num" style="background:var(--amber)">i</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Work, location & dates</h3>
+          <p>Profession, city, country, and date of birth. If the person has passed away, you'll see <strong>In memoriam</strong> on their card in the tree — their profile and connections are fully preserved.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num" style="background:var(--amber)">i</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Family connections</h3>
+          <p>A list of all linked relatives — parents, children, and spouse — each with a button to jump directly to their profile. Use this to navigate the tree person by person.</p>
+          <div class="note">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;margin-top:1px">
+              <path d="M2 7h10M7 2l5 5-5 5"/>
+            </svg>
+            Tap "View in Family Tree" at the bottom of any profile to jump straight to that person in the tree diagram.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- TIPS -->
+  <section class="section">
+    <div class="section-label">Helpful tips</div>
+    <h2>Things worth knowing</h2>
+    <div class="tips-list" style="margin-top:8px">
+      <div class="tip">
+        <div class="tip-bullet"></div>
+        <div><strong>On a phone?</strong> The tree works best on a wider screen, but you can pinch-to-zoom and scroll. The directory and map work great on any screen size.</div>
+      </div>
+      <div class="tip">
+        <div class="tip-bullet"></div>
+        <div><strong>Can't find someone?</strong> They may not have been added yet. Ask the family admin or submit a profile request on their behalf — just put their name and what you know.</div>
+      </div>
+      <div class="tip">
+        <div class="tip-bullet"></div>
+        <div><strong>In memoriam members</strong> appear slightly greyed out in the tree. You can toggle them on or off using the "Hide deceased / Show deceased" button above the tree.</div>
+      </div>
+      <div class="tip">
+        <div class="tip-bullet"></div>
+        <div><strong>Lineage focus</strong> is the most useful feature. Find someone in the directory, tap "Focus Lineage", and the tree zooms in to show only their ancestors, descendants, and siblings.</div>
+      </div>
+      <div class="tip">
+        <div class="tip-bullet"></div>
+        <div><strong>Something wrong?</strong> Profile details, missing connections, or incorrect information can all be fixed by the family admin. Reach out to them directly — they can edit any record.</div>
+      </div>
+      <div class="tip">
+        <div class="tip-bullet"></div>
+        <div><strong>Your privacy.</strong> Contact details (phone, email) are visible only to signed-in members, never to anyone browsing without an account. The map shows only your city, not your address.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Hierarchy Network &nbsp;·&nbsp; A private family tree for all generations
+</footer>

@@ -1,0 +1,9 @@
+{
+  "name": "XYZ Hierarchy Network",
+  "short_name": "XYZ Network",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f7fb",
+  "theme_color": "#3559c7",
+  "description": "Private hierarchy and member directory"
+}

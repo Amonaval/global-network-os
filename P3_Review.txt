@@ -1,0 +1,1092 @@
+P3 Architecture + Capability Audit
+1. Executive assessment
+Current P3 maturity: good functional prototype / early production foundation
+
+I would rate it roughly:
+
+Area	P3 state	Assessment
+Core hierarchy visualization	✅ Strong	Good demo/product foundation
+Profiles/directory	✅ Strong	Basic but coherent
+Search/filter	✅ Good	Works client-side
+Lineage focus	✅ Good	Useful differentiator
+Map/location	✅ Good	Functional city-level view
+Auth	✅ Foundation	Email/password + roles
+Supabase persistence	✅ Foundation	Shared canonical backend
+RLS	⚠️ Partial	Better than UI-only security, but privacy model incomplete
+Relationship management	⚠️ Partial	Basic parent/spouse CRUD only
+Profile approvals	✅ Foundation	Functional workflow
+Import	✅ Good	Strong UUID/source-ID handling
+Data governance	⚠️ Partial	Audit table exists but isn't actually wired
+Data quality	❌ Missing	No duplicate/graph validation
+Media	❌ Missing	URL-only photos
+Notifications	❌ Missing	No event/notification system
+Large-scale performance	⚠️ Fragile	Designed around loading entire network
+Advanced genealogy	❌ Missing	Not yet a genealogy engine
+Extensibility	⚠️ Moderate	Domain is clean, orchestration is too monolithic
+
+So I would not rewrite P3.
+
+The architecture is good enough to become P4, but there are a handful of foundational corrections that should happen before piling on advanced features.
+
+2. What P3 actually contains
+
+The current architecture is essentially:
+
+Next.js 14
+   │
+   └── NetworkApp
+         │
+         ├── TreeView
+         ├── Directory
+         ├── MapView
+         ├── ProfileDrawer
+         ├── ProfileForm
+         ├── RelationshipModal
+         ├── ImportModal
+         ├── Admin
+         └── AuthPanel
+                │
+                ▼
+          lib/ domain/data
+                │
+         ┌──────┴──────┐
+         │             │
+      Supabase      localStorage
+      shared mode   fallback/demo
+         │
+         ├── profiles
+         ├── family_members
+         ├── family_relationships
+         ├── profile_submissions
+         ├── network_settings
+         └── audit_log
+
+This is a sensible P3 shape.
+
+The biggest architectural weakness is that NetworkApp.tsx currently owns almost all application orchestration: hydration, authentication, search, filtering, lineage calculation, imports, approval, relationship mutation, export, view state and modal state.
+
+That is manageable now, but it becomes a bottleneck in P4.
+
+3. Capability audit
+A. Hierarchy / graph
+Implemented ✅
+
+The application genuinely has a relationship graph rather than merely displaying a list.
+
+It supports:
+
+generation-based tree positioning
+parent/child edges
+spouse edges
+deceased styling
+member selection
+mini-map
+zoom/pan
+lineage focus
+relationship traversal
+siblings derived through common parents.
+
+The tree uses React Flow (@xyflow/react), which is a good choice.
+
+Current model
+
+The core relationship model is:
+
+type RelationshipType = "parent" | "child" | "spouse";
+
+and:
+
+person_id
+related_person_id
+relationship_type
+Partial ⚠️
+
+The relationship model is more limited than the UI makes it appear.
+
+The actual UI only supports:
+
+Parent
+Spouse
+
+There is no UI for:
+
+Child
+Sibling
+Adoptive parent
+Step parent
+Step child
+Guardian
+Former spouse
+etc.
+
+Also, child exists in the type/database constraint but is effectively not part of the actual authoring workflow.
+
+Fragile ⚠️
+
+The tree layout is generation-based, not relationship-derived.
+
+Nodes are placed roughly as:
+
+generation 1 → y = 55
+generation 2 → y = 245
+generation 3 → y = 435
+...
+
+So the system assumes generation_level is already correct.
+
+That means:
+
+The graph does not yet understand genealogy deeply enough to derive the hierarchy itself.
+
+This becomes important when we introduce editing, imports, merges or complex marriages.
+
+4. Lineage engine
+Implemented ✅
+
+This is one of the better parts of P3.
+
+The code calculates:
+
+ancestors
+descendants
+siblings
+spouses
+
+around a selected person and creates a focused subset.
+
+That's already a useful product feature.
+
+Partial ⚠️
+
+It is not yet a general relationship-path engine.
+
+For example, future questions like:
+
+"How is Person A related to Person B?"
+
+or:
+
+"Show the shortest path between A and B"
+
+will need a proper graph traversal layer.
+
+Currently lineage logic lives inline inside NetworkApp.
+
+Recommendation
+
+Promote this into a real domain module:
+
+lib/graph/
+   traversal.ts
+   lineage.ts
+   relationship-path.ts
+   validation.ts
+
+That should happen before advanced genealogy functionality.
+
+5. Search and discovery
+Implemented ✅
+
+Current search covers:
+
+name
+profession
+city
+country
+
+plus profession/city filtering.
+
+Directory cards also lead to:
+
+Profile
+Lineage focus
+Partial ⚠️
+
+Everything is loaded into the browser.
+
+The remote query is essentially:
+
+fetch all approved members
+fetch all relationships
+fetch submissions
+
+Then filtering happens with JavaScript.
+
+That is completely reasonable at:
+
+150 members
+500 members
+maybe ~1,000
+
+but I would not design P4 assuming this remains the pattern.
+
+At thousands of members:
+
+Supabase
+   ↓
+download entire graph
+   ↓
+React memory
+   ↓
+filter locally
+   ↓
+render graph
+
+becomes the wrong architecture.
+
+P4 readiness: yellow
+
+We should eventually support:
+
+search → database
+         ↓
+      matching IDs
+         ↓
+      focused graph
+
+rather than downloading the whole world.
+
+6. Profiles
+Implemented ✅
+
+Current member entity is already useful:
+
+id
+full_name
+DOB
+DOD
+generation
+profession
+city
+country
+photo_url
+bio
+phone
+email
+latitude
+longitude
+status
+gender
+
+The profile drawer gives:
+
+identity
+profession
+location
+generation
+DOB
+contact information
+bio
+relationships.
+
+This is a very good P3 foundation.
+
+Partial ⚠️
+
+Profiles are essentially flat records.
+
+There is currently no concept of:
+
+Profile
+ ├── Bio
+ ├── Contact
+ ├── Education
+ ├── Career
+ ├── Locations over time
+ ├── Family events
+ ├── Memories
+ ├── Photos
+ ├── Documents
+ └── Timeline
+
+This is exactly where P4 can become substantially richer.
+
+7. Privacy
+
+This is one of the most important findings.
+
+There is a UI selector:
+
+Preview: Public
+View: Member
+View: Admin
+
+and ProfileDrawer hides phone/email when Public is selected.
+
+But this is presentation-level privacy, not actual field-level privacy.
+
+The database query fetches the entire approved member record for an authenticated user.
+
+So a normal member receives fields including:
+
+phone
+email
+
+from Supabase, and React merely chooses whether to render them.
+
+Therefore:
+
+The current Public/Member/Admin visibility model is not a true privacy boundary.
+
+The good news is that the base RLS architecture is already there.
+
+The migration correctly establishes authenticated access, admin role checking and RLS policies, which is a strong foundation. But the privacy layer needs to be redesigned around what data is actually queryable by each role.
+
+P4 status: 🔴 Must fix before serious community rollout
+
+This is higher priority than fancy features.
+
+8. Authentication / authorization
+Implemented ✅
+
+Current system has:
+
+Supabase Auth
+    ↓
+profiles
+    ↓
+role = member/admin
+
+and:
+
+signup
+signin
+signout
+first-user admin bootstrap
+admin-specific UI
+database is_admin() function
+admin RLS.
+
+That's a respectable P3 security foundation.
+
+Partial ⚠️
+
+There is no richer permission model yet.
+
+Everything is basically:
+
+member
+admin
+
+P4 will likely need:
+
+owner
+admin
+editor
+moderator
+contributor
+member
+
+or, even better, capability-based permissions.
+
+For example:
+
+can_edit_profile
+can_manage_relationships
+can_approve_submissions
+can_import
+can_export
+can_view_private_contact
+
+rather than hard-coding role === 'admin' throughout the React code.
+
+9. Profile submission workflow
+Implemented ✅
+
+This is genuinely functional:
+
+Member
+ ↓
+Submit profile
+ ↓
+profile_submissions
+ ↓
+Admin
+ ↓
+Approve / Reject
+ ↓
+family_members
+
+That is a good pattern.
+
+Fragile ⚠️
+
+Approval currently hardcodes:
+
+generation_level = 5
+
+when creating a new member.
+
+That is a clear P3 limitation.
+
+A real submission needs to be able to specify or derive:
+
+generation
+relationships
+
+rather than guessing generation 5.
+
+P4 recommendation
+
+Move from:
+
+profile submission
+
+to:
+
+change request
+
+where requests can represent:
+
+CREATE_MEMBER
+UPDATE_PROFILE
+ADD_RELATIONSHIP
+REMOVE_RELATIONSHIP
+MERGE_MEMBER
+
+That will become the governance backbone.
+
+10. Relationship management
+Implemented ✅
+
+Admins can:
+
+add parent
+add spouse
+remove relationship.
+
+The database protects these operations with admin RLS.
+
+Not implemented ❌
+
+No:
+
+edit relationship
+child creation workflow
+sibling relation workflow
+adoption
+step family
+former spouse
+relationship metadata
+marriage date
+divorce/separation
+source/evidence
+relationship history.
+Much more important:
+
+There is no graph validation.
+
+For example, nothing checks:
+
+A is parent of B
+B is parent of A
+
+or:
+
+person is own parent
+
+or:
+
+duplicate/conflicting parents
+
+or:
+
+generation ordering is impossible
+
+This should be P4 foundation work.
+
+11. Import engine
+
+This is actually one of the strongest P3 pieces.
+
+Implemented ✅
+
+The importer handles:
+
+CSV
+XLSX
+XLS
+XML
+
+and importantly:
+
+external/source ID
+        ↓
+UUID mapping
+        ↓
+relationship resolution
+
+This directly solves the earlier problem with IDs like:
+
+s1787065934735
+
+being incorrectly inserted into PostgreSQL UUID fields.
+
+The source-ID → generated UUID model is the right direction.
+
+Partial ⚠️
+
+Current import is still fundamentally a load/merge mechanism, not a data-management engine.
+
+It does not provide:
+
+duplicate detection
+conflict preview
+merge
+diff
+rollback
+validation report
+relationship anomaly report
+Important technical issue
+
+replaceRelationships() is misnamed.
+
+It does not replace relationships.
+
+It only upserts supplied relationships.
+
+So:
+
+Existing:
+A → B
+A → C
+A → D
+
+
+Import:
+A → B
+A → C
+
+does not necessarily mean A → D gets removed.
+
+The UI documentation actually acknowledges this behavior.
+
+That's fine for an additive import, but the function name and product semantics should eventually become explicit:
+
+mergeRelationships()
+
+versus:
+
+replaceRelationships()
+12. Data quality / governance
+Audit table exists ✅
+
+The database has:
+
+audit_log
+
+with:
+
+actor_id
+action
+details
+created_at
+
+Excellent architectural direction.
+
+But implementation is missing ❌
+
+I found no meaningful application writes to audit_log.
+
+So the current state is essentially:
+
+Audit architecture: ✅
+Audit functionality: ❌
+
+This should absolutely become P4 foundation.
+
+13. Backup / export
+Implemented ✅
+
+Admin has:
+
+CSV export
+JSON export.
+
+JSON is structurally useful because it preserves members + relationships.
+
+Risk ⚠️
+
+CSV export includes:
+
+phone
+email
+bio
+
+So export needs to become permission-aware and potentially audited.
+
+P4 should introduce explicit:
+
+Export full data
+Export public data
+Export branch
+Export selected members
+
+with audit records.
+
+14. Photos / media
+Current state ❌
+
+The data model has:
+
+photo_url
+
+but there is no actual:
+
+Supabase Storage
+upload
+resize
+thumbnail
+delete
+access control
+
+The documentation itself identifies photo storage as a remaining production step.
+
+P4 readiness
+
+The profile model can accept it easily.
+
+So:
+
+Architecture readiness = good
+Implementation = missing
+
+This is a relatively easy P4 feature.
+
+15. Location system
+Implemented ✅
+
+There is:
+
+latitude
+longitude
+city
+country
+
+and a Leaflet map.
+
+The map groups members by city/coordinates.
+
+That's good.
+
+Current limitation
+
+It is really:
+
+city visualization
+
+rather than a full geographic feature.
+
+No:
+
+geographic privacy policy enforcement
+region filtering
+clustering engine
+historical locations
+migration paths
+city pages
+geographic analytics.
+P4 opportunity
+
+This could evolve into:
+
+Location
+  ↓
+Who's here?
+  ↓
+Family/community branches
+  ↓
+Migration/history
+  ↓
+Local events
+16. Deceased / In Memoriam
+Implemented ✅
+
+A member is considered deceased when:
+
+date_of_death != null
+
+and the UI:
+
+grays out the member
+shows † In memoriam
+can hide/show deceased.
+
+Good.
+
+Architectural decision
+
+This is correctly modeled as a normal person with a state/property, rather than a different entity type.
+
+Keep that.
+
+17. Local fallback
+Implemented ✅
+
+Without Supabase:
+
+localStorage
+
+becomes the persistence layer.
+
+This is useful for demos and development.
+
+Important architectural boundary
+
+Do not allow P4 development to accidentally treat this as a second production backend.
+
+I would eventually formalize:
+
+Repository interface
+      │
+      ├── SupabaseRepository
+      └── LocalRepository
+
+rather than branching throughout NetworkApp on:
+
+if (isSupabaseConfigured)
+
+There are currently many such branches.
+
+18. Network configuration
+Implemented ✅
+
+The network itself has:
+
+id
+name
+description
+initialized_at
+updated_at
+
+This makes the product genuinely generic rather than hard-coded to one family.
+
+Good P3 decision.
+
+P4 opportunity
+
+That can eventually become a real tenant/network object:
+
+Network
+ ├── name
+ ├── description
+ ├── logo
+ ├── privacy policy
+ ├── settings
+ ├── default visibility
+ ├── membership rules
+ ├── roles
+ └── feature flags
+
+This is important because your current architecture is already accidentally moving toward a multi-community platform, not merely a single family tree.
+
+19. Major architectural fragility: NetworkApp
+
+This is the biggest code-structure issue.
+
+NetworkApp.tsx currently owns too much.
+
+It contains:
+
+auth
+network initialization
+remote hydration
+local persistence
+search
+filters
+lineage traversal
+imports
+approval
+relationship CRUD
+exports
+visibility
+navigation
+modal state
+notifications
+
+This won't break at 150 members.
+
+But P4 will become increasingly hard to reason about.
+
+Refactoring target
+
+Move toward:
+
+components/
+hooks/
+  useAuth.ts
+  useNetwork.ts
+  useMembers.ts
+  useRelationships.ts
+  useSearch.ts
+  useLineage.ts
+
+
+lib/
+  domain/
+    graph.ts
+    lineage.ts
+    validation.ts
+    matching.ts
+
+
+repositories/
+  network-repository.ts
+  supabase-repository.ts
+  local-repository.ts
+
+Then NetworkApp becomes mostly composition.
+
+Do not rewrite now.
+Extract incrementally as P4 features touch each area.
+
+20. P4 readiness matrix
+
+Here is the important part.
+
+Next-level feature	Current foundation	P4 readiness	What must happen
+Richer profiles	Good	🟢	Extend profile schema
+Profile timeline	Moderate	🟡	Add event model
+Photos	Good	🟢	Add Supabase Storage
+Family memories	Low	🟡	New media/memory model
+Better search	Good	🟢	Move search server-side
+"How am I related?"	Good	🟢	Extract graph traversal engine
+Relationship path	Good	🟢	Add graph algorithm layer
+Duplicate detection	Moderate	🟡	New matching/merge engine
+Relationship validation	Moderate	🟡	Graph rules + DB constraints
+Audit history	DB ready	🟢	Wire writes everywhere
+Change approval	Moderate	🟡	Generalize submission → change request
+Member roles	Basic	🟡	Permission/capability model
+Notifications	Low	🔴	New subsystem
+Events	Low	🔴	New domain model
+Announcements	Low	🔴	New domain model
+City groups	Good	🟢	Mostly UI/data aggregation
+Geographic history	Low	🟡	Location-event model
+Analytics	Moderate	🟢	Derived queries/materialized views
+PDF/SVG tree	Good	🟢	Rendering/export layer
+Mobile/PWA	Moderate	🟡	UI/responsive + offline strategy
+5,000+ members	Fragile	🔴	Server-side querying + graph windowing
+Multi-network platform	Good	🟢	Add proper network scoping
+AI assistance	Low	🟡	Add after data governance
+21. What I would NOT do yet
+
+I would not jump immediately into:
+
+AI
+social feed
+notifications
+mobile app
+PDF
+analytics dashboards
+
+because the graph/data model isn't mature enough yet.
+
+Those features become dramatically easier once the underlying model becomes:
+
+Person
+Relationship
+Event
+Place
+Media
+Change Request
+Audit Event
+Network Membership
+22. The real P4 foundation
+
+I think the best P4 direction is actually this:
+
+P4 = Make the hierarchy intelligent, trustworthy and collaborative
+
+Not just "add more UI."
+
+P4.1 — Graph & data foundation
+
+First:
+
+Relationship validation
+Duplicate detection
+Merge
+Graph traversal
+Relationship path
+Generation consistency
+Orphan detection
+
+This makes the tree trustworthy.
+
+P4.2 — Profile evolution
+
+Then:
+
+Rich profile
+Timeline
+Photos
+Events
+Locations
+Memories
+
+This makes a person more than a node.
+
+P4.3 — Collaboration
+
+Then:
+
+Member contributions
+Change requests
+Approval
+Audit
+Roles
+Notifications
+
+This turns it into a living community network.
+
+P4.4 — Discovery
+
+Then:
+
+Global search
+How am I related?
+Common ancestors
+Family branches
+Location discovery
+People directory intelligence
+
+This is where the product becomes genuinely interesting.
+
+P4.5 — Intelligence
+
+Only afterward:
+
+Statistics
+family/community insights
+migration patterns
+timeline analytics
+branch analytics
+AI-assisted enrichment
+23. The P3 → P4 architectural change I would make first
+
+If we are going to actually start modifying the application, my first P4 milestone would not be a visual feature.
+
+I'd introduce a proper domain model around:
+
+Person
+Relationship
+Network
+Event
+ChangeRequest
+AuditEvent
+
+while keeping the current database compatible.
+
+Something like:
+
+                Network
+                   │
+       ┌───────────┼───────────┐
+       │           │           │
+     Person    Relationship   Event
+       │           │           │
+       └───────┬───┴───────┬───┘
+               │           │
+         ChangeRequest   Media
+               │
+             Audit
+
+Then all future functionality has somewhere clean to live.
+
+24. My P4 priority ranking
+P0 — Fix before expanding
+
+These are not "nice-to-have":
+
+Real privacy enforcement rather than UI-only visibility.
+Relationship validation.
+Proper audit writes.
+Fix/generalize change approval.
+Clarify import merge vs replace semantics.
+P1 — Highest-value P4
+
+Then build:
+
+A. "How am I related?"
+
+This could become a flagship feature.
+
+Example:
+
+You
+ ↓
+Father
+ ↓
+Grandfather
+ ↓
+Brother
+ ↓
+His daughter
+ ↓
+Person X
+
+
+Result:
+"Person X is your 1st cousin once removed."
+
+B. Rich profile + timeline
+
+C. Duplicate detection + merge
+
+D. Advanced relationship editor
+
+P2
+
+Then:
+
+photos/media
+family memories
+events
+geographic discovery
+notifications
+member roles.
+P3
+
+Finally:
+
+analytics
+advanced genealogy
+AI
+PDF/SVG
+mobile polish.
+25. Bottom line
+
+The good news is:
+
+P3 is not a throwaway prototype.
+
+The core architecture is actually good enough to evolve.
+
+The strongest existing pieces are:
+
+✅ React Flow graph
+✅ Supabase persistence
+✅ RLS foundation
+✅ role model
+✅ source-ID → UUID import
+✅ profile submission workflow
+✅ deterministic demo data
+✅ generic network abstraction
+✅ lineage focus
+✅ location model
+
+The things I would fix before major feature expansion are:
+
+🔴 privacy enforcement
+🔴 relationship/data validation
+🔴 real audit logging
+🔴 server-side scalable discovery
+🟠 change-request architecture
+🟠 relationship model expansion
+🟠 repository/domain separation
+
+And the most promising actual P4 feature is, in my view:
+
+Turn the hierarchy from a visual tree into a relationship intelligence system — where users can discover paths, understand connections, maintain trustworthy data, and progressively build a living history around each person.
+
+That direction fits the P3 architecture extremely well without forcing a rewrite.

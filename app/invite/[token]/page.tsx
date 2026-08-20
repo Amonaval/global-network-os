@@ -1,0 +1,13 @@
+'use client';
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { supabase } from '../../../lib/supabase';
+import { acceptInvitation } from '../../../lib/remote';
+
+export default function InvitePage() {
+  const params = useParams<{token:string}>(); const router = useRouter();
+  const [email,setEmail]=useState(''),[password,setPassword]=useState(''),[name,setName]=useState(''),[message,setMessage]=useState(''),[busy,setBusy]=useState(false);
+  useEffect(()=>{(async()=>{if(!supabase)return;const {data:{session}}=await supabase.auth.getSession();if(session)try{await acceptInvitation(String(params.token));setMessage('Invitation accepted. Your profile is now linked to your account.');setTimeout(()=>router.push('/'),700)}catch(e:any){setMessage(e.message||'This invitation is invalid or expired.')}})()},[params.token,router]);
+  const submit=async(e:any)=>{e.preventDefault();setBusy(true);setMessage('');try{if(!supabase)throw new Error('Shared mode is required for invitations.');const {data,error}=await supabase.auth.signUp({email,password,options:{data:{full_name:name}}});if(error)throw error;if(!data.session){setMessage('Account created. If email confirmation is enabled, confirm your email and then open this invitation link again.');return;}await acceptInvitation(String(params.token));setMessage('Invitation accepted. Your profile is now linked.');setTimeout(()=>router.push('/'),700)}catch(x:any){setMessage(x.message||'Could not accept invitation.')}finally{setBusy(false)}};
+  return <main className="landing"><form className="landing-card" onSubmit={submit}><h1>Join the Network</h1><p className="page-subtitle">This private invitation is for one member of the hierarchy. Create your account to claim that profile.</p><div className="field" style={{marginTop:18}}><label>Name</label><input className="text-input" value={name} onChange={e=>setName(e.target.value)} required/></div><div className="field" style={{marginTop:12}}><label>Email</label><input className="text-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} required/></div><div className="field" style={{marginTop:12}}><label>Password</label><input className="text-input" type="password" minLength={8} value={password} onChange={e=>setPassword(e.target.value)} required/></div>{message&&<div className="notice" style={{marginTop:14}}>{message}</div>}<div className="form-actions"><button className="btn" type="button" onClick={()=>router.push('/')}>Back</button><button className="btn primary" disabled={busy}>{busy?'Please wait…':'Create account & Join'}</button></div></form></main>;
+}
