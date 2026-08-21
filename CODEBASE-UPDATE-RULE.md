@@ -25,6 +25,8 @@
 10. Links to vision/roadmap/rules/status documents.
 11. User-facing UX validation performed for major family journeys.
 12. Recommended model/effort for the exact next mission, following `MODEL-SELECTION-RULE.md`.
+13. Family journey, screen, language and mobile states changed by a UI mission.
+14. Real-device/rendered verification evidence, or the exact reason it remains open.
 
 ## Rules
 

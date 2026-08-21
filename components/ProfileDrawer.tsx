@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { LifeEvent, Member, Relationship, Memory } from "../lib/types";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
+import { useLanguage } from "../lib/i18n";
 
 function initials(name: string) {
   return name
@@ -20,9 +21,10 @@ function initials(name: string) {
     .join("")
     .toUpperCase();
 }
-function friendlyDate(value?: string) {
+function friendlyDate(value?: string, language: "en" | "hi" | "mr" = "en") {
   if (!value) return "Not added yet";
-  return new Date(`${value}T00:00:00`).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
+  const locale = language === "hi" ? "hi-IN" : language === "mr" ? "mr-IN" : "en-IN";
+  return new Date(`${value}T00:00:00`).toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" });
 }
 
 export default function ProfileDrawer({
@@ -62,6 +64,8 @@ export default function ProfileDrawer({
   onAddEvent?: () => void;
   onEditEvent?: (e: LifeEvent) => void;
 }) {
+  const { t, language } = useLanguage();
+  const copy = language === "hi" ? { phone:"फ़ोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोड़ें", noMilestones:"अभी कोई जीवन घटना साझा नहीं की गई।", noMemories:"अभी कोई याद साझा नहीं की गई।", noRelations:"अभी कोई रिश्ता दर्ज नहीं है।", member:"सदस्य", undated:"तारीख नहीं", edit:"बदलें" } : language === "mr" ? { phone:"फोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोडा", noMilestones:"अजून कोणतीही जीवन घटना सामायिक केलेली नाही.", noMemories:"अजून कोणतीही आठवण सामायिक केलेली नाही.", noRelations:"अजून कोणतेही नाते नोंदवलेले नाही.", member:"सदस्य", undated:"तारीख नाही", edit:"बदला" } : { phone:"Phone", email:"Email", about:"About", addEvent:"Add event", noMilestones:"No milestones have been shared yet.", noMemories:"No memories have been shared yet.", noRelations:"No relationships recorded.", member:"Member", undated:"Undated", edit:"Edit" };
   const cfg = getNetworkConfig(network ?? null);
   const related = relationships
     .filter(
@@ -93,11 +97,11 @@ export default function ProfileDrawer({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <aside className="drawer">
+      <aside className="drawer" role="dialog" aria-modal="true" aria-label={member.full_name}>
         <div className="drawer-head">
           <strong>
             {cfg.network_template === "family"
-              ? "Family Profile"
+              ? t("familyProfile")
               : `${cfg.entity_label} Profile`}
           </strong>
         <button className="btn small" aria-label="Close profile" onClick={onClose}>
@@ -134,13 +138,13 @@ export default function ProfileDrawer({
           <div className="detail">
             <div className="detail-label">
               <Briefcase size={12} style={{ verticalAlign: "middle" }} />{" "}
-              Profession
+              {t("profession")}
             </div>
             <div className="detail-value">{member.profession || "—"}</div>
           </div>
           <div className="detail">
             <div className="detail-label">
-              <MapPin size={12} style={{ verticalAlign: "middle" }} /> Location
+              <MapPin size={12} style={{ verticalAlign: "middle" }} /> {t("location")}
             </div>
             <div className="detail-value">
               {[member.city, member.country].filter(Boolean).join(", ") || "—"}
@@ -149,34 +153,32 @@ export default function ProfileDrawer({
           <div className="detail">
             <div className="detail-label">
               <GitBranch size={12} style={{ verticalAlign: "middle" }} />{" "}
-              Generation
+              {t("generation")}
             </div>
             <div className="detail-value">{member.generation_level}</div>
           </div>
           <div className="detail">
             <div className="detail-label">
-              <Calendar size={12} style={{ verticalAlign: "middle" }} /> Date of
-              birth
+              <Calendar size={12} style={{ verticalAlign: "middle" }} /> {t("birthday")}
             </div>
-            <div className="detail-value">{friendlyDate(member.date_of_birth)}</div>
+            <div className="detail-value">{member.date_of_birth ? friendlyDate(member.date_of_birth, language) : t("notAdded")}</div>
           </div>
         </div>
         {canViewPrivateContact && (
           <div className="detail-grid">
             <div className="detail">
-              <div className="detail-label">Phone</div>
+              <div className="detail-label">{copy.phone}</div>
               <div className="detail-value">{member.phone || "—"}</div>
             </div>
             <div className="detail">
-              <div className="detail-label">Email</div>
+              <div className="detail-label">{copy.email}</div>
               <div className="detail-value">{member.email || "—"}</div>
             </div>
           </div>
         )}
         {!canViewPrivateContact && (
           <div className="privacy-note">
-            Private contact details are protected at the database level and are
-            not available to regular members.
+            {t("privateContact")}
           </div>
         )}
         {canViewPrivateContact &&
@@ -195,7 +197,7 @@ export default function ProfileDrawer({
         )}
         {member.bio && (
           <>
-            <h3 style={{ fontSize: 14 }}>About</h3>
+            <h3 style={{ fontSize: 14 }}>{copy.about}</h3>
             <p style={{ fontSize: 13, lineHeight: 1.6, color: "#596579" }}>
               {member.bio}
             </p>
@@ -203,17 +205,17 @@ export default function ProfileDrawer({
         )}
         <div className="profile-section-head">
           <h3 style={{ fontSize: 14, marginTop: 20, marginBottom: 0 }}>
-            Life Timeline
+            {t("lifeJourney")}
           </h3>
           {canEdit && onAddEvent && (
             <button className="btn small" onClick={onAddEvent}>
-              + Add event
+              + {copy.addEvent}
             </button>
           )}
         </div>
         <div className="timeline-list">
           {(!events || events.length === 0) && (
-            <div className="empty compact">No milestones have been shared yet.</div>
+            <div className="empty compact">{copy.noMilestones}</div>
           )}
           {(events || [])
             .slice()
@@ -225,7 +227,7 @@ export default function ProfileDrawer({
                 <div className="timeline-dot" />
                 <div className="timeline-content">
                   <div className="timeline-date">
-                    {e.event_date || "Undated"} · {e.event_type}
+                    {e.event_date || copy.undated} · {e.event_type}
                   </div>
                   <div className="timeline-title">{e.title}</div>
                   {e.location && (
@@ -236,17 +238,17 @@ export default function ProfileDrawer({
                   )}
                   {canEdit && onEditEvent && (
                     <button className="btn tiny" onClick={() => onEditEvent(e)}>
-                      Edit
+                      {copy.edit}
                     </button>
                   )}
                 </div>
               </div>
             ))}
         </div>
-        <h3 style={{ fontSize: 14, marginTop: 20 }}>Memories</h3>
+        <h3 style={{ fontSize: 14, marginTop: 20 }}>{t("memories")}</h3>
         <div className="profile-memory-list">
           {(!memories || memories.length === 0) && (
-            <div className="empty compact">No memories have been shared yet.</div>
+            <div className="empty compact">{copy.noMemories}</div>
           )}
           {(memories || []).slice(0, 6).map((m) => (
             <div className="profile-memory" key={m.id}>
@@ -259,10 +261,10 @@ export default function ProfileDrawer({
             </div>
           ))}
         </div>
-        <h3 style={{ fontSize: 14, marginTop: 20 }}>Connections</h3>
+        <h3 style={{ fontSize: 14, marginTop: 20 }}>{t("familyConnections")}</h3>
         <div className="rel-list">
           {related.length === 0 && (
-            <div className="empty">No relationships recorded.</div>
+            <div className="empty">{copy.noRelations}</div>
           )}
           {related.map(({ other, type }) => (
             <div className="rel-row" key={other.id}>
@@ -271,7 +273,7 @@ export default function ProfileDrawer({
                   {other.full_name}
                 </div>
                 <div className="person-meta">
-                  {type} · {other.profession || "Member"}
+                  {type} · {other.profession || copy.member}
                 </div>
               </div>
               <button className="btn small" onClick={() => onSelect(other)}>
@@ -282,21 +284,21 @@ export default function ProfileDrawer({
         </div>
         <div className="form-actions">
           <button className="btn primary" onClick={() => onFocus(member)}>
-            <GitBranch size={15} /> View in Family Tree
+            <GitBranch size={15} /> {t("viewInTree")}
           </button>
           {onExploreRelationship && (
             <button className="btn" onClick={onExploreRelationship}>
-              How am I related?
+              {t("howRelated")}
             </button>
           )}
           {canEdit && onEdit && (
             <button className="btn" onClick={onEdit}>
-              Edit Profile
+              {t("editProfile")}
             </button>
           )}
           {canEdit && onManageRelationships && (
             <button className="btn" onClick={onManageRelationships}>
-              <Link2 size={15} /> Manage Relationships
+              <Link2 size={15} /> {t("manageRelationships")}
             </button>
           )}
         </div>

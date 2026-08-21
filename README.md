@@ -1,6 +1,12 @@
-# Hierarchy Network — P4.1 Trust & Governance
+# Our Family — Family Release 1
 
-A generic hierarchy/network application. It is not tied to any surname or family. The first-run setup asks for the network name and lets an administrator start empty, load the fixed 150-member demo, or import CSV/XLSX/XML.
+A warm, mobile-first family network for creating, exploring and joining a
+multi-generation family. The release includes English, Hindi and Marathi
+first-use journeys, a guided downloadable family workbook, preview-before-import,
+family tree, directory, profiles, timeline, memories and privacy-aware sharing.
+
+The longer-term generic platform architecture remains documented but is not the
+current product priority. See `FAMILY-RELEASE-1.md` and `ROADMAP.md`.
 
 ## Key P3 fixes
 - Non-UUID source IDs are mapped to generated PostgreSQL UUIDs during import.
@@ -15,10 +21,11 @@ A generic hierarchy/network application. It is not tied to any surname or family
 
 ## Start locally
 ```bash
-npm install
+npm ci
 npm run dev
 ```
-Without Supabase variables the app runs as a local network and stores data in localStorage. A first-run setup is still required.
+Without Supabase variables the app runs as a local family and stores data in
+localStorage. Choose sample data to explore the complete experience.
 
 ## Production
 Use the included `SUPABASE-SETUP-GUIDE.md` and `VERCEL-SETUP-GUIDE.md`. Docker/Podman and the Supabase CLI are not required for the cloud setup.

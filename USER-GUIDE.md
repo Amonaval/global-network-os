@@ -1,6 +1,17 @@
-# XYZ Hierarchy Network — User Guide
+# Our Family — User Guide
 
-This app is a generic hierarchy/network product. It is **not limited to a family surname**. It can represent a family, lineage, community, association or any multi-generation relationship network.
+Our Family is a private place to explore your family tree, find relatives,
+preserve relationships and gradually complete the family story. Choose English,
+Hindi or Marathi from the language selector; names remain in the script in which
+your family enters them.
+
+## Create your family
+
+1. Give the family a familiar name.
+2. Choose to start with a few relatives, explore a sample, or use Family Excel.
+3. If using Excel, download the guided workbook before editing your own file.
+4. Upload and review the people and relationships found.
+5. Correct any clearly explained issues, then choose **Add to family**.
 
 ## 1. What you see first
 The demo dataset contains **150 synthetic members across 6 generations**. It intentionally includes siblings, spouses, branches, multiple cities and deceased members so the features can be tested without real personal data.
@@ -91,13 +102,27 @@ Administration currently provides:
 - Demo reset
 - Pending submission approval/rejection
 
-## 10. Bulk Import
-Supported input: CSV/XLSX first sheet.
+## 10. Family Excel
 
-Useful columns:
-`id, full_name, generation_level, profession, city, country, latitude, longitude, date_of_birth, date_of_death, father, mother, spouse, photo_url, bio, phone, email`
+Supported input: XLSX, XLS and CSV.
 
-For relationship import, `father`, `mother` and `spouse` are resolved against `full_name`. Production should eventually prefer stable member IDs because names can duplicate.
+The recommended workbook is downloaded inside the Family Excel assistant. It has:
+
+- **Family Members:** `person_id, full_name, gender, date_of_birth,
+  living_status, generation, city, profession, phone, email,
+  short_introduction`.
+- **Relationships:** `person_id, related_person_id, relationship, note`.
+- **Read Me First:** step-by-step instructions and a realistic example.
+- **Example Family — Do Not Import:** a separate worked example; the two entry
+  sheets remain blank to prevent accidental sample imports.
+
+Use simple IDs such as P001 only to connect rows. Never enter Aadhaar, PAN or
+another sensitive identity number. Relationship values are Parent, Child and
+Spouse. Siblings are understood through shared parents. Leave information blank
+when it is not known; do not guess.
+
+The app previews the file and checks duplicate people, missing references,
+impossible loops and inconsistent generations before anything is added.
 
 ## 11. Export / Backup
 - **CSV** exports member/profile data.

@@ -1,6 +1,17 @@
 # Project Vision --- Relationship Intelligence Platform
 
-## North Star
+## Immediate North Star
+
+Deliver a family product so attractive, fast and easy that a non-technical
+relative can create or join a family, understand the tree and contribute without
+training. Mobile is the primary surface. English must never be a prerequisite;
+initial supported product languages are English, Hindi and Marathi.
+
+For the current family releases, the product is judged by successful setup,
+Excel import, joining, exploration, contribution, sharing and return visits—not
+by enterprise feature count or generic architecture.
+
+## Long-term North Star
 
 Build a **vertical-strong family/community product on top of a genuinely
 reusable relationship-network platform**.
@@ -59,6 +70,10 @@ action obvious without exposing platform or governance terminology.
 Avoid enterprise-dashboard complexity, LinkedIn-style profiles,
 excessive settings, feature overload, speculative AI, and abstractions
 without a concrete product need.
+
+The technical platform roadmap is preserved, but paused until Family Releases 1
+and 2 have been used by real families. Required privacy, integrity, performance
+and deployment work continues invisibly because family trust is non-negotiable.
 
 ## Platform Thesis
 

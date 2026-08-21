@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { TreePine, Users, GitBranch, ExternalLink } from "lucide-react";
 import { supabase } from "../lib/supabase";
-import { trackPublicParticipation } from "../lib/remote";
 
 type PublicMember = {
   id: string;
@@ -34,15 +33,11 @@ export default function PublicPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
-  const [embed, setEmbed] = useState(false);
 
   useEffect(() => {
     if (!supabase) { setError("This network is not configured for shared access."); setLoading(false); return; }
     (async () => {
       try {
-        const params = new URLSearchParams(window.location.search);
-        const isEmbed = params.get("embed") === "1";
-        setEmbed(isEmbed);
         const [ni, mi] = await Promise.all([
           supabase.rpc("get_public_network_info"),
           supabase.rpc("get_public_family_members"),
@@ -51,7 +46,6 @@ export default function PublicPage() {
         if (mi.error) throw mi.error;
         setNetwork((ni.data || [])[0] ?? null);
         setMembers((mi.data || []) as PublicMember[]);
-        trackPublicParticipation(isEmbed ? "embed_view" : "public_view", undefined, params.get("source") || (isEmbed ? "embed" : "direct")).catch(() => {});
       } catch (e: any) {
         setError(e.message || "Could not load public network data.");
       } finally {
@@ -96,7 +90,7 @@ export default function PublicPage() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
       {/* Public header — no navigation */}
-      {!embed && <header style={{ background: "var(--surface)", borderBottom: "1px solid var(--line)", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+      <header style={{ background: "var(--surface)", borderBottom: "1px solid var(--line)", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div className="brand-mark"><TreePine size={18} /></div>
           <span style={{ fontWeight: 700, fontSize: 15 }}>{network?.name || "Hierarchy Network"}</span>
@@ -105,7 +99,7 @@ export default function PublicPage() {
         <a href="/" className="btn small" style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <ExternalLink size={13} /> Sign in
         </a>
-      </header>}
+      </header>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "28px 24px 60px" }}>
         {/* Network description */}
@@ -159,7 +153,7 @@ export default function PublicPage() {
         ) : (
           <div className="results-grid">
             {filtered.map(m => (
-              <a className="person-card card public-person-link" key={m.id} href={`/public/member/${m.id}`}>
+              <div className="person-card card" key={m.id}>
                 <div className={`avatar ${m.date_of_death ? "grayscale" : ""}`}>
                   {initials(m.full_name)}
                 </div>
@@ -175,18 +169,18 @@ export default function PublicPage() {
                   </div>
                   {m.bio && <p className="person-meta" style={{ marginTop: 6, whiteSpace: "pre-line" }}>{m.bio.slice(0, 120)}{m.bio.length > 120 ? "…" : ""}</p>}
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         )}
 
         {/* CTA */}
-        {!embed && <div className="card" style={{ marginTop: 40, padding: "28px 24px", textAlign: "center" }}>
+        <div className="card" style={{ marginTop: 40, padding: "28px 24px", textAlign: "center" }}>
           <GitBranch size={28} style={{ margin: "0 auto 10px", display: "block", color: "var(--muted)" }} />
           <h3 style={{ marginTop: 0 }}>Part of this network?</h3>
           <p className="page-subtitle">Sign in or accept an invitation to view the full hierarchy, relationship tree, and more.</p>
           <a href="/" className="btn primary" style={{ display: "inline-block", marginTop: 12 }}>Sign in to the full network</a>
-        </div>}
+        </div>
       </div>
     </div>
   );

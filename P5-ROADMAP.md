@@ -1,5 +1,11 @@
 # P5 Roadmap — Family Network → Living Family Platform
 
+> **Deferred technical reference:** Family Releases 1 and 2 in `ROADMAP.md` are
+> the binding product priority. Preserve this plan, but do not start generic
+> platform, second-vertical or SaaS work until real family usage has been reviewed
+> and the founder explicitly reopens it. Privacy, integrity, performance and
+> deployment blockers still apply to every family release.
+
 ## Product thesis
 
 P4 establishes a trustworthy hierarchy, profiles, relationship intelligence, community memories, discovery and governance foundation.
@@ -322,4 +328,3 @@ P5 should make a user feel:
 rather than:
 
 > "This is a better family-tree viewer."
-

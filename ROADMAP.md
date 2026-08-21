@@ -1,8 +1,52 @@
-# Product & Platform Roadmap
+# Family Product Roadmap — Platform Vision Preserved for Later
 
-## D1 — Production Participation Release ✅ source complete / live gate pending
+## Binding priority — ship to families first
 
-P5.1 living-network UX and P5.2 participation/distribution are implemented through migration `016`. Bulk invitations, claiming, contributions, QR/deep links/embed, group/reunion validation and success metrics are included. See `D1-IMPLEMENTATION.md`; live closure follows `D1-RELEASE-GATE.md`.
+The immediate product is **not an enterprise relationship platform**. It is a
+lovely, fast, multilingual and mobile-first family space that ordinary relatives
+can use without training. Platform extraction, second verticals, multi-network
+SaaS, billing and enterprise operations remain in this document for future use,
+but must not delay adoption by real families.
+
+Every near-term deliverable must be visible in the UI or directly improve user
+trust, speed or reliability. A backend-only capability is not a family-product
+mission unless it is required to release safely.
+
+## Family Release 1 — Create, Explore and Join ✅ source complete
+
+Delivered in this source:
+
+- warm premium family theme and consistent visual tokens;
+- mobile-first application shell, icon navigation and responsive layouts;
+- English, Hindi and Marathi language foundation across setup, Excel guidance,
+  primary navigation, family home and key profile actions;
+- two-step first-time family setup with platform/vertical terminology removed;
+- downloadable guided Excel workbook with Family Members, Relationships,
+  Read Me and realistic example data;
+- guided upload, people preview, friendly relationship validation and explicit
+  confirmation before import;
+- family home hero, simple primary actions and family-first labels;
+- refreshed sign-in, profiles, tree, directory and supporting states.
+
+Release before inviting families: run the real-device visual checklist, apply
+migrations `001`–`015` to staging, execute the role/privacy matrix, deploy and
+complete a small non-technical family usability test. See `FAMILY-RELEASE-1.md`.
+
+## Family Release 2 — Remember, Connect and Celebrate
+
+After Release 1 is in family hands, deliver memories/stories, living activity,
+birthdays and anniversaries, guided contributions, WhatsApp-first invitations
+and sharing, QR/printable cards and a lightweight family-gathering experience.
+Measure joining, completed profiles, contributions, sharing and return visits.
+
+## Later — technical and commercial platform roadmap
+
+The previous D2/D3 roadmap is retained below. Resume it only after real family
+usage is observed and the founder deliberately reopens platform expansion.
+
+## P5.1 — Living Network ✅ source complete
+
+Privacy-aware network timeline, family-module upcoming milestones, controlled self-edit and field-aware governance are implemented. The first D1 Family UX and Usability Audit is also complete; see `P5.1-FAMILY-UX-AUDIT.md`.
 
 ## Binding execution packaging — three deliverables
 
@@ -58,7 +102,7 @@ Delivered D1 UX baseline: family-first progressive setup, warm home context,
 plain family language, mobile contribution access/navigation repair, large-tree
 guidance, better profile/timeline states and rendered desktop/mobile validation.
 
-## P5.2 --- Participation & Distribution ✅ source complete
+## P5.2 --- Participation & Distribution
 
 **Goal:** make contribution and sharing self-propagating.
 

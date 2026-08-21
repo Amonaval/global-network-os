@@ -2,12 +2,13 @@
 
 ## Objective Hierarchy
 
-When priorities conflict: 1. **Build something people will pay for /
-create evidence of monetization.** 2. Protect privacy, security, data
-integrity and reliability. 3. Deliver a compelling family/community
-product. 4. Preserve a clean path to reusable platform capabilities. 5.
-Increase distribution, engagement and network effects. 6. Improve
-technical elegance only when it supports the above.
+During the family-first release period, when priorities conflict: 1. **Help a
+real family create, join and enjoy the product without training.** 2. Protect
+privacy, security, data integrity, performance and reliability. 3. Make the
+experience lovely enough to share and return to. 4. Learn what drives adoption,
+retention and eventual willingness to pay. 5. Preserve—but do not prematurely
+build—the reusable platform path. 6. Improve technical elegance only when it
+supports the above.
 
 For the family product, lovely and effortless UX is part of the moat. A smaller set of understandable, emotionally resonant journeys is more valuable than a larger feature set presented as a technical administration tool.
 
@@ -37,6 +38,10 @@ measurable result would justify continuing?
 -   Production blockers are fixed before expanding scope.
 -   Prefer one meaningful end-to-end mission over many partial features.
 -   Maintain mobile usability continuously.
+-   English cannot be assumed; core journeys must work in supported languages.
+-   Every product deliverable must name the screens and user journey made better.
+-   Spreadsheet setup must be understandable to a person who does not know IDs,
+    databases or hierarchy terminology.
 -   Keep migrations additive/backwards-safe where practical.
 
 ## Monetization Discipline

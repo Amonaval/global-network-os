@@ -10,7 +10,6 @@ import {
   Notification,
   NetworkAnalytics,
 } from "./types";
-import {MemberInvitation,ContributionSuggestion,CommunityGroup,CommunityEvent,ParticipationMetrics} from "./participation-types";
 import { NetworkSettings } from "./network";
 import { resolveSignedUrls } from "./storage";
 
@@ -321,43 +320,6 @@ export async function acceptInvitation(token: string) {
   });
   if (error) throw error;
 }
-
-const strongToken = () => {
-  const bytes = new Uint8Array(32);
-  globalThis.crypto.getRandomValues(bytes);
-  return Array.from(bytes, x => x.toString(16).padStart(2, "0")).join("");
-};
-
-export async function createBulkInvitations(items: {member_id:string;channel:string;recipient_hint?:string}[], expiresDays=7) {
-  if (!supabase) throw new Error("Shared mode is required.");
-  const payload = items.map(item => ({...item, token: strongToken()}));
-  const {data,error}=await supabase.rpc("create_bulk_member_invitations",{p_items:payload,p_expires_days:expiresDays});
-  if(error)throw error;
-  return (data || []) as {invitation_id:string;member_id:string;token:string}[];
-}
-export async function fetchInvitations():Promise<MemberInvitation[]> {
-  if(!supabase)return [];
-  const {data,error}=await supabase.rpc("get_member_invitations");
-  if(error)throw error; return (data||[]) as MemberInvitation[];
-}
-export async function revokeInvitation(id:string){if(!supabase)return;const {error}=await supabase.rpc("revoke_member_invitation",{p_invitation_id:id});if(error)throw error;}
-export async function resendInvitation(id:string,days=7){if(!supabase)throw new Error("Shared mode is required.");const token=strongToken();const {error}=await supabase.rpc("resend_member_invitation",{p_invitation_id:id,p_token:token,p_expires_days:days});if(error)throw error;return token;}
-export async function fetchInvitationPreview(token:string){if(!supabase)return null;const {data,error}=await supabase.rpc("get_invitation_preview",{p_token:token});if(error)throw error;return (data||[])[0]||null;}
-
-export async function fetchContributionSuggestions(status="open"):Promise<ContributionSuggestion[]>{
-  if(!supabase)return []; const refreshed=await supabase.rpc("refresh_contribution_suggestions");if(refreshed.error)throw refreshed.error;
-  const {data,error}=await supabase.rpc("get_contribution_suggestions",{p_status:status});if(error)throw error;return (data||[]) as ContributionSuggestion[];
-}
-export async function actOnContributionSuggestion(id:string,action:"accepted"|"dismissed"|"resolved"){
-  if(!supabase)return;const {error}=await supabase.rpc("act_on_contribution_suggestion",{p_suggestion_id:id,p_action:action});if(error)throw error;
-}
-export async function fetchCommunityGroups():Promise<CommunityGroup[]>{if(!supabase)return [];const {data,error}=await supabase.from("community_groups").select("*,members:community_group_members(member_id)").order("name");if(error)throw error;return (data||[]) as CommunityGroup[];}
-export async function createCommunityGroup(input:{name:string;description?:string;group_type:string;member_ids:string[]}){if(!supabase)return;const {data,error}=await supabase.from("community_groups").insert({name:input.name,description:input.description||null,group_type:input.group_type}).select("id").single();if(error)throw error;if(input.member_ids.length){const x=await supabase.from("community_group_members").insert(input.member_ids.map(member_id=>({group_id:data.id,member_id})));if(x.error)throw x.error;}return data.id;}
-export async function fetchCommunityEvents():Promise<CommunityEvent[]>{if(!supabase)return [];const {data,error}=await supabase.rpc("get_community_events");if(error)throw error;return (data||[]).map((x:any)=>({...x,going:Number(x.going),interested:Number(x.interested),guest_count:Number(x.guest_count)}));}
-export async function createCommunityEvent(input:{group_id?:string;title:string;description?:string;event_at?:string;location?:string;status:string}){if(!supabase)return;const {error}=await supabase.from("community_events").insert({title:input.title,description:input.description||null,event_at:input.event_at||null,location:input.location||null,status:input.status,group_id:input.group_id||null,created_by:(await supabase.auth.getUser()).data.user?.id});if(error)throw error;}
-export async function respondToCommunityEvent(id:string,response:string,guestCount=0){if(!supabase)return;const {error}=await supabase.rpc("respond_to_community_event",{p_event_id:id,p_response:response,p_guest_count:guestCount});if(error)throw error;}
-export async function fetchParticipationMetrics():Promise<ParticipationMetrics|null>{if(!supabase)return null;const {data,error}=await supabase.rpc("get_participation_metrics");if(error)throw error;return data as ParticipationMetrics;}
-export async function trackPublicParticipation(eventType:string,memberId?:string,channel?:string){if(!supabase)return;let session=localStorage.getItem("network-public-session");if(!session){session=strongToken();localStorage.setItem("network-public-session",session);}await supabase.rpc("track_public_participation",{p_event_type:eventType,p_public_member_id:memberId||null,p_channel:channel||null,p_session_token:session});}
 
 export async function fetchLifeEvents(memberId: string): Promise<LifeEvent[]> {
   if (!supabase) return [];

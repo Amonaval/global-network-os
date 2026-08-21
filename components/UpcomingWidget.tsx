@@ -1,6 +1,7 @@
 "use client";
 import { CalendarHeart } from "lucide-react";
 import { LifeEvent, Member } from "../lib/types";
+import { useLanguage } from "../lib/i18n";
 
 export type UpcomingMilestone = {
   event: LifeEvent;
@@ -15,14 +16,16 @@ export default function UpcomingWidget({
   items: UpcomingMilestone[];
   onSelect: (m: Member) => void;
 }) {
+  const { language } = useLanguage();
+  const copy = language === "hi" ? { title:"आने वाले दिन", subtitle:"अगले 30 दिनों के पारिवारिक अवसर", birthday:"जन्मदिन", today:"आज", days:"दिन" } : language === "mr" ? { title:"लवकरच", subtitle:"पुढील 30 दिवसांतील कौटुंबिक प्रसंग", birthday:"वाढदिवस", today:"आज", days:"दिवस" } : { title:"Coming up", subtitle:"Family milestones in the next 30 days", birthday:"Birthday", today:"today", days:"d" };
   if (!items.length) return null;
   return (
     <div className="card upcoming-widget">
       <div className="upcoming-head">
         <CalendarHeart size={18} />
         <div>
-          <b>Coming up</b>
-          <span>Family milestones in the next 30 days</span>
+          <b>{copy.title}</b>
+          <span>{copy.subtitle}</span>
         </div>
       </div>
       <div className="upcoming-scroll">
@@ -43,7 +46,7 @@ export default function UpcomingWidget({
               <b>{member.full_name}</b>
               <small>
                 {event.title === "Birthday"
-                  ? "Birthday"
+                  ? copy.birthday
                   : event.event_type[0].toUpperCase() +
                     event.event_type.slice(1)}{" "}
                 ·{" "}
@@ -51,7 +54,7 @@ export default function UpcomingWidget({
                   month: "short",
                   day: "numeric",
                 })}
-                {daysAway === 0 ? " · today" : ` · ${daysAway}d`}
+                {daysAway === 0 ? ` · ${copy.today}` : ` · ${daysAway}${copy.days}`}
               </small>
             </span>
           </button>

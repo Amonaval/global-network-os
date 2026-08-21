@@ -1,13 +1,29 @@
-# Codebase Map — D1 Production Participation Release
+# Codebase — Family Release 1
 
-## D1 additions
+## Current product state
 
-- `supabase/migrations/016_d1_production_participation.sql` — invitation lifecycle, deterministic suggestions, anonymous public participation metrics, connected groups, events and RSVP.
-- `components/ParticipationCenter.tsx` — member/admin contribution, invitation, QR/share, reunion and metrics experience.
-- `components/PublicMemberPage.tsx` + `app/public/member/[id]` — privacy-masked public deep links.
-- `lib/participation-types.ts` and D1 adapters in `lib/remote.ts`.
-- `scripts/d1-source-gate.mjs`, `D1-IMPLEMENTATION.md`, `D1-RELEASE-GATE.md`.
-- Migration chain is `001`–`016`.
+This source is now intentionally **family-first**. Family Release 1 adds a warm
+premium visual system, mobile-first shell, multilingual first-use journeys and a
+guided Excel creation/import experience while preserving the P3–P5.1 tree,
+profiles, timeline, governance, local/demo and Supabase paths.
+
+Key Release 1 files:
+
+- `app/globals.css` — forest/ivory/gold design tokens, application shell,
+  onboarding, Excel assistant and responsive layouts.
+- `lib/i18n.tsx` — persisted English/Hindi/Marathi language foundation.
+- `components/LanguageSwitcher.tsx` — shared language control.
+- `components/SetupScreen.tsx` — two-step family-only onboarding.
+- `components/ImportModal.tsx` — generated multi-sheet workbook, sheet parsing,
+  preview, friendly validation and confirmed import.
+- `components/NetworkApp.tsx` — translated primary shell, family home and mobile navigation.
+- `components/ProfileDrawer.tsx`, `components/AuthPanel.tsx` — family-first profile and joining presentation.
+- `FAMILY-RELEASE-1.md` — delivered scope and release acceptance checklist.
+
+Verification in this workspace: clean dependency install, TypeScript, Next.js
+production build and 150-member demo integrity pass. Rendered browser QA is
+explicitly open because the environment could not download a browser binary.
+Staging migrations/RLS remain a production gate.
 
 ## P5.1 Living Network
 

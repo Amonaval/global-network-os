@@ -26,10 +26,11 @@ import {
   ExternalLink,
   CalendarDays,
   Settings2,
+  ArrowRight,
+  Menu,
 } from "lucide-react";
 import TreeView from "./TreeView";
 import ProfileDrawer from "./ProfileDrawer";
-import ImportModal from "./ImportModal";
 import ProfileForm from "./ProfileForm";
 import AuthPanel from "./AuthPanel";
 import RelationshipModal from "./RelationshipModal";
@@ -66,11 +67,13 @@ import CommunityHub from "./CommunityHub";
 import AnalyticsPanel from "./AnalyticsPanel";
 import TimelineView from "./TimelineView";
 import UpcomingWidget, { UpcomingMilestone } from "./UpcomingWidget";
-import ParticipationCenter from "./ParticipationCenter";
 import { validateImportRows, validateNetwork } from "../lib/validation";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLanguage } from "../lib/i18n";
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
+const ImportModal = dynamic(() => import("./ImportModal"), { ssr: false });
 const repository = getNetworkRepository();
-type View = "tree" | "directory" | "map" | "community" | "timeline" | "participation" | "admin";
+type View = "tree" | "directory" | "map" | "community" | "timeline" | "admin";
 type Visibility = "public" | "member" | "admin";
 const esc = (v: string) => `"${String(v ?? "").replaceAll('"', '""')}"`;
 const uuid = () =>
@@ -79,6 +82,15 @@ const uuid = () =>
     Math.random().toString(16).slice(2).padEnd(12, "0").slice(0, 12);
 
 export default function NetworkApp() {
+  const { t, language } = useLanguage();
+  const moreLabel = language === "hi" ? "और" : language === "mr" ? "अधिक" : "More";
+  const directoryCopy = language === "hi"
+    ? { title:"परिवार के सदस्य", subtitle:"नाम, पेशे या स्थान से रिश्तेदार खोजें।", search:"परिवार में खोजें…", professions:"सभी पेशे", locations:"सभी स्थान", generations:"सभी पीढ़ियाँ", allLife:"जीवित + स्मृति में", living:"जीवित", memorial:"स्मृति में", clear:"हटाएँ", of:"में से", view:"प्रोफ़ाइल देखें", focus:"शाखा देखें" }
+    : language === "mr"
+      ? { title:"कुटुंब सदस्य", subtitle:"नाव, व्यवसाय किंवा ठिकाणाने नातेवाईक शोधा.", search:"कुटुंबात शोधा…", professions:"सर्व व्यवसाय", locations:"सर्व ठिकाणे", generations:"सर्व पिढ्या", allLife:"हयात + स्मरणार्थ", living:"हयात", memorial:"स्मरणार्थ", clear:"साफ करा", of:"पैकी", view:"प्रोफाइल पहा", focus:"शाखा पहा" }
+      : { title:"Family Directory", subtitle:"Find relatives by name, profession or location.", search:"Search family members…", professions:"All professions", locations:"All locations", generations:"All generations", allLife:"Living + In memoriam", living:"Living", memorial:"In memoriam", clear:"Clear", of:"of", view:"View profile", focus:"View branch" };
+  const helpCopy = language === "hi" ? { title:"परिवार उपयोग सहायता", close:"बंद करें", intro:"यहाँ सबसे जरूरी काम आसानी से किए जा सकते हैं:", items:["परिवार वृक्ष: खोजें, किसी व्यक्ति पर टैप करें और उनकी पारिवारिक शाखा देखें।","परिवार: नाम, शहर या पेशे से रिश्तेदार खोजें।","प्रोफ़ाइल: अपनी जानकारी, तस्वीर और रिश्ते देखें या अपडेट का अनुरोध करें।","Excel: मार्गदर्शित workbook डाउनलोड करें और जोड़ने से पहले हर व्यक्ति व रिश्ता जाँचें।","गोपनीयता: निजी संपर्क केवल परिवार द्वारा अनुमति प्राप्त लोगों को दिखते हैं।","और: स्थान, भाषा, सहायता, privacy preview और family settings यहाँ मिलते हैं।"] } : language === "mr" ? { title:"कुटुंब वापर मदत", close:"बंद करा", intro:"येथे महत्त्वाची कामे सहज करता येतात:", items:["कुटुंब वृक्ष: शोधा, व्यक्तीवर टॅप करा आणि त्यांची कौटुंबिक शाखा पहा.","कुटुंब: नाव, शहर किंवा व्यवसायाने नातेवाईक शोधा.","प्रोफाइल: आपली माहिती, छायाचित्र आणि नाती पहा किंवा बदल सुचवा.","Excel: मार्गदर्शित workbook डाउनलोड करा आणि जोडण्याआधी प्रत्येक व्यक्ती व नाते तपासा.","गोपनीयता: खाजगी संपर्क फक्त कुटुंबाने परवानगी दिलेल्या लोकांना दिसतात.","अधिक: ठिकाणे, भाषा, मदत, privacy preview आणि family settings येथे आहेत."] } : { title:"Family help", close:"Close", intro:"The most important things are easy to find:", items:["Family Tree: search, tap a person and explore their family branch.","Family: find relatives by name, city or profession.","Profile: view your information, photo and relationships or ask for an update.","Excel: download the guided workbook and review every person and relationship before adding them.","Privacy: private contact details are shown only to people your family allows.","More: find Places, language, Help, information preview and family settings here."] };
+  const mapCopy = language === "hi" ? { title:"परिवार कहाँ रहता है", subtitle:"शहर के स्तर पर परिवार के स्थान। बड़े निशान उस शहर में अधिक सदस्यों को दिखाते हैं।", privacy:"गोपनीयता:", detail:"केवल शहर का स्थान दिखाया जाता है।", have:"सदस्यों के स्थान उपलब्ध हैं।" } : language === "mr" ? { title:"कुटुंब कुठे राहते", subtitle:"शहर पातळीवरील कौटुंबिक ठिकाणे. मोठे चिन्ह त्या शहरात अधिक सदस्य दाखवते.", privacy:"गोपनीयता:", detail:"फक्त शहराचे ठिकाण दाखवले जाते.", have:"सदस्यांची ठिकाणे उपलब्ध आहेत." } : { title:"Where our family lives", subtitle:"City-level family locations. Larger markers mean more relatives in that city.", privacy:"Privacy:", detail:"Only city-level locations are shown.", have:"members have locations." };
   const [network, setNetwork] = useState<NetworkSettings | null>(null),
     [view, setView] = useState<View>("tree"),
     [members, setMembers] = useState<Member[]>([]),
@@ -105,7 +117,8 @@ export default function NetworkApp() {
     [lineageOnly, setLineageOnly] = useState(false),
     [showDeceased, setShowDeceased] = useState(true),
     [showGuide, setShowGuide] = useState(false),
-    [showRelationships, setShowRelationships] = useState(false);
+    [showRelationships, setShowRelationships] = useState(false),
+    [showMobileMenu, setShowMobileMenu] = useState(false);
   const [changeRequests, setChangeRequests] = useState<ChangeRequest[]>([]),
     [auditLog, setAuditLog] = useState<AuditEntry[]>([]);
   const [showInvitation, setShowInvitation] = useState(false),
@@ -169,6 +182,12 @@ export default function NetworkApp() {
     if (repository.mode === "local" && network)
       saveState({ members, relationships, submissions, lifeEvents });
   }, [members, relationships, submissions, network]);
+  useEffect(() => {
+    if (!showMobileMenu) return;
+    const close = (event: KeyboardEvent) => event.key === "Escape" && setShowMobileMenu(false);
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, [showMobileMenu]);
   const refresh = async () => {
     const s = await repository.fetchState(
       auth?.role === "admin" ? "admin" : "member",
@@ -792,25 +811,27 @@ export default function NetworkApp() {
   if (!ready)
     return (
       <div className="loading-screen">
-        <TreePine size={30} />
+        <div className="loading-mark"><TreePine size={30} /></div>
         <div>
-          <b>Hierarchy Network</b>
-          <div className="page-subtitle">Starting…</div>
+          <b>Our Family</b>
+          <div className="page-subtitle">{t("loading")}</div>
         </div>
       </div>
     );
   if (isSupabaseConfigured && !auth)
     return (
-      <div className="landing">
-        <div className="landing-card">
+      <div className="landing family-signin-page">
+        <div className="landing-card family-signin-card">
           <div className="brand-mark">
             <TreePine size={24} />
           </div>
-          <h1>Hierarchy Network</h1>
-          <p>Private shared hierarchy. Sign in to view the official network.</p>
+          <span className="warm-kicker">A private place for your people</span>
+          <h1>Welcome to your family</h1>
+          <p>Sign in to explore your family tree, profiles, relationships and shared memories.</p>
           <button className="btn primary" onClick={() => setShowAuth(true)}>
-            Sign In / Create Account
+            Join or sign in <ArrowRight size={16} />
           </button>
+          <LanguageSwitcher />
         </div>
         {showAuth && (
           <AuthPanel
@@ -861,20 +882,21 @@ export default function NetworkApp() {
           <div className="brand-mark">
             <TreePine size={20} />
           </div>
-          <span>{network?.name || "Hierarchy Network"}</span>
+          <span>{network?.name || "Our Family"}</span>
           <span
             className={`mode-pill ${isSupabaseConfigured ? "shared" : "demo"}`}
           >
             {isSupabaseConfigured ? (
               <>
-                <Database size={12} /> Shared
+                <Database size={12} /> {t("sharedFamily")}
               </>
             ) : (
-              <>Local</>
+              <>{t("localFamily")}</>
             )}
           </span>
         </div>
         <div className="top-actions">
+          <LanguageSwitcher compact />
           {isSupabaseConfigured && (
             <span className="person-meta">
               {auth?.email} · {auth?.role}
@@ -885,12 +907,12 @@ export default function NetworkApp() {
             value={visibility}
             onChange={(e) => setVisibility(e.target.value as Visibility)}
           >
-            <option value="public">Preview: Public</option>
-            <option value="member">View: Member</option>
-            <option value="admin">View: Admin</option>
+            <option value="public">{t("publicPreview")}</option>
+            <option value="member">{t("memberView")}</option>
+            <option value="admin">{t("adminView")}</option>
           </select>
           <button className="btn small" onClick={() => setShowGuide(true)}>
-            <BookOpen size={15} /> Guide
+            <BookOpen size={15} /> {t("guide")}
           </button>
           {isSupabaseConfigured && (
             <button
@@ -900,7 +922,7 @@ export default function NetworkApp() {
                 setAuth(null);
               }}
             >
-              <LogOut size={15} /> Sign out
+              <LogOut size={15} /> {t("signOut")}
             </button>
           )}
           <button
@@ -920,9 +942,9 @@ export default function NetworkApp() {
           >
             <UserRoundPen size={15} />{" "}
             {auth?.member_id
-              ? "My Profile"
+              ? t("myProfile")
               : cfg.network_template === "family"
-                ? "Add Relative"
+                ? t("addRelative")
                 : `Submit ${cfg.entity_label}`}
           </button>
         </div>
@@ -933,44 +955,38 @@ export default function NetworkApp() {
             className={`nav-btn ${view === "tree" ? "active" : ""}`}
             onClick={() => setView("tree")}
           >
-            <TreePine size={17} /> Hierarchy
+            <TreePine size={17} /> {t("familyTree")}
           </button>
           <button
             className={`nav-btn ${view === "directory" ? "active" : ""}`}
             onClick={() => setView("directory")}
           >
-            <Users size={17} /> Directory
+            <Users size={17} /> {t("familyDirectory")}
           </button>
           <button
             className={`nav-btn ${view === "timeline" ? "active" : ""}`}
             onClick={() => setView("timeline")}
           >
-            <CalendarDays size={17} /> Timeline
+            <CalendarDays size={17} /> {t("timeline")}
           </button>
           <button
             className={`nav-btn ${view === "map" ? "active" : ""}`}
             onClick={() => setView("map")}
           >
-            <MapPinned size={17} /> Location Map
+            <MapPinned size={17} /> {t("places")}
           </button>
           <button
             className={`nav-btn ${view === "community" ? "active" : ""}`}
             onClick={() => setView("community")}
           >
-            <HeartHandshake size={17} /> Community
-          </button>
-          <button
-            className={`nav-btn ${view === "participation" ? "active" : ""}`}
-            onClick={() => setView("participation")}
-          >
-            <GitBranch size={17} /> Participate
+            <HeartHandshake size={17} /> {t("stories")}
           </button>
           {canAdmin && (
             <button
               className={`nav-btn ${view === "admin" ? "active" : ""}`}
               onClick={() => setView("admin")}
             >
-              <ShieldCheck size={17} /> Administration
+              <ShieldCheck size={17} /> {t("familySettings")}
             </button>
           )}
           <div
@@ -984,7 +1000,7 @@ export default function NetworkApp() {
             }}
           >
             <strong>
-              {isSupabaseConfigured ? "Shared network" : "Local network"}
+              {isSupabaseConfigured ? t("sharedFamily") : t("localFamily")}
             </strong>
             <br />
             {members.length} {cfg.entity_label_plural.toLowerCase()} ·{" "}
@@ -997,34 +1013,31 @@ export default function NetworkApp() {
           </div>
         </aside>
         <main className="main">
-          <UpcomingWidget items={upcoming} onSelect={setSelected} />
+          {view !== "tree" && <UpcomingWidget items={upcoming} onSelect={setSelected} />}
           {view === "tree" && (
-            <section>
+            <section className="tree-page">
               {cfg.network_template === "family" && (
                 <div className="family-welcome">
-                  <div>
+                  <div className="family-welcome-copy">
                     <span className="family-welcome-kicker">
-                      Your family, together
+                      {t("yourFamilyTogether")}
                     </span>
                     <h1>{network?.name}</h1>
-                    <p>
-                      Explore the generations, find someone you love, and help
-                      preserve the stories that connect you.
-                    </p>
+                    <p>{network?.description || t("welcomeCopy")}</p>
+                    <div className="welcome-actions">
+                      <button className="btn primary" onClick={() => setView("directory")}><Search size={15} /> {t("findSomeone")}</button>
+                      <button className="btn warm" onClick={() => setShowForm(true)}><Plus size={15} /> {t("addRelative")}</button>
+                    </div>
                   </div>
-                  <div className="family-welcome-stats">
-                    <span>
-                      <b>{members.length}</b> people
-                    </span>
-                    <span>
-                      <b>
-                        {new Set(members.map((m) => m.generation_level)).size}
-                      </b>{" "}
-                      generations
-                    </span>
-                    <span>
-                      <b>{relationships.length}</b> connections
-                    </span>
+                  <div className="family-welcome-people">
+                    <div className="family-faces" aria-label="Family members">
+                      {members.slice(0, 4).map((member) => <span className="family-face" key={member.id}>{member.photo_url ? <img src={member.photo_url} alt="" /> : member.full_name.split(/\s+/).map((part) => part[0]).slice(0,2).join("")}</span>)}
+                    </div>
+                    <div className="family-welcome-stats">
+                      <span><b>{members.length}</b> {t("people")}</span>
+                      <span><b>{new Set(members.map((m) => m.generation_level)).size}</b> {t("generations")}</span>
+                      <span><b>{relationships.length}</b> {t("connections")}</span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -1032,7 +1045,7 @@ export default function NetworkApp() {
                 <div>
                   <h2 className="page-title">
                     {cfg.network_template === "family"
-                      ? "Family Tree"
+                      ? t("familyTree")
                       : "Hierarchy"}
                   </h2>
                   <p className="page-subtitle">
@@ -1068,7 +1081,7 @@ export default function NetworkApp() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search by name, profession or location…"
+                  placeholder={t("searchFamily")}
                 />
                 {query && (
                   <button className="btn small" onClick={() => setQuery("")}>
@@ -1101,6 +1114,7 @@ export default function NetworkApp() {
                 onSelect={setSelected}
                 network={network}
               />
+              <div className="tree-upcoming"><UpcomingWidget items={upcoming} onSelect={setSelected} /></div>
             </section>
           )}
           {view === "directory" && (
@@ -1109,11 +1123,11 @@ export default function NetworkApp() {
                 <div>
                   <h1 className="page-title">
                     {cfg.network_template === "family"
-                      ? "Family Directory"
+                      ? directoryCopy.title
                       : `${cfg.entity_label_plural} Directory`}
                   </h1>
                   <p className="page-subtitle">
-                    Find relatives by name, profession or location.
+                    {directoryCopy.subtitle}
                   </p>
                 </div>
                 <button
@@ -1122,7 +1136,7 @@ export default function NetworkApp() {
                 >
                   <Plus size={15} />{" "}
                   {cfg.network_template === "family"
-                    ? "Add Relative"
+                    ? t("addRelative")
                     : `Submit ${cfg.entity_label}`}
                 </button>
               </div>
@@ -1131,7 +1145,7 @@ export default function NetworkApp() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search members…"
+                  placeholder={directoryCopy.search}
                 />
               </div>
               <div className="filters">
@@ -1140,7 +1154,7 @@ export default function NetworkApp() {
                   value={profession}
                   onChange={(e) => setProfession(e.target.value)}
                 >
-                  <option value="">All professions</option>
+                  <option value="">{directoryCopy.professions}</option>
                   {professions.map((p) => (
                     <option key={p}>{p}</option>
                   ))}
@@ -1150,7 +1164,7 @@ export default function NetworkApp() {
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                 >
-                  <option value="">All locations</option>
+                  <option value="">{directoryCopy.locations}</option>
                   {cities.map((c) => (
                     <option key={c}>{c}</option>
                   ))}
@@ -1161,7 +1175,7 @@ export default function NetworkApp() {
                   onChange={(e) => setGeneration(e.target.value)}
                 >
                   <option value="">
-                    All {cfg.level_label_plural.toLowerCase()}
+                    {directoryCopy.generations}
                   </option>
                   {Array.from(new Set(members.map((m) => m.generation_level)))
                     .sort((a, b) => a - b)
@@ -1176,9 +1190,9 @@ export default function NetworkApp() {
                   value={lifeStatus}
                   onChange={(e) => setLifeStatus(e.target.value as any)}
                 >
-                  <option value="all">Living + In memoriam</option>
-                  <option value="living">Living</option>
-                  <option value="deceased">In memoriam</option>
+                  <option value="all">{directoryCopy.allLife}</option>
+                  <option value="living">{directoryCopy.living}</option>
+                  <option value="deceased">{directoryCopy.memorial}</option>
                 </select>
                 <button
                   className="btn small"
@@ -1190,11 +1204,11 @@ export default function NetworkApp() {
                     setLifeStatus("all");
                   }}
                 >
-                  <RotateCcw size={14} /> Clear
+                  <RotateCcw size={14} /> {directoryCopy.clear}
                 </button>
               </div>
               <p className="page-subtitle" style={{ marginBottom: 12 }}>
-                {directoryResults.length} of {members.length}{" "}
+                {directoryResults.length} {directoryCopy.of} {members.length}{" "}
                 {cfg.entity_label_plural.toLowerCase()}
                 {repository.mode === "shared" && serverDirectoryMembers
                   ? " · server search"
@@ -1230,7 +1244,7 @@ export default function NetworkApp() {
                       <div className="person-name">
                         {m.full_name}
                         {m.date_of_death && (
-                          <span className="person-meta"> · In memoriam</span>
+                          <span className="person-meta"> · {directoryCopy.memorial}</span>
                         )}
                       </div>
                       <div className="person-meta">
@@ -1245,10 +1259,10 @@ export default function NetworkApp() {
                           className="btn small primary"
                           onClick={() => setSelected(m)}
                         >
-                          View Profile
+                          {directoryCopy.view}
                         </button>
                         <button className="btn small" onClick={() => focus(m)}>
-                          Focus Lineage
+                          {directoryCopy.focus}
                         </button>
                       </div>
                     </div>
@@ -1269,16 +1283,14 @@ export default function NetworkApp() {
             <section>
               <div className="page-head">
                 <div>
-                  <h1 className="page-title">Location Map</h1>
+                  <h1 className="page-title">{mapCopy.title}</h1>
                   <p className="page-subtitle">
-                    City-level locations. Marker size represents the number of
-                    members in a city.
+                    {mapCopy.subtitle}
                   </p>
                 </div>
               </div>
               <div className="notice">
-                <b>Privacy:</b> only city-level coordinates are shown. {located}{" "}
-                of {members.length} members have coordinates.
+                <b>{mapCopy.privacy}</b> {mapCopy.detail} {located} {directoryCopy.of} {members.length} {mapCopy.have}
               </div>
               <MapView members={members} onSelect={setSelected} />
             </section>
@@ -1288,14 +1300,6 @@ export default function NetworkApp() {
               members={members}
               auth={auth}
               onSelect={(m) => setSelected(m)}
-              onNotify={notify}
-            />
-          )}
-          {view === "participation" && (
-            <ParticipationCenter
-              members={members}
-              auth={auth}
-              onSelect={setSelected}
               onNotify={notify}
             />
           )}
@@ -1640,34 +1644,34 @@ export default function NetworkApp() {
           )}
         </main>
       </div>
-      <nav className="mobile-bottom-nav">
+      <nav className="mobile-bottom-nav has-admin">
         {(
           [
-            ["tree", "Hierarchy"],
-            ["directory", "Directory"],
-            ["timeline", "Timeline"],
-            ["map", "Map"],
-            ["community", "Community"],
-            ["participation", "Participate"],
+            ["tree", t("familyTree"), <TreePine size={19} key="tree" />],
+            ["directory", t("familyDirectory"), <Users size={19} key="family" />],
+            ["timeline", t("timeline"), <CalendarDays size={19} key="timeline" />],
+            ["community", t("stories"), <HeartHandshake size={19} key="stories" />],
           ] as const
-        ).map(([v, label]) => (
+        ).map(([v, label, icon]) => (
           <button
             key={v}
             className={view === v ? "active" : ""}
             onClick={() => setView(v)}
           >
-            {label}
+            {icon}<span>{label}</span>
           </button>
         ))}
-        {canAdmin && (
-          <button
-            className={view === "admin" ? "active" : ""}
-            onClick={() => setView("admin")}
-          >
-            Admin
-          </button>
-        )}
+        <button className={showMobileMenu || view === "map" || view === "admin" ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19} /><span>{moreLabel}</span></button>
       </nav>
+      {showMobileMenu && <div className="mobile-more-overlay" onMouseDown={(event) => event.target === event.currentTarget && setShowMobileMenu(false)}><section className="mobile-more-sheet" role="dialog" aria-modal="true" aria-label={moreLabel}>
+        <div className="mobile-more-head"><div><span className="warm-kicker">{network?.name}</span><h2>{moreLabel}</h2></div><button className="icon-button" aria-label="Close" autoFocus onClick={() => setShowMobileMenu(false)}><X size={19} /></button></div>
+        <button className="mobile-more-action" onClick={() => { setView("map"); setShowMobileMenu(false); }}><span><MapPinned />{t("places")}</span><ArrowRight /></button>
+        {canAdmin && <button className="mobile-more-action" onClick={() => { setView("admin"); setShowMobileMenu(false); }}><span><Settings2 />{t("familySettings")}</span><ArrowRight /></button>}
+        <button className="mobile-more-action" onClick={() => { setShowGuide(true); setShowMobileMenu(false); }}><span><BookOpen />{t("guide")}</span><ArrowRight /></button>
+        <div className="mobile-more-setting"><LanguageSwitcher /></div>
+        <label className="mobile-more-setting"><span>{language === "hi" ? "कौन-सी जानकारी दिखाएँ" : language === "mr" ? "कोणती माहिती दाखवायची" : "Information preview"}</span><select className="select" value={visibility} onChange={(event) => setVisibility(event.target.value as Visibility)}><option value="public">{t("publicPreview")}</option><option value="member">{t("memberView")}</option><option value="admin">{t("adminView")}</option></select></label>
+        {isSupabaseConfigured && <button className="mobile-more-action sign-out" onClick={() => { signOut(); setAuth(null); setShowMobileMenu(false); }}><span><LogOut />{t("signOut")}</span></button>}
+      </section></div>}
       {showInvitation && (
         <InvitationModal
           members={members.filter((m) => m.profile_status === "approved")}
@@ -1762,80 +1766,15 @@ export default function NetworkApp() {
       )}{" "}
       {showGuide && (
         <div className="modal-overlay">
-          <div className="modal">
+          <div className="modal family-help-modal" role="dialog" aria-modal="true" aria-labelledby="family-help-title">
             <div className="drawer-head">
-              <h2 style={{ margin: 0 }}>User Guide</h2>
+              <h2 id="family-help-title" style={{ margin: 0 }}>{helpCopy.title}</h2>
               <button className="btn small" onClick={() => setShowGuide(false)}>
-                Close
+                {helpCopy.close}
               </button>
             </div>
-            <p>
-              <b>Network:</b> this installation can represent any named
-              hierarchy, not only a family. The name is chosen during first-run
-              setup.
-            </p>
-            <p>
-              <b>Data:</b> start empty, load the fixed 150-member demo, or
-              import CSV/XLSX/XML. No random records are generated.
-            </p>
-            <p>
-              <b>IDs:</b> imported source IDs are treated as external
-              references. PostgreSQL always receives UUIDs.
-            </p>
-            <p>
-              <b>Integrity:</b> P4.1 validates duplicate identities, orphan
-              links, self-links, generation order and parent/child cycles before
-              imports and relationship changes.
-            </p>
-            <p>
-              <b>Privacy:</b> regular members cannot directly read phone/email
-              from the member table. The app retrieves a role-aware database
-              projection; administrators can view private contact fields.
-            </p>
-            <p>
-              <b>Governance:</b> profile submissions create generalized change
-              requests and important actions are recorded in the audit log.
-            </p>
-            <p>
-              <b>Hierarchy:</b> solid lines are parent/child; dashed lines are
-              spouse; siblings are derived from shared parents.
-            </p>
-            <p>
-              <b>Lineage:</b> choose a person, then Focus Lineage. The focused
-              set contains ancestors, descendants, siblings and relevant
-              spouses.
-            </p>
-            <p>
-              <b>Relationship intelligence:</b> open a profile and choose How am
-              I related? to find the shortest recorded path and a plain-language
-              kinship when the graph supports it.
-            </p>
-            <p>
-              <b>Life timeline:</b> profiles can contain simple life events such
-              as marriages, moves, milestones and family moments. Visibility is
-              controlled per event.
-            </p>
-            <p>
-              <b>Map:</b> locations are city-level. Markers are grouped by city
-              and sized by member count.
-            </p>
-            <p>
-              <b>In memoriam:</b> a date of death marks a person as deceased;
-              hiding them never deletes their relationships.
-            </p>
-            <p>
-              <b>Community:</b> members can share simple memories and stories.
-              Administrators can attach memories to another member; visibility
-              controls determine who can see them.
-            </p>
-            <p>
-              <b>Updates:</b> approvals and other account activity can appear in
-              the Community updates panel.
-            </p>
-            <p>
-              <b>Shared mode:</b> Supabase is the canonical database. Vercel
-              only hosts the Next.js application.
-            </p>
+            <p className="page-subtitle">{helpCopy.intro}</p>
+            <div className="family-help-list">{helpCopy.items.map((item, index) => <div key={item}><span>{index + 1}</span><p>{item}</p></div>)}</div>
           </div>
         </div>
       )}

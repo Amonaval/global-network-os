@@ -15,6 +15,7 @@ import type { Node, Edge } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { Member, Relationship } from "../lib/types";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
+import { useLanguage } from "../lib/i18n";
 
 function initials(name: string) {
   return name
@@ -85,6 +86,12 @@ export default function TreeView({
   onSelect: (m: Member) => void;
   network?: NetworkSettings | null;
 }) {
+  const { language } = useLanguage();
+  const copy = language === "hi"
+    ? { shown:"सदस्य दिख रहे हैं", focused:"चुनी हुई शाखा", large:"बड़ा परिवार है? किसी को खोजें, उनकी प्रोफ़ाइल खोलें और साफ शाखा देखने के लिए परिवार वृक्ष में देखें चुनें।" }
+    : language === "mr"
+      ? { shown:"सदस्य दिसत आहेत", focused:"निवडलेली शाखा", large:"कुटुंब मोठे आहे? व्यक्ती शोधा, त्यांची प्रोफाइल उघडा आणि स्पष्ट शाखेसाठी कुटुंब वृक्षात पहा निवडा." }
+      : { shown:"members shown", focused:"Focused branch", large:"Large family? Search for someone, open their profile, then choose View in Family Tree for a clear branch." };
   const cfg = getNetworkConfig(network ?? null);
   const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
     const byGen = new Map<number, Member[]>();
@@ -172,8 +179,8 @@ export default function TreeView({
   return (
     <div className="tree-card card">
       <div className="tree-toolbar">
-        <span className="tree-count">{members.length} members shown</span>
-        {focusMemberId && <span className="tree-focus">Focused branch</span>}
+        <span className="tree-count">{members.length} {copy.shown}</span>
+        {focusMemberId && <span className="tree-focus">{copy.focused}</span>}
         <span className="tree-legend">
           <i className="legend-solid" /> {cfg.child_label}{" "}
           <i className="legend-dashed" /> {cfg.peer_label}
@@ -181,8 +188,7 @@ export default function TreeView({
       </div>
       {members.length > 60 && !focusMemberId && (
         <div className="tree-guide">
-          Large family? Search for someone, open their profile, then choose{" "}
-          <b>View in Family Tree</b> for a clear branch.
+          {copy.large}
         </div>
       )}
       <ReactFlow

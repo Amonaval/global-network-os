@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { LifeEvent, Member } from "../lib/types";
 import { NetworkSettings, getNetworkConfig } from "../lib/network";
+import { useLanguage } from "../lib/i18n";
 
 const TYPES = [
   "all",
@@ -50,6 +51,8 @@ export default function TimelineView({
   network: NetworkSettings | null;
   onSelect: (m: Member) => void;
 }) {
+  const { language } = useLanguage();
+  const copy = language === "hi" ? { title:"हमारे परिवार की कहानी", subtitle:"पीढ़ियों से जुड़े पल, यात्राएँ और महत्वपूर्ण घटनाएँ।", allTypes:"सभी घटनाएँ", allGenerations:"सभी पीढ़ियाँ", empty:"अभी कोई पारिवारिक पल नहीं", emptyHelp:"किसी सदस्य की प्रोफ़ाइल खोलकर महत्वपूर्ण घटना या याद जोड़ें।", undated:"तारीख नहीं" } : language === "mr" ? { title:"आपल्या कुटुंबाची गोष्ट", subtitle:"पिढ्यांमधील क्षण, प्रवास आणि महत्त्वाच्या घटना.", allTypes:"सर्व घटना", allGenerations:"सर्व पिढ्या", empty:"अजून कौटुंबिक क्षण नाहीत", emptyHelp:"सदस्याची प्रोफाइल उघडून महत्त्वाची घटना किंवा आठवण जोडा.", undated:"तारीख नाही" } : { title:"Our Family Story", subtitle:"Moments, moves and milestones shared across generations.", allTypes:"All event types", allGenerations:"All generations", empty:"No family moments here yet", emptyHelp:"Open a family member’s profile to add a milestone, memory or important life event.", undated:"Undated" };
   const cfg = getNetworkConfig(network),
     [type, setType] = useState("all"),
     [generation, setGeneration] = useState("");
@@ -78,23 +81,23 @@ export default function TimelineView({
   const groups = useMemo(() => {
     const x = new Map<string, LifeEvent[]>();
     visible.forEach((e) => {
-      const year = e.event_date?.slice(0, 4) || "Undated";
+      const year = e.event_date?.slice(0, 4) || copy.undated;
       x.set(year, [...(x.get(year) || []), e]);
     });
     return [...x.entries()];
-  }, [visible]);
+  }, [visible, copy.undated]);
   return (
     <section>
       <div className="page-head">
         <div>
           <h1 className="page-title">
             {cfg.network_template === "family"
-              ? "Our Family Story"
+              ? copy.title
               : "Network Timeline"}
           </h1>
           <p className="page-subtitle">
             {cfg.network_template === "family"
-              ? "Moments, moves and milestones shared across generations."
+              ? copy.subtitle
               : "A privacy-aware history of visible events across the network."}
           </p>
         </div>
@@ -109,7 +112,7 @@ export default function TimelineView({
           {TYPES.map((t) => (
             <option key={t} value={t}>
               {t === "all"
-                ? "All event types"
+                ? copy.allTypes
                 : t[0].toUpperCase() + t.slice(1)}
             </option>
           ))}
@@ -119,7 +122,7 @@ export default function TimelineView({
           value={generation}
           onChange={(e) => setGeneration(e.target.value)}
         >
-          <option value="">All {cfg.level_label_plural.toLowerCase()}</option>
+          <option value="">{copy.allGenerations}</option>
           {[...new Set(members.map((m) => m.generation_level))]
             .sort((a, b) => a - b)
             .map((g) => (
@@ -134,12 +137,12 @@ export default function TimelineView({
           <CalendarDays size={28} />
           <h3>
             {cfg.network_template === "family"
-              ? "No family moments here yet"
+              ? copy.empty
               : "No visible events yet"}
           </h3>
           <p>
             {cfg.network_template === "family"
-              ? "Open a family member’s profile to add a milestone, memory or important life event."
+              ? copy.emptyHelp
               : "Add a visible event from an entity profile to begin the timeline."}
           </p>
         </div>
@@ -176,8 +179,8 @@ export default function TimelineView({
                         {e.event_date
                           ? new Date(
                               `${e.event_date}T00:00:00`,
-                            ).toLocaleDateString()
-                          : new Date(e.created_at).toLocaleDateString()}
+                            ).toLocaleDateString(language === "hi" ? "hi-IN" : language === "mr" ? "mr-IN" : "en-IN")
+                          : new Date(e.created_at).toLocaleDateString(language === "hi" ? "hi-IN" : language === "mr" ? "mr-IN" : "en-IN")}
                         {e.location && (
                           <>
                             {" "}
