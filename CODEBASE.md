@@ -2,7 +2,7 @@
 
 ## P5.1 Living Network
 
-P5.1 is implemented in migration `015_p5_1_living_network.sql`, `TimelineView`, `UpcomingWidget`, `ProfileForm`, and the repository adapters. The migration chain is now `001`–`015`. See `P5.1-IMPLEMENTATION.md`.
+P5.1 is implemented in migration `015_p5_1_living_network.sql`, `TimelineView`, `UpcomingWidget`, `ProfileForm`, and the repository adapters. The D1 family-experience pass updates `SetupScreen`, `NetworkApp`, `TreeView`, `ProfileDrawer` and responsive styles. The migration chain is `001`–`015`. See `P5.1-IMPLEMENTATION.md`, `P5.1-FAMILY-UX-AUDIT.md` and `MODEL-SELECTION-RULE.md`.
 
 ## P4.1 — Foundation, Trust & Adoption
 - Database-level privacy for private contact fields.
@@ -108,6 +108,13 @@ TypeScript target corrected to `es2017` in `tsconfig.json`.
 - `get_public_network_info()` — returns name, description, labels; granted to `anon`
 - `get_public_family_members()` — returns only `profile_visibility = 'public'` approved members (no contact, no photo); granted to `anon`
 
+## P5-S0 Media Authorization + P5.1 Living Network (DONE IN SOURCE)
+
+- `014_p5_s0_media_authorization.sql` replaces path-knowledge access with visibility/ownership-aware private media authorization.
+- `015_p5_1_living_network.sql` adds the privacy-aware network timeline and target-free, safe-field self-edit RPC.
+- Live staging application and role-matrix verification remain the release gate.
+- The first D1 visual usability pass is recorded in `P5.1-FAMILY-UX-AUDIT.md`.
+
 **Code:**
 - `app/public/page.tsx` — Next.js route
 - `components/PublicPage.tsx` — standalone public directory: network header, stats (members/generations/in memoriam), searchable member cards, "Sign in" CTA
@@ -137,6 +144,8 @@ TypeScript target corrected to `es2017` in `tsconfig.json`.
 | 011 | `011_configurable_types.sql` | entity/relationship label columns on network_settings |
 | 012 | `012_private_storage.sql` | private buckets, drop public read policies |
 | 013 | `013_public_page.sql` | anon-accessible RPCs for /public route |
+| 014 | `014_p5_s0_media_authorization.sql` | visibility/ownership-aware private media access |
+| 015 | `015_p5_1_living_network.sql` | network timeline, self-edit configuration and safe-field RPC |
 
 ---
 
@@ -158,6 +167,8 @@ TypeScript target corrected to `es2017` in `tsconfig.json`.
 | `components/ProfileDrawer.tsx` | Member profile side panel |
 | `components/ProfileForm.tsx` | Profile submission form (with photo upload) |
 | `components/SetupScreen.tsx` | First-run setup with template selection |
+| `components/TimelineView.tsx` | Privacy-aware network/family-wide event history |
+| `components/UpcomingWidget.tsx` | Family-module upcoming milestones |
 | `components/RelationshipModal.tsx` | Add/remove relationships |
 | `components/RelationshipExplorer.tsx` | Shortest path / kinship explanation |
 | `components/LifeEventEditor.tsx` | Life event CRUD |
@@ -178,6 +189,8 @@ TypeScript target corrected to `es2017` in `tsconfig.json`.
 
 - Always read this file before starting a session.
 - See `P5-ACTIVE-PLAN.md` for the current task queue and next steps.
+- Follow `MODEL-SELECTION-RULE.md` before substantial work and state the recommended model/effort.
+- Follow `P5.1-FAMILY-UX-AUDIT.md`; rendered mobile/desktop usability is a release criterion.
 - `photo_url` in DB is a storage path after 011/012; always call `resolveSignedUrls` at fetch time.
 - Structural relationship types (`parent`/`child`/`spouse`) never change — only display labels are configurable.
 - Do not add migration columns without DEFAULT values — existing rows must not break.

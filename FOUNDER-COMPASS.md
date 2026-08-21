@@ -9,6 +9,8 @@ product. 4. Preserve a clean path to reusable platform capabilities. 5.
 Increase distribution, engagement and network effects. 6. Improve
 technical elegance only when it supports the above.
 
+For the family product, lovely and effortless UX is part of the moat. A smaller set of understandable, emotionally resonant journeys is more valuable than a larger feature set presented as a technical administration tool.
+
 ## Decision Tests
 
 Before a major feature, ask: - Who has this problem and how

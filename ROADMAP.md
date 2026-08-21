@@ -2,7 +2,13 @@
 
 ## P5.1 — Living Network ✅ source complete
 
-Privacy-aware network timeline, family-module upcoming milestones, controlled self-edit and field-aware governance are implemented. Next is P5.2 Participation & Distribution after staging verification.
+Privacy-aware network timeline, family-module upcoming milestones, controlled self-edit and field-aware governance are implemented. The first D1 Family UX and Usability Audit is also complete; see `P5.1-FAMILY-UX-AUDIT.md`.
+
+## Binding execution packaging — three deliverables
+
+1. **D1 Production Participation Release:** remaining P5-S0 staging/RLS gate, P5.1 family-experience baseline, and all P5.2 invitation, contribution, QR/public/embed, group and reunion validation work.
+2. **D2 Vertical Proof & Commercial Validation:** P5.3 core/module architecture plus P5.4 family, alumni/association and one B2B willingness-to-pay experiment. The second vertical must have real semantics, not renamed family concepts.
+3. **D3 Multi-Network SaaS:** P6 first-class tenancy, network roles/dashboard, plans/limits, branding/embed, observability, backup and tenant migration. Start only after D2 establishes a credible paid ICP.
 
 ## Current Position --- August 2026
 
@@ -15,9 +21,8 @@ Early P5 shipped: - configurable vocabulary/templates (`011`); - private
 Storage + signed URL path (`012`); - shareable anonymous public page
 (`013`).
 
-Current caveats: - full production build remains to be independently
-verified; - authenticated Storage SELECT is broader than desired; - the
-platform is configurable vocabulary over a family-centric schema, not
+Current caveats: - live staging migration and role-matrix verification remain; -
+the platform is configurable vocabulary over a family-centric schema, not
 yet a fully generic domain model.
 
 # Immediate Roadmap
@@ -29,7 +34,7 @@ yet a fully generic domain model.
 Deliver: - tighten Storage object authorization so private/admin media
 cannot be fetched merely by knowing an object path; - validate
 signed-media access against entity/memory visibility; - clean
-`npm install` / `npm run build`; - apply migrations 001--013 on clean
+`npm install` / `npm run build`; - apply migrations 001--015 on clean
 staging; - exercise anon/member/admin/invited-user RLS journeys; -
 update production-readiness status.
 
@@ -48,6 +53,10 @@ experience.
 
 Family value: collective history and reasons to return. Platform value:
 generic event-stream + ownership/edit primitives.
+
+Delivered D1 UX baseline: family-first progressive setup, warm home context,
+plain family language, mobile contribution access/navigation repair, large-tree
+guidance, better profile/timeline states and rendered desktop/mobile validation.
 
 ## P5.2 --- Participation & Distribution
 

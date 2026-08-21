@@ -189,9 +189,11 @@ export default function NetworkApp() {
     } catch {}
   };
   useEffect(() => {
-    const updated = () => refresh().catch(() => notify("Profile saved, but refresh failed."));
+    const updated = () =>
+      refresh().catch(() => notify("Profile saved, but refresh failed."));
     window.addEventListener("living-network-profile-updated", updated);
-    return () => window.removeEventListener("living-network-profile-updated", updated);
+    return () =>
+      window.removeEventListener("living-network-profile-updated", updated);
   }, [auth?.role]);
   useEffect(() => {
     if (!selected) {
@@ -302,6 +304,7 @@ export default function NetworkApp() {
       if (mode === "empty") setSubmissions([]);
     }
     setSetupNeeded(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     notify(`${settings.name} is ready.`);
   };
   const professions = useMemo(
@@ -427,12 +430,55 @@ export default function NetworkApp() {
       (m) => Number.isFinite(m.latitude) && Number.isFinite(m.longitude),
     ).length;
   const upcoming = useMemo<UpcomingMilestone[]>(() => {
-    if (cfg.network_template !== "family" || !cfg.family_milestones_enabled) return [];
-    const now = new Date(); now.setHours(0, 0, 0, 0);
+    if (cfg.network_template !== "family" || !cfg.family_milestones_enabled)
+      return [];
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
     const byId = new Map(members.map((m) => [m.id, m]));
-    const events: LifeEvent[] = [...allLifeEvents.filter((e) => ["marriage", "family", "milestone"].includes(e.event_type) && e.event_date), ...members.filter((m) => !m.date_of_death && m.date_of_birth).map((m) => ({id:`birthday-${m.id}`,member_id:m.id,event_type:"birth",title:"Birthday",event_date:m.date_of_birth!,visibility:"member",created_at:m.date_of_birth!} as LifeEvent))];
-    return events.flatMap((event) => { const member=byId.get(event.member_id); if(!member||!event.event_date)return []; const source=new Date(`${event.event_date}T00:00:00`),nextDate=new Date(now.getFullYear(),source.getMonth(),source.getDate());if(nextDate<now)nextDate.setFullYear(nextDate.getFullYear()+1);const daysAway=Math.round((nextDate.getTime()-now.getTime())/86400000);return daysAway<=30?[{event,member,nextDate,daysAway}]:[];}).sort((a,b)=>a.daysAway-b.daysAway);
-  }, [members, allLifeEvents, cfg.network_template, cfg.family_milestones_enabled]);
+    const events: LifeEvent[] = [
+      ...allLifeEvents.filter(
+        (e) =>
+          ["marriage", "family", "milestone"].includes(e.event_type) &&
+          e.event_date,
+      ),
+      ...members
+        .filter((m) => !m.date_of_death && m.date_of_birth)
+        .map(
+          (m) =>
+            ({
+              id: `birthday-${m.id}`,
+              member_id: m.id,
+              event_type: "birth",
+              title: "Birthday",
+              event_date: m.date_of_birth!,
+              visibility: "member",
+              created_at: m.date_of_birth!,
+            }) as LifeEvent,
+        ),
+    ];
+    return events
+      .flatMap((event) => {
+        const member = byId.get(event.member_id);
+        if (!member || !event.event_date) return [];
+        const source = new Date(`${event.event_date}T00:00:00`),
+          nextDate = new Date(
+            now.getFullYear(),
+            source.getMonth(),
+            source.getDate(),
+          );
+        if (nextDate < now) nextDate.setFullYear(nextDate.getFullYear() + 1);
+        const daysAway = Math.round(
+          (nextDate.getTime() - now.getTime()) / 86400000,
+        );
+        return daysAway <= 30 ? [{ event, member, nextDate, daysAway }] : [];
+      })
+      .sort((a, b) => a.daysAway - b.daysAway);
+  }, [
+    members,
+    allLifeEvents,
+    cfg.network_template,
+    cfg.family_milestones_enabled,
+  ]);
   const focus = (m: Member) => {
     setSelected(null);
     setView("tree");
@@ -673,11 +719,14 @@ export default function NetworkApp() {
     if (!network) return;
     try {
       const next = { ...network, ...patch };
-      if (repository.mode === "shared") await repository.saveNetworkSettings(next);
+      if (repository.mode === "shared")
+        await repository.saveNetworkSettings(next);
       else saveLocalNetwork(next);
       setNetwork(next);
       notify("Living Network settings saved.");
-    } catch (e: any) { notify(e.message || "Could not save settings."); }
+    } catch (e: any) {
+      notify(e.message || "Could not save settings.");
+    }
   };
   const exportCsv = () => {
     const h = [
@@ -869,7 +918,11 @@ export default function NetworkApp() {
             }}
           >
             <UserRoundPen size={15} />{" "}
-            {auth?.member_id ? "My Profile" : `Submit ${cfg.entity_label}`}
+            {auth?.member_id
+              ? "My Profile"
+              : cfg.network_template === "family"
+                ? "Add Relative"
+                : `Submit ${cfg.entity_label}`}
           </button>
         </div>
       </header>
@@ -940,12 +993,44 @@ export default function NetworkApp() {
           <UpcomingWidget items={upcoming} onSelect={setSelected} />
           {view === "tree" && (
             <section>
+              {cfg.network_template === "family" && (
+                <div className="family-welcome">
+                  <div>
+                    <span className="family-welcome-kicker">
+                      Your family, together
+                    </span>
+                    <h1>{network?.name}</h1>
+                    <p>
+                      Explore the generations, find someone you love, and help
+                      preserve the stories that connect you.
+                    </p>
+                  </div>
+                  <div className="family-welcome-stats">
+                    <span>
+                      <b>{members.length}</b> people
+                    </span>
+                    <span>
+                      <b>
+                        {new Set(members.map((m) => m.generation_level)).size}
+                      </b>{" "}
+                      generations
+                    </span>
+                    <span>
+                      <b>{relationships.length}</b> connections
+                    </span>
+                  </div>
+                </div>
+              )}
               <div className="page-head">
                 <div>
-                  <h1 className="page-title">Hierarchy</h1>
+                  <h2 className="page-title">
+                    {cfg.network_template === "family"
+                      ? "Family Tree"
+                      : "Hierarchy"}
+                  </h2>
                   <p className="page-subtitle">
-                    Solid = parent/child · dashed = spouse. Click a person for
-                    details.
+                    Find a person, tap their card, or focus on one branch to
+                    explore comfortably.
                   </p>
                 </div>
                 <div className="card-actions">
@@ -1016,17 +1101,22 @@ export default function NetworkApp() {
               <div className="page-head">
                 <div>
                   <h1 className="page-title">
-                    {cfg.entity_label_plural} Directory
+                    {cfg.network_template === "family"
+                      ? "Family Directory"
+                      : `${cfg.entity_label_plural} Directory`}
                   </h1>
                   <p className="page-subtitle">
-                    Find people by name, profession and location.
+                    Find relatives by name, profession or location.
                   </p>
                 </div>
                 <button
                   className="btn primary"
                   onClick={() => setShowForm(true)}
                 >
-                  <Plus size={15} /> Submit {cfg.entity_label}
+                  <Plus size={15} />{" "}
+                  {cfg.network_template === "family"
+                    ? "Add Relative"
+                    : `Submit ${cfg.entity_label}`}
                 </button>
               </div>
               <div className="search-bar">
@@ -1161,7 +1251,12 @@ export default function NetworkApp() {
             </section>
           )}
           {view === "timeline" && (
-            <TimelineView events={allLifeEvents} members={members} network={network} onSelect={setSelected} />
+            <TimelineView
+              events={allLifeEvents}
+              members={members}
+              network={network}
+              onSelect={setSelected}
+            />
           )}
           {view === "map" && (
             <section>
@@ -1225,9 +1320,54 @@ export default function NetworkApp() {
                 </div>
               </div>
               <div className="card governance-card">
-                <div className="governance-head"><div><h3 style={{margin:0}}>Living Network</h3><p className="page-subtitle">Field-aware participation and family-module milestones.</p></div><Settings2 size={18}/></div>
-                <label className="living-setting"><span><b>Direct-save safe self edits</b><small>Profession, location, bio, contact details and owned photo only.</small></span><input type="checkbox" checked={cfg.self_edit_mode === "safe_fields_direct"} onChange={(e)=>updateLivingSetting({self_edit_mode:e.target.checked?"safe_fields_direct":"review"})}/></label>
-                {cfg.network_template === "family" && <label className="living-setting"><span><b>Upcoming family milestones</b><small>Birthdays and family events in the next 30 days.</small></span><input type="checkbox" checked={cfg.family_milestones_enabled} onChange={(e)=>updateLivingSetting({family_milestones_enabled:e.target.checked})}/></label>}
+                <div className="governance-head">
+                  <div>
+                    <h3 style={{ margin: 0 }}>Living Network</h3>
+                    <p className="page-subtitle">
+                      Field-aware participation and family-module milestones.
+                    </p>
+                  </div>
+                  <Settings2 size={18} />
+                </div>
+                <label className="living-setting">
+                  <span>
+                    <b>Direct-save safe self edits</b>
+                    <small>
+                      Profession, location, bio, contact details and owned photo
+                      only.
+                    </small>
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={cfg.self_edit_mode === "safe_fields_direct"}
+                    onChange={(e) =>
+                      updateLivingSetting({
+                        self_edit_mode: e.target.checked
+                          ? "safe_fields_direct"
+                          : "review",
+                      })
+                    }
+                  />
+                </label>
+                {cfg.network_template === "family" && (
+                  <label className="living-setting">
+                    <span>
+                      <b>Upcoming family milestones</b>
+                      <small>
+                        Birthdays and family events in the next 30 days.
+                      </small>
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={cfg.family_milestones_enabled}
+                      onChange={(e) =>
+                        updateLivingSetting({
+                          family_milestones_enabled: e.target.checked,
+                        })
+                      }
+                    />
+                  </label>
+                )}
               </div>
               <div className="card governance-card">
                 <div className="governance-head">
@@ -1526,7 +1666,11 @@ export default function NetworkApp() {
           relationships={relationships}
           visibility={visibility}
           network={network}
-          canViewPrivateContact={true}
+          canViewPrivateContact={
+            !isSupabaseConfigured ||
+            auth?.role === "admin" ||
+            selected.id === auth?.member_id
+          }
           onClose={() => setSelected(null)}
           onSelect={setSelected}
           onFocus={focus}

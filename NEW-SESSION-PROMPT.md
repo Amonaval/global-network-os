@@ -1,6 +1,6 @@
 # Resume Prompt --- Relationship Intelligence Platform
 
-Current baseline: P5.1 Living Network implemented; migration chain `001`–`015`. Production build, TypeScript and demo validation pass. First verify staging migrations and the role matrix, then begin exactly P5.2 Participation & Distribution.
+Current baseline: P5.1 Living Network plus the first D1 Family UX and Usability Audit are implemented; migration chain `001`–`015`. First verify staging migrations and the RLS/usability role matrix, then complete D1/P5.2 as one end-to-end batch. Apply `MODEL-SELECTION-RULE.md` and recommend the best available model/effort before substantial work.
 
 I am continuing development of the attached latest source ZIP. Treat the
 ZIP as the **single source of truth**. Do not rely on old chat history
@@ -64,26 +64,24 @@ generic schema rewrite; - evolve incrementally toward core + modules.
 
 ## Known Issue First
 
-Migration `012` grants authenticated users broad SELECT access to
-profile/community bucket objects. Normal UI hides paths and uses signed
-URLs, but Storage authorization should be tightened so knowing an object
-path is insufficient for private/admin media.
+Migration `014` tightens the broad authenticated Storage access introduced by
+`012`. Treat source as implemented but verify private/admin profile and memory
+media with real staging roles before production.
 
 Full production build/staging migration/RLS verification also remains
 required.
 
 ## Active Roadmap
 
-Start with **P5-S0 --- Security & Baseline Closure**: 1. tighten
-Storage/media authorization; 2. verify signed media respects
-profile/memory visibility; 3. clean `npm install` + `npm run build`; 4.
-clean staging migration 001--013 and upgrade sanity; 5.
-anon/member/admin/invited-user RLS checks; 6. update readiness/docs.
+Start with **D1 Gate A**: 1. apply migrations `001`–`015` cleanly on staging;
+2. verify the existing-instance upgrade; 3. exercise signed media plus
+anon/member/admin/invited-user RLS/RPC/usability journeys; 4. fix release
+blockers and update readiness documents.
 
-Then **P5.1 --- Living Network**: - privacy-aware network timeline; -
-domain-aware upcoming milestones; - controlled member self-edit; -
-field-aware governance: safe profile fields may direct-save when
-configured; identity/relationship/governed fields remain reviewed.
+Then complete **D1/P5.2 Participation & Distribution** as one batch: scalable
+invitation/claim, contextual contribution and data-quality prompts,
+privacy-aware QR/public/embed distribution, group/branch experience and a
+lightweight reunion/event validation.
 
 Do not automatically implement later roadmap items before the active
 mission is stable.

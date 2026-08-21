@@ -116,7 +116,9 @@ export default function ProfileForm({
           <h2 style={{ margin: 0 }}>
             {member
               ? `Update ${cfg.entity_label}`
-              : `Submit ${cfg.entity_label}`}
+              : cfg.network_template === "family"
+                ? "Add a Relative"
+                : `Submit ${cfg.entity_label}`}
           </h2>
           <button type="button" className="btn small" onClick={onClose}>
             Close

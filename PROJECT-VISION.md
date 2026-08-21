@@ -51,6 +51,11 @@ Prefer simple, visual, human, invitation-driven, relationship-centric,
 mobile-friendly and privacy-aware experiences. Older/non-technical users
 must be able to participate.
 
+For family audiences, usability and emotional warmth are core product
+capabilities and potential defensibility—not final-stage polish. Validate
+rendered phone and desktop journeys, use family language, and make the next
+action obvious without exposing platform or governance terminology.
+
 Avoid enterprise-dashboard complexity, LinkedIn-style profiles,
 excessive settings, feature overload, speculative AI, and abstractions
 without a concrete product need.

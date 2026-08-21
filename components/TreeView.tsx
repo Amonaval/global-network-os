@@ -17,23 +17,53 @@ import { Member, Relationship } from "../lib/types";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
 
 function initials(name: string) {
-  return name.split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase();
+  return name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((x) => x[0])
+    .join("")
+    .toUpperCase();
 }
 
 function PersonNode({ data }: any) {
   return (
-    <div className={`tree-node ${data.match ? "match" : ""} ${data.dim ? "dim" : ""} ${data.deceased ? "deceased" : ""}`}>
+    <div
+      className={`tree-node ${data.match ? "match" : ""} ${data.dim ? "dim" : ""} ${data.deceased ? "deceased" : ""}`}
+    >
       <Handle type="target" position={Position.Top} style={{ opacity: 0 }} />
-      <Handle type="target" id="left" position={Position.Left} style={{ opacity: 0 }} />
+      <Handle
+        type="target"
+        id="left"
+        position={Position.Left}
+        style={{ opacity: 0 }}
+      />
       <div className="avatar">
-        {data.photo ? <img src={data.photo} alt="" style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }} /> : initials(data.name)}
+        {data.photo ? (
+          <img
+            src={data.photo}
+            alt=""
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "50%",
+              objectFit: "cover",
+            }}
+          />
+        ) : (
+          initials(data.name)
+        )}
       </div>
       <div className="tree-node-name">{data.name}</div>
       <div className="tree-node-meta">{data.profession || "Member"}</div>
       <div className="tree-node-meta">{data.city || ""}</div>
       {data.deceased && <div className="tree-node-deceased">† In memoriam</div>}
       <Handle type="source" position={Position.Bottom} style={{ opacity: 0 }} />
-      <Handle type="source" id="right" position={Position.Right} style={{ opacity: 0 }} />
+      <Handle
+        type="source"
+        id="right"
+        position={Position.Right}
+        style={{ opacity: 0 }}
+      />
     </div>
   );
 }
@@ -58,17 +88,29 @@ export default function TreeView({
   const cfg = getNetworkConfig(network ?? null);
   const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
     const byGen = new Map<number, Member[]>();
-    members.forEach(m => byGen.set(m.generation_level, [...(byGen.get(m.generation_level) || []), m]));
+    members.forEach((m) =>
+      byGen.set(m.generation_level, [
+        ...(byGen.get(m.generation_level) || []),
+        m,
+      ]),
+    );
 
     const generations = Array.from(byGen.entries()).sort((a, b) => a[0] - b[0]);
-    const maxPerGen = Math.max(1, ...generations.map(([, list]) => list.length));
+    const maxPerGen = Math.max(
+      1,
+      ...generations.map(([, list]) => list.length),
+    );
     const canvasWidth = Math.max(1300, maxPerGen * 205 + 300);
     const nodes: Node[] = [];
 
     for (const [gen, list] of generations) {
       const totalWidth = Math.max(0, (list.length - 1) * 205);
       list.forEach((m, i) => {
-        const match = !query || `${m.full_name} ${m.profession || ""} ${m.city || ""}`.toLowerCase().includes(query.toLowerCase());
+        const match =
+          !query ||
+          `${m.full_name} ${m.profession || ""} ${m.city || ""}`
+            .toLowerCase()
+            .includes(query.toLowerCase());
         nodes.push({
           id: m.id,
           type: "person",
@@ -89,10 +131,12 @@ export default function TreeView({
       });
     }
 
-    const memberIds = new Set(members.map(m => m.id));
+    const memberIds = new Set(members.map((m) => m.id));
     const edges: Edge[] = relationships
-      .filter(r => memberIds.has(r.person_id) && memberIds.has(r.related_person_id))
-      .map(r => ({
+      .filter(
+        (r) => memberIds.has(r.person_id) && memberIds.has(r.related_person_id),
+      )
+      .map((r) => ({
         id: r.id,
         source: r.person_id,
         target: r.related_person_id,
@@ -100,9 +144,10 @@ export default function TreeView({
         sourceHandle: r.relationship_type === "spouse" ? "right" : undefined,
         targetHandle: r.relationship_type === "spouse" ? "left" : undefined,
         animated: false,
-        style: r.relationship_type === "spouse"
-          ? { strokeDasharray: "7 5", strokeWidth: 2.5 }
-          : { strokeWidth: 1.7 },
+        style:
+          r.relationship_type === "spouse"
+            ? { strokeDasharray: "7 5", strokeWidth: 2.5 }
+            : { strokeWidth: 1.7 },
       }));
 
     return { nodes, edges };
@@ -116,18 +161,30 @@ export default function TreeView({
     setEdges(initialEdges);
   }, [initialNodes, initialEdges, setNodes, setEdges]);
 
-  const onNodeClick = useCallback((_e: any, node: Node) => {
-    const m = members.find(x => x.id === node.id);
-    if (m) onSelect(m);
-  }, [members, onSelect]);
+  const onNodeClick = useCallback(
+    (_e: any, node: Node) => {
+      const m = members.find((x) => x.id === node.id);
+      if (m) onSelect(m);
+    },
+    [members, onSelect],
+  );
 
   return (
     <div className="tree-card card">
       <div className="tree-toolbar">
         <span className="tree-count">{members.length} members shown</span>
         {focusMemberId && <span className="tree-focus">Focused branch</span>}
-        <span className="tree-legend"><i className="legend-solid" /> {cfg.child_label} <i className="legend-dashed" /> {cfg.peer_label}</span>
+        <span className="tree-legend">
+          <i className="legend-solid" /> {cfg.child_label}{" "}
+          <i className="legend-dashed" /> {cfg.peer_label}
+        </span>
       </div>
+      {members.length > 60 && !focusMemberId && (
+        <div className="tree-guide">
+          Large family? Search for someone, open their profile, then choose{" "}
+          <b>View in Family Tree</b> for a clear branch.
+        </div>
+      )}
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -146,7 +203,11 @@ export default function TreeView({
       >
         <Background gap={24} size={1} />
         <Controls showInteractive={false} />
-        <MiniMap pannable zoomable nodeColor={(node) => node.data?.deceased ? "#a7adba" : "#3559c7"} />
+        <MiniMap
+          pannable
+          zoomable
+          nodeColor={(node) => (node.data?.deceased ? "#a7adba" : "#3559c7")}
+        />
       </ReactFlow>
     </div>
   );

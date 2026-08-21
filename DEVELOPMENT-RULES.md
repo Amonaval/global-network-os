@@ -1,5 +1,13 @@
 # Development Rules
 
+## Model and Effort Selection
+
+Follow `MODEL-SELECTION-RULE.md` at the start of every major mission. Always recommend the best currently available model and reasoning effort; switch automatically only when the environment supports and authorizes it, otherwise tell the user the exact manual choice. Do not use a low-effort run silently for security, migrations, architecture or major UX work.
+
+## Family UX Acceptance
+
+Usability and emotional quality are release criteria, not optional polish. For user-facing family work, validate the rendered desktop and mobile journeys with realistic data. Compilation alone is insufficient. Prefer plain family language, progressive disclosure, large tap targets, obvious primary actions, dignified warmth, accessible contrast and privacy explanations that non-technical relatives can understand.
+
 ## Source of Truth
 
 1.  Latest user-provided source ZIP/repository is authoritative.

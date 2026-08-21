@@ -87,9 +87,15 @@ export default function TimelineView({
     <section>
       <div className="page-head">
         <div>
-          <h1 className="page-title">Network Timeline</h1>
+          <h1 className="page-title">
+            {cfg.network_template === "family"
+              ? "Our Family Story"
+              : "Network Timeline"}
+          </h1>
           <p className="page-subtitle">
-            A privacy-aware history of visible events across the network.
+            {cfg.network_template === "family"
+              ? "Moments, moves and milestones shared across generations."
+              : "A privacy-aware history of visible events across the network."}
           </p>
         </div>
         <CalendarDays size={25} />
@@ -124,7 +130,19 @@ export default function TimelineView({
         </select>
       </div>
       {groups.length === 0 && (
-        <div className="card empty">No visible events match these filters.</div>
+        <div className="card timeline-empty">
+          <CalendarDays size={28} />
+          <h3>
+            {cfg.network_template === "family"
+              ? "No family moments here yet"
+              : "No visible events yet"}
+          </h3>
+          <p>
+            {cfg.network_template === "family"
+              ? "Open a family member’s profile to add a milestone, memory or important life event."
+              : "Add a visible event from an entity profile to begin the timeline."}
+          </p>
+        </div>
       )}
       <div className="network-timeline">
         {groups.map(([year, items]) => (

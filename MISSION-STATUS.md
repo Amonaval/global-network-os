@@ -1,8 +1,8 @@
 # Mission Status
 
-## Current — P5.1 implemented
+## Current — P5.1 implemented + D1 family UX baseline
 
-Privacy-aware timeline, family-aware milestones, controlled self-edit and field-aware governance are source-complete. Type checking, production build and demo validation pass. Release gate: staging migration `001`–`015` and anon/member/admin/invited-user checks.
+Privacy-aware timeline, family-aware milestones, controlled self-edit and field-aware governance are source-complete. A visual desktop/mobile audit improved setup, family language, navigation, contribution access, large-tree guidance, timeline empty states and profile privacy presentation. Release gate: staging migration `001`–`015` and anon/member/admin/invited-user checks, then the remainder of D1/P5.2.
 
 ## Achieved
 
@@ -48,6 +48,8 @@ corrected.
 -   `012_private_storage.sql`: private buckets and signed-URL
     application flow.
 -   `013_public_page.sql`: anonymous privacy-masked public directory.
+-   `014_p5_s0_media_authorization.sql`: visibility-aware private media authorization.
+-   `015_p5_1_living_network.sql`: privacy-aware timeline and field-aware self-edit.
 -   Public page/admin sharing UI.
 
 ## Important Truths / Open Findings
@@ -56,15 +58,13 @@ corrected.
     model; persistence and semantics remain family-centric.
 -   Configurable labels are useful but are not configurable relationship
     semantics.
--   Private Storage solved anonymous exposure, but authenticated SELECT
-    policy remains broader than desired.
--   Clean production build and staging migration/RLS pass must be
-    re-verified.
+-   Storage authorization is tightened in source; live staging verification remains.
+-   Clean production build passes locally; staging migration/RLS must still be verified.
 -   Public page intentionally excludes private data and photos.
 
 ## Active Mission
 
-**P5-S0 --- Security & Baseline Closure**, then **P5.1 --- Living
-Network**.
+**D1 Gate A:** live P5-S0 staging closure for migrations `001`–`015`, then
+complete **P5.2 Participation & Distribution** as the remainder of D1.
 
 See `ROADMAP.md`.

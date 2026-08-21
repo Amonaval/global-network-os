@@ -42,7 +42,11 @@ export default function UpcomingWidget({
             <span>
               <b>{member.full_name}</b>
               <small>
-                {event.event_type} ·{" "}
+                {event.title === "Birthday"
+                  ? "Birthday"
+                  : event.event_type[0].toUpperCase() +
+                    event.event_type.slice(1)}{" "}
+                ·{" "}
                 {nextDate.toLocaleDateString(undefined, {
                   month: "short",
                   day: "numeric",

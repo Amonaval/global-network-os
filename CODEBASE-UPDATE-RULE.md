@@ -23,6 +23,8 @@
 8.  Known blockers/unverified items.
 9.  Build/deployment commands.
 10. Links to vision/roadmap/rules/status documents.
+11. User-facing UX validation performed for major family journeys.
+12. Recommended model/effort for the exact next mission, following `MODEL-SELECTION-RULE.md`.
 
 ## Rules
 
