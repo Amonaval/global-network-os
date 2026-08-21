@@ -178,3 +178,31 @@ TypeScript target corrected to `es2017` in `tsconfig.json`.
 - Structural relationship types (`parent`/`child`/`spouse`) never change — only display labels are configurable.
 - Do not add migration columns without DEFAULT values — existing rows must not break.
 - Run `npm install && npm run build` before any production deployment to verify the full build.
+
+
+---
+
+# Current Development Compass
+
+Read alongside this file:
+- `PROJECT-VISION.md`
+- `FOUNDER-COMPASS.md`
+- `ROADMAP.md`
+- `MISSION-STATUS.md`
+- `DEVELOPMENT-RULES.md`
+- `CODEBASE-UPDATE-RULE.md`
+- `artifact/platform-vision.html`
+
+## Active next mission
+**P5-S0 — Security & Baseline Closure.**
+
+Immediate priorities:
+1. tighten authenticated Storage SELECT authorization and media visibility boundaries;
+2. verify build and migration/RLS baseline;
+3. then proceed to P5.1 Living Network.
+
+## Architecture direction
+Family remains the strongest vertical and proving ground. Evolve incrementally toward **shared relationship core + domain modules + configuration + focused vertical products**. Configurable labels are not generic semantics.
+
+## Business direction
+Sustainable monetization is a primary objective. Family may drive engagement/distribution; other verticals may offer greater willingness to pay. Roadmap decisions should generate evidence about both.

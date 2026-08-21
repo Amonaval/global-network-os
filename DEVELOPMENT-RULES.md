@@ -1,0 +1,65 @@
+# Development Rules
+
+## Source of Truth
+
+1.  Latest user-provided source ZIP/repository is authoritative.
+2.  Actual code and migrations override planning documents.
+3.  `CODEBASE.md` is a navigation/index document, not proof that a
+    feature works.
+4.  Never trust a migration because an implementation note says it ran;
+    inspect dependencies and schema.
+
+## Session Start
+
+1.  Read `CODEBASE.md`.
+2.  Read `PROJECT-VISION.md`, `FOUNDER-COMPASS.md`, `ROADMAP.md`,
+    `MISSION-STATUS.md`.
+3.  Read the active mission and relevant source/migrations.
+4.  Verify claims against code.
+5.  Continue the active mission unless priority changes.
+
+## Implementation
+
+-   Work mission-by-mission, end-to-end.
+-   Do not silently expand scope.
+-   Fix production/security/data-integrity blockers before feature
+    expansion.
+-   Preserve local/demo and Supabase modes unless intentionally retired.
+-   Every introduced feature must be mobile-usable.
+-   Prefer additive/backwards-compatible migrations.
+-   Never add speculative columns just to satisfy code.
+-   When a PostgreSQL function return signature changes, explicitly drop
+    the exact prior signature.
+-   Privacy is enforced by RLS/secure RPC/access boundary, not React
+    hiding.
+-   `SECURITY DEFINER` functions require safe `search_path` and explicit
+    authorization.
+-   Never expose service-role secrets to browser code.
+-   Validate ownership/visibility server-side; assume client IDs are
+    manipulable.
+-   Media visibility must be enforced at the access boundary.
+
+## Generic Platform Rule
+
+Classify new capabilities: - **CORE** --- domain-independent
+relationship capability. - **MODULE** --- vertical/domain semantics. -
+**CONFIG** --- labels/presentation/settings. - **PRODUCT** ---
+workflow/experience for a customer.
+
+Do not put domain semantics into CORE merely because labels can be
+renamed.
+
+## Quality Gate
+
+Before a mission is complete: - build/typecheck/lint/tests available in
+repo; - migration clean-chain/upgrade verification as applicable; -
+RLS/security cases for changed data; - local/demo regression if
+touched; - mobile usability; - documentation update; - explicit list of
+anything unverified.
+
+## Context/Token Discipline
+
+Prioritize implementation and verification over repeated long planning.
+Do not regenerate exhaustive audits unless architecture/security
+materially changes. Keep session-resume context in maintained Markdown
+files rather than conversational history.
