@@ -1,8 +1,8 @@
 # Mission Status
 
-## Current — P5.1 implemented + D1 family UX baseline
+## Current — D1 source complete; live Gate A pending
 
-Privacy-aware timeline, family-aware milestones, controlled self-edit and field-aware governance are source-complete. A visual desktop/mobile audit improved setup, family language, navigation, contribution access, large-tree guidance, timeline empty states and profile privacy presentation. Release gate: staging migration `001`–`015` and anon/member/admin/invited-user checks, then the remainder of D1/P5.2.
+The Production Participation Release is source-complete through migration `016`: scaled invitation/claim lifecycle, deterministic contribution prompts, privacy-aware QR/public/embed distribution, connected groups, reunion RSVP and funnel metrics. Local typecheck/build/demo/source-security gates pass. Release still requires dated clean-staging, upgrade, actor/RPC/media matrix and Vercel smoke evidence.
 
 ## Achieved
 
@@ -50,6 +50,7 @@ corrected.
 -   `013_public_page.sql`: anonymous privacy-masked public directory.
 -   `014_p5_s0_media_authorization.sql`: visibility-aware private media authorization.
 -   `015_p5_1_living_network.sql`: privacy-aware timeline and field-aware self-edit.
+-   `016_d1_production_participation.sql`: invitation lifecycle, contribution engine, privacy-safe sharing metrics, groups/events/RSVP and participation dashboard.
 -   Public page/admin sharing UI.
 
 ## Important Truths / Open Findings
@@ -64,7 +65,6 @@ corrected.
 
 ## Active Mission
 
-**D1 Gate A:** live P5-S0 staging closure for migrations `001`–`015`, then
-complete **P5.2 Participation & Distribution** as the remainder of D1.
+**D1 Gate A:** execute `D1-RELEASE-GATE.md` for migrations `001`–`016`, the real actor/media matrix, and production runtime smoke. D1 feature implementation is complete; only live evidence and resulting blocker fixes remain.
 
 See `ROADMAP.md`.

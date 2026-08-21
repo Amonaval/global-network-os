@@ -1,4 +1,13 @@
-# P4 Roadmap — Revised from P3 Architecture Audit
+# Codebase Map — D1 Production Participation Release
+
+## D1 additions
+
+- `supabase/migrations/016_d1_production_participation.sql` — invitation lifecycle, deterministic suggestions, anonymous public participation metrics, connected groups, events and RSVP.
+- `components/ParticipationCenter.tsx` — member/admin contribution, invitation, QR/share, reunion and metrics experience.
+- `components/PublicMemberPage.tsx` + `app/public/member/[id]` — privacy-masked public deep links.
+- `lib/participation-types.ts` and D1 adapters in `lib/remote.ts`.
+- `scripts/d1-source-gate.mjs`, `D1-IMPLEMENTATION.md`, `D1-RELEASE-GATE.md`.
+- Migration chain is `001`–`016`.
 
 ## P5.1 Living Network
 

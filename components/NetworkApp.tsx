@@ -66,10 +66,11 @@ import CommunityHub from "./CommunityHub";
 import AnalyticsPanel from "./AnalyticsPanel";
 import TimelineView from "./TimelineView";
 import UpcomingWidget, { UpcomingMilestone } from "./UpcomingWidget";
+import ParticipationCenter from "./ParticipationCenter";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 const repository = getNetworkRepository();
-type View = "tree" | "directory" | "map" | "community" | "timeline" | "admin";
+type View = "tree" | "directory" | "map" | "community" | "timeline" | "participation" | "admin";
 type Visibility = "public" | "member" | "admin";
 const esc = (v: string) => `"${String(v ?? "").replaceAll('"', '""')}"`;
 const uuid = () =>
@@ -958,6 +959,12 @@ export default function NetworkApp() {
           >
             <HeartHandshake size={17} /> Community
           </button>
+          <button
+            className={`nav-btn ${view === "participation" ? "active" : ""}`}
+            onClick={() => setView("participation")}
+          >
+            <GitBranch size={17} /> Participate
+          </button>
           {canAdmin && (
             <button
               className={`nav-btn ${view === "admin" ? "active" : ""}`}
@@ -1281,6 +1288,14 @@ export default function NetworkApp() {
               members={members}
               auth={auth}
               onSelect={(m) => setSelected(m)}
+              onNotify={notify}
+            />
+          )}
+          {view === "participation" && (
+            <ParticipationCenter
+              members={members}
+              auth={auth}
+              onSelect={setSelected}
               onNotify={notify}
             />
           )}
@@ -1633,6 +1648,7 @@ export default function NetworkApp() {
             ["timeline", "Timeline"],
             ["map", "Map"],
             ["community", "Community"],
+            ["participation", "Participate"],
           ] as const
         ).map(([v, label]) => (
           <button

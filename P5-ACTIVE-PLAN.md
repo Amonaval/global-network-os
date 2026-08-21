@@ -7,23 +7,24 @@
 3. Treat family UX as a release criterion and visually verify phone plus desktop journeys.
 4. Complete the current deliverable end-to-end before beginning D2.
 
-## Completed baseline
+## Completed source baseline
 
 - P3/P4 through production hardening.
 - Migrations `001`–`015`, including private media authorization and P5.1 Living Network.
 - Configurable vocabulary, private signed media, public directory, timeline, milestones and field-aware self-edit.
 - First D1 Family UX and Usability Audit: family-first setup/copy, welcome experience, mobile contribution/navigation fixes, large-tree guidance, improved empty/profile states and privacy presentation.
 - Local TypeScript, production build, demo integrity and Playwright desktop/mobile checks.
+- D1 participation source: bulk invitation lifecycle, deterministic contributions, QR/public/deep-link/embed distribution, connected groups, reunion RSVP and success metrics (`016`).
 
 ## D1 — Production Participation Release
 
-### Gate A: live baseline closure
+### Gate A: live baseline closure — deployment evidence pending
 
 - Apply `001`–`015` to a clean Supabase staging database and verify an existing-instance upgrade.
 - Execute anon/member/admin/invited-user RLS, RPC, media and usability journeys.
 - Verify Vercel/Supabase runtime, signed media expiry and public-page privacy.
 
-### Build B: P5.2 participation and distribution
+### Build B: P5.2 participation and distribution — source complete
 
 - Invitation/claim flow at scale: resend, revoke, expiry, status and funnel measurement.
 - Guided find-myself, claim and contribute journeys.
@@ -46,4 +47,4 @@
 
 ## Exact next mission
 
-Run Gate A on configured Supabase staging, fix every release blocker, then implement Build B as one verified D1 delivery.
+Run `D1-RELEASE-GATE.md` against configured Supabase staging and Vercel, record the role/media/runtime evidence, and fix any live blocker. Build B is implemented in source and must not be confused with deployed evidence.

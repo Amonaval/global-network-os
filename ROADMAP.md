@@ -1,8 +1,8 @@
 # Product & Platform Roadmap
 
-## P5.1 — Living Network ✅ source complete
+## D1 — Production Participation Release ✅ source complete / live gate pending
 
-Privacy-aware network timeline, family-module upcoming milestones, controlled self-edit and field-aware governance are implemented. The first D1 Family UX and Usability Audit is also complete; see `P5.1-FAMILY-UX-AUDIT.md`.
+P5.1 living-network UX and P5.2 participation/distribution are implemented through migration `016`. Bulk invitations, claiming, contributions, QR/deep links/embed, group/reunion validation and success metrics are included. See `D1-IMPLEMENTATION.md`; live closure follows `D1-RELEASE-GATE.md`.
 
 ## Binding execution packaging — three deliverables
 
@@ -58,7 +58,7 @@ Delivered D1 UX baseline: family-first progressive setup, warm home context,
 plain family language, mobile contribution access/navigation repair, large-tree
 guidance, better profile/timeline states and rendered desktop/mobile validation.
 
-## P5.2 --- Participation & Distribution
+## P5.2 --- Participation & Distribution ✅ source complete
 
 **Goal:** make contribution and sharing self-propagating.
 
