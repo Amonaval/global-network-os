@@ -12,9 +12,9 @@ Storage + signed URL path (`012`); - shareable anonymous public page
 (`013`).
 
 Current caveats: - full production build remains to be independently
-verified; - authenticated Storage SELECT is broader than desired; - the
-platform is configurable vocabulary over a family-centric schema, not
-yet a fully generic domain model.
+verified; - visibility-aware Storage authorization is implemented in `014`
+but awaits staging verification; - the platform is configurable vocabulary
+over a family-centric schema, not yet a fully generic domain model.
 
 # Immediate Roadmap
 
@@ -25,11 +25,14 @@ yet a fully generic domain model.
 Deliver: - tighten Storage object authorization so private/admin media
 cannot be fetched merely by knowing an object path; - validate
 signed-media access against entity/memory visibility; - clean
-`npm install` / `npm run build`; - apply migrations 001--013 on clean
+`npm install` / `npm run build`; - apply migrations 001--014 on clean
 staging; - exercise anon/member/admin/invited-user RLS journeys; -
 update production-readiness status.
 
 **Exit:** no known P0 security/build/migration blocker.
+
+**Source status (2026-08-21):** implementation complete. Staging and build
+release gates remain open.
 
 ## P5.1 --- Living Network
 

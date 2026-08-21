@@ -13,7 +13,7 @@
 |---|---|
 | P5.0 Configurable entity types | `011_configurable_types.sql` + `lib/network.ts` + `SetupScreen` template picker + all UI labels dynamic |
 | P4 Production hardening | `010_p4_production_hardening.sql` — IDOR, invitation, submission ownership, audit, first-admin race |
-| Storage privacy fix | `012_private_storage.sql` — private buckets; `lib/storage.ts` — signed URLs (24h); `lib/remote.ts` — batch resolution at fetch time |
+| Storage privacy fix | `012` makes buckets private; `014` adds visibility-aware reads; signed URLs expire after 10 minutes |
 | P5.1a Shareable public page | `013_public_page.sql` — anon RPCs; `app/public/page.tsx` + `components/PublicPage.tsx`; Admin panel "Public Page" card with copy + preview |
 
 ---
@@ -141,7 +141,7 @@ Only after P1a public page is battle-tested. Requires:
 Run on a staging Supabase project:
 1. `npm install`
 2. `npm run build` (must pass — previously unverified)
-3. Apply migrations 001–013 on a clean DB
+3. Apply migrations 001–014 on a clean DB
 4. Verify RLS: test as anon, member, admin using real accounts
 5. Verify `/public` route loads without sign-in
 6. Verify profile photos are private (signed URL expires, direct public URL returns 403)
