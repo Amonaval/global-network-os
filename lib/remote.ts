@@ -1,6 +1,7 @@
 import { supabase } from './supabase';
 import { AuditEntry, ChangeRequest, LifeEvent, Member, Relationship, Submission, Memory, Notification, NetworkAnalytics } from './types';
 import { NetworkSettings } from './network';
+import { resolveSignedUrls } from './storage';
 
 const mapMember = (m:any):Member => ({...m, generation_level:Number(m.generation_level)});
 const mapRelationship = (r:any):Relationship => ({id:r.id,person_id:r.person_id,related_person_id:r.related_person_id,relationship_type:r.relationship_type});
@@ -39,7 +40,8 @@ export async function fetchRemoteState(role:'member'|'admin'='member'){
   supabase.from('profile_submissions').select('*').order('created_at',{ascending:false})
  ]);
  if(m.error)throw m.error;if(r.error)throw r.error;if(s.error)throw s.error;
- return {members:(m.data||[]).map(mapMember),relationships:(r.data||[]).map(mapRelationship),submissions:(s.data||[]) as Submission[]};
+ const members = await resolveSignedUrls((m.data||[]).map(mapMember), 'profile-photos');
+ return {members,relationships:(r.data||[]).map(mapRelationship),submissions:(s.data||[]) as Submission[]};
 }
 export async function fetchGovernance(){
  if(!supabase)return {changeRequests:[],auditLog:[]};
@@ -140,7 +142,8 @@ export async function deleteLifeEvent(id:string){
 
 export async function fetchMemories(memberId?: string): Promise<Memory[]> {
  if(!supabase)return [];
- const q=supabase.rpc('get_memories',{p_member_id:memberId||null}); const {data,error}=await q; if(error)throw error; return (data||[]) as Memory[];
+ const q=supabase.rpc('get_memories',{p_member_id:memberId||null}); const {data,error}=await q; if(error)throw error;
+ return resolveSignedUrls((data||[]) as Memory[], 'community-media');
 }
 export async function createMemory(input: Omit<Memory,'id'|'created_at'|'created_by'>): Promise<string|null> {
  if(!supabase)return null;
