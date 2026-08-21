@@ -1,5 +1,9 @@
 # Mission Status
 
+## Current — P5.1 implemented
+
+Privacy-aware timeline, family-aware milestones, controlled self-edit and field-aware governance are source-complete. Type checking, production build and demo validation pass. Release gate: staging migration `001`–`015` and anon/member/admin/invited-user checks.
+
 ## Achieved
 
 ### P3 --- Core Hierarchy Product
@@ -52,19 +56,15 @@ corrected.
     model; persistence and semantics remain family-centric.
 -   Configurable labels are useful but are not configurable relationship
     semantics.
--   Visibility-aware authenticated Storage policies are implemented in `014`;
-    staging verification remains required.
+-   Private Storage solved anonymous exposure, but authenticated SELECT
+    policy remains broader than desired.
 -   Clean production build and staging migration/RLS pass must be
     re-verified.
 -   Public page intentionally excludes private data and photos.
 
 ## Active Mission
 
-**P5-S0 --- Security & Baseline Closure** is implemented in source through
-`014_p5_s0_media_authorization.sql`. Clean staging migration/RLS journeys and a
-clean production build remain release gates because this workspace could not
-complete dependency extraction.
-
-After those gates pass, the exact next mission is **P5.1 --- Living Network**.
+**P5-S0 --- Security & Baseline Closure**, then **P5.1 --- Living
+Network**.
 
 See `ROADMAP.md`.

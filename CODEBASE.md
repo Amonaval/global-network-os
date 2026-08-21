@@ -1,5 +1,9 @@
 # P4 Roadmap — Revised from P3 Architecture Audit
 
+## P5.1 Living Network
+
+P5.1 is implemented in migration `015_p5_1_living_network.sql`, `TimelineView`, `UpcomingWidget`, `ProfileForm`, and the repository adapters. The migration chain is now `001`–`015`. See `P5.1-IMPLEMENTATION.md`.
+
 ## P4.1 — Foundation, Trust & Adoption
 - Database-level privacy for private contact fields.
 - Relationship integrity: self-link, duplicate, orphan, generation-order and parent/child-cycle protection.
@@ -90,7 +94,7 @@ TypeScript target corrected to `es2017` in `tsconfig.json`.
 - Public SELECT policies dropped; authenticated-only SELECT policies added
 
 **Code:**
-- `lib/storage.ts` — uploads return storage path (not URL); signed URLs use a 10-minute TTL; `getSignedPhotoUrl(path)` supports single-file previews
+- `lib/storage.ts` — uploads return storage path (not URL); `resolveSignedUrls(items, bucket)` batch-signs 24h TTL; `getSignedPhotoUrl(path)` for single-file use
 - `lib/remote.ts` — `fetchRemoteState` batch-resolves all member photo paths to signed URLs; `fetchMemories` does the same for memory photos
 - `components/ProfileForm.tsx` — upload call updated (removed obsolete `ownerKey` param)
 
@@ -116,10 +120,6 @@ TypeScript target corrected to `es2017` in `tsconfig.json`.
 
 ---
 
-# P5-S0 media authorization (implemented; staging verification pending)
-
-Migration `014_p5_s0_media_authorization.sql` replaces bucket-wide authenticated reads with visibility-aware Storage policies. Profile media is readable only by an admin, its uploader, or a viewer allowed to see the approved profile. Community media follows memory and attached-profile visibility. The migration also prevents non-admin callers from attaching another account's object path to a memory or profile submission.
-
 # Migration chain summary
 
 | # | File | Content |
@@ -137,7 +137,6 @@ Migration `014_p5_s0_media_authorization.sql` replaces bucket-wide authenticated
 | 011 | `011_configurable_types.sql` | entity/relationship label columns on network_settings |
 | 012 | `012_private_storage.sql` | private buckets, drop public read policies |
 | 013 | `013_public_page.sql` | anon-accessible RPCs for /public route |
-| 014 | `014_p5_s0_media_authorization.sql` | visibility-aware media reads and path ownership validation |
 
 ---
 

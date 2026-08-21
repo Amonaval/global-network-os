@@ -1,5 +1,7 @@
 # Resume Prompt --- Relationship Intelligence Platform
 
+Current baseline: P5.1 Living Network implemented; migration chain `001`–`015`. Production build, TypeScript and demo validation pass. First verify staging migrations and the role matrix, then begin exactly P5.2 Participation & Distribution.
+
 I am continuing development of the attached latest source ZIP. Treat the
 ZIP as the **single source of truth**. Do not rely on old chat history
 or generated code when it conflicts with source.
@@ -46,15 +48,14 @@ material. Actual source/migrations override docs.
 ## Current Baseline
 
 P3/P4 are implemented through production hardening. Migration chain is
-`001`--`014`.
+`001`--`013`.
 
 Recent work: - `010_p4_production_hardening.sql` ---
 IDOR/ownership/invitation/audit/first-admin hardening. -
 `011_configurable_types.sql` --- configurable network
 vocabulary/templates. - `012_private_storage.sql` --- private Storage;
 signed-URL app flow. - `013_public_page.sql` --- privacy-masked
-anonymous public directory. - `014_p5_s0_media_authorization.sql` ---
-visibility-aware Storage reads and media ownership validation. - `/public` route exists. - Preserve
+anonymous public directory. - `/public` route exists. - Preserve
 local/demo and Supabase paths unless intentionally changed.
 
 Architectural truth: - configurability has begun, but DB/domain
@@ -63,16 +64,21 @@ generic schema rewrite; - evolve incrementally toward core + modules.
 
 ## Known Issue First
 
-Migration `014` implements the Storage authorization fix with a 10-minute
-signed URL TTL. Clean production build and staging migration/RLS verification
-remain required; dependency extraction failed in the previous workspace.
+Migration `012` grants authenticated users broad SELECT access to
+profile/community bucket objects. Normal UI hides paths and uses signed
+URLs, but Storage authorization should be tightened so knowing an object
+path is insufficient for private/admin media.
+
+Full production build/staging migration/RLS verification also remains
+required.
 
 ## Active Roadmap
 
-Finish **P5-S0 --- Security & Baseline Closure verification**: 1. verify signed
-media respects profile/memory visibility; 2. clean `npm install` +
-`npm run build`; 3. clean staging migration 001--014 and upgrade sanity; 4.
-anon/member/admin/invited-user RLS checks; 5. update readiness/docs.
+Start with **P5-S0 --- Security & Baseline Closure**: 1. tighten
+Storage/media authorization; 2. verify signed media respects
+profile/memory visibility; 3. clean `npm install` + `npm run build`; 4.
+clean staging migration 001--013 and upgrade sanity; 5.
+anon/member/admin/invited-user RLS checks; 6. update readiness/docs.
 
 Then **P5.1 --- Living Network**: - privacy-aware network timeline; -
 domain-aware upcoming milestones; - controlled member self-edit; -
@@ -101,8 +107,8 @@ mission is stable.
 ## Do Now
 
 1.  Inspect the attached ZIP and confirm docs match code.
-2.  Finish **P5-S0 verification**.
-3.  Fix migration `014` only if verification finds a defect.
+2.  Resume **P5-S0**.
+3.  Implement and verify it end-to-end.
 4.  Update maintained handoff Markdown files.
 5.  Return the updated ZIP plus a concise summary of changes, tests,
     remaining risks and exact next mission.
