@@ -274,3 +274,22 @@ Then **B0-C — Human-Friendly Family Experience**: invitation/claim simplificat
 
 ### Next
 **B0-C — Human-Friendly Family Experience.** Do not resume feature expansion before this usability/adoption layer is complete.
+
+## 2026-08-22 — B0-C Human-Friendly Family Experience — IMPLEMENTED / REAL-USER VERIFY
+
+### Delivered
+- Invitation flow changed to family-first identity confirmation before account mechanics: family → matched profile → “Is this you?” → sign in/create account → welcome → Simple family view.
+- Ordinary Simple members now see less top-bar and Home-screen clutter; advanced capability remains available underneath B0 progressive disclosure.
+- Simple Home prioritizes one obvious family action plus one compact next-family-moment signal instead of exposing engagement grids by default.
+- Members can safely choose **Simple / More family / Everything** using the existing server-authorized experience-level RPC; this never changes family/admin permissions.
+- Mobile usability baseline strengthened with larger touch targets, readable invitation controls, labeled bottom navigation and family-language experience choices.
+- Friendly invalid/expired invitation, email-confirmation, slow-loading and successful-claim states added.
+- No new migration; migrations through 027 remain sufficient.
+
+### Verification still required
+- Real 50+/60+ novice family-user invitation and navigation test.
+- Non-technical 30–50 mobile-user test.
+- Hindi/Marathi native-language review.
+- Android/iOS back-navigation, browser zoom/large-text, narrow-screen and slow-network test.
+
+B0-C source implementation does **not** satisfy the real-user usability gate by itself. Any findings become B0-C.1 corrections before broad Alpha rollout.

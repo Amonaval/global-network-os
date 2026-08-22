@@ -75,7 +75,7 @@ import FamilyHome from "./FamilyHome";
 import FamilySwitcher from "./FamilySwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
 import FounderLaunchConsole from "./FounderLaunchConsole";
-import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen } from "../lib/remote";
+import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
@@ -908,6 +908,16 @@ export default function NetworkApp() {
     setFeatureAnnouncements(v=>v.filter(x=>!(x.feature_key===current.feature_key&&x.announcement_version===current.announcement_version)));
     try{await markFeatureAnnouncementSeen(current.feature_key,current.announcement_version)}catch{}
   };
+  const changeMyExperience=async(level:ExperienceLevel)=>{
+    if(canAdmin){setExperiencePreview(level);return;}
+    try{
+      await setMyExperienceLevel(level);
+      setAuth((current:any)=>current?{...current,experience_level:level}:current);
+      setShowMobileMenu(false);
+      setView("home");
+      notify(level==="simple"?"Simple view is on.":level==="connected"?"More family features are now visible.":"All member features are now visible.");
+    }catch(e:any){notify(e.message||"Could not change your view.")}
+  };
   const openMyProfile=()=>{
     if(auth?.member_id){
       const mine=members.find(m=>m.id===auth.member_id);
@@ -970,8 +980,8 @@ export default function NetworkApp() {
             {isSupabaseConfigured ? <><Database size={12} /> {t("sharedFamily")}</> : <>{t("localFamily")}</>}
           </span>}
         </div>
-        <div className="top-actions">
-          {isSupabaseConfigured && <FamilySwitcher onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>setSetupNeeded(true)} />}
+        <div className={`top-actions ${experience==="simple"&&!canAdmin?"simple-top-actions":""}`}>
+          {isSupabaseConfigured && (canAdmin || experience!=="simple") && <FamilySwitcher onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>setSetupNeeded(true)} />}
           <LanguageSwitcher compact />
           {isSupabaseConfigured && canAdmin && (
             <span className="person-meta">
@@ -992,7 +1002,7 @@ export default function NetworkApp() {
           {canAdmin && <button className="btn small" onClick={() => setShowGuide(true)}>
             <BookOpen size={15} /> {t("guide")}
           </button>}
-          {isSupabaseConfigured && (
+          {isSupabaseConfigured && (canAdmin || experience!=="simple") && (
             <button
               className="btn small"
               onClick={() => {
@@ -1003,9 +1013,9 @@ export default function NetworkApp() {
               <LogOut size={15} /> {t("signOut")}
             </button>
           )}
-          <button className="btn small" onClick={openMyProfile}>
+          {(canAdmin || experience!=="simple") && <button className="btn small" onClick={openMyProfile}>
             <UserRoundPen size={15} /> {t("myProfile")}
-          </button>
+          </button>}
         </div>
       </header>
       <div className="layout">
@@ -1037,6 +1047,7 @@ export default function NetworkApp() {
             <strong>{members.length} {language === "hi" ? "परिवार सदस्य" : language === "mr" ? "कुटुंब सदस्य" : "family members"}</strong>
             <span>{new Set(members.map((m) => m.generation_level)).size} {language === "hi" ? "पीढ़ियाँ" : language === "mr" ? "पिढ्या" : "generations"}</span>
           </div>
+          {!canAdmin && <div className="member-experience-card"><small>{language==='hi'?'आपका दृश्य':language==='mr'?'आपले दृश्य':'Your view'}</small><strong>{experience==='simple'?(language==='hi'?'सरल':language==='mr'?'सोपे':'Simple'):experience==='connected'?(language==='hi'?'और परिवार':language==='mr'?'अधिक कुटुंब':'More family'):(language==='hi'?'सब सुविधाएँ':language==='mr'?'सर्व सुविधा':'Everything')}</strong><button className="text-action" onClick={()=>changeMyExperience(experience==='simple'?'connected':experience==='connected'?'explorer':'simple')}>{experience==='explorer'?(language==='hi'?'सरल दृश्य पर जाएँ':language==='mr'?'सोप्या दृश्यावर जा':'Use simple view'):(language==='hi'?'और देखें':language==='mr'?'अधिक पहा':'Explore more')} <ArrowRight size={14}/></button></div>}
         </aside>
         <main className="main">
           {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">New in your family</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||"New family feature"}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||"There is something new to explore."}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
@@ -1054,7 +1065,7 @@ export default function NetworkApp() {
                     <p>{network?.description || t("welcomeCopy")}</p>
                     <div className="welcome-actions">
                       <button className="btn primary" onClick={() => setView("directory")}><Search size={15} /> {t("findSomeone")}</button>
-                      <button className="btn warm" onClick={() => setShowForm(true)}><Plus size={15} /> {t("addRelative")}</button>
+                      {(canAdmin||experience!=="simple")&&<button className="btn warm" onClick={() => setShowForm(true)}><Plus size={15} /> {t("addRelative")}</button>}
                     </div>
                   </div>
                   <div className="family-welcome-people">
@@ -1706,6 +1717,7 @@ export default function NetworkApp() {
         {isPlatformOwner && isSupabaseConfigured && <button className="mobile-more-action" onClick={() => { setView("founder"); setShowMobileMenu(false); }}><span><Rocket />Launch Control</span><ArrowRight /></button>}
         <button className="mobile-more-action" onClick={() => { setShowGuide(true); setShowMobileMenu(false); }}><span><BookOpen />{language==='hi'?'मदद':language==='mr'?'मदत':'Help'}</span><ArrowRight /></button>
         <div className="mobile-more-setting"><LanguageSwitcher /></div>
+        {!canAdmin&&<label className="mobile-more-setting friendly-experience-setting"><span>{language==='hi'?'ऐप में कितना दिखे?':language==='mr'?'अॅपमध्ये किती दाखवायचे?':'How much would you like to see?'}</span><select className="select" value={experience} onChange={e=>changeMyExperience(e.target.value as ExperienceLevel)}><option value="simple">{language==='hi'?'सरल — बस जरूरी चीजें':language==='mr'?'सोपे — फक्त महत्त्वाचे':'Simple — just the essentials'}</option><option value="connected">{language==='hi'?'और परिवार — यादें और खास दिन':language==='mr'?'अधिक कुटुंब — आठवणी आणि खास दिवस':'More family — memories & moments'}</option><option value="explorer">{language==='hi'?'सब देखें — सभी सदस्य सुविधाएँ':language==='mr'?'सगळे पहा — सर्व सदस्य सुविधा':'Everything — all member features'}</option></select><small>{language==='hi'?'इसे कभी भी बदल सकते हैं।':language==='mr'?'हे कधीही बदलू शकता.':'You can change this anytime.'}</small></label>}
         {canAdmin&&<label className="mobile-more-setting"><span>{language === "hi" ? "जानकारी का पूर्वावलोकन" : language === "mr" ? "माहिती पूर्वावलोकन" : "Information preview"}</span><select className="select" value={visibility} onChange={(event) => setVisibility(event.target.value as Visibility)}><option value="public">{t("publicPreview")}</option><option value="member">{t("memberView")}</option><option value="admin">{t("adminView")}</option></select></label>}
         {canAdmin&&<label className="mobile-more-setting"><span>{language==='hi'?'सदस्य अनुभव देखें':language==='mr'?'सदस्य अनुभव पहा':'Preview member experience'}</span><select className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>{(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map(level=><option key={level} value={level}>{EXPERIENCE_LABELS[level].label}</option>)}</select></label>}
         {isSupabaseConfigured && <button className="mobile-more-action sign-out" onClick={() => { signOut(); setAuth(null); setShowMobileMenu(false); }}><span><LogOut />{t("signOut")}</span></button>}

@@ -389,3 +389,26 @@ Delivered as one coherent release-control batch:
 Migration: `027_b0b_progressive_launch_system.sql`.
 
 The binding next mission is **B0-C Human-Friendly Family Experience**. B0-C should complete the adoption layer before C1/C2/C3 or additional feature expansion: radical invitation/first visit, calm Simple experience, one-primary-action screens, multilingual family-language cleanup, large touch targets, back-navigation safety, slow-network/error/empty states, and real novice/older-user mobile validation.
+
+## 2026-08-22 — B0-C implementation checkpoint
+
+**B0-C Human-Friendly Family Experience is IMPLEMENTED IN SOURCE / real-user verification required.**
+
+The product now has the intended progressive adoption architecture:
+- Simple member: Home · Family · Me;
+- Connected member: adds memories/family moments;
+- Explorer member: richer family exploration/contribution tools;
+- Family Admin: separate Manage family surface;
+- Platform Owner: separate Launch Control.
+
+B0-C additionally makes invitations identity-first rather than account-first, reduces Simple-mode clutter, lets ordinary members progressively opt into more capability, and strengthens mobile touch/slow-network/error states.
+
+### Mandatory B0-C usability gate before broad Alpha rollout
+1. 50+/60+ low-frequency app user completes invitation and reaches family without coaching.
+2. Non-technical 30–50 user can find a relative, open a profile and return Home.
+3. Home / Family / Me labels are self-explanatory.
+4. Progressive “More family” discovery is understandable but not intrusive.
+5. Hindi/Marathi reviewed by fluent family members.
+6. Real Android/iOS and narrow-screen/large-text/slow-network behavior checked.
+
+If this evidence produces friction, fix it as **B0-C.1 Novice Usability Corrections** before C1/C2/C3. This is not a feature-expansion mission; it is an adoption gate.
