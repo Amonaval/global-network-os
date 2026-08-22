@@ -94,3 +94,16 @@ Prioritize implementation and verification over repeated long planning.
 Do not regenerate exhaustive audits unless architecture/security
 materially changes. Keep session-resume context in maintained Markdown
 files rather than conversational history.
+
+## Hard rule — no silent feature regression
+
+Every accepted release is cumulative unless a feature removal or replacement is explicitly approved.
+Before delivery, compare the candidate against the previous accepted release(s) and treat unexplained deletion of UI, routes, components, exports, types, repository functions, RPCs, migrations, workflows, navigation, or user journeys as a release blocker.
+
+Required release validation:
+1. Run a source-tree deletion/diff audit against the previous accepted baseline.
+2. Classify every deletion as intentional replacement, verified dead code, or regression.
+3. Restore all regressions before release.
+4. Run TypeScript/production build validation to catch missing exports and stale consumers.
+5. Validate all previously delivered feature journeys, not only the current mission.
+6. Never mark a release complete when a previous feature is merely hidden from navigation but still expected by the product baseline.

@@ -1,5 +1,8 @@
 export type NetworkSettings = {
   id: string;
+  network_id?: string;
+  slug?: string;
+  membership_role?: "owner" | "admin" | "member";
   name: string;
   description?: string;
   initialized_at?: string;
@@ -14,6 +17,7 @@ export type NetworkSettings = {
   network_template: string;
   self_edit_mode?: "review" | "safe_fields_direct";
   family_milestones_enabled?: boolean;
+  photo_upload_enabled?: boolean;
 };
 
 export function getNetworkConfig(network: NetworkSettings | null) {
@@ -28,6 +32,7 @@ export function getNetworkConfig(network: NetworkSettings | null) {
     network_template: network?.network_template ?? "family",
     self_edit_mode: network?.self_edit_mode ?? "review",
     family_milestones_enabled: network?.family_milestones_enabled ?? true,
+    photo_upload_enabled: network?.photo_upload_enabled ?? false,
   };
 }
 
@@ -135,6 +140,7 @@ export function saveLocalNetwork(
     network_template: settings.network_template ?? "family",
     self_edit_mode: settings.self_edit_mode ?? "review",
     family_milestones_enabled: settings.family_milestones_enabled ?? true,
+    photo_upload_enabled: settings.photo_upload_enabled ?? false,
     initialized_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   };

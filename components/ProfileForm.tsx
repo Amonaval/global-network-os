@@ -172,26 +172,11 @@ export default function ProfileForm({
           </div>
           <div className="field full">
             <label>Profile photo</label>
-            <input
-              className="text-input"
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-            />
-            <div className="person-meta">JPG, PNG or WebP · maximum 5 MB.</div>
-            {form.photo_url && !file && (
-              <img
-                src={form.photo_url}
-                alt="Current profile"
-                style={{
-                  width: 72,
-                  height: 72,
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  marginTop: 5,
-                }}
-              />
-            )}
+            {cfg.photo_upload_enabled ? (<>
+              <input className="text-input" type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+              <div className="person-meta">JPG, PNG or WebP · maximum 100 KB. Small images keep the family fast and storage-light.</div>
+              {form.photo_url && !file && <img src={form.photo_url} alt="Current profile" style={{width:72,height:72,borderRadius:"50%",objectFit:"cover",marginTop:5}} />}
+            </>) : <div className="person-meta">Photo uploads are disabled by your family administrator. Your initials avatar will be used instead.</div>}
           </div>
           <div className="field full">
             <label>Bio</label>

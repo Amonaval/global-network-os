@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "validate:d1": "node scripts/d1-source-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",
@@ -17,11 +18,13 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",
+    "qrcode": "^1.5.4",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.16",
     "@types/node": "^20.17.30",
+    "@types/qrcode": "^1.5.5",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.5",
     "typescript": "^5.8.2"

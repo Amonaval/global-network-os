@@ -1,7 +1,7 @@
 id,full_name,generation_level,profession,city,country,father,mother,spouse,photo_url,bio,phone,email
-m1,Rajendra Shah,1,Business Owner,Mumbai,India,,,,,,,
-m2,Vijay Shah,2,Engineer,Jalgaon,India,Rajendra Shah,,,,,,
-m3,Mahesh Shah,2,Doctor,Pune,India,Rajendra Shah,,,,,,
-m4,Sunita Shah,2,Teacher,Mumbai,India,Rajendra Shah,,,,,,
-m5,Amit Shah,3,Chartered Accountant,Pune,India,Vijay Shah,,,,,,
-m6,Neha Shah,3,Doctor,Mumbai,India,Vijay Shah,,,,,,
+m1,Rajendra naval,1,Business Owner,Mumbai,India,,,,,,,
+m2,Vijay naval,2,Engineer,Jalgaon,India,Rajendra naval,,,,,,
+m3,Mahesh naval,2,Doctor,Pune,India,Rajendra naval,,,,,,
+m4,Sunita naval,2,Teacher,Mumbai,India,Rajendra naval,,,,,,
+m5,Amit naval,3,Chartered Accountant,Pune,India,Vijay naval,,,,,,
+m6,Neha naval,3,Doctor,Mumbai,India,Vijay naval,,,,,,

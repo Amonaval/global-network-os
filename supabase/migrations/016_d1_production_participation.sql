@@ -326,15 +326,25 @@ alter table public.community_groups enable row level security;
 alter table public.community_group_members enable row level security;
 alter table public.community_events enable row level security;
 alter table public.community_event_responses enable row level security;
+drop policy if exists "members read community groups" on public.community_groups;
 create policy "members read community groups" on public.community_groups for select to authenticated using(true);
+drop policy if exists "admins manage community groups" on public.community_groups;
 create policy "admins manage community groups" on public.community_groups for all to authenticated using(public.is_admin()) with check(public.is_admin());
+drop policy if exists "members read community group members" on public.community_group_members;
 create policy "members read community group members" on public.community_group_members for select to authenticated using(true);
+drop policy if exists "admins manage community group members" on public.community_group_members;
 create policy "admins manage community group members" on public.community_group_members for all to authenticated using(public.is_admin()) with check(public.is_admin());
+drop policy if exists "members read community events" on public.community_events;
 create policy "members read community events" on public.community_events for select to authenticated using(true);
+drop policy if exists "admins manage community events" on public.community_events;
 create policy "admins manage community events" on public.community_events for all to authenticated using(public.is_admin()) with check(public.is_admin());
+drop policy if exists "members read own event response" on public.community_event_responses;
 create policy "members read own event response" on public.community_event_responses for select to authenticated using(user_id=auth.uid() or public.is_admin());
+drop policy if exists "members create own event response" on public.community_event_responses;
 create policy "members create own event response" on public.community_event_responses for insert to authenticated with check(user_id=auth.uid());
+drop policy if exists "members update own event response" on public.community_event_responses;
 create policy "members update own event response" on public.community_event_responses for update to authenticated using(user_id=auth.uid()) with check(user_id=auth.uid());
+drop policy if exists "members delete own event response" on public.community_event_responses;
 create policy "members delete own event response" on public.community_event_responses for delete to authenticated using(user_id=auth.uid());
 
 create or replace function public.get_community_events()

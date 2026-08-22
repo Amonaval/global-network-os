@@ -2,7 +2,7 @@ import { supabase } from './supabase';
 
 const PROFILE_BUCKET = 'profile-photos';
 const COMMUNITY_BUCKET = 'community-media';
-const MAX_BYTES = 5 * 1024 * 1024;
+const MAX_BYTES = 100 * 1024; // Alpha policy: 100 KB maximum per uploaded image
 const ALLOWED = new Set(['image/jpeg', 'image/png', 'image/webp']);
 const SIGNED_TTL = 86400; // 24 hours
 
@@ -45,7 +45,7 @@ export async function resolveSignedUrls<T extends { photo_url?: string | null }>
 export async function uploadProfilePhoto(file: File): Promise<string> {
   if (!supabase) throw new Error('Photo storage is available only in shared mode.');
   if (!ALLOWED.has(file.type)) throw new Error('Please upload a JPG, PNG or WebP image.');
-  if (file.size > MAX_BYTES) throw new Error('Photo must be 5 MB or smaller.');
+  if (file.size > MAX_BYTES) throw new Error('Photo must be 100 KB or smaller. Please resize/compress it or use the initials avatar.');
   const ext = file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg';
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Please sign in before uploading a profile photo.');
@@ -60,7 +60,7 @@ export async function uploadProfilePhoto(file: File): Promise<string> {
 // Returns the storage path (e.g. "community/uid/uuid.jpg").
 export async function uploadCommunityPhoto(file: File, userId: string): Promise<string> {
   if (!supabase) throw new Error('Shared mode is required.');
-  if (file.size > MAX_BYTES) throw new Error('Photo must be 5 MB or smaller.');
+  if (file.size > MAX_BYTES) throw new Error('Photo must be 100 KB or smaller. Please resize/compress it or use the initials avatar.');
   if (!ALLOWED.has(file.type)) throw new Error('Use JPG, PNG or WebP.');
   const ext = file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg';
   const path = `community/${userId}/${crypto.randomUUID()}.${ext}`;

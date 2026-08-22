@@ -28,6 +28,7 @@ import {
   Settings2,
   ArrowRight,
   Menu,
+  Home,
 } from "lucide-react";
 import TreeView from "./TreeView";
 import ProfileDrawer from "./ProfileDrawer";
@@ -67,13 +68,15 @@ import CommunityHub from "./CommunityHub";
 import AnalyticsPanel from "./AnalyticsPanel";
 import TimelineView from "./TimelineView";
 import UpcomingWidget, { UpcomingMilestone } from "./UpcomingWidget";
+import ParticipationCenter from "./ParticipationCenter";
+import FamilyHome from "./FamilyHome";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 const ImportModal = dynamic(() => import("./ImportModal"), { ssr: false });
 const repository = getNetworkRepository();
-type View = "tree" | "directory" | "map" | "community" | "timeline" | "admin";
+type View = "home" | "tree" | "directory" | "map" | "community" | "timeline" | "participation" | "admin";
 type Visibility = "public" | "member" | "admin";
 const esc = (v: string) => `"${String(v ?? "").replaceAll('"', '""')}"`;
 const uuid = () =>
@@ -92,7 +95,7 @@ export default function NetworkApp() {
   const helpCopy = language === "hi" ? { title:"परिवार उपयोग सहायता", close:"बंद करें", intro:"यहाँ सबसे जरूरी काम आसानी से किए जा सकते हैं:", items:["परिवार वृक्ष: खोजें, किसी व्यक्ति पर टैप करें और उनकी पारिवारिक शाखा देखें।","परिवार: नाम, शहर या पेशे से रिश्तेदार खोजें।","प्रोफ़ाइल: अपनी जानकारी, तस्वीर और रिश्ते देखें या अपडेट का अनुरोध करें।","Excel: मार्गदर्शित workbook डाउनलोड करें और जोड़ने से पहले हर व्यक्ति व रिश्ता जाँचें।","गोपनीयता: निजी संपर्क केवल परिवार द्वारा अनुमति प्राप्त लोगों को दिखते हैं।","और: स्थान, भाषा, सहायता, privacy preview और family settings यहाँ मिलते हैं।"] } : language === "mr" ? { title:"कुटुंब वापर मदत", close:"बंद करा", intro:"येथे महत्त्वाची कामे सहज करता येतात:", items:["कुटुंब वृक्ष: शोधा, व्यक्तीवर टॅप करा आणि त्यांची कौटुंबिक शाखा पहा.","कुटुंब: नाव, शहर किंवा व्यवसायाने नातेवाईक शोधा.","प्रोफाइल: आपली माहिती, छायाचित्र आणि नाती पहा किंवा बदल सुचवा.","Excel: मार्गदर्शित workbook डाउनलोड करा आणि जोडण्याआधी प्रत्येक व्यक्ती व नाते तपासा.","गोपनीयता: खाजगी संपर्क फक्त कुटुंबाने परवानगी दिलेल्या लोकांना दिसतात.","अधिक: ठिकाणे, भाषा, मदत, privacy preview आणि family settings येथे आहेत."] } : { title:"Family help", close:"Close", intro:"The most important things are easy to find:", items:["Family Tree: search, tap a person and explore their family branch.","Family: find relatives by name, city or profession.","Profile: view your information, photo and relationships or ask for an update.","Excel: download the guided workbook and review every person and relationship before adding them.","Privacy: private contact details are shown only to people your family allows.","More: find Places, language, Help, information preview and family settings here."] };
   const mapCopy = language === "hi" ? { title:"परिवार कहाँ रहता है", subtitle:"शहर के स्तर पर परिवार के स्थान। बड़े निशान उस शहर में अधिक सदस्यों को दिखाते हैं।", privacy:"गोपनीयता:", detail:"केवल शहर का स्थान दिखाया जाता है।", have:"सदस्यों के स्थान उपलब्ध हैं।" } : language === "mr" ? { title:"कुटुंब कुठे राहते", subtitle:"शहर पातळीवरील कौटुंबिक ठिकाणे. मोठे चिन्ह त्या शहरात अधिक सदस्य दाखवते.", privacy:"गोपनीयता:", detail:"फक्त शहराचे ठिकाण दाखवले जाते.", have:"सदस्यांची ठिकाणे उपलब्ध आहेत." } : { title:"Where our family lives", subtitle:"City-level family locations. Larger markers mean more relatives in that city.", privacy:"Privacy:", detail:"Only city-level locations are shown.", have:"members have locations." };
   const [network, setNetwork] = useState<NetworkSettings | null>(null),
-    [view, setView] = useState<View>("tree"),
+    [view, setView] = useState<View>("home"),
     [members, setMembers] = useState<Member[]>([]),
     [relationships, setRelationships] = useState<Relationship[]>([]),
     [submissions, setSubmissions] = useState<Submission[]>([]),
@@ -951,6 +954,7 @@ export default function NetworkApp() {
       </header>
       <div className="layout">
         <aside className="sidebar">
+          <button className={`nav-btn ${view === "home" ? "active" : ""}`} onClick={() => setView("home")}><Home size={17} /> {language === "hi" ? "आज" : language === "mr" ? "आज" : "Home"}</button>
           <button
             className={`nav-btn ${view === "tree" ? "active" : ""}`}
             onClick={() => setView("tree")}
@@ -980,6 +984,12 @@ export default function NetworkApp() {
             onClick={() => setView("community")}
           >
             <HeartHandshake size={17} /> {t("stories")}
+          </button>
+          <button
+            className={`nav-btn ${view === "participation" ? "active" : ""}`}
+            onClick={() => setView("participation")}
+          >
+            <GitBranch size={17} /> Participate
           </button>
           {canAdmin && (
             <button
@@ -1013,7 +1023,8 @@ export default function NetworkApp() {
           </div>
         </aside>
         <main className="main">
-          {view !== "tree" && <UpcomingWidget items={upcoming} onSelect={setSelected} />}
+          {view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={setSelected} />}
+          {view === "home" && <FamilyHome members={members} events={allLifeEvents} networkName={network?.name} onSelect={setSelected} onGo={(v)=>setView(v)} onAddRelative={()=>setShowForm(true)} />}
           {view === "tree" && (
             <section className="tree-page">
               {cfg.network_template === "family" && (
@@ -1299,7 +1310,16 @@ export default function NetworkApp() {
             <CommunityHub
               members={members}
               auth={auth}
+              network={network}
               onSelect={(m) => setSelected(m)}
+              onNotify={notify}
+            />
+          )}
+          {view === "participation" && (
+            <ParticipationCenter
+              members={members}
+              auth={auth}
+              onSelect={setSelected}
               onNotify={notify}
             />
           )}
@@ -1367,6 +1387,10 @@ export default function NetworkApp() {
                       })
                     }
                   />
+                </label>
+                <label className="living-setting">
+                  <span><b>Allow photo uploads</b><small>Off by default for alpha. When enabled, every uploaded image is limited to 100 KB. When off, initials avatars are used.</small></span>
+                  <input type="checkbox" checked={cfg.photo_upload_enabled} onChange={(e) => updateLivingSetting({photo_upload_enabled:e.target.checked})} />
                 </label>
                 {cfg.network_template === "family" && (
                   <label className="living-setting">
@@ -1647,9 +1671,9 @@ export default function NetworkApp() {
       <nav className="mobile-bottom-nav has-admin">
         {(
           [
+            ["home", language === "hi" ? "आज" : language === "mr" ? "आज" : "Home", <Home size={19} key="home" />],
             ["tree", t("familyTree"), <TreePine size={19} key="tree" />],
             ["directory", t("familyDirectory"), <Users size={19} key="family" />],
-            ["timeline", t("timeline"), <CalendarDays size={19} key="timeline" />],
             ["community", t("stories"), <HeartHandshake size={19} key="stories" />],
           ] as const
         ).map(([v, label, icon]) => (
@@ -1666,6 +1690,7 @@ export default function NetworkApp() {
       {showMobileMenu && <div className="mobile-more-overlay" onMouseDown={(event) => event.target === event.currentTarget && setShowMobileMenu(false)}><section className="mobile-more-sheet" role="dialog" aria-modal="true" aria-label={moreLabel}>
         <div className="mobile-more-head"><div><span className="warm-kicker">{network?.name}</span><h2>{moreLabel}</h2></div><button className="icon-button" aria-label="Close" autoFocus onClick={() => setShowMobileMenu(false)}><X size={19} /></button></div>
         <button className="mobile-more-action" onClick={() => { setView("map"); setShowMobileMenu(false); }}><span><MapPinned />{t("places")}</span><ArrowRight /></button>
+        <button className="mobile-more-action" onClick={() => { setView("participation"); setShowMobileMenu(false); }}><span><GitBranch />Participate</span><ArrowRight /></button>
         {canAdmin && <button className="mobile-more-action" onClick={() => { setView("admin"); setShowMobileMenu(false); }}><span><Settings2 />{t("familySettings")}</span><ArrowRight /></button>}
         <button className="mobile-more-action" onClick={() => { setShowGuide(true); setShowMobileMenu(false); }}><span><BookOpen />{t("guide")}</span><ArrowRight /></button>
         <div className="mobile-more-setting"><LanguageSwitcher /></div>
