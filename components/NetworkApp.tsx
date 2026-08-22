@@ -623,6 +623,7 @@ export default function NetworkApp() {
               phone: s.phone,
               email: s.email,
               photo_url: s.photo_url,
+              avatar_style: s.avatar_style, facebook_url:s.facebook_url, facebook_public:s.facebook_public, instagram_url:s.instagram_url, instagram_public:s.instagram_public, other_social_url:s.other_social_url, other_social_label:s.other_social_label, other_social_public:s.other_social_public,
               generation_level: 5,
               profile_visibility: s.profile_visibility || "member",
               contact_visibility: s.contact_visibility || "admin",

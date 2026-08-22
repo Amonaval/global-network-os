@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { TreePine, Users, GitBranch, ExternalLink } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { trackPublicParticipation } from "../lib/remote";
+import {IdentityAvatar} from "../lib/identity";
 
 type PublicMember = {
   id: string;
@@ -13,6 +14,7 @@ type PublicMember = {
   country: string | null;
   bio: string | null;
   date_of_death: string | null;
+  avatar_style?: "initials" | "leaf" | "sun" | "sparkles" | "heart" | "person";
 };
 
 type NetworkInfo = {
@@ -160,9 +162,7 @@ export default function PublicPage() {
           <div className="results-grid">
             {filtered.map(m => (
               <a className="person-card card public-person-link" key={m.id} href={`/public/member/${m.id}`}>
-                <div className={`avatar ${m.date_of_death ? "grayscale" : ""}`}>
-                  {initials(m.full_name)}
-                </div>
+                <IdentityAvatar member={{full_name:m.full_name,avatar_style:m.avatar_style}} size="md" className={m.date_of_death ? "grayscale" : ""}/>
                 <div style={{ minWidth: 0, flex: 1 }}>
                   <div className="person-name">
                     {m.full_name}

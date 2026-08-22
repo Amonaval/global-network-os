@@ -89,7 +89,7 @@ See `ROADMAP.md`.
 - [x] 100 KB application hard cap for profile and memory uploads.
 - [x] Initials avatar remains default when no image is stored.
 - [ ] 100 MB per-family quota — blocked on multi-family network_id + server-side usage accounting (A1/A5).
-- [ ] Optional public social-profile links / selectable avatar icons (A4).
+- [x] Optional public social-profile links / selectable avatar icons (A4) — implemented in source via migration 022; live verification pending.
 - [ ] Autonomous multi-family Alpha onboarding (A1/A2).
 See `ALPHA-FAMILY-PLATFORM-ROADMAP.md`.
 
@@ -102,7 +102,7 @@ Nothing in the achieved/history sections above is removed. Mission Status is app
 - 100 KB application hard cap for profile and memory uploads.
 - Initials remain default identity treatment.
 - 100 MB per-family server-side quota awaits verified tenant usage accounting.
-- Social-profile links/selectable avatar icons remain queued.
+- Lightweight identity/social links are implemented in source; live verification remains pending.
 
 ## A1 — True Multi-Family Foundation — IMPLEMENTED / VERIFICATION GATE OPEN
 - Added `019_a1_multi_family_foundation.sql`.
@@ -161,4 +161,12 @@ A1 evidence still required before production Alpha: clean `001–020` migration,
 - Fixed admin UI authorization to recognize A1/A2 family owner/admin membership roles, preserving legacy compatibility.
 - Existing advanced governance, diagnostics, imports and analytics were preserved rather than removed.
 - A3 source-complete; live Supabase 001–021 / isolation / role-boundary verification remains a deployment gate.
-- Next roadmap mission after verification/focused fixes: A4 — Lightweight identity & social links.
+- A4 Lightweight Identity & Social Links implemented in source. Next roadmap mission: A5 — 100 MB family storage enforcement.
+
+
+## A4 checkpoint — 2026-08-22
+- Added storage-free avatar choices and privacy-controlled Facebook/Instagram/other links.
+- Social images are never downloaded or cached.
+- Added migration `022_a4_lightweight_identity_social_links.sql`.
+- Public RPCs expose only explicitly public external links.
+- Next: A5 — 100 MB family storage enforcement.

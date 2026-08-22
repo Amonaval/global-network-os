@@ -7,8 +7,9 @@ import {
   Calendar,
   GitBranch,
   ArrowRight,
-  Link2,
+  Link2, ExternalLink,
 } from "lucide-react";
+import {IdentityAvatar,safeExternalUrl} from "../lib/identity";
 import { LifeEvent, Member, Relationship, Memory } from "../lib/types";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
 import { useLanguage } from "../lib/i18n";
@@ -109,22 +110,7 @@ export default function ProfileDrawer({
           </button>
         </div>
         <div className="profile-hero">
-          <div className="avatar lg">
-            {member.photo_url ? (
-              <img
-                src={member.photo_url}
-                alt=""
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
-              />
-            ) : (
-              initials(member.full_name)
-            )}
-          </div>
+          <IdentityAvatar member={member} size="lg" />
           <div>
             <h2 style={{ margin: "0 0 5px", fontSize: 22 }}>
               {member.full_name}
@@ -195,6 +181,11 @@ export default function ProfileDrawer({
             Some profile details are visible only to administrators.
           </div>
         )}
+        {(() => { const links=[
+          {label:"Facebook",url:safeExternalUrl(member.facebook_url),show:visibility!=="public"||member.facebook_public},
+          {label:"Instagram",url:safeExternalUrl(member.instagram_url),show:visibility!=="public"||member.instagram_public},
+          {label:member.other_social_label||"Website",url:safeExternalUrl(member.other_social_url),show:visibility!=="public"||member.other_social_public}
+        ].filter(x=>x.url&&x.show); return links.length?<div className="profile-social-links"><div className="detail-label"><Link2 size={12}/> Social links</div><div className="social-link-chips">{links.map(x=><a key={x.label} href={x.url} target="_blank" rel="noopener noreferrer nofollow" className="social-link-chip">{x.label}<ExternalLink size={12}/></a>)}</div><div className="person-meta">External links are user-provided and are not identity verification.</div></div>:null })()}
         {member.bio && (
           <>
             <h3 style={{ fontSize: 14 }}>{copy.about}</h3>

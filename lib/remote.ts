@@ -205,6 +205,10 @@ export async function createSubmission(s: Submission) {
     p_photo_url: s.photo_url || null,
     p_profile_visibility: s.profile_visibility || "member",
     p_contact_visibility: s.contact_visibility || "admin",
+    p_avatar_style: s.avatar_style || "initials",
+    p_facebook_url: s.facebook_url || null, p_facebook_public: !!s.facebook_public,
+    p_instagram_url: s.instagram_url || null, p_instagram_public: !!s.instagram_public,
+    p_other_social_url: s.other_social_url || null, p_other_social_label: s.other_social_label || null, p_other_social_public: !!s.other_social_public,
   });
   if (error) throw error;
 }
@@ -530,6 +534,10 @@ export async function updateOwnProfileSafeFields(input: Partial<Member>) {
     p_phone: input.phone ?? null,
     p_email: input.email ?? null,
     p_photo_url: input.photo_url ?? null,
+    p_avatar_style: input.avatar_style ?? "initials",
+    p_facebook_url: input.facebook_url ?? null, p_facebook_public: !!input.facebook_public,
+    p_instagram_url: input.instagram_url ?? null, p_instagram_public: !!input.instagram_public,
+    p_other_social_url: input.other_social_url ?? null, p_other_social_label: input.other_social_label ?? null, p_other_social_public: !!input.other_social_public,
   });
   if (error) throw error;
 }

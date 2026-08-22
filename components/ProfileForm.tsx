@@ -11,6 +11,7 @@ import { isSupabaseConfigured } from "../lib/supabase";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
 import { getAuthUser } from "../lib/auth";
 import { getNetworkRepository } from "../lib/repository";
+import {AVATAR_STYLES,avatarLabels,IdentityAvatar,normalizeSocialUrl} from "../lib/identity";
 
 export default function ProfileForm({
   member,
@@ -33,6 +34,14 @@ export default function ProfileForm({
     phone: member?.phone || "",
     email: member?.email || "",
     photo_url: member?.photo_url || "",
+    avatar_style: member?.avatar_style || "initials",
+    facebook_url: member?.facebook_url || "",
+    facebook_public: member?.facebook_public ?? false,
+    instagram_url: member?.instagram_url || "",
+    instagram_public: member?.instagram_public ?? false,
+    other_social_url: member?.other_social_url || "",
+    other_social_label: member?.other_social_label || "Website",
+    other_social_public: member?.other_social_public ?? false,
     profile_visibility: member?.profile_visibility || "member",
     contact_visibility: member?.contact_visibility || "admin",
   });
@@ -46,7 +55,7 @@ export default function ProfileForm({
       .then((u) => setIsOwnProfile(u?.member_id === member.id))
       .catch(() => setIsOwnProfile(false));
   }, [member?.id]);
-  const set = (k: string, v: string) => setForm((x) => ({ ...x, [k]: v }));
+  const set = (k: string, v: string | boolean) => setForm((x) => ({ ...x, [k]: v }));
   const directEnabled =
     !!member && isOwnProfile && cfg.self_edit_mode === "safe_fields_direct";
   const governedChanged =
@@ -71,6 +80,9 @@ export default function ProfileForm({
           });
       }
       const photoForSave = file ? photo : member ? undefined : photo;
+      const facebook_url=normalizeSocialUrl(form.facebook_url,"facebook");
+      const instagram_url=normalizeSocialUrl(form.instagram_url,"instagram");
+      const other_social_url=normalizeSocialUrl(form.other_social_url,"other");
       if (directEnabled && !governedChanged) {
         const updated = await getNetworkRepository().updateOwnProfileSafeFields(
           {
@@ -81,6 +93,11 @@ export default function ProfileForm({
             phone: form.phone,
             email: form.email,
             photo_url: photoForSave,
+            avatar_style: form.avatar_style as any,
+            facebook_url, facebook_public: !!facebook_url && form.facebook_public,
+            instagram_url, instagram_public: !!instagram_url && form.instagram_public,
+            other_social_url, other_social_label: form.other_social_label.trim() || "Website",
+            other_social_public: !!other_social_url && form.other_social_public,
           },
         );
         window.dispatchEvent(
@@ -97,6 +114,7 @@ export default function ProfileForm({
           member_id: member?.id,
           ...form,
           photo_url: photoForSave,
+          facebook_url, instagram_url, other_social_url,
           status: "pending",
           created_at: new Date().toISOString(),
           profile_visibility: form.profile_visibility as ProfileVisibility,
@@ -177,6 +195,17 @@ export default function ProfileForm({
               <div className="person-meta">JPG, PNG or WebP · maximum 100 KB. Small images keep the family fast and storage-light.</div>
               {form.photo_url && !file && <img src={form.photo_url} alt="Current profile" style={{width:72,height:72,borderRadius:"50%",objectFit:"cover",marginTop:5}} />}
             </>) : <div className="person-meta">Photo uploads are disabled by your family administrator. Your initials avatar will be used instead.</div>}
+          </div>
+          <div className="field full identity-editor">
+            <label>Lightweight avatar</label>
+            <div className="avatar-choice-row">{AVATAR_STYLES.map(style=><button type="button" key={style} className={`avatar-choice ${form.avatar_style===style?"selected":""}`} onClick={()=>set("avatar_style",style)} aria-pressed={form.avatar_style===style}><IdentityAvatar member={{full_name:form.full_name||"Family Member",avatar_style:style}} size="sm"/><span>{avatarLabels[style]}</span></button>)}</div>
+            <div className="person-meta">Used whenever no profile photo is available. It consumes no media storage.</div>
+          </div>
+          <div className="field full social-links-editor">
+            <label>Social links <span className="optional-label">optional</span></label>
+            <p className="person-meta">We only store the link. Family Network never downloads or copies your social profile photo.</p>
+            {[{key:"facebook",label:"Facebook",placeholder:"https://facebook.com/your-profile"},{key:"instagram",label:"Instagram",placeholder:"https://instagram.com/your-profile"},{key:"other_social",label:"Other profile / website",placeholder:"https://example.com/your-profile"}].map(x=><div className="social-link-row" key={x.key}><div><span>{x.label}</span>{x.key==="other_social"&&<input className="text-input social-label-input" aria-label="Other link label" value={form.other_social_label} onChange={e=>set("other_social_label",e.target.value)} placeholder="Website"/>}</div><input className="text-input" type="url" inputMode="url" placeholder={x.placeholder} value={(form as any)[`${x.key}_url`]} onChange={e=>set(`${x.key}_url`,e.target.value)}/><label className="social-public-toggle"><input type="checkbox" checked={(form as any)[`${x.key}_public`]} disabled={!String((form as any)[`${x.key}_url`]||"").trim()} onChange={e=>set(`${x.key}_public`,e.target.checked)}/><span>Show on public profile</span></label></div>)}
+            <div className="privacy-note compact">A social link is just a link you chose to share. It is not identity verification or proof that an account belongs to this person.</div>
           </div>
           <div className="field full">
             <label>Bio</label>
