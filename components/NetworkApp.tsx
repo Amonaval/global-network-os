@@ -70,6 +70,8 @@ import TimelineView from "./TimelineView";
 import UpcomingWidget, { UpcomingMilestone } from "./UpcomingWidget";
 import ParticipationCenter from "./ParticipationCenter";
 import FamilyHome from "./FamilyHome";
+import FamilySwitcher from "./FamilySwitcher";
+import { createFamily as createSharedFamily } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
@@ -291,8 +293,6 @@ export default function NetworkApp() {
     ms: Member[] = [],
     rs: Relationship[] = [],
   ) => {
-    if (repository.mode === "shared" && auth?.role !== "admin")
-      throw new Error("Only an administrator can create the shared network.");
     let nextM = ms,
       nextR = rs;
     if (mode === "demo") {
@@ -306,6 +306,8 @@ export default function NetworkApp() {
         "The selected starting data contains integrity errors. Fix the data before creating the network.",
       );
     if (repository.mode === "shared") {
+      const networkId = await createSharedFamily(settings.name, undefined, settings.description || "");
+      settings = {...settings, network_id: networkId, membership_role: "owner"};
       await repository.saveNetworkSettings(settings);
       if (nextM.length) {
         await repository.upsertMembers(nextM);
@@ -313,6 +315,7 @@ export default function NetworkApp() {
       }
       await refresh();
       setNetwork(await repository.fetchNetworkSettings());
+      setAuth(await getAuthUser());
       await repository.logAudit("network_initialized", {
         mode,
         member_count: nextM.length,
@@ -851,12 +854,13 @@ export default function NetworkApp() {
       </div>
     );
   const canAdmin = !isSupabaseConfigured || auth?.role === "admin";
+  const canSetupFamily = !isSupabaseConfigured || !!auth;
   if (setupNeeded)
     return (
       <>
         <SetupScreen
           shared={isSupabaseConfigured}
-          canSetup={canAdmin}
+          canSetup={canSetupFamily}
           onCreate={createNetwork}
         />
         {toast && (
@@ -899,6 +903,7 @@ export default function NetworkApp() {
           </span>
         </div>
         <div className="top-actions">
+          {isSupabaseConfigured && <FamilySwitcher onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>setSetupNeeded(true)} />}
           <LanguageSwitcher compact />
           {isSupabaseConfigured && (
             <span className="person-meta">

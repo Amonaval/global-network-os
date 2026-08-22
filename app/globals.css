@@ -263,3 +263,700 @@ h1,h2,.family-welcome h1,.onboarding-story h1{font-family:"Iowan Old Style","Pal
   .profile-overlay .form-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.profile-overlay .form-actions .btn{margin:0;justify-content:center;white-space:normal;min-height:46px}.profile-overlay .form-actions .btn.primary{grid-column:1/-1}
 }
 @media(max-width:430px){.mobile-bottom-nav button{font-size:10px!important}}
+
+.family-switcher{position:relative}.family-switcher-trigger{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 9px;cursor:pointer;color:inherit}.family-switcher-trigger span{display:flex;flex-direction:column;align-items:flex-start;max-width:150px}.family-switcher-trigger small{font-size:9px;color:var(--muted);text-transform:uppercase}.family-switcher-trigger b{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:145px}.family-switcher-menu{position:absolute;right:0;top:calc(100% + 7px);z-index:80;width:260px;background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:0 14px 40px rgba(23,32,51,.14);padding:7px}.family-switcher-menu button{width:100%;border:0;background:transparent;padding:10px;border-radius:9px;display:flex;align-items:center;justify-content:space-between;text-align:left;cursor:pointer;color:inherit}.family-switcher-menu button:hover,.family-switcher-menu button.active{background:var(--bg)}.family-switcher-menu button span{display:flex;flex-direction:column;font-weight:700}.family-switcher-menu button small{font-weight:400;color:var(--muted);text-transform:capitalize}.family-switcher-menu button>b{font-size:9px;color:var(--brand)}.family-switcher-menu .family-switcher-create{justify-content:flex-start;gap:7px;border-top:1px solid var(--line);margin-top:4px;color:var(--brand);font-weight:700}
+@media(max-width:760px){.top-actions .family-switcher{order:-1}.family-switcher-trigger span{max-width:110px}.family-switcher-trigger b{max-width:105px}.family-switcher-menu{position:fixed;left:12px;right:12px;top:70px;width:auto}}
+
+/* Family Home — polished Release 2 return experience 
+.family-home{display:flex;flex-direction:column;gap:20px}.family-home-hero{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:32px;min-height:250px;padding:38px clamp(24px,4vw,52px);border-radius:26px;color:#fff;background:linear-gradient(120deg,#173f36 0%,#216653 56%,#547f6c 100%);box-shadow:0 20px 48px rgba(33,75,61,.18)}.family-home-hero:after{content:"";position:absolute;width:330px;height:330px;right:-95px;top:-180px;border:1px solid rgba(255,255,255,.15);border-radius:50%;box-shadow:0 0 0 50px rgba(255,255,255,.035),0 0 0 100px rgba(255,255,255,.02)}.family-home-hero-copy{position:relative;z-index:1;max-width:690px}.family-home-eyebrow,.section-kicker{display:inline-flex;align-items:center;gap:7px;text-transform:uppercase;letter-spacing:.11em;font-size:10px;font-weight:800}.family-home-eyebrow{color:#f4cf86}.family-home-hero h1{margin:9px 0 9px;color:#fff;font-size:clamp(32px,4vw,50px);line-height:1.05}.family-home-hero p{max-width:620px;margin:0;color:rgba(255,255,255,.78);font-size:15px;line-height:1.65}.family-home-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.family-home-hero .btn.primary{background:#fffaf0;border-color:#fffaf0;color:var(--brand-strong);box-shadow:none}.family-home-hero .btn.warm{background:#f4cf86;border-color:#f4cf86;color:#654817}.family-home-family{position:relative;z-index:2;min-width:175px;padding:20px;border:1px solid rgba(255,255,255,.16);border-radius:19px;background:rgba(255,255,255,.1);backdrop-filter:blur(9px);color:#fff;text-align:left}.family-home-family strong{display:block;margin-top:13px;font-size:28px}.family-home-family>span{display:block;color:rgba(255,255,255,.7);font-size:11px}.family-home-family small{display:flex;align-items:center;gap:5px;margin-top:11px;color:#fff;font-weight:700}.family-home-faces{display:flex;padding-left:6px}.family-home-face{width:38px;height:38px;margin-left:-7px;border:2px solid rgba(255,255,255,.9);border-radius:50%;display:grid;place-items:center;overflow:hidden;background:linear-gradient(145deg,#f1dcae,#b9d4c3);color:var(--brand-strong);font-size:9px;font-weight:800}.family-home-face img,.mini-avatar img{width:100%;height:100%;object-fit:cover}.family-home-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(340px,.92fr);gap:20px}.family-home-section{padding:24px}.family-home-section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:17px}.family-home-section-head h2{margin:6px 0 4px;font-size:24px}.family-home-section-head p{margin:0;color:var(--muted);font-size:12px}.section-kicker{color:#a45f43}.text-action{display:flex;align-items:center;gap:5px;border:0;background:transparent;color:var(--brand);font-size:11px;font-weight:800;white-space:nowrap;padding:7px}.family-home-empty{width:100%;min-height:106px;border:1px dashed #d8cbb8;border-radius:15px;background:#faf5eb;display:flex;align-items:center;gap:13px;padding:18px;text-align:left;color:var(--text)}.family-home-empty>span{width:43px;height:43px;display:grid;place-items:center;border-radius:13px;background:var(--brand-soft);color:var(--brand);flex:none}.family-home-empty>b{flex:1;font-size:13px;line-height:1.5}.family-home-activity-list,.family-home-days{display:flex;flex-direction:column}.family-home-activity{display:flex;align-items:center;gap:11px;width:100%;border:0;border-top:1px solid var(--line);background:transparent;padding:12px 2px;text-align:left;color:inherit}.family-home-activity:first-child{border-top:0}.mini-avatar{width:39px;height:39px;display:grid;place-items:center;overflow:hidden;border-radius:50%;background:var(--brand-soft);color:var(--brand);font-size:9px;font-weight:800;flex:none}.family-home-activity>span:nth-child(2){display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}.family-home-activity small{color:var(--muted);font-size:10px}.family-home-activity>svg{color:#9a9f99}.family-home-day{display:flex;align-items:center;gap:11px;width:100%;border:0;border-top:1px solid var(--line);background:transparent;padding:9px 0;text-align:left;color:inherit}.family-home-day:first-child{border-top:0}.date-tile{width:46px;height:49px;border-radius:12px;background:#f5eee1;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}.date-tile b{font-size:16px;color:var(--brand-strong)}.date-tile small{text-transform:uppercase;font-size:8px;font-weight:800;color:#a45f43}.day-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:2px}.day-copy b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}.day-copy small{color:var(--muted);font-size:10px}.days-away{min-width:40px;padding:5px 7px;border-radius:999px;background:#f4eee3;color:#6f6658;text-align:center;font-size:9px;font-weight:800}.days-away.today{background:var(--brand-soft);color:var(--brand)}.family-home-no-days{padding:25px 8px;color:var(--muted);font-size:12px}.family-home-contribute{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:17px;padding:23px 25px;border:1px solid #e2d8c6;border-radius:20px;background:linear-gradient(110deg,#fffaf0,#f7f2e8 60%,#edf5ef);box-shadow:var(--shadow-sm)}.contribute-icon{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:var(--brand);color:#fff}.contribute-copy h2{margin:6px 0 4px;font-size:23px}.contribute-copy p{margin:0;color:var(--muted);font-size:12px}.family-home-contribute .btn{white-space:nowrap}
+@media(max-width:980px){.family-home-grid{grid-template-columns:1fr}.family-home-family{min-width:160px}}
+@media(max-width:800px){.family-home{gap:14px}.family-home-hero{min-height:0;padding:25px 20px;border-radius:20px;align-items:flex-start}.family-home-hero h1{font-size:31px}.family-home-hero p{font-size:13px}.family-home-family{display:none}.family-home-actions{margin-top:18px;display:grid;grid-template-columns:1fr 1fr}.family-home-actions .btn{justify-content:center;font-size:11px}.family-home-section{padding:18px;border-radius:17px}.family-home-section-head h2{font-size:21px}.family-home-section-head p{display:none}.family-home-contribute{grid-template-columns:auto 1fr;padding:18px;gap:13px}.family-home-contribute .btn{grid-column:1/-1;justify-content:center}.contribute-copy h2{font-size:20px}.contribute-copy p{font-size:11px}}
+@media(max-width:430px){.family-home-hero h1{font-size:27px}.family-home-actions{grid-template-columns:1fr}.family-home-section-head{margin-bottom:10px}.text-action{font-size:10px}.family-home-contribute{grid-template-columns:1fr}.contribute-icon{display:none}}
+*/
+
+/* =========================================================
+   FAMILY HOME — polished responsive UI
+   Works with the existing/canonical FamilyHome.tsx markup.
+   Keep this AFTER older Family Home rules.
+   ========================================================= */
+
+.family-home {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 8px 0 32px;
+}
+
+/* ---------- Hero ---------- */
+
+.family-home-hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 36px;
+  min-height: 230px;
+  padding: 34px 38px;
+  border: 1px solid #eadfce;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(227, 178, 91, 0.16), transparent 30%),
+    linear-gradient(135deg, #fffdf8 0%, #faf5ea 100%);
+  box-shadow: 0 12px 35px rgba(63, 48, 30, 0.07);
+}
+
+.family-home-hero::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  bottom: -110px;
+  width: 270px;
+  height: 270px;
+  border-radius: 50%;
+  background: rgba(25, 102, 82, 0.045);
+  pointer-events: none;
+}
+
+.family-home-hero > div:first-child {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+}
+
+.family-home .warm-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 9px;
+  color: #a45d37;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.family-home-hero h1 {
+  margin: 0;
+  color: #173f36;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.family-home-hero p {
+  max-width: 640px;
+  margin: 14px 0 0;
+  color: #5f665f;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-top: 24px;
+}
+
+/* Make sure FamilyHome buttons don't fall back to browser-native UI */
+
+.family-home button {
+  font: inherit;
+}
+
+.family-home .btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 17px;
+  border: 1px solid #dcd5c8;
+  border-radius: 13px;
+  background: #fff;
+  color: #25443b;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease;
+}
+
+.family-home .btn:hover {
+  transform: translateY(-1px);
+  border-color: #c9bcaa;
+  box-shadow: 0 7px 18px rgba(47, 58, 48, 0.09);
+}
+
+.family-home .btn:active {
+  transform: translateY(0);
+}
+
+.family-home .btn.primary {
+  border-color: #176650;
+  background: #176650;
+  color: #fff;
+  box-shadow: 0 7px 18px rgba(23, 102, 80, 0.17);
+}
+
+.family-home .btn.primary:hover {
+  border-color: #125541;
+  background: #125b47;
+}
+
+.family-home .btn.warm {
+  border-color: #ecd19b;
+  background: #fff5df;
+  color: #8c5914;
+}
+
+.family-home .btn.warm:hover {
+  background: #ffefd0;
+}
+
+.family-home .btn.small {
+  min-height: 38px;
+  padding: 8px 13px;
+  border-radius: 11px;
+  font-size: 13px;
+}
+
+/* ---------- Family faces ---------- */
+
+.family-home-faces {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 245px;
+  padding-right: 10px;
+}
+
+.family-home-faces button {
+  appearance: none;
+  position: relative;
+  width: 62px;
+  height: 62px;
+  margin-left: -13px;
+  overflow: hidden;
+  border: 4px solid #fffaf1;
+  border-radius: 50%;
+  background: #e6eee9;
+  color: #176650;
+  box-shadow: 0 6px 17px rgba(39, 55, 47, 0.13);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 160ms ease, z-index 160ms ease;
+}
+
+.family-home-faces button:first-child {
+  margin-left: 0;
+}
+
+.family-home-faces button:hover {
+  z-index: 5;
+  transform: translateY(-4px);
+}
+
+.family-home-faces img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Shared cards ---------- */
+
+.family-home .card {
+  box-sizing: border-box;
+  border: 1px solid #e9e2d8;
+  border-radius: 22px;
+  background: #fffefa;
+  box-shadow: 0 8px 25px rgba(54, 45, 32, 0.055);
+}
+
+.family-home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(330px, 0.75fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.home-memories,
+.home-coming {
+  min-width: 0;
+  padding: 25px;
+}
+
+.family-home .section-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 17px;
+}
+
+.family-home .section-title .warm-kicker {
+  margin-bottom: 6px;
+}
+
+.family-home h2 {
+  margin: 0;
+  color: #173f36;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  line-height: 1.2;
+}
+
+/* ---------- Memories ---------- */
+
+.home-empty-memory {
+  appearance: none;
+  display: flex;
+  width: 100%;
+  min-height: 128px;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  padding: 22px;
+  border: 1px dashed #d9c9ae;
+  border-radius: 17px;
+  background: #fdf9f1;
+  color: #6c5b46;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.home-empty-memory svg {
+  flex: 0 0 auto;
+  color: #a45d37;
+}
+
+.home-empty-memory:hover {
+  transform: translateY(-1px);
+  border-color: #c5aa7f;
+  background: #faf2e4;
+}
+
+.home-memory-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.home-memory-tile {
+  appearance: none;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid #e8e0d5;
+  border-radius: 15px;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease;
+}
+
+.home-memory-tile:hover {
+  transform: translateY(-2px);
+  border-color: #d6c7b4;
+  box-shadow: 0 9px 21px rgba(54, 45, 32, 0.09);
+}
+
+.home-memory-tile > img,
+.memory-placeholder {
+  display: flex;
+  width: 100%;
+  height: 108px;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+}
+
+.memory-placeholder {
+  background: linear-gradient(145deg, #f5eadc, #f8f3e9);
+  color: #a45d37;
+}
+
+.home-memory-tile > span {
+  display: block;
+  min-width: 0;
+  padding: 11px 12px 13px;
+}
+
+.home-memory-tile b {
+  display: block;
+  overflow: hidden;
+  color: #253e37;
+  font-size: 13px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-memory-tile small {
+  display: block;
+  margin-top: 4px;
+  color: #88877f;
+  font-size: 11px;
+}
+
+/* ---------- Upcoming special days ---------- */
+
+.home-coming > .warm-kicker {
+  margin-bottom: 7px;
+}
+
+.home-coming > h2 {
+  margin-bottom: 16px;
+}
+
+.home-coming .page-subtitle {
+  margin: 18px 0 4px;
+  color: #7c807b;
+  font-size: 14px;
+}
+
+.home-milestone {
+  appearance: none;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 11px 4px;
+  border: 0;
+  border-bottom: 1px solid #eee8df;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 150ms ease, padding 150ms ease;
+}
+
+.home-milestone:last-child {
+  border-bottom: 0;
+}
+
+.home-milestone:hover {
+  padding-right: 8px;
+  padding-left: 8px;
+  border-radius: 11px;
+  background: #faf6ef;
+}
+
+.milestone-icon {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: #f8ead8;
+  color: #a45d37;
+}
+
+.home-milestone > span:nth-child(2) {
+  min-width: 0;
+}
+
+.home-milestone b {
+  display: block;
+  overflow: hidden;
+  color: #243f37;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-milestone small {
+  display: block;
+  margin-top: 3px;
+  color: #7e817c;
+  font-size: 12px;
+}
+
+.home-milestone em {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: #f2f6f3;
+  color: #176650;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* ---------- Contribution ---------- */
+
+.home-contribution {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 17px;
+  padding: 22px 25px;
+  background:
+    radial-gradient(circle at 0 50%, rgba(23, 102, 80, 0.07), transparent 24%),
+    #fffefa !important;
+}
+
+.contribution-spark {
+  display: flex;
+  width: 50px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: #eaf2ed;
+  color: #176650;
+}
+
+.contribution-spark svg {
+  width: 23px;
+  height: 23px;
+}
+
+.home-contribution .warm-kicker {
+  margin-bottom: 5px;
+}
+
+.home-contribution h2 {
+  font-size: 22px;
+}
+
+.home-contribution p {
+  margin: 6px 0 0;
+  color: #6c716c;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.home-contribution > .btn {
+  white-space: nowrap;
+}
+
+/* ---------- Keyboard accessibility ---------- */
+
+.family-home button:focus-visible {
+  outline: 3px solid rgba(23, 102, 80, 0.22);
+  outline-offset: 2px;
+}
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 1050px) {
+  .family-home-hero {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    min-height: auto;
+    padding: 30px;
+  }
+
+  .family-home-faces {
+    justify-content: flex-start;
+    min-width: 0;
+    padding-left: 10px;
+  }
+
+  .family-home-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-memory-strip {
+    grid-template-columns: repeat(4, minmax(130px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 700px) {
+  .family-home {
+    gap: 14px;
+    padding: 2px 0 24px;
+  }
+
+  .family-home-hero {
+    gap: 21px;
+    padding: 23px 19px;
+    border-radius: 20px;
+  }
+
+  .family-home-hero h1 {
+    font-size: 34px;
+  }
+
+  .family-home-hero p {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .welcome-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 19px;
+  }
+
+  .welcome-actions .btn {
+    width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .family-home-faces {
+    overflow: hidden;
+    padding-left: 5px;
+  }
+
+  .family-home-faces button {
+    width: 51px;
+    height: 51px;
+    margin-left: -9px;
+    border-width: 3px;
+    font-size: 13px;
+  }
+
+  .family-home-grid {
+    gap: 14px;
+  }
+
+  .home-memories,
+  .home-coming {
+    padding: 19px;
+  }
+
+  .family-home .card {
+    border-radius: 18px;
+  }
+
+  .family-home h2 {
+    font-size: 22px;
+  }
+
+  .family-home .section-title {
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .home-memory-strip {
+    grid-template-columns: repeat(4, 155px);
+    margin-right: -19px;
+    padding-right: 19px;
+    scroll-snap-type: x proximity;
+  }
+
+  .home-memory-tile {
+    scroll-snap-align: start;
+  }
+
+  .home-memory-tile > img,
+  .memory-placeholder {
+    height: 102px;
+  }
+
+  .home-empty-memory {
+    min-height: 110px;
+    justify-content: flex-start;
+    padding: 18px;
+  }
+
+  .home-milestone {
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+  }
+
+  .home-contribution {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 13px;
+    padding: 19px;
+  }
+
+  .contribution-spark {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+  }
+
+  .home-contribution > .btn {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-top: 2px;
+  }
+}
+
+/* ---------- Small phones ---------- */
+
+@media (max-width: 430px) {
+  .family-home-hero {
+    padding: 21px 16px;
+  }
+
+  .family-home-hero h1 {
+    font-size: 30px;
+  }
+
+  .welcome-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .family-home-faces button:nth-child(n + 6) {
+    display: none;
+  }
+
+  .home-memories,
+  .home-coming {
+    padding: 17px 15px;
+  }
+
+  .family-home .section-title {
+    gap: 8px;
+  }
+
+  .family-home .section-title .btn.small {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .home-memory-strip {
+    grid-template-columns: repeat(4, 145px);
+    margin-right: -15px;
+    padding-right: 15px;
+  }
+
+  .home-milestone {
+    gap: 9px;
+  }
+
+  .home-milestone em {
+    padding: 4px 6px;
+  }
+
+  .home-contribution {
+    padding: 17px 15px;
+  }
+}

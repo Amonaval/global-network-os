@@ -121,3 +121,36 @@ A1 exit tests: Family A -> Family B denied; Family B -> Family A denied; guessed
 
 ## Preserved future mission queue
 P5.3 Modular Domain Architecture, P5.4 Commercial Validation, mature P6 Multi-Network SaaS, P7 Family/Alumni/Organization/Ownership products, P8 Relationship Intelligence and P9 Platform/Ecosystem remain preserved exactly as roadmap intent. They are gated, not removed.
+
+
+## 2026-08-22 — A1/A2 continuation from canonical family-network.zip
+
+### A1 — True multi-family tenancy
+**SOURCE AUDIT: PASS WITH LIVE VERIFICATION GATE STILL REQUIRED.**
+The canonical baseline already contains migration `019` and active-family membership semantics. The continuation audit confirmed the intended tenant columns/RLS foundation and preserved the explicit requirement that staging must prove REST/RPC/storage isolation. This package does **not** falsely mark the live gate VERIFIED because no connected Supabase staging instance/credentials were supplied in-session.
+
+A1 evidence still required before production Alpha: clean `001–020` migration, existing-instance upgrade, A↔B adversarial REST/RPC/storage tests, and Release 1/2/2A regression on staging.
+
+### A2 — Autonomous Create / Join / Invite / Claim
+**IMPLEMENTED IN SOURCE / STAGING VERIFICATION REQUIRED.**
+- `020_a2_autonomous_family_onboarding.sql`: authenticated self-service family creation; unique slug generation; creator becomes Owner; family-scoped claim identity; tenant-safe invite preview/accept/revoke/resend/list; active-family switching.
+- Existing `profiles.member_id` is retained as an active-family compatibility pointer while `network_memberships.member_id` stores the claim per family.
+- Existing invitation links now join the invitation's family and claim only the intended profile.
+- Family switcher added for accounts belonging to multiple families.
+- Existing signed-in users with no family can create one without platform-owner/Supabase intervention.
+- Create-another-family is available from the switcher and returns to the same guided family setup.
+
+## 2026-08-22 — A2 UX/documentation continuation
+
+### Family Home — Release 2 UX repair
+**IMPLEMENTED IN SOURCE / USER DEVICE VERIFICATION RECOMMENDED.**
+- Restored the missing `FamilyHome` source component referenced by `NetworkApp`.
+- Replaced the broken/native-control-looking Home layout with a responsive family-first dashboard: welcome hero, memory/activity area, 30-day special days, family count/avatars and one contribution prompt.
+- Uses the existing warm Family Release 1 visual system and responsive breakpoints; no older feature or navigation flow was removed.
+- Build/device verification remains a user-run gate when dependencies/staging are available.
+
+### User Guide coverage checkpoint
+- `Family-Network-Complete-User-Admin-Guide` is updated through **Family Release 2 + Release 2A + A1/A2 source implementation**.
+- A1 is documented as **implemented but not VERIFIED** until live Supabase tenant-isolation/regression evidence exists.
+- A2 Create / Join / Invite / Claim / family switching is documented as **implemented in source; staging verification required**.
+- Next guide refresh is needed after **A3–A5** (or earlier only if a user-visible flow changes materially). This keeps documentation useful without spending a session on minor internal changes.

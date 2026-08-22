@@ -34,7 +34,7 @@ const mapLifeEvent = (r: any): LifeEvent => ({
   visibility: r.visibility || "member",
 });
 
-export type NetworkMembership = { network_id:string; name:string; slug:string; role:"owner"|"admin"|"member"; status:string; storage_limit_bytes:number; photo_upload_enabled:boolean; photo_max_bytes:number; is_active:boolean };
+export type NetworkMembership = { network_id:string; name:string; slug:string; role:"owner"|"admin"|"member"; status:string; storage_limit_bytes:number; photo_upload_enabled:boolean; photo_max_bytes:number; is_active:boolean; member_id?:string|null };
 
 export async function fetchMyNetworks(): Promise<NetworkMembership[]> {
   if (!supabase) return [];
@@ -47,6 +47,7 @@ export async function setActiveNetwork(networkId:string){
   const {error}=await supabase.rpc("set_active_network",{p_network_id:networkId});
   if(error) throw error;
 }
+export async function createFamily(name:string,slug?:string,description=""){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("create_family",{p_name:name,p_slug:slug||null,p_description:description});if(error)throw error;return data as string;}
 export async function fetchNetworkSettings(): Promise<NetworkSettings | null> {
   if (!supabase) return null;
   const { data, error } = await supabase

@@ -18,3 +18,11 @@ Family-first, mobile-first, multilingual, novice/older-user friendly. One applic
 7. Then implement Priority 2/A2 autonomous Create Family / Join / Invite / Claim and family switching.
 
 Do not jump to generic platformization, billing or enterprise work. Do not delete those missions either; preserve them behind their roadmap gates.
+
+## 2026-08-22 continuation
+This canonical package now also contains A2 source implementation in migration `020`, family switching, self-service family creation, and family-scoped invitation/claim handling. Read `A2-AUTONOMOUS-ONBOARDING.md` after the four documents above. A1 is source-audited but must not be called VERIFIED/production-closed until the documented live Supabase isolation/regression gate passes. Next work is staging verification of 001–020 and A2 edge-case closure, then A3 — not reconstruction from any older ZIP.
+
+## 2026-08-22 Home UX + documentation checkpoint
+The canonical baseline also restores the missing `components/FamilyHome.tsx` and adds dedicated responsive Home styling. Do not remove or reconstruct this from older ZIPs. The user will run build/Supabase checks; implementation sessions should preserve existing behavior and add roadmap features with focused source-level correctness checks. Reserve broad/high-effort regression audits for milestone gates.
+
+User guide cadence: the Complete User & Administrator Guide is current through Release 2/2A and A1/A2 source implementation. Refresh it after roughly 3–5 implementation sessions (next natural checkpoint: A3–A5), unless a major user-visible journey changes sooner.
