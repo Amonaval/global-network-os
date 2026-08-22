@@ -280,3 +280,23 @@ Also retain deliberately postponed possibilities: premature universal schema rew
 
 ## Permanent roadmap preservation rule
 Prioritization may reorder, gate, supersede or defer an accepted idea. It must never silently delete a valuable previously accepted capability. Use NOW / NEXT / FUTURE QUEUE / FAR FUTURE QUEUE and explicit milestone gates.
+
+## 2026-08-22 A6 completion addendum
+A6 — Release 2 Completion: Remember, Connect, Celebrate is **implemented in source / verification pending**. On This Day, birthday/anniversary sharing, privacy-safe memory cards, gathering attendee/story follow-up, printable reunion directory, quiet digests and explicit contribution-success feedback are now in the canonical source. See `A6-REMEMBER-CONNECT-CELEBRATE.md` and migration `024`. Next: A7 Alpha operations (20 → 50 families), after A6 staging/real-device verification.
+
+## 2026-08-22 execution-size rule — bundle meaningful product work
+From A7 onward, avoid spending a mission/release on one minor enhancement. Default to **2–4 related user-visible features in one implementation bundle**, chosen by complexity and shared code/data paths. A single-feature mission is reserved for high-risk foundations, migrations, security/privacy boundaries, or work large enough to stand alone.
+
+### A7 — Alpha Launch & Family Delight Bundle (NEXT; 4 coordinated workstreams)
+1. **Alpha onboarding polish & activation** — tighten the first-10-minute journey, contextual empty states, sample/template guidance, and invite-three-relatives activation cues.
+2. **Family health & duplicate safety** — likely-person duplicate prompts, incomplete relationship/profile guidance, and clearer family-health actions without technical/admin jargon.
+3. **Continuity, recovery & reversible mistakes** — practical ownership continuity/transfer polish, safer import/relationship recovery/history, and family export/backup usability.
+4. **20-family pilot readiness** — friendly diagnostics, privacy/isolation regression checklist, performance/mobile pass, deployment verification and lightweight feedback capture needed to operate the first 20 real families.
+
+**A7 exit gate:** a novice Owner can create/import a family, invite relatives, understand what needs improvement, recover from common mistakes, manage continuity/export, and run the family without Supabase/Vercel/SQL assistance; the product is ready for a measured 20-family pilot.
+
+### A8 — Engagement & Sharing Bundle (after evidence from first pilot families)
+Bundle 2–4 of the highest-value improvements revealed by A7/real-family usage, prioritizing family return loops, WhatsApp-quality sharing, reunion/celebration workflows, contribution participation and older-user/mobile usability. Do not pre-commit minor UI polish that pilot evidence may invalidate.
+
+### A9 — 20 → 50 Family Scale Bundle
+Combine operational hardening, highest-frequency pilot fixes, privacy/performance evidence and only the minimum product/admin capabilities required to move safely from 20 to 50 families. Commercial/Beta work remains gated behind evidence rather than displacing family-product quality.

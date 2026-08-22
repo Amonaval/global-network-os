@@ -442,7 +442,9 @@ export async function fetchMemories(memberId?: string): Promise<Memory[]> {
   const q = supabase.rpc("get_memories", { p_member_id: memberId || null });
   const { data, error } = await q;
   if (error) throw error;
-  return resolveSignedUrls((data || []) as Memory[], "community-media");
+  const rows=await resolveSignedUrls((data || []) as Memory[], "community-media");
+  if(rows.length){const links=await supabase.rpc("get_memory_people",{p_memory_ids:rows.map(x=>x.id)});if(!links.error){const by=new Map<string,string[]>();for(const x of links.data||[]){by.set(x.memory_id,[...(by.get(x.memory_id)||[]),x.member_id])}for(const row of rows)row.related_member_ids=by.get(row.id)||[];}}
+  return rows;
 }
 export async function createMemory(
   input: Omit<Memory, "id" | "created_at" | "created_by">,
@@ -541,3 +543,19 @@ export async function updateOwnProfileSafeFields(input: Partial<Member>) {
   });
   if (error) throw error;
 }
+
+export async function fetchNotificationPreferences(){
+  if(!supabase)return {digest:"weekly",special_days:true,memories:false,gatherings:true};
+  const {data,error}=await supabase.rpc("get_my_notification_preferences");
+  if(error)throw error; return data as {digest:"off"|"weekly"|"monthly";special_days:boolean;memories:boolean;gatherings:boolean};
+}
+export async function saveNotificationPreferences(input:{digest:"off"|"weekly"|"monthly";special_days:boolean;memories:boolean;gatherings:boolean}){
+  if(!supabase)return;
+  const {error}=await supabase.rpc("save_my_notification_preferences",{p_digest:input.digest,p_special_days:input.special_days,p_memories:input.memories,p_gatherings:input.gatherings});
+  if(error)throw error;
+}
+export async function fetchCommunityEventAttendees(eventId:string){
+  if(!supabase)return [] as {member_id?:string;full_name:string;response:string;guest_count:number}[];
+  const {data,error}=await supabase.rpc("get_community_event_attendees",{p_event_id:eventId}); if(error)throw error; return (data||[]) as {member_id?:string;full_name:string;response:string;guest_count:number}[];
+}
+export async function linkMemoryToEvent(memoryId:string,eventId:string){if(!supabase)return;const {error}=await supabase.rpc("link_memory_to_event",{p_memory_id:memoryId,p_event_id:eventId});if(error)throw error;}

@@ -172,3 +172,21 @@ A1 evidence still required before production Alpha: clean `001–020` migration,
 - Added migration `022_a4_lightweight_identity_social_links.sql`.
 - Public RPCs expose only explicitly public external links.
 - Next: A6 — Release 2 completion: Remember, Connect, Celebrate.
+
+## 2026-08-22 — A6 Release 2 Completion — IMPLEMENTED / VERIFY
+- On This Day family-history return loop implemented.
+- Birthday + anniversary celebration/share cards implemented.
+- Privacy-safe memory sharing and multi-relative memory attribution implemented.
+- Gathering attendee list + post-event story linkage implemented.
+- Printable privacy-safe reunion directory implemented.
+- Quiet digest/preferences implemented.
+- Guided contribution completion now gives visible positive feedback.
+- Added migration `024_a6_remember_connect_celebrate.sql`; live Supabase and real-device verification remain pending.
+- **Next roadmap mission: A7 — Alpha operations: 20 → 50 families.**
+
+## 2026-08-22 — A6 verification hotfix
+- Fixed Family Settings failure `column i.status does not exist` in migration `025_fix_family_admin_invitation_status.sql`.
+- Root cause: `member_invitations` uses derived lifecycle status, not a physical `status` column.
+- Admin summary now uses `public.invitation_status(used_at,revoked_at,expires_at)='active'`.
+- A6 remains **IMPLEMENTED / VERIFY** until migrations through 025 and the visible A6 flows are exercised on staging/deployed Supabase.
+- Execution policy updated: future work should normally ship as **2–4 coherent features per mission/bundle**, scaled down only for genuinely high-risk or foundational changes.

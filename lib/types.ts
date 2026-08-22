@@ -97,9 +97,18 @@ export type Memory = {
   title: string;
   story?: string;
   photo_url?: string;
+  related_member_ids?: string[];
+  event_id?: string;
   visibility: ProfileVisibility;
   created_by?: string;
   created_at: string;
+};
+
+export type NotificationPreference = {
+  digest: "off" | "weekly" | "monthly";
+  special_days: boolean;
+  memories: boolean;
+  gatherings: boolean;
 };
 
 export type Notification = {
