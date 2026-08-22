@@ -6,7 +6,7 @@ import {
   ProfileVisibility,
   ContactVisibility,
 } from "../lib/types";
-import { uploadProfilePhoto } from "../lib/storage";
+import { uploadProfilePhoto,removeStoredMedia } from "../lib/storage";
 import { isSupabaseConfigured } from "../lib/supabase";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
 import { getAuthUser } from "../lib/auth";
@@ -67,10 +67,11 @@ export default function ProfileForm({
     e.preventDefault();
     setBusy(true);
     setError("");
+    let newlyUploaded: string | null = null;
     try {
       let photo = form.photo_url;
       if (file) {
-        if (isSupabaseConfigured) photo = await uploadProfilePhoto(file);
+        if (isSupabaseConfigured) { photo = await uploadProfilePhoto(file); newlyUploaded = photo; }
         else
           photo = await new Promise<string>((resolve, reject) => {
             const r = new FileReader();
@@ -105,6 +106,9 @@ export default function ProfileForm({
             detail: updated,
           }),
         );
+        if (newlyUploaded && member?.photo_url && member.photo_url !== newlyUploaded) {
+          removeStoredMedia(member.photo_url,"profile-photos").catch(()=>{});
+        }
       } else
         await onSubmit({
           id:
@@ -122,6 +126,7 @@ export default function ProfileForm({
         });
       onClose();
     } catch (x: any) {
+      if (newlyUploaded) removeStoredMedia(newlyUploaded,"profile-photos").catch(()=>{});
       setError(x.message || "Could not save the profile.");
     } finally {
       setBusy(false);
