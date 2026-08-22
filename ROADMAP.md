@@ -300,3 +300,9 @@ Bundle 2–4 of the highest-value improvements revealed by A7/real-family usage,
 
 ### A9 — 20 → 50 Family Scale Bundle
 Combine operational hardening, highest-frequency pilot fixes, privacy/performance evidence and only the minimum product/admin capabilities required to move safely from 20 to 50 families. Commercial/Beta work remains gated behind evidence rather than displacing family-product quality.
+
+## 2026-08-22 A7 implementation checkpoint
+A7 Alpha Launch & Family Delight Bundle is **implemented in source / verification pending**: activation checklist, visible family-health/duplicate safety, continuity/backup guidance, and 20-family Owner operational readiness are combined in one Admin Center experience. Next: validate A6/A7 together, then execute A8 as another 2–4 feature engagement bundle informed by family usage.
+
+## 2026-08-22 A8 + A9 combined implementation checkpoint
+A8 Engagement & Sharing and A9 20→50 Family Scale are **combined and implemented in source / verification pending**. The product now exposes Family Pulse return loops, deliberate WhatsApp/native family sharing, and an Owner-facing Pilot Readiness gate covering continuity, storage, approvals, data health and activation. No new migration beyond 025 is required. The next milestone is not another small feature batch: validate A6→A9 end-to-end and begin real-family Alpha onboarding; subsequent product work should be driven by observed pilot friction and engagement.

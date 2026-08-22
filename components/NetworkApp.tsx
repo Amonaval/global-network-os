@@ -1341,7 +1341,7 @@ export default function NetworkApp() {
                   </p>
                 </div>
               </div>
-              {network && <FamilyAdminCenter network={network} memberCount={members.length} relationshipCount={relationships.length} changeRequests={changeRequests} onSaveSettings={updateLivingSetting} onOpenInvitations={()=>setShowInvitation(true)} onOpenParticipation={()=>setView("participation")} onExportCsv={exportCsv} onExportJson={exportJson} onPrint={()=>window.print()} onNotify={notify}/>}
+              {network && <FamilyAdminCenter network={network} members={members} relationships={relationships} memberCount={members.length} relationshipCount={relationships.length} changeRequests={changeRequests} onSaveSettings={updateLivingSetting} onOpenInvitations={()=>setShowInvitation(true)} onOpenParticipation={()=>setView("participation")} onExportCsv={exportCsv} onExportJson={exportJson} onPrint={()=>window.print()} onNotify={notify}/>}
               <details className="legacy-admin-details"><summary>Advanced administration & diagnostics</summary>
               <div className="admin-grid">
                 <div className="card stat">

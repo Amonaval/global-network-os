@@ -190,3 +190,19 @@ A1 evidence still required before production Alpha: clean `001–020` migration,
 - Admin summary now uses `public.invitation_status(used_at,revoked_at,expires_at)='active'`.
 - A6 remains **IMPLEMENTED / VERIFY** until migrations through 025 and the visible A6 flows are exercised on staging/deployed Supabase.
 - Execution policy updated: future work should normally ship as **2–4 coherent features per mission/bundle**, scaled down only for genuinely high-risk or foundational changes.
+
+## 2026-08-22 — A7 Alpha Launch & Family Delight Bundle — IMPLEMENTED / VERIFY
+- First-10-minute Alpha activation checklist added.
+- Family health score, duplicate candidate warning, incomplete-profile and unconnected-person guidance added.
+- Ownership continuity warning added when a family has fewer than two admins; backup/export made part of recovery guidance.
+- 20-family Owner operations consolidated in the Admin Center without SQL/Supabase dependency.
+- Duplicate detection is intentionally advisory; A7 never auto-merges people.
+- Next work should remain bundled: A8 Engagement & Sharing Bundle after A7 validation/pilot evidence.
+
+## 2026-08-22 — A8 + A9 Engagement & 20→50 Family Scale Bundle — IMPLEMENTED / VERIFY
+- Combined A8 and A9 intentionally: engagement and Alpha scaling are one product outcome and required no risky schema boundary.
+- Added Family Pulse return-loop signals on Home.
+- Added warm WhatsApp/native family sharing while preserving public-safe sharing rules.
+- Added Family Admin Center Pilot Readiness with continuity, storage, approvals, health and activation gates.
+- No migration after 025 is required for this bundle.
+- Next gate: verify A6→A9 together on deployed Supabase/Vercel and real mobile devices, then start real-family Alpha onboarding rather than inventing more pre-pilot polish.
