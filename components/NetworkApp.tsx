@@ -71,6 +71,7 @@ import UpcomingWidget, { UpcomingMilestone } from "./UpcomingWidget";
 import ParticipationCenter from "./ParticipationCenter";
 import FamilyHome from "./FamilyHome";
 import FamilySwitcher from "./FamilySwitcher";
+import FamilyAdminCenter from "./FamilyAdminCenter";
 import { createFamily as createSharedFamily } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -159,7 +160,7 @@ export default function NetworkApp() {
         setRelationships(s.relationships);
         setSubmissions(s.submissions);
       }
-      if (u?.role === "admin") {
+      if (u?.role === "admin" || n?.membership_role === "owner" || n?.membership_role === "admin") {
         const g = await repository.fetchGovernance();
         setChangeRequests(g.changeRequests);
         setAuditLog(g.auditLog);
@@ -853,7 +854,7 @@ export default function NetworkApp() {
         )}
       </div>
     );
-  const canAdmin = !isSupabaseConfigured || auth?.role === "admin";
+  const canAdmin = !isSupabaseConfigured || network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.role === "admin";
   const canSetupFamily = !isSupabaseConfigured || !!auth;
   if (setupNeeded)
     return (
@@ -1339,6 +1340,8 @@ export default function NetworkApp() {
                   </p>
                 </div>
               </div>
+              {network && <FamilyAdminCenter network={network} memberCount={members.length} relationshipCount={relationships.length} changeRequests={changeRequests} onSaveSettings={updateLivingSetting} onOpenInvitations={()=>setShowInvitation(true)} onOpenParticipation={()=>setView("participation")} onExportCsv={exportCsv} onExportJson={exportJson} onPrint={()=>window.print()} onNotify={notify}/>}
+              <details className="legacy-admin-details"><summary>Advanced administration & diagnostics</summary>
               <div className="admin-grid">
                 <div className="card stat">
                   <div className="stat-label">Members</div>
@@ -1669,6 +1672,7 @@ export default function NetworkApp() {
                   </div>
                 ))}
               </div>
+              </details>
             </section>
           )}
         </main>
@@ -1718,7 +1722,7 @@ export default function NetworkApp() {
           network={network}
           canViewPrivateContact={
             !isSupabaseConfigured ||
-            auth?.role === "admin" ||
+            canAdmin ||
             selected.id === auth?.member_id
           }
           onClose={() => setSelected(null)}

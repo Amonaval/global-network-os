@@ -42,6 +42,11 @@ export async function fetchMyNetworks(): Promise<NetworkMembership[]> {
   if(error) throw error;
   return (data||[]) as NetworkMembership[];
 }
+export type FamilyAdminSummary={member_profiles:number;claimed_profiles:number;active_invitations:number;admin_count:number;media_usage_bytes:number;storage_limit_bytes:number;photo_max_bytes:number};
+export type FamilyMembershipRow={user_id:string;role:"owner"|"admin"|"member";status:string;member_id?:string|null;display_name?:string|null;email?:string|null;member_name?:string|null};
+export async function fetchFamilyAdminSummary():Promise<FamilyAdminSummary|null>{if(!supabase)return null;const {data,error}=await supabase.rpc("get_family_admin_summary");if(error)throw error;return (data||[])[0]||null;}
+export async function fetchFamilyMemberships():Promise<FamilyMembershipRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_family_memberships");if(error)throw error;return (data||[]) as FamilyMembershipRow[];}
+export async function setFamilyMemberRole(userId:string,role:"admin"|"member"){if(!supabase)return;const {error}=await supabase.rpc("set_family_member_role",{p_user_id:userId,p_role:role});if(error)throw error;}
 export async function setActiveNetwork(networkId:string){
   if(!supabase) return;
   const {error}=await supabase.rpc("set_active_network",{p_network_id:networkId});

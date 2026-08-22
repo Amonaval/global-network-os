@@ -154,3 +154,11 @@ A1 evidence still required before production Alpha: clean `001–020` migration,
 - A1 is documented as **implemented but not VERIFIED** until live Supabase tenant-isolation/regression evidence exists.
 - A2 Create / Join / Invite / Claim / family switching is documented as **implemented in source; staging verification required**.
 - Next guide refresh is needed after **A3–A5** (or earlier only if a user-visible flow changes materially). This keeps documentation useful without spending a session on minor internal changes.
+
+## 2026-08-22 — A3 Family Admin Center implemented in source
+- Added one family-first Admin Center: Overview, Members & roles, Approvals, Privacy, Storage, Family Settings, Export/Backup.
+- Added family-scoped role management and admin summary RPCs in migration 021.
+- Fixed admin UI authorization to recognize A1/A2 family owner/admin membership roles, preserving legacy compatibility.
+- Existing advanced governance, diagnostics, imports and analytics were preserved rather than removed.
+- A3 source-complete; live Supabase 001–021 / isolation / role-boundary verification remains a deployment gate.
+- Next roadmap mission after verification/focused fixes: A4 — Lightweight identity & social links.

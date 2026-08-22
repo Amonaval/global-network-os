@@ -26,3 +26,6 @@ This canonical package now also contains A2 source implementation in migration `
 The canonical baseline also restores the missing `components/FamilyHome.tsx` and adds dedicated responsive Home styling. Do not remove or reconstruct this from older ZIPs. The user will run build/Supabase checks; implementation sessions should preserve existing behavior and add roadmap features with focused source-level correctness checks. Reserve broad/high-effort regression audits for milestone gates.
 
 User guide cadence: the Complete User & Administrator Guide is current through Release 2/2A and A1/A2 source implementation. Refresh it after roughly 3–5 implementation sessions (next natural checkpoint: A3–A5), unless a major user-visible journey changes sooner.
+
+## 2026-08-22 A3 continuation
+A3 Family Admin Center is now implemented in source with migration `021_a3_family_admin_center.sql`; read `A3-FAMILY-ADMIN-CENTER.md`. Preserve the older advanced admin/governance tools behind the new family-first center. Live Supabase verification remains user-run. Next product mission is A4 — Lightweight identity & social links unless a focused A3 defect is reported.
