@@ -206,3 +206,47 @@ A1 evidence still required before production Alpha: clean `001–020` migration,
 - Added Family Admin Center Pilot Readiness with continuity, storage, approvals, health and activation gates.
 - No migration after 025 is required for this bundle.
 - Next gate: verify A6→A9 together on deployed Supabase/Vercel and real mobile devices, then start real-family Alpha onboarding rather than inventing more pre-pilot polish.
+
+## 2026-08-22 — A1–A9 completeness re-audit (supersedes optimistic completion labels)
+The canonical source and original/binding roadmap were compared again. Earlier `IMPLEMENTED / VERIFY` checkpoints remain historical implementation records, but they are **not full-completion claims**.
+
+- A1: **SOURCE COMPLETE / VERIFY** — A1.1–A1.3 evidence open.
+- A2: **SOURCE COMPLETE / VERIFY** — A2.1–A2.3 UX/safety follow-ups preserved.
+- A3: **PARTIAL** — A3.1–A3.4 open.
+- A4: **SOURCE COMPLETE / VERIFY** — A4.1 accessibility follow-up preserved.
+- A5: **PARTIAL** — A5.1–A5.3 open.
+- A6: **PARTIAL** — A6.1–A6.5 open.
+- A7: **PARTIAL** — A7.1–A7.6 open.
+- A8: **PARTIAL** — A8.1–A8.5 open.
+- A9: **PART 1 ONLY / NOT COMPLETE** — A9.1–A9.7 open; the current per-family readiness score is not the 20→50-family operations mission.
+
+See `A1-A9-COMPLETENESS-AUDIT.md` for the exact missing scope and the C1/C2/C3 bundled completion plan. This correction exists specifically to prevent accepted roadmap requirements from being silently lost or falsely marked complete.
+
+## 2026-08-22 — B0-A Product Simplification Foundation — IMPLEMENTED / VERIFY
+
+B0 now supersedes feature expansion as the immediate product priority. It does **not** supersede or erase any A1–A9 follow-up.
+
+### Delivered
+- Canonical feature/capability registry in `lib/features.ts`.
+- Shared-family member experience levels: **Simple / Connected / Explorer**.
+- Family administration separated into a role-gated **Manage family** surface instead of being mixed into member navigation.
+- Default shared-family member experience is Simple: **Home · Family · Me** as the primary journey.
+- Connected progressively adds Memories; Explorer adds search/history/places/help-family areas when founder rollout allows them.
+- Platform-owner authority separated from family Owner/Admin via migration `026_b0a_progressive_experience_founder_flags.sql`.
+- Founder rollout lifecycle implemented in backend: **Hidden → Test → Pilot → Released**.
+- Strict effective visibility rule: founder rollout AND experience level AND role/permission.
+- Existing advanced features seeded as `test`, allowing the platform owner to validate them while keeping ordinary member experience calm.
+- Family-first terminology replaces implementation language in primary navigation.
+- `B0-HISTORICAL-CAPABILITY-LEDGER.md` preserves pre-A1 through A9 capability history, partial work and deferred roadmap items.
+
+### Verification still required
+- Apply migrations through 026 on Supabase.
+- Confirm the intended founder account is the single initial `platform_owners` row.
+- Validate normal member vs family admin vs platform owner navigation and RPC boundaries.
+- Production TypeScript/Next build in an environment with dependencies installed.
+- Real-device visual/usability acceptance remains B0-C, not B0-A.
+
+### Next
+**B0-B — Progressive Launch System**: Founder Launch Console, bundle/individual controls, Pilot-family targeting UI, future family-admin member controls, What's New/discovery state.
+
+Then **B0-C — Human-Friendly Family Experience**: invitation/claim simplification, radical first visit, older/non-technical user UX, mobile accessibility, slow-network/error/empty-state pass.

@@ -306,3 +306,71 @@ A7 Alpha Launch & Family Delight Bundle is **implemented in source / verificatio
 
 ## 2026-08-22 A8 + A9 combined implementation checkpoint
 A8 Engagement & Sharing and A9 20→50 Family Scale are **combined and implemented in source / verification pending**. The product now exposes Family Pulse return loops, deliberate WhatsApp/native family sharing, and an Owner-facing Pilot Readiness gate covering continuity, storage, approvals, data health and activation. No new migration beyond 025 is required. The next milestone is not another small feature batch: validate A6→A9 end-to-end and begin real-family Alpha onboarding; subsequent product work should be driven by observed pilot friction and engagement.
+
+## 2026-08-22 A1–A9 completeness correction — binding
+A source checkpoint is not equivalent to full mission completion. `A1-A9-COMPLETENESS-AUDIT.md` is the current completeness ledger. Earlier checkpoint text remains as history but must be interpreted through this correction.
+
+- **A1:** source complete / tenant-isolation + regression verification open (`A1.1–A1.3`).
+- **A2:** source complete / onboarding recovery, Demo clarity and duplicate-family prevention follow-ups (`A2.1–A2.3`).
+- **A3:** partial — Owner transfer, real privacy preview, friendly diagnostics and leave-vs-history semantics remain (`A3.1–A3.4`).
+- **A4:** source complete / verify; accessibility follow-up preserved (`A4.1`).
+- **A5:** partial — thumbnail/lightweight rendering, orphan maintenance and live quota/isolation evidence remain (`A5.1–A5.3`).
+- **A6:** partial — remembrance, rich WhatsApp visual cards, gathering lifecycle, actual digest loop and broader print outputs remain (`A6.1–A6.5`).
+- **A7:** partial — deeper activation, duplicate resolution, reversible history, ownership recovery, older-user/mobile pass and real 20-family evidence remain (`A7.1–A7.6`).
+- **A8:** partial — calm activity, personalized return prompts, rich sharing, empty-state loops and engagement measurement remain (`A8.1–A8.5`).
+- **A9:** **Part 1 only** — per-family readiness is not 20→50-family operations. Platform Alpha console, activation funnel, scale/privacy evidence, runbook, feedback operations and explicit 20→50 gate remain (`A9.1–A9.7`).
+
+### Completion packaging from here
+1. **C1 — Trust, Recovery & Accessibility**: A3.1–A3.4 + A7.3–A7.5.
+2. **C2 — Family Engagement Completion**: A6.1–A6.5 + A8.1–A8.4.
+3. **C3 — Real Alpha Scale**: A7.6 + A8.5 + A9.1–A9.7.
+
+Fold A2/A5 follow-ups into the nearest shared-code bundle. Do not mark A3/A5/A6/A7/A8/A9 complete until their ledger items are implemented and their required evidence exists.
+
+# 2026-08-22 — B0 Progressive Family Experience (Binding execution order)
+
+Feature expansion is temporarily frozen. The product already contains substantial capability; the next release risk is perceived complexity and premature feature exposure.
+
+## B0-A — Product Simplification Foundation — IMPLEMENTED / VERIFY
+
+- Historical capability ledger from P3/P4/P5/D1/Family Releases/A1–A9.
+- Canonical feature registry and stable feature keys.
+- Three progressive member experiences: Simple, Connected, Explorer.
+- Separate role-gated Family Admin / Manage family surface.
+- Platform-owner identity separate from family Owner/Admin.
+- Founder rollout model: Hidden / Test / Pilot / Released.
+- Strict gating precedence: founder release × experience level × permission.
+- Role-aware navigation and family-language terminology.
+- Existing capabilities remain in source even when hidden.
+
+See `B0-A-PRODUCT-SIMPLIFICATION-FOUNDATION.md` and `B0-HISTORICAL-CAPABILITY-LEDGER.md`.
+
+## B0-B — Progressive Launch System — NEXT
+
+Implement as one meaningful batch:
+1. Founder Launch Console accessible only to `platform_owners`.
+2. Bundle controls plus meaningful individual feature overrides.
+3. Hidden/Test/Pilot/Released controls and explicit pilot-family targeting.
+4. Family-level member feature preferences, bounded by founder rollout (Founder OFF always wins).
+5. What's New / first-discovery cards / learned-or-dismissed state so release does not permanently clutter navigation.
+6. Clear launch audit trail and safe defaults; no client-side privilege escalation.
+
+## B0-C — Human-Friendly Family Experience
+
+Implement as one meaningful batch:
+1. Invitation → identify yourself → claim profile → photo/basic details → meet family.
+2. Radical first-visit simplification with minimal typing and no platform terminology.
+3. Simple Home/Family/Me refinement, one primary action per screen and progressive disclosure.
+4. English/Hindi/Marathi family-language audit.
+5. Large touch targets, readable text, back-navigation safety and unexplained-icon removal.
+6. Empty/error/slow-network states suitable for older/non-technical users.
+7. Real parent/grandparent/non-technical mobile usability gate.
+
+## After B0
+
+Resume bundled delivery only after initial family usage:
+- **C1 Trust, Recovery & Accessibility** — absorbs open A3/A5/A7 trust and recovery follow-ups.
+- **C2 Family Engagement Completion** — absorbs A6/A8 remembrance, sharing, gathering and return-loop follow-ups.
+- **C3 Real Alpha Scale** — completes A9 with cross-family operations, activation funnel, performance/privacy regression and the 20→50 promotion gate.
+
+A1–A9 mission status remains implementation/verification truthful even when capabilities are hidden by B0 rollout controls.

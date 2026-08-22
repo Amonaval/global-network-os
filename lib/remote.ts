@@ -34,6 +34,25 @@ const mapLifeEvent = (r: any): LifeEvent => ({
   visibility: r.visibility || "member",
 });
 
+
+export type PlatformFeatureRow={feature_key:string;rollout_state:"hidden"|"test"|"pilot"|"released";enabled:boolean};
+export async function fetchEffectivePlatformFeatures():Promise<PlatformFeatureRow[]>{
+  if(!supabase)return [];
+  const {data,error}=await supabase.rpc("get_effective_platform_features");
+  if(error)throw error;
+  return (data||[]) as PlatformFeatureRow[];
+}
+export async function setPlatformFeatureRollout(featureKey:string,rolloutState:"hidden"|"test"|"pilot"|"released",pilotNetworkIds:string[]=[]){
+  if(!supabase)return;
+  const {error}=await supabase.rpc("set_platform_feature_rollout",{p_feature_key:featureKey,p_rollout_state:rolloutState,p_pilot_network_ids:pilotNetworkIds});
+  if(error)throw error;
+}
+export async function setMyExperienceLevel(level:"simple"|"connected"|"explorer"){
+  if(!supabase)return;
+  const {error}=await supabase.rpc("set_my_experience_level",{p_level:level});
+  if(error)throw error;
+}
+
 export type NetworkMembership = { network_id:string; name:string; slug:string; role:"owner"|"admin"|"member"; status:string; storage_limit_bytes:number; photo_upload_enabled:boolean; photo_max_bytes:number; is_active:boolean; member_id?:string|null };
 
 export async function fetchMyNetworks(): Promise<NetworkMembership[]> {

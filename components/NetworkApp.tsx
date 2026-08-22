@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import {
   Search,
@@ -72,10 +72,11 @@ import ParticipationCenter from "./ParticipationCenter";
 import FamilyHome from "./FamilyHome";
 import FamilySwitcher from "./FamilySwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
-import { createFamily as createSharedFamily } from "../lib/remote";
+import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
+import {defaultFeatureMap, EffectiveFeatureMap, ExperienceLevel, FeatureKey, isFeatureAvailable, EXPERIENCE_LABELS, EXPERIENCE_RANK} from "../lib/features";
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 const ImportModal = dynamic(() => import("./ImportModal"), { ssr: false });
 const repository = getNetworkRepository();
@@ -94,7 +95,7 @@ export default function NetworkApp() {
     ? { title:"परिवार के सदस्य", subtitle:"नाम, पेशे या स्थान से रिश्तेदार खोजें।", search:"परिवार में खोजें…", professions:"सभी पेशे", locations:"सभी स्थान", generations:"सभी पीढ़ियाँ", allLife:"जीवित + स्मृति में", living:"जीवित", memorial:"स्मृति में", clear:"हटाएँ", of:"में से", view:"प्रोफ़ाइल देखें", focus:"शाखा देखें" }
     : language === "mr"
       ? { title:"कुटुंब सदस्य", subtitle:"नाव, व्यवसाय किंवा ठिकाणाने नातेवाईक शोधा.", search:"कुटुंबात शोधा…", professions:"सर्व व्यवसाय", locations:"सर्व ठिकाणे", generations:"सर्व पिढ्या", allLife:"हयात + स्मरणार्थ", living:"हयात", memorial:"स्मरणार्थ", clear:"साफ करा", of:"पैकी", view:"प्रोफाइल पहा", focus:"शाखा पहा" }
-      : { title:"Family Directory", subtitle:"Find relatives by name, profession or location.", search:"Search family members…", professions:"All professions", locations:"All locations", generations:"All generations", allLife:"Living + In memoriam", living:"Living", memorial:"In memoriam", clear:"Clear", of:"of", view:"View profile", focus:"View branch" };
+      : { title:"Find family", subtitle:"Find relatives by name, profession or location.", search:"Search family members…", professions:"All professions", locations:"All locations", generations:"All generations", allLife:"Living + In memoriam", living:"Living", memorial:"In memoriam", clear:"Clear", of:"of", view:"View profile", focus:"View branch" };
   const helpCopy = language === "hi" ? { title:"परिवार उपयोग सहायता", close:"बंद करें", intro:"यहाँ सबसे जरूरी काम आसानी से किए जा सकते हैं:", items:["परिवार वृक्ष: खोजें, किसी व्यक्ति पर टैप करें और उनकी पारिवारिक शाखा देखें।","परिवार: नाम, शहर या पेशे से रिश्तेदार खोजें।","प्रोफ़ाइल: अपनी जानकारी, तस्वीर और रिश्ते देखें या अपडेट का अनुरोध करें।","Excel: मार्गदर्शित workbook डाउनलोड करें और जोड़ने से पहले हर व्यक्ति व रिश्ता जाँचें।","गोपनीयता: निजी संपर्क केवल परिवार द्वारा अनुमति प्राप्त लोगों को दिखते हैं।","और: स्थान, भाषा, सहायता, privacy preview और family settings यहाँ मिलते हैं।"] } : language === "mr" ? { title:"कुटुंब वापर मदत", close:"बंद करा", intro:"येथे महत्त्वाची कामे सहज करता येतात:", items:["कुटुंब वृक्ष: शोधा, व्यक्तीवर टॅप करा आणि त्यांची कौटुंबिक शाखा पहा.","कुटुंब: नाव, शहर किंवा व्यवसायाने नातेवाईक शोधा.","प्रोफाइल: आपली माहिती, छायाचित्र आणि नाती पहा किंवा बदल सुचवा.","Excel: मार्गदर्शित workbook डाउनलोड करा आणि जोडण्याआधी प्रत्येक व्यक्ती व नाते तपासा.","गोपनीयता: खाजगी संपर्क फक्त कुटुंबाने परवानगी दिलेल्या लोकांना दिसतात.","अधिक: ठिकाणे, भाषा, मदत, privacy preview आणि family settings येथे आहेत."] } : { title:"Family help", close:"Close", intro:"The most important things are easy to find:", items:["Family Tree: search, tap a person and explore their family branch.","Family: find relatives by name, city or profession.","Profile: view your information, photo and relationships or ask for an update.","Excel: download the guided workbook and review every person and relationship before adding them.","Privacy: private contact details are shown only to people your family allows.","More: find Places, language, Help, information preview and family settings here."] };
   const mapCopy = language === "hi" ? { title:"परिवार कहाँ रहता है", subtitle:"शहर के स्तर पर परिवार के स्थान। बड़े निशान उस शहर में अधिक सदस्यों को दिखाते हैं।", privacy:"गोपनीयता:", detail:"केवल शहर का स्थान दिखाया जाता है।", have:"सदस्यों के स्थान उपलब्ध हैं।" } : language === "mr" ? { title:"कुटुंब कुठे राहते", subtitle:"शहर पातळीवरील कौटुंबिक ठिकाणे. मोठे चिन्ह त्या शहरात अधिक सदस्य दाखवते.", privacy:"गोपनीयता:", detail:"फक्त शहराचे ठिकाण दाखवले जाते.", have:"सदस्यांची ठिकाणे उपलब्ध आहेत." } : { title:"Where our family lives", subtitle:"City-level family locations. Larger markers mean more relatives in that city.", privacy:"Privacy:", detail:"Only city-level locations are shown.", have:"members have locations." };
   const [network, setNetwork] = useState<NetworkSettings | null>(null),
@@ -107,6 +108,8 @@ export default function NetworkApp() {
     [showAuth, setShowAuth] = useState(false),
     [setupNeeded, setSetupNeeded] = useState(false),
     [editingMember, setEditingMember] = useState<Member | undefined>();
+  const [platformFeatures,setPlatformFeatures]=useState<EffectiveFeatureMap>(()=>defaultFeatureMap(!isSupabaseConfigured)),
+    [experiencePreview,setExperiencePreview]=useState<ExperienceLevel|null>(null);
   const [query, setQuery] = useState(""),
     [profession, setProfession] = useState(""),
     [city, setCity] = useState(""),
@@ -145,6 +148,20 @@ export default function NetworkApp() {
   };
   const hydrate = async (u: any) => {
     setAuth(u);
+    if(repository.mode === "shared") {
+      try {
+        const rows=await fetchEffectivePlatformFeatures();
+        const map=defaultFeatureMap(false);
+        rows.forEach(row=>{
+          const key=row.feature_key as FeatureKey;
+          if(map[key]) map[key]={key,rollout_state:row.rollout_state,enabled:row.enabled};
+        });
+        setPlatformFeatures(map);
+      } catch {
+        // Migration 026 may not be applied yet. Keep safe compatibility defaults.
+        setPlatformFeatures(defaultFeatureMap(false));
+      }
+    } else setPlatformFeatures(defaultFeatureMap(true));
     const n =
       repository.mode === "shared"
         ? await repository.fetchNetworkSettings()
@@ -856,6 +873,31 @@ export default function NetworkApp() {
       </div>
     );
   const canAdmin = !isSupabaseConfigured || network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.role === "admin";
+  const isPlatformOwner = !isSupabaseConfigured || !!auth?.platform_owner;
+  const experience:ExperienceLevel = experiencePreview || (!isSupabaseConfigured ? "explorer" : (auth?.experience_level || "simple"));
+  const hasFeature=(key:FeatureKey)=>isFeatureAvailable(key,platformFeatures,experience,canAdmin);
+  const openMyProfile=()=>{
+    if(auth?.member_id){
+      const mine=members.find(m=>m.id===auth.member_id);
+      if(mine){setSelected(mine);setEditingMember(mine);return;}
+    }
+    setEditingMember(undefined);setShowForm(true);
+  };
+  const memberNav:[View,string,ReactNode,FeatureKey][]=[
+    ["home", language === "hi" ? "आज" : language === "mr" ? "आज" : "Home", <Home size={17} key="home"/>, "core.home"],
+    ["tree", language === "hi" ? "परिवार" : language === "mr" ? "कुटुंब" : "Family", <TreePine size={17} key="family"/>, "core.family"],
+    ["community", language === "hi" ? "यादें" : language === "mr" ? "आठवणी" : "Memories", <HeartHandshake size={17} key="memories"/>, "remember.memories"],
+    ["directory", language === "hi" ? "परिवार खोजें" : language === "mr" ? "कुटुंब शोधा" : "Find family", <Users size={17} key="directory"/>, "core.directory"],
+    ["timeline", language === "hi" ? "परिवार का इतिहास" : language === "mr" ? "कुटुंब इतिहास" : "Family history", <CalendarDays size={17} key="history"/>, "remember.history"],
+    ["map", language === "hi" ? "परिवार कहाँ है" : language === "mr" ? "कुटुंब कुठे आहे" : "Family places", <MapPinned size={17} key="places"/>, "connect.places"],
+    ["participation", language === "hi" ? "परिवार की मदद" : language === "mr" ? "कुटुंबाला मदत" : "Help family", <GitBranch size={17} key="help"/>, "contribute.help_family"],
+  ];
+  const visibleMemberNav=memberNav.filter(item=>{
+    if(!hasFeature(item[3])) return false;
+    if(item[0]==="home"||item[0]==="tree") return true;
+    if(item[0]==="community") return EXPERIENCE_RANK[experience]>=EXPERIENCE_RANK.connected;
+    return experience==="explorer";
+  });
   const canSetupFamily = !isSupabaseConfigured || !!auth;
   if (setupNeeded)
     return (
@@ -892,38 +934,32 @@ export default function NetworkApp() {
             <TreePine size={20} />
           </div>
           <span>{network?.name || "Our Family"}</span>
-          <span
-            className={`mode-pill ${isSupabaseConfigured ? "shared" : "demo"}`}
-          >
-            {isSupabaseConfigured ? (
-              <>
-                <Database size={12} /> {t("sharedFamily")}
-              </>
-            ) : (
-              <>{t("localFamily")}</>
-            )}
-          </span>
+          {canAdmin && <span className={`mode-pill ${isSupabaseConfigured ? "shared" : "demo"}`}>
+            {isSupabaseConfigured ? <><Database size={12} /> {t("sharedFamily")}</> : <>{t("localFamily")}</>}
+          </span>}
         </div>
         <div className="top-actions">
           {isSupabaseConfigured && <FamilySwitcher onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>setSetupNeeded(true)} />}
           <LanguageSwitcher compact />
-          {isSupabaseConfigured && (
+          {isSupabaseConfigured && canAdmin && (
             <span className="person-meta">
-              {auth?.email} · {auth?.role}
+              {auth?.email} · {network?.membership_role || auth?.family_role || "member"}
+              {isPlatformOwner ? " · Platform owner" : ""}
             </span>
           )}
-          <select
+          {canAdmin && <select
             className="select"
+            aria-label="Information preview"
             value={visibility}
             onChange={(e) => setVisibility(e.target.value as Visibility)}
           >
             <option value="public">{t("publicPreview")}</option>
             <option value="member">{t("memberView")}</option>
             <option value="admin">{t("adminView")}</option>
-          </select>
-          <button className="btn small" onClick={() => setShowGuide(true)}>
+          </select>}
+          {canAdmin && <button className="btn small" onClick={() => setShowGuide(true)}>
             <BookOpen size={15} /> {t("guide")}
-          </button>
+          </button>}
           {isSupabaseConfigured && (
             <button
               className="btn small"
@@ -935,103 +971,40 @@ export default function NetworkApp() {
               <LogOut size={15} /> {t("signOut")}
             </button>
           )}
-          <button
-            className="btn small"
-            onClick={() => {
-              if (auth?.member_id) {
-                const mine = members.find((m) => m.id === auth.member_id);
-                if (mine) {
-                  setSelected(mine);
-                  setEditingMember(mine);
-                } else {
-                  setEditingMember(undefined);
-                  setShowForm(true);
-                }
-              } else setShowForm(true);
-            }}
-          >
-            <UserRoundPen size={15} />{" "}
-            {auth?.member_id
-              ? t("myProfile")
-              : cfg.network_template === "family"
-                ? t("addRelative")
-                : `Submit ${cfg.entity_label}`}
+          <button className="btn small" onClick={openMyProfile}>
+            <UserRoundPen size={15} /> {t("myProfile")}
           </button>
         </div>
       </header>
       <div className="layout">
         <aside className="sidebar">
-          <button className={`nav-btn ${view === "home" ? "active" : ""}`} onClick={() => setView("home")}><Home size={17} /> {language === "hi" ? "आज" : language === "mr" ? "आज" : "Home"}</button>
-          <button
-            className={`nav-btn ${view === "tree" ? "active" : ""}`}
-            onClick={() => setView("tree")}
-          >
-            <TreePine size={17} /> {t("familyTree")}
-          </button>
-          <button
-            className={`nav-btn ${view === "directory" ? "active" : ""}`}
-            onClick={() => setView("directory")}
-          >
-            <Users size={17} /> {t("familyDirectory")}
-          </button>
-          <button
-            className={`nav-btn ${view === "timeline" ? "active" : ""}`}
-            onClick={() => setView("timeline")}
-          >
-            <CalendarDays size={17} /> {t("timeline")}
-          </button>
-          <button
-            className={`nav-btn ${view === "map" ? "active" : ""}`}
-            onClick={() => setView("map")}
-          >
-            <MapPinned size={17} /> {t("places")}
-          </button>
-          <button
-            className={`nav-btn ${view === "community" ? "active" : ""}`}
-            onClick={() => setView("community")}
-          >
-            <HeartHandshake size={17} /> {t("stories")}
-          </button>
-          <button
-            className={`nav-btn ${view === "participation" ? "active" : ""}`}
-            onClick={() => setView("participation")}
-          >
-            <GitBranch size={17} /> Participate
-          </button>
-          {canAdmin && (
-            <button
-              className={`nav-btn ${view === "admin" ? "active" : ""}`}
-              onClick={() => setView("admin")}
-            >
-              <ShieldCheck size={17} /> {t("familySettings")}
-            </button>
-          )}
-          <div
-            style={{
-              margin: "22px 10px",
-              paddingTop: 16,
-              borderTop: "1px solid var(--line)",
-              fontSize: 11,
-              color: "var(--muted)",
-              lineHeight: 1.7,
-            }}
-          >
-            <strong>
-              {isSupabaseConfigured ? t("sharedFamily") : t("localFamily")}
-            </strong>
-            <br />
-            {members.length} {cfg.entity_label_plural.toLowerCase()} ·{" "}
-            {new Set(members.map((m) => m.generation_level)).size}{" "}
-            {cfg.level_label_plural.toLowerCase()}
-            <br />
-            {relationships.length} relationships
-            <br />
-            {deceased} in memoriam · {located} mapped
+          <div className="sidebar-section-label">{language === "hi" ? "मेरा परिवार" : language === "mr" ? "माझे कुटुंब" : "My family"}</div>
+          {visibleMemberNav.map(([navView,label,icon])=><button
+            key={navView}
+            className={`nav-btn ${view === navView ? "active" : ""}`}
+            onClick={() => setView(navView)}
+          >{icon} {label}</button>)}
+          {hasFeature("core.profile") && <button className={`nav-btn ${selected?.id===auth?.member_id ? "active" : ""}`} onClick={openMyProfile}><UserRoundPen size={17}/> {language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</button>}
+          {canAdmin && hasFeature("admin.center") && <div className="admin-nav-separator">
+            <div className="sidebar-section-label">{language === "hi" ? "परिवार प्रबंधन" : language === "mr" ? "कुटुंब व्यवस्थापन" : "Family management"}</div>
+            <button className={`nav-btn admin-nav ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><ShieldCheck size={17}/> {language === "hi" ? "परिवार संभालें" : language === "mr" ? "कुटुंब सांभाळा" : "Manage family"}</button>
+          </div>}
+          {canAdmin && <div className="experience-preview">
+            <label>{language === "hi" ? "सदस्य अनुभव देखें" : language === "mr" ? "सदस्य अनुभव पहा" : "Preview member experience"}</label>
+            <select className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>
+              {(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map(level=><option key={level} value={level}>{EXPERIENCE_LABELS[level].label}</option>)}
+            </select>
+            <small>{EXPERIENCE_LABELS[experience].description}</small>
+            {isPlatformOwner && <span className="founder-preview-note">Founder test features are visible to you before release.</span>}
+          </div>}
+          <div className="sidebar-family-summary">
+            <strong>{members.length} {language === "hi" ? "परिवार सदस्य" : language === "mr" ? "कुटुंब सदस्य" : "family members"}</strong>
+            <span>{new Set(members.map((m) => m.generation_level)).size} {language === "hi" ? "पीढ़ियाँ" : language === "mr" ? "पिढ्या" : "generations"}</span>
           </div>
         </aside>
         <main className="main">
-          {view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={setSelected} />}
-          {view === "home" && <FamilyHome members={members} events={allLifeEvents} networkName={network?.name} onSelect={setSelected} onGo={(v)=>setView(v)} onAddRelative={()=>setShowForm(true)} />}
+          {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={setSelected} />}
+          {view === "home" && <FamilyHome members={members} events={allLifeEvents} networkName={network?.name} onSelect={setSelected} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} />}
           {view === "tree" && (
             <section className="tree-page">
               {cfg.network_template === "family" && (
@@ -1135,7 +1108,7 @@ export default function NetworkApp() {
               <div className="tree-upcoming"><UpcomingWidget items={upcoming} onSelect={setSelected} /></div>
             </section>
           )}
-          {view === "directory" && (
+          {view === "directory" && hasFeature("core.directory") && (
             <section>
               <div className="page-head">
                 <div>
@@ -1289,7 +1262,7 @@ export default function NetworkApp() {
               </div>
             </section>
           )}
-          {view === "timeline" && (
+          {view === "timeline" && hasFeature("remember.history") && (
             <TimelineView
               events={allLifeEvents}
               members={members}
@@ -1297,7 +1270,7 @@ export default function NetworkApp() {
               onSelect={setSelected}
             />
           )}
-          {view === "map" && (
+          {view === "map" && hasFeature("connect.places") && (
             <section>
               <div className="page-head">
                 <div>
@@ -1313,7 +1286,7 @@ export default function NetworkApp() {
               <MapView members={members} onSelect={setSelected} />
             </section>
           )}
-          {view === "community" && (
+          {view === "community" && hasFeature("remember.memories") && (
             <CommunityHub
               members={members}
               auth={auth}
@@ -1322,7 +1295,7 @@ export default function NetworkApp() {
               onNotify={notify}
             />
           )}
-          {view === "participation" && (
+          {view === "participation" && hasFeature("contribute.help_family") && (
             <ParticipationCenter
               members={members}
               auth={auth}
@@ -1330,11 +1303,11 @@ export default function NetworkApp() {
               onNotify={notify}
             />
           )}
-          {view === "admin" && canAdmin && (
+          {view === "admin" && canAdmin && hasFeature("admin.center") && (
             <section>
               <div className="page-head">
                 <div>
-                  <h1 className="page-title">Administration</h1>
+                  <h1 className="page-title">Manage family</h1>
                   <p className="page-subtitle">
                     Manage shared data, relationships, approvals and P4.1
                     governance.
@@ -1679,32 +1652,23 @@ export default function NetworkApp() {
         </main>
       </div>
       <nav className="mobile-bottom-nav has-admin">
-        {(
-          [
-            ["home", language === "hi" ? "आज" : language === "mr" ? "आज" : "Home", <Home size={19} key="home" />],
-            ["tree", t("familyTree"), <TreePine size={19} key="tree" />],
-            ["directory", t("familyDirectory"), <Users size={19} key="family" />],
-            ["community", t("stories"), <HeartHandshake size={19} key="stories" />],
-          ] as const
-        ).map(([v, label, icon]) => (
-          <button
-            key={v}
-            className={view === v ? "active" : ""}
-            onClick={() => setView(v)}
-          >
-            {icon}<span>{label}</span>
-          </button>
-        ))}
-        <button className={showMobileMenu || view === "map" || view === "admin" ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19} /><span>{moreLabel}</span></button>
+        <button className={view === "home" ? "active" : ""} onClick={() => setView("home")}><Home size={19}/><span>{language === "hi" ? "आज" : language === "mr" ? "आज" : "Home"}</span></button>
+        <button className={view === "tree" ? "active" : ""} onClick={() => setView("tree")}><TreePine size={19}/><span>{language === "hi" ? "परिवार" : language === "mr" ? "कुटुंब" : "Family"}</span></button>
+        {experience!=="simple" && hasFeature("remember.memories") && <button className={view === "community" ? "active" : ""} onClick={() => setView("community")}><HeartHandshake size={19}/><span>{language === "hi" ? "यादें" : language === "mr" ? "आठवणी" : "Memories"}</span></button>}
+        <button className={selected?.id===auth?.member_id ? "active" : ""} onClick={openMyProfile}><UserRoundPen size={19}/><span>{language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</span></button>
+        <button className={showMobileMenu || view === "map" || view === "admin" || view === "timeline" || view === "participation" || view === "directory" ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19}/><span>{moreLabel}</span></button>
       </nav>
       {showMobileMenu && <div className="mobile-more-overlay" onMouseDown={(event) => event.target === event.currentTarget && setShowMobileMenu(false)}><section className="mobile-more-sheet" role="dialog" aria-modal="true" aria-label={moreLabel}>
-        <div className="mobile-more-head"><div><span className="warm-kicker">{network?.name}</span><h2>{moreLabel}</h2></div><button className="icon-button" aria-label="Close" autoFocus onClick={() => setShowMobileMenu(false)}><X size={19} /></button></div>
-        <button className="mobile-more-action" onClick={() => { setView("map"); setShowMobileMenu(false); }}><span><MapPinned />{t("places")}</span><ArrowRight /></button>
-        <button className="mobile-more-action" onClick={() => { setView("participation"); setShowMobileMenu(false); }}><span><GitBranch />Participate</span><ArrowRight /></button>
-        {canAdmin && <button className="mobile-more-action" onClick={() => { setView("admin"); setShowMobileMenu(false); }}><span><Settings2 />{t("familySettings")}</span><ArrowRight /></button>}
-        <button className="mobile-more-action" onClick={() => { setShowGuide(true); setShowMobileMenu(false); }}><span><BookOpen />{t("guide")}</span><ArrowRight /></button>
+        <div className="mobile-more-head"><div><span className="warm-kicker">{network?.name}</span><h2>{moreLabel}</h2></div><button className="icon-button" aria-label="Close" autoFocus onClick={() => setShowMobileMenu(false)}><X size={19}/></button></div>
+        {hasFeature("core.directory")&&<button className="mobile-more-action" onClick={() => { setView("directory"); setShowMobileMenu(false); }}><span><Users />{language==='hi'?'परिवार खोजें':language==='mr'?'कुटुंब शोधा':'Find family'}</span><ArrowRight /></button>}
+        {hasFeature("remember.history")&&<button className="mobile-more-action" onClick={() => { setView("timeline"); setShowMobileMenu(false); }}><span><CalendarDays />{language==='hi'?'परिवार का इतिहास':language==='mr'?'कुटुंब इतिहास':'Family history'}</span><ArrowRight /></button>}
+        {hasFeature("connect.places")&&<button className="mobile-more-action" onClick={() => { setView("map"); setShowMobileMenu(false); }}><span><MapPinned />{language==='hi'?'परिवार कहाँ है':language==='mr'?'कुटुंब कुठे आहे':'Family places'}</span><ArrowRight /></button>}
+        {hasFeature("contribute.help_family")&&<button className="mobile-more-action" onClick={() => { setView("participation"); setShowMobileMenu(false); }}><span><GitBranch />{language==='hi'?'परिवार की मदद':language==='mr'?'कुटुंबाला मदत':'Help improve our family'}</span><ArrowRight /></button>}
+        {canAdmin && hasFeature("admin.center") && <button className="mobile-more-action" onClick={() => { setView("admin"); setShowMobileMenu(false); }}><span><Settings2 />{language==='hi'?'परिवार संभालें':language==='mr'?'कुटुंब सांभाळा':'Manage family'}</span><ArrowRight /></button>}
+        <button className="mobile-more-action" onClick={() => { setShowGuide(true); setShowMobileMenu(false); }}><span><BookOpen />{language==='hi'?'मदद':language==='mr'?'मदत':'Help'}</span><ArrowRight /></button>
         <div className="mobile-more-setting"><LanguageSwitcher /></div>
-        <label className="mobile-more-setting"><span>{language === "hi" ? "कौन-सी जानकारी दिखाएँ" : language === "mr" ? "कोणती माहिती दाखवायची" : "Information preview"}</span><select className="select" value={visibility} onChange={(event) => setVisibility(event.target.value as Visibility)}><option value="public">{t("publicPreview")}</option><option value="member">{t("memberView")}</option><option value="admin">{t("adminView")}</option></select></label>
+        {canAdmin&&<label className="mobile-more-setting"><span>{language === "hi" ? "जानकारी का पूर्वावलोकन" : language === "mr" ? "माहिती पूर्वावलोकन" : "Information preview"}</span><select className="select" value={visibility} onChange={(event) => setVisibility(event.target.value as Visibility)}><option value="public">{t("publicPreview")}</option><option value="member">{t("memberView")}</option><option value="admin">{t("adminView")}</option></select></label>}
+        {canAdmin&&<label className="mobile-more-setting"><span>{language==='hi'?'सदस्य अनुभव देखें':language==='mr'?'सदस्य अनुभव पहा':'Preview member experience'}</span><select className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>{(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map(level=><option key={level} value={level}>{EXPERIENCE_LABELS[level].label}</option>)}</select></label>}
         {isSupabaseConfigured && <button className="mobile-more-action sign-out" onClick={() => { signOut(); setAuth(null); setShowMobileMenu(false); }}><span><LogOut />{t("signOut")}</span></button>}
       </section></div>}
       {showInvitation && (
@@ -1734,18 +1698,18 @@ export default function NetworkApp() {
             setEditingMember(selected);
             setShowForm(true);
           }}
-          onManageRelationships={() => setShowRelationships(true)}
-          onExploreRelationship={() => setShowRelationshipExplorer(true)}
-          events={lifeEvents}
-          memories={memories.filter((m) => m.member_id === selected.id)}
-          onAddEvent={() => {
+          onManageRelationships={hasFeature("advanced.relationships")?()=>setShowRelationships(true):undefined}
+          onExploreRelationship={hasFeature("advanced.relationships")?()=>setShowRelationshipExplorer(true):undefined}
+          events={hasFeature("remember.history")?lifeEvents:[]}
+          memories={hasFeature("remember.memories")?memories.filter((m) => m.member_id === selected.id):[]}
+          onAddEvent={hasFeature("remember.history")?() => {
             setEditingLifeEvent(undefined);
             setShowLifeEventEditor(true);
-          }}
-          onEditEvent={(e) => {
+          }:undefined}
+          onEditEvent={hasFeature("remember.history")?(e) => {
             setEditingLifeEvent(e);
             setShowLifeEventEditor(true);
-          }}
+          }:undefined}
         />
       )}{" "}
       {showRelationships && selected && (
