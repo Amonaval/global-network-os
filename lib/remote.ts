@@ -41,6 +41,8 @@ export type PlatformFamilyTarget={network_id:string;name:string;slug:string;stat
 export type PlatformRolloutAudit={id:number;feature_key:string;bundle_key:string;previous_state:string;new_state:string;pilot_network_ids:string[];announced:boolean;changed_at:string};
 export type FamilyFeatureSetting={feature_key:string;enabled:boolean};
 export type FeatureAnnouncement={feature_key:string;announcement_version:number;rollout_state:"hidden"|"test"|"pilot"|"released";updated_at:string};
+export type PlatformOwnerRow={user_id:string;email:string|null;created_at:string;is_me:boolean};
+export type PlatformOwnerAuditRow={id:string;actor_email:string|null;target_email:string|null;action:"added"|"removed";created_at:string};
 export async function fetchEffectivePlatformFeatures():Promise<PlatformFeatureRow[]>{
   if(!supabase)return [];
   const {data,error}=await supabase.rpc("get_effective_platform_features");
@@ -76,6 +78,14 @@ export async function setPlatformBundleRollout(bundleKey:string,rolloutState:"hi
   if(error)throw error;
   return Number(data||0);
 }
+export async function fetchPlatformOwners():Promise<PlatformOwnerRow[]>{
+  if(!supabase)return [];
+  const {data,error}=await supabase.rpc("get_platform_owners");if(error)throw error;return (data||[]) as PlatformOwnerRow[];
+}
+export async function addPlatformOwnerByEmail(email:string){if(!supabase)return;const {error}=await supabase.rpc("add_platform_owner_by_email",{p_email:email.trim()});if(error)throw error;}
+export async function removePlatformOwner(userId:string){if(!supabase)return;const {error}=await supabase.rpc("remove_platform_owner",{p_user_id:userId});if(error)throw error;}
+export async function fetchPlatformOwnerAudit(limit=20):Promise<PlatformOwnerAuditRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_platform_owner_audit",{p_limit:limit});if(error)throw error;return (data||[]) as PlatformOwnerAuditRow[];}
+export async function applyAlphaDay1LaunchPreset(){if(!supabase)return 0;const {data,error}=await supabase.rpc("apply_alpha_day1_launch_preset");if(error)throw error;return Number(data||0);}
 export async function fetchFamilyFeatureSettings():Promise<FamilyFeatureSetting[]>{
   if(!supabase)return [];
   const {data,error}=await supabase.rpc("get_family_feature_settings");

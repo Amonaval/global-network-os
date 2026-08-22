@@ -22,8 +22,11 @@ current product priority. See `FAMILY-RELEASE-1.md` and `ROADMAP.md`.
 ## Start locally
 ```bash
 npm ci
+npm run validate:v1
 npm run dev
 ```
+
+`validate:v1` is a source-level Alpha gate. A real V1 release still requires the runtime/Supabase/device checks in `V1-FAMILY-ALPHA-RELEASE-CERTIFICATION.md`.
 Without Supabase variables the app runs as a local family and stores data in
 localStorage. Choose sample data to explore the complete experience.
 

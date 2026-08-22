@@ -412,3 +412,36 @@ B0-C additionally makes invitations identity-first rather than account-first, re
 6. Real Android/iOS and narrow-screen/large-text/slow-network behavior checked.
 
 If this evidence produces friction, fix it as **B0-C.1 Novice Usability Corrections** before C1/C2/C3. This is not a feature-expansion mission; it is an adoption gate.
+
+# 2026-08-22 — V1 Family Alpha Release Certification (Binding next gate)
+
+B0-A/B/C establish the simplification and progressive-release architecture. The next priority is now release certification, not more feature expansion.
+
+## V1 — Family Alpha Release Certification — IMPLEMENTED IN SOURCE / CERTIFICATION REQUIRED
+
+Scope delivered in source:
+1. Multi-owner Founder Launch Control management by existing-account email, with final-owner lockout protection and access audit.
+2. Essential account journey: signup confirmation/resend, sign in, forgot password, reset-link handling, new password, sign out/session recovery.
+3. Founder one-click safe Day-1 Alpha rollout preset.
+4. Binding end-to-end certification matrix for migrations, auth, invitation/claim, progressive experience, role boundaries, privacy/RLS, devices, slow network and novice-user completion.
+5. Historical capability reconciliation remains tied to `B0-HISTORICAL-CAPABILITY-LEDGER.md` and `A1-A9-COMPLETENESS-AUDIT.md`; hidden or partial work must not be falsely marked complete.
+
+### V1 certification gate
+Before inviting the first external pilot families:
+- production build passes;
+- clean + upgrade migrations through 028 pass;
+- account recovery and invitation journeys pass;
+- Member / Family Admin / Platform Owner boundaries pass;
+- cross-family data/media isolation passes;
+- real mobile/slow-network checks pass;
+- at least one 50+/60+ low-frequency app user and one non-technical 30–50 user complete core journeys without coaching;
+- founder deliberately applies/chooses Day-1 rollout rather than exposing all deployed capability.
+
+### Post-certification sequence
+1. Founder family + 2–3 trusted-family pilot.
+2. B0-C.1/V1 corrections driven by observed friction.
+3. Gradual feature release through B0-B.
+4. Resume C1 Trust/Recovery/Accessibility, C2 Engagement Completion and C3 Real Alpha Scale based on evidence.
+
+### V1.1 preserved after trusted-family Alpha — Account lifecycle & help
+Do not lose: verified email change, account deletion vs family-history retention, leave-family semantics (A3.4/C1), other-session revocation, simple help/contact-family-admin path, and Terms/Privacy acknowledgement before broad public self-service launch.

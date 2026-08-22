@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "validate:d1": "node scripts/d1-source-gate.mjs"
+    "validate:d1": "node scripts/d1-source-gate.mjs",
+    "validate:v1": "node scripts/v1-alpha-source-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

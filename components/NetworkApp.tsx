@@ -55,7 +55,7 @@ import {
   Memory,
   Notification,
 } from "../lib/types";
-import { isSupabaseConfigured } from "../lib/supabase";
+import { isSupabaseConfigured, supabase } from "../lib/supabase";
 import { getNetworkRepository } from "../lib/repository";
 import { getAuthUser, signOut } from "../lib/auth";
 import {
@@ -109,6 +109,7 @@ export default function NetworkApp() {
     [auth, setAuth] = useState<any>(null),
     [ready, setReady] = useState(false),
     [showAuth, setShowAuth] = useState(false),
+    [passwordRecovery, setPasswordRecovery] = useState(false),
     [setupNeeded, setSetupNeeded] = useState(false),
     [editingMember, setEditingMember] = useState<Member | undefined>();
   const [platformFeatures,setPlatformFeatures]=useState<EffectiveFeatureMap>(()=>defaultFeatureMap(!isSupabaseConfigured)),
@@ -205,6 +206,14 @@ export default function NetworkApp() {
         setReady(true);
       }
     })();
+  }, []);
+  useEffect(() => {
+    if(!supabase)return;
+    const {data:{subscription}}=supabase.auth.onAuthStateChange((event)=>{
+      if(event==="PASSWORD_RECOVERY"){setPasswordRecovery(true);setShowAuth(false);}
+      if(event==="SIGNED_OUT"){setAuth(null);setPasswordRecovery(false);setView("home");}
+    });
+    return ()=>subscription.unsubscribe();
   }, []);
   useEffect(() => {
     if (repository.mode === "local" && network)
@@ -846,6 +855,18 @@ export default function NetworkApp() {
           <b>Our Family</b>
           <div className="page-subtitle">{t("loading")}</div>
         </div>
+      </div>
+    );
+  if (isSupabaseConfigured && passwordRecovery)
+    return (
+      <div className="landing family-signin-page">
+        <div className="landing-card family-signin-card recovery-card">
+          <div className="brand-mark"><TreePine size={24} /></div>
+          <span className="warm-kicker">Account recovery</span>
+          <h1>Choose a new password</h1>
+          <p>Your reset link is valid. Create a new password to continue to your family.</p>
+        </div>
+        <AuthPanel initialMode="reset" onDone={()=>{}} onResetDone={async()=>{setPasswordRecovery(false);try{await hydrate(await getAuthUser());notify("Password updated successfully.")}catch(e:any){notify(e.message||"Password changed. Please sign in again.");setAuth(null)}}} />
       </div>
     );
   if (isSupabaseConfigured && !auth)

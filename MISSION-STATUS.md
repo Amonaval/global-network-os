@@ -293,3 +293,35 @@ Then **B0-C — Human-Friendly Family Experience**: invitation/claim simplificat
 - Android/iOS back-navigation, browser zoom/large-text, narrow-screen and slow-network test.
 
 B0-C source implementation does **not** satisfy the real-user usability gate by itself. Any findings become B0-C.1 corrections before broad Alpha rollout.
+
+## 2026-08-22 — V1 Family Alpha Release Certification — IMPLEMENTED IN SOURCE / CERTIFICATION REQUIRED
+
+V1 is now the binding release gate before broad pilot rollout.
+
+### Launch Control ownership clarified
+- Launch Control is **not hard-coded to an email**; authority lives in `platform_owners` keyed by Supabase Auth user ID.
+- B0-A's first legacy platform admin remains the bootstrap owner.
+- Migration `028_v1_alpha_release_certification.sql` adds founder-only owner management by email for existing accounts.
+- Multiple platform owners are supported.
+- The database prevents removal of the final platform owner and records owner-access changes.
+
+### Missing normal-user essentials added
+- Forgot-password entry from sign-in.
+- Supabase password-reset email flow and in-app new-password screen.
+- Explicit `PASSWORD_RECOVERY` and `SIGNED_OUT` auth-state handling.
+- Signup confirmation resend.
+- Friendly invalid-login / unconfirmed-email messaging.
+- Show/hide password and browser autocomplete hints.
+
+### Alpha release controls
+- Founder-only **Day-1 Alpha preset** action: Core + Celebrate + Admin released; richer member capabilities returned to Test until intentionally promoted.
+- Existing B0 feature precedence remains binding: founder rollout × family preference × experience × permission.
+
+### Certification still required
+Do not call V1 Alpha Certified until production build, migrations 001–028, auth/recovery, invitation/claim, cross-family privacy, role boundaries, real-device behavior and novice-user no-coaching gates pass. See `V1-FAMILY-ALPHA-RELEASE-CERTIFICATION.md`.
+
+### After V1 certification
+Pilot with founder family + 2–3 trusted families. Real friction becomes B0-C.1/V1 correction work. C1/C2/C3 remain preserved and resume only after initial pilot evidence.
+
+### V1.1 explicitly preserved — not completed by V1
+Verified email change, account deletion vs historical-record retention, leave-family semantics, other-session revocation, simple help/support routing and Terms/Privacy acknowledgement remain future account-lifecycle work. They must not be silently treated as complete because forgot-password/reset is implemented.

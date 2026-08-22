@@ -15,6 +15,14 @@ export async function getAuthUser():Promise<AuthUser|null>{
  try{const {data}=await supabase.rpc('is_platform_owner');platformOwner=!!data}catch{}
  return {id:user.id,email:user.email,role,family_role:familyRole,member_id:profile?.member_id||null,active_network_id:profile?.active_network_id||null,experience_level:(profile?.experience_level||'simple') as 'simple'|'connected'|'explorer',platform_owner:platformOwner};
 }
-export async function signIn(email:string,password:string){if(!supabase)throw new Error('Supabase is not configured.');const {error}=await supabase.auth.signInWithPassword({email,password});if(error)throw error;}
-export async function signUp(email:string,password:string,full_name:string){if(!supabase)throw new Error('Supabase is not configured.');const {data,error}=await supabase.auth.signUp({email,password,options:{data:{full_name}}});if(error)throw error;return data;}
-export async function signOut(){if(supabase)await supabase.auth.signOut();}
+export async function signIn(email:string,password:string){if(!supabase)throw new Error('Supabase is not configured.');const {error}=await supabase.auth.signInWithPassword({email:email.trim(),password});if(error)throw error;}
+export async function signUp(email:string,password:string,full_name:string){if(!supabase)throw new Error('Supabase is not configured.');const {data,error}=await supabase.auth.signUp({email:email.trim(),password,options:{data:{full_name}}});if(error)throw error;return data;}
+export async function resendSignupConfirmation(email:string){if(!supabase)throw new Error('Supabase is not configured.');const {error}=await supabase.auth.resend({type:'signup',email:email.trim()});if(error)throw error;}
+export async function requestPasswordReset(email:string){
+ if(!supabase)throw new Error('Supabase is not configured.');
+ const redirectTo=typeof window!=='undefined'?`${window.location.origin}/`:undefined;
+ const {error}=await supabase.auth.resetPasswordForEmail(email.trim(),redirectTo?{redirectTo}:undefined);
+ if(error)throw error;
+}
+export async function updatePassword(password:string){if(!supabase)throw new Error('Supabase is not configured.');const {error}=await supabase.auth.updateUser({password});if(error)throw error;}
+export async function signOut(){if(supabase){const {error}=await supabase.auth.signOut();if(error)throw error;}}

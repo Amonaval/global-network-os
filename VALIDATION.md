@@ -71,3 +71,27 @@ npm run build
 ```
 
 The current source review environment did not have project dependencies installed; `npm install` exceeded the available execution window, so a full Next.js production build could not be completed here.
+
+# V1 Family Alpha release certification
+
+Use `V1-FAMILY-ALPHA-RELEASE-CERTIFICATION.md` as the binding release gate.
+
+Local source sanity:
+
+```bash
+npm run validate:v1
+```
+
+Before the first real-family pilot, additionally verify in the deployed Supabase/Vercel environment:
+
+1. migrations `001 → 028` on a clean database;
+2. existing database upgrade through 028;
+3. signup → confirmation/resend → sign in;
+4. forgot password → email reset link → new password → sign in;
+5. invitation → identity confirmation → claim → Simple Home/Family/Me;
+6. Member vs Family Admin vs Platform Owner permission matrix;
+7. multiple Launch Control owners by email and final-owner protection;
+8. Hidden/Test/Pilot/Released behavior across at least two families;
+9. cross-family RLS/private-media isolation;
+10. Android/iOS + narrow-screen + slow-network core journey;
+11. real novice-user no-coaching gate.

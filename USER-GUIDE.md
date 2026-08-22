@@ -152,3 +152,17 @@ Before adding AI/analytics/PDF features, prioritize:
 6. Audit history.
 7. Better large-tree layout/performance.
 8. City-level map clustering.
+
+## Account help
+
+### Forgot your password
+1. Open **Join or sign in**.
+2. Choose **Forgot password?**.
+3. Enter the email used for your family account.
+4. Open the private reset link sent to that email.
+5. Choose and confirm a new password.
+6. Continue to your family.
+
+If an account was just created but email confirmation is required, the signup screen explains this and can resend the confirmation email.
+
+Family Owner/Admin access and Platform Launch Control are different. A family administrator manages only their family. Launch Control is available only to separately trusted platform-owner accounts.

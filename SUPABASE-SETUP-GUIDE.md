@@ -173,3 +173,18 @@ invalid input syntax for type uuid: "s1787065934735"
 ```
 
 Do not change the database UUID columns to text to work around this error.
+
+## V1 account-recovery check
+
+Password recovery now returns the user to the application and opens a dedicated new-password experience. Ensure every environment that may receive an auth email is present under **Authentication → URL Configuration → Redirect URLs**.
+
+At minimum for normal development + production:
+
+```text
+http://localhost:3000/**
+https://your-project.vercel.app/**
+```
+
+Also add your custom domain before enabling it for family users. Test both signup-confirmation links and forgot-password links after changing auth URL configuration.
+
+Launch Control is not controlled by an environment email variable. It uses the protected `platform_owners` table. After migration 028, an existing platform owner can add another existing account by email from **Platform → Launch Control → Who can control launches**.
