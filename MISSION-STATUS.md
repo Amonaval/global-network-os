@@ -250,3 +250,27 @@ B0 now supersedes feature expansion as the immediate product priority. It does *
 **B0-B — Progressive Launch System**: Founder Launch Console, bundle/individual controls, Pilot-family targeting UI, future family-admin member controls, What's New/discovery state.
 
 Then **B0-C — Human-Friendly Family Experience**: invitation/claim simplification, radical first visit, older/non-technical user UX, mobile accessibility, slow-network/error/empty-state pass.
+
+## 2026-08-22 — B0-B Progressive Launch System — IMPLEMENTED / VERIFY
+
+### Delivered
+- Founder-only **Platform → Launch Control** UI.
+- Bundle-level and individual feature rollout controls.
+- Hidden / Test / Pilot / Released lifecycle with explicit Pilot-family targeting.
+- Pilot rollout is blocked when no family is selected.
+- Family Admin Center **Member features** controls let each family narrow member-facing capability without bypassing founder rollout.
+- Effective visibility is now founder rollout × family setting × experience tier × permission.
+- Founder-announced Pilot/Released features create one-time **New in your family** discovery cards with Try it / Got it acknowledgement.
+- Founder-only rollout audit trail records state, Pilot targeting and announcement changes.
+- Added migration `027_b0b_progressive_launch_system.sql`.
+
+### Verification required
+- Apply migrations through 027.
+- Validate platform owner / family admin / member boundaries.
+- Validate Pilot targeting across at least two families.
+- Validate family-admin OFF cannot be bypassed and cannot reveal founder-hidden features.
+- Validate announcement acknowledgement persistence and family switching.
+- Run full Next production build with dependencies installed and real mobile/device pass.
+
+### Next
+**B0-C — Human-Friendly Family Experience.** Do not resume feature expansion before this usability/adoption layer is complete.

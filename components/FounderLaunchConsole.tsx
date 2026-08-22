@@ -1,0 +1,41 @@
+"use client";
+import {useEffect,useMemo,useState} from "react";
+import {Flag,FlaskConical,Radio,RefreshCw,Rocket,ShieldCheck,Users} from "lucide-react";
+import {FEATURE_REGISTRY,FeatureBundle,FeatureKey,LaunchState} from "../lib/features";
+import {fetchPlatformFamilyTargets,fetchPlatformLaunchConsole,fetchPlatformRolloutAudit,PlatformFamilyTarget,PlatformLaunchFeature,PlatformRolloutAudit,setPlatformBundleRollout,setPlatformFeatureRollout} from "../lib/remote";
+
+const BUNDLES:{key:FeatureBundle;label:string;description:string}[]=[
+ {key:"core",label:"Core family",description:"Home, family tree, profiles and family finding."},
+ {key:"remember",label:"Remember",description:"Memories and family history."},
+ {key:"celebrate",label:"Celebrate",description:"Birthdays, anniversaries and special days."},
+ {key:"connect",label:"Connect",description:"Places, community, gatherings and relationship exploration."},
+ {key:"contribute",label:"Contribute",description:"Prompts and tools that help relatives improve the family."},
+ {key:"share",label:"Share",description:"WhatsApp, public cards, QR and printable experiences."},
+ {key:"admin",label:"Administration",description:"Family administration and governance surfaces."},
+];
+const STATES:LaunchState[]=["hidden","test","pilot","released"];
+const stateHelp:Record<LaunchState,string>={hidden:"Nobody sees it.",test:"Only the platform owner sees it.",pilot:"Only selected pilot families see it.",released:"Available to all eligible families."};
+
+export default function FounderLaunchConsole({onChanged,onNotify}:{onChanged:()=>Promise<void>|void;onNotify:(message:string)=>void}){
+ const [rows,setRows]=useState<PlatformLaunchFeature[]>([]),[families,setFamilies]=useState<PlatformFamilyTarget[]>([]),[audit,setAudit]=useState<PlatformRolloutAudit[]>([]),[busy,setBusy]=useState(false),[pilotIds,setPilotIds]=useState<string[]>([]);
+ const load=async()=>{setBusy(true);try{const [features,targets,history]=await Promise.all([fetchPlatformLaunchConsole(),fetchPlatformFamilyTargets(),fetchPlatformRolloutAudit(20)]);setRows(features);setFamilies(targets);setAudit(history)}catch(e:any){onNotify(e.message||"Could not load Launch Control.")}finally{setBusy(false)}};
+ useEffect(()=>{load()},[]);
+ const byKey=useMemo(()=>Object.fromEntries(rows.map(r=>[r.feature_key,r])) as Record<string,PlatformLaunchFeature>,[rows]);
+ const togglePilot=(id:string)=>setPilotIds(v=>v.includes(id)?v.filter(x=>x!==id):[...v,id]);
+ const saveFeature=async(key:FeatureKey,state:LaunchState,announce=false,pilotOverride?:string[])=>{const targets=pilotOverride??pilotIds;if(state==="pilot"&&targets.length===0){onNotify("Select at least one Pilot family first.");return}setBusy(true);try{await setPlatformFeatureRollout(key,state,state==="pilot"?targets:[],announce);await load();await onChanged();onNotify(`${FEATURE_REGISTRY.find(f=>f.key===key)?.label||key} is now ${state}.`)}catch(e:any){onNotify(e.message||"Could not change feature rollout.")}finally{setBusy(false)}};
+ const saveBundle=async(bundle:FeatureBundle,state:LaunchState,announce=false)=>{if(state==="pilot"&&pilotIds.length===0){onNotify("Select at least one Pilot family first.");return}setBusy(true);try{const changed=await setPlatformBundleRollout(bundle,state,state==="pilot"?pilotIds:[],announce);await load();await onChanged();onNotify(`${changed} feature${changed===1?"":"s"} moved to ${state}.`)}catch(e:any){onNotify(e.message||"Could not change bundle rollout.")}finally{setBusy(false)}};
+ return <div className="founder-launch-console">
+  <div className="founder-launch-hero"><div><span className="warm-kicker"><Rocket size={13}/> Platform owner</span><h1>Launch Control</h1><p>Reveal Family Network gradually. Deployment does not automatically mean release.</p></div><button className="btn" onClick={load} disabled={busy}><RefreshCw size={15}/> Refresh</button></div>
+  <div className="launch-rule card"><ShieldCheck/><div><b>Release precedence</b><span>Founder rollout → family member setting → experience level → permission. A family admin can hide a released feature, but can never reveal something you have not released.</span></div></div>
+  <section className="card pilot-targets"><div className="section-title"><div><h2>Pilot families</h2><p className="page-subtitle">Select the families used whenever you move a feature or bundle to Pilot.</p></div><span className="role-pill member">{pilotIds.length} selected</span></div>
+   <div className="pilot-family-grid">{families.length===0?<div className="empty compact">No families are available yet.</div>:families.map(f=><label key={f.network_id} className={`pilot-family ${pilotIds.includes(f.network_id)?"selected":""}`}><input type="checkbox" checked={pilotIds.includes(f.network_id)} onChange={()=>togglePilot(f.network_id)}/><span><b>{f.name}</b><small>/{f.slug} · {f.member_count} active account{f.member_count===1?"":"s"}</small></span></label>)}</div>
+  </section>
+  <div className="launch-legend">{STATES.map(state=><span key={state} className={`launch-state ${state}`}><i/>{state}<small>{stateHelp[state]}</small></span>)}</div>
+  <div className="launch-bundles">{BUNDLES.map(bundle=>{const defs=FEATURE_REGISTRY.filter(f=>f.bundle===bundle.key);const states=defs.map(d=>byKey[d.key]?.rollout_state||d.defaultLaunch);const common=states.every(x=>x===states[0])?states[0]:null;return <section className="card launch-bundle" key={bundle.key}>
+   <div className="launch-bundle-head"><div><span className="warm-kicker"><Flag size={13}/> {bundle.label}</span><h2>{bundle.label}</h2><p>{bundle.description}</p></div><div className="bundle-actions"><select className="select" value={common||""} disabled={busy} onChange={e=>e.target.value&&saveBundle(bundle.key,e.target.value as LaunchState,false)}><option value="" disabled>Mixed</option>{STATES.map(state=><option key={state} value={state}>{state}</option>)}</select><button className="btn small" disabled={busy||!(common==="pilot"||common==="released")} onClick={()=>common&&saveBundle(bundle.key,common,true)}><Radio size={14}/> Announce</button></div></div>
+   <div className="launch-feature-list">{defs.map(def=>{const row=byKey[def.key];const state=row?.rollout_state||def.defaultLaunch;return <div className="launch-feature-row" key={def.key}><div><b>{def.label}</b><small>{def.description}</small></div><span className={`launch-state compact ${state}`}>{state}</span><select className="select" value={state} disabled={busy} onChange={e=>saveFeature(def.key,e.target.value as LaunchState,false)}>{STATES.map(s=><option key={s} value={s}>{s}</option>)}</select><button className="icon-button" title="Announce this feature as new" disabled={busy||!(state==="pilot"||state==="released")} onClick={()=>saveFeature(def.key,state,true,row?.pilot_network_ids||[])}><FlaskConical size={15}/></button></div>})}</div>
+  </section>})}</div>
+  <section className="card rollout-history"><div className="section-title"><div><h2>Recent rollout activity</h2><p className="page-subtitle">A founder-only audit trail of feature exposure changes.</p></div></div>{audit.length===0?<div className="empty compact">No rollout changes recorded yet.</div>:audit.map(item=><div className="rollout-history-row" key={item.id}><span><b>{FEATURE_REGISTRY.find(f=>f.key===item.feature_key)?.label||item.feature_key}</b><small>{new Date(item.changed_at).toLocaleString()} · {item.bundle_key}{item.announced?" · announced":""}</small></span><em>{item.previous_state} → {item.new_state}</em></div>)}</section>
+  <div className="card launch-footnote"><Users/><div><b>Family controls come after founder release</b><span>Family admins see only member-facing switches and can disable them for their own family. Admin capabilities remain role-controlled, not family-member preferences.</span></div></div>
+ </div>
+}

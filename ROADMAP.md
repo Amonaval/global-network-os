@@ -374,3 +374,18 @@ Resume bundled delivery only after initial family usage:
 - **C3 Real Alpha Scale** — completes A9 with cross-family operations, activation funnel, performance/privacy regression and the 20→50 promotion gate.
 
 A1–A9 mission status remains implementation/verification truthful even when capabilities are hidden by B0 rollout controls.
+
+## 2026-08-22 — B0-B implementation checkpoint
+
+**B0-B Progressive Launch System is IMPLEMENTED IN SOURCE / verification pending.**
+
+Delivered as one coherent release-control batch:
+1. Founder-only Launch Control with bundle + solo feature switches.
+2. Hidden/Test/Pilot/Released rollout and explicit family targeting.
+3. Family Admin member-feature preferences that can only narrow founder-released capability.
+4. One-time What's New discovery cards tied to announcement versions.
+5. Founder rollout audit history and safe server-side authorization.
+
+Migration: `027_b0b_progressive_launch_system.sql`.
+
+The binding next mission is **B0-C Human-Friendly Family Experience**. B0-C should complete the adoption layer before C1/C2/C3 or additional feature expansion: radical invitation/first visit, calm Simple experience, one-primary-action screens, multilingual family-language cleanup, large touch targets, back-navigation safety, slow-network/error/empty states, and real novice/older-user mobile validation.

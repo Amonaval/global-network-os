@@ -29,6 +29,8 @@ import {
   ArrowRight,
   Menu,
   Home,
+  Rocket,
+  Sparkles,
 } from "lucide-react";
 import TreeView from "./TreeView";
 import ProfileDrawer from "./ProfileDrawer";
@@ -72,15 +74,16 @@ import ParticipationCenter from "./ParticipationCenter";
 import FamilyHome from "./FamilyHome";
 import FamilySwitcher from "./FamilySwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
-import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures } from "../lib/remote";
+import FounderLaunchConsole from "./FounderLaunchConsole";
+import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
-import {defaultFeatureMap, EffectiveFeatureMap, ExperienceLevel, FeatureKey, isFeatureAvailable, EXPERIENCE_LABELS, EXPERIENCE_RANK} from "../lib/features";
+import {defaultFeatureMap, EffectiveFeatureMap, ExperienceLevel, FeatureKey, isFeatureAvailable, EXPERIENCE_LABELS, EXPERIENCE_RANK, FEATURE_BY_KEY} from "../lib/features";
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 const ImportModal = dynamic(() => import("./ImportModal"), { ssr: false });
 const repository = getNetworkRepository();
-type View = "home" | "tree" | "directory" | "map" | "community" | "timeline" | "participation" | "admin";
+type View = "home" | "tree" | "directory" | "map" | "community" | "timeline" | "participation" | "admin" | "founder";
 type Visibility = "public" | "member" | "admin";
 const esc = (v: string) => `"${String(v ?? "").replaceAll('"', '""')}"`;
 const uuid = () =>
@@ -109,7 +112,8 @@ export default function NetworkApp() {
     [setupNeeded, setSetupNeeded] = useState(false),
     [editingMember, setEditingMember] = useState<Member | undefined>();
   const [platformFeatures,setPlatformFeatures]=useState<EffectiveFeatureMap>(()=>defaultFeatureMap(!isSupabaseConfigured)),
-    [experiencePreview,setExperiencePreview]=useState<ExperienceLevel|null>(null);
+    [experiencePreview,setExperiencePreview]=useState<ExperienceLevel|null>(null),
+    [featureAnnouncements,setFeatureAnnouncements]=useState<FeatureAnnouncement[]>([]);
   const [query, setQuery] = useState(""),
     [profession, setProfession] = useState(""),
     [city, setCity] = useState(""),
@@ -161,7 +165,8 @@ export default function NetworkApp() {
         // Migration 026 may not be applied yet. Keep safe compatibility defaults.
         setPlatformFeatures(defaultFeatureMap(false));
       }
-    } else setPlatformFeatures(defaultFeatureMap(true));
+      try{setFeatureAnnouncements(await fetchMyFeatureAnnouncements())}catch{setFeatureAnnouncements([])}
+    } else {setPlatformFeatures(defaultFeatureMap(true));setFeatureAnnouncements([])}
     const n =
       repository.mode === "shared"
         ? await repository.fetchNetworkSettings()
@@ -876,6 +881,33 @@ export default function NetworkApp() {
   const isPlatformOwner = !isSupabaseConfigured || !!auth?.platform_owner;
   const experience:ExperienceLevel = experiencePreview || (!isSupabaseConfigured ? "explorer" : (auth?.experience_level || "simple"));
   const hasFeature=(key:FeatureKey)=>isFeatureAvailable(key,platformFeatures,experience,canAdmin);
+  const refreshFeatureState=async()=>{
+    if(!isSupabaseConfigured)return;
+    try{
+      const rows=await fetchEffectivePlatformFeatures();
+      const map=defaultFeatureMap(false);
+      rows.forEach(row=>{const key=row.feature_key as FeatureKey;if(map[key])map[key]={key,rollout_state:row.rollout_state,enabled:row.enabled}});
+      setPlatformFeatures(map);
+      try{setFeatureAnnouncements(await fetchMyFeatureAnnouncements())}catch{}
+    }catch(e:any){notify(e.message||"Could not refresh feature availability.")}
+  };
+  const activeAnnouncement=featureAnnouncements.find(item=>hasFeature(item.feature_key as FeatureKey));
+  const openAnnouncedFeature=(key:FeatureKey)=>{
+    if(key==="core.family"||key==="advanced.relationships")setView("tree");
+    else if(key==="core.directory")setView("directory");
+    else if(key==="remember.memories"||key==="connect.community"||key==="connect.gatherings")setView("community");
+    else if(key==="remember.history")setView("timeline");
+    else if(key==="connect.places")setView("map");
+    else if(key==="contribute.help_family")setView("participation");
+    else if(key.startsWith("admin."))setView("admin");
+    else setView("home");
+  };
+  const dismissAnnouncement=async()=>{
+    if(!activeAnnouncement)return;
+    const current=activeAnnouncement;
+    setFeatureAnnouncements(v=>v.filter(x=>!(x.feature_key===current.feature_key&&x.announcement_version===current.announcement_version)));
+    try{await markFeatureAnnouncementSeen(current.feature_key,current.announcement_version)}catch{}
+  };
   const openMyProfile=()=>{
     if(auth?.member_id){
       const mine=members.find(m=>m.id===auth.member_id);
@@ -989,6 +1021,10 @@ export default function NetworkApp() {
             <div className="sidebar-section-label">{language === "hi" ? "परिवार प्रबंधन" : language === "mr" ? "कुटुंब व्यवस्थापन" : "Family management"}</div>
             <button className={`nav-btn admin-nav ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><ShieldCheck size={17}/> {language === "hi" ? "परिवार संभालें" : language === "mr" ? "कुटुंब सांभाळा" : "Manage family"}</button>
           </div>}
+          {isPlatformOwner && isSupabaseConfigured && <div className="admin-nav-separator founder-nav-area">
+            <div className="sidebar-section-label">Platform</div>
+            <button className={`nav-btn founder-nav ${view === "founder" ? "active" : ""}`} onClick={() => setView("founder")}><Rocket size={17}/> Launch Control</button>
+          </div>}
           {canAdmin && <div className="experience-preview">
             <label>{language === "hi" ? "सदस्य अनुभव देखें" : language === "mr" ? "सदस्य अनुभव पहा" : "Preview member experience"}</label>
             <select className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>
@@ -1003,6 +1039,7 @@ export default function NetworkApp() {
           </div>
         </aside>
         <main className="main">
+          {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">New in your family</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||"New family feature"}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||"There is something new to explore."}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
           {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={setSelected} />}
           {view === "home" && <FamilyHome members={members} events={allLifeEvents} networkName={network?.name} onSelect={setSelected} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} />}
           {view === "tree" && (
@@ -1303,6 +1340,7 @@ export default function NetworkApp() {
               onNotify={notify}
             />
           )}
+          {view === "founder" && isPlatformOwner && isSupabaseConfigured && <FounderLaunchConsole onChanged={refreshFeatureState} onNotify={notify}/>}
           {view === "admin" && canAdmin && hasFeature("admin.center") && (
             <section>
               <div className="page-head">
@@ -1314,7 +1352,7 @@ export default function NetworkApp() {
                   </p>
                 </div>
               </div>
-              {network && <FamilyAdminCenter network={network} members={members} relationships={relationships} memberCount={members.length} relationshipCount={relationships.length} changeRequests={changeRequests} onSaveSettings={updateLivingSetting} onOpenInvitations={()=>setShowInvitation(true)} onOpenParticipation={()=>setView("participation")} onExportCsv={exportCsv} onExportJson={exportJson} onPrint={()=>window.print()} onNotify={notify}/>}
+              {network && <FamilyAdminCenter network={network} members={members} relationships={relationships} memberCount={members.length} relationshipCount={relationships.length} changeRequests={changeRequests} onSaveSettings={updateLivingSetting} onOpenInvitations={()=>setShowInvitation(true)} onOpenParticipation={()=>setView("participation")} onExportCsv={exportCsv} onExportJson={exportJson} onPrint={()=>window.print()} onNotify={notify} onFeatureSettingsChanged={refreshFeatureState}/>}
               <details className="legacy-admin-details"><summary>Advanced administration & diagnostics</summary>
               <div className="admin-grid">
                 <div className="card stat">
@@ -1656,7 +1694,7 @@ export default function NetworkApp() {
         <button className={view === "tree" ? "active" : ""} onClick={() => setView("tree")}><TreePine size={19}/><span>{language === "hi" ? "परिवार" : language === "mr" ? "कुटुंब" : "Family"}</span></button>
         {experience!=="simple" && hasFeature("remember.memories") && <button className={view === "community" ? "active" : ""} onClick={() => setView("community")}><HeartHandshake size={19}/><span>{language === "hi" ? "यादें" : language === "mr" ? "आठवणी" : "Memories"}</span></button>}
         <button className={selected?.id===auth?.member_id ? "active" : ""} onClick={openMyProfile}><UserRoundPen size={19}/><span>{language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</span></button>
-        <button className={showMobileMenu || view === "map" || view === "admin" || view === "timeline" || view === "participation" || view === "directory" ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19}/><span>{moreLabel}</span></button>
+        <button className={showMobileMenu || view === "map" || view === "admin" || view === "founder" || view === "timeline" || view === "participation" || view === "directory" ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19}/><span>{moreLabel}</span></button>
       </nav>
       {showMobileMenu && <div className="mobile-more-overlay" onMouseDown={(event) => event.target === event.currentTarget && setShowMobileMenu(false)}><section className="mobile-more-sheet" role="dialog" aria-modal="true" aria-label={moreLabel}>
         <div className="mobile-more-head"><div><span className="warm-kicker">{network?.name}</span><h2>{moreLabel}</h2></div><button className="icon-button" aria-label="Close" autoFocus onClick={() => setShowMobileMenu(false)}><X size={19}/></button></div>
@@ -1665,6 +1703,7 @@ export default function NetworkApp() {
         {hasFeature("connect.places")&&<button className="mobile-more-action" onClick={() => { setView("map"); setShowMobileMenu(false); }}><span><MapPinned />{language==='hi'?'परिवार कहाँ है':language==='mr'?'कुटुंब कुठे आहे':'Family places'}</span><ArrowRight /></button>}
         {hasFeature("contribute.help_family")&&<button className="mobile-more-action" onClick={() => { setView("participation"); setShowMobileMenu(false); }}><span><GitBranch />{language==='hi'?'परिवार की मदद':language==='mr'?'कुटुंबाला मदत':'Help improve our family'}</span><ArrowRight /></button>}
         {canAdmin && hasFeature("admin.center") && <button className="mobile-more-action" onClick={() => { setView("admin"); setShowMobileMenu(false); }}><span><Settings2 />{language==='hi'?'परिवार संभालें':language==='mr'?'कुटुंब सांभाळा':'Manage family'}</span><ArrowRight /></button>}
+        {isPlatformOwner && isSupabaseConfigured && <button className="mobile-more-action" onClick={() => { setView("founder"); setShowMobileMenu(false); }}><span><Rocket />Launch Control</span><ArrowRight /></button>}
         <button className="mobile-more-action" onClick={() => { setShowGuide(true); setShowMobileMenu(false); }}><span><BookOpen />{language==='hi'?'मदद':language==='mr'?'मदत':'Help'}</span><ArrowRight /></button>
         <div className="mobile-more-setting"><LanguageSwitcher /></div>
         {canAdmin&&<label className="mobile-more-setting"><span>{language === "hi" ? "जानकारी का पूर्वावलोकन" : language === "mr" ? "माहिती पूर्वावलोकन" : "Information preview"}</span><select className="select" value={visibility} onChange={(event) => setVisibility(event.target.value as Visibility)}><option value="public">{t("publicPreview")}</option><option value="member">{t("memberView")}</option><option value="admin">{t("adminView")}</option></select></label>}

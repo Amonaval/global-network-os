@@ -36,15 +36,66 @@ const mapLifeEvent = (r: any): LifeEvent => ({
 
 
 export type PlatformFeatureRow={feature_key:string;rollout_state:"hidden"|"test"|"pilot"|"released";enabled:boolean};
+export type PlatformLaunchFeature={feature_key:string;bundle_key:string;rollout_state:"hidden"|"test"|"pilot"|"released";pilot_network_ids:string[];announcement_version:number;updated_at:string};
+export type PlatformFamilyTarget={network_id:string;name:string;slug:string;status:string;member_count:number};
+export type PlatformRolloutAudit={id:number;feature_key:string;bundle_key:string;previous_state:string;new_state:string;pilot_network_ids:string[];announced:boolean;changed_at:string};
+export type FamilyFeatureSetting={feature_key:string;enabled:boolean};
+export type FeatureAnnouncement={feature_key:string;announcement_version:number;rollout_state:"hidden"|"test"|"pilot"|"released";updated_at:string};
 export async function fetchEffectivePlatformFeatures():Promise<PlatformFeatureRow[]>{
   if(!supabase)return [];
   const {data,error}=await supabase.rpc("get_effective_platform_features");
   if(error)throw error;
   return (data||[]) as PlatformFeatureRow[];
 }
-export async function setPlatformFeatureRollout(featureKey:string,rolloutState:"hidden"|"test"|"pilot"|"released",pilotNetworkIds:string[]=[]){
+export async function fetchPlatformLaunchConsole():Promise<PlatformLaunchFeature[]>{
+  if(!supabase)return [];
+  const {data,error}=await supabase.rpc("get_platform_launch_console");
+  if(error)throw error;
+  return (data||[]) as PlatformLaunchFeature[];
+}
+export async function fetchPlatformFamilyTargets():Promise<PlatformFamilyTarget[]>{
+  if(!supabase)return [];
+  const {data,error}=await supabase.rpc("get_platform_family_targets");
+  if(error)throw error;
+  return (data||[]).map((row:any)=>({...row,member_count:Number(row.member_count||0)})) as PlatformFamilyTarget[];
+}
+export async function fetchPlatformRolloutAudit(limit=30):Promise<PlatformRolloutAudit[]>{
+  if(!supabase)return [];
+  const {data,error}=await supabase.rpc("get_platform_rollout_audit",{p_limit:limit});
+  if(error)throw error;
+  return (data||[]).map((row:any)=>({...row,id:Number(row.id)})) as PlatformRolloutAudit[];
+}
+export async function setPlatformFeatureRollout(featureKey:string,rolloutState:"hidden"|"test"|"pilot"|"released",pilotNetworkIds:string[]=[],announce=false){
   if(!supabase)return;
-  const {error}=await supabase.rpc("set_platform_feature_rollout",{p_feature_key:featureKey,p_rollout_state:rolloutState,p_pilot_network_ids:pilotNetworkIds});
+  const {error}=await supabase.rpc("set_platform_feature_rollout",{p_feature_key:featureKey,p_rollout_state:rolloutState,p_pilot_network_ids:pilotNetworkIds,p_announce:announce});
+  if(error)throw error;
+}
+export async function setPlatformBundleRollout(bundleKey:string,rolloutState:"hidden"|"test"|"pilot"|"released",pilotNetworkIds:string[]=[],announce=false){
+  if(!supabase)return 0;
+  const {data,error}=await supabase.rpc("set_platform_bundle_rollout",{p_bundle_key:bundleKey,p_rollout_state:rolloutState,p_pilot_network_ids:pilotNetworkIds,p_announce:announce});
+  if(error)throw error;
+  return Number(data||0);
+}
+export async function fetchFamilyFeatureSettings():Promise<FamilyFeatureSetting[]>{
+  if(!supabase)return [];
+  const {data,error}=await supabase.rpc("get_family_feature_settings");
+  if(error)throw error;
+  return (data||[]) as FamilyFeatureSetting[];
+}
+export async function setFamilyFeatureSetting(featureKey:string,enabled:boolean){
+  if(!supabase)return;
+  const {error}=await supabase.rpc("set_family_feature_setting",{p_feature_key:featureKey,p_enabled:enabled});
+  if(error)throw error;
+}
+export async function fetchMyFeatureAnnouncements():Promise<FeatureAnnouncement[]>{
+  if(!supabase)return [];
+  const {data,error}=await supabase.rpc("get_my_feature_announcements");
+  if(error)throw error;
+  return (data||[]) as FeatureAnnouncement[];
+}
+export async function markFeatureAnnouncementSeen(featureKey:string,version:number){
+  if(!supabase)return;
+  const {error}=await supabase.rpc("mark_feature_announcement_seen",{p_feature_key:featureKey,p_announcement_version:version});
   if(error)throw error;
 }
 export async function setMyExperienceLevel(level:"simple"|"connected"|"explorer"){
