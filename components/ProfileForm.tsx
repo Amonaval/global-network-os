@@ -133,7 +133,7 @@ export default function ProfileForm({
     }
   }
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onMouseDown={(event)=>event.target===event.currentTarget&&onClose()}>
       <form className="modal" onSubmit={submit}>
         <div className="drawer-head">
           <h2 style={{ margin: 0 }}>

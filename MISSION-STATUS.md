@@ -511,3 +511,18 @@ CR2.3 remains **IMPLEMENTED / LIVE VERIFY**.
 - [ ] 360/390/430 mobile behavior verification.
 
 S1 is not yet promoted to VERIFIED. S2 remains blocked by the S1 behavior gate.
+
+## 2026-08-23 — S1-D Interaction Reliability & Privacy Preview Clarity
+
+**IMPLEMENTED IN SOURCE / LIVE VERIFY**
+
+- [x] Preserve user-verified global card padding and Home memory tile spacing fixes.
+- [x] Restore missing `UsersRound` import used by mobile family-access controls.
+- [x] Outside-click dismissal for ordinary dismissible modal surfaces.
+- [x] Keep blocking authentication/recovery surfaces protected from accidental backdrop dismissal.
+- [x] Retain admin-only privacy preview, rename it so its scope is understandable.
+- [x] Make Public / Family member / Family admin preview affect profile details, contacts, social links, life events and memories consistently.
+- [ ] Deployed desktop + 360/390/430 interaction verification.
+- [ ] Real privacy fixtures tested under all three preview audiences.
+
+S1 remains **LIVE VERIFY** and S2 remains blocked.

@@ -166,3 +166,11 @@ Authentication and family membership must never trap a user inside one family. S
 
 ## Playground rollout rule
 Playground feature visibility is controlled independently from real-family platform rollout. The Playground should demonstrate released product potential without forcing the same exposure onto Alpha families. Anonymous Playground remains read-only and must never persist demo IDs/data.
+
+## S1 modal + privacy-preview interaction rules (2026-08-23)
+
+- Ordinary modal popups must dismiss when the user activates the backdrop; interaction inside the modal must never trigger backdrop dismissal.
+- Blocking authentication/password-recovery surfaces are exempt when dismissing them would leave no meaningful usable state.
+- Never label a narrow privacy preview as a whole-app role simulation. UI labels must describe the actual scope.
+- Admin privacy-preview controls must reduce rendered information to the simulated audience even though the operator's real account has broader privileges.
+- User-verified visual fixes become part of the cumulative baseline and must not be silently reverted by later missions.

@@ -5,6 +5,7 @@ import {
   Search,
   TreePine,
   Users,
+  UsersRound,
   ShieldCheck,
   Upload,
   Download,
@@ -32,7 +33,6 @@ import {
   Rocket,
   Sparkles,
   PlayCircle,
-  UsersRound
 } from "lucide-react";
 import TreeView from "./TreeView";
 import ProfileDrawer from "./ProfileDrawer";
@@ -1151,13 +1151,13 @@ export default function NetworkApp() {
           )}
           {canAdmin && <select
             className="select"
-            aria-label="Information preview"
+            aria-label="Preview profile privacy as"
             value={visibility}
             onChange={(e) => setVisibility(e.target.value as Visibility)}
           >
-            <option value="public">{t("publicPreview")}</option>
-            <option value="member">{t("memberView")}</option>
-            <option value="admin">{t("adminView")}</option>
+            <option value="public">Public visitor preview</option>
+            <option value="member">Family member preview</option>
+            <option value="admin">Family admin preview</option>
           </select>}
           {<button className="btn small" onClick={() => setShowGuide(true)}>
             <BookOpen size={15} /> {t("guide")}
@@ -1908,7 +1908,7 @@ export default function NetworkApp() {
         <button className="mobile-more-action" onClick={toggleLargeText}><span><BookOpen />{largeText ? (language==='hi'?'सामान्य टेक्स्ट':language==='mr'?'सामान्य मजकूर':'Normal text size') : (language==='hi'?'बड़ा टेक्स्ट':language==='mr'?'मोठा मजकूर':'Larger text')}</span><ArrowRight /></button>
         <div className="mobile-more-setting"><LanguageSwitcher /></div>
         {!canAdmin&&<label className="mobile-more-setting friendly-experience-setting"><span>{language==='hi'?'ऐप में कितना दिखे?':language==='mr'?'अॅपमध्ये किती दाखवायचे?':'How much would you like to see?'}</span><select className="select" value={experience} onChange={e=>changeMyExperience(e.target.value as ExperienceLevel)}><option value="simple">{language==='hi'?'सरल — बस जरूरी चीजें':language==='mr'?'सोपे — फक्त महत्त्वाचे':'Simple — just the essentials'}</option><option value="connected">{language==='hi'?'और परिवार — यादें और खास दिन':language==='mr'?'अधिक कुटुंब — आठवणी आणि खास दिवस':'More family — memories & moments'}</option><option value="explorer">{language==='hi'?'सब देखें — सभी सदस्य सुविधाएँ':language==='mr'?'सगळे पहा — सर्व सदस्य सुविधा':'Everything — all member features'}</option></select><small>{language==='hi'?'इसे कभी भी बदल सकते हैं।':language==='mr'?'हे कधीही बदलू शकता.':'You can change this anytime.'}</small></label>}
-        {canAdmin&&<label className="mobile-more-setting"><span>{language === "hi" ? "जानकारी का पूर्वावलोकन" : language === "mr" ? "माहिती पूर्वावलोकन" : "Information preview"}</span><select className="select" value={visibility} onChange={(event) => setVisibility(event.target.value as Visibility)}><option value="public">{t("publicPreview")}</option><option value="member">{t("memberView")}</option><option value="admin">{t("adminView")}</option></select></label>}
+        {canAdmin&&<label className="mobile-more-setting"><span>{language === "hi" ? "प्रोफ़ाइल गोपनीयता पूर्वावलोकन" : language === "mr" ? "प्रोफाइल गोपनीयता पूर्वावलोकन" : "Preview profile privacy as"}</span><select className="select" value={visibility} onChange={(event) => setVisibility(event.target.value as Visibility)}><option value="public">Public visitor</option><option value="member">Family member</option><option value="admin">Family admin</option></select></label>}
         {canAdmin&&<label className="mobile-more-setting"><span>{language==='hi'?'सदस्य अनुभव देखें':language==='mr'?'सदस्य अनुभव पहा':'Preview member experience'}</span><select className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>{(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map(level=><option key={level} value={level}>{EXPERIENCE_LABELS[level].label}</option>)}</select></label>}
         {isSupabaseConfigured && <button className="mobile-more-action sign-out" onClick={() => { signOut(); setAuth(null); setShowMobileMenu(false); }}><span><LogOut />{t("signOut")}</span></button>}
       </section></div>}
@@ -1930,8 +1930,8 @@ export default function NetworkApp() {
           simple={experience === "simple"}
           canViewPrivateContact={
             !isSupabaseConfigured ||
-            canAdmin ||
-            selected.id === auth?.member_id
+            selected.id === auth?.member_id ||
+            canAdmin
           }
           onClose={() => { setSelected(null); setSelectedHistory([]); }}
           onBack={selectedHistory.length ? backProfile : undefined}
@@ -2017,7 +2017,7 @@ export default function NetworkApp() {
         />
       )}{" "}
       {showGuide && (
-        <div className="modal-overlay">
+        <div className="modal-overlay" onMouseDown={(event)=>event.target===event.currentTarget&&setShowGuide(false)}>
           <div className="modal family-help-modal" role="dialog" aria-modal="true" aria-labelledby="family-help-title">
             <div className="drawer-head">
               <h2 id="family-help-title" style={{ margin: 0 }}>{helpCopy.title}</h2>

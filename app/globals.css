@@ -420,8 +420,6 @@ h1,h2,.family-welcome h1,.onboarding-story h1{font-family:"Iowan Old Style","Pal
 .family-signin-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}.playground-note{margin:10px auto 0;max-width:430px;color:var(--muted);font-size:12px;line-height:1.5}.setup-create-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.setup-minimum-note{display:block;margin-top:9px;color:var(--muted);line-height:1.5}.family-help-document-preview{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}.family-help-document-preview summary{display:flex;align-items:center;gap:7px;cursor:pointer;color:var(--brand);font-weight:800}.family-help-document{margin-top:12px;padding:18px;border:1px solid #e2dacd;border-radius:14px;background:#fffdf8;line-height:1.65}.family-help-document h3{margin:0 0 12px}.family-help-document p{margin:8px 0}.react-flow__edge-text{paint-order:stroke;stroke:#fffdf8;stroke-width:2px;stroke-linejoin:round}
 @media(max-width:600px){.family-signin-actions{display:grid;grid-template-columns:1fr}.family-signin-actions .btn{justify-content:center;min-height:46px}.setup-create-actions{display:grid;grid-template-columns:1fr}.setup-create-actions .btn{justify-content:center;white-space:normal}.family-help-document{padding:14px}}
 
-/* CR2.3 user-verified alpha UI corrections */
-.card.home-coming{padding:10px}
 
 
 /* S1-A/B · instant family magic */
@@ -438,3 +436,12 @@ h1,h2,.family-welcome h1,.onboarding-story h1{font-family:"Iowan Old Style","Pal
 @media(max-width:800px){.family-ready-celebration{grid-template-columns:auto 1fr}.family-ready-actions{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr}.family-ready-actions .btn{justify-content:center}.family-ready-actions .icon-button{position:absolute;right:18px;align-self:start}}
 .family-switcher-menu .family-switcher-lobby{justify-content:flex-start;gap:7px;color:#475b53;font-weight:700}.family-switcher-menu .family-switcher-leave{justify-content:flex-start;gap:7px;color:#9b3d35;font-weight:700;border-top:1px solid var(--line);margin-top:4px}.playground-feature-control .family-feature-list{margin-top:10px}
 .onboarding-account-actions{display:flex;align-items:center;gap:8px}
+
+
+/* User-verified S1 layout fixes */
+.card {
+    padding: 10px;
+}
+button.home-memory-tile {
+    margin-bottom: 10px;
+}

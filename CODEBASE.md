@@ -264,3 +264,10 @@ Sustainable monetization is a primary objective. Family may drive engagement/dis
 - `NetworkApp`: always-visible auth escape controls, Playground Explorer/feature map, local memories persistence fix.
 - `FounderLaunchConsole`: Playground feature visibility panel independent of real-user rollout.
 - `supabase/seed-demo.sql`: synchronized 60-person full-potential showcase; old 150-person filler seed removed from the active seed path.
+
+## 2026-08-23 S1-D cumulative notes
+
+- `NetworkApp.tsx`: `UsersRound` import retained; admin audience selector is now a scoped profile privacy preview.
+- `ProfileDrawer.tsx`: preview audience filters profile details, contacts, social links, life events and memories; backdrop dismissal remains supported.
+- Dismissible modal components now close only when the backdrop itself is activated, not when a control inside the dialog is used.
+- `app/globals.css`: user-verified `.card { padding: 10px; }` and Home memory tile bottom spacing are canonical.

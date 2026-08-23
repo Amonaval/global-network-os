@@ -79,6 +79,13 @@ export default function ProfileDrawer({
   const { t, language } = useLanguage();
   const copy = language === "hi" ? { phone:"फ़ोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोड़ें", noMilestones:"अभी कोई जीवन घटना साझा नहीं की गई।", noMemories:"अभी कोई याद साझा नहीं की गई।", noRelations:"अभी कोई रिश्ता दर्ज नहीं है।", member:"सदस्य", undated:"तारीख नहीं", edit:"बदलें" } : language === "mr" ? { phone:"फोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोडा", noMilestones:"अजून कोणतीही जीवन घटना सामायिक केलेली नाही.", noMemories:"अजून कोणतीही आठवण सामायिक केलेली नाही.", noRelations:"अजून कोणतेही नाते नोंदवलेले नाही.", member:"सदस्य", undated:"तारीख नाही", edit:"बदला" } : { phone:"Phone", email:"Email", about:"About", addEvent:"Add event", noMilestones:"No milestones have been shared yet.", noMemories:"No memories have been shared yet.", noRelations:"No relationships recorded.", member:"Member", undated:"Undated", edit:"Edit" };
   const cfg = getNetworkConfig(network ?? null);
+  const visibilityRank = { public: 0, member: 1, admin: 2 } as const;
+  const previewRank = visibilityRank[visibility];
+  const visibleAtPreview = (required?: "public" | "member" | "admin" | null) => previewRank >= visibilityRank[required || "member"];
+  const showProfileDetails = visibleAtPreview(member.profile_visibility || "member");
+  const showContactDetails = canViewPrivateContact && visibleAtPreview(member.contact_visibility || "admin");
+  const visibleEvents = (events || []).filter(e => visibleAtPreview(e.visibility || "member"));
+  const visibleMemories = (memories || []).filter(m => visibleAtPreview(m.visibility || "member"));
   const relationshipToViewer = viewerMemberId ? describeRelationshipToViewer(members, relationships, viewerMemberId, member.id) : null;
   const relationshipLabel = viewerMemberId ? relationshipLabelToViewer(members, relationships, viewerMemberId, member.id) : null;
   const related = relationships
@@ -135,7 +142,7 @@ export default function ProfileDrawer({
             {relationshipLabel && <div className={`profile-relationship-badge ${relationshipLabel === "You" ? "you" : ""}`}>{relationshipLabel === "You" ? "This is you" : `Your ${relationshipLabel.toLowerCase()}`}</div>}
           </div>
         </div>
-        <div className="detail-grid">
+        {showProfileDetails && <div className="detail-grid">
           <div className="detail">
             <div className="detail-label">
               <Briefcase size={12} style={{ verticalAlign: "middle" }} />{" "}
@@ -164,8 +171,8 @@ export default function ProfileDrawer({
             </div>
             <div className="detail-value">{member.date_of_birth ? friendlyDate(member.date_of_birth, language) : t("notAdded")}</div>
           </div>
-        </div>
-        {canViewPrivateContact && (
+        </div>}
+        {showContactDetails && (
           <div className="detail-grid">
             <div className="detail">
               <div className="detail-label">{copy.phone}</div>
@@ -177,12 +184,12 @@ export default function ProfileDrawer({
             </div>
           </div>
         )}
-        {!canViewPrivateContact && (
+        {!showContactDetails && (
           <div className="privacy-note">
             {t("privateContact")}
           </div>
         )}
-        {canViewPrivateContact &&
+        {showContactDetails &&
           member.contact_visibility === "admin" &&
           !member.phone &&
           !member.email && (
@@ -191,17 +198,17 @@ export default function ProfileDrawer({
               administrators.
             </div>
           )}
-        {member.profile_visibility === "admin" && !member.bio && (
+        {!showProfileDetails && (
           <div className="privacy-note">
-            Some profile details are visible only to administrators.
+            This profile has more details than this preview is allowed to show.
           </div>
         )}
         {(() => { const links=[
-          {label:"Facebook",url:safeExternalUrl(member.facebook_url),show:visibility!=="public"||member.facebook_public},
-          {label:"Instagram",url:safeExternalUrl(member.instagram_url),show:visibility!=="public"||member.instagram_public},
-          {label:member.other_social_label||"Website",url:safeExternalUrl(member.other_social_url),show:visibility!=="public"||member.other_social_public}
+          {label:"Facebook",url:safeExternalUrl(member.facebook_url),show:showProfileDetails&&(visibility!=="public"||member.facebook_public)},
+          {label:"Instagram",url:safeExternalUrl(member.instagram_url),show:showProfileDetails&&(visibility!=="public"||member.instagram_public)},
+          {label:member.other_social_label||"Website",url:safeExternalUrl(member.other_social_url),show:showProfileDetails&&(visibility!=="public"||member.other_social_public)}
         ].filter(x=>x.url&&x.show); return links.length?<div className="profile-social-links"><div className="detail-label"><Link2 size={12}/> Social links</div><div className="social-link-chips">{links.map(x=><a key={x.label} href={x.url} target="_blank" rel="noopener noreferrer nofollow" className="social-link-chip">{x.label}<ExternalLink size={12}/></a>)}</div><div className="person-meta">External links are user-provided and are not identity verification.</div></div>:null })()}
-        {member.bio && (
+        {showProfileDetails && member.bio && (
           <>
             <h3 style={{ fontSize: 14 }}>{copy.about}</h3>
             <p style={{ fontSize: 13, lineHeight: 1.6, color: "#596579" }}>
@@ -220,10 +227,10 @@ export default function ProfileDrawer({
           )}
         </div>
         <div className="timeline-list">
-          {(!events || events.length === 0) && (
+          {visibleEvents.length === 0 && (
             <div className="empty compact">{copy.noMilestones}</div>
           )}
-          {(events || [])
+          {visibleEvents
             .slice()
             .sort((a, b) =>
               (a.event_date || "9999").localeCompare(b.event_date || "9999"),
@@ -253,10 +260,10 @@ export default function ProfileDrawer({
         </div>
         <h3 style={{ fontSize: 14, marginTop: 20 }}>{t("memories")}</h3>
         <div className="profile-memory-list">
-          {(!memories || memories.length === 0) && (
+          {visibleMemories.length === 0 && (
             <div className="empty compact">{copy.noMemories}</div>
           )}
-          {(memories || []).slice(0, 6).map((m) => (
+          {visibleMemories.slice(0, 6).map((m) => (
             <div className="profile-memory" key={m.id}>
               {m.photo_url && <img src={m.photo_url} alt="" />}
               <div>

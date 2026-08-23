@@ -119,3 +119,17 @@ Full `tsc --noEmit` / `next build` remains unverified in this environment becaus
 - Changed TS/TSX files pass TypeScript `transpileModule` syntax diagnostics.
 - Full `npm run build` is still environment-blocked here because dependency restoration timed out and local `node_modules/.bin/next` is absent. The original reported `State.memories` type mismatch itself is fixed in source.
 - Deployed behavior verification remains required before S1 can be marked VERIFIED.
+
+## S1-D interaction/privacy validation — 2026-08-23
+
+Source gate: `npm run validate:s1-d` → **17/17 PASS**.
+
+Live verification required:
+- open each ordinary popup and activate only the backdrop; verify it closes without saving;
+- interact inside each popup; verify it remains open;
+- verify blocking sign-in/password recovery is not accidentally dismissible into an unusable state;
+- as Family Owner/admin, compare Public visitor / Family member / Family admin profile privacy previews using records with different profile/contact/event/memory visibility;
+- verify a normal member cannot access the admin-only preview selector;
+- repeat modal and preview checks at 360/390/430 widths.
+
+S1 remains LIVE VERIFY; this source gate does not replace deployed behaviour QA.

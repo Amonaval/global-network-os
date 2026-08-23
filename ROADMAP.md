@@ -712,3 +712,19 @@ The old 150-person demo history remains preserved. The current product-showcase 
 Status: **IMPLEMENTED IN SOURCE / LIVE VERIFY**.
 
 S1 post-implementation audit found several first-60-second recovery/discoverability failures: Simple users could lose family-switch/logout visibility, setup had no logout, Playground inherited Simple feature visibility, and the database demo still used the old 150-person filler seed. These are now addressed by migration 036, always-visible family escape paths, Family Lobby, separate Playground Launch Control, and the synchronized 60-person full-potential showcase dataset. Preserve this as part of S1; do not start S2 until deployed behavior confirms it.
+
+## 2026-08-23 — S1-D Interaction Reliability & Privacy Preview Clarity
+
+Status: **IMPLEMENTED IN SOURCE / LIVE VERIFY**.
+
+Hands-on Alpha review found two S1 trust/comprehension gaps: ordinary popups were inconsistent about backdrop dismissal, and the admin Public/Member/Admin selector looked like a whole-app role simulator although it only partially influenced profile rendering. S1-D standardizes outside-click dismissal for ordinary popups and turns the selector into an accurate **profile privacy preview** covering profile details, contact information, social links, life events and memories. Blocking authentication/recovery surfaces intentionally remain non-dismissible.
+
+This mission also preserves the user-verified UI fixes `.card { padding: 10px; }`, `button.home-memory-tile { margin-bottom: 10px; }`, and the `UsersRound` import correction. S1 remains LIVE VERIFY; S2 is still blocked.
+
+### Future engagement ideas evaluated — preserve, do not pull into S1
+
+**Family Play / Games — HIGH-POTENTIAL S2 EXPERIMENT.** Do not build a generic games arcade. Start with family-native games that use the trusted graph and memories: Family Tambola for gatherings, “Who is this?” childhood-photo guessing, family trivia, generation-vs-generation quizzes and reunion challenges. These can create synchronous return loops while also revealing missing facts/photos that feed contribution prompts. Tambola can be the first simple real-time pilot, but the moat comes from family-context games rather than the game mechanic itself.
+
+**Shared Social Video / Family Watch — PROMISING S2 EXPERIMENT, PLATFORM-DEPENDENT.** Treat YouTube/Instagram links as a new memory/media attachment rather than creating a generic social-feed clone. A relative shares a supported link, it appears inside a family Memory/Story/Event or a lightweight Family Watch queue, and the app renders an official embedded player where the platform permits it with a safe external-link fallback. This preserves context: *why this video matters to our family* becomes first-party family knowledge. Avoid downloading/rehosting third-party media and avoid making external algorithms the product's center of gravity.
+
+**Acquisition thesis:** integrations alone are not a credible reason for Instagram/YouTube or another platform to buy the company. Strategic value would come from a high-engagement, permissioned family graph plus unique memory/context/contribution data and recurring family rituals. External media should amplify that moat, not replace it.

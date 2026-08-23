@@ -74,3 +74,9 @@ For the first minute, the product should read like a family experience, not gene
 ## Showcase principle — 2026-08-23
 
 For acquisition, demos and investor conversations, prefer a **dense living family** over a merely large tree. The current 60-person / 5-generation showcase should demonstrate relationship magic, history, memory, geography, contribution, governance and participation in one coherent family. Raw node count is not the wow moment; seeing a trusted family network feel alive is.
+
+## Engagement integration compass — games & external media (2026-08-23)
+
+**Prefer family-native engagement over generic engagement.** A game is strategic when family context makes it better: a reunion Tambola room, “Who is this childhood photo?”, family trivia or generation challenges. A video integration is strategic when the family adds durable context—who shared it, why it matters, which memory/event/person it belongs to—not when the product merely recreates a social feed.
+
+**Platform integration is distribution, not moat.** YouTube/Instagram embedding can reduce friction and increase time-in-family, but the defensible asset is the permissioned relationship graph plus identity, memories, history, contribution and family rituals accumulated around it. Do not distort product priorities around a hypothetical acquisition by a large social platform; build unique family value that makes partnership or acquisition optional upside.

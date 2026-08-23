@@ -270,3 +270,11 @@ This does **not** satisfy the S1 exit gate by source inspection alone. S1 remain
 
 ### S1 hardening update — required before S2
 The S1 behavior gate now explicitly includes family escape paths and showcase independence: logout/family switching cannot be experience-gated; users must be able to create/join additional families; Family Lobby must provide a safe non-destructive unlink path; and Playground feature visibility must be independently founder-controlled. The 60-person showcase replaces the former 150-person filler seed for product demonstration. Status remains **LIVE VERIFY** until deployed tests pass.
+
+## 2026-08-23 — S1-D closure update
+
+S1-D **Interaction Reliability & Privacy Preview Clarity** is implemented in source. Ordinary dismissible popups now close on backdrop interaction, and the admin audience selector is explicitly a profile-privacy preview rather than a misleading whole-app role mode. Public/member/admin preview now consistently filters profile details, contacts, social links, life events and memories.
+
+Two engagement concepts are preserved under S2 experimentation rather than being pulled into S1: **Family Play** (beginning with family-native Tambola/trivia/photo guessing) and **Shared Social Video / Family Watch** (external video links embedded where officially permitted and attached to family memories/events). Their purpose is to strengthen the Discover → Feel → Contribute → Share → Return loop while keeping the trusted family graph—not third-party content—the product moat.
+
+S2 remains blocked until S1 deployed behaviour verification is complete.

@@ -169,7 +169,7 @@ export default function ImportModal({ onClose, onImport, existingMembers = [], e
 
   const importNow = () => { if (!parsed || !report || report.errors.length) return; setBusy(true); try { onImport(parsed.members, parsed.relationships); } catch (exception: any) { setError(exception.message || "We could not add this family. Please try again."); setBusy(false); } };
 
-  return <div className="modal-overlay excel-overlay"><div className="modal excel-modal" role="dialog" aria-modal="true" aria-labelledby="excel-title">
+  return <div className="modal-overlay excel-overlay" onMouseDown={(event)=>event.target===event.currentTarget&&onClose()}><div className="modal excel-modal" role="dialog" aria-modal="true" aria-labelledby="excel-title">
     <div className="excel-head"><div><span className="warm-kicker"><FileSpreadsheet size={13} /> {c.assistant}</span><h2 id="excel-title">{c.title}</h2><p>{c.intro}</p></div><button ref={closeButtonRef} className="icon-button" aria-label="Close" onClick={onClose}><X size={19} /></button></div>
     <div className="excel-steps"><span className={stage === "guide" ? "active" : "done"}><b>1</b> {c.templateStep}</span><i /><span className={stage === "upload" ? "active" : stage === "review" ? "done" : ""}><b>2</b> {c.uploadStep}</span><i /><span className={stage === "review" ? "active" : ""}><b>3</b> {c.reviewStep}</span></div>
 

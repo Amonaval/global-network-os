@@ -15,7 +15,7 @@ const checks=[
  ['current family fallback uses active membership', migration.includes('order by nm.joined_at desc')],
  ['legacy is_admin remains family scoped', migration.includes('select public.is_network_admin(public.current_network_id())')],
  ['audit RPC is family scoped', migration.includes('Family administrator access is required.') && migration.includes('insert into public.audit_log(network_id,actor_id,action,details)')],
- ['home special-days padding correction preserved', css.includes('.card.home-coming{padding:10px}')],
+ ['home special-days padding correction preserved', /\.card\s*\{[^}]*padding:\s*10px;?/s.test(css) || css.includes('.card.home-coming{padding:10px}')],
  ['profile overlay stays below relationship/modal layer', css.includes('z-index:50; display:flex; justify-content:flex-end')],
 ];
 let failed=0;

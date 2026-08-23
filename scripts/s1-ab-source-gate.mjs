@@ -17,7 +17,7 @@ const checks=[
  ['immediate family shortcuts exist',app.includes('Your closest family')&&rel.includes('immediateFamilyForViewer')],
  ['member correction entry persists request',profile.includes('Report correction')&&app.includes('kind:"family_correction"')&&app.includes('createChangeRequest')],
  ['mobile 430 containment rules exist',css.includes('@media(max-width:430px)')&&css.includes('.tree-mobile-view-switch .btn{width:100%')],
- ['required legacy css fixes retained',css.includes('.card.home-coming{padding:10px}')&&css.includes('z-index:50')&&css.includes('.profile-overlay')],
+ ['required legacy css fixes retained',(/\.card\s*\{[^}]*padding:\s*10px;?/s.test(css)||css.includes('.card.home-coming{padding:10px}'))&&/\.profile-overlay\s*\{[^}]*z-index:\s*50;?/s.test(css)],
  ['60-person showcase workbook is public',fs.existsSync(new URL('../public/sample-data-60.xlsx',import.meta.url))]
 ];
 let failed=0;

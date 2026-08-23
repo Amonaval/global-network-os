@@ -11,7 +11,7 @@ export default function RelationshipExplorer({members,relationships,from,onClose
  const kinship=useMemo(()=>target?explainKinship(members,relationships,from.id,target.id):null,[members,relationships,from,target]);
  const commonAncestors=useMemo(()=>target?getCommonAncestors(members,relationships,from.id,target.id):[],[members,relationships,from,target]);
  const commonDescendants=useMemo(()=>target?getCommonDescendants(members,relationships,from.id,target.id):[],[members,relationships,from,target]);
- return <div className="modal-overlay"><div className="modal relationship-explorer">
+ return <div className="modal-overlay" onMouseDown={(event)=>event.target===event.currentTarget&&onClose()}><div className="modal relationship-explorer">
   <div className="drawer-head"><div><h2 style={{margin:0}}>How are we related?</h2><p className="page-subtitle">Find the shortest connection through parents, children and spouses.</p></div><button className="btn small" onClick={onClose}><X size={16}/></button></div>
   <div className="field" style={{marginTop:14}}><label>Find a person</label><select className="select" value={targetId} onChange={e=>setTargetId(e.target.value)}><option value="">Select a member…</option>{members.filter(m=>m.id!==from.id).sort((a,b)=>a.full_name.localeCompare(b.full_name)).map(m=><option key={m.id} value={m.id}>{m.full_name}{m.city?` · ${m.city}`:''}</option>)}</select></div>
   {!target&&<div className="relationship-empty"><GitBranch size={28}/><b>Choose someone to discover the connection.</b><span>We'll show the path and a plain-language relationship where the family graph supports it.</span></div>}
