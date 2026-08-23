@@ -255,3 +255,15 @@ Before implementing any major item, ask:
 S1-A and S1-B are now **implemented in source and awaiting live behaviour verification**. The product now gives anonymous Playground users a temporary no-save **You** viewpoint, defaults the first family representation toward My Family Line, exposes human relationship-to-me labels and immediate-family shortcuts, keeps Full Family switching reversible, and adds a governed correction entry.
 
 This is progress toward S1, not the S1 exit gate. **S1-C remains outstanding and S2 must not start.** CR2.3 also remains IMPLEMENTED / LIVE VERIFY until the fresh deployed onboarding journeys pass.
+
+## 2026-08-23 S1 execution update — Batch 2
+
+S1-C is now **implemented in source** together with a product-showcase family and the Family Owner profile-review permission closure.
+
+The first-session product now supports the intended progressive path:
+
+`Playground → Join/Create → family name only → Your family is ready → Add Myself → add closest relatives OR import → personal relationship magic`
+
+The Playground is also upgraded from a large tree sample into a richer acquisition/pitch surface: 60 people across 5 generations with stories, life events, map/analytics context, social identity examples, contribution prompts, groups/reunions and participation proof.
+
+This does **not** satisfy the S1 exit gate by source inspection alone. S1 remains open until the 10-persona deployed behaviour matrix passes, including 360/390/430 mobile, persistence, permissions and recovery. S2 remains blocked.

@@ -76,8 +76,9 @@ import ParticipationCenter from "./ParticipationCenter";
 import FamilyHome from "./FamilyHome";
 import FamilySwitcher from "./FamilySwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
+import QuickFamilyStart from "./QuickFamilyStart";
 import FounderLaunchConsole from "./FounderLaunchConsole";
-import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail, setActiveNetwork } from "../lib/remote";
+import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail, setActiveNetwork, addMyselfToFamily } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
@@ -132,6 +133,8 @@ export default function NetworkApp() {
     [selected, setSelected] = useState<Member | null>(null),
     [showImport, setShowImport] = useState(false),
     [showForm, setShowForm] = useState(false),
+    [quickStartDismissed,setQuickStartDismissed]=useState(false),
+    [familyReady,setFamilyReady]=useState<string | null>(null),
     [toast, setToast] = useState(""),
     [visibility, setVisibility] = useState<Visibility>("member"),
     [focusId, setFocusId] = useState<string | undefined>(undefined),
@@ -354,11 +357,14 @@ export default function NetworkApp() {
   ) => {
     let nextM = ms,
       nextR = rs;
+    let demoSeed: ReturnType<typeof loadDemoState> | null = null;
     if (mode === "demo") {
-      const d = loadDemoState();
-      nextM = d.members;
-      nextR = d.relationships;
-      setSubmissions(d.submissions);
+      demoSeed = loadDemoState();
+      nextM = demoSeed.members;
+      nextR = demoSeed.relationships;
+      setSubmissions(demoSeed.submissions);
+      setMemories(demoSeed.memories);
+      setAllLifeEvents(demoSeed.lifeEvents);
     }
     if (validateNetwork(nextM, nextR).errors.length)
       throw new Error(
@@ -386,9 +392,23 @@ export default function NetworkApp() {
       setAuth(creatorAuth);
       setNetwork(settings);
 
+      let persistedDemoEvents: LifeEvent[] = [];
+      let persistedDemoMemories: Memory[] = [];
+      if (mode === "demo" && demoSeed) {
+        const idMap = new Map<string,string>();
+        nextM = demoSeed.members.map(m => { const id = globalThis.crypto?.randomUUID?.() || uuid(); idMap.set(m.id,id); return {...m,id}; });
+        nextR = demoSeed.relationships.map(r => ({...r,id:globalThis.crypto?.randomUUID?.() || uuid(),person_id:idMap.get(r.person_id)!,related_person_id:idMap.get(r.related_person_id)!}));
+        persistedDemoEvents = demoSeed.lifeEvents.map(e => ({...e,id:globalThis.crypto?.randomUUID?.() || uuid(),member_id:idMap.get(e.member_id)!}));
+        persistedDemoMemories = demoSeed.memories.map(m => ({...m,id:globalThis.crypto?.randomUUID?.() || uuid(),member_id:m.member_id?idMap.get(m.member_id):undefined,related_member_ids:(m.related_member_ids||[]).map(id=>idMap.get(id)!).filter(Boolean)}));
+      }
+
       if (nextM.length) {
         await repository.upsertMembers(nextM);
         if (nextR.length) await repository.mergeRelationships(nextR);
+      }
+      if (mode === "demo") {
+        for (const e of persistedDemoEvents) await repository.createLifeEvent({member_id:e.member_id,event_type:e.event_type,title:e.title,event_date:e.event_date,location:e.location,description:e.description,visibility:e.visibility});
+        for (const m of persistedDemoMemories) await repository.createMemory({member_id:m.member_id,title:m.title,story:m.story,related_member_ids:m.related_member_ids,visibility:m.visibility});
       }
 
       // Hydrate with the creator's freshly-resolved family role instead of the stale pre-create auth closure.
@@ -423,9 +443,27 @@ export default function NetworkApp() {
     }
     setSetupNeeded(false);
     setDemoPreview(false);
+    setFamilyReady(settings.name);
     window.scrollTo({ top: 0, behavior: "smooth" });
     notify(`${settings.name} is ready.`);
   };
+  const addMyselfFirst = async (name:string,gender:Member["gender"]) => {
+    if (repository.mode === "shared") { await addMyselfToFamily(name,gender); await hydrate(await getAuthUser()); }
+    else { const id=uuid(); const m:Member={id,full_name:name,generation_level:3,profile_status:"approved",gender,profile_visibility:"member",contact_visibility:"admin"}; await repository.upsertMembers([m]); setMembers(x=>[...x,m]); setFocusId(id); }
+    notify("You’re in. Now add the people closest to you.");
+  };
+  const addCloseRelative = async (name:string,relationship:string,gender:Member["gender"]) => {
+    const viewerId=viewerMemberId || auth?.member_id; if(!viewerId) throw new Error("Add yourself first.");
+    const viewer=members.find(m=>m.id===viewerId); if(!viewer) throw new Error("Your family profile is still loading.");
+    const id=uuid();
+    const generation=relationship==="father"||relationship==="mother"?Math.max(1,viewer.generation_level-1):relationship==="son"||relationship==="daughter"?viewer.generation_level+1:viewer.generation_level;
+    const m:Member={id,full_name:name,generation_level:generation,profile_status:"approved",gender,profile_visibility:"member",contact_visibility:"admin"};
+    await repository.upsertMembers([m]);
+    const r:Relationship={id:uuid(),person_id:relationship==="father"||relationship==="mother"?id:viewerId,related_person_id:relationship==="father"||relationship==="mother"?viewerId:id,relationship_type:relationship==="husband"||relationship==="wife"?"spouse":"parent"};
+    await repository.addRelationship(r);
+    await refresh(); notify(`${name} added to your close family.`);
+  };
+
   const professions = useMemo(
     () =>
       Array.from(
@@ -683,7 +721,7 @@ export default function NetworkApp() {
   const approve = async (s: Submission) => {
     try {
       if (repository.mode === "shared") {
-        if (auth?.role !== "admin") throw new Error("Admin access required.");
+        if (!(network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.family_role === "owner" || auth?.family_role === "admin" || auth?.role === "admin")) throw new Error("Family Owner or co-admin access required.");
         let id = s.member_id;
         if (id)
           await repository.updateMember(id, {
@@ -697,6 +735,7 @@ export default function NetworkApp() {
             photo_url: s.photo_url,
             profile_visibility: s.profile_visibility || "member",
             contact_visibility: s.contact_visibility || "admin",
+            avatar_style: s.avatar_style, facebook_url:s.facebook_url, facebook_public:s.facebook_public, instagram_url:s.instagram_url, instagram_public:s.instagram_public, other_social_url:s.other_social_url, other_social_label:s.other_social_label, other_social_public:s.other_social_public,
             profile_status: "approved",
           });
         else {
@@ -777,7 +816,7 @@ export default function NetworkApp() {
   const reject = async (s: Submission) => {
     try {
       if (repository.mode === "shared") {
-        if (auth?.role !== "admin") throw new Error("Admin access required.");
+        if (!(network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.family_role === "owner" || auth?.family_role === "admin" || auth?.role === "admin")) throw new Error("Family Owner or co-admin access required.");
         await repository.updateSubmission(s.id, "rejected");
         const request = changeRequests.find(
           (r) => r.payload?.submission_id === s.id,
@@ -811,7 +850,7 @@ export default function NetworkApp() {
       const report = validateNetwork(members, [...relationships, r]);
       if (report.errors.length) throw new Error(report.errors[0].message);
       if (repository.mode === "shared") {
-        if (auth?.role !== "admin") throw new Error("Admin access required.");
+        if (!(network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.family_role === "owner" || auth?.family_role === "admin" || auth?.role === "admin")) throw new Error("Family Owner or co-admin access required.");
         await repository.addRelationship(r);
       }
       setRelationships((rs) => [...rs, r]);
@@ -823,7 +862,7 @@ export default function NetworkApp() {
   const removeRel = async (r: Relationship) => {
     try {
       if (repository.mode === "shared") {
-        if (auth?.role !== "admin") throw new Error("Admin access required.");
+        if (!(network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.family_role === "owner" || auth?.family_role === "admin" || auth?.role === "admin")) throw new Error("Family Owner or co-admin access required.");
         await repository.deleteRelationship(r.id);
       }
       setRelationships((rs) => rs.filter((x) => x.id !== r.id));
@@ -911,10 +950,12 @@ export default function NetworkApp() {
     setMembers(d.members);
     setRelationships(d.relationships);
     setSubmissions(d.submissions);
+    setMemories(d.memories);
+    setAllLifeEvents(d.lifeEvents);
     setPlatformFeatures(defaultFeatureMap(true));
-    setDemoViewerId(d.members.find(m=>m.id==="m33")?.id || d.members[Math.floor(d.members.length/2)]?.id);
+    setDemoViewerId(d.members.find(m=>m.id==="m37")?.id || d.members[Math.floor(d.members.length/2)]?.id);
     setDemoPreview(true);
-    setFocusId(d.members.find(m=>m.id==="m33")?.id || d.members[Math.floor(d.members.length/2)]?.id);
+    setFocusId(d.members.find(m=>m.id==="m37")?.id || d.members[Math.floor(d.members.length/2)]?.id);
     setLineageOnly(true);
     setSetupNeeded(false);
     setView("home");
@@ -1044,14 +1085,14 @@ export default function NetworkApp() {
   if (setupNeeded)
     return (
       <>
-        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval. You can still explore the sample family while you wait.</p><div className="notice"><b>Status:</b> Waiting for approval</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><button className="btn" onClick={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setDemoViewerId(d.members.find(m=>m.id==="m33")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m33")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}>Explore sample</button></div></div></div> : <SetupScreen
+        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval. You can still explore the sample family while you wait.</p><div className="notice"><b>Status:</b> Waiting for approval</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><button className="btn" onClick={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setMemories(d.memories);setAllLifeEvents(d.lifeEvents);setDemoViewerId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}>Explore sample</button></div></div></div> : <SetupScreen
           shared={isSupabaseConfigured}
           canSetup={canSetupFamily}
           approvalRequired={isSupabaseConfigured&&!isPlatformOwner&&familyCreationApprovalRequired}
           claimableProfiles={claimableProfiles}
           onClaimProfile={async(memberId)=>{await claimProfileByVerifiedEmail(memberId);await hydrate(await getAuthUser());setView("home");notify("Welcome to your family.")}}
           onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify("Family joined. Welcome!")}}
-          onExploreDemo={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setDemoViewerId(d.members.find(m=>m.id==="m33")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m33")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}
+          onExploreDemo={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setMemories(d.memories);setAllLifeEvents(d.lifeEvents);setDemoViewerId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}
           onCreate={createNetwork}
         />}
         {toast && (
@@ -1156,9 +1197,11 @@ export default function NetworkApp() {
           {!canAdmin && <div className="member-experience-card"><small>{language==='hi'?'आपका दृश्य':language==='mr'?'आपले दृश्य':'Your view'}</small><strong>{experience==='simple'?(language==='hi'?'सरल':language==='mr'?'सोपे':'Simple'):experience==='connected'?(language==='hi'?'और परिवार':language==='mr'?'अधिक कुटुंब':'More family'):(language==='hi'?'सब सुविधाएँ':language==='mr'?'सर्व सुविधा':'Everything')}</strong><button className="text-action" onClick={()=>changeMyExperience(experience==='simple'?'connected':experience==='connected'?'explorer':'simple')}>{experience==='explorer'?(language==='hi'?'सरल दृश्य पर जाएँ':language==='mr'?'सोप्या दृश्यावर जा':'Use simple view'):(language==='hi'?'और देखें':language==='mr'?'अधिक पहा':'Explore more')} <ArrowRight size={14}/></button></div>}
         </aside>
         <main className="main">
+          {familyReady && view==="home" && <div className="family-ready-celebration"><div className="family-ready-icon"><Sparkles size={22}/></div><div><span className="warm-kicker">Your family is ready</span><h2>{familyReady}</h2><p>Start with yourself and the people closest to you. You can import a list or enrich everything gradually.</p></div><div className="family-ready-actions"><button className="btn primary small" onClick={()=>{setFamilyReady(null);if(!viewerMemberId)window.scrollTo({top:0,behavior:"smooth"})}}>Add myself / close family</button><button className="btn small" onClick={()=>{setFamilyReady(null);setShowImport(true)}}>Import Excel / CSV</button><button className="icon-button" aria-label="Dismiss" onClick={()=>setFamilyReady(null)}><X size={16}/></button></div></div>}
           {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">New in your family</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||"New family feature"}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||"There is something new to explore."}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
           {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={openMember} />}
-          {view === "home" && <FamilyHome members={members} events={allLifeEvents} networkName={network?.name} viewerMemberId={viewerMemberId} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} />}
+          {view === "home" && canAdmin && !demoPreview && !quickStartDismissed && members.length < 5 && <QuickFamilyStart viewer={viewerMemberId?members.find(m=>m.id===viewerMemberId):undefined} suggestedName={auth?.email?.split("@")[0]||""} onAddMyself={addMyselfFirst} onAddRelative={addCloseRelative} onImport={()=>setShowImport(true)} onDismiss={()=>setQuickStartDismissed(true)}/>}
+          {view === "home" && <FamilyHome members={members} events={allLifeEvents} memories={demoPreview?memories:undefined} networkName={network?.name} viewerMemberId={viewerMemberId} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} />}
           {view === "tree" && (
             <section className="tree-page">
               {cfg.network_template === "family" && (
@@ -1467,6 +1510,8 @@ export default function NetworkApp() {
               members={members}
               auth={auth}
               network={network}
+              demoMemories={demoPreview?memories:undefined}
+              readOnly={demoPreview}
               onSelect={openMember}
               onNotify={notify}
             />
@@ -1475,6 +1520,7 @@ export default function NetworkApp() {
             <ParticipationCenter
               members={members}
               auth={auth}
+              demo={demoPreview}
               onSelect={openMember}
               onNotify={notify}
             />

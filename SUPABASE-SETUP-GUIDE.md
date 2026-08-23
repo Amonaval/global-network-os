@@ -226,3 +226,11 @@ This migration adds the secure `save_network_settings(...)` RPC. It fixes the Al
 Run `033_cr2_2_explicit_family_context_and_progressive_onboarding.sql` after migration 032.
 
 It fixes the case where a newly-created family exists but the immediate settings save reports `No active family selected`. The client now sends the new family UUID explicitly and the RPC authorizes against that family membership directly.
+
+## S1-C migration 035 — required for profile approvals
+
+After deploying this batch, apply `supabase/migrations/035_s1c_profile_submission_review.sql` to the same Supabase project used by the app.
+
+This migration intentionally **does not** grant direct UPDATE on `profile_submissions`. It adds the governed `review_profile_submission(...)` RPC used by Family Owner/co-admin approval, adds optional member gender context for human relationship wording, and adds the secure `add_myself_to_family(...)` bootstrap.
+
+If the UI is deployed before migration 035, profile approval/Add Myself can fail because the required RPC does not yet exist.

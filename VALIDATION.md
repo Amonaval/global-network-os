@@ -95,3 +95,20 @@ Before the first real-family pilot, additionally verify in the deployed Supabase
 9. cross-family RLS/private-media isolation;
 10. Android/iOS + narrow-screen + slow-network core journey;
 11. real novice-user no-coaching gate.
+
+## S1-C cumulative validation — 2026-08-23
+
+Source gates passed on the cumulative S1-A/B + S1-C baseline:
+- `validate:s1-ab` 13/13
+- `validate:cr1` 12/12
+- `validate:cr2` 10/10
+- `validate:cr2.1` 9/9
+- `validate:cr2.2` 10/10
+- `validate:cr2.3` 12/12
+- `validate:v1` PASS
+- `validate:d1` PASS (35 migrations)
+- `validate:s1-c` 18/18
+
+Changed TypeScript/TSX files also pass TypeScript `transpileModule` syntax parsing.
+
+Full `tsc --noEmit` / `next build` remains unverified in this environment because dependency restoration timed out and required type packages were unavailable. Do not treat source/syntax gates as production certification.

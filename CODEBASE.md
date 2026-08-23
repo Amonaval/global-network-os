@@ -248,3 +248,11 @@ Family remains the strongest vertical and proving ground. Evolve incrementally t
 
 ## Business direction
 Sustainable monetization is a primary objective. Family may drive engagement/distribution; other verticals may offer greater willingness to pay. Roadmap decisions should generate evidence about both.
+
+## 2026-08-23 — S1-C cumulative additions
+
+- Migration `035_s1c_profile_submission_review.sql`: family-scoped profile-submission review RPC + Add Myself bootstrap.
+- `components/QuickFamilyStart.tsx`: first-person/close-family progressive creation.
+- `lib/demo-data.ts`: current 60-person / 5-generation rich showcase family with events and memories.
+- New public import assets: guided workbook, 10-person workbook, 60-person showcase workbook and people-only CSV.
+- S1-C regression gate: `scripts/s1-c-source-gate.mjs`.

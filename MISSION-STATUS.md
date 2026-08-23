@@ -468,3 +468,29 @@ See `STRATEGIC-NEXT-3-MILESTONES.md`.
 **S1 overall remains PARTIAL. S2 is blocked.**
 
 CR2.3 remains **IMPLEMENTED / LIVE VERIFY**; this batch does not promote it to VERIFIED.
+
+## 2026-08-23 — S1 Batch 2: S1-C + Showcase Family + Profile Review Closure
+
+**Status: IMPLEMENTED IN SOURCE / LIVE BEHAVIOUR VERIFY REQUIRED**
+
+- [x] Fixed Family Owner/Admin `profile_submissions` approval failure without reopening direct table writes.
+- [x] Added family-scoped `review_profile_submission(...)` RPC in migration 035.
+- [x] Family Owner/co-admin review semantics no longer depend only on legacy global role state.
+- [x] Added secure `add_myself_to_family(...)` bootstrap for a fresh creator.
+- [x] Added visible **Add Myself first** flow.
+- [x] Added one-name Father/Mother/Husband/Wife/Son/Daughter close-family creation.
+- [x] Added **Your family is ready** success experience.
+- [x] Guided workbook now includes dropdowns for gender, generation, living status and human relationship vocabulary.
+- [x] Added people-only CSV sample.
+- [x] Replaced the current showcase strategy from sparse 150-person emphasis to a dense 60-person / 5-generation demonstration family.
+- [x] Playground showcase includes rich life events, memories/stories, locations, identity/social examples and participation/reunion proof.
+- [x] Shared demo seeding remaps all synthetic member/relationship/event/memory IDs to real UUIDs before persistence.
+- [x] S1-C source gate passes 18/18.
+- [x] Cumulative S1/CR/V1/D1 source gates pass.
+- [ ] Apply migration 035 to live Supabase.
+- [ ] Production build/typecheck on restored dependencies.
+- [ ] Run complete 10-persona S1 deployed behaviour matrix.
+
+**S1-A/B/C are now implemented in source, but S1 is NOT behaviour-certified. S2 remains blocked.**
+
+CR2.3 remains **IMPLEMENTED / LIVE VERIFY**.

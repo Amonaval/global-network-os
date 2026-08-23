@@ -70,3 +70,7 @@ See `STRATEGIC-NEXT-3-MILESTONES.md`.
 ## S1 product-reading rule — 2026-08-23
 
 For the first minute, the product should read like a family experience, not genealogy software: **You → your closest people → how each person relates to you → optional wider family**. The anonymous Playground may simulate a viewpoint only when it is clearly temporary, read-only and non-persistent. Investor/demo polish does not override trust semantics.
+
+## Showcase principle — 2026-08-23
+
+For acquisition, demos and investor conversations, prefer a **dense living family** over a merely large tree. The current 60-person / 5-generation showcase should demonstrate relationship magic, history, memory, geography, contribution, governance and participation in one coherent family. Raw node count is not the wow moment; seeing a trusted family network feel alive is.

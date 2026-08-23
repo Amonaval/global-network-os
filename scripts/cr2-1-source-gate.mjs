@@ -9,11 +9,11 @@ const checks=[
   ['non UUID life event guard',remote.includes('!isUuidValue(memberId)')],
   ['demo profile skips shared member timeline',app.includes('if (!selected || demoPreview)')],
   ['Excel IDs normalized to UUID',excel.includes('isUuid(source) ? source : uuid()')],
-  ['small demo exposed',excel.includes('family-demo-small-naval.xlsx')],
-  ['full demo exposed',excel.includes('sample-data-150.xlsx')],
+  ['small demo exposed',excel.includes('family-demo-small-10.xlsx')],
+  ['full demo exposed',excel.includes('family-demo-showcase-60.xlsx')],
   ['settings RPC tenant scoped',migration.includes('public.current_network_id()') && migration.includes('public.is_network_admin(nid)')],
-  ['small workbook packaged',fs.existsSync(new URL('../public/family-demo-small-naval.xlsx',import.meta.url))],
-  ['full workbook packaged',fs.existsSync(new URL('../public/sample-data-150.xlsx',import.meta.url))],
+  ['small workbook packaged',fs.existsSync(new URL('../public/family-demo-small-10.xlsx',import.meta.url))],
+  ['full workbook packaged',fs.existsSync(new URL('../public/family-demo-showcase-60.xlsx',import.meta.url))],
 ];
 let failed=0;
 for(const [name,ok] of checks){console.log(`${ok?'PASS':'FAIL'} ${name}`);if(!ok)failed++;}

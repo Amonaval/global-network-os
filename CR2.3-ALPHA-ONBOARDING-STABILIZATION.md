@@ -66,3 +66,9 @@ CR2.3 becomes **VERIFIED** only when A–E pass on the deployed environment. Any
 ## S1 Batch 1 regression note — 2026-08-23
 
 S1-A/B builds on CR2.3 without changing its verification status. The source now adds a temporary no-save Playground viewer, stronger personal-family entry and relationship-to-me UX. A cumulative check also found that `ImportModal` linked to `/sample-data-150.xlsx` while the file was missing under `public/`; the workbook is now packaged there. CR2.3 remains **IMPLEMENTED / LIVE VERIFY** until deployed fresh-user journeys pass.
+
+## 2026-08-23 follow-on note — S1-C
+
+S1-C adds Add Myself, close-relative creation, richer guided import and migration 035 profile-review closure on top of CR2.3. This **does not change CR2.3 status**.
+
+CR2.3 remains **IMPLEMENTED IN SOURCE / LIVE BEHAVIOUR VERIFY REQUIRED** until the fresh deployed family-creation, join, import, returning Owner and Playground journeys are re-run against the latest cumulative schema including migration 035.

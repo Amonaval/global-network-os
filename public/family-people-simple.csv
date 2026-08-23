@@ -1,0 +1,13 @@
+person_id,full_name,gender,generation,living_status,city,country
+P001,Harish Kulkarni,Male,1,Deceased,Nashik,India
+P002,Shanta Kulkarni,Female,1,Deceased,Indore,India
+P003,Mohan Kulkarni,Male,1,Living,Bhopal,India
+P004,Usha Kulkarni,Female,1,Living,Bengaluru,India
+P005,Ramesh Joshi,Male,2,Living,Bhopal,India
+P006,Meena Joshi,Female,2,Living,Bengaluru,India
+P007,Suresh Joshi,Male,2,Living,Jaipur,India
+P008,Kavita Joshi,Female,2,Living,Delhi,India
+P009,Vijay Patil,Male,2,Living,Dubai,UAE
+P010,Sunita Patil,Female,2,Living,London,UK
+P011,Rajesh Patil,Male,2,Living,Pune,India
+P012,Rekha Patil,Female,2,Living,Mumbai,India

@@ -149,6 +149,7 @@ export async function setActiveNetwork(networkId:string){
   const {error}=await supabase.rpc("set_active_network",{p_network_id:networkId});
   if(error) throw error;
 }
+export async function addMyselfToFamily(fullName:string,gender?:"Male"|"Female"|"Other"){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("add_myself_to_family",{p_full_name:fullName,p_gender:gender||null});if(error)throw error;return data as string;}
 export async function createFamily(name:string,slug?:string,description=""){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("create_family",{p_name:name,p_slug:slug||null,p_description:description});if(error)throw error;return data as string;}
 export async function fetchNetworkSettings(): Promise<NetworkSettings | null> {
   if (!supabase) return null;
@@ -253,6 +254,15 @@ export async function upsertMembers(members: Member[]) {
     profile_status: m.profile_status,
     profile_visibility: m.profile_visibility || "member",
     contact_visibility: m.contact_visibility || "admin",
+    gender: m.gender || null,
+    avatar_style: m.avatar_style || "initials",
+    facebook_url: m.facebook_url || null,
+    facebook_public: !!m.facebook_public,
+    instagram_url: m.instagram_url || null,
+    instagram_public: !!m.instagram_public,
+    other_social_url: m.other_social_url || null,
+    other_social_label: m.other_social_label || null,
+    other_social_public: !!m.other_social_public,
   }));
   const { error } = await supabase
     .from("family_members")
@@ -349,17 +359,12 @@ export async function updateSubmission(
   status: "approved" | "rejected",
 ) {
   if (!supabase) return;
-  const { error } = await supabase
-    .from("profile_submissions")
-    .update({ status })
-    .eq("id", id);
+  const { error } = await supabase.rpc("review_profile_submission", {
+    p_submission_id: id,
+    p_status: status,
+    p_review_note: null,
+  });
   if (error) throw error;
-  await logAudit(
-    status === "approved"
-      ? "profile_submission_approved"
-      : "profile_submission_rejected",
-    { submission_id: id },
-  );
 }
 export async function updateMember(id: string, patch: Partial<Member>) {
   if (!supabase) return;

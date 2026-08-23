@@ -14,7 +14,8 @@
     "validate:cr2.1": "node scripts/cr2-1-source-gate.mjs",
     "validate:cr2.2": "node scripts/cr2-2-source-gate.mjs",
     "validate:cr2.3": "node scripts/cr2-3-source-gate.mjs",
-    "validate:s1-ab": "node scripts/s1-ab-source-gate.mjs"
+    "validate:s1-ab": "node scripts/s1-ab-source-gate.mjs",
+    "validate:s1-c": "node scripts/s1-c-source-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

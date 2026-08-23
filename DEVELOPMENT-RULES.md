@@ -149,3 +149,14 @@ For family-facing first-session work:
 - members may report structure/profile corrections, but reporting must route through governed change requests rather than silently granting structure mutation;
 - a sample/download CTA is not implemented unless the referenced public artifact actually ships;
 - source gates remain regression checks only; S1 status cannot advance to complete without persona behaviour QA on deployed runtime and supported mobile widths.
+
+## S1 behaviour and demo-data rules — 2026-08-23
+
+- Security hardening must not be bypassed to fix UX. If a direct table grant was intentionally revoked, add/use a narrowly scoped RPC instead of reopening broad writes.
+- Family Owner/Admin checks must use family-scoped membership semantics; do not assume legacy/global `profiles.role` is sufficient.
+- Friendly/demo/import IDs must never reach UUID-only Supabase writes. Normalize/remap before persistence, including linked relationships/events/memories.
+- Playground data must be read-only and must never silently fetch/write the signed-in user's live active family merely because Supabase is configured.
+- Demo quality is measured by capability density and emotional/product coverage, not maximum member count.
+- A workbook feature is not complete if users must remember valid categorical vocabulary. Prefer spreadsheet dropdowns for relationship, gender, generation and living status.
+- Fresh family creation must always provide an obvious next smallest action: Add Myself, add close family, import, or defer safely.
+- S1 source gates are necessary but never sufficient for S1 completion; deployed persona behaviour remains binding.

@@ -682,3 +682,28 @@ Status rules:
 - **CR2.3:** remains IMPLEMENTED / LIVE VERIFY until fresh deployed behaviour is confirmed.
 
 Next execution: deploy this cumulative baseline, run the S1 persona behaviour matrix, fix any P0/P1 or high-value low/medium-effort failures, then implement S1-C. S2 remains blocked until the complete S1 behaviour gate passes.
+
+## 2026-08-23 — S1 Batch 2: S1-C Implemented in Source
+
+S1-C is now implemented on the cumulative S1-A/B baseline.
+
+Delivered:
+- secure Add Myself first bootstrap;
+- one-name Father/Mother/Husband/Wife/Son/Daughter additions;
+- guided Excel with categorical dropdowns;
+- people-only CSV;
+- preview-before-import and friendly recovery retained;
+- dense 60-person / 5-generation full-potential showcase family;
+- rich demo memories, stories, timeline/milestones, locations, identity/social examples and participation/reunion proof;
+- UUID-safe shared persistence for synthetic demo seed data;
+- satisfying **Your family is ready** post-create experience;
+- Family Owner/Admin profile-submission review permission defect closed via migration 035.
+
+Strategic status:
+- **S1-A:** source implemented / live verify.
+- **S1-B:** source implemented / live verify.
+- **S1-C:** source implemented / live verify.
+- **S1:** behaviour gate remains open; do not mark complete yet.
+- **S2:** still blocked.
+
+The old 150-person demo history remains preserved. The current product-showcase asset is intentionally 60 people because density of meaningful relationships/history/engagement demonstrates more product value than raw member count.

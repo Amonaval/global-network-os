@@ -176,8 +176,9 @@ export default function ImportModal({ onClose, onImport, existingMembers = [], e
     {stage === "guide" && <div className="excel-guide-grid">
       <div className="template-card"><div className="template-visual"><FileSpreadsheet size={42} /><span>Our Family</span><small>Members · Relationships · Guidance</small></div><h3>{c.templateTitle}</h3><p>{c.templateCopy}</p><button className="btn primary" onClick={downloadFamilyTemplate}><Download size={16} /> {c.download}</button>
         <div className="sample-workbook-actions">
-          <button className="btn" onClick={()=>downloadStaticSample("/family-demo-small-naval.xlsx","family-demo-small-naval.xlsx")}><Download size={16} /> Small demo · Naval family</button>
-          <button className="btn" onClick={()=>downloadStaticSample("/sample-data-150.xlsx","family-demo-full-150.xlsx")}><Download size={16} /> Full demo · 150 people</button>
+          <button className="btn" onClick={()=>downloadStaticSample("/family-demo-small-10.xlsx","family-demo-small-10.xlsx")}><Download size={16} /> Small demo · 10 people</button>
+          <button className="btn" onClick={()=>downloadStaticSample("/family-demo-showcase-60.xlsx","family-demo-showcase-60.xlsx")}><Download size={16} /> Full showcase · 60 people</button>
+          <button className="btn" onClick={()=>downloadStaticSample("/family-people-simple.csv","family-people-simple.csv")}><Download size={16} /> Simple people-only CSV</button>
         </div>
         <small className="sample-workbook-note">The guided workbook has dropdowns for gender, living status, generation and family relationships. Start with only the details you know; you can complete the family later in the app.</small>
       </div>
