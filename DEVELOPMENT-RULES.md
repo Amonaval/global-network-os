@@ -160,3 +160,9 @@ For family-facing first-session work:
 - A workbook feature is not complete if users must remember valid categorical vocabulary. Prefer spreadsheet dropdowns for relationship, gender, generation and living status.
 - Fresh family creation must always provide an obvious next smallest action: Add Myself, add close family, import, or defer safely.
 - S1 source gates are necessary but never sufficient for S1 completion; deployed persona behaviour remains binding.
+
+## S1 family escape-path rule
+Authentication and family membership must never trap a user inside one family. Sign out, family selection, create/join-another and safe recovery paths are baseline navigation and MUST NOT be hidden by Simple/Connected/Explorer experience settings. A sole Owner must not be allowed to orphan a populated family; use a non-destructive Family Lobby/switch path instead.
+
+## Playground rollout rule
+Playground feature visibility is controlled independently from real-family platform rollout. The Playground should demonstrate released product potential without forcing the same exposure onto Alpha families. Anonymous Playground remains read-only and must never persist demo IDs/data.

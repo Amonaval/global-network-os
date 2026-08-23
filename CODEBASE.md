@@ -256,3 +256,11 @@ Sustainable monetization is a primary objective. Family may drive engagement/dis
 - `lib/demo-data.ts`: current 60-person / 5-generation rich showcase family with events and memories.
 - New public import assets: guided workbook, 10-person workbook, 60-person showcase workbook and people-only CSV.
 - S1-C regression gate: `scripts/s1-c-source-gate.mjs`.
+
+## 2026-08-23 — S1 family access/showcase hardening
+- Migration 036: `family_lobby_mode`, family lobby/leave RPCs, independent Playground feature settings/RPCs.
+- `FamilySwitcher`: create/join another, family lobby, guarded leave.
+- `SetupScreen`: existing-family recovery and sign out.
+- `NetworkApp`: always-visible auth escape controls, Playground Explorer/feature map, local memories persistence fix.
+- `FounderLaunchConsole`: Playground feature visibility panel independent of real-user rollout.
+- `supabase/seed-demo.sql`: synchronized 60-person full-potential showcase; old 150-person filler seed removed from the active seed path.

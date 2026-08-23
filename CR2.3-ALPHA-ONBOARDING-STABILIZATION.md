@@ -72,3 +72,6 @@ S1-A/B builds on CR2.3 without changing its verification status. The source now 
 S1-C adds Add Myself, close-relative creation, richer guided import and migration 035 profile-review closure on top of CR2.3. This **does not change CR2.3 status**.
 
 CR2.3 remains **IMPLEMENTED IN SOURCE / LIVE BEHAVIOUR VERIFY REQUIRED** until the fresh deployed family-creation, join, import, returning Owner and Playground journeys are re-run against the latest cumulative schema including migration 035.
+
+### S1 update candidate follow-through
+A post-S1 audit found that authenticated Simple users could still lose discoverable family-switch/logout paths. S1 hardening now keeps these escape controls outside experience gating and adds Family Lobby plus existing-family recovery. CR2.3 remains **IMPLEMENTED / LIVE VERIFY**; this does not promote its deployed verification status.

@@ -1,0 +1,61 @@
+person_id,full_name,gender,generation,living_status,date_of_birth,date_of_death,profession,city,country,short_introduction,latitude,longitude
+P001,Harish Kulkarni,Male,1,Deceased,1932-01-01,2012-06-15,Engineer,Nashik,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,19.9975,73.7898
+P002,Shanta Kulkarni,Female,1,Deceased,1933-02-04,2017-07-15,Entrepreneur,Indore,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,22.7296,75.8677
+P003,Mohan Kulkarni,Male,1,Living,1934-03-07,,Architect,Bhopal,India,Known for mentoring younger relatives and staying connected across branches of the family.,23.279899999999998,77.4326
+P004,Usha Kulkarni,Female,1,Living,1935-04-10,,Chartered Accountant,Bengaluru,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",12.9716,77.5946
+P005,Ramesh Joshi,Male,2,Living,1952-01-01,,Professor,Bhopal,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,23.2599,77.4126
+P006,Meena Joshi,Female,2,Living,1953-02-04,,Civil Servant,Bengaluru,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,12.9816,77.6046
+P007,Suresh Joshi,Male,2,Living,1954-03-07,,Researcher,Jaipur,India,Known for mentoring younger relatives and staying connected across branches of the family.,26.9324,75.8073
+P008,Kavita Joshi,Female,2,Living,1955-04-10,,Lawyer,Delhi,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",28.6139,77.209
+P009,Vijay Patil,Male,2,Living,1956-05-13,,Product Manager,Dubai,UAE,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,25.2148,55.2808
+P010,Sunita Patil,Female,2,Living,1957-06-16,,Chef,London,UK,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,51.5272,-0.10759999999999999
+P011,Rajesh Patil,Male,2,Living,1958-07-19,,Artist,Pune,India,Known for mentoring younger relatives and staying connected across branches of the family.,18.5204,73.8567
+P012,Rekha Patil,Female,2,Living,1952-08-22,,Banker,Mumbai,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",19.086000000000002,72.88770000000001
+P013,Anil Patil,Male,3,Living,1972-01-01,,Doctor,Jaipur,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,26.9124,75.7873
+P014,Poonam Patil,Female,3,Living,1973-02-04,,Engineer,Delhi,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,28.623900000000003,77.21900000000001
+P015,Sunil Patil,Male,3,Living,1974-03-07,,Entrepreneur,Dubai,UAE,Known for mentoring younger relatives and staying connected across branches of the family.,25.2248,55.290800000000004
+P016,Neeta Patil,Female,3,Living,1975-04-10,,Architect,London,UK,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",51.5072,-0.1276
+P017,Prakash Shah,Male,3,Living,1976-05-13,,Chartered Accountant,Pune,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,18.5304,73.86670000000001
+P018,Anita Shah,Female,3,Living,1977-06-16,,Designer,Mumbai,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,19.096,72.8977
+P019,Deepak Shah,Male,3,Living,1978-07-19,,Professor,Nashik,India,Known for mentoring younger relatives and staying connected across branches of the family.,19.9975,73.7898
+P020,Seema Shah,Female,3,Living,1972-08-22,,Civil Servant,Indore,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",22.7296,75.8677
+P021,Amit Mehta,Male,3,Living,1973-09-25,,Researcher,Bhopal,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,23.279899999999998,77.4326
+P022,Priya Mehta,Female,3,Living,1974-10-01,,Lawyer,Bengaluru,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,12.9716,77.5946
+P023,Nitin Mehta,Male,3,Living,1975-11-04,,Product Manager,Jaipur,India,Known for mentoring younger relatives and staying connected across branches of the family.,26.922400000000003,75.7973
+P024,Neha Mehta,Female,3,Living,1976-12-07,,Chef,Delhi,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",28.6339,77.229
+P025,Rohit Shah,Male,4,Living,1992-01-01,,Banker,Dubai,UAE,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,25.2048,55.2708
+P026,Riya Shah,Female,4,Living,1993-02-04,,Teacher,London,UK,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,51.517199999999995,-0.1176
+P027,Kunal Shah,Male,4,Living,1994-03-07,,Doctor,Pune,India,Known for mentoring younger relatives and staying connected across branches of the family.,18.540399999999998,73.8767
+P028,Sneha Shah,Female,4,Living,1995-04-10,,Engineer,Mumbai,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",19.076,72.8777
+P029,Arjun Mehta,Male,4,Living,1996-05-13,,Entrepreneur,Nashik,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,20.0075,73.7998
+P030,Ananya Mehta,Female,4,Living,1997-06-16,,Architect,Indore,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,22.7396,75.87769999999999
+P031,Aarav Mehta,Male,4,Living,1998-07-19,,Chartered Accountant,Bhopal,India,Known for mentoring younger relatives and staying connected across branches of the family.,23.2599,77.4126
+P032,Ira Mehta,Female,4,Living,1992-08-22,,Designer,Bengaluru,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",12.9816,77.6046
+P033,Kabir Agrawal,Male,4,Living,1993-09-25,,Professor,Jaipur,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,26.9324,75.8073
+P034,Aditi Agrawal,Female,4,Living,1994-10-01,,Civil Servant,Delhi,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,28.6139,77.209
+P035,Vivaan Agrawal,Male,4,Living,1995-11-04,,Researcher,Dubai,UAE,Known for mentoring younger relatives and staying connected across branches of the family.,25.2148,55.2808
+P036,Mira Agrawal,Female,4,Living,1996-12-07,,Lawyer,London,UK,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",51.5272,-0.10759999999999999
+P037,Aditya Maheshwari,Male,4,Living,1997-01-10,,Product Manager,Pune,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,18.5204,73.8567
+P038,Diya Maheshwari,Female,4,Living,1998-02-13,,Chef,Mumbai,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,19.086000000000002,72.88770000000001
+P039,Ishaan Maheshwari,Male,4,Living,1992-03-16,,Artist,Nashik,India,Known for mentoring younger relatives and staying connected across branches of the family.,20.0175,73.8098
+P040,Tara Maheshwari,Female,4,Living,1993-04-19,,Banker,Indore,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",22.7196,75.8577
+P041,Reyansh Mehta,Male,5,Living,2012-01-01,,Doctor,Pune,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,18.5204,73.8567
+P042,Kiara Mehta,Female,5,Living,2013-02-04,,Engineer,Mumbai,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,19.086000000000002,72.88770000000001
+P043,Vihaan Mehta,Male,5,Living,2014-03-07,,Entrepreneur,Nashik,India,Known for mentoring younger relatives and staying connected across branches of the family.,20.0175,73.8098
+P044,Myra Mehta,Female,5,Living,2015-04-10,,Architect,Indore,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",22.7196,75.8577
+P045,Dhruv Agrawal,Male,5,Living,2016-05-13,,Chartered Accountant,Bhopal,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,23.2699,77.4226
+P046,Avni Agrawal,Female,5,Living,2017-06-16,,Designer,Bengaluru,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,12.9916,77.6146
+P047,Neil Agrawal,Male,5,Living,2018-07-19,,Professor,Jaipur,India,Known for mentoring younger relatives and staying connected across branches of the family.,26.9124,75.7873
+P048,Sara Agrawal,Female,5,Living,2012-08-22,,Civil Servant,Delhi,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",28.623900000000003,77.21900000000001
+P049,Manav Maheshwari,Male,5,Living,2013-09-25,,Researcher,Dubai,UAE,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,25.2248,55.290800000000004
+P050,Naina Maheshwari,Female,5,Living,2014-10-01,,Lawyer,London,UK,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,51.5072,-0.1276
+P051,Yash Maheshwari,Male,5,Living,2015-11-04,,Product Manager,Pune,India,Known for mentoring younger relatives and staying connected across branches of the family.,18.5304,73.86670000000001
+P052,Isha Maheshwari,Female,5,Living,2016-12-07,,Chef,Mumbai,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",19.096,72.8977
+P053,Om Deshmukh,Male,5,Living,2017-01-10,,Artist,Nashik,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,19.9975,73.7898
+P054,Rhea Deshmukh,Female,5,Living,2018-02-13,,Banker,Indore,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,22.7296,75.8677
+P055,Rishi Deshmukh,Male,5,Living,2012-03-16,,Teacher,Bhopal,India,Known for mentoring younger relatives and staying connected across branches of the family.,23.279899999999998,77.4326
+P056,Veda Deshmukh,Female,5,Living,2013-04-19,,Doctor,Bengaluru,India,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",12.9716,77.5946
+P057,Dev Kulkarni,Male,5,Living,2014-05-22,,Engineer,Jaipur,India,Remembered for bringing the extended family together every summer and keeping handwritten notes about relatives across cities.,26.922400000000003,75.7973
+P058,Siya Kulkarni,Female,5,Living,2015-06-25,,Entrepreneur,Delhi,India,A warm storyteller who believes family history becomes meaningful when every generation adds its own chapter.,28.6339,77.229
+P059,Krish Kulkarni,Male,5,Living,2016-07-01,,Architect,Dubai,UAE,Known for mentoring younger relatives and staying connected across branches of the family.,25.2048,55.2708
+P060,Aanya Kulkarni,Female,5,Living,2017-08-04,,Chartered Accountant,London,UK,"Enjoys documenting family recipes, celebrations, journeys and the small stories that usually get forgotten.",51.517199999999995,-0.1176

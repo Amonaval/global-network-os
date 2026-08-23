@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { ArrowLeft, ArrowRight, FileSpreadsheet, Heart, KeyRound, PlayCircle, ShieldCheck, Sparkles, TreePine, UsersRound } from "lucide-react";
+import { ArrowLeft, ArrowRight, FileSpreadsheet, Heart, KeyRound, LogOut, PlayCircle, ShieldCheck, Sparkles, TreePine, UsersRound } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Member, Relationship } from "../lib/types";
 import { NetworkSettings, NETWORK_TEMPLATES } from "../lib/network";
@@ -17,18 +17,22 @@ const SETUP_COPY = {
 
 
 type ClaimableProfile={network_id:string;family_name:string;member_id:string;member_name:string};
+type ExistingFamily={network_id:string;name:string;role:string;is_active:boolean};
 type Props = {
   onCreate: (settings: NetworkSettings, mode: "empty" | "demo" | "import", members?: Member[], relationships?: Relationship[]) => Promise<void> | void;
   onExploreDemo:()=>void;
   onJoinCode:(code:string)=>Promise<void>;
   claimableProfiles?:ClaimableProfile[];
+  existingFamilies?:ExistingFamily[];
+  onOpenFamily?:(networkId:string)=>Promise<void>;
+  onSignOut?:()=>Promise<void>|void;
   onClaimProfile?:(memberId:string)=>Promise<void>;
   shared: boolean;
   canSetup: boolean;
   approvalRequired?: boolean;
 };
 
-export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],onClaimProfile,shared,canSetup,approvalRequired=false }: Props) {
+export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],existingFamilies=[],onOpenFamily,onSignOut,onClaimProfile,shared,canSetup,approvalRequired=false }: Props) {
   const { language } = useLanguage();
   const c = SETUP_COPY[language];
   const nameError = language === "hi" ? "कृपया अपने परिवार को एक नाम दें।" : language === "mr" ? "कृपया आपल्या कुटुंबाला नाव द्या." : "Please give your family space a name.";
@@ -55,12 +59,13 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
   const claim=async(id:string)=>{if(!onClaimProfile)return;setBusy(true);setError("");try{await onClaimProfile(id)}catch(e:any){setError(e.message||"We could not connect that family profile.")}finally{setBusy(false)}};
 
   return <div className="family-onboarding alpha-entry">
-    <header className="onboarding-topbar"><div className="onboarding-brand"><span><TreePine size={20}/></span>{c.brand}</div><LanguageSwitcher/></header>
+    <header className="onboarding-topbar"><div className="onboarding-brand"><span><TreePine size={20}/></span>{c.brand}</div><div className="onboarding-account-actions"><LanguageSwitcher/>{shared&&canSetup&&onSignOut&&<button className="btn small" onClick={()=>onSignOut()}><LogOut size={15}/> Sign out</button>}</div></header>
     <main className="onboarding-wrap">
       <section className="onboarding-story"><span className="warm-kicker"><Heart size={13} fill="currentColor"/> Made for every generation</span><h1>{path==="entry"?"Your family is one tap away.":path==="join"?"Join your family":"Create your family space"}</h1><p>{path==="entry"?"You can join an existing family, explore a sample, or create your own. You do not need to understand setup or technology first.":path==="join"?"Use the family code shared with you, or connect a profile we found for your verified email.":"Start small, use the guided Excel workbook, or build from a few relatives."}</p></section>
       <section className="onboarding-card alpha-entry-card">
       {path==="entry"&&<>
         <div className="setup-heading"><div className="brand-mark"><TreePine size={24}/></div><div><span className="setup-eyebrow">Welcome</span><h2>What would you like to do?</h2></div></div>
+        {existingFamilies.length>0&&<div className="claimable-family-box existing-family-box"><span className="warm-kicker">Your families</span>{existingFamilies.map(f=><div className="claimable-family-row" key={f.network_id}><span><b>{f.name}</b><small>{f.role}</small></span><button className="btn" disabled={busy||!onOpenFamily} onClick={async()=>{if(!onOpenFamily)return;setBusy(true);setError("");try{await onOpenFamily(f.network_id)}catch(e:any){setError(e.message||"Could not open that family.")}finally{setBusy(false)}}}>Open family</button></div>)}</div>}
         {claimableProfiles.length>0&&<div className="claimable-family-box"><span className="warm-kicker">We may have found you</span>{claimableProfiles.slice(0,3).map(p=><div className="claimable-family-row" key={`${p.network_id}-${p.member_id}`}><span><b>{p.member_name}</b><small>{p.family_name}</small></span><button className="btn primary" disabled={busy} onClick={()=>claim(p.member_id)}>This is me</button></div>)}</div>}
         <div className="alpha-entry-options">
           <button className="alpha-entry-option primary-choice" onClick={()=>setPath("join")}><span><UsersRound/></span><b>Join my family</b><small>Use a family code or connect a family profile already created for you.</small><em>Join family <ArrowRight size={15}/></em></button>

@@ -494,3 +494,20 @@ CR2.3 remains **IMPLEMENTED / LIVE VERIFY**; this batch does not promote it to V
 **S1-A/B/C are now implemented in source, but S1 is NOT behaviour-certified. S2 remains blocked.**
 
 CR2.3 remains **IMPLEMENTED / LIVE VERIFY**.
+
+## S1 Update Candidate — Access / Playground / Showcase Hardening
+**IMPLEMENTED IN SOURCE / LIVE VERIFY**
+- [x] Fix `State.memories` local persistence/build regression.
+- [x] Never hide Sign out or family switching behind Simple experience.
+- [x] Create/join another family escape path.
+- [x] Family Lobby non-destructive unlink/switch path.
+- [x] Guarded Leave Family behavior prevents ownerless populated families.
+- [x] Setup/lobby shows existing families and Sign out.
+- [x] Independent Playground feature visibility in Launch Control.
+- [x] Playground uses Explorer presentation and separate feature map.
+- [x] Old 150-person filler DB seed replaced by 60-person / 5-generation showcase seed.
+- [x] Showcase includes history, memories, contribution prompts, groups and reunion events.
+- [ ] Deployed behavior verification on Supabase/Vercel.
+- [ ] 360/390/430 mobile behavior verification.
+
+S1 is not yet promoted to VERIFIED. S2 remains blocked by the S1 behavior gate.

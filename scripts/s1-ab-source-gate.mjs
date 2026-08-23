@@ -18,7 +18,7 @@ const checks=[
  ['member correction entry persists request',profile.includes('Report correction')&&app.includes('kind:"family_correction"')&&app.includes('createChangeRequest')],
  ['mobile 430 containment rules exist',css.includes('@media(max-width:430px)')&&css.includes('.tree-mobile-view-switch .btn{width:100%')],
  ['required legacy css fixes retained',css.includes('.card.home-coming{padding:10px}')&&css.includes('z-index:50')&&css.includes('.profile-overlay')],
- ['150-person workbook is actually public',fs.existsSync(new URL('../public/sample-data-150.xlsx',import.meta.url))]
+ ['60-person showcase workbook is public',fs.existsSync(new URL('../public/sample-data-60.xlsx',import.meta.url))]
 ];
 let failed=0;
 for(const [name,ok] of checks){console.log(`${ok?'PASS':'FAIL'} ${name}`);if(!ok)failed++;}

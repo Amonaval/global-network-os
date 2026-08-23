@@ -32,6 +32,7 @@ import {
   Rocket,
   Sparkles,
   PlayCircle,
+  UsersRound
 } from "lucide-react";
 import TreeView from "./TreeView";
 import ProfileDrawer from "./ProfileDrawer";
@@ -78,7 +79,7 @@ import FamilySwitcher from "./FamilySwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
 import QuickFamilyStart from "./QuickFamilyStart";
 import FounderLaunchConsole from "./FounderLaunchConsole";
-import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail, setActiveNetwork, addMyselfToFamily } from "../lib/remote";
+import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail, setActiveNetwork, addMyselfToFamily, fetchPlaygroundFeatures, enterFamilyLobby, leaveCurrentFamily, fetchMyNetworks, NetworkMembership } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
@@ -117,10 +118,12 @@ export default function NetworkApp() {
     [pendingFamilyRequest, setPendingFamilyRequest] = useState<FamilyCreationRequest | null>(null),
     [familyCreationApprovalRequired,setFamilyCreationApprovalRequired]=useState(true),
     [claimableProfiles,setClaimableProfiles]=useState<ClaimableFamilyProfile[]>([]),
+    [myFamilies,setMyFamilies]=useState<NetworkMembership[]>([]),
     [demoPreview,setDemoPreview]=useState(false),
     [demoViewerId,setDemoViewerId]=useState<string | undefined>(undefined),
     [editingMember, setEditingMember] = useState<Member | undefined>();
   const [platformFeatures,setPlatformFeatures]=useState<EffectiveFeatureMap>(()=>defaultFeatureMap(!isSupabaseConfigured)),
+    [playgroundFeatures,setPlaygroundFeatures]=useState<EffectiveFeatureMap>(()=>defaultFeatureMap(true)),
     [experiencePreview,setExperiencePreview]=useState<ExperienceLevel|null>(null),
     [featureAnnouncements,setFeatureAnnouncements]=useState<FeatureAnnouncement[]>([]);
   const [query, setQuery] = useState(""),
@@ -177,6 +180,12 @@ export default function NetworkApp() {
     setAuth(u);
     if(repository.mode === "shared") {
       try {
+        const demoRows=await fetchPlaygroundFeatures();
+        const demoMap=defaultFeatureMap(true);
+        demoRows.forEach(row=>{const key=row.feature_key as FeatureKey;if(demoMap[key]) demoMap[key]={key,rollout_state:"released",enabled:row.enabled};});
+        setPlaygroundFeatures(demoMap);
+      } catch { setPlaygroundFeatures(defaultFeatureMap(true)); }
+      try {
         const rows=await fetchEffectivePlatformFeatures();
         const map=defaultFeatureMap(false);
         rows.forEach(row=>{
@@ -190,6 +199,7 @@ export default function NetworkApp() {
       }
       try{setFeatureAnnouncements(await fetchMyFeatureAnnouncements())}catch{setFeatureAnnouncements([])}
     } else {setPlatformFeatures(defaultFeatureMap(true));setFeatureAnnouncements([])}
+    if(repository.mode === "shared" && u){try{setMyFamilies(await fetchMyNetworks())}catch{setMyFamilies([])}}else setMyFamilies([]);
     const n =
       repository.mode === "shared"
         ? await repository.fetchNetworkSettings()
@@ -247,8 +257,8 @@ export default function NetworkApp() {
   }, []);
   useEffect(() => {
     if (repository.mode === "local" && network)
-      saveState({ members, relationships, submissions, lifeEvents });
-  }, [members, relationships, submissions, network]);
+      saveState({ members, relationships, submissions, lifeEvents, memories });
+  }, [members, relationships, submissions, lifeEvents, memories, network]);
   useEffect(() => {
     if (!showMobileMenu) return;
     const close = (event: KeyboardEvent) => event.key === "Escape" && setShowMobileMenu(false);
@@ -1020,8 +1030,8 @@ export default function NetworkApp() {
     );
   const canAdmin = !demoPreview && (!isSupabaseConfigured || network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.role === "admin");
   const isPlatformOwner = !isSupabaseConfigured || !!auth?.platform_owner;
-  const experience:ExperienceLevel = experiencePreview || (!isSupabaseConfigured ? "explorer" : (auth?.experience_level || "simple"));
-  const hasFeature=(key:FeatureKey)=>isFeatureAvailable(key,platformFeatures,experience,canAdmin);
+  const experience:ExperienceLevel = demoPreview ? "explorer" : (experiencePreview || (!isSupabaseConfigured ? "explorer" : (auth?.experience_level || "simple")));
+  const hasFeature=(key:FeatureKey)=>isFeatureAvailable(key,demoPreview?playgroundFeatures:platformFeatures,experience,canAdmin);
   const refreshFeatureState=async()=>{
     if(!isSupabaseConfigured)return;
     try{
@@ -1085,11 +1095,14 @@ export default function NetworkApp() {
   if (setupNeeded)
     return (
       <>
-        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval. You can still explore the sample family while you wait.</p><div className="notice"><b>Status:</b> Waiting for approval</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><button className="btn" onClick={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setMemories(d.memories);setAllLifeEvents(d.lifeEvents);setDemoViewerId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}>Explore sample</button></div></div></div> : <SetupScreen
+        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval. You can still explore the sample family while you wait.</p><div className="notice"><b>Status:</b> Waiting for approval</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><button className="btn" onClick={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setMemories(d.memories);setAllLifeEvents(d.lifeEvents);setDemoViewerId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}>Explore sample</button><button className="btn" onClick={async()=>{await signOut();setAuth(null);setPendingFamilyRequest(null);setSetupNeeded(true)}}><LogOut size={15}/> Sign out</button></div></div></div> : <SetupScreen
           shared={isSupabaseConfigured}
           canSetup={canSetupFamily}
           approvalRequired={isSupabaseConfigured&&!isPlatformOwner&&familyCreationApprovalRequired}
           claimableProfiles={claimableProfiles}
+          existingFamilies={myFamilies}
+          onOpenFamily={async(id)=>{await setActiveNetwork(id);await hydrate(await getAuthUser());setView("home")}}
+          onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}
           onClaimProfile={async(memberId)=>{await claimProfileByVerifiedEmail(memberId);await hydrate(await getAuthUser());setView("home");notify("Welcome to your family.")}}
           onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify("Family joined. Welcome!")}}
           onExploreDemo={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setMemories(d.memories);setAllLifeEvents(d.lifeEvents);setDemoViewerId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}
@@ -1128,7 +1141,7 @@ export default function NetworkApp() {
         </div>
         {demoPreview&&<div className="demo-preview-banner"><Sparkles size={14}/><span>Playground · you are {members.find(m=>m.id===demoViewerId)?.full_name.split(/\s+/)[0] || "a sample family member"} for this visit · nothing is saved</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setDemoViewerId(undefined);setFocusId(undefined);setLineageOnly(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>Join or create mine</button></div>}
         <div className={`top-actions ${experience==="simple"&&!canAdmin?"simple-top-actions":""}`}>
-          {isSupabaseConfigured && !demoPreview && (canAdmin || experience!=="simple") && <FamilySwitcher onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>setSetupNeeded(true)} />}
+          {isSupabaseConfigured && !demoPreview && auth && <FamilySwitcher onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>setSetupNeeded(true)} onLobby={async()=>{await enterFamilyLobby();await hydrate(await getAuthUser());setView("home");}} onLeave={async()=>{const action=await leaveCurrentFamily();await hydrate(await getAuthUser());setView("home");notify(action==="archived"?"Family archived. You can now create or join another family.":"You left the family. You can now create or join another family.");}} />}
           <LanguageSwitcher compact />
           {isSupabaseConfigured && canAdmin && (
             <span className="person-meta">
@@ -1149,7 +1162,7 @@ export default function NetworkApp() {
           {<button className="btn small" onClick={() => setShowGuide(true)}>
             <BookOpen size={15} /> {t("guide")}
           </button>}
-          {isSupabaseConfigured && (canAdmin || experience!=="simple") && (
+          {isSupabaseConfigured && auth && (
             <button
               className="btn small"
               onClick={() => {
@@ -1889,6 +1902,8 @@ export default function NetworkApp() {
         {hasFeature("contribute.help_family")&&<button className="mobile-more-action" onClick={() => { setView("participation"); setShowMobileMenu(false); }}><span><GitBranch />{language==='hi'?'परिवार की मदद':language==='mr'?'कुटुंबाला मदत':'Help improve our family'}</span><ArrowRight /></button>}
         {canAdmin && hasFeature("admin.center") && <button className="mobile-more-action" onClick={() => { setView("admin"); setShowMobileMenu(false); }}><span><Settings2 />{language==='hi'?'परिवार संभालें':language==='mr'?'कुटुंब सांभाळा':'Manage family'}</span><ArrowRight /></button>}
         {isPlatformOwner && isSupabaseConfigured && <button className="mobile-more-action" onClick={() => { setView("founder"); setShowMobileMenu(false); }}><span><Rocket />Launch Control</span><ArrowRight /></button>}
+        {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={() => { setSetupNeeded(true); setShowMobileMenu(false); }}><span><UsersRound />Create, join or switch family</span><ArrowRight /></button>}
+        {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={async()=>{if(!window.confirm(`Leave ${network?.name||"this family"}? If you are its only account, the empty family will be archived.`))return;try{const action=await leaveCurrentFamily();setShowMobileMenu(false);await hydrate(await getAuthUser());notify(action==="archived"?"Family archived. You can create or join another family.":"You left the family.")}catch(e:any){notify(e.message||"Could not leave this family.")}}}><span><LogOut />Leave this family</span><ArrowRight /></button>}
         <button className="mobile-more-action" onClick={() => { setShowGuide(true); setShowMobileMenu(false); }}><span><BookOpen />{language==='hi'?'मदद':language==='mr'?'मदत':'Help'}</span><ArrowRight /></button>
         <button className="mobile-more-action" onClick={toggleLargeText}><span><BookOpen />{largeText ? (language==='hi'?'सामान्य टेक्स्ट':language==='mr'?'सामान्य मजकूर':'Normal text size') : (language==='hi'?'बड़ा टेक्स्ट':language==='mr'?'मोठा मजकूर':'Larger text')}</span><ArrowRight /></button>
         <div className="mobile-more-setting"><LanguageSwitcher /></div>

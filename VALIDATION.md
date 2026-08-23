@@ -112,3 +112,10 @@ Source gates passed on the cumulative S1-A/B + S1-C baseline:
 Changed TypeScript/TSX files also pass TypeScript `transpileModule` syntax parsing.
 
 Full `tsc --noEmit` / `next build` remains unverified in this environment because dependency restoration timed out and required type packages were unavailable. Do not treat source/syntax gates as production certification.
+
+## S1 Update Candidate validation
+- `node scripts/s1-hardening-source-gate.mjs` → 21/21 PASS.
+- `node validate-demo.mjs` → 60 members / 142 relationships / generations 1–5 PASS.
+- Changed TS/TSX files pass TypeScript `transpileModule` syntax diagnostics.
+- Full `npm run build` is still environment-blocked here because dependency restoration timed out and local `node_modules/.bin/next` is absent. The original reported `State.memories` type mismatch itself is fixed in source.
+- Deployed behavior verification remains required before S1 can be marked VERIFIED.

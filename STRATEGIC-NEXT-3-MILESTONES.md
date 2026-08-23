@@ -267,3 +267,6 @@ The first-session product now supports the intended progressive path:
 The Playground is also upgraded from a large tree sample into a richer acquisition/pitch surface: 60 people across 5 generations with stories, life events, map/analytics context, social identity examples, contribution prompts, groups/reunions and participation proof.
 
 This does **not** satisfy the S1 exit gate by source inspection alone. S1 remains open until the 10-persona deployed behaviour matrix passes, including 360/390/430 mobile, persistence, permissions and recovery. S2 remains blocked.
+
+### S1 hardening update — required before S2
+The S1 behavior gate now explicitly includes family escape paths and showcase independence: logout/family switching cannot be experience-gated; users must be able to create/join additional families; Family Lobby must provide a safe non-destructive unlink path; and Playground feature visibility must be independently founder-controlled. The 60-person showcase replaces the former 150-person filler seed for product demonstration. Status remains **LIVE VERIFY** until deployed tests pass.

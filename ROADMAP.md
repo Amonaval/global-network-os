@@ -707,3 +707,8 @@ Strategic status:
 - **S2:** still blocked.
 
 The old 150-person demo history remains preserved. The current product-showcase asset is intentionally 60 people because density of meaningful relationships/history/engagement demonstrates more product value than raw member count.
+
+## S1 Update Candidate — Family access & showcase hardening (2026-08-23)
+Status: **IMPLEMENTED IN SOURCE / LIVE VERIFY**.
+
+S1 post-implementation audit found several first-60-second recovery/discoverability failures: Simple users could lose family-switch/logout visibility, setup had no logout, Playground inherited Simple feature visibility, and the database demo still used the old 150-person filler seed. These are now addressed by migration 036, always-visible family escape paths, Family Lobby, separate Playground Launch Control, and the synchronized 60-person full-potential showcase dataset. Preserve this as part of S1; do not start S2 until deployed behavior confirms it.

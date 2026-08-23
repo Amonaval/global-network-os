@@ -37,6 +37,14 @@ const mapLifeEvent = (r: any): LifeEvent => ({
 
 const isUuidValue = (value: unknown) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(value || ""));
 
+
+export type PlaygroundFeatureRow={feature_key:string;enabled:boolean;updated_at?:string};
+export async function fetchPlaygroundFeatures():Promise<PlaygroundFeatureRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_playground_features");if(error)throw error;return (data||[]) as PlaygroundFeatureRow[];}
+export async function fetchPlaygroundLaunchConsole():Promise<PlaygroundFeatureRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_playground_launch_console");if(error)throw error;return (data||[]) as PlaygroundFeatureRow[];}
+export async function setPlaygroundFeatureVisibility(featureKey:string,enabled:boolean){if(!supabase)return;const {error}=await supabase.rpc("set_playground_feature_visibility",{p_feature_key:featureKey,p_enabled:enabled});if(error)throw error;}
+export async function enterFamilyLobby(){if(!supabase)return;const {error}=await supabase.rpc("enter_family_lobby");if(error)throw error;}
+export async function leaveCurrentFamily():Promise<"left"|"archived">{if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("leave_current_family");if(error)throw error;return data as "left"|"archived";}
+
 export type PlatformFeatureRow={feature_key:string;rollout_state:"hidden"|"test"|"pilot"|"released";enabled:boolean};
 export type PlatformLaunchFeature={feature_key:string;bundle_key:string;rollout_state:"hidden"|"test"|"pilot"|"released";pilot_network_ids:string[];announcement_version:number;updated_at:string};
 export type PlatformFamilyTarget={network_id:string;name:string;slug:string;status:string;member_count:number};
