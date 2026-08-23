@@ -161,3 +161,18 @@ Live verify must cover: digest content after real family changes, category prefe
 
 ## Planned S2-E behavior gate
 When S2-E is implemented, validate anonymous Playground, fresh auth/no-family, new creator, member, Family Owner, co-admin, Platform Owner, hidden-feature user and older/non-technical 360/390/430 mobile personas. Verify guide discoverability/comprehension, accurate role/feature filtering, guide search by user goal, Open Feature routing, contextual collapse/expand, Privacy & Trust accuracy, Playground no-save examples, feedback persistence/recovery and absence of stale/aspirational claims. Source/build checks alone are insufficient.
+
+## S2-E validation — 2026-08-24
+
+Source validation completed:
+- `node scripts/s2-e-source-gate.mjs` → **15/15 PASS**.
+- Existing regression source gates rerun after S2-E changes:
+  - S1 hardening → **21/21 PASS**
+  - S2-A → **13/13 PASS**
+  - S2-B → **14/14 PASS**
+  - S2-C → **16/16 PASS**
+  - S2-D → **17/17 PASS**
+
+Production build status: **LIVE VERIFY**. The uploaded source ZIP did not include installed project dependencies. `npm run build` initially returned `next: not found`; a dependency installation attempt did not complete inside the command execution window. Do not treat this workspace as a dependency-complete production-build certification.
+
+Required deployed behavior matrix remains: anonymous Playground; fresh auth/no-family; fresh creator; normal member; Family Owner; co-admin; Platform Owner; hidden/disabled feature user; older/non-technical user; goal-search user. Verify Guide discoverability/comprehension, role/feature filtering, search, all Open Feature routes, Playground no-save routing, contextual collapse memory, feedback success/failure recovery, privacy/RLS accuracy and 360/390/430 layouts.

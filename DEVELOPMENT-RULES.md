@@ -212,3 +212,11 @@ Community membership never grants direct access to another family's tables. Cros
 - Search should be deterministic before adding an LLM; a future AI guide must answer from the curated guide corpus.
 - Product feedback must use governed persistence and safe contextual metadata; never auto-capture private family stories/profile data.
 - Guide completeness is behavior-tested with novice/older users and 360/390/430 mobile, not source-checked only.
+
+## S2-E implementation rule — guide truth must stay coupled to product truth
+
+- New meaningful user-facing modules must add/update one central guide-registry entry rather than copying long help prose into the component.
+- A module may be labelled `live` only when its guide claim is safe for the currently certified runtime; use `live_verify`/`partial` for uncertain deployment behavior.
+- Contextual help, Guide Portal, search, related navigation, Playground examples and future AI-help layers should reuse the same registry.
+- Feedback metadata must remain minimal and must never silently attach private memories, profile prose, contact data or family-sensitive payloads.
+- Platform feedback triage is evidence; changing triage status must never directly edit roadmap/mission files.

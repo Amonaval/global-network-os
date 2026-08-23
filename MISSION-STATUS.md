@@ -553,3 +553,29 @@ Implemented: private Home digest, topic/cadence preferences, preferred weekday, 
 Planning completed for a first-class interactive help/product-discovery system rather than another static guide refresh. Scope includes contextual collapsible guides across live modules, standalone Explore & Guide portal, central guide registry, deterministic search, persona/use-case inspiration, Privacy & Trust Center, Family Owner playbook, First 7 Steps, What's New, curated future roadmap and governed feedback intelligence with Platform Owner triage.
 
 Implementation has **not** started in this session. Use `S2-E-GUIDED-FAMILY-EXPERIENCE-LIVING-HELP-SYSTEM.md` and `S2-E-COMPLETE-GUIDE-CONTENT-MAP.md` as completeness contracts in the next session.
+
+## 2026-08-24 — S2-E Guided Family Experience & Living Help System
+
+**Status: IMPLEMENTED IN SOURCE / LIVE BEHAVIOUR VERIFY REQUIRED**
+
+Implemented:
+- first-class desktop/mobile `Explore & Guide` destination;
+- central `GUIDE_ENTRIES` product-help registry with role, feature, status and version metadata;
+- reusable contextual `FeatureGuide` on primary live product surfaces;
+- complete Guide Portal with product story, 10 personas, goal explorer, module library, inspiration, Owner playbook, First 7 Steps, What's New and curated future ideas;
+- deterministic guide search with natural-goal keywords;
+- role/feature-aware module filtering;
+- `Try in Playground` actions using existing no-save sample-family behavior;
+- Privacy & Trust Center language that avoids surname/community/city relationship inference and treats community/marriage discovery as explicit opt-in;
+- structured feedback RPC/table with safe context fields only;
+- Platform Owner feedback triage + aggregate family/request signals;
+- source validation gate `validate:s2-e` (15/15 in this workspace).
+
+Still LIVE VERIFY:
+- migration `041_s2e_guided_family_help_feedback.sql` on clean staging and upgraded instances;
+- feedback submit/status/aggregate RPC behavior with real auth/RLS;
+- anonymous Playground, fresh auth/no-family, new creator, member, Owner, co-admin, Platform Owner and hidden-feature behavior;
+- mobile behavior at 360/390/430 and older/non-technical usability;
+- every Open Feature / Try in Playground route;
+- privacy wording against deployed runtime/RLS;
+- full dependency-complete Next production build.

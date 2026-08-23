@@ -185,3 +185,11 @@ Preserve and optionally expose curated interest cards for:
 
 ## P. Feedback coverage
 Every major guide entry should offer feedback. Guide-level feedback should support helpful/not-helpful and contextual improvement idea submission. Platform Owner triage must distinguish user request from roadmap commitment.
+
+## Implementation coverage update — 2026-08-24
+
+**Status: SOURCE COVERAGE IMPLEMENTED / LIVE BEHAVIOUR VERIFY REQUIRED**
+
+The central guide registry and Guide Portal now cover the completeness areas A–P above, including smaller flows that are easy to miss: Add Myself/close relatives, guided Excel + CSV, profile corrections, Privacy Preview, digest preferences, opt-in Community Profile, marriage discovery, Trusted Families, connection paths, introductions, Family Switcher/Create/Join/Lobby/Leave, Platform Owner Launch Control, Playground, goal-oriented search, Privacy & Trust FAQ, curated future-interest cards and contextual feedback.
+
+Coverage is intentionally grouped where the runtime already groups experiences (for example Family History/Timeline/Life Events and Public Profile/Privacy Preview). This source-coverage checkpoint is not a deployment certification. Entries marked `live_verify` must remain visibly qualified until browser/RLS behavior is verified.

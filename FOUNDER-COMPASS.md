@@ -103,3 +103,6 @@ Once the product has meaningful breadth, discoverability becomes a growth and re
 **Rule:** every help surface explains both `how` and `why would I care?`. Prefer contextual, progressive guidance over walls of documentation. Preserve one structured source of truth so help, search, Playground demos and future AI assistance cannot drift into contradictory product claims.
 
 User feedback from the guide is evidence, not an automatic roadmap commitment. Repeated needs should become product intelligence; privacy-sensitive family content must never be silently captured as feedback metadata.
+
+## 2026-08-24 — S2-E implementation checkpoint
+The guide is now part of product activation, not a documentation afterthought. Maintain one product-help source of truth, keep role/feature visibility aligned with runtime, and treat feedback aggregates as evidence rather than promises. Any privacy claim that cannot be demonstrated in deployed behavior stays visibly unverified.

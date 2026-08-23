@@ -662,3 +662,11 @@ S2-E is complete only when:
 ## Future after S2-E
 
 Do not let S2-E consume/erase prior roadmap ideas. Preserve Family Play, contextual social-video memories, named opt-in bridge contacts, external digest delivery, richer community moderation/reputation, family book/export and S3 business proof. S2-E should make those future capabilities easier to discover and evaluate when they arrive.
+
+## Implementation update — 2026-08-24
+
+**Status: IMPLEMENTED IN SOURCE / LIVE BEHAVIOUR + SUPABASE VERIFY REQUIRED**
+
+Implemented architecture and surfaces: central guide registry/types; reusable `FeatureGuide`; standalone `GuidePortal`; deterministic search; persona/goal/inspiration/Owner/activation content; role/feature filtering; privacy/trust content; Playground actions; governed feedback table/RPC; Platform Owner feedback triage and aggregates; responsive Guide styling; S2-E source gate.
+
+This status does not certify deployed RLS/privacy behavior, mobile real-device usability, feedback RPC execution or a dependency-complete production build. Those remain exit-gate items.

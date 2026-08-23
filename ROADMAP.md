@@ -780,3 +780,13 @@ S2-E also introduces governed contextual product feedback and Platform Owner tri
 Detailed scope: `S2-E-GUIDED-FAMILY-EXPERIENCE-LIVING-HELP-SYSTEM.md` and `S2-E-COMPLETE-GUIDE-CONTENT-MAP.md`.
 
 Exit gate is behavior-based: a novice must be able to discover what the app is, understand why it matters, find help by goal/search, navigate to a feature, understand privacy/permissions and submit feedback across desktop/mobile without needing external documentation. Historical/future roadmap items remain preserved.
+
+## 2026-08-24 — S2-E Guided Family Experience & Living Help System
+
+**Status: IMPLEMENTED IN SOURCE / LIVE BEHAVIOUR + SUPABASE VERIFY REQUIRED.**
+
+S2-E now exists as a first-class product layer rather than a static documentation refresh: `Explore & Guide` navigation, one structured guide registry, contextual collapsible help, deterministic goal search, persona/use-case journeys, Privacy & Trust guidance, Family Owner playbook, First 7 Steps, What's New, curated future-interest cards, Playground entry actions, governed feedback persistence and Platform Owner feedback triage.
+
+The guide registry carries feature/role/status metadata so hidden or uncertain functionality is not presented as universally live. Privacy-sensitive areas remain labelled `Live · verify deployment` until deployed RLS/runtime checks pass. Feedback status changes remain product evidence and never mutate roadmap files automatically.
+
+S2-E does **not** delete or supersede Family Play, Family Watch/contextual social-video memories, external digest delivery, named opt-in introduction bridges, family book/export, community moderation/reputation or S3 defensible-business proof. Those remain preserved for later evidence-led sequencing.

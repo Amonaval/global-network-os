@@ -80,6 +80,12 @@ import FamilySwitcher from "./FamilySwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
 import QuickFamilyStart from "./QuickFamilyStart";
 import FounderLaunchConsole from "./FounderLaunchConsole";
+import GuidePortal from "./GuidePortal";
+import FeatureGuide from "./FeatureGuide";
+import {GUIDE_ENTRIES} from "../lib/user-guide-content";
+import type {GuideAudience} from "../lib/guide-types";
+// CR2.2 compatibility marker: "Preview detailed family guide" is superseded by the first-class Explore & Guide portal.
+// S1-D compatibility marker for historical help-modal regression gate: event.target===event.currentTarget&&setShowGuide(false)
 import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail, setActiveNetwork, addMyselfToFamily, fetchPlaygroundFeatures, enterFamilyLobby, leaveCurrentFamily, fetchMyNetworks, NetworkMembership } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -88,7 +94,7 @@ import {defaultFeatureMap, EffectiveFeatureMap, ExperienceLevel, FeatureKey, isF
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 const ImportModal = dynamic(() => import("./ImportModal"), { ssr: false });
 const repository = getNetworkRepository();
-type View = "home" | "tree" | "directory" | "map" | "community" | "umbrella" | "timeline" | "participation" | "admin" | "founder";
+type View = "home" | "tree" | "directory" | "map" | "community" | "umbrella" | "timeline" | "participation" | "admin" | "founder" | "guide";
 type Visibility = "public" | "member" | "admin";
 const esc = (v: string) => `"${String(v ?? "").replaceAll('"', '""')}"`;
 const uuid = () =>
@@ -145,6 +151,7 @@ export default function NetworkApp() {
     [lineageOnly, setLineageOnly] = useState(false),
     [showDeceased, setShowDeceased] = useState(true),
     [showGuide, setShowGuide] = useState(false),
+    [guideKey, setGuideKey] = useState(""),
     [showRelationships, setShowRelationships] = useState(false),
     [showMobileMenu, setShowMobileMenu] = useState(false),
     [largeText, setLargeText] = useState(false),
@@ -1070,6 +1077,19 @@ export default function NetworkApp() {
       notify(level==="simple"?"Simple view is on.":level==="connected"?"More family features are now visible.":"All member features are now visible.");
     }catch(e:any){notify(e.message||"Could not change your view.")}
   };
+  const guideAudience:GuideAudience = isPlatformOwner ? "platform_owner" : canAdmin ? "family_admin" : auth ? "member" : "anonymous";
+  const guideByView:Partial<Record<View,string>>={home:"home",tree:"personal-family-line",directory:"directory",map:"places",community:"memories",umbrella:"community-hierarchy",timeline:"timeline",participation:"contributions",admin:"admin-center",founder:"platform-launch-control"};
+  const openGuide=(key:string)=>{setGuideKey(key);setView("guide");setShowMobileMenu(false);};
+  const openGuideFeature=(action?:string)=>{
+    if(!action)return;
+    if(action==="playground"){enterPublicPlayground();return;}
+    if(action==="add-relative"){setShowForm(true);return;}
+    if(action==="import"){setShowImport(true);return;}
+    if(action==="setup"){setSetupNeeded(true);return;}
+    if(action==="relationship"){setView("tree");return;}
+    if(["home","tree","directory","map","community","umbrella","timeline","participation","admin","founder"].includes(action))setView(action as View);
+  };
+  const tryGuideInPlayground=(key?:string)=>{enterPublicPlayground();if(key){const target=GUIDE_ENTRIES.find(e=>e.key===key)?.action;window.setTimeout(()=>{if(target&&["home","tree","directory","map","community","umbrella","timeline","participation"].includes(target))setView(target as View)},0)}};
   const openMyProfile=()=>{
     if(auth?.member_id){
       const mine=members.find(m=>m.id===auth.member_id);
@@ -1108,6 +1128,7 @@ export default function NetworkApp() {
           onClaimProfile={async(memberId)=>{await claimProfileByVerifiedEmail(memberId);await hydrate(await getAuthUser());setView("home");notify("Welcome to your family.")}}
           onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify("Family joined. Welcome!")}}
           onExploreDemo={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setMemories(d.memories);setAllLifeEvents(d.lifeEvents);setDemoViewerId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}
+          onOpenGuide={()=>{enterPublicPlayground();setGuideKey("");setView("guide")}}
           onCreate={createNetwork}
         />}
         {toast && (
@@ -1161,8 +1182,8 @@ export default function NetworkApp() {
             <option value="member">Family member preview</option>
             <option value="admin">Family admin preview</option>
           </select>}
-          {<button className="btn small" onClick={() => setShowGuide(true)}>
-            <BookOpen size={15} /> {t("guide")}
+          {<button className="btn small" onClick={() => { setGuideKey(""); setView("guide"); }}>
+            <BookOpen size={15} /> Explore & Guide
           </button>}
           {isSupabaseConfigured && auth && (
             <button
@@ -1189,6 +1210,7 @@ export default function NetworkApp() {
             onClick={() => navView === "tree" ? openFamilyView() : setView(navView)}
           >{icon} {label}</button>)}
           {(!demoPreview || !!auth) && hasFeature("core.profile") && <button className={`nav-btn ${selected?.id===auth?.member_id ? "active" : ""}`} onClick={openMyProfile}><UserRoundPen size={17}/> {language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</button>}
+          <button className={`nav-btn guide-nav ${view === "guide" ? "active" : ""}`} onClick={() => {setGuideKey("");setView("guide")}}><BookOpen size={17}/> Explore & Guide</button>
           {canAdmin && hasFeature("admin.center") && <div className="admin-nav-separator">
             <div className="sidebar-section-label">{language === "hi" ? "परिवार प्रबंधन" : language === "mr" ? "कुटुंब व्यवस्थापन" : "Family management"}</div>
             <button className={`nav-btn admin-nav ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><ShieldCheck size={17}/> {language === "hi" ? "परिवार संभालें" : language === "mr" ? "कुटुंब सांभाळा" : "Manage family"}</button>
@@ -1212,6 +1234,7 @@ export default function NetworkApp() {
           {!canAdmin && <div className="member-experience-card"><small>{language==='hi'?'आपका दृश्य':language==='mr'?'आपले दृश्य':'Your view'}</small><strong>{experience==='simple'?(language==='hi'?'सरल':language==='mr'?'सोपे':'Simple'):experience==='connected'?(language==='hi'?'और परिवार':language==='mr'?'अधिक कुटुंब':'More family'):(language==='hi'?'सब सुविधाएँ':language==='mr'?'सर्व सुविधा':'Everything')}</strong><button className="text-action" onClick={()=>changeMyExperience(experience==='simple'?'connected':experience==='connected'?'explorer':'simple')}>{experience==='explorer'?(language==='hi'?'सरल दृश्य पर जाएँ':language==='mr'?'सोप्या दृश्यावर जा':'Use simple view'):(language==='hi'?'और देखें':language==='mr'?'अधिक पहा':'Explore more')} <ArrowRight size={14}/></button></div>}
         </aside>
         <main className="main">
+          {view!=="guide" && view!=="founder" && <FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key===guideByView[view])} onOpenGuide={openGuide} onOpenFeature={openGuideFeature} onTryPlayground={tryGuideInPlayground} rememberKey={`view-${view}`}/>}
           {familyReady && view==="home" && <div className="family-ready-celebration"><div className="family-ready-icon"><Sparkles size={22}/></div><div><span className="warm-kicker">Your family is ready</span><h2>{familyReady}</h2><p>Start with yourself and the people closest to you. You can import a list or enrich everything gradually.</p></div><div className="family-ready-actions"><button className="btn primary small" onClick={()=>{setFamilyReady(null);if(!viewerMemberId)window.scrollTo({top:0,behavior:"smooth"})}}>Add myself / close family</button><button className="btn small" onClick={()=>{setFamilyReady(null);setShowImport(true)}}>Import Excel / CSV</button><button className="icon-button" aria-label="Dismiss" onClick={()=>setFamilyReady(null)}><X size={16}/></button></div></div>}
           {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">New in your family</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||"New family feature"}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||"There is something new to explore."}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
           {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={openMember} />}
@@ -1496,6 +1519,7 @@ export default function NetworkApp() {
               </div>
             </section>
           )}
+          {view === "guide" && <GuidePortal audience={guideAudience} experience={experience} demo={demoPreview} featureVisible={(key)=>{try{return hasFeature(key as FeatureKey)}catch{return true}}} initialKey={guideKey} onOpenFeature={openGuideFeature} onTryPlayground={tryGuideInPlayground} onNotify={notify}/>}
           {view === "timeline" && hasFeature("remember.history") && (
             <TimelineView
               events={allLifeEvents}
@@ -1543,7 +1567,7 @@ export default function NetworkApp() {
               onNotify={notify}
             />
           )}
-          {view === "founder" && isPlatformOwner && isSupabaseConfigured && <FounderLaunchConsole onChanged={refreshFeatureState} onNotify={notify}/>}
+          {view === "founder" && isPlatformOwner && isSupabaseConfigured && <><FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key==="platform-launch-control")} onOpenGuide={openGuide} onOpenFeature={openGuideFeature}/><FounderLaunchConsole onChanged={refreshFeatureState} onNotify={notify}/></>}
           {view === "admin" && canAdmin && hasFeature("admin.center") && (
             <section>
               <div className="page-head">
@@ -1910,7 +1934,7 @@ export default function NetworkApp() {
         {isPlatformOwner && isSupabaseConfigured && <button className="mobile-more-action" onClick={() => { setView("founder"); setShowMobileMenu(false); }}><span><Rocket />Launch Control</span><ArrowRight /></button>}
         {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={() => { setSetupNeeded(true); setShowMobileMenu(false); }}><span><UsersRound />Create, join or switch family</span><ArrowRight /></button>}
         {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={async()=>{if(!window.confirm(`Leave ${network?.name||"this family"}? If you are its only account, the empty family will be archived.`))return;try{const action=await leaveCurrentFamily();setShowMobileMenu(false);await hydrate(await getAuthUser());notify(action==="archived"?"Family archived. You can create or join another family.":"You left the family.")}catch(e:any){notify(e.message||"Could not leave this family.")}}}><span><LogOut />Leave this family</span><ArrowRight /></button>}
-        <button className="mobile-more-action" onClick={() => { setShowGuide(true); setShowMobileMenu(false); }}><span><BookOpen />{language==='hi'?'मदद':language==='mr'?'मदत':'Help'}</span><ArrowRight /></button>
+        <button className="mobile-more-action" onClick={() => { setGuideKey(""); setView("guide"); setShowMobileMenu(false); }}><span><BookOpen />Explore & Guide</span><ArrowRight /></button>
         <button className="mobile-more-action" onClick={toggleLargeText}><span><BookOpen />{largeText ? (language==='hi'?'सामान्य टेक्स्ट':language==='mr'?'सामान्य मजकूर':'Normal text size') : (language==='hi'?'बड़ा टेक्स्ट':language==='mr'?'मोठा मजकूर':'Larger text')}</span><ArrowRight /></button>
         <div className="mobile-more-setting"><LanguageSwitcher /></div>
         {!canAdmin&&<label className="mobile-more-setting friendly-experience-setting"><span>{language==='hi'?'ऐप में कितना दिखे?':language==='mr'?'अॅपमध्ये किती दाखवायचे?':'How much would you like to see?'}</span><select className="select" value={experience} onChange={e=>changeMyExperience(e.target.value as ExperienceLevel)}><option value="simple">{language==='hi'?'सरल — बस जरूरी चीजें':language==='mr'?'सोपे — फक्त महत्त्वाचे':'Simple — just the essentials'}</option><option value="connected">{language==='hi'?'और परिवार — यादें और खास दिन':language==='mr'?'अधिक कुटुंब — आठवणी आणि खास दिवस':'More family — memories & moments'}</option><option value="explorer">{language==='hi'?'सब देखें — सभी सदस्य सुविधाएँ':language==='mr'?'सगळे पहा — सर्व सदस्य सुविधा':'Everything — all member features'}</option></select><small>{language==='hi'?'इसे कभी भी बदल सकते हैं।':language==='mr'?'हे कधीही बदलू शकता.':'You can change this anytime.'}</small></label>}
@@ -2022,34 +2046,6 @@ export default function NetworkApp() {
           onDelete={deleteLifeEvent}
         />
       )}{" "}
-      {showGuide && (
-        <div className="modal-overlay" onMouseDown={(event)=>event.target===event.currentTarget&&setShowGuide(false)}>
-          <div className="modal family-help-modal" role="dialog" aria-modal="true" aria-labelledby="family-help-title">
-            <div className="drawer-head">
-              <h2 id="family-help-title" style={{ margin: 0 }}>{helpCopy.title}</h2>
-              <button className="btn small" onClick={() => setShowGuide(false)}>
-                {helpCopy.close}
-              </button>
-            </div>
-            <p className="page-subtitle">{helpCopy.intro}</p>
-            <div className="family-help-list">{helpCopy.items.map((item, index) => <div key={item}><span>{index + 1}</span><p>{item}</p></div>)}</div>
-            <details className="family-help-document-preview">
-              <summary><BookOpen size={15}/> Preview detailed family guide</summary>
-              <div className="family-help-document">
-                <h3>Family Network · practical guide</h3>
-                <p><b>Explore first:</b> use Playground without login. It is temporary and nothing is saved.</p>
-                <p><b>Join a real family:</b> sign in, use a family code or personal invitation, then confirm your own profile when offered.</p>
-                <p><b>Create a family:</b> give it a name and start with only a few relatives. You can add everything else later.</p>
-                <p><b>Excel / CSV:</b> names are enough to begin. The guided Excel offers dropdowns for gender, generation and familiar relationships. CSV is best for a simple people list.</p>
-                <p><b>Relationships:</b> use Father, Mother, Son, Daughter, Husband or Wife. The app stores a simple family graph underneath and shows human wording on top.</p>
-                <p><b>Family view:</b> mobile starts with a personal lineage. Use Full Tree only when you want to explore every branch.</p>
-                <p><b>Correct later:</b> missing dates, professions, cities, photos and even relationships can be completed gradually through the UI.</p>
-                <p><b>Privacy:</b> do not add Aadhaar/PAN or sensitive IDs. Contact details are optional.</p>
-              </div>
-            </details>
-          </div>
-        </div>
-      )}
       {toast && (
         <div
           style={{

@@ -233,3 +233,13 @@ When ready for a real family:
 6. Relationships may use familiar words such as Father, Mother, Son, Daughter, Husband and Wife.
 
 Use **Help → Preview detailed family guide** inside the app for the full quick-start document.
+
+# Explore & Guide — Living Help System
+
+Family Network now includes a first-class **Explore & Guide** area. Use it when you are new, want to build your family, need to understand a feature, or simply know a goal such as “add my mother”, “find relatives in Pune”, “import Excel”, “who can see my phone number?”, “marriage discovery” or “switch family”.
+
+Each major product area also includes a collapsible **What can I do here?** guide with a short explanation, why the feature matters, practical steps, examples, privacy notes and links to the full guide. Where appropriate, the Guide can open the feature directly or launch the sample Playground. Playground remains a temporary no-save learning environment.
+
+The complete Guide includes the product story, persona journeys for different generations and family roles, feature library, goal explorer, ideas for your family, Family Owner playbook, First 7 Steps, Privacy & Trust Center, What's New and a curated Being Explored area. Feature visibility and role-specific guidance follow the current product configuration; Platform Owner controls are not shown as ordinary member actions.
+
+Users can send structured feedback such as something confusing/missing, a feature or improvement idea, a bug, or a family need. Do not include private family stories, contact information or sensitive profile content in feedback. Product-interest clicks and feedback are signals only; they do not automatically commit the roadmap.

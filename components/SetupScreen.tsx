@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { ArrowLeft, ArrowRight, FileSpreadsheet, Heart, KeyRound, LogOut, PlayCircle, ShieldCheck, Sparkles, TreePine, UsersRound } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, FileSpreadsheet, Heart, KeyRound, LogOut, PlayCircle, ShieldCheck, Sparkles, TreePine, UsersRound } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Member, Relationship } from "../lib/types";
 import { NetworkSettings, NETWORK_TEMPLATES } from "../lib/network";
@@ -30,9 +30,10 @@ type Props = {
   shared: boolean;
   canSetup: boolean;
   approvalRequired?: boolean;
+  onOpenGuide?:()=>void;
 };
 
-export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],existingFamilies=[],onOpenFamily,onSignOut,onClaimProfile,shared,canSetup,approvalRequired=false }: Props) {
+export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],existingFamilies=[],onOpenFamily,onSignOut,onClaimProfile,shared,canSetup,approvalRequired=false,onOpenGuide }: Props) {
   const { language } = useLanguage();
   const c = SETUP_COPY[language];
   const nameError = language === "hi" ? "कृपया अपने परिवार को एक नाम दें।" : language === "mr" ? "कृपया आपल्या कुटुंबाला नाव द्या." : "Please give your family space a name.";
@@ -59,7 +60,7 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
   const claim=async(id:string)=>{if(!onClaimProfile)return;setBusy(true);setError("");try{await onClaimProfile(id)}catch(e:any){setError(e.message||"We could not connect that family profile.")}finally{setBusy(false)}};
 
   return <div className="family-onboarding alpha-entry">
-    <header className="onboarding-topbar"><div className="onboarding-brand"><span><TreePine size={20}/></span>{c.brand}</div><div className="onboarding-account-actions"><LanguageSwitcher/>{shared&&canSetup&&onSignOut&&<button className="btn small" onClick={()=>onSignOut()}><LogOut size={15}/> Sign out</button>}</div></header>
+    <header className="onboarding-topbar"><div className="onboarding-brand"><span><TreePine size={20}/></span>{c.brand}</div><div className="onboarding-account-actions">{onOpenGuide&&<button className="btn small" onClick={onOpenGuide}><BookOpen size={15}/> Explore & Guide</button>}<LanguageSwitcher/>{shared&&canSetup&&onSignOut&&<button className="btn small" onClick={()=>onSignOut()}><LogOut size={15}/> Sign out</button>}</div></header>
     <main className="onboarding-wrap">
       <section className="onboarding-story"><span className="warm-kicker"><Heart size={13} fill="currentColor"/> Made for every generation</span><h1>{path==="entry"?"Your family is one tap away.":path==="join"?"Join your family":"Create your family space"}</h1><p>{path==="entry"?"You can join an existing family, explore a sample, or create your own. You do not need to understand setup or technology first.":path==="join"?"Use the family code shared with you, or connect a profile we found for your verified email.":"Start small, use the guided Excel workbook, or build from a few relatives."}</p></section>
       <section className="onboarding-card alpha-entry-card">

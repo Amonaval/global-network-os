@@ -302,3 +302,21 @@ Note: migration `039_s2c_trusted_introductions.sql` is included again in the S2-
 
 ## Planned next architecture — S2-E living help system
 S2-E should introduce a central structured user-guide content layer plus reusable contextual guide, standalone Explore & Guide portal, deterministic guide search and governed product-feedback persistence/triage. Do not implement help as duplicated per-component prose. Detailed contracts live in `S2-E-GUIDED-FAMILY-EXPERIENCE-LIVING-HELP-SYSTEM.md` and `S2-E-COMPLETE-GUIDE-CONTENT-MAP.md`.
+
+## S2-E — Guided Family Experience & Living Help System (implemented in source)
+
+New architecture:
+- `lib/guide-types.ts` — guide/feedback contracts.
+- `lib/user-guide-content.ts` — central structured source of product-help truth, personas, goals, inspiration and future-interest inventory.
+- `components/FeatureGuide.tsx` — reusable collapsible contextual help.
+- `components/GuidePortal.tsx` — standalone `Explore & Guide` product-discovery portal and deterministic search UI.
+- `components/GuideFeedback.tsx` — contextual helpfulness/improvement feedback.
+- `supabase/migrations/041_s2e_guided_family_help_feedback.sql` — governed feedback storage/RPCs and Platform Owner aggregates/status changes.
+- `scripts/s2-e-source-gate.mjs` — S2-E source invariant gate.
+
+Integration:
+- `components/NetworkApp.tsx` owns Guide navigation/routing and reuses the central registry for contextual help.
+- `components/SetupScreen.tsx` exposes `Explore & Guide` to signed-in users who do not yet have an active family, using the safe sample context.
+- `components/FounderLaunchConsole.tsx` includes Platform Owner feedback triage; feedback status does not mutate roadmap files.
+- `lib/remote.ts` contains feedback submit/triage/aggregate RPC clients.
+- `app/globals.css` includes responsive Guide layouts through the 390px breakpoint (360/390/430 behavior still requires device/browser verification).
