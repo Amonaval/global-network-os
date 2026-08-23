@@ -52,3 +52,21 @@ metric; - cheapest validation; - build/no-build decision.
 
 A technically impressive capability without a plausible customer/value
 hypothesis is not automatically a priority.
+
+## 2026-08-23 Strategic Priority Filter — Binding
+
+The next product phase is governed by three outcomes, in order:
+
+1. **Instant Family Magic:** a skeptical user experiences personally meaningful value within 60 seconds, preferably before login through Playground or immediately after Join/Create.
+2. **Living Family Loop:** the family graph creates a calm Discover → Feel → Contribute → Share → Return loop through lineage, memories, celebrations and tiny contextual contributions.
+3. **Proof of a Defensible Business:** live retention, organic invitations, trusted/verified relationship data, scalable family operations, cohort metrics and willingness-to-pay evidence.
+
+Use the four-audience review for major decisions: **critic user, founder, investor/acquirer, QA/technical reviewer**. A major item that does not materially improve first-session magic, retention/distribution, trust/defensibility, measurable growth or monetization evidence should not displace these milestones unless it is a release/security blocker.
+
+Feature count is not a success metric. Source completion is not product completion. A family journey is complete only after fresh-state behavioural evidence exists.
+
+See `STRATEGIC-NEXT-3-MILESTONES.md`.
+
+## S1 product-reading rule — 2026-08-23
+
+For the first minute, the product should read like a family experience, not genealogy software: **You → your closest people → how each person relates to you → optional wider family**. The anonymous Playground may simulate a viewpoint only when it is clearly temporary, read-only and non-persistent. Investor/demo polish does not override trust semantics.

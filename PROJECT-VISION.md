@@ -100,3 +100,15 @@ core is stable and repeatable.
 
 Every major phase should answer: **Does this improve user value,
 defensibility, distribution, retention, or monetization evidence?**
+
+## 2026-08-23 Strategic Product Thesis — From Feature-Rich to Investable
+
+The near-term objective is no longer to maximize capability. It is to make the existing capability produce three observable outcomes:
+
+- **Instant Family Magic:** personal value in under a minute through no-login exploration or frictionless joining/creation, My Family Line, relation-to-me clarity and emotional family context.
+- **Living Family Loop:** a private family space that becomes more valuable as relatives return, confirm facts, add memories, celebrate milestones and invite others.
+- **Defensible Business Proof:** a permission-aware relationship graph plus trust/governance, measurable family-level retention and organic expansion, scalable multi-family operations, and credible willingness-to-pay/adjacent-vertical evidence.
+
+The investor/acquirer story must therefore be stronger than “we built a family tree.” The asset is a consumer-quality family product on top of a privacy-aware relationship intelligence platform, with structured relationship data that compounds as families participate.
+
+AI is differentiated only when grounded in authorized relationship data. Generic chat or content generation is not the moat.

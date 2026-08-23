@@ -62,3 +62,7 @@ Do not mark CR2.3 verified from source checks alone. On the deployed Supabase/Ve
 ## Completion rule
 
 CR2.3 becomes **VERIFIED** only when A–E pass on the deployed environment. Any failure is a CR2.3.x first-impression correction and blocks V1 Alpha certification.
+
+## S1 Batch 1 regression note — 2026-08-23
+
+S1-A/B builds on CR2.3 without changing its verification status. The source now adds a temporary no-save Playground viewer, stronger personal-family entry and relationship-to-me UX. A cumulative check also found that `ImportModal` linked to `/sample-data-150.xlsx` while the file was missing under `public/`; the workbook is now packaged there. CR2.3 remains **IMPLEMENTED / LIVE VERIFY** until deployed fresh-user journeys pass.

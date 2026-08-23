@@ -14,7 +14,7 @@ import {
 import {IdentityAvatar,safeExternalUrl} from "../lib/identity";
 import { LifeEvent, Member, Relationship, Memory } from "../lib/types";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
-import { describeRelationshipToViewer } from "../lib/relationship-intelligence";
+import { describeRelationshipToViewer, relationshipLabelToViewer } from "../lib/relationship-intelligence";
 import { useLanguage } from "../lib/i18n";
 
 function initials(name: string) {
@@ -50,6 +50,7 @@ export default function ProfileDrawer({
   onManageRelationships,
   onEdit,
   onExploreRelationship,
+  onReportCorrection,
   onAddEvent,
   onEditEvent,
 }: {
@@ -71,6 +72,7 @@ export default function ProfileDrawer({
   onManageRelationships?: () => void;
   onEdit?: () => void;
   onExploreRelationship?: () => void;
+  onReportCorrection?: () => void;
   onAddEvent?: () => void;
   onEditEvent?: (e: LifeEvent) => void;
 }) {
@@ -78,6 +80,7 @@ export default function ProfileDrawer({
   const copy = language === "hi" ? { phone:"फ़ोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोड़ें", noMilestones:"अभी कोई जीवन घटना साझा नहीं की गई।", noMemories:"अभी कोई याद साझा नहीं की गई।", noRelations:"अभी कोई रिश्ता दर्ज नहीं है।", member:"सदस्य", undated:"तारीख नहीं", edit:"बदलें" } : language === "mr" ? { phone:"फोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोडा", noMilestones:"अजून कोणतीही जीवन घटना सामायिक केलेली नाही.", noMemories:"अजून कोणतीही आठवण सामायिक केलेली नाही.", noRelations:"अजून कोणतेही नाते नोंदवलेले नाही.", member:"सदस्य", undated:"तारीख नाही", edit:"बदला" } : { phone:"Phone", email:"Email", about:"About", addEvent:"Add event", noMilestones:"No milestones have been shared yet.", noMemories:"No memories have been shared yet.", noRelations:"No relationships recorded.", member:"Member", undated:"Undated", edit:"Edit" };
   const cfg = getNetworkConfig(network ?? null);
   const relationshipToViewer = viewerMemberId ? describeRelationshipToViewer(members, relationships, viewerMemberId, member.id) : null;
+  const relationshipLabel = viewerMemberId ? relationshipLabelToViewer(members, relationships, viewerMemberId, member.id) : null;
   const related = relationships
     .filter(
       (r) => r.person_id === member.id || r.related_person_id === member.id,
@@ -129,6 +132,7 @@ export default function ProfileDrawer({
             <div className="person-meta">
               {relationshipToViewer || (simple && cfg.network_template === "family" ? "Family member" : `${cfg.level_label} ${member.generation_level}`)}
             </div>
+            {relationshipLabel && <div className={`profile-relationship-badge ${relationshipLabel === "You" ? "you" : ""}`}>{relationshipLabel === "You" ? "This is you" : `Your ${relationshipLabel.toLowerCase()}`}</div>}
           </div>
         </div>
         <div className="detail-grid">
@@ -275,7 +279,7 @@ export default function ProfileDrawer({
                   {other.full_name}
                 </div>
                 <div className="person-meta">
-                  {type} · {other.profession || copy.member}
+                  {viewerMemberId ? (relationshipLabelToViewer(members, relationships, viewerMemberId, other.id) || type) : type} · {other.profession || copy.member}
                 </div>
               </div>
               <button className="btn small relationship-view-button" onClick={() => onSelect(other)}>
@@ -284,7 +288,7 @@ export default function ProfileDrawer({
             </div>
           ))}
         </div>
-        {!canEdit && viewerMemberId && <div className="profile-correction-note"><AlertCircle size={16}/><span><b>Something looks wrong?</b> Ask your family admin to correct this person or relationship. Member accounts cannot change the family structure directly.</span></div>}
+        {!canEdit && viewerMemberId && <div className="profile-correction-note"><AlertCircle size={16}/><span><b>Something looks wrong?</b> Tell the family owner what needs correcting. Members cannot directly change foundational family structure.</span>{onReportCorrection&&<button className="btn small" onClick={onReportCorrection}>Report correction</button>}</div>}
         <div className="form-actions">
           <button className="btn primary" onClick={() => onFocus(member)}>
             <GitBranch size={15} /> {t("viewInTree")}

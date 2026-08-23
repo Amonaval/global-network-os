@@ -13,7 +13,7 @@ const files = {
 const checks = [
   ['strict lineage helper exists', files.intelligence.includes('getStrictLineageIds')],
   ['strict lineage no sibling expansion', !files.intelligence.includes('parents(focusId).forEach')],
-  ['simple Family navigation focuses signed-in member', files.app.includes('setFocusId(auth.member_id)') && files.app.includes('openFamilyView')],
+  ['simple Family navigation focuses current viewer', files.app.includes('setFocusId(viewerMemberId)') && files.app.includes('openFamilyView')],
   ['members cannot open relationship manager', files.app.includes('onManageRelationships={canAdmin && hasFeature("advanced.relationships")')],
   ['profile navigation has Back', files.profile.includes('Back to previous profile')],
   ['profile shows relationship to viewer', files.profile.includes('describeRelationshipToViewer')],

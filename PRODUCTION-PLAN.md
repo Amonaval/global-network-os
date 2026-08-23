@@ -59,3 +59,25 @@
 - Add audit log and duplicate/relationship validation
 - Configure daily backups / retention
 - Add custom domain and privacy/consent text
+
+## 2026-08-23 — Product Proof Gates Added
+
+Production readiness now includes product-behaviour proof, not only deployment/security proof.
+
+### S1 proof gate
+- anonymous Playground works without login/write attempts;
+- fresh Join/Create reaches meaningful family value in < 60 seconds target;
+- 360/390/430px critic-user paths have no overflow/dead end;
+- 5+ observed first-session tests complete without founder coaching.
+
+### S2 proof gate
+- instrument invite → join → claim → contribution → share → return;
+- measure family-level 7/30-day retention and contribution, not only raw users;
+- verify notifications/sharing remain privacy-aware and non-noisy.
+
+### S3 proof gate
+- latest V1 certification passes on production-like environment;
+- cohort metrics exist for 3→20→50 family progression;
+- founder/admin support effort and cost per active family are measurable;
+- cross-family privacy/RLS and 100–300-member performance are repeatable;
+- willingness-to-pay evidence exists before full billing investment.

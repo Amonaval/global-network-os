@@ -66,7 +66,7 @@ import {
   getNetworkConfig,
 } from "../lib/network";
 import RelationshipExplorer from "./RelationshipExplorer";
-import { getStrictLineageIds } from "../lib/relationship-intelligence";
+import { getStrictLineageIds, immediateFamilyForViewer } from "../lib/relationship-intelligence";
 import LifeEventEditor from "./LifeEventEditor";
 import CommunityHub from "./CommunityHub";
 import AnalyticsPanel from "./AnalyticsPanel";
@@ -117,6 +117,7 @@ export default function NetworkApp() {
     [familyCreationApprovalRequired,setFamilyCreationApprovalRequired]=useState(true),
     [claimableProfiles,setClaimableProfiles]=useState<ClaimableFamilyProfile[]>([]),
     [demoPreview,setDemoPreview]=useState(false),
+    [demoViewerId,setDemoViewerId]=useState<string | undefined>(undefined),
     [editingMember, setEditingMember] = useState<Member | undefined>();
   const [platformFeatures,setPlatformFeatures]=useState<EffectiveFeatureMap>(()=>defaultFeatureMap(!isSupabaseConfigured)),
     [experiencePreview,setExperiencePreview]=useState<ExperienceLevel|null>(null),
@@ -155,6 +156,8 @@ export default function NetworkApp() {
   const [memories, setMemories] = useState<Memory[]>([]),
     [notifications, setNotifications] = useState<Notification[]>([]);
   const cfg = getNetworkConfig(network);
+  const viewerMemberId = demoPreview ? demoViewerId : auth?.member_id;
+  const immediateFamily = useMemo(() => viewerMemberId ? immediateFamilyForViewer(members, relationships, viewerMemberId).slice(0, 8) : [], [members, relationships, viewerMemberId]);
   useEffect(() => {
     try { setLargeText(localStorage.getItem("family-large-text") === "1"); } catch {}
   }, []);
@@ -581,9 +584,9 @@ export default function NetworkApp() {
   const openFamilyView = () => {
     setView("tree");
     const mobile = typeof window !== "undefined" && !!window.matchMedia?.("(max-width: 800px)").matches;
-    const shouldFocusMine = isSupabaseConfigured && !!auth?.member_id && ((auth?.experience_level || "simple") === "simple" || mobile);
+    const shouldFocusMine = !!viewerMemberId && (demoPreview || (isSupabaseConfigured && ((auth?.experience_level || "simple") === "simple" || mobile)));
     if (shouldFocusMine) {
-      setFocusId(auth.member_id);
+      setFocusId(viewerMemberId);
       setLineageOnly(true);
       setQuery("");
     }
@@ -593,8 +596,8 @@ export default function NetworkApp() {
     setLineageOnly(false);
   };
   const showMyLineage = () => {
-    if (!auth?.member_id) return;
-    setFocusId(auth.member_id);
+    if (!viewerMemberId) return;
+    setFocusId(viewerMemberId);
     setLineageOnly(true);
     setQuery("");
     setProfession("");
@@ -909,7 +912,10 @@ export default function NetworkApp() {
     setRelationships(d.relationships);
     setSubmissions(d.submissions);
     setPlatformFeatures(defaultFeatureMap(true));
+    setDemoViewerId(d.members.find(m=>m.id==="m33")?.id || d.members[Math.floor(d.members.length/2)]?.id);
     setDemoPreview(true);
+    setFocusId(d.members.find(m=>m.id==="m33")?.id || d.members[Math.floor(d.members.length/2)]?.id);
+    setLineageOnly(true);
     setSetupNeeded(false);
     setView("home");
   };
@@ -1038,14 +1044,14 @@ export default function NetworkApp() {
   if (setupNeeded)
     return (
       <>
-        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval. You can still explore the sample family while you wait.</p><div className="notice"><b>Status:</b> Waiting for approval</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><button className="btn" onClick={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setDemoPreview(true);setSetupNeeded(false);setView("home")}}>Explore sample</button></div></div></div> : <SetupScreen
+        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval. You can still explore the sample family while you wait.</p><div className="notice"><b>Status:</b> Waiting for approval</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><button className="btn" onClick={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setDemoViewerId(d.members.find(m=>m.id==="m33")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m33")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}>Explore sample</button></div></div></div> : <SetupScreen
           shared={isSupabaseConfigured}
           canSetup={canSetupFamily}
           approvalRequired={isSupabaseConfigured&&!isPlatformOwner&&familyCreationApprovalRequired}
           claimableProfiles={claimableProfiles}
           onClaimProfile={async(memberId)=>{await claimProfileByVerifiedEmail(memberId);await hydrate(await getAuthUser());setView("home");notify("Welcome to your family.")}}
           onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify("Family joined. Welcome!")}}
-          onExploreDemo={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setDemoPreview(true);setSetupNeeded(false);setView("home")}}
+          onExploreDemo={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setDemoViewerId(d.members.find(m=>m.id==="m33")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m33")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}
           onCreate={createNetwork}
         />}
         {toast && (
@@ -1079,7 +1085,7 @@ export default function NetworkApp() {
             {isSupabaseConfigured ? <><Database size={12} /> {t("sharedFamily")}</> : <>{t("localFamily")}</>}
           </span>}
         </div>
-        {demoPreview&&<div className="demo-preview-banner"><Sparkles size={14}/><span>Sample family · read-only</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>Join or create mine</button></div>}
+        {demoPreview&&<div className="demo-preview-banner"><Sparkles size={14}/><span>Playground · you are {members.find(m=>m.id===demoViewerId)?.full_name.split(/\s+/)[0] || "a sample family member"} for this visit · nothing is saved</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setDemoViewerId(undefined);setFocusId(undefined);setLineageOnly(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>Join or create mine</button></div>}
         <div className={`top-actions ${experience==="simple"&&!canAdmin?"simple-top-actions":""}`}>
           {isSupabaseConfigured && !demoPreview && (canAdmin || experience!=="simple") && <FamilySwitcher onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>setSetupNeeded(true)} />}
           <LanguageSwitcher compact />
@@ -1152,7 +1158,7 @@ export default function NetworkApp() {
         <main className="main">
           {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">New in your family</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||"New family feature"}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||"There is something new to explore."}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
           {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={openMember} />}
-          {view === "home" && <FamilyHome members={members} events={allLifeEvents} networkName={network?.name} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} />}
+          {view === "home" && <FamilyHome members={members} events={allLifeEvents} networkName={network?.name} viewerMemberId={viewerMemberId} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} />}
           {view === "tree" && (
             <section className="tree-page">
               {cfg.network_template === "family" && (
@@ -1184,12 +1190,11 @@ export default function NetworkApp() {
                 <div>
                   <h2 className="page-title">
                     {cfg.network_template === "family"
-                      ? t("familyTree")
+                      ? (lineageOnly && focusId ? "My Family Line" : t("familyTree"))
                       : "Hierarchy"}
                   </h2>
                   <p className="page-subtitle">
-                    Find a person, tap their card, or focus on one branch to
-                    explore comfortably.
+                    Start with the people closest to you. Tap any person to open their profile, or switch to the full family whenever you want.
                   </p>
                 </div>
                 <div className="card-actions">
@@ -1209,12 +1214,12 @@ export default function NetworkApp() {
                     <button className="btn small" onClick={clearFocus}>
                       <GitBranch size={14} /> Full Tree
                     </button>
-                  ) : auth?.member_id ? (
+                  ) : viewerMemberId ? (
                     <button className="btn small" onClick={showMyLineage}>
                       <Eye size={14} /> My Lineage
                     </button>
                   ) : null}
-                  {focusId && focusId !== auth?.member_id && (
+                  {focusId && focusId !== viewerMemberId && (
                     <button className="btn small" onClick={showMyLineage}>
                       <Eye size={14} /> My Lineage
                     </button>
@@ -1227,11 +1232,15 @@ export default function NetworkApp() {
                     <GitBranch size={14} /> View Full Tree
                   </button>
                 ) : (
-                  <button className="btn small primary" onClick={showMyLineage} disabled={!auth?.member_id}>
+                  <button className="btn small primary" onClick={showMyLineage} disabled={!viewerMemberId}>
                     <Eye size={14} /> View My Lineage
                   </button>
                 )}
               </div>
+              {viewerMemberId && immediateFamily.length > 0 && <div className="family-magic-strip">
+                <div className="family-magic-head"><span><Sparkles size={15}/> Your closest family</span><small>Tap anyone to see how they relate to you.</small></div>
+                <div className="family-magic-people">{immediateFamily.map(({member,label})=><button key={member.id} onClick={()=>openMember(member)}><span className="family-magic-avatar">{member.photo_url?<img src={member.photo_url} alt=""/>:member.full_name.split(/\s+/).map(x=>x[0]).slice(0,2).join("")}</span><span><b>{label}</b><small>{member.full_name}</small></span></button>)}</div>
+              </div>}
               <div className="search-bar">
                 <Search size={18} color="#7a8496" />
                 <input
@@ -1248,7 +1257,7 @@ export default function NetworkApp() {
               <div className="notice">
                 {filtered.length} members shown ·{" "}
                 {focusId
-                  ? `Personal lineage: ${lineageIds.size} people.`
+                  ? `Your family line: ${lineageIds.size} people.`
                   : "Whole family tree."}
               </div>
               <TreeView
@@ -1267,7 +1276,7 @@ export default function NetworkApp() {
                 })}
                 query={query || profession || city}
                 focusMemberId={focusId}
-                viewerMemberId={auth?.member_id || undefined}
+                viewerMemberId={viewerMemberId || undefined}
                 compactLineage={lineageOnly && !!focusId}
                 onSelect={openMember}
                 network={network}
@@ -1856,7 +1865,7 @@ export default function NetworkApp() {
           relationships={relationships}
           visibility={visibility}
           network={network}
-          viewerMemberId={auth?.member_id || undefined}
+          viewerMemberId={viewerMemberId || undefined}
           simple={experience === "simple"}
           canViewPrivateContact={
             !isSupabaseConfigured ||
@@ -1874,6 +1883,14 @@ export default function NetworkApp() {
           }}
           onManageRelationships={canAdmin && hasFeature("advanced.relationships")?()=>setShowRelationships(true):undefined}
           onExploreRelationship={hasFeature("advanced.relationships")?()=>setShowRelationshipExplorer(true):undefined}
+          onReportCorrection={!demoPreview && !!auth ? async()=>{
+            const note=window.prompt(`What looks wrong about ${selected.full_name}?`, "Relationship or profile detail needs correction");
+            if(!note?.trim()) return;
+            try{
+              await repository.createChangeRequest({action:"other",target_member_id:selected.id,payload:{kind:"family_correction",note:note.trim(),member_name:selected.full_name}});
+              notify("Correction sent to the family owner for review.");
+            }catch(e:any){notify(e.message||"Could not send the correction. Please try again.")}
+          }:undefined}
           events={hasFeature("remember.history")?lifeEvents:[]}
           memories={hasFeature("remember.memories")?memories.filter((m) => m.member_id === selected.id):[]}
           onAddEvent={hasFeature("remember.history")?() => {

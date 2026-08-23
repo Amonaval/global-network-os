@@ -129,26 +129,65 @@ export function getStrictLineageIds(relationships: Relationship[], focusId: stri
   return keep;
 }
 
+function gendered(member: Member | undefined, male: string, female: string, neutral: string) {
+  return member?.gender === 'Male' ? male : member?.gender === 'Female' ? female : neutral;
+}
+
+export function relationshipLabelToViewer(
+  members: Member[],
+  relationships: Relationship[],
+  viewerId: string,
+  targetId: string,
+): string | null {
+  if (viewerId === targetId) return 'You';
+  const target = members.find(m => m.id === targetId);
+  const path = findRelationshipPath(members, relationships, viewerId, targetId);
+  if (!path || !target) return null;
+  const kinds = path.steps.map(step => step.relationship);
+  const key = kinds.join(',');
+  if (key === 'parent') return gendered(target, 'Father', 'Mother', 'Parent');
+  if (key === 'child') return gendered(target, 'Son', 'Daughter', 'Child');
+  if (key === 'spouse') return gendered(target, 'Husband', 'Wife', 'Partner');
+  if (key === 'parent,parent') return gendered(target, 'Grandfather', 'Grandmother', 'Grandparent');
+  if (key === 'child,child') return gendered(target, 'Grandson', 'Granddaughter', 'Grandchild');
+  if (key === 'parent,child') return gendered(target, 'Brother', 'Sister', 'Sibling');
+  if (key === 'parent,parent,child') return gendered(target, 'Uncle', 'Aunt', 'Aunt / Uncle');
+  if (key === 'parent,child,child') return gendered(target, 'Nephew', 'Niece', 'Niece / Nephew');
+  if (key === 'parent,parent,child,child') return 'Cousin';
+
+  const kinship = explainKinship(members, relationships, viewerId, targetId);
+  if (kinship?.includes('cousin')) {
+    const match = kinship.match(/your (.+?)\.$/i);
+    return match?.[1]?.replace(/^./, c => c.toUpperCase()) || 'Cousin';
+  }
+  return path.distance <= 2 ? 'Close family' : 'Family relative';
+}
+
+export function immediateFamilyForViewer(
+  members: Member[],
+  relationships: Relationship[],
+  viewerId: string,
+): { member: Member; label: string }[] {
+  const order: Record<string, number> = { Father: 1, Mother: 2, Husband: 3, Wife: 3, Partner: 3, Brother: 4, Sister: 4, Sibling: 4, Son: 5, Daughter: 5, Child: 5 };
+  return members
+    .filter(member => member.id !== viewerId)
+    .map(member => ({ member, label: relationshipLabelToViewer(members, relationships, viewerId, member.id) || '' }))
+    .filter(item => item.label in order)
+    .sort((a, b) => (order[a.label] || 99) - (order[b.label] || 99) || a.member.full_name.localeCompare(b.member.full_name));
+}
+
 export function describeRelationshipToViewer(
   members: Member[],
   relationships: Relationship[],
   viewerId: string,
   targetId: string,
 ): string | null {
-  if (viewerId === targetId) return 'This is you.';
-  const path = findRelationshipPath(members, relationships, viewerId, targetId);
-  if (!path) return null;
-  const kinds = path.steps.map(step => step.relationship);
-  const target = path.to.full_name;
-  const direct: Record<string, string> = {
-    parent: `${target} is your parent.`,
-    child: `${target} is your child.`,
-    spouse: `${target} is your spouse.`,
-    'parent,parent': `${target} is your grandparent.`,
-    'child,child': `${target} is your grandchild.`,
-    'parent,child': `${target} is your sibling.`,
-  };
-  const directMatch = direct[kinds.join(',')];
-  if (directMatch) return directMatch;
-  return explainKinship(members, relationships, viewerId, targetId) || path.explanation;
+  const label = relationshipLabelToViewer(members, relationships, viewerId, targetId);
+  const target = members.find(m => m.id === targetId);
+  if (!label || !target) return null;
+  if (label === 'You') return 'This is you.';
+  if (label === 'Family relative' || label === 'Close family') {
+    return explainKinship(members, relationships, viewerId, targetId) || findRelationshipPath(members, relationships, viewerId, targetId)?.explanation || null;
+  }
+  return `${target.full_name} is your ${label.toLowerCase()}.`;
 }

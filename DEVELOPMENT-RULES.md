@@ -122,3 +122,30 @@ For every onboarding/navigation/profile/import/share flow changed by a mission:
 7. Status remains **IMPLEMENTED / BEHAVIOUR VERIFY** until the critical journey passes in the real runtime.
 
 This rule is especially binding for Alpha onboarding: anonymous Playground, fresh creator, Excel/CSV creator, invited/code joiner and returning Owner.
+
+## Strategic outcome rule — 2026-08-23
+
+For major product work, classify the mission before implementation:
+
+- **S1:** reduces time-to-value or increases first-session emotional/product magic;
+- **S2:** increases return, contribution, sharing or organic family growth;
+- **S3:** increases trust, repeatability, defensibility, measurable business proof or willingness to pay.
+
+If a proposed item supports none of S1/S2/S3 and is not a release/security blocker, defer it.
+
+Each major mission must state both:
+1. the user behavior expected to change; and
+2. the metric/evidence that would prove the change occurred.
+
+Do not substitute source-complete status for behavioral evidence.
+
+## S1 first-session relationship rule — 2026-08-23
+
+For family-facing first-session work:
+- default to **You / My Family Line / human relationship words** before graph, generation or hierarchy terminology;
+- anonymous demo identity must be explicitly temporary, read-only and non-persistent;
+- every personal-family view must have an obvious reversible path to Full Family and back;
+- imported `parent`/`child` vocabulary must be normalized before rendering human labels;
+- members may report structure/profile corrections, but reporting must route through governed change requests rather than silently granting structure mutation;
+- a sample/download CTA is not implemented unless the referenced public artifact actually ships;
+- source gates remain regression checks only; S1 status cannot advance to complete without persona behaviour QA on deployed runtime and supported mobile widths.

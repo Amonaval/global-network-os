@@ -16,6 +16,7 @@ import "@xyflow/react/dist/style.css";
 import { Member, Relationship } from "../lib/types";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
 import { useLanguage } from "../lib/i18n";
+import { relationshipLabelToViewer } from "../lib/relationship-intelligence";
 
 function initials(name: string) {
   return name
@@ -57,7 +58,8 @@ function PersonNode({ data }: any) {
       <div className="tree-node-name">{data.name}</div>
       {data.viewer && <div className="tree-you-badge">You</div>}
       {data.focused && !data.viewer && <div className="tree-focus-badge">Viewing</div>}
-      <div className="tree-node-meta">{data.profession || "Member"}</div>
+      {data.relationshipLabel && !data.viewer && <div className="tree-relation-label">{data.relationshipLabel}</div>}
+      <div className="tree-node-meta">{data.profession || "Family member"}</div>
       <div className="tree-node-meta">{data.city || ""}</div>
       {data.deceased && <div className="tree-node-deceased">† In memoriam</div>}
       <Handle type="source" position={Position.Bottom} style={{ opacity: 0 }} />
@@ -141,6 +143,7 @@ export default function TreeView({
             deceased: !!m.date_of_death,
             focused: m.id === focusMemberId,
             viewer: m.id === viewerMemberId,
+            relationshipLabel: viewerMemberId ? relationshipLabelToViewer(members, relationships, viewerMemberId, m.id) : null,
           },
         });
       });
@@ -158,15 +161,17 @@ export default function TreeView({
         (r) => memberIds.has(r.person_id) && memberIds.has(r.related_person_id),
       )
       .map((r) => {
-        const sourceMember = byId.get(r.person_id);
-        const targetMember = byId.get(r.related_person_id);
+        const sourceId = r.relationship_type === "child" ? r.related_person_id : r.person_id;
+        const targetId = r.relationship_type === "child" ? r.person_id : r.related_person_id;
+        const sourceMember = byId.get(sourceId);
+        const targetMember = byId.get(targetId);
         const label = r.relationship_type === "spouse"
           ? `${humanRole(sourceMember, "spouse")} · ${humanRole(targetMember, "spouse")}`
           : `${humanRole(sourceMember, "parent")} · ${humanRole(targetMember, "child")}`;
         return {
           id: r.id,
-          source: r.person_id,
-          target: r.related_person_id,
+          source: sourceId,
+          target: targetId,
           type: r.relationship_type === "spouse" ? "straight" : "smoothstep",
           sourceHandle: r.relationship_type === "spouse" ? "right" : undefined,
           targetHandle: r.relationship_type === "spouse" ? "left" : undefined,
@@ -223,7 +228,7 @@ export default function TreeView({
             { key: "older", label: "Parents & ancestors", items: members.filter(m => m.generation_level < (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
             { key: "current", label: focusMemberId === viewerMemberId ? "You & partner" : "This person & partner", items: members.filter(m => m.generation_level === (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
             { key: "younger", label: "Children & descendants", items: members.filter(m => m.generation_level > (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
-          ] as const).map(group => group.items.length ? <section className="mobile-lineage-group" key={group.key}><h3>{group.label}</h3>{group.items.map(m => <button className={`mobile-lineage-person ${m.id===viewerMemberId?"viewer":""} ${m.id===focusMemberId?"focused":""}`} key={m.id} onClick={()=>onSelect(m)}><span className="mobile-lineage-avatar">{m.photo_url?<img src={m.photo_url} alt=""/>:initials(m.full_name)}</span><span><b>{m.full_name}</b><small>{m.id===viewerMemberId?"You":m.profession||"Family member"}</small></span></button>)}</section> : null)}
+          ] as const).map(group => group.items.length ? <section className="mobile-lineage-group" key={group.key}><h3>{group.label}</h3>{group.items.map(m => <button className={`mobile-lineage-person ${m.id===viewerMemberId?"viewer":""} ${m.id===focusMemberId?"focused":""}`} key={m.id} onClick={()=>onSelect(m)}><span className="mobile-lineage-avatar">{m.photo_url?<img src={m.photo_url} alt=""/>:initials(m.full_name)}</span><span><b>{m.full_name}</b><small>{m.id===viewerMemberId?"You":relationshipLabelToViewer(members, relationships, viewerMemberId || "", m.id)||m.profession||"Family member"}</small></span></button>)}</section> : null)}
           <div className="mobile-lineage-hint">Showing the direct family line only. Use “Full Tree” when you want to explore every branch.</div>
         </div>
       )}

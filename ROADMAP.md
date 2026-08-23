@@ -599,3 +599,86 @@ Implemented:
 ### Follow-ups preserved
 - CR2.9 Generation inference + post-import relationship helper — only if Alpha users struggle with generation/relationship entry.
 - CR2.10 Public first-impression polish + privacy-conscious funnel metrics — after real Alpha observation.
+
+# 2026-08-23 Strategic Priority Overlay — Next 3 Milestones (Binding)
+
+All previous roadmap items remain preserved. This overlay changes execution priority because the product is now feature-rich enough that **adoption, retention and business proof matter more than adding breadth**.
+
+## S1 — Instant Family Magic — NEXT
+
+**Goal:** a skeptical new user experiences personally meaningful value within 60 seconds.
+
+Binding work:
+- finish CR2.3 live behaviour verification and CR2.3.x corrections;
+- certify anonymous Playground as a pitch-quality, no-login, no-save experience;
+- make My Family Line + relation-to-me the default first family experience;
+- finish mobile first-impression polish at 360/390/430px;
+- ensure family creation requires <= 2 inputs and all other detail can be deferred;
+- keep Excel/CSV guided and optional;
+- add at most a 3-step contextual first-use spotlight;
+- remove technical/admin language and dead ends from the first session.
+
+**Exit:** 5+ critic users, including 2+ low-frequency/non-technical mobile users, complete the first-session journey without founder coaching; median first meaningful interaction target < 60 seconds.
+
+## S2 — Living Family Loop
+
+**Goal:** turn the static graph into a calm reason to return, contribute and invite.
+
+Binding work:
+- reconcile A6/A8/C2 partials into one Family Pulse and contextual contribution loop;
+- complete emotionally strong, privacy-safe celebration/memory/lineage sharing artifacts;
+- finish lightweight memory interaction and quiet scoped notifications after trust/lineage prerequisites;
+- measure invite → join → claim → contribute → share → return;
+- use AI only for relationship-grounded, permission-aware intelligence such as relation questions, grounded family summaries and missing-information suggestions.
+
+**Exit:** real pilot families demonstrate a repeatable Discover → Feel → Contribute → Share → Return loop with measurable 7-day return, contribution and organic invite/share behavior.
+
+## S3 — Proof of a Defensible Business
+
+**Goal:** prove this is an investable/acquirable company/asset, not merely an impressive demo.
+
+Binding work:
+- certify V1 on the latest CR1/CR2 baseline;
+- progress 3–5 trusted families → 20 families → 50-family promotion gate;
+- implement the real cross-family Founder Operations console promised by A9/C3;
+- complete high-risk C1 trust work: API-level contact privacy/consent, safe cleanup/archive/recovery, relationship provenance/Owner locks and account lifecycle semantics;
+- instrument family-level activation, retention, contributions, invites/shares, support burden and cost;
+- validate 100–300-member performance and repeat cross-family RLS/privacy matrices;
+- test willingness to pay before full billing;
+- prove one adjacent paid vertical using the relationship core rather than a renamed family product;
+- maintain an investor/acquirer data room with architecture, trust model, cohort metrics, pilot evidence, runbooks and known gaps.
+
+**Exit:** retained live families, measurable organic expansion, scalable founder/admin operations, no unresolved critical trust issue, and at least one credible willingness-to-pay signal.
+
+## Strategic sequencing
+
+`CR2.3 live verification → S1 → V1/3–5 family pilot → S2 → S3 20→50 proof → monetization/platform expansion based on evidence`
+
+C1/C2/C3 remain preserved but are now consumed under S2/S3 according to the outcome they support. D2 chat/DM remains evidence-gated. M0 monetization architecture remains after usage/value evidence rather than before it.
+
+Full rationale and metrics: `STRATEGIC-NEXT-3-MILESTONES.md`.
+
+## 2026-08-23 — S1 Batch 1: S1-A + S1-B — IMPLEMENTED IN SOURCE / BEHAVIOUR VERIFY
+
+The first S1 implementation batch is now in source. Historical CR/A/B roadmap content above remains unchanged and authoritative.
+
+Delivered:
+- anonymous Playground now has a temporary no-save **You** viewpoint;
+- Home anchors the current viewer and first family interaction;
+- personal **My Family Line** is the first family representation for Playground/simple/mobile journeys;
+- Personal Family Line ↔ Full Tree is explicitly reversible;
+- profiles and tree cards show human relationship-to-me wording;
+- immediate-family shortcuts expose parents/partner/siblings/children;
+- parent/child edge direction is normalized before human tree labels are rendered;
+- governed **Something wrong?** correction entry added for members;
+- 430px tree/control containment strengthened;
+- missing public 150-person demo workbook restored.
+
+Status rules:
+- **S1-A:** IMPLEMENTED IN SOURCE / LIVE BEHAVIOUR VERIFY.
+- **S1-B:** IMPLEMENTED IN SOURCE / LIVE BEHAVIOUR VERIFY.
+- **S1-C:** NOT STARTED by this batch.
+- **S1 overall:** PARTIAL. Do not start S2.
+- **CR2.3:** remains IMPLEMENTED / LIVE VERIFY until fresh deployed behaviour is confirmed.
+
+Next execution: deploy this cumulative baseline, run the S1 persona behaviour matrix, fix any P0/P1 or high-value low/medium-effort failures, then implement S1-C. S2 remains blocked until the complete S1 behaviour gate passes.

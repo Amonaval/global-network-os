@@ -424,3 +424,47 @@ Do not promote CR2.2 to VERIFIED until deployed behaviour tests pass for anonymo
 - [ ] Returning Owner automatically resolves the same active family and admin capability.
 
 CR2.3 must not be marked VERIFIED until those deployed behaviour journeys pass.
+
+## 2026-08-23 — Strategic Review: Next 3 Milestones
+
+**Status: ROADMAP REPRIORITIZED — NO EXISTING MISSION REMOVED.**
+
+A cross-lens review (critic user + founder + investor/acquirer + QA/technical) concluded that additional feature breadth is no longer the highest-value immediate work.
+
+The next three binding outcomes are:
+
+1. **S1 Instant Family Magic — NEXT:** CR2.3 live verification/corrections, pitch-quality no-login Playground, <60-second time-to-value, My Family Line/relation-to-me first, mobile first-impression quality and minimum-input creation.
+2. **S2 Living Family Loop:** convert existing partial memories/celebration/contribution/sharing capabilities into one measurable Discover → Feel → Contribute → Share → Return loop.
+3. **S3 Proof of a Defensible Business:** latest-baseline V1 certification, 3→20→50 family evidence, real multi-family operations, critical trust completion, cohort instrumentation, willingness-to-pay validation and adjacent-vertical proof.
+
+Important: S1/S2/S3 are outcome milestones. Existing A1–A9, B0, CR1/CR2, C1/C2/C3, D2 and M0 work remains preserved and is routed underneath them. Partial work remains partial until its own live/behaviour/security gate passes.
+
+See `STRATEGIC-NEXT-3-MILESTONES.md`.
+
+## S1 Batch 1 — Instant Family Magic · S1-A + S1-B
+
+**Status: IMPLEMENTED IN SOURCE / LIVE BEHAVIOUR VERIFY REQUIRED**
+
+- [x] Anonymous no-login Playground retained.
+- [x] Playground uses a temporary read-only viewer so **You** and relationship-to-me work without signup or persistence.
+- [x] Playground → Join/Create conversion remains visible.
+- [x] Current viewer is visually anchored on Home.
+- [x] My Family Line is the personal/default family representation for Playground/simple/mobile entry.
+- [x] My Family Line ↔ Full Tree switching remains reversible on desktop and mobile.
+- [x] Human relationship-to-me labels added to profiles, tree cards and mobile family-line rows.
+- [x] Immediate family shortcuts added for parents/partner/siblings/children.
+- [x] Parent/child edge rendering normalized for both `parent` and `child` stored vocabularies.
+- [x] Member **Report correction** creates a governed change request rather than editing family structure directly.
+- [x] 430px containment strengthened for tree/view controls.
+- [x] Missing `public/sample-data-150.xlsx` packaging regression fixed.
+- [x] S1-A/B source gate added.
+- [ ] Deployed 360/390/430 behaviour verification.
+- [ ] Anonymous stranger behaviour test.
+- [ ] Fresh signup behaviour test.
+- [ ] Family-name-only creator behaviour test.
+- [ ] Invited member and returning Owner behaviour tests.
+- [ ] S1-C Effortless Creation & Import.
+
+**S1 overall remains PARTIAL. S2 is blocked.**
+
+CR2.3 remains **IMPLEMENTED / LIVE VERIFY**; this batch does not promote it to VERIFIED.
