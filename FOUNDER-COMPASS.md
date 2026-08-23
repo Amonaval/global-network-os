@@ -106,3 +106,9 @@ User feedback from the guide is evidence, not an automatic roadmap commitment. R
 
 ## 2026-08-24 — S2-E implementation checkpoint
 The guide is now part of product activation, not a documentation afterthought. Maintain one product-help source of truth, keep role/feature visibility aligned with runtime, and treat feedback aggregates as evidence rather than promises. Any privacy claim that cannot be demonstrated in deployed behavior stays visibly unverified.
+
+## 2026-08-24 — Founder rule: learn before expanding
+
+The product has enough breadth for the next learning cycle. Do not reward feature count. Let real families reveal what matters. During the pilot, a repeated user problem is more valuable than an internally attractive roadmap idea. Fix blockers and trust failures immediately; prioritize repeated friction; preserve but defer everything else.
+
+Use Launch Control to reduce exposure instead of deleting capability. Playground may demonstrate more breadth than real-family Alpha, but privacy-sensitive or distribution-heavy surfaces should not be released merely because they demo well.

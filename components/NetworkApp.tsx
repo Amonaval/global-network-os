@@ -1210,7 +1210,7 @@ export default function NetworkApp() {
             onClick={() => navView === "tree" ? openFamilyView() : setView(navView)}
           >{icon} {label}</button>)}
           {(!demoPreview || !!auth) && hasFeature("core.profile") && <button className={`nav-btn ${selected?.id===auth?.member_id ? "active" : ""}`} onClick={openMyProfile}><UserRoundPen size={17}/> {language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</button>}
-          <button className={`nav-btn guide-nav ${view === "guide" ? "active" : ""}`} onClick={() => {setGuideKey("");setView("guide")}}><BookOpen size={17}/> Explore & Guide</button>
+          {hasFeature("core.guide")&&<button className={`nav-btn guide-nav ${view === "guide" ? "active" : ""}`} onClick={() => {setGuideKey("");setView("guide")}}><BookOpen size={17}/> Explore & Guide</button>}
           {canAdmin && hasFeature("admin.center") && <div className="admin-nav-separator">
             <div className="sidebar-section-label">{language === "hi" ? "परिवार प्रबंधन" : language === "mr" ? "कुटुंब व्यवस्थापन" : "Family management"}</div>
             <button className={`nav-btn admin-nav ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><ShieldCheck size={17}/> {language === "hi" ? "परिवार संभालें" : language === "mr" ? "कुटुंब सांभाळा" : "Manage family"}</button>
@@ -1239,7 +1239,7 @@ export default function NetworkApp() {
           {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">New in your family</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||"New family feature"}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||"There is something new to explore."}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
           {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={openMember} />}
           {view === "home" && canAdmin && !demoPreview && !quickStartDismissed && members.length < 5 && <QuickFamilyStart viewer={viewerMemberId?members.find(m=>m.id===viewerMemberId):undefined} suggestedName={auth?.email?.split("@")[0]||""} onAddMyself={addMyselfFirst} onAddRelative={addCloseRelative} onImport={()=>setShowImport(true)} onDismiss={()=>setQuickStartDismissed(true)}/>}
-          {view === "home" && <FamilyHome members={members} events={allLifeEvents} memories={demoPreview?memories:undefined} networkName={network?.name} viewerMemberId={viewerMemberId} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} readOnly={demoPreview} />}
+          {view === "home" && <FamilyHome members={members} events={allLifeEvents} memories={demoPreview?memories:undefined} networkName={network?.name} viewerMemberId={viewerMemberId} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} showFamilyPulse={hasFeature("remember.family_pulse")} showQuietDigest={hasFeature("remember.quiet_digest")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} readOnly={demoPreview} />}
           {view === "tree" && (
             <section className="tree-page">
               {cfg.network_template === "family" && (
@@ -1545,7 +1545,7 @@ export default function NetworkApp() {
             </section>
           )}
           {view === "umbrella" && hasFeature("connect.community") && (
-            <CommunityNetwork members={members} auth={auth} familyName={network?.name} demo={demoPreview} onNotify={notify}/>
+            <CommunityNetwork members={members} auth={auth} familyName={network?.name} demo={demoPreview} showTrustedIntroductions={hasFeature("connect.trusted_introductions")} onNotify={notify}/>
           )}
           {view === "community" && hasFeature("remember.memories") && (
             <CommunityHub
@@ -1554,6 +1554,7 @@ export default function NetworkApp() {
               network={network}
               demoMemories={demoPreview?memories:undefined}
               readOnly={demoPreview}
+              showQuietDigest={hasFeature("remember.quiet_digest")}
               onSelect={openMember}
               onNotify={notify}
             />

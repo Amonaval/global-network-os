@@ -800,3 +800,13 @@ The next major outcome milestone is **S3 — Defensible Business Proof**, define
 `S3-A activation & network growth → S3-B retention & compounding value → S3-C operations & scale → S3-D trust/defensibility → S3-E willingness-to-pay`
 
 S3 should prioritize real-family evidence over feature breadth. Family Play, Family Watch/social-video memories, external digest delivery, family book/export, richer AI and generic chat remain preserved evidence-gated options rather than deleted roadmap ideas.
+
+## 2026-08-24 — Pilot Freeze / S3-A only
+
+The product enters a deliberate real-user learning period. **S3-A — Family Activation & Network Growth** is the only active product mission; implementation of additional S3 breadth is paused until pilot evidence warrants it. Canonical mission contract: `S3-A-ACTIVATION-NETWORK-GROWTH.md`.
+
+Priority order during the pause: **user-blocking issue → privacy/security/correctness → repeated high-value friction → repeated user need → S3-A activation improvement → everything else deferred**.
+
+S3-B Retention & Compounding Value, S3-C Founder Operations & Scale, S3-D Trust/Defensibility and S3-E Willingness-to-Pay remain preserved in the roadmap but are not active implementation work. Family Play, Family Watch/social-video memories, external delivery, family book/export, richer AI, community moderation/reputation and adjacent vertical work remain preserved, evidence-gated later options.
+
+Launch Control is now the product-freeze safety valve. Real-family defaults intentionally expose the core family experience, Guide, Special Days, Memories, History, Family Pulse, Quiet Digest, Contributions and Relationship Explorer through progressive experience levels. Community, Places, trusted introductions and public/QR distribution remain Test; Gatherings and family sharing remain Pilot. Playground is broader for discovery while public-profile and print/QR distribution remain off by default.

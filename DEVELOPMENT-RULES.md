@@ -220,3 +220,11 @@ Community membership never grants direct access to another family's tables. Cros
 - Contextual help, Guide Portal, search, related navigation, Playground examples and future AI-help layers should reuse the same registry.
 - Feedback metadata must remain minimal and must never silently attach private memories, profile prose, contact data or family-sensitive payloads.
 - Platform feedback triage is evidence; changing triage status must never directly edit roadmap/mission files.
+
+## Pilot freeze / feedback-first rule
+- S3-A is the only active product mission until explicitly changed.
+- Do not start S3-B/C/D/E or a new broad feature bundle during the pilot by default.
+- Triage real-user work in this order: blocker; privacy/security/correctness; repeated friction; repeated need; activation improvement; optional idea.
+- Preserve deferred ideas and mission history. Archive obsolete planning files; never delete historical reasoning solely to keep the root clean.
+- Launch visibility is configuration, not code ownership: hide/test/pilot early features rather than ripping them out.
+- Playground visibility is independent from real-family rollout and must remain no-save.

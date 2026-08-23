@@ -195,3 +195,17 @@ Still **LIVE VERIFY**:
 - Playground no-save behavior against a real authenticated session.
 - dependency-complete `npm run build`.
 - full S2-E persona/feature-visibility behavior matrix.
+
+## S3-A pilot-freeze validation
+
+Before pilot use after applying migration 042, verify:
+1. Simple real-family member sees Home, Family, Find Family, Profile, Special Days and Explore & Guide; richer features appear only after the member chooses higher experience levels where applicable.
+2. Connected/Explorer real-family members can reach Memories, Family Pulse, Quiet Digest, Family History, Contributions and Relationship Explorer as intended.
+3. Community, Places, Trusted Introductions, Public Profiles and Print/QR are not released to ordinary families by default.
+4. Pilot-targeted families alone can see Gatherings and Share-with-family when pilot IDs are configured.
+5. Playground shows the broad member-facing demo set while Public Profiles and Print/QR remain hidden by default.
+6. Changing a Playground toggle never changes real-family rollout and vice versa.
+7. Trusted-introduction controls disappear when `connect.trusted_introductions` is disabled even if Community itself is visible.
+8. Playground remains no-save.
+
+Real-user feedback during the pause becomes the primary behavioral validation stream. Capture blockers, repeated confusion, missing recovery, privacy concerns and first-value moments.

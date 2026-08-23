@@ -599,3 +599,20 @@ Execution order:
 5. S3-E Willingness-to-Pay & Monetization Proof.
 
 S3 is evidence-led. It must not become another feature-count phase.
+
+## 2026-08-24 — Pilot Freeze / Feedback-first operating mode
+
+### ACTIVE
+**S3-A — Family Activation & Network Growth.** The implementation backlog is defined in `S3-A-ACTIVATION-NETWORK-GROWTH.md`, but broad development is intentionally paused while real families use the system.
+
+### OPERATING PRIORITY
+Blocking user issues, privacy/security/correctness failures and repeated high-value friction are addressed first. Feedback is retained even when deferred; no useful idea is deleted merely because it is not active.
+
+### DEFERRED / PRESERVED
+S3-B, S3-C, S3-D and S3-E remain planned but inactive until S3-A evidence is strong enough. Existing future-feature ideas remain preserved.
+
+### LAUNCH CONTROL DEFAULTS
+Real-family release: Core + Explore & Guide + Special Days + Memories + Family History + Family Pulse + Quiet Digest + Contributions + Relationship Explorer + role-gated Administration.
+Pilot: Gatherings + family sharing.
+Test: Places + Community + Trusted Introductions + public profiles + Print/QR.
+Playground: member-facing breadth visible for discovery except public profiles and Print/QR, which remain hidden by default.

@@ -279,3 +279,6 @@ S3 is complete only with live evidence:
 - one credible willingness-to-pay signal;
 - one credible adjacent-vertical reuse signal;
 - investor/acquirer-ready evidence that the trusted relationship graph compounds in value.
+
+## 2026-08-24 sequencing freeze
+Only S3-A is active. S3-B/C/D/E are preserved design, not current implementation work. The project now pauses broad development for real-user feedback; blocking issues, trust/correctness failures and repeated friction take priority over roadmap execution.

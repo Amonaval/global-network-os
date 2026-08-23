@@ -317,3 +317,9 @@ Prove D7/D30 family retention and whether deeper graph/history/memory/trust accu
 Operate 3→20→50 families with measurable support burden, costs, health and trust signals rather than founder-dependent manual work.
 
 Detailed design lives in `S3-BUSINESS-PROOF-DESIGN.md`.
+
+## 2026-08-24 — Sequencing freeze
+
+Only **S3-A Family Activation & Network Growth** is active now. S3-B/C/D/E remain preserved roadmap stages, but no implementation should begin merely because they are next on paper. Resume them only after pilot evidence shows the activation foundation is working and the highest-priority user feedback has been addressed.
+
+During the pause, product work is reactive and evidence-led: unblock users, fix trust/correctness problems, remove repeated friction, and record everything else. Do not resume broad roadmap execution until explicitly decided.

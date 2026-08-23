@@ -328,3 +328,11 @@ Integration:
 - `scripts/s2-e-release-closure-gate.mjs` — detects broken guide relationships and important nested contextual-guide regressions.
 - Contextual `FeatureGuide` integration expanded into `ProfileDrawer`, `ImportModal`, `InvitationModal` and `RelationshipModal`.
 - Guide registry now includes a Platform Owner-only Feedback Intelligence & Triage entry; all `related` guide references resolve to real registry entries.
+
+## 2026-08-24 — Pilot-freeze codebase state
+
+Launch Control now includes explicit feature keys for `core.guide`, `remember.family_pulse`, `remember.quiet_digest` and `connect.trusted_introductions`. Migration `042_s3a_pilot_launch_defaults.sql` establishes the recommended pilot baseline independently for real families and Playground. Family Pulse and Quiet Digest can be gated independently; trusted-introduction UI is separately gated inside the Community surface.
+
+Active product mission: `S3-A-ACTIVATION-NETWORK-GROWTH.md`. Broad S3 implementation is intentionally paused for real-user evidence.
+
+Historical/superseded planning material is being consolidated under `archive/history/`; canonical current docs remain at root.
