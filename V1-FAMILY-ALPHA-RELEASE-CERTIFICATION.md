@@ -270,3 +270,19 @@ V1 certification now additionally requires:
 - member relationship access remains read-only in both UI and RLS/RPC verification.
 
 Feedback-derived future items are tracked in `PRE-ALPHA-FAMILY-FEEDBACK-PRIORITIZATION.md`; their presence in the roadmap must not be interpreted as current completion.
+
+## CR1 addendum — mandatory before V1 Alpha Certified
+
+Migration chain is now **001–030**.
+
+CR1 introduces new release-gate checks:
+- Simple linked member enters Family on own strict direct lineage; no siblings/cousins by default.
+- Mobile Personal Lineage is usable without graph pan/zoom.
+- You and focused-person states are obvious.
+- profile-to-profile Back and profile-to-tree Back journeys work.
+- ordinary member cannot manage family relationships.
+- co-admin cannot delete parent/child relationship in UI or direct database path.
+- Family Owner can perform an intentional parent/child correction and audit behavior remains intact.
+- Larger Text on 360/390/430px does not overflow primary screens.
+
+**Privacy caveat:** contact privacy is not certified merely because the UI hides phone/email. Before enabling broader contact sharing/public capability, CR1.2 must prove sanitized data access and member-owned contact verification/consent.

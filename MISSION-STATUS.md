@@ -340,3 +340,29 @@ Status: **IMPLEMENTED IN SOURCE / VERIFY ON DEVICE + SUPABASE**
 - Earlier notification-preferences typing hotfix remains included in the baseline used for this patch.
 
 Required verification before family sharing: run migration 029; test request/approve/reject with separate accounts; verify the requester becomes Owner; verify a non-platform user cannot call `create_family`; test responsive layout on at least one real Android/iPhone-size viewport.
+
+## 2026-08-23 — CR1 Core Family Simplicity & Trust
+
+**IMPLEMENTED IN SOURCE / VERIFY — NOT globally complete.**
+
+Implemented:
+- strict direct lineage with no sibling/cousin side branches;
+- Simple member defaults to own lineage when entering Family;
+- mobile lineage-first non-canvas rendering;
+- You/Viewing markers and stronger focused edges;
+- profile Back/history + Back-to-profile from focused tree;
+- relationship-to-viewer language in profile;
+- member relationship management removed from member UI;
+- Family Owner-only deletion of parent/child relationships via migration 030 + matching co-admin UI;
+- persistent Larger Text option;
+- `npm run validate:cr1` source gate.
+
+Still open / not to be marked complete:
+- CR1.1 governed Something-is-wrong correction journey;
+- CR1.2 API-level contact sanitization + member verification/consent;
+- CR1.3 explicit relationship provenance/Owner lock metadata;
+- CR1.4 archive/recovery-backed cleanup semantics;
+- CR1.5 translated dynamic kinship + real-user accessibility/language evidence;
+- V1 real build/Supabase/device/no-coaching certification.
+
+The next gate remains **CR1 verification + V1 Family Alpha Release Certification**, followed by a 2–3 trusted-family pilot before general feature expansion.

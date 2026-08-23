@@ -96,3 +96,59 @@ export function getCommonDescendants(members: Member[], relationships: Relations
   const descendants=(root:string)=>{const seen=new Set<string>();const q=[root];while(q.length){const id=q.shift()!;for(const r of relationships){const child=r.relationship_type==='parent'&&r.person_id===id?r.related_person_id:r.relationship_type==='child'&&r.related_person_id===id?r.person_id:null;if(child&&!seen.has(child)){seen.add(child);q.push(child)}}}return seen};
   const a=descendants(aId),b=descendants(bId); return members.filter(m=>a.has(m.id)&&b.has(m.id)).sort((x,y)=>x.generation_level-y.generation_level);
 }
+
+export function getStrictLineageIds(relationships: Relationship[], focusId: string): Set<string> {
+  const keep = new Set<string>([focusId]);
+  const parents = (id: string) => relationships.flatMap(r => {
+    if (r.relationship_type === 'parent' && r.related_person_id === id) return [r.person_id];
+    if (r.relationship_type === 'child' && r.person_id === id) return [r.related_person_id];
+    return [];
+  });
+  const children = (id: string) => relationships.flatMap(r => {
+    if (r.relationship_type === 'parent' && r.person_id === id) return [r.related_person_id];
+    if (r.relationship_type === 'child' && r.related_person_id === id) return [r.person_id];
+    return [];
+  });
+  const spouses = (id: string) => relationships
+    .filter(r => r.relationship_type === 'spouse' && (r.person_id === id || r.related_person_id === id))
+    .map(r => r.person_id === id ? r.related_person_id : r.person_id);
+
+  let frontier = [focusId];
+  while (frontier.length) {
+    const next = frontier.flatMap(parents).filter(id => !keep.has(id));
+    next.forEach(id => keep.add(id));
+    frontier = next;
+  }
+  frontier = [focusId];
+  while (frontier.length) {
+    const next = frontier.flatMap(children).filter(id => !keep.has(id));
+    next.forEach(id => keep.add(id));
+    frontier = next;
+  }
+  spouses(focusId).forEach(id => keep.add(id));
+  return keep;
+}
+
+export function describeRelationshipToViewer(
+  members: Member[],
+  relationships: Relationship[],
+  viewerId: string,
+  targetId: string,
+): string | null {
+  if (viewerId === targetId) return 'This is you.';
+  const path = findRelationshipPath(members, relationships, viewerId, targetId);
+  if (!path) return null;
+  const kinds = path.steps.map(step => step.relationship);
+  const target = path.to.full_name;
+  const direct: Record<string, string> = {
+    parent: `${target} is your parent.`,
+    child: `${target} is your child.`,
+    spouse: `${target} is your spouse.`,
+    'parent,parent': `${target} is your grandparent.`,
+    'child,child': `${target} is your grandchild.`,
+    'parent,child': `${target} is your sibling.`,
+  };
+  const directMatch = direct[kinds.join(',')];
+  if (directMatch) return directMatch;
+  return explainKinship(members, relationships, viewerId, targetId) || path.explanation;
+}

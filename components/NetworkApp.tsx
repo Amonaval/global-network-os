@@ -65,6 +65,7 @@ import {
   getNetworkConfig,
 } from "../lib/network";
 import RelationshipExplorer from "./RelationshipExplorer";
+import { getStrictLineageIds } from "../lib/relationship-intelligence";
 import LifeEventEditor from "./LifeEventEditor";
 import CommunityHub from "./CommunityHub";
 import AnalyticsPanel from "./AnalyticsPanel";
@@ -133,7 +134,9 @@ export default function NetworkApp() {
     [showDeceased, setShowDeceased] = useState(true),
     [showGuide, setShowGuide] = useState(false),
     [showRelationships, setShowRelationships] = useState(false),
-    [showMobileMenu, setShowMobileMenu] = useState(false);
+    [showMobileMenu, setShowMobileMenu] = useState(false),
+    [largeText, setLargeText] = useState(false),
+    [selectedHistory, setSelectedHistory] = useState<Member[]>([]);
   const [changeRequests, setChangeRequests] = useState<ChangeRequest[]>([]),
     [auditLog, setAuditLog] = useState<AuditEntry[]>([]);
   const [showInvitation, setShowInvitation] = useState(false),
@@ -148,6 +151,14 @@ export default function NetworkApp() {
   const [memories, setMemories] = useState<Memory[]>([]),
     [notifications, setNotifications] = useState<Notification[]>([]);
   const cfg = getNetworkConfig(network);
+  useEffect(() => {
+    try { setLargeText(localStorage.getItem("family-large-text") === "1"); } catch {}
+  }, []);
+  const toggleLargeText = () => setLargeText(current => {
+    const next = !current;
+    try { localStorage.setItem("family-large-text", next ? "1" : "0"); } catch {}
+    return next;
+  });
   const notify = (x: string) => {
     setToast(x);
     setTimeout(() => setToast(""), 3000);
@@ -391,43 +402,7 @@ export default function NetworkApp() {
       Array.from(new Set(members.map((m) => m.city).filter(Boolean))).sort(),
     [members],
   );
-  const lineageIds = useMemo(() => {
-    if (!focusId) return new Set<string>();
-    const keep = new Set([focusId]);
-    const parents = (id: string) =>
-      relationships
-        .filter(
-          (r) => r.related_person_id === id && r.relationship_type === "parent",
-        )
-        .map((r) => r.person_id);
-    const children = (id: string) =>
-      relationships
-        .filter((r) => r.person_id === id && r.relationship_type === "parent")
-        .map((r) => r.related_person_id);
-    const spouses = (id: string) =>
-      relationships
-        .filter(
-          (r) =>
-            r.relationship_type === "spouse" &&
-            (r.person_id === id || r.related_person_id === id),
-        )
-        .map((r) => (r.person_id === id ? r.related_person_id : r.person_id));
-    let level = [focusId];
-    while (level.length) {
-      const n = level.flatMap(parents).filter((x) => !keep.has(x));
-      n.forEach((x) => keep.add(x));
-      level = n;
-    }
-    level = [focusId];
-    while (level.length) {
-      const n = level.flatMap(children).filter((x) => !keep.has(x));
-      n.forEach((x) => keep.add(x));
-      level = n;
-    }
-    parents(focusId).forEach((p) => children(p).forEach((s) => keep.add(s)));
-    Array.from(keep).forEach((id) => spouses(id).forEach((s) => keep.add(s)));
-    return keep;
-  }, [focusId, relationships]);
+  const lineageIds = useMemo(() => focusId ? getStrictLineageIds(relationships, focusId) : new Set<string>(), [focusId, relationships]);
   const base = useMemo(
     () =>
       lineageOnly && focusId
@@ -551,12 +526,34 @@ export default function NetworkApp() {
     cfg.network_template,
     cfg.family_milestones_enabled,
   ]);
+  const openMember = (m: Member) => {
+    if (selected && selected.id !== m.id) setSelectedHistory(history => [...history.slice(-7), selected]);
+    setSelected(m);
+  };
+  const backProfile = () => {
+    setSelectedHistory(history => {
+      const previous = history[history.length - 1];
+      if (previous) setSelected(previous); else setSelected(null);
+      return history.slice(0, -1);
+    });
+  };
   const focus = (m: Member) => {
+    setSelectedHistory(history => selected ? [...history.slice(-7), selected] : history);
     setSelected(null);
     setView("tree");
     setFocusId(m.id);
     setLineageOnly(true);
     setQuery("");
+  };
+  const openFamilyView = () => {
+    setView("tree");
+    const mobile = typeof window !== "undefined" && !!window.matchMedia?.("(max-width: 800px)").matches;
+    const shouldFocusMine = isSupabaseConfigured && !!auth?.member_id && ((auth?.experience_level || "simple") === "simple" || mobile);
+    if (shouldFocusMine) {
+      setFocusId(auth.member_id);
+      setLineageOnly(true);
+      setQuery("");
+    }
   };
   const clearFocus = () => {
     setFocusId(undefined);
@@ -956,7 +953,7 @@ export default function NetworkApp() {
   const openMyProfile=()=>{
     if(auth?.member_id){
       const mine=members.find(m=>m.id===auth.member_id);
-      if(mine){setSelected(mine);setEditingMember(mine);return;}
+      if(mine){openMember(mine);setEditingMember(mine);return;}
     }
     setEditingMember(undefined);setShowForm(true);
   };
@@ -1005,7 +1002,7 @@ export default function NetworkApp() {
       </>
     );
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${largeText ? "large-text" : ""}`}>
       <header className="topbar">
         <div className="brand">
           <div className="brand-mark">
@@ -1060,7 +1057,7 @@ export default function NetworkApp() {
           {visibleMemberNav.map(([navView,label,icon])=><button
             key={navView}
             className={`nav-btn ${view === navView ? "active" : ""}`}
-            onClick={() => setView(navView)}
+            onClick={() => navView === "tree" ? openFamilyView() : setView(navView)}
           >{icon} {label}</button>)}
           {hasFeature("core.profile") && <button className={`nav-btn ${selected?.id===auth?.member_id ? "active" : ""}`} onClick={openMyProfile}><UserRoundPen size={17}/> {language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</button>}
           {canAdmin && hasFeature("admin.center") && <div className="admin-nav-separator">
@@ -1087,8 +1084,8 @@ export default function NetworkApp() {
         </aside>
         <main className="main">
           {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">New in your family</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||"New family feature"}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||"There is something new to explore."}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
-          {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={setSelected} />}
-          {view === "home" && <FamilyHome members={members} events={allLifeEvents} networkName={network?.name} onSelect={setSelected} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} />}
+          {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={openMember} />}
+          {view === "home" && <FamilyHome members={members} events={allLifeEvents} networkName={network?.name} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} />}
           {view === "tree" && (
             <section className="tree-page">
               {cfg.network_template === "family" && (
@@ -1136,6 +1133,11 @@ export default function NetworkApp() {
                     <HeartHandshake size={14} />{" "}
                     {showDeceased ? "Hide deceased" : "Show deceased"}
                   </button>
+                  {focusId && selectedHistory.length > 0 && (
+                    <button className="btn small" onClick={backProfile}>
+                      <ArrowRight size={14} style={{transform:"rotate(180deg)"}} /> Back to profile
+                    </button>
+                  )}
                   {focusId && (
                     <button className="btn small" onClick={clearFocus}>
                       <GitBranch size={14} /> Full Tree
@@ -1167,8 +1169,8 @@ export default function NetworkApp() {
               <div className="notice">
                 {filtered.length} members shown ·{" "}
                 {focusId
-                  ? `Focused branch: ${lineageIds.size} connected people.`
-                  : "Full community hierarchy."}
+                  ? `Personal lineage: ${lineageIds.size} people.`
+                  : "Whole family tree."}
               </div>
               <TreeView
                 members={filtered.filter(
@@ -1186,10 +1188,12 @@ export default function NetworkApp() {
                 })}
                 query={query || profession || city}
                 focusMemberId={focusId}
-                onSelect={setSelected}
+                viewerMemberId={auth?.member_id || undefined}
+                compactLineage={lineageOnly && !!focusId}
+                onSelect={openMember}
                 network={network}
               />
-              <div className="tree-upcoming"><UpcomingWidget items={upcoming} onSelect={setSelected} /></div>
+              <div className="tree-upcoming"><UpcomingWidget items={upcoming} onSelect={openMember} /></div>
             </section>
           )}
           {view === "directory" && hasFeature("core.directory") && (
@@ -1332,7 +1336,7 @@ export default function NetworkApp() {
                       <div className="card-actions">
                         <button
                           className="btn small primary"
-                          onClick={() => setSelected(m)}
+                          onClick={() => openMember(m)}
                         >
                           {directoryCopy.view}
                         </button>
@@ -1351,7 +1355,7 @@ export default function NetworkApp() {
               events={allLifeEvents}
               members={members}
               network={network}
-              onSelect={setSelected}
+              onSelect={openMember}
             />
           )}
           {view === "map" && hasFeature("connect.places") && (
@@ -1367,7 +1371,7 @@ export default function NetworkApp() {
               <div className="notice">
                 <b>{mapCopy.privacy}</b> {mapCopy.detail} {located} {directoryCopy.of} {members.length} {mapCopy.have}
               </div>
-              <MapView members={members} onSelect={setSelected} />
+              <MapView members={members} onSelect={openMember} />
             </section>
           )}
           {view === "community" && hasFeature("remember.memories") && (
@@ -1375,7 +1379,7 @@ export default function NetworkApp() {
               members={members}
               auth={auth}
               network={network}
-              onSelect={(m) => setSelected(m)}
+              onSelect={openMember}
               onNotify={notify}
             />
           )}
@@ -1383,7 +1387,7 @@ export default function NetworkApp() {
             <ParticipationCenter
               members={members}
               auth={auth}
-              onSelect={setSelected}
+              onSelect={openMember}
               onNotify={notify}
             />
           )}
@@ -1738,7 +1742,7 @@ export default function NetworkApp() {
       </div>
       <nav className="mobile-bottom-nav has-admin">
         <button className={view === "home" ? "active" : ""} onClick={() => setView("home")}><Home size={19}/><span>{language === "hi" ? "आज" : language === "mr" ? "आज" : "Home"}</span></button>
-        <button className={view === "tree" ? "active" : ""} onClick={() => setView("tree")}><TreePine size={19}/><span>{language === "hi" ? "परिवार" : language === "mr" ? "कुटुंब" : "Family"}</span></button>
+        <button className={view === "tree" ? "active" : ""} onClick={openFamilyView}><TreePine size={19}/><span>{language === "hi" ? "परिवार" : language === "mr" ? "कुटुंब" : "Family"}</span></button>
         {experience!=="simple" && hasFeature("remember.memories") && <button className={view === "community" ? "active" : ""} onClick={() => setView("community")}><HeartHandshake size={19}/><span>{language === "hi" ? "यादें" : language === "mr" ? "आठवणी" : "Memories"}</span></button>}
         <button className={selected?.id===auth?.member_id ? "active" : ""} onClick={openMyProfile}><UserRoundPen size={19}/><span>{language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</span></button>
         <button className={showMobileMenu || view === "map" || view === "admin" || view === "founder" || view === "timeline" || view === "participation" || view === "directory" ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19}/><span>{moreLabel}</span></button>
@@ -1752,6 +1756,7 @@ export default function NetworkApp() {
         {canAdmin && hasFeature("admin.center") && <button className="mobile-more-action" onClick={() => { setView("admin"); setShowMobileMenu(false); }}><span><Settings2 />{language==='hi'?'परिवार संभालें':language==='mr'?'कुटुंब सांभाळा':'Manage family'}</span><ArrowRight /></button>}
         {isPlatformOwner && isSupabaseConfigured && <button className="mobile-more-action" onClick={() => { setView("founder"); setShowMobileMenu(false); }}><span><Rocket />Launch Control</span><ArrowRight /></button>}
         <button className="mobile-more-action" onClick={() => { setShowGuide(true); setShowMobileMenu(false); }}><span><BookOpen />{language==='hi'?'मदद':language==='mr'?'मदत':'Help'}</span><ArrowRight /></button>
+        <button className="mobile-more-action" onClick={toggleLargeText}><span><BookOpen />{largeText ? (language==='hi'?'सामान्य टेक्स्ट':language==='mr'?'सामान्य मजकूर':'Normal text size') : (language==='hi'?'बड़ा टेक्स्ट':language==='mr'?'मोठा मजकूर':'Larger text')}</span><ArrowRight /></button>
         <div className="mobile-more-setting"><LanguageSwitcher /></div>
         {!canAdmin&&<label className="mobile-more-setting friendly-experience-setting"><span>{language==='hi'?'ऐप में कितना दिखे?':language==='mr'?'अॅपमध्ये किती दाखवायचे?':'How much would you like to see?'}</span><select className="select" value={experience} onChange={e=>changeMyExperience(e.target.value as ExperienceLevel)}><option value="simple">{language==='hi'?'सरल — बस जरूरी चीजें':language==='mr'?'सोपे — फक्त महत्त्वाचे':'Simple — just the essentials'}</option><option value="connected">{language==='hi'?'और परिवार — यादें और खास दिन':language==='mr'?'अधिक कुटुंब — आठवणी आणि खास दिवस':'More family — memories & moments'}</option><option value="explorer">{language==='hi'?'सब देखें — सभी सदस्य सुविधाएँ':language==='mr'?'सगळे पहा — सर्व सदस्य सुविधा':'Everything — all member features'}</option></select><small>{language==='hi'?'इसे कभी भी बदल सकते हैं।':language==='mr'?'हे कधीही बदलू शकता.':'You can change this anytime.'}</small></label>}
         {canAdmin&&<label className="mobile-more-setting"><span>{language === "hi" ? "जानकारी का पूर्वावलोकन" : language === "mr" ? "माहिती पूर्वावलोकन" : "Information preview"}</span><select className="select" value={visibility} onChange={(event) => setVisibility(event.target.value as Visibility)}><option value="public">{t("publicPreview")}</option><option value="member">{t("memberView")}</option><option value="admin">{t("adminView")}</option></select></label>}
@@ -1772,20 +1777,23 @@ export default function NetworkApp() {
           relationships={relationships}
           visibility={visibility}
           network={network}
+          viewerMemberId={auth?.member_id || undefined}
+          simple={experience === "simple"}
           canViewPrivateContact={
             !isSupabaseConfigured ||
             canAdmin ||
             selected.id === auth?.member_id
           }
-          onClose={() => setSelected(null)}
-          onSelect={setSelected}
+          onClose={() => { setSelected(null); setSelectedHistory([]); }}
+          onBack={selectedHistory.length ? backProfile : undefined}
+          onSelect={openMember}
           onFocus={focus}
           canEdit={canAdmin || selected?.id === auth?.member_id}
           onEdit={() => {
             setEditingMember(selected);
             setShowForm(true);
           }}
-          onManageRelationships={hasFeature("advanced.relationships")?()=>setShowRelationships(true):undefined}
+          onManageRelationships={canAdmin && hasFeature("advanced.relationships")?()=>setShowRelationships(true):undefined}
           onExploreRelationship={hasFeature("advanced.relationships")?()=>setShowRelationshipExplorer(true):undefined}
           events={hasFeature("remember.history")?lifeEvents:[]}
           memories={hasFeature("remember.memories")?memories.filter((m) => m.member_id === selected.id):[]}
@@ -1808,6 +1816,7 @@ export default function NetworkApp() {
           onClose={() => setShowRelationships(false)}
           onSave={saveRel}
           onDelete={removeRel}
+          canRemoveFoundational={!isSupabaseConfigured || network?.membership_role === "owner"}
         />
       )}{" "}
       {showImport && (

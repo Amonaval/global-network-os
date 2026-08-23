@@ -29,7 +29,7 @@ function initials(name: string) {
 function PersonNode({ data }: any) {
   return (
     <div
-      className={`tree-node ${data.match ? "match" : ""} ${data.dim ? "dim" : ""} ${data.deceased ? "deceased" : ""}`}
+      className={`tree-node ${data.match ? "match" : ""} ${data.dim ? "dim" : ""} ${data.deceased ? "deceased" : ""} ${data.focused ? "focused" : ""} ${data.viewer ? "viewer" : ""}`}
     >
       <Handle type="target" position={Position.Top} style={{ opacity: 0 }} />
       <Handle
@@ -55,6 +55,8 @@ function PersonNode({ data }: any) {
         )}
       </div>
       <div className="tree-node-name">{data.name}</div>
+      {data.viewer && <div className="tree-you-badge">You</div>}
+      {data.focused && !data.viewer && <div className="tree-focus-badge">Viewing</div>}
       <div className="tree-node-meta">{data.profession || "Member"}</div>
       <div className="tree-node-meta">{data.city || ""}</div>
       {data.deceased && <div className="tree-node-deceased">† In memoriam</div>}
@@ -76,6 +78,8 @@ export default function TreeView({
   relationships,
   query,
   focusMemberId,
+  viewerMemberId,
+  compactLineage = false,
   onSelect,
   network,
 }: {
@@ -83,6 +87,8 @@ export default function TreeView({
   relationships: Relationship[];
   query: string;
   focusMemberId?: string;
+  viewerMemberId?: string;
+  compactLineage?: boolean;
   onSelect: (m: Member) => void;
   network?: NetworkSettings | null;
 }) {
@@ -133,6 +139,8 @@ export default function TreeView({
             match,
             dim: !!query && !match,
             deceased: !!m.date_of_death,
+            focused: m.id === focusMemberId,
+            viewer: m.id === viewerMemberId,
           },
         });
       });
@@ -153,12 +161,12 @@ export default function TreeView({
         animated: false,
         style:
           r.relationship_type === "spouse"
-            ? { strokeDasharray: "7 5", strokeWidth: 2.5 }
-            : { strokeWidth: 1.7 },
+            ? { strokeDasharray: "7 5", strokeWidth: compactLineage ? 3.2 : 2.5, stroke: compactLineage ? "#28352f" : undefined }
+            : { strokeWidth: compactLineage ? 3.4 : 1.7, stroke: compactLineage ? "#28352f" : undefined },
       }));
 
     return { nodes, edges };
-  }, [members, relationships, query]);
+  }, [members, relationships, query, focusMemberId, viewerMemberId, compactLineage]);
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -191,6 +199,17 @@ export default function TreeView({
           {copy.large}
         </div>
       )}
+      {compactLineage && focusMemberId && (
+        <div className="mobile-lineage-view">
+          {([
+            { key: "older", label: "Parents & ancestors", items: members.filter(m => m.generation_level < (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
+            { key: "current", label: focusMemberId === viewerMemberId ? "You & partner" : "This person & partner", items: members.filter(m => m.generation_level === (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
+            { key: "younger", label: "Children & descendants", items: members.filter(m => m.generation_level > (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
+          ] as const).map(group => group.items.length ? <section className="mobile-lineage-group" key={group.key}><h3>{group.label}</h3>{group.items.map(m => <button className={`mobile-lineage-person ${m.id===viewerMemberId?"viewer":""} ${m.id===focusMemberId?"focused":""}`} key={m.id} onClick={()=>onSelect(m)}><span className="mobile-lineage-avatar">{m.photo_url?<img src={m.photo_url} alt=""/>:initials(m.full_name)}</span><span><b>{m.full_name}</b><small>{m.id===viewerMemberId?"You":m.profession||"Family member"}</small></span></button>)}</section> : null)}
+          <div className="mobile-lineage-hint">Showing the direct family line only. Use “Full Tree” when you want to explore every branch.</div>
+        </div>
+      )}
+      <div className={`tree-flow ${compactLineage ? "has-mobile-lineage" : ""}`}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -215,6 +234,7 @@ export default function TreeView({
           nodeColor={(node) => (node.data?.deceased ? "#a7adba" : "#3559c7")}
         />
       </ReactFlow>
+      </div>
     </div>
   );
 }

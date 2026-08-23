@@ -7,11 +7,14 @@ import {
   Calendar,
   GitBranch,
   ArrowRight,
+  ArrowLeft,
+  AlertCircle,
   Link2, ExternalLink,
 } from "lucide-react";
 import {IdentityAvatar,safeExternalUrl} from "../lib/identity";
 import { LifeEvent, Member, Relationship, Memory } from "../lib/types";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
+import { describeRelationshipToViewer } from "../lib/relationship-intelligence";
 import { useLanguage } from "../lib/i18n";
 
 function initials(name: string) {
@@ -36,7 +39,10 @@ export default function ProfileDrawer({
   events,
   memories,
   network,
+  viewerMemberId,
+  simple = false,
   onClose,
+  onBack,
   onSelect,
   onFocus,
   canEdit,
@@ -54,7 +60,10 @@ export default function ProfileDrawer({
   events?: LifeEvent[];
   memories?: Memory[];
   network?: NetworkSettings | null;
+  viewerMemberId?: string;
+  simple?: boolean;
   onClose: () => void;
+  onBack?: () => void;
   onSelect: (m: Member) => void;
   onFocus: (m: Member) => void;
   canEdit?: boolean;
@@ -68,6 +77,7 @@ export default function ProfileDrawer({
   const { t, language } = useLanguage();
   const copy = language === "hi" ? { phone:"फ़ोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोड़ें", noMilestones:"अभी कोई जीवन घटना साझा नहीं की गई।", noMemories:"अभी कोई याद साझा नहीं की गई।", noRelations:"अभी कोई रिश्ता दर्ज नहीं है।", member:"सदस्य", undated:"तारीख नहीं", edit:"बदलें" } : language === "mr" ? { phone:"फोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोडा", noMilestones:"अजून कोणतीही जीवन घटना सामायिक केलेली नाही.", noMemories:"अजून कोणतीही आठवण सामायिक केलेली नाही.", noRelations:"अजून कोणतेही नाते नोंदवलेले नाही.", member:"सदस्य", undated:"तारीख नाही", edit:"बदला" } : { phone:"Phone", email:"Email", about:"About", addEvent:"Add event", noMilestones:"No milestones have been shared yet.", noMemories:"No memories have been shared yet.", noRelations:"No relationships recorded.", member:"Member", undated:"Undated", edit:"Edit" };
   const cfg = getNetworkConfig(network ?? null);
+  const relationshipToViewer = viewerMemberId ? describeRelationshipToViewer(members, relationships, viewerMemberId, member.id) : null;
   const related = relationships
     .filter(
       (r) => r.person_id === member.id || r.related_person_id === member.id,
@@ -100,23 +110,24 @@ export default function ProfileDrawer({
     >
       <aside className="drawer" role="dialog" aria-modal="true" aria-label={member.full_name}>
         <div className="drawer-head">
+          <div className="drawer-head-title">{onBack && <button className="btn small profile-back" aria-label="Back to previous profile" onClick={onBack}><ArrowLeft size={16}/> Back</button>}
           <strong>
             {cfg.network_template === "family"
               ? t("familyProfile")
               : `${cfg.entity_label} Profile`}
-          </strong>
+          </strong></div>
         <button className="btn small" aria-label="Close profile" onClick={onClose}>
             <X size={16} />
           </button>
         </div>
         <div className="profile-hero">
-          <IdentityAvatar member={member} size="lg" />
+<IdentityAvatar member={member} size="lg" />
           <div>
             <h2 style={{ margin: "0 0 5px", fontSize: 22 }}>
               {member.full_name}
             </h2>
             <div className="person-meta">
-              {cfg.level_label} {member.generation_level}
+              {relationshipToViewer || (simple && cfg.network_template === "family" ? "Family member" : `${cfg.level_label} ${member.generation_level}`)}
             </div>
           </div>
         </div>
@@ -136,13 +147,13 @@ export default function ProfileDrawer({
               {[member.city, member.country].filter(Boolean).join(", ") || "—"}
             </div>
           </div>
-          <div className="detail">
+          {!simple && <div className="detail">
             <div className="detail-label">
               <GitBranch size={12} style={{ verticalAlign: "middle" }} />{" "}
               {t("generation")}
             </div>
             <div className="detail-value">{member.generation_level}</div>
-          </div>
+          </div>}
           <div className="detail">
             <div className="detail-label">
               <Calendar size={12} style={{ verticalAlign: "middle" }} /> {t("birthday")}
@@ -267,12 +278,13 @@ export default function ProfileDrawer({
                   {type} · {other.profession || copy.member}
                 </div>
               </div>
-              <button className="btn small" onClick={() => onSelect(other)}>
-                <ArrowRight size={14} />
+              <button className="btn small relationship-view-button" onClick={() => onSelect(other)}>
+                View {other.full_name.split(/\s+/)[0]} <ArrowRight size={14} />
               </button>
             </div>
           ))}
         </div>
+        {!canEdit && viewerMemberId && <div className="profile-correction-note"><AlertCircle size={16}/><span><b>Something looks wrong?</b> Ask your family admin to correct this person or relationship. Member accounts cannot change the family structure directly.</span></div>}
         <div className="form-actions">
           <button className="btn primary" onClick={() => onFocus(member)}>
             <GitBranch size={15} /> {t("viewInTree")}

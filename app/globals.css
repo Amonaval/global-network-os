@@ -342,3 +342,29 @@ h1,h2,.family-welcome h1,.onboarding-story h1{font-family:"Iowan Old Style","Pal
   .family-approval-request{grid-template-columns:1fr}.family-approval-request>svg{display:none}.family-approval-request .btn{width:100%;justify-content:center}
   .family-creation-review-row{align-items:flex-start;flex-direction:column}.family-creation-review-actions{width:100%;justify-content:flex-start}.family-creation-review-actions .btn{flex:1;justify-content:center}
 }
+
+/* CR1 — Core Family Simplicity & Trust */
+.tree-node.focused{border-color:#263c34;box-shadow:0 0 0 3px rgba(38,60,52,.18),0 10px 28px rgba(38,60,52,.16);transform:translateY(-2px)}
+.tree-node.viewer{border-color:#176650;background:#f1f8f4;box-shadow:0 0 0 3px rgba(23,102,80,.16),0 10px 28px rgba(23,102,80,.14)}
+.tree-you-badge,.tree-focus-badge{display:inline-flex;margin-top:5px;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:800;line-height:1.4}
+.tree-you-badge{background:#176650;color:#fff}.tree-focus-badge{background:#e9eee9;color:#263c34}
+.mobile-lineage-view{display:none}.tree-flow{height:100%}
+.drawer-head-title{display:flex;align-items:center;gap:10px;min-width:0}.profile-back{gap:5px;white-space:nowrap}.relationship-view-button{gap:5px;white-space:nowrap}
+.profile-correction-note{display:flex;gap:10px;align-items:flex-start;margin:18px 0 4px;padding:13px 14px;border:1px solid #e6dfd4;border-radius:14px;background:#faf7f0;color:#59645e;font-size:12px;line-height:1.5}.profile-correction-note svg{flex:none;margin-top:1px;color:#8a6c32}
+.protected-relationship{max-width:160px;text-align:right;color:#776b59;font-size:11px;font-weight:700;line-height:1.35}
+.large-text .main,.large-text .sidebar,.large-text .drawer,.large-text .mobile-more-sheet{font-size:16px}.large-text .person-meta,.large-text .page-subtitle,.large-text .detail-label,.large-text .empty,.large-text .privacy-note{font-size:14px}.large-text .btn,.large-text .nav-btn,.large-text .mobile-more-action{font-size:15px}
+@media(max-width:800px){
+  .tree-card:has(.mobile-lineage-view){height:auto!important;min-height:0!important;overflow:visible}
+  .mobile-lineage-view{display:block;padding:8px 4px 16px}
+  .tree-flow.has-mobile-lineage{display:none}
+  .mobile-lineage-group{position:relative;margin:0 0 14px;padding:10px 8px 4px;border-left:3px solid #d8e5dd}
+  .mobile-lineage-group h3{margin:0 0 9px;padding-left:5px;color:#657168;font-size:12px;text-transform:none;letter-spacing:.01em}
+  .mobile-lineage-person{width:100%;display:flex;align-items:center;gap:12px;min-height:64px;margin:0 0 8px;padding:10px 12px;border:1px solid #e6e3dc;border-radius:15px;background:#fff;text-align:left;color:#25312c;box-shadow:0 4px 14px rgba(35,43,38,.05)}
+  .mobile-lineage-person.focused{border-color:#50645b;box-shadow:0 0 0 2px rgba(80,100,91,.12)}
+  .mobile-lineage-person.viewer{border-color:#176650;background:#f2f8f4;box-shadow:0 0 0 2px rgba(23,102,80,.12)}
+  .mobile-lineage-avatar{width:44px;height:44px;display:grid;place-items:center;flex:none;border-radius:50%;overflow:hidden;background:#eaf2ed;color:#176650;font-size:12px;font-weight:800}.mobile-lineage-avatar img{width:100%;height:100%;object-fit:cover}
+  .mobile-lineage-person>span:last-child{display:flex;flex-direction:column;gap:3px;min-width:0}.mobile-lineage-person b{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mobile-lineage-person small{color:#778079;font-size:11px}
+  .mobile-lineage-hint{margin:12px 4px 0;padding:11px 12px;border-radius:12px;background:#f7f4ed;color:#68716c;font-size:11px;line-height:1.5}
+  .tree-page .tree-toolbar{display:flex!important;flex-wrap:wrap;gap:6px}.tree-page .tree-legend{display:none}
+  .drawer-head-title strong{display:none}.profile-back{padding-inline:10px}
+}

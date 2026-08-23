@@ -470,3 +470,60 @@ Family chat, direct messages and sub-groups are explicitly preserved but deferre
 Preserve subscription/entitlement architecture for Free / Standard / Premium / Custom plans. Candidate storage tiers from feedback are 50 MB / 100 MB / 500 MB, but exact limits and pricing are **not committed** until real-family storage and engagement data is measured.
 
 See `PRE-ALPHA-FAMILY-FEEDBACK-PRIORITIZATION.md` for the complete value/cost matrix. No feedback item is to be silently dropped if priorities change.
+
+# 2026-08-23 — CR1 Core Family Simplicity & Trust (Binding pre-pilot checkpoint)
+
+**Status: IMPLEMENTED IN SOURCE / VERIFY. Do not interpret this as completion of all C1 trust work.**
+
+CR1 moves the highest-value Core-mode simplification ahead of general feature expansion:
+
+1. **Strict Personal Lineage** — direct ancestors + direct descendants + focused person's spouse; no sibling/cousin/side-branch expansion by default.
+2. **Lineage-first default** — a linked Simple member opens Family on their own Personal Lineage, and all signed-in members do so on mobile; Full Tree is opt-in.
+3. **Mobile non-canvas lineage experience** — simple grouped relatives instead of requiring pan/zoom on a graph.
+4. **Focus clarity** — explicit You/Viewing markers and stronger focused lineage edges.
+5. **Navigation safety** — profile history Back and tree Back-to-profile.
+6. **Human relationship language** — relationship-to-viewer text replaces generation-centric framing where possible in Simple mode.
+7. **Relationship authority clarity** — members are view-only for structure; Manage Relationships is Family Admin-only.
+8. **Foundational relationship protection** — migration 030 restricts parent/child deletion to Family Owner; co-admin cannot destructively remove direct lineage.
+9. **Older-user readability** — persistent Larger Text option.
+
+## CR1 verification required before broad family sharing
+
+- `npm run validate:cr1`.
+- production `npm run build`.
+- migration 030 on clean/upgrade Supabase.
+- member/admin/owner delete matrix.
+- 360/390/430px Android/iOS real-device checks.
+- Simple member must see own lineage with no cousins/siblings by default.
+- profile → relative → Back and profile → tree → Back journeys.
+- larger-text overflow check.
+
+## CR1 items deliberately left open (must not become false-complete)
+
+### CR1.1 — Simple governed corrections
+Turn **Something is wrong?** into a one-screen member submission for profile/relationship/missing-person errors, using the existing change-request/governance system underneath.
+
+### CR1.2 — Verified Contact Consent / data-layer privacy
+Current UI visibility is insufficient for completion because raw family-member retrieval can still contain phone/email. Implement sanitized member reads (view/RPC), self-owned contact verification, visibility consent and audit. This is **Very High priority before broad external/public rollout**.
+
+### CR1.3 — Relationship provenance / explicit Owner locks
+Migration 030 protects all parent-child deletion from co-admins. Later add provenance/lock metadata so an Owner can explicitly lock/unlock foundational relationships and corrections remain auditable.
+
+### CR1.4 — Safe cleanup / archive / recovery
+Do not expose broad destructive cleanup until member/profile/relationship archive and recovery semantics exist. Fold into C1 Family Cleanup Center.
+
+### CR1.5 — Kinship language + accessibility evidence
+Translate generated kinship descriptions for Hindi/Marathi, then validate with fluent/non-technical relatives and large-text/device accessibility tests.
+
+## Updated execution order after CR1
+
+1. **CR1 verify + V1 Family Alpha Release Certification** — release gate, not feature expansion.
+2. **Founder family + 2–3 trusted family pilot** using the Day-1 rollout preset.
+3. **B0-C.1 / CR1.x corrections from observed friction**, especially contact privacy if external sharing is enabled.
+4. **C1 Trust, Recovery & Accessibility completion** — absorbs A3/A5/A7 trust leftovers + CR1.1–CR1.5 where appropriate.
+5. **C2 Family Engagement Completion** — remembrance, rich sharing, tree Print/PDF, scoped notifications, memory interactions/audiences.
+6. **C3 Real Alpha Scale** — actual cross-family 20→50 operations, activation funnel, privacy/performance evidence and runbook.
+7. **D2 Communication** only if pilot demand justifies chat/DM/subgroups.
+8. **M0 Monetization Foundation** after usage/storage evidence; preserve Free/Standard/Premium/Custom candidate architecture without fixing limits/prices prematurely.
+
+All earlier A1–A9, P3/P4/P5/D1, B0 and feedback-led items remain preserved. Hidden/deferred features are not removed and partial work is not equivalent to completed work.

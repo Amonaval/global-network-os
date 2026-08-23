@@ -55,3 +55,23 @@ This document converts the latest family-user feedback into a durable roadmap. A
 **Later communication bundle (D2):** #9–#10 only after pilot demand is proven.
 
 **Monetization foundation (M0):** #11/#18 after alpha usage reveals storage and feature value; architecture should support Free / Standard / Premium / Custom without hard-coding UI everywhere.
+
+## 2026-08-23 — CR1 implementation reconciliation
+
+The earlier priority table remains historical evidence. CR1 now changes the status of several items:
+
+- **#2 Foundational parent hierarchy protection — PARTIAL / stronger baseline implemented.** Migration 030 makes parent/child deletion Family-Owner-only and the co-admin UI reflects that. Relationship-specific provenance/Owner-lock metadata remains C1.1 follow-up; do not mark the broader requirement complete.
+- **#3 Back navigation — IMPLEMENTED IN SOURCE / VERIFY.** Profile history Back + tree Back-to-profile added.
+- **#4 Member relationship read-only — IMPLEMENTED IN UI / SECURITY VERIFY.** Manage Relationships is Family Admin-only; existing RLS/security matrix still needs live certification.
+- **#5 Personal hierarchy without cousins — IMPLEMENTED IN SOURCE / VERIFY.** Strict lineage includes direct ancestors + direct descendants + focused person's spouse only; siblings/cousins/side branches are excluded.
+- **#6 Focus/highlight lineage — IMPLEMENTED IN SOURCE / VERIFY.** You/Viewing badges plus stronger lineage edges.
+- **#7 Mobile lineage default — IMPLEMENTED IN SOURCE / VERIFY.** Simple linked members enter Family through their own lineage; mobile uses a non-canvas lineage layout when focused.
+- **#14 Verified contact consent — STILL PARTIAL.** CR1 audit confirmed UI privacy is not sufficient because underlying member retrieval still carries contact fields. Requires API/data-layer sanitization + member verification.
+- **#15 Admin cleanup — STILL OPEN.** CR1 does not introduce unsafe destructive cleanup; archive/recovery design remains required.
+
+New Core follow-ups preserved from the CR1 audit:
+- CR1.1 simplified governed **Something is wrong?** correction submission.
+- CR1.2 API-level contact sanitization + member-owned verification/consent.
+- CR1.3 relationship provenance/explicit Owner lock semantics.
+- CR1.4 archive/recovery semantics for member/profile cleanup.
+- CR1.5 translated dynamic kinship labels and real-user language verification.
