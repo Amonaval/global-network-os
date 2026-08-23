@@ -4,3 +4,6 @@ export type CommunityProfileCard={id:string;space_id:string;space_name:string;ne
 export type CommunityPostCategory="marriage"|"professional"|"service"|"event"|"opportunity"|"announcement"|"help"|"other";
 export type CommunityPost={id:string;space_id:string;space_name:string;network_id:string;family_name:string;target_member_id?:string;category:CommunityPostCategory;title:string;body?:string;city?:string;status:string;created_at:string};
 export type PendingCommunityLink={id:string;space_id:string;space_name:string;network_id:string;family_name:string;created_at:string};
+export type CommunityTrustConnection={id:string;other_network_id:string;other_family_name:string;status:"pending"|"accepted"|"declined"|"revoked";direction:"incoming"|"outgoing";context_label?:string;created_at:string};
+export type TrustedConnectionPath={path_network_ids:string[];path_family_names:string[];hops:number};
+export type CommunityIntroduction={id:string;direction:"incoming"|"outgoing";status:"pending"|"accepted"|"declined"|"cancelled"|"connected";space_name:string;other_family_name:string;other_person_name:string;category:CommunityProfileCategory;message?:string;path_snapshot:string[];created_at:string};

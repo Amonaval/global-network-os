@@ -1,0 +1,27 @@
+Create detail featured full interactive. UI user guide to understand everything about the app.
+On the top of each sections share the user guide. What this feature is and how to use it. In detail, every minute detail present under the sections.
+
+User who wants to expand that section can see it. So user guide can be collapsible view sections of any suitable best format.
+
+Along with that one complete independent docportal option on the top which will navigate user to doc section which has every detail of app.
+
+Starting with things like
+
+1) What is this app
+2) Its purpose, benefits, usage, how it can add value, what all I can do & all those points which make user so interested about it.
+3) Share the user different age groups, different people with differnt background how they can use it. With detail 8-10 examples
+4) What are the top features categorize them.
+5) Additional features & listing them. How to use them quick view. Which will be structured properly for every module.
+   a) What is that module 
+   b) How to reach/navigate module
+   c) One/Various Different use case. How that module can be used.
+   d) More ideas on that module
+   e) Feedback input and submit (for what can be done under it). Which we'll track under some sections, which we can consider for future roadmap and enhancements.
+
+6) Future  roadmaps, possible features addition, what is coming & so on section at the end.
+
+
+Think through and add all what you can add which will help explain not just understand the app clearly, but help
+explore power, usability, purpose, benefits & all possibilities. I believer every one will have various thoughts of ideas running on usage after reading it we want to trigger that in users that ohh. I can use this way, use that way, its awesome and so on.
+
+This user guide is very very important. Think through and create one detail complete user guide. We may review and further enhance it.

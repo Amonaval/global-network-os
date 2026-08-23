@@ -745,3 +745,26 @@ Next S2 work should be evidence-led: improve the weakest step in the live loop r
 - Community needs/posts can target the appropriate chapter/city/umbrella level.
 - Governed Community Highlights replace generic VIP/popularity scoring.
 - Future: trusted cross-family connection paths only from explicit verified edges/introductions; community moderation; community digest; reputation; optional public showcase.
+
+## S2-C — Trusted Introductions & Connection Paths — IMPLEMENTED IN SOURCE / LIVE VERIFY
+
+S2-C converts community discovery from a flat directory into an explainable trust network while keeping family graphs private.
+
+Delivered:
+- explicit two-family-approved trust edges;
+- shortest explainable family-level paths up to four hops;
+- trust accept/decline/revoke governance for Family Owner/admin;
+- persisted consent-based introduction requests against opt-in community cards;
+- request accept/decline/cancel lifecycle;
+- privacy-safe path snapshots with no phone/email leakage;
+- Playground simulation of trusted paths and introductions.
+
+Important boundary: named-person bridge paths remain deferred until bridge contacts explicitly opt in. Never infer paths from surname, community, city or family similarity.
+
+Next S2 candidates remain preserved: quiet family digest, richer contribution/share loop, opt-in bridge contacts, introduction hand-off/completion, Family Play experiments, contextual external-media memories, moderation/rate limits before broad community scale.
+
+## S2-D — Quiet Family Digest + Return Engine — IMPLEMENTED IN SOURCE / LIVE VERIFY
+
+S2-D adds a calm weekly/monthly return surface rather than a social feed. Home now summarizes only meaningful changes: special days/history, recent memories, family growth, gatherings, contribution prompts and trusted-introduction updates. Users control topic/cadence preferences; digest opens, returns after 3+ days and shares are measured. External scheduled email/push remains a later deployment integration and must reuse these privacy/preferences rather than introducing a second notification model.
+
+**Exit gate:** real pilot families repeatedly return because the digest is useful. Do not mark S2 complete from source checks alone.

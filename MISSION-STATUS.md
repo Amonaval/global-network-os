@@ -536,3 +536,13 @@ Implemented Family Pulse, memory reactions, deliberate engagement tracking and F
 ### S2-B — Community Umbrella & Opt-in Discovery
 **IMPLEMENTED IN SOURCE / LIVE VERIFY**
 Community hierarchy, governed family links, opt-in cross-family profile discovery, community needs/posts, consent guard for marriage publishing, and curated Community Highlights are implemented. Real cross-family relationship-path intelligence remains deferred until explicit trusted cross-family edges exist.
+
+### S2-C — Trusted Introductions & Connection Paths
+**Status: IMPLEMENTED IN SOURCE / LIVE VERIFY**
+
+Implemented explicit family trust edges, two-family consent, explainable up-to-four-hop connection paths and persisted community introduction requests. This is family-level path intelligence only; named-person connector claims remain intentionally deferred until explicit connector consent exists.
+
+### S2-D — Quiet Family Digest + Return Engine
+**Status: IMPLEMENTED IN SOURCE / LIVE VERIFY**
+
+Implemented: private Home digest, topic/cadence preferences, preferred weekday, memory/family/gathering/contribution/introduction summaries, privacy-safe sharing, digest state, digest open/return/share instrumentation and admin retention metrics. External scheduled delivery is intentionally provider-agnostic and remains deployment integration work. S2 remains IN PROGRESS until repeat behavior is observed in real families.

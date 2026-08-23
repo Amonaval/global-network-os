@@ -185,3 +185,18 @@ Playground feature visibility is controlled independently from real-family platf
 
 ## Cross-family/community data rule
 Community membership never grants direct access to another family's tables. Cross-family discovery must use explicit opt-in snapshots/RPCs. Sensitive categories (especially marriage) require person-level consent. Do not infer family relationship from surname, caste/community, city or similarity. Community publishing must always identify its scope (chapter/city/umbrella) and offer a recovery/unpublish path.
+
+## Cross-family trust / introduction rules
+- Cross-family connection edges must be explicit and accepted by both families before they can power paths.
+- Family trust-edge creation/revocation is Family Owner/admin governed; normal members cannot alter family-level trust.
+- Same surname, community, geography or inferred similarity must never create a connection path.
+- Person-level connector wording requires explicit opt-in from the named bridge person; until then show family-level paths only.
+- Introduction requests may reference only opt-in community profile cards and must not reveal private phone/email/tree data.
+- Preserve a path snapshot for explainability/audit, but do not treat old snapshots as proof that a currently revoked path still exists.
+
+## Quiet return-loop rule (S2-D)
+- Do not create high-frequency notification pressure merely to increase sessions.
+- Digest generation must stay active-family scoped and preference-aware.
+- Shared digest content must be an explicit safe summary; never serialize private profile/contact/tree data into share text.
+- Playground/demos must never write digest engagement into a signed-in user's real family.
+- External email/push providers are replaceable delivery infrastructure, not product architecture; preserve one canonical digest/preference model.

@@ -287,3 +287,9 @@ S2 remains **LIVE VERIFY**. The next batch must respond to pilot evidence, with 
 
 ### S2 community expansion update
 S2-B establishes the first distribution bridge beyond one family: approved community umbrellas + opt-in people/needs discovery. This can become a defensible acquisition loop because each family remains the trusted identity source while the broader community creates utility across families. Next intelligence should be verified cross-family introductions/connection paths, not generic public social networking.
+
+### S2-C update — trust graph begins compounding
+S2-C adds a second defensible graph above the private family graph: explicit, revocable trust edges between families. Community discovery can now answer “is there a trusted path?” without revealing family structure. This strengthens the long-term moat because useful introductions depend on accumulated, consented trust history rather than a searchable directory alone.
+
+### S2-D delivered — Quiet Family Digest + Return Engine
+The return loop now has a compact product surface: meaningful family change is condensed into a private digest, shareable safely, with measurable opens/returns/shares. This is more strategically useful than adding a generic feed because it tests whether the trusted family graph creates recurring emotional/utility value. Provider-specific email/push delivery remains secondary to proving that the digest itself is worth opening.

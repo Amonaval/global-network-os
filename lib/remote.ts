@@ -14,7 +14,7 @@ import {
 import {MemberInvitation,ContributionSuggestion,CommunityGroup,CommunityEvent,ParticipationMetrics} from "./participation-types";
 import { NetworkSettings } from "./network";
 import { resolveSignedUrls } from "./storage";
-import type {CommunitySpace,CommunityProfileCard,CommunityPost,PendingCommunityLink,CommunityProfileCategory,CommunityPostCategory} from "./community-network-types";
+import type {CommunitySpace,CommunityProfileCard,CommunityPost,PendingCommunityLink,CommunityProfileCategory,CommunityPostCategory,CommunityTrustConnection,TrustedConnectionPath,CommunityIntroduction} from "./community-network-types";
 
 const mapMember = (m: any): Member => ({
   ...m,
@@ -684,10 +684,22 @@ export type NotificationPreferences={
   special_days:boolean;
   memories:boolean;
   gatherings:boolean;
+  contributions:boolean;
+  introductions:boolean;
+  family_changes:boolean;
+  preferred_weekday:number;
 };
 
+export type FamilyDigestItem={id?:string;title:string;body?:string;created_at?:string;updated_at?:string;member_name?:string;full_name?:string;city?:string;profession?:string;event_at?:string;location?:string;status?:string;direction?:"incoming"|"outgoing";person_name?:string};
+export type FamilyDigest={
+  generated_at:string;network_name?:string;days:number;last_opened_at?:string;new_since_last_open:number;
+  recent_memories:FamilyDigestItem[];new_members:FamilyDigestItem[];gatherings:FamilyDigestItem[];
+  open_contributions:number;contribution_hint?:string;introductions:FamilyDigestItem[];
+};
+
+const defaultNotificationPreferences:NotificationPreferences={digest:"weekly",special_days:true,memories:false,gatherings:true,contributions:true,introductions:true,family_changes:true,preferred_weekday:0};
 export async function fetchNotificationPreferences():Promise<NotificationPreferences>{
-  if(!supabase)return {digest:"weekly",special_days:true,memories:false,gatherings:true};
+  if(!supabase)return {...defaultNotificationPreferences};
   const {data,error}=await supabase.rpc("get_my_notification_preferences");
   if(error)throw error;
   const value=data as Partial<NotificationPreferences>|null;
@@ -697,13 +709,25 @@ export async function fetchNotificationPreferences():Promise<NotificationPrefere
     special_days:value?.special_days!==false,
     memories:value?.memories===true,
     gatherings:value?.gatherings!==false,
+    contributions:value?.contributions!==false,
+    introductions:value?.introductions!==false,
+    family_changes:value?.family_changes!==false,
+    preferred_weekday:Number.isInteger(value?.preferred_weekday)?Math.max(0,Math.min(6,Number(value?.preferred_weekday))):0,
   };
 }
 export async function saveNotificationPreferences(input:NotificationPreferences){
   if(!supabase)return;
-  const {error}=await supabase.rpc("save_my_notification_preferences",{p_digest:input.digest,p_special_days:input.special_days,p_memories:input.memories,p_gatherings:input.gatherings});
+  const {error}=await supabase.rpc("save_my_digest_preferences",{p_digest:input.digest,p_special_days:input.special_days,p_memories:input.memories,p_gatherings:input.gatherings,p_contributions:input.contributions,p_introductions:input.introductions,p_family_changes:input.family_changes,p_preferred_weekday:input.preferred_weekday});
   if(error)throw error;
 }
+export async function fetchMyFamilyDigest(days=7):Promise<FamilyDigest>{
+  if(!supabase)return {generated_at:new Date().toISOString(),days,new_since_last_open:0,recent_memories:[],new_members:[],gatherings:[],open_contributions:0,introductions:[]};
+  const {data,error}=await supabase.rpc("get_my_family_digest",{p_days:Math.max(1,Math.min(31,days))});if(error)throw error;
+  const value=(data||{}) as Partial<FamilyDigest>;
+  return {generated_at:value.generated_at||new Date().toISOString(),network_name:value.network_name,days:Number(value.days||days),last_opened_at:value.last_opened_at,new_since_last_open:Number(value.new_since_last_open||0),recent_memories:value.recent_memories||[],new_members:value.new_members||[],gatherings:value.gatherings||[],open_contributions:Number(value.open_contributions||0),contribution_hint:value.contribution_hint,introductions:value.introductions||[]};
+}
+export async function markFamilyDigestOpened(){if(!supabase)return;const {error}=await supabase.rpc("mark_family_digest_opened");if(error)throw error;}
+export async function markFamilyDigestShared(channel:"native"|"copy"="copy"){if(!supabase)return;const {error}=await supabase.rpc("mark_family_digest_shared",{p_channel:channel});if(error)throw error;}
 export async function fetchCommunityEventAttendees(eventId:string){
   if(!supabase)return [] as {member_id?:string;full_name:string;response:string;guest_count:number}[];
   const {data,error}=await supabase.rpc("get_community_event_attendees",{p_event_id:eventId}); if(error)throw error; return (data||[]) as {member_id?:string;full_name:string;response:string;guest_count:number}[];
@@ -722,3 +746,13 @@ export async function searchCommunityProfiles(spaceId:string,category="",query="
 export async function publishCommunityPost(input:{space_id:string;category:CommunityPostCategory;title:string;body?:string;city?:string;target_member_id?:string}){if(!supabase)return;const {data,error}=await supabase.rpc("publish_community_post",{p_space_id:input.space_id,p_category:input.category,p_title:input.title,p_body:input.body||null,p_city:input.city||null,p_target_member_id:input.target_member_id||null});if(error)throw error;return data as string;}
 export async function fetchCommunityPosts(spaceId:string,category=""):Promise<CommunityPost[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_community_posts",{p_space_id:spaceId,p_category:category||null});if(error)throw error;return (data||[]) as CommunityPost[];}
 export async function setCommunityProfileFeatured(cardId:string,featured:boolean,label?:string){if(!supabase)return;const {error}=await supabase.rpc("set_community_profile_featured",{p_card_id:cardId,p_featured:featured,p_label:label||null});if(error)throw error;}
+
+export async function requestFamilyTrustConnection(spaceId:string,targetNetworkId:string,contextLabel?:string){if(!supabase)return;const {data,error}=await supabase.rpc("request_family_trust_connection",{p_space_id:spaceId,p_target_network_id:targetNetworkId,p_context_label:contextLabel||null});if(error)throw error;return data as string;}
+export async function fetchFamilyTrustConnections(spaceId:string):Promise<CommunityTrustConnection[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_my_family_trust_connections",{p_space_id:spaceId});if(error)throw error;return (data||[]) as CommunityTrustConnection[];}
+export async function reviewFamilyTrustConnection(edgeId:string,accept:boolean){if(!supabase)return;const {error}=await supabase.rpc("review_family_trust_connection",{p_edge_id:edgeId,p_accept:accept});if(error)throw error;}
+export async function revokeFamilyTrustConnection(edgeId:string){if(!supabase)return;const {error}=await supabase.rpc("revoke_family_trust_connection",{p_edge_id:edgeId});if(error)throw error;}
+export async function fetchTrustedConnectionPath(spaceId:string,targetNetworkId:string):Promise<TrustedConnectionPath|undefined>{if(!supabase)return;const {data,error}=await supabase.rpc("get_trusted_connection_path",{p_space_id:spaceId,p_target_network_id:targetNetworkId});if(error)throw error;return (data||[])[0] as TrustedConnectionPath|undefined;}
+export async function requestCommunityIntroduction(cardId:string,message?:string){if(!supabase)return;const {data,error}=await supabase.rpc("request_community_introduction",{p_card_id:cardId,p_message:message||null});if(error)throw error;return data as string;}
+export async function fetchMyCommunityIntroductions():Promise<CommunityIntroduction[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_my_community_introductions");if(error)throw error;return (data||[]) as CommunityIntroduction[];}
+export async function respondToCommunityIntroduction(requestId:string,accept:boolean){if(!supabase)return;const {error}=await supabase.rpc("respond_to_community_introduction",{p_request_id:requestId,p_accept:accept});if(error)throw error;}
+export async function cancelCommunityIntroduction(requestId:string){if(!supabase)return;const {error}=await supabase.rpc("cancel_community_introduction",{p_request_id:requestId});if(error)throw error;}

@@ -87,3 +87,11 @@ Do not turn Family Network into a generic feed. A return surface should answer a
 
 ## Community expansion principle
 The community layer can multiply distribution and utility, but must not destroy the trust moat. **Family graph private by default; community discoverability explicit by choice.** Maheshwari/Pune/etc. should be an umbrella for introductions, opportunity and shared identity — not an excuse to expose every family member. Prefer introductions over direct contact leakage. Do not build caste/community popularity leaderboards; use curated Community Highlights by useful category. A future “how are we connected?” capability must use explicit trusted cross-family edges, never inferred caste/surname kinship.
+
+## S2-C founder rule — never fake trust
+A connection path is valuable only if every hop is explainable and explicitly accepted. Never manufacture social proof from surname, caste/community membership, city, school, profession or graph similarity. A smaller trusted graph is more defensible than a larger speculative one.
+
+Introduction success is a future business signal, but privacy and consent outrank conversion. Do not expose private contact details merely because a request is accepted; hand-off mechanics must remain deliberate.
+
+## S2-D founder rule — earn the return without becoming noisy
+A family product should not copy the engagement mechanics of public social media. Prefer a small number of emotionally or practically relevant updates over infinite feeds and notification volume. A weekly digest is successful when relatives voluntarily return, contribute or share—not when notification counts increase.

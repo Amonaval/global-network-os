@@ -280,3 +280,22 @@ S2-A adds a Home Family Pulse capped at 1–3 relevant moments, memory reactions
 
 ## S2-B Community umbrella
 Migration `038_s2b_community_umbrella_discovery.sql`, `components/CommunityNetwork.tsx`, `lib/community-network-types.ts` and the S2-B remote functions provide hierarchical communities, governed family links, opt-in profile snapshots and community posts. `connect.community` now surfaces the Community Network UI. Direct cross-family family-table access is intentionally not used.
+
+## S2-C additions
+- `supabase/migrations/039_s2c_trusted_introductions.sql` — governed family trust edges, shortest family path RPCs and persisted introduction requests.
+- `lib/community-network-types.ts` — trust/path/introduction types.
+- `lib/remote.ts` — S2-C RPC clients.
+- `components/CommunityNetwork.tsx` — Trusted Families and Introductions tabs, connection-path badges and request modal.
+- `scripts/s2-c-source-gate.mjs` — source invariants for S2-C.
+- `S2-C-TRUSTED-INTRODUCTIONS-CONNECTION-PATHS.md` — mission contract and live behavior gate.
+
+## S2-D — Quiet Family Digest + Return Engine
+- `components/FamilyDigest.tsx`: private Home digest and privacy-safe sharing.
+- `components/FamilyHome.tsx`: mounts digest for Simple/Connected/Explorer and blocks demo engagement writes.
+- `components/CommunityHub.tsx`: expanded quiet digest preference controls.
+- `supabase/migrations/040_s2d_quiet_family_digest_return_engine.sql`: digest generation/state/preferences + return metrics.
+- `lib/remote.ts`: digest/preference RPC clients.
+- `components/ParticipationCenter.tsx`: digest opens/returns/shares in S2 loop scorecard.
+- `scripts/s2-d-source-gate.mjs`: S2-D source invariant gate.
+
+Note: migration `039_s2c_trusted_introductions.sql` is included again in the S2-D affected package because the prior S2-C packaging omitted that migration even though S2-C source depended on it.

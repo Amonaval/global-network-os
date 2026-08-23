@@ -18,7 +18,10 @@
     "validate:s1-c": "node scripts/s1-c-source-gate.mjs",
     "validate:s1-hardening": "node scripts/s1-hardening-source-gate.mjs",
     "validate:s1-d": "node scripts/s1-d-source-gate.mjs",
-    "validate:s2-a": "node scripts/s2-a-source-gate.mjs"
+    "validate:s2-a": "node scripts/s2-a-source-gate.mjs",
+    "validate:s2-b": "node scripts/s2-b-source-gate.mjs",
+    "validate:s2-c": "node scripts/s2-c-source-gate.mjs",
+    "validate:s2-d": "node scripts/s2-d-source-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

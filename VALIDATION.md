@@ -140,3 +140,21 @@ Run `npm run validate:s2-a` after migration 037 is present. Live verify: Family 
 
 ## S2-B residual live validation
 Run migration 038, create/link at least two test families under one city community, approve the links, opt in one profile in each family, and prove cross-family search returns only the published snapshot. Verify direct family profile/tree/contact access remains denied. Test marriage consent guard, unpublish, service post, Platform Owner highlighting, and 360/390/430 mobile behavior.
+
+## S2-C validation
+Source gate: `node scripts/s2-c-source-gate.mjs` → **16/16 PASS**.
+
+Still requires deployed multi-family behavior testing after migration 039:
+1. Family A requests trust with Family B; only B Owner/admin can approve.
+2. Accepted A↔B edge creates a one-hop path; declined/revoked edge does not.
+3. With accepted B↔C, Family A gets A→B→C and no invented person-level relation wording.
+4. Normal member cannot create/revoke family trust edges.
+5. Introduction request persists against an opt-in community card; target owner can accept/decline and requester can cancel while pending.
+6. Private phone/email/tree data remain unavailable across families.
+7. Playground demonstrates paths and introduction lifecycle without writes.
+8. 360/390/430 mobile tabs, path badges, trust actions and introduction modal remain usable.
+
+## S2-D validation
+Source gate: `npm run validate:s2-d`.
+
+Live verify must cover: digest content after real family changes, category preferences, weekly/monthly/off semantics, 360/390/430px expansion, native share + clipboard fallback, no Playground writes, introduction privacy, and Family Owner digest-return metrics. External scheduled delivery is not certified by the S2-D source gate.
