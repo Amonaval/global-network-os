@@ -286,3 +286,12 @@ CR1 introduces new release-gate checks:
 - Larger Text on 360/390/430px does not overflow primary screens.
 
 **Privacy caveat:** contact privacy is not certified merely because the UI hides phone/email. Before enabling broader contact sharing/public capability, CR1.2 must prove sanitized data access and member-owned contact verification/consent.
+
+## CR2 onboarding certification addendum
+V1 Alpha cannot be certified until the new no-family journey is verified on live Supabase after migration 031:
+- Join / Sample / Create choices render for a new user with no memberships;
+- Family Code join creates only a normal membership and cannot steal/claim a profile;
+- verified-email claim works only for the authenticated confirmed email;
+- Sample Family is read-only and returns cleanly to real onboarding;
+- Alpha auto-approval permits immediate empty/Excel family creation while approval is OFF;
+- turning approval ON restores the platform-owner approval queue without redeploying.

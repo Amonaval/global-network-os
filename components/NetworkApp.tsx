@@ -76,7 +76,7 @@ import FamilyHome from "./FamilyHome";
 import FamilySwitcher from "./FamilySwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
 import FounderLaunchConsole from "./FounderLaunchConsole";
-import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest } from "../lib/remote";
+import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
@@ -100,7 +100,7 @@ export default function NetworkApp() {
     : language === "mr"
       ? { title:"कुटुंब सदस्य", subtitle:"नाव, व्यवसाय किंवा ठिकाणाने नातेवाईक शोधा.", search:"कुटुंबात शोधा…", professions:"सर्व व्यवसाय", locations:"सर्व ठिकाणे", generations:"सर्व पिढ्या", allLife:"हयात + स्मरणार्थ", living:"हयात", memorial:"स्मरणार्थ", clear:"साफ करा", of:"पैकी", view:"प्रोफाइल पहा", focus:"शाखा पहा" }
       : { title:"Find family", subtitle:"Find relatives by name, profession or location.", search:"Search family members…", professions:"All professions", locations:"All locations", generations:"All generations", allLife:"Living + In memoriam", living:"Living", memorial:"In memoriam", clear:"Clear", of:"of", view:"View profile", focus:"View branch" };
-  const helpCopy = language === "hi" ? { title:"परिवार उपयोग सहायता", close:"बंद करें", intro:"यहाँ सबसे जरूरी काम आसानी से किए जा सकते हैं:", items:["परिवार वृक्ष: खोजें, किसी व्यक्ति पर टैप करें और उनकी पारिवारिक शाखा देखें।","परिवार: नाम, शहर या पेशे से रिश्तेदार खोजें।","प्रोफ़ाइल: अपनी जानकारी, तस्वीर और रिश्ते देखें या अपडेट का अनुरोध करें।","Excel: मार्गदर्शित workbook डाउनलोड करें और जोड़ने से पहले हर व्यक्ति व रिश्ता जाँचें।","गोपनीयता: निजी संपर्क केवल परिवार द्वारा अनुमति प्राप्त लोगों को दिखते हैं।","और: स्थान, भाषा, सहायता, privacy preview और family settings यहाँ मिलते हैं।"] } : language === "mr" ? { title:"कुटुंब वापर मदत", close:"बंद करा", intro:"येथे महत्त्वाची कामे सहज करता येतात:", items:["कुटुंब वृक्ष: शोधा, व्यक्तीवर टॅप करा आणि त्यांची कौटुंबिक शाखा पहा.","कुटुंब: नाव, शहर किंवा व्यवसायाने नातेवाईक शोधा.","प्रोफाइल: आपली माहिती, छायाचित्र आणि नाती पहा किंवा बदल सुचवा.","Excel: मार्गदर्शित workbook डाउनलोड करा आणि जोडण्याआधी प्रत्येक व्यक्ती व नाते तपासा.","गोपनीयता: खाजगी संपर्क फक्त कुटुंबाने परवानगी दिलेल्या लोकांना दिसतात.","अधिक: ठिकाणे, भाषा, मदत, privacy preview आणि family settings येथे आहेत."] } : { title:"Family help", close:"Close", intro:"The most important things are easy to find:", items:["Family Tree: search, tap a person and explore their family branch.","Family: find relatives by name, city or profession.","Profile: view your information, photo and relationships or ask for an update.","Excel: download the guided workbook and review every person and relationship before adding them.","Privacy: private contact details are shown only to people your family allows.","More: find Places, language, Help, information preview and family settings here."] };
+  const helpCopy = language === "hi" ? { title:"परिवार उपयोग सहायता", close:"बंद करें", intro:"यहाँ सबसे जरूरी काम आसानी से किए जा सकते हैं:", items:["परिवार वृक्ष: खोजें, किसी व्यक्ति पर टैप करें और उनकी पारिवारिक शाखा देखें।","परिवार: नाम, शहर या पेशे से रिश्तेदार खोजें।","प्रोफ़ाइल: अपनी जानकारी, तस्वीर और रिश्ते देखें या अपडेट का अनुरोध करें।","Excel: मार्गदर्शित workbook डाउनलोड करें और जोड़ने से पहले हर व्यक्ति व रिश्ता जाँचें।","गोपनीयता: निजी संपर्क केवल परिवार द्वारा अनुमति प्राप्त लोगों को दिखते हैं।","और: स्थान, भाषा, सहायता, privacy preview और family settings यहाँ मिलते हैं।"] } : language === "mr" ? { title:"कुटुंब वापर मदत", close:"बंद करा", intro:"येथे महत्त्वाची कामे सहज करता येतात:", items:["कुटुंब वृक्ष: शोधा, व्यक्तीवर टॅप करा आणि त्यांची कौटुंबिक शाखा पहा.","कुटुंब: नाव, शहर किंवा व्यवसायाने नातेवाईक शोधा.","प्रोफाइल: आपली माहिती, छायाचित्र आणि नाती पहा किंवा बदल सुचवा.","Excel: मार्गदर्शित workbook डाउनलोड करा आणि जोडण्याआधी प्रत्येक व्यक्ती व नाते तपासा.","गोपनीयता: खाजगी संपर्क फक्त कुटुंबाने परवानगी दिलेल्या लोकांना दिसतात.","अधिक: ठिकाणे, भाषा, मदत, privacy preview आणि family settings येथे आहेत."] } : { title:"Quick start · Family help", close:"Close", intro:"The easiest way to use the app:", items:["1. Home: see what matters today and use See my family.","2. Family: starts with your direct lineage on mobile. Tap a person to view their profile; switch to Full Tree only when you want every branch.","3. Me: check your own profile and ask for corrections when something is wrong.","4. Joining: use a private invitation link, the short Family Code from your admin, or claim a profile that matches your verified email.","5. Creating: choose Create my family, then use the guided Excel workbook or start with a few relatives. Excel previews data before anything is added.","6. Explore first: Sample Family is read-only, so you can learn the app without creating real data.","Privacy: private contact details and family-only data stay behind family access rules."] };
   const mapCopy = language === "hi" ? { title:"परिवार कहाँ रहता है", subtitle:"शहर के स्तर पर परिवार के स्थान। बड़े निशान उस शहर में अधिक सदस्यों को दिखाते हैं।", privacy:"गोपनीयता:", detail:"केवल शहर का स्थान दिखाया जाता है।", have:"सदस्यों के स्थान उपलब्ध हैं।" } : language === "mr" ? { title:"कुटुंब कुठे राहते", subtitle:"शहर पातळीवरील कौटुंबिक ठिकाणे. मोठे चिन्ह त्या शहरात अधिक सदस्य दाखवते.", privacy:"गोपनीयता:", detail:"फक्त शहराचे ठिकाण दाखवले जाते.", have:"सदस्यांची ठिकाणे उपलब्ध आहेत." } : { title:"Where our family lives", subtitle:"City-level family locations. Larger markers mean more relatives in that city.", privacy:"Privacy:", detail:"Only city-level locations are shown.", have:"members have locations." };
   const [network, setNetwork] = useState<NetworkSettings | null>(null),
     [view, setView] = useState<View>("home"),
@@ -113,6 +113,9 @@ export default function NetworkApp() {
     [passwordRecovery, setPasswordRecovery] = useState(false),
     [setupNeeded, setSetupNeeded] = useState(false),
     [pendingFamilyRequest, setPendingFamilyRequest] = useState<FamilyCreationRequest | null>(null),
+    [familyCreationApprovalRequired,setFamilyCreationApprovalRequired]=useState(true),
+    [claimableProfiles,setClaimableProfiles]=useState<ClaimableFamilyProfile[]>([]),
+    [demoPreview,setDemoPreview]=useState(false),
     [editingMember, setEditingMember] = useState<Member | undefined>();
   const [platformFeatures,setPlatformFeatures]=useState<EffectiveFeatureMap>(()=>defaultFeatureMap(!isSupabaseConfigured)),
     [experiencePreview,setExperiencePreview]=useState<ExperienceLevel|null>(null),
@@ -187,11 +190,13 @@ export default function NetworkApp() {
     setNetwork(n);
     setSetupNeeded(!n);
     if(repository.mode === "shared" && u && !n){
+      try{setFamilyCreationApprovalRequired(await fetchFamilyCreationPolicy())}catch{setFamilyCreationApprovalRequired(true)}
+      try{setClaimableProfiles(await fetchMyClaimableProfiles())}catch{setClaimableProfiles([])}
       try{
         const requests=await fetchMyFamilyCreationRequests();
         setPendingFamilyRequest(requests.find(item=>item.status==="pending")||null);
       }catch{setPendingFamilyRequest(null)}
-    } else { setPendingFamilyRequest(null); }
+    } else { setPendingFamilyRequest(null); setClaimableProfiles([]); }
     if (n) {
       const s = await repository.fetchState(
         u?.role === "admin" ? "admin" : "member",
@@ -356,10 +361,10 @@ export default function NetworkApp() {
         "The selected starting data contains integrity errors. Fix the data before creating the network.",
       );
     if (repository.mode === "shared") {
-      if(!auth?.platform_owner){
+      if(!auth?.platform_owner && familyCreationApprovalRequired){
         await requestFamilyCreation(settings.name, settings.description || "");
         const requests=await fetchMyFamilyCreationRequests();
-        setPendingFamilyRequest(requests.find(item=>item.status==="pending")||requests[0]||null);
+        setPendingFamilyRequest(requests.find(item=>item.status==="pending")||null);
         notify("Family request sent to the platform owner for approval.");
         return;
       }
@@ -387,6 +392,7 @@ export default function NetworkApp() {
       if (mode === "empty") setSubmissions([]);
     }
     setSetupNeeded(false);
+    setDemoPreview(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
     notify(`${settings.name} is ready.`);
   };
@@ -558,6 +564,16 @@ export default function NetworkApp() {
   const clearFocus = () => {
     setFocusId(undefined);
     setLineageOnly(false);
+  };
+  const showMyLineage = () => {
+    if (!auth?.member_id) return;
+    setFocusId(auth.member_id);
+    setLineageOnly(true);
+    setQuery("");
+    setProfession("");
+    setCity("");
+    setGeneration("");
+    setLifeStatus("all");
   };
   const importData = async (ms: Member[], rs: Relationship[]) => {
     try {
@@ -909,7 +925,7 @@ export default function NetworkApp() {
         )}
       </div>
     );
-  const canAdmin = !isSupabaseConfigured || network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.role === "admin";
+  const canAdmin = !demoPreview && (!isSupabaseConfigured || network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.role === "admin");
   const isPlatformOwner = !isSupabaseConfigured || !!auth?.platform_owner;
   const experience:ExperienceLevel = experiencePreview || (!isSupabaseConfigured ? "explorer" : (auth?.experience_level || "simple"));
   const hasFeature=(key:FeatureKey)=>isFeatureAvailable(key,platformFeatures,experience,canAdmin);
@@ -976,10 +992,14 @@ export default function NetworkApp() {
   if (setupNeeded)
     return (
       <>
-        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval from a platform owner. Once approved, you will become its Family Owner and can add relatives or import your family list.</p><div className="notice"><b>Status:</b> Waiting for approval</div><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><small>You do not need to create another request.</small></div></div> : <SetupScreen
+        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval. You can still explore the sample family while you wait.</p><div className="notice"><b>Status:</b> Waiting for approval</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><button className="btn" onClick={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setDemoPreview(true);setSetupNeeded(false);setView("home")}}>Explore sample</button></div></div></div> : <SetupScreen
           shared={isSupabaseConfigured}
           canSetup={canSetupFamily}
-          approvalRequired={isSupabaseConfigured&&!isPlatformOwner}
+          approvalRequired={isSupabaseConfigured&&!isPlatformOwner&&familyCreationApprovalRequired}
+          claimableProfiles={claimableProfiles}
+          onClaimProfile={async(memberId)=>{await claimProfileByVerifiedEmail(memberId);await hydrate(await getAuthUser());setView("home");notify("Welcome to your family.")}}
+          onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify("Family joined. Welcome!")}}
+          onExploreDemo={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setDemoPreview(true);setSetupNeeded(false);setView("home")}}
           onCreate={createNetwork}
         />}
         {toast && (
@@ -1013,8 +1033,9 @@ export default function NetworkApp() {
             {isSupabaseConfigured ? <><Database size={12} /> {t("sharedFamily")}</> : <>{t("localFamily")}</>}
           </span>}
         </div>
+        {demoPreview&&<div className="demo-preview-banner"><Sparkles size={14}/><span>Sample family · read-only</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>Join or create mine</button></div>}
         <div className={`top-actions ${experience==="simple"&&!canAdmin?"simple-top-actions":""}`}>
-          {isSupabaseConfigured && (canAdmin || experience!=="simple") && <FamilySwitcher onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>setSetupNeeded(true)} />}
+          {isSupabaseConfigured && !demoPreview && (canAdmin || experience!=="simple") && <FamilySwitcher onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>setSetupNeeded(true)} />}
           <LanguageSwitcher compact />
           {isSupabaseConfigured && canAdmin && (
             <span className="person-meta">
@@ -1138,20 +1159,32 @@ export default function NetworkApp() {
                       <ArrowRight size={14} style={{transform:"rotate(180deg)"}} /> Back to profile
                     </button>
                   )}
-                  {focusId && (
+                  {focusId ? (
                     <button className="btn small" onClick={clearFocus}>
                       <GitBranch size={14} /> Full Tree
                     </button>
+                  ) : auth?.member_id ? (
+                    <button className="btn small" onClick={showMyLineage}>
+                      <Eye size={14} /> My Lineage
+                    </button>
+                  ) : null}
+                  {focusId && focusId !== auth?.member_id && (
+                    <button className="btn small" onClick={showMyLineage}>
+                      <Eye size={14} /> My Lineage
+                    </button>
                   )}
-                  <button
-                    className="btn small"
-                    disabled={!focusId}
-                    onClick={() => setLineageOnly((x) => !x)}
-                  >
-                    <Eye size={14} />{" "}
-                    {lineageOnly ? "Focused lineage" : "Lineage focus"}
-                  </button>
                 </div>
+              </div>
+              <div className="tree-mobile-view-switch" aria-label="Family tree view">
+                {lineageOnly && focusId ? (
+                  <button className="btn small" onClick={clearFocus}>
+                    <GitBranch size={14} /> View Full Tree
+                  </button>
+                ) : (
+                  <button className="btn small primary" onClick={showMyLineage} disabled={!auth?.member_id}>
+                    <Eye size={14} /> View My Lineage
+                  </button>
+                )}
               </div>
               <div className="search-bar">
                 <Search size={18} color="#7a8496" />

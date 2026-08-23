@@ -366,3 +366,19 @@ Still open / not to be marked complete:
 - V1 real build/Supabase/device/no-coaching certification.
 
 The next gate remains **CR1 verification + V1 Family Alpha Release Certification**, followed by a 2–3 trusted-family pilot before general feature expansion.
+
+## CR2 — Frictionless Family Entry & Alpha Exploration
+**Status: IMPLEMENTED IN SOURCE / ALPHA VERIFY**
+
+Implemented to remove the current Alpha onboarding blocker:
+- new users no longer default to Create Family;
+- Join / Sample / Create entry choices;
+- Family Code join;
+- verified-email profile claim;
+- read-only Sample Family with Supabase auth preserved;
+- Excel creation is prominent again;
+- Launch Control can require or bypass family-creation approval;
+- migration 031 defaults the current Alpha to **auto-approved family creation**;
+- Quick Start user help updated.
+
+Verification pending against live Supabase and real mobile devices. CR2 is not marked complete.

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { ArrowLeft, ArrowRight, Database, FileSpreadsheet, Heart, ShieldCheck, Sparkles, TreePine, UsersRound } from "lucide-react";
+import { ArrowLeft, ArrowRight, FileSpreadsheet, Heart, KeyRound, PlayCircle, ShieldCheck, Sparkles, TreePine, UsersRound } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Member, Relationship } from "../lib/types";
 import { NetworkSettings, NETWORK_TEMPLATES } from "../lib/network";
@@ -15,20 +15,28 @@ const SETUP_COPY = {
   mr: { brand:"आपले कुटुंब", madeFor:"प्रत्येक पिढीसाठी बनवलेले", hero:"आपल्या संपूर्ण कुटुंबासाठी एक सुंदर घर.", heroCopy:"नावे, नाती, छायाचित्रे आणि आठवणी एका सुरक्षित कौटुंबिक जागेत एकत्र आणा, जी प्रत्येकाला सहज समजेल.", simple:"प्रत्येक नातेवाईकासाठी सोपे", privacy:"गोपनीयता कुटुंबाच्या नियंत्रणात", excel:"सोपे Excel मार्गदर्शन", step1:"कुटुंबाचे नाव", step2:"सदस्य जोडा", begin:"चला सुरुवात करूया", create:"आपली कौटुंबिक जागा तयार करा", intro:"ओळखीच्या नावाने सुरुवात करा. छायाचित्रे आणि अधिक माहिती नंतर जोडता येईल.", familyName:"आपल्या कुटुंबाला काय नाव द्यायचे?", familyPlaceholder:"उदा. नंदरा कुटुंब", familyHelp:"हे नाव प्रत्येक पानाच्या वर नातेवाईकांना दिसेल.", description:"कुटुंबाबद्दल थोडे लिहा", optional:"ऐच्छिक", descriptionPlaceholder:"आपल्या नाती, कथा आणि आठवणींसाठी एक जागा…", continue:"पुढे", back:"मागे", howBegin:"आपण सुरुवात कशी करू इच्छिता?", choose:"आपल्याला सर्वात सोपा पर्याय निवडा. पुष्टी करेपर्यंत काहीही सामायिक होणार नाही.", best:"आधीपासून यादी असल्यास सर्वोत्तम", useExcel:"आमचे कुटुंब Excel वापरा", useExcelCopy:"मार्गदर्शित नमुना डाउनलोड करा, निवांत भरा आणि जोडण्याआधी प्रत्येक व्यक्ती व नाते तपासा.", openExcel:"Excel मार्गदर्शक उघडा", few:"काही नातेवाईकांपासून सुरू करा", fewCopy:"रिकामे कुटुंब तयार करा, स्वतःला व जवळच्या नातेवाईकांना जोडा, मग इतरांना आमंत्रित करा.", createFamily:"कुटुंब तयार करा", sample:"नमुना कुटुंब पहा", sampleCopy:"आपली माहिती जोडण्यापूर्वी मोठे, अनेक पिढ्यांचे कुटुंब कसे दिसते ते पहा.", viewSample:"नमुना पहा", control:"आपली माहिती आपल्या नियंत्रणात आहे.", controlCopy:"खाजगी संपर्क आणि कुटुंबातील छायाचित्रे सार्वजनिक पानांवर दाखवली जात नाहीत." },
 } as const;
 
+
+type ClaimableProfile={network_id:string;family_name:string;member_id:string;member_name:string};
 type Props = {
   onCreate: (settings: NetworkSettings, mode: "empty" | "demo" | "import", members?: Member[], relationships?: Relationship[]) => Promise<void> | void;
+  onExploreDemo:()=>void;
+  onJoinCode:(code:string)=>Promise<void>;
+  claimableProfiles?:ClaimableProfile[];
+  onClaimProfile?:(memberId:string)=>Promise<void>;
   shared: boolean;
   canSetup: boolean;
   approvalRequired?: boolean;
 };
 
-export default function SetupScreen({ onCreate, shared, canSetup, approvalRequired=false }: Props) {
+export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],onClaimProfile,shared,canSetup,approvalRequired=false }: Props) {
   const { language } = useLanguage();
   const c = SETUP_COPY[language];
   const nameError = language === "hi" ? "कृपया अपने परिवार को एक नाम दें।" : language === "mr" ? "कृपया आपल्या कुटुंबाला नाव द्या." : "Please give your family space a name.";
+  const [path,setPath]=useState<"entry"|"join"|"create">("entry");
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [joinCode,setJoinCode]=useState("");
   const [busy, setBusy] = useState(false);
   const [showImport, setShowImport] = useState(false);
   const [error, setError] = useState("");
@@ -40,55 +48,54 @@ export default function SetupScreen({ onCreate, shared, canSetup, approvalRequir
     setBusy(true);
     try {
       await onCreate({ id: "network", name: name.trim(), description: description.trim(), entity_label: familyTemplate.entity_label, entity_label_plural: familyTemplate.entity_label_plural, level_label: familyTemplate.level_label, level_label_plural: familyTemplate.level_label_plural, parent_label: familyTemplate.parent_label, child_label: familyTemplate.child_label, peer_label: familyTemplate.peer_label, network_template: "family" }, mode, members, relationships);
-    } catch (e: any) {
-      setError(e.message || "We could not create your family space. Please try again.");
-    } finally { setBusy(false); }
+    } catch (e: any) { setError(e.message || "We could not create your family space. Please try again."); } finally { setBusy(false); }
   };
+  const continueSetup=()=>{if(!name.trim()){setError(nameError);return;}setError("");setStep(2)};
+  const join=async()=>{if(!joinCode.trim())return;setBusy(true);setError("");try{await onJoinCode(joinCode.trim())}catch(e:any){setError(e.message||"We could not join that family. Check the code and try again.")}finally{setBusy(false)}};
+  const claim=async(id:string)=>{if(!onClaimProfile)return;setBusy(true);setError("");try{await onClaimProfile(id)}catch(e:any){setError(e.message||"We could not connect that family profile.")}finally{setBusy(false)}};
 
-  const continueSetup = () => {
-    if (!name.trim()) { setError(nameError); return; }
-    setError(""); setStep(2);
-  };
-
-  return <div className="family-onboarding">
-    <div className="onboarding-decor decor-one" /><div className="onboarding-decor decor-two" />
-    <header className="onboarding-topbar">
-      <div className="onboarding-brand"><span><TreePine size={20} /></span> {c.brand}</div>
-      <LanguageSwitcher />
-    </header>
+  return <div className="family-onboarding alpha-entry">
+    <header className="onboarding-topbar"><div className="onboarding-brand"><span><TreePine size={20}/></span>{c.brand}</div><LanguageSwitcher/></header>
     <main className="onboarding-wrap">
-      <section className="onboarding-story">
-        <span className="warm-kicker"><Heart size={13} fill="currentColor" /> {c.madeFor}</span>
-        <h1>{c.hero}</h1>
-        <p>{c.heroCopy}</p>
-        <div className="onboarding-promises">
-          <span><UsersRound /> {c.simple}</span><span><ShieldCheck /> {c.privacy}</span><span><FileSpreadsheet /> {c.excel}</span>
+      <section className="onboarding-story"><span className="warm-kicker"><Heart size={13} fill="currentColor"/> Made for every generation</span><h1>{path==="entry"?"Your family is one tap away.":path==="join"?"Join your family":"Create your family space"}</h1><p>{path==="entry"?"You can join an existing family, explore a sample, or create your own. You do not need to understand setup or technology first.":path==="join"?"Use the family code shared with you, or connect a profile we found for your verified email.":"Start small, use the guided Excel workbook, or build from a few relatives."}</p></section>
+      <section className="onboarding-card alpha-entry-card">
+      {path==="entry"&&<>
+        <div className="setup-heading"><div className="brand-mark"><TreePine size={24}/></div><div><span className="setup-eyebrow">Welcome</span><h2>What would you like to do?</h2></div></div>
+        {claimableProfiles.length>0&&<div className="claimable-family-box"><span className="warm-kicker">We may have found you</span>{claimableProfiles.slice(0,3).map(p=><div className="claimable-family-row" key={`${p.network_id}-${p.member_id}`}><span><b>{p.member_name}</b><small>{p.family_name}</small></span><button className="btn primary" disabled={busy} onClick={()=>claim(p.member_id)}>This is me</button></div>)}</div>}
+        <div className="alpha-entry-options">
+          <button className="alpha-entry-option primary-choice" onClick={()=>setPath("join")}><span><UsersRound/></span><b>Join my family</b><small>Use a family code or connect a family profile already created for you.</small><em>Join family <ArrowRight size={15}/></em></button>
+          <button className="alpha-entry-option" onClick={onExploreDemo}><span><PlayCircle/></span><b>Explore a sample family</b><small>See the app immediately. Demo data is read-only and your Supabase account stays signed in.</small><em>Explore demo <ArrowRight size={15}/></em></button>
+          <button className="alpha-entry-option" onClick={()=>setPath("create")}><span><TreePine/></span><b>Create my family</b><small>Upload Excel, start with a few relatives, or begin empty.</small><em>{approvalRequired?"Request / create":"Create now"} <ArrowRight size={15}/></em></button>
         </div>
-      </section>
-      <section className="onboarding-card">
-        <div className="setup-progress" aria-label={`Step ${step} of 2`}><span className={step >= 1 ? "active" : ""}><b>1</b> {c.step1}</span><i /><span className={step >= 2 ? "active" : ""}><b>2</b> {c.step2}</span></div>
-        {step === 1 ? <>
-          <div className="setup-heading"><div className="brand-mark"><TreePine size={24} /></div><div><span className="setup-eyebrow">{c.begin}</span><h2>{c.create}</h2></div></div>
-          <p className="setup-intro">{c.intro}</p>
-          <div className="field spacious"><label htmlFor="family-name">{c.familyName}</label><input id="family-name" className="text-input" value={name} onChange={(event) => setName(event.target.value)} placeholder={c.familyPlaceholder} autoFocus aria-describedby="family-name-help" onKeyDown={(event) => event.key === "Enter" && continueSetup()} /><small id="family-name-help">{c.familyHelp}</small></div>
-          <div className="field spacious"><label htmlFor="family-description">{c.description} <em>{c.optional}</em></label><textarea id="family-description" className="text-input" rows={3} value={description} onChange={(event) => setDescription(event.target.value)} placeholder={c.descriptionPlaceholder} /></div>
-          {shared && !canSetup && <div className="notice"><Database size={15} /> Ask a family administrator to complete this first-time setup.</div>}
-          {error && <div className="notice danger-text">{error}</div>}
-          <button className="btn primary setup-next" disabled={!canSetup} onClick={continueSetup}>{c.continue} <ArrowRight size={17} /></button>
-        </> : <>
-          <button className="setup-back" onClick={() => setStep(1)}><ArrowLeft size={15} /> {c.back}</button>
-          <div className="setup-heading compact-heading"><div><span className="setup-eyebrow">{name}</span><h2>{c.howBegin}</h2></div></div>
-          <p className="setup-intro">{c.choose}</p>
-          {approvalRequired ? <div className="family-approval-request card"><ShieldCheck size={22}/><div><strong>Family creation is approved by the platform owner</strong><p>Your request creates no family data yet. After approval, you become the Family Owner and can add relatives or import the guided Excel file.</p></div><button className="btn primary" disabled={busy || !canSetup} onClick={() => create("empty")}>{busy?"Sending…":"Request family approval"} <ArrowRight size={15}/></button></div> : <div className="family-start-options">
-            <button className="family-start-card recommended" disabled={busy || !canSetup} onClick={() => setShowImport(true)}><span className="start-icon"><FileSpreadsheet /></span><span className="recommended-pill">{c.best}</span><strong>{c.useExcel}</strong><small>{c.useExcelCopy}</small><b>{c.openExcel} <ArrowRight size={15} /></b></button>
-            <button className="family-start-card" disabled={busy || !canSetup} onClick={() => create("empty")}><span className="start-icon"><UsersRound /></span><strong>{c.few}</strong><small>{c.fewCopy}</small><b>{c.createFamily} <ArrowRight size={15} /></b></button>
-            <button className="family-start-card" disabled={busy || !canSetup} onClick={() => create("demo")}><span className="start-icon"><Sparkles /></span><strong>{c.sample}</strong><small>{c.sampleCopy}</small><b>{c.viewSample} <ArrowRight size={15} /></b></button>
-          </div>}
-          <div className="setup-privacy"><ShieldCheck size={17} /><span><b>{c.control}</b> {c.controlCopy}</span></div>
-          {error && <div className="notice danger-text">{error}</div>}
+        <div className="setup-privacy"><ShieldCheck size={17}/><span><b>Already invited by a link?</b> Open that private invitation link after signing in and it will connect you to the intended profile.</span></div>
+      </>}
+      {path==="join"&&<>
+        <button className="setup-back" onClick={()=>{setPath("entry");setError("")}}><ArrowLeft size={15}/> Back</button>
+        <div className="setup-heading compact-heading"><div><span className="setup-eyebrow">Fastest way in</span><h2>Enter your family code</h2></div></div>
+        <p className="setup-intro">Ask your family admin for the short code. It lets you explore the private family as a member; you can connect your own profile afterward.</p>
+        <div className="join-code-row"><div className="field"><label>Family code</label><input className="text-input family-code-input" value={joinCode} onChange={e=>setJoinCode(e.target.value.toUpperCase())} placeholder="e.g. A1B2C3D4" maxLength={12} autoCapitalize="characters" onKeyDown={e=>e.key==="Enter"&&join()}/></div><button className="btn primary" disabled={busy||joinCode.trim().length<4} onClick={join}><KeyRound size={16}/>{busy?"Joining…":"Join family"}</button></div>
+        {claimableProfiles.length>0&&<><div className="entry-or"><span>or</span></div><div className="claimable-family-box"><b>Profiles matching your verified email</b>{claimableProfiles.map(p=><div className="claimable-family-row" key={p.member_id}><span><b>{p.member_name}</b><small>{p.family_name}</small></span><button className="btn" disabled={busy} onClick={()=>claim(p.member_id)}>This is me</button></div>)}</div></>}
+        <button className="btn demo-inline" onClick={onExploreDemo}><PlayCircle size={16}/> Just explore the sample instead</button>
+      </>}
+      {path==="create"&&<>
+        <button className="setup-back" onClick={()=>{if(step===2)setStep(1);else setPath("entry");setError("")}}><ArrowLeft size={15}/> Back</button>
+        {step===1?<>
+          <div className="setup-heading"><div><span className="setup-eyebrow">1 · Family basics</span><h2>{c.create}</h2></div></div><p className="setup-intro">Give the family a familiar name. You can add or import people on the next step.</p>
+          <div className="field spacious"><label>{c.familyName}</label><input className="text-input" value={name} onChange={e=>setName(e.target.value)} placeholder={c.familyPlaceholder} autoFocus onKeyDown={e=>e.key==="Enter"&&continueSetup()}/><small>{c.familyHelp}</small></div>
+          <div className="field spacious"><label>{c.description} <em>{c.optional}</em></label><textarea className="text-input" rows={3} value={description} onChange={e=>setDescription(e.target.value)} placeholder={c.descriptionPlaceholder}/></div>
+          <button className="btn primary setup-next" disabled={!canSetup} onClick={continueSetup}>Choose how to start <ArrowRight size={17}/></button>
+        </>:<>
+          <div className="setup-heading compact-heading"><div><span className="setup-eyebrow">2 · {name}</span><h2>Choose the easiest starting point</h2></div></div>
+          {approvalRequired&&<div className="notice"><ShieldCheck size={15}/> Platform approval is currently enabled. Your request will wait for approval before the family is created.</div>}
+          <div className="family-start-options">
+            <button className="family-start-card recommended" disabled={busy||!canSetup} onClick={()=>setShowImport(true)}><span className="start-icon"><FileSpreadsheet/></span><span className="recommended-pill">Best for an existing family list</span><strong>Upload guided Excel</strong><small>Download the template, fill people and relationships, preview everything, then create the family.</small><b>Open Excel guide <ArrowRight size={15}/></b></button>
+            <button className="family-start-card" disabled={busy||!canSetup} onClick={()=>create("empty")}><span className="start-icon"><UsersRound/></span><strong>Start with a few relatives</strong><small>Create the family now, then add yourself, parents, spouse and children one by one.</small><b>{approvalRequired?"Request family":"Create family now"} <ArrowRight size={15}/></b></button>
+          </div>
         </>}
+      </>}
+      {error&&<div className="notice danger-text">{error}</div>}
       </section>
     </main>
-    {showImport && <ImportModal onClose={() => setShowImport(false)} onImport={(members, relationships) => { setShowImport(false); create("import", members, relationships); }} />}
+    {showImport&&<ImportModal onClose={()=>setShowImport(false)} onImport={(members,relationships)=>{setShowImport(false);create("import",members,relationships)}}/>}
   </div>;
 }

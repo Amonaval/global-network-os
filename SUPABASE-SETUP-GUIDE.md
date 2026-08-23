@@ -196,3 +196,22 @@ Before the pre-alpha family rollout, apply `029_pre_alpha_mobile_and_family_crea
 After 029, ordinary authenticated users **cannot directly create a family tenant**. They submit a family request from onboarding. A platform owner opens **Launch Control → Family creation approvals** and approves or rejects it. Approval creates the family and assigns the requester the Family `owner` role. Platform owners may still create a family directly.
 
 Validate with two separate accounts: one ordinary user and one platform owner. Also confirm a non-platform account receives a permission error if it attempts to call `create_family(...)` directly.
+
+## Migration 031 — CR2 Alpha onboarding
+Run `031_cr2_frictionless_alpha_onboarding.sql` after migration 030.
+
+Important: migration 031 intentionally sets **Family creation approval = OFF** for the current trusted Alpha so new signed-in testers can create/import a family without waiting for the Platform Owner.
+
+To change it later:
+1. Sign in as a Platform Owner.
+2. Open **Launch Control**.
+3. Find **Family creation**.
+4. Turn **Approval required** ON.
+
+Migration 031 also adds:
+- Family Codes for quick trusted-member joining;
+- regeneration of Family Codes;
+- verified-email profile matching/claiming;
+- tenant-safe join RPCs.
+
+Do not use Family Codes as public links. They are intended for trusted/private Alpha sharing (for example a family WhatsApp group). Regenerate the code if it is shared outside the intended audience.

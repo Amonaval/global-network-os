@@ -88,6 +88,15 @@ export async function addPlatformOwnerByEmail(email:string){if(!supabase)return;
 export async function removePlatformOwner(userId:string){if(!supabase)return;const {error}=await supabase.rpc("remove_platform_owner",{p_user_id:userId});if(error)throw error;}
 export async function fetchPlatformOwnerAudit(limit=20):Promise<PlatformOwnerAuditRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_platform_owner_audit",{p_limit:limit});if(error)throw error;return (data||[]) as PlatformOwnerAuditRow[];}
 export async function applyAlphaDay1LaunchPreset(){if(!supabase)return 0;const {data,error}=await supabase.rpc("apply_alpha_day1_launch_preset");if(error)throw error;return Number(data||0);}
+
+export type ClaimableFamilyProfile={network_id:string;family_name:string;member_id:string;member_name:string};
+export async function fetchFamilyCreationPolicy():Promise<boolean>{if(!supabase)return false;const {data,error}=await supabase.rpc("get_family_creation_policy");if(error)throw error;return data!==false;}
+export async function setFamilyCreationPolicy(approvalRequired:boolean){if(!supabase)return;const {error}=await supabase.rpc("set_family_creation_policy",{p_approval_required:approvalRequired});if(error)throw error;}
+export async function joinFamilyByCode(code:string){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("join_family_by_code",{p_code:code});if(error)throw error;return data as string;}
+export async function fetchMyClaimableProfiles():Promise<ClaimableFamilyProfile[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_my_claimable_profiles");if(error)throw error;return (data||[]) as ClaimableFamilyProfile[];}
+export async function claimProfileByVerifiedEmail(memberId:string){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("claim_profile_by_verified_email",{p_member_id:memberId});if(error)throw error;return data as string;}
+export async function getOrCreateFamilyJoinCode(){if(!supabase)return"";const {data,error}=await supabase.rpc("get_or_create_family_join_code");if(error)throw error;return String(data||"");}
+export async function regenerateFamilyJoinCode(){if(!supabase)return"";const {data,error}=await supabase.rpc("regenerate_family_join_code");if(error)throw error;return String(data||"");}
 export async function requestFamilyCreation(name:string,description=""){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("request_family_creation",{p_name:name,p_description:description});if(error)throw error;return data as string;}
 export async function fetchMyFamilyCreationRequests():Promise<FamilyCreationRequest[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_my_family_creation_requests");if(error)throw error;return (data||[]) as FamilyCreationRequest[];}
 export async function fetchPlatformFamilyCreationRequests():Promise<PlatformFamilyCreationRequest[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_platform_family_creation_requests");if(error)throw error;return (data||[]) as PlatformFamilyCreationRequest[];}

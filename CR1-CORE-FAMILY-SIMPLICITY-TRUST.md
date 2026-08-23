@@ -92,3 +92,26 @@ After applying migration 030, verify with separate accounts:
 ## Completion rule
 
 CR1 may only become **VERIFIED** after the source gate, production build, migration 030 behavior and real-device checks pass. The six explicitly open items above remain separately tracked even after CR1 verification.
+
+
+## CR1.0.1 — Real-device mobile correction (2026-08-23)
+
+Status: **IMPLEMENTED IN SOURCE / REAL-DEVICE VERIFY**
+
+A real mobile review after CR1 exposed four presentation/navigation regressions that source-only validation did not reveal:
+
+- the Family/Tree hero title could overlap the family avatar stack;
+- the compact lineage status pills could overlay the first relationship/person row;
+- the mobile tree hid the desktop action area, so `Full Tree` was not discoverable;
+- after entering Full Tree there was no persistent mobile action to return to `My Lineage`;
+- profile relationship actions could extend beyond the viewport.
+
+Corrections:
+- mobile Tree hero now gives title and family avatars separate flow space;
+- compact lineage status is in normal document flow rather than absolute overlay;
+- a persistent mobile `View Full Tree` / `View My Lineage` switch is rendered outside the hidden desktop page header;
+- Full Tree therefore always has a route back to the signed-in member's personal lineage;
+- Home hero avatars stack below the title on narrow phones;
+- relationship rows wrap safely and `View profile` remains inside the viewport.
+
+These are **not evidence that CR1 is fully certified**. Re-test at 360px, 390px, 430px and on at least one physical Android/iPhone-sized browser before closing CR1 device verification.

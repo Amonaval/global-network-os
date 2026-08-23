@@ -166,3 +166,47 @@ Before adding AI/analytics/PDF features, prioritize:
 If an account was just created but email confirmation is required, the signup screen explains this and can resend the confirmation email.
 
 Family Owner/Admin access and Platform Launch Control are different. A family administrator manages only their family. Launch Control is available only to separately trusted platform-owner accounts.
+
+---
+
+# Alpha Quick Start — getting into a family
+
+After you sign in, Family Network first checks whether you already belong to a family.
+
+If you do, your family opens automatically.
+
+If you do not, choose one of these:
+
+### Join my family
+Use the short **Family Code** shared by your family administrator. This gives you normal member access so you can explore the family. It does not claim another person's profile.
+
+If the family already contains an unclaimed profile using your **verified sign-in email**, the app may show the matching name and family. Choose **This is me** to connect it.
+
+A private personal invitation link remains the best option when the administrator wants you to claim one exact family profile.
+
+### Explore a sample family
+Choose **Explore a sample family** when you only want to understand the app first. The sample is read-only. Your Supabase account stays signed in, but sample data is not saved into your real family.
+
+Use **Join or create mine** when you are ready to leave the sample.
+
+### Create my family
+For the current invite-only Alpha, Platform Launch Control can allow instant creation without waiting for approval.
+
+Recommended starting methods:
+1. **Upload guided Excel** — best when you already have a family list.
+2. **Start with a few relatives** — create the family immediately and add parents, spouse, children and close relatives one by one.
+
+The Excel assistant provides a downloadable template and checks the people/relationships before import.
+
+## For Family Admins — easiest way to invite relatives
+Open **Manage family → Invitations / Invite Family**.
+
+For quick Alpha exploration, share the **Family Code** in your trusted WhatsApp group. You can regenerate it if it spreads beyond the intended group.
+
+For exact profile ownership, create a **personal invitation link** for the specific member instead.
+
+## Quick navigation
+- **Home** — what matters now and a shortcut to your family.
+- **Family** — your personal lineage first on mobile; use Full Tree only when needed.
+- **Me** — your own profile and information.
+- **Help** — open Quick Start instructions at any time.

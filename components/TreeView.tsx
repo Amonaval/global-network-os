@@ -186,7 +186,7 @@ export default function TreeView({
 
   return (
     <div className="tree-card card">
-      <div className="tree-toolbar">
+      <div className={`tree-toolbar ${compactLineage && focusMemberId ? "lineage-status" : ""}`}>
         <span className="tree-count">{members.length} {copy.shown}</span>
         {focusMemberId && <span className="tree-focus">{copy.focused}</span>}
         <span className="tree-legend">

@@ -527,3 +527,31 @@ Translate generated kinship descriptions for Hindi/Marathi, then validate with f
 8. **M0 Monetization Foundation** after usage/storage evidence; preserve Free/Standard/Premium/Custom candidate architecture without fixing limits/prices prematurely.
 
 All earlier A1–A9, P3/P4/P5/D1, B0 and feedback-led items remain preserved. Hidden/deferred features are not removed and partial work is not equivalent to completed work.
+
+---
+
+## CR2 — Frictionless Family Entry & Alpha Exploration — IMPLEMENTED / VERIFY
+
+**Priority: Alpha blocker.** A user must be able to explore with Supabase enabled without founder coaching.
+
+Delivered in source:
+- no-family landing: Join / Explore Sample / Create;
+- Alpha family-creation auto-approval setting controlled by Platform Owner;
+- migration 031 intentionally sets approval **OFF for the current Alpha**;
+- short Family Code join for trusted relatives;
+- verified-email detection/claim of an existing unclaimed profile;
+- read-only Sample Family while remaining authenticated;
+- prominent Excel-first family creation;
+- quick Invite Family code/share experience;
+- updated in-product Quick Start help.
+
+Still requires live Supabase verification. Do not mark complete based only on source checks.
+
+### CR2 follow-ups preserved, not required for first Alpha
+- CR2.1: invitation detection inside normal post-login landing when a token was opened on another device;
+- CR2.2: richer "connect my joined membership to my profile" assistant after Family Code join;
+- CR2.3: optional QR rendering of Family Code/join URL;
+- CR2.4: Alpha onboarding analytics: signed-up → joined/demo/created → opened tree → returned;
+- CR2.5: safe expiry/rotation policy for Family Codes if/when Alpha expands beyond trusted distribution.
+
+**Immediate release order remains:** CR1 real-device corrections → CR2 live onboarding verification → V1 Alpha certification → 2–3 trusted-family pilot → evidence-driven corrections.
