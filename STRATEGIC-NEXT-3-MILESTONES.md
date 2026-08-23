@@ -301,3 +301,19 @@ Strategic rationale: hidden capability has zero perceived value. A strong living
 
 ### S2-E implementation update — 2026-08-24
 S2-E is now **IMPLEMENTED IN SOURCE / LIVE VERIFY**. The product has a first-class `Explore & Guide` layer, contextual module help, natural-goal search, persona inspiration, Privacy & Trust guidance and structured feedback intelligence. This reduces the breadth/discoverability risk before adding another major engagement surface. Next sequencing should be evidence-led after deployed S2-E behavior verification; previously preserved S2/S3 ideas remain intact.
+
+## 2026-08-24 sequencing update
+
+### Immediate release stream — S2-E Live Certification
+Apply migration 041, verify feedback/RLS/privacy/Playground behavior, test 360/390/430 mobile and run a dependency-complete production build. This is a release-certification stream, not a new feature milestone.
+
+### Next major mission — S3-A Family Activation & Network Growth Engine
+Instrument and improve the family-level path from visit/playground through join/create, first family value, first contribution, invitation acceptance, second contributor and return. Introduce a calm Family Journey/Completeness mechanism and owner-visible activation health.
+
+### Following — S3-B Retention & Compounding Family Value
+Prove D7/D30 family retention and whether deeper graph/history/memory/trust accumulation produces stronger recurring utility.
+
+### Then — S3-C Founder Operations & Scale Proof
+Operate 3→20→50 families with measurable support burden, costs, health and trust signals rather than founder-dependent manual work.
+
+Detailed design lives in `S3-BUSINESS-PROOF-DESIGN.md`.

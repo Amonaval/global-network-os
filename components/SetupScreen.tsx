@@ -106,6 +106,6 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
       {error&&<div className="notice danger-text">{error}</div>}
       </section>
     </main>
-    {showImport&&<ImportModal onClose={()=>setShowImport(false)} onImport={(members,relationships)=>{setShowImport(false);create("import",members,relationships)}}/>}
+    {showImport&&<ImportModal onClose={()=>setShowImport(false)} onImport={(members,relationships)=>{setShowImport(false);create("import",members,relationships)}} onOpenGuide={onOpenGuide}/>}
   </div>;
 }

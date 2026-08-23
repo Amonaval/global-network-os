@@ -243,3 +243,7 @@ Each major product area also includes a collapsible **What can I do here?** guid
 The complete Guide includes the product story, persona journeys for different generations and family roles, feature library, goal explorer, ideas for your family, Family Owner playbook, First 7 Steps, Privacy & Trust Center, What's New and a curated Being Explored area. Feature visibility and role-specific guidance follow the current product configuration; Platform Owner controls are not shown as ordinary member actions.
 
 Users can send structured feedback such as something confusing/missing, a feature or improvement idea, a bug, or a family need. Do not include private family stories, contact information or sensitive profile content in feedback. Product-interest clicks and feedback are signals only; they do not automatically commit the roadmap.
+
+## Explore & Guide closure note
+
+Explore & Guide now includes contextual help not only on the main Family Network screens but also inside important tasks such as viewing a profile, importing Excel/CSV, inviting relatives and managing relationships. Platform Owners also have a dedicated guide entry for structured feedback triage. Deployment-sensitive privacy or governance behavior may still appear as **Live · verify deployment** until the target environment is certified.

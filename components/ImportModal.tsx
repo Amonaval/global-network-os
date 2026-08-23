@@ -6,6 +6,8 @@ import { AlertTriangle, ArrowLeft, ArrowRight, CheckCircle2, Download, FileCheck
 import { Member, Relationship, ValidationIssue } from "../lib/types";
 import { validateImportRows } from "../lib/validation";
 import { useLanguage } from "../lib/i18n";
+import FeatureGuide from "./FeatureGuide";
+import {GUIDE_ENTRIES} from "../lib/user-guide-content";
 
 const IMPORT_COPY = {
   en:{assistant:"Family Excel assistant",title:"Bring your family list",intro:"We guide you from a simple template to a safe preview. Nothing is imported without your confirmation.",templateStep:"Get template",uploadStep:"Upload",reviewStep:"Review",templateTitle:"Start with the guided workbook",templateCopy:"It contains a realistic example and separate sheets for people and relationships.",download:"Download family Excel",how:"How it works",one:"Add each person once.",oneHelp:"Use simple IDs such as P001. Never use Aadhaar or another sensitive ID.",two:"Connect people.",twoHelp:"Choose familiar relationships such as Father, Mother, Son, Daughter, Husband or Wife. Parent, Child and Spouse also work.",three:"Leave unknown details blank.",threeHelp:"A name is enough to start. Friendly IDs and generation help, but you can leave unknown details blank and complete them later.",scripts:"Names can be written in English, हिन्दी, मराठी or any other script.",already:"Already have a completed file?",drop:"Drop it here or choose XLSX, XLS or CSV",cancel:"Cancel",back:"Back",check:"Check family file",checking:"Checking your family…",add:"Add to family",adding:"Adding your family…",looks:"Does this look right?",looksHelp:"Here are the first few people. We will check every row in the next step.",ready:"Your family is ready to add",attention:"A few things need your attention",fix:"Please fix this",review:"Please review",safe:"Safe to continue",safeHelp:"Existing relationships are preserved, uncertain changes are never invented, and private details follow family visibility rules.",chooseAnother:"Choose another"},
@@ -61,7 +63,7 @@ function downloadFamilyTemplate() {
   downloadStaticSample("/family-excel-guided-template.xlsx", "family-excel-guided-template.xlsx");
 }
 
-export default function ImportModal({ onClose, onImport, existingMembers = [], existingRelationships = [] }: { onClose: () => void; onImport: (members: Member[], rels: Relationship[]) => void; existingMembers?: Member[]; existingRelationships?: Relationship[] }) {
+export default function ImportModal({ onClose, onImport, existingMembers = [], existingRelationships = [], onOpenGuide }: { onClose: () => void; onImport: (members: Member[], rels: Relationship[]) => void; existingMembers?: Member[]; existingRelationships?: Relationship[]; onOpenGuide?: (key:string)=>void }) {
   const { language } = useLanguage();
   const c = IMPORT_COPY[language];
   const [stage, setStage] = useState<"guide" | "upload" | "review">("guide");
@@ -170,6 +172,7 @@ export default function ImportModal({ onClose, onImport, existingMembers = [], e
   const importNow = () => { if (!parsed || !report || report.errors.length) return; setBusy(true); try { onImport(parsed.members, parsed.relationships); } catch (exception: any) { setError(exception.message || "We could not add this family. Please try again."); setBusy(false); } };
 
   return <div className="modal-overlay excel-overlay" onMouseDown={(event)=>event.target===event.currentTarget&&onClose()}><div className="modal excel-modal" role="dialog" aria-modal="true" aria-labelledby="excel-title">
+    <FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key==="guided-excel")} onOpenGuide={onOpenGuide} rememberKey="modal-import"/>
     <div className="excel-head"><div><span className="warm-kicker"><FileSpreadsheet size={13} /> {c.assistant}</span><h2 id="excel-title">{c.title}</h2><p>{c.intro}</p></div><button ref={closeButtonRef} className="icon-button" aria-label="Close" onClick={onClose}><X size={19} /></button></div>
     <div className="excel-steps"><span className={stage === "guide" ? "active" : "done"}><b>1</b> {c.templateStep}</span><i /><span className={stage === "upload" ? "active" : stage === "review" ? "done" : ""}><b>2</b> {c.uploadStep}</span><i /><span className={stage === "review" ? "active" : ""}><b>3</b> {c.reviewStep}</span></div>
 

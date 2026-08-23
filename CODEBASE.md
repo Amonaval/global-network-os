@@ -320,3 +320,11 @@ Integration:
 - `components/FounderLaunchConsole.tsx` includes Platform Owner feedback triage; feedback status does not mutate roadmap files.
 - `lib/remote.ts` contains feedback submit/triage/aggregate RPC clients.
 - `app/globals.css` includes responsive Guide layouts through the 390px breakpoint (360/390/430 behavior still requires device/browser verification).
+
+## S2-E release closure additions — 2026-08-24
+
+- `S2-E-RELEASE-CLOSURE.md` — honest source-complete vs live-certification boundary.
+- `S3-BUSINESS-PROOF-DESIGN.md` — canonical S3 evidence/activation/retention/operations/defensibility/monetization design.
+- `scripts/s2-e-release-closure-gate.mjs` — detects broken guide relationships and important nested contextual-guide regressions.
+- Contextual `FeatureGuide` integration expanded into `ProfileDrawer`, `ImportModal`, `InvitationModal` and `RelationshipModal`.
+- Guide registry now includes a Platform Owner-only Feedback Intelligence & Triage entry; all `related` guide references resolve to real registry entries.

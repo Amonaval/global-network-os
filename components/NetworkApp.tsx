@@ -1947,6 +1947,7 @@ export default function NetworkApp() {
           members={members.filter((m) => m.profile_status === "approved")}
           onClose={() => setShowInvitation(false)}
           onDone={notify}
+          onOpenGuide={(key)=>{setShowInvitation(false);openGuide(key)}}
         />
       )}{" "}
       {selected && (
@@ -1988,6 +1989,7 @@ export default function NetworkApp() {
             setEditingLifeEvent(undefined);
             setShowLifeEventEditor(true);
           }:undefined}
+          onOpenGuide={(key)=>{setSelected(null);setSelectedHistory([]);openGuide(key)}}
           onEditEvent={hasFeature("remember.history")?(e) => {
             setEditingLifeEvent(e);
             setShowLifeEventEditor(true);
@@ -2004,6 +2006,7 @@ export default function NetworkApp() {
           onSave={saveRel}
           onDelete={removeRel}
           canRemoveFoundational={!isSupabaseConfigured || network?.membership_role === "owner"}
+          onOpenGuide={(key)=>{setShowRelationships(false);openGuide(key)}}
         />
       )}{" "}
       {showImport && (
@@ -2012,6 +2015,7 @@ export default function NetworkApp() {
           existingRelationships={relationships}
           onClose={() => setShowImport(false)}
           onImport={importData}
+          onOpenGuide={(key)=>{setShowImport(false);openGuide(key)}}
         />
       )}{" "}
       {showForm && (

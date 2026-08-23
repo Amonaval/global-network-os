@@ -579,3 +579,23 @@ Still LIVE VERIFY:
 - every Open Feature / Try in Playground route;
 - privacy wording against deployed runtime/RLS;
 - full dependency-complete Next production build.
+
+## 2026-08-24 — S2-E Release Closure + S3 Design
+
+### S2-E
+Status: **SOURCE-COMPLETE / READY FOR LIVE CERTIFICATION**.
+
+Closure pass fixed broken related-guide navigation and extended contextual guide coverage into Profile, Import, Invitations and Relationship management. New closure gate `scripts/s2-e-release-closure-gate.mjs` passes 13/13. S2-E is not yet production-certified because migration 041, deployed RLS/RPC behavior, real browser/mobile behavior, Playground no-save behavior and dependency-complete production build still require live verification.
+
+### S3
+Status: **DESIGNED / IMPLEMENTATION NOT STARTED**.
+
+Canonical design: `S3-BUSINESS-PROOF-DESIGN.md`.
+Execution order:
+1. S3-A Family Activation & Network Growth Engine.
+2. S3-B Retention & Compounding Family Value.
+3. S3-C Founder Operations & Scale Proof.
+4. S3-D Trust, Portability & Defensibility Proof.
+5. S3-E Willingness-to-Pay & Monetization Proof.
+
+S3 is evidence-led. It must not become another feature-count phase.

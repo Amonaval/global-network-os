@@ -790,3 +790,13 @@ S2-E now exists as a first-class product layer rather than a static documentatio
 The guide registry carries feature/role/status metadata so hidden or uncertain functionality is not presented as universally live. Privacy-sensitive areas remain labelled `Live · verify deployment` until deployed RLS/runtime checks pass. Feedback status changes remain product evidence and never mutate roadmap files automatically.
 
 S2-E does **not** delete or supersede Family Play, Family Watch/contextual social-video memories, external digest delivery, named opt-in introduction bridges, family book/export, community moderation/reputation or S3 defensible-business proof. Those remain preserved for later evidence-led sequencing.
+
+## 2026-08-24 — S2-E Closure and S3 Business-Proof Design
+
+S2-E is now **source-complete / ready for live certification** after a closure audit fixed broken related-guide navigation and added contextual help to high-value nested flows (Profile, Import, Invitations, Relationship management). Production certification remains gated by deployed migration/RLS/RPC/browser/mobile/Playground verification and dependency-complete production build.
+
+The next major outcome milestone is **S3 — Defensible Business Proof**, defined in `S3-BUSINESS-PROOF-DESIGN.md`:
+
+`S3-A activation & network growth → S3-B retention & compounding value → S3-C operations & scale → S3-D trust/defensibility → S3-E willingness-to-pay`
+
+S3 should prioritize real-family evidence over feature breadth. Family Play, Family Watch/social-video memories, external digest delivery, family book/export, richer AI and generic chat remain preserved evidence-gated options rather than deleted roadmap ideas.

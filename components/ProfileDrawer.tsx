@@ -16,6 +16,8 @@ import { LifeEvent, Member, Relationship, Memory } from "../lib/types";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
 import { describeRelationshipToViewer, relationshipLabelToViewer } from "../lib/relationship-intelligence";
 import { useLanguage } from "../lib/i18n";
+import FeatureGuide from "./FeatureGuide";
+import {GUIDE_ENTRIES} from "../lib/user-guide-content";
 
 function initials(name: string) {
   return name
@@ -53,6 +55,7 @@ export default function ProfileDrawer({
   onReportCorrection,
   onAddEvent,
   onEditEvent,
+  onOpenGuide,
 }: {
   member: Member;
   members: Member[];
@@ -75,6 +78,7 @@ export default function ProfileDrawer({
   onReportCorrection?: () => void;
   onAddEvent?: () => void;
   onEditEvent?: (e: LifeEvent) => void;
+  onOpenGuide?: (key:string) => void;
 }) {
   const { t, language } = useLanguage();
   const copy = language === "hi" ? { phone:"फ़ोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोड़ें", noMilestones:"अभी कोई जीवन घटना साझा नहीं की गई।", noMemories:"अभी कोई याद साझा नहीं की गई।", noRelations:"अभी कोई रिश्ता दर्ज नहीं है।", member:"सदस्य", undated:"तारीख नहीं", edit:"बदलें" } : language === "mr" ? { phone:"फोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोडा", noMilestones:"अजून कोणतीही जीवन घटना सामायिक केलेली नाही.", noMemories:"अजून कोणतीही आठवण सामायिक केलेली नाही.", noRelations:"अजून कोणतेही नाते नोंदवलेले नाही.", member:"सदस्य", undated:"तारीख नाही", edit:"बदला" } : { phone:"Phone", email:"Email", about:"About", addEvent:"Add event", noMilestones:"No milestones have been shared yet.", noMemories:"No memories have been shared yet.", noRelations:"No relationships recorded.", member:"Member", undated:"Undated", edit:"Edit" };
@@ -130,6 +134,7 @@ export default function ProfileDrawer({
             <X size={16} />
           </button>
         </div>
+        <FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key==="profiles")} onOpenGuide={onOpenGuide} rememberKey="drawer-profile"/>
         <div className="profile-hero">
 <IdentityAvatar member={member} size="lg" />
           <div>

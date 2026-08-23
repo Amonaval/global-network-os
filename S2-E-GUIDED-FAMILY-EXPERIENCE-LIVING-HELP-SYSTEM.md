@@ -670,3 +670,9 @@ Do not let S2-E consume/erase prior roadmap ideas. Preserve Family Play, context
 Implemented architecture and surfaces: central guide registry/types; reusable `FeatureGuide`; standalone `GuidePortal`; deterministic search; persona/goal/inspiration/Owner/activation content; role/feature filtering; privacy/trust content; Playground actions; governed feedback table/RPC; Platform Owner feedback triage and aggregates; responsive Guide styling; S2-E source gate.
 
 This status does not certify deployed RLS/privacy behavior, mobile real-device usability, feedback RPC execution or a dependency-complete production build. Those remain exit-gate items.
+
+## Release closure update — 2026-08-24
+
+Status advanced from **IMPLEMENTED IN SOURCE / LIVE VERIFY** to **SOURCE-COMPLETE / READY FOR LIVE CERTIFICATION**.
+
+The closure audit found and fixed issues not covered by the original source gate: broken related-guide references and missing contextual guidance in several important nested flows. `scripts/s2-e-release-closure-gate.mjs` now protects these paths. Production certification still requires deployed migration/RLS/RPC/browser/mobile/Playground/build verification documented in `S2-E-RELEASE-CLOSURE.md`.
