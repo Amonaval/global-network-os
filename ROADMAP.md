@@ -768,3 +768,15 @@ Next S2 candidates remain preserved: quiet family digest, richer contribution/sh
 S2-D adds a calm weekly/monthly return surface rather than a social feed. Home now summarizes only meaningful changes: special days/history, recent memories, family growth, gatherings, contribution prompts and trusted-introduction updates. Users control topic/cadence preferences; digest opens, returns after 3+ days and shares are measured. External scheduled email/push remains a later deployment integration and must reuse these privacy/preferences rather than introducing a second notification model.
 
 **Exit gate:** real pilot families repeatedly return because the digest is useful. Do not mark S2 complete from source checks alone.
+
+## S2-E — Guided Family Experience & Living Help System — PLANNED / NEXT MAJOR MISSION
+
+S2-E is promoted ahead of another engagement feature because product breadth has reached the point where discoverability and comprehension are a primary bottleneck. It will add a role/feature-aware **Explore & Guide** portal, contextual collapsible guidance across live modules, deterministic guide search, goal/use-case exploration, persona-based inspiration, Privacy & Trust Center, Family Owner playbook, First 7 Steps, What's New, curated future roadmap and structured feedback intelligence.
+
+Key architectural rule: one structured guide registry must power contextual help, the standalone portal, search, related-feature navigation and future AI help. Do not create duplicated static prose across components.
+
+S2-E also introduces governed contextual product feedback and Platform Owner triage so repeated user needs can inform future roadmap decisions without automatically becoming commitments.
+
+Detailed scope: `S2-E-GUIDED-FAMILY-EXPERIENCE-LIVING-HELP-SYSTEM.md` and `S2-E-COMPLETE-GUIDE-CONTENT-MAP.md`.
+
+Exit gate is behavior-based: a novice must be able to discover what the app is, understand why it matters, find help by goal/search, navigate to a feature, understand privacy/permissions and submit feedback across desktop/mobile without needing external documentation. Historical/future roadmap items remain preserved.

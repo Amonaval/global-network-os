@@ -158,3 +158,6 @@ Still requires deployed multi-family behavior testing after migration 039:
 Source gate: `npm run validate:s2-d`.
 
 Live verify must cover: digest content after real family changes, category preferences, weekly/monthly/off semantics, 360/390/430px expansion, native share + clipboard fallback, no Playground writes, introduction privacy, and Family Owner digest-return metrics. External scheduled delivery is not certified by the S2-D source gate.
+
+## Planned S2-E behavior gate
+When S2-E is implemented, validate anonymous Playground, fresh auth/no-family, new creator, member, Family Owner, co-admin, Platform Owner, hidden-feature user and older/non-technical 360/390/430 mobile personas. Verify guide discoverability/comprehension, accurate role/feature filtering, guide search by user goal, Open Feature routing, contextual collapse/expand, Privacy & Trust accuracy, Playground no-save examples, feedback persistence/recovery and absence of stale/aspirational claims. Source/build checks alone are insufficient.

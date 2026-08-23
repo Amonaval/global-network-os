@@ -293,3 +293,8 @@ S2-C adds a second defensible graph above the private family graph: explicit, re
 
 ### S2-D delivered — Quiet Family Digest + Return Engine
 The return loop now has a compact product surface: meaningful family change is condensed into a private digest, shareable safely, with measurable opens/returns/shares. This is more strategically useful than adding a generic feed because it tests whether the trusted family graph creates recurring emotional/utility value. Provider-specific email/push delivery remains secondary to proving that the digest itself is worth opening.
+
+### S2-E next — Guided Family Experience & Living Help System
+Before adding another broad engagement surface, make existing product breadth self-explanatory and inspirational. S2-E will turn documentation into activation: contextual help on every meaningful module + a standalone Explore & Guide portal + goal/search navigation + persona/use-case inspiration + Privacy & Trust Center + structured feedback intelligence.
+
+Strategic rationale: hidden capability has zero perceived value. A strong living guide can improve activation, feature adoption, trust, retention, demo quality and roadmap evidence simultaneously. It also creates the curated knowledge base required for a reliable future in-product AI guide without making an LLM responsible for product truth.

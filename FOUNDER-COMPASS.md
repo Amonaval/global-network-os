@@ -95,3 +95,11 @@ Introduction success is a future business signal, but privacy and consent outran
 
 ## S2-D founder rule — earn the return without becoming noisy
 A family product should not copy the engagement mechanics of public social media. Prefer a small number of emotionally or practically relevant updates over infinite feeds and notification volume. A weekly digest is successful when relatives voluntarily return, contribute or share—not when notification counts increase.
+
+## S2-E founder rule — understanding is part of the product
+
+Once the product has meaningful breadth, discoverability becomes a growth and retention feature. Do not treat documentation as cleanup. Family Network must explain its own purpose, inspire concrete family use cases and make hidden power discoverable without requiring a founder-led demo.
+
+**Rule:** every help surface explains both `how` and `why would I care?`. Prefer contextual, progressive guidance over walls of documentation. Preserve one structured source of truth so help, search, Playground demos and future AI assistance cannot drift into contradictory product claims.
+
+User feedback from the guide is evidence, not an automatic roadmap commitment. Repeated needs should become product intelligence; privacy-sensitive family content must never be silently captured as feedback metadata.

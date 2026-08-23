@@ -299,3 +299,6 @@ Migration `038_s2b_community_umbrella_discovery.sql`, `components/CommunityNetwo
 - `scripts/s2-d-source-gate.mjs`: S2-D source invariant gate.
 
 Note: migration `039_s2c_trusted_introductions.sql` is included again in the S2-D affected package because the prior S2-C packaging omitted that migration even though S2-C source depended on it.
+
+## Planned next architecture — S2-E living help system
+S2-E should introduce a central structured user-guide content layer plus reusable contextual guide, standalone Explore & Guide portal, deterministic guide search and governed product-feedback persistence/triage. Do not implement help as duplicated per-component prose. Detailed contracts live in `S2-E-GUIDED-FAMILY-EXPERIENCE-LIVING-HELP-SYSTEM.md` and `S2-E-COMPLETE-GUIDE-CONTENT-MAP.md`.

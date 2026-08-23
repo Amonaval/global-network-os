@@ -546,3 +546,10 @@ Implemented explicit family trust edges, two-family consent, explainable up-to-f
 **Status: IMPLEMENTED IN SOURCE / LIVE VERIFY**
 
 Implemented: private Home digest, topic/cadence preferences, preferred weekday, memory/family/gathering/contribution/introduction summaries, privacy-safe sharing, digest state, digest open/return/share instrumentation and admin retention metrics. External scheduled delivery is intentionally provider-agnostic and remains deployment integration work. S2 remains IN PROGRESS until repeat behavior is observed in real families.
+
+### S2-E — Guided Family Experience & Living Help System
+**Status: PLANNED — NEXT MAJOR MISSION**
+
+Planning completed for a first-class interactive help/product-discovery system rather than another static guide refresh. Scope includes contextual collapsible guides across live modules, standalone Explore & Guide portal, central guide registry, deterministic search, persona/use-case inspiration, Privacy & Trust Center, Family Owner playbook, First 7 Steps, What's New, curated future roadmap and governed feedback intelligence with Platform Owner triage.
+
+Implementation has **not** started in this session. Use `S2-E-GUIDED-FAMILY-EXPERIENCE-LIVING-HELP-SYSTEM.md` and `S2-E-COMPLETE-GUIDE-CONTENT-MAP.md` as completeness contracts in the next session.

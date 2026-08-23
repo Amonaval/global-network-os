@@ -200,3 +200,15 @@ Community membership never grants direct access to another family's tables. Cros
 - Shared digest content must be an explicit safe summary; never serialize private profile/contact/tree data into share text.
 - Playground/demos must never write digest engagement into a signed-in user's real family.
 - External email/push providers are replaceable delivery infrastructure, not product architecture; preserve one canonical digest/preference model.
+
+## Living help / documentation rule (S2-E)
+
+- A user-facing feature is not fully discoverable until its purpose, basic use, permissions/privacy and recovery path can be understood inside the product.
+- Use a central structured guide registry; do not copy/paste long help prose independently across components.
+- Contextual guides must be collapsible, mobile-first and non-blocking.
+- Guide content must respect actual feature visibility and role permissions.
+- Privacy statements must reflect implemented runtime/RLS behavior, never aspirations.
+- Future features in the user guide must be explicitly labeled as planned/explored and must not expose confidential technical/founder roadmap detail.
+- Search should be deterministic before adding an LLM; a future AI guide must answer from the curated guide corpus.
+- Product feedback must use governed persistence and safe contextual metadata; never auto-capture private family stories/profile data.
+- Guide completeness is behavior-tested with novice/older users and 360/390/430 mobile, not source-checked only.
