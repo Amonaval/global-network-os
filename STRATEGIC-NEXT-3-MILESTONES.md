@@ -284,3 +284,6 @@ S2 remains blocked until S1 deployed behaviour verification is complete.
 The S2 gate is now open because the majority of S1 behavior has been founder-verified; unresolved S1 checks remain a residual QA stream. S2-A implements the first living-family loop rather than a broad engagement feature set: **Family Pulse → memory/reaction or celebration → tiny contribution/share → measured return**. Home shows no more than three relevant prompts; memories gain lightweight reactions; deliberate loop actions are measured through family-scoped aggregate telemetry.
 
 S2 remains **LIVE VERIFY**. The next batch must respond to pilot evidence, with attractive share artifacts, digest delivery and deeper contextual contributions as the leading candidates. Chat remains deferred.
+
+### S2 community expansion update
+S2-B establishes the first distribution bridge beyond one family: approved community umbrellas + opt-in people/needs discovery. This can become a defensible acquisition loop because each family remains the trusted identity source while the broader community creates utility across families. Next intelligence should be verified cross-family introductions/connection paths, not generic public social networking.

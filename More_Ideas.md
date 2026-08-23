@@ -39,3 +39,12 @@ View is not good in mobile. It is take 65% width & left side is empty in mobile.
     100 Mb - Plan 1 - Core + xyz features  
     500 Mb - Exclusive plan - All features 
 
+
+## Community umbrella expansion — S2 direction
+- A family can sit under broader identity/community structures: Maheshwari → Pune Maheshwari → local chapter → family. The same generic model can later support alumni groups, hometown associations, professional communities and other trusted umbrellas.
+- Opt-in category discovery: marriage, professional services, mentor, speaker, education, social service, business, arts. Community membership alone must never publish someone.
+- Community needs/posts at the right scope: a family can ask Pune Maheshwari for an interior designer, publish an event/volunteer need, or invite consented marriage introductions at the wider umbrella level.
+- Use **Community Highlights**, not generic VIP/popularity ratings. Highlights can be curated for education, speaking, social contribution, arts, entrepreneurship, etc. Marriage candidates should never be ranked.
+- Future “trusted connection path”: show how an introduction can travel through known families only when explicit cross-family connection/intro records exist. Never infer a relationship from surname/community/city.
+- Future public showcase: selected community highlights and selected family cards may be made public only with explicit consent and moderation. Keep anonymous community search off by default.
+- Potential business layers later: verified association tools, premium community administration, event/directory tooling, trusted service discovery, optional matrimonial introductions, sponsor/partner surfaces. Monetization must not compromise family privacy or turn identity into pay-to-rank status.

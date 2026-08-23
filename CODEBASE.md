@@ -277,3 +277,6 @@ Sustainable monetization is a primary objective. Family may drive engagement/dis
 Latest additive migration: `037_s2a_living_family_loop.sql`.
 
 S2-A adds a Home Family Pulse capped at 1–3 relevant moments, memory reactions, family-scoped engagement events, and aggregate living-loop metrics. Primary affected runtime files: `components/FamilyHome.tsx`, `components/CommunityHub.tsx`, `components/ParticipationCenter.tsx`, `lib/types.ts`, `lib/remote.ts`, `lib/demo-data.ts`, and `app/globals.css`. S1 remains substantially verified with residual QA; S2-A remains live verify until deployed/pilot behavior is measured.
+
+## S2-B Community umbrella
+Migration `038_s2b_community_umbrella_discovery.sql`, `components/CommunityNetwork.tsx`, `lib/community-network-types.ts` and the S2-B remote functions provide hierarchical communities, governed family links, opt-in profile snapshots and community posts. `connect.community` now surfaces the Community Network UI. Direct cross-family family-table access is intentionally not used.

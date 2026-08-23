@@ -137,3 +137,6 @@ S1 remains LIVE VERIFY; this source gate does not replace deployed behaviour QA.
 ## S2-A validation — 2026-08-23
 
 Run `npm run validate:s2-a` after migration 037 is present. Live verify: Family Pulse relevance, memory reaction add/change/remove, Playground reaction no-save behavior, memory sharing, contribution completion tracking, admin 30-day Living Loop scorecard, tenant isolation, and mobile Home/memory behavior at 360/390/430px.
+
+## S2-B residual live validation
+Run migration 038, create/link at least two test families under one city community, approve the links, opt in one profile in each family, and prove cross-family search returns only the published snapshot. Verify direct family profile/tree/contact access remains denied. Test marriage consent guard, unpublish, service post, Platform Owner highlighting, and 360/390/430 mobile behavior.

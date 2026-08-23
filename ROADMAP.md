@@ -736,3 +736,12 @@ User verification has covered the majority of S1 journeys; remaining S1 items mo
 S2-A is **IMPLEMENTED IN SOURCE / LIVE VERIFY**. It introduces a restrained Family Pulse (1–3 relevant reasons to act), lightweight memory reactions, privacy-safe engagement instrumentation, and an aggregate 30-day Living Loop scorecard. This is the first concrete implementation of `Discover → Feel → Contribute → Share → Return`.
 
 Next S2 work should be evidence-led: improve the weakest step in the live loop rather than automatically adding breadth. Candidate follow-ons remain attractive share cards, digest delivery and contextual one-tap contributions. Family Play and contextual social-video memories remain later S2 experiments, not prerequisites for proving the core loop.
+
+## S2-B — Community Umbrella & Opt-in Discovery — IMPLEMENTED IN SOURCE / LIVE VERIFY
+- Family → approved community hierarchy: e.g. Maheshwari → Pune → chapter → family.
+- Consent-based category discovery across families without exposing private family graphs.
+- Marriage discovery requires self opt-in and introduction-oriented privacy; no ranking of marriage candidates.
+- Professional/service/mentor/speaker/education/social-service/business discovery.
+- Community needs/posts can target the appropriate chapter/city/umbrella level.
+- Governed Community Highlights replace generic VIP/popularity scoring.
+- Future: trusted cross-family connection paths only from explicit verified edges/introductions; community moderation; community digest; reputation; optional public showcase.

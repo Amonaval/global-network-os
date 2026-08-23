@@ -84,3 +84,6 @@ For acquisition, demos and investor conversations, prefer a **dense living famil
 ## S2 retention rule — added 2026-08-23
 
 Do not turn Family Network into a generic feed. A return surface should answer at least one of: **what is happening, what can I discover, what tiny thing can I contribute, what should I celebrate/remember?** Family Pulse should normally show 1–3 meaningful items, not infinite content. Measure deliberate family actions and returning people; page views alone are not retention proof.
+
+## Community expansion principle
+The community layer can multiply distribution and utility, but must not destroy the trust moat. **Family graph private by default; community discoverability explicit by choice.** Maheshwari/Pune/etc. should be an umbrella for introductions, opportunity and shared identity — not an excuse to expose every family member. Prefer introductions over direct contact leakage. Do not build caste/community popularity leaderboards; use curated Community Highlights by useful category. A future “how are we connected?” capability must use explicit trusted cross-family edges, never inferred caste/surname kinship.

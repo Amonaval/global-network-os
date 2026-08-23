@@ -532,3 +532,7 @@ S1 remains **LIVE VERIFY** and S2 remains blocked.
 **Status: IMPLEMENTED IN SOURCE / LIVE VERIFY**
 
 Implemented Family Pulse, memory reactions, deliberate engagement tracking and Family Owner/admin living-loop metrics. S1 is now treated as **SUBSTANTIALLY VERIFIED / RESIDUAL QA** based on founder testing, while remaining mobile/persona/deployment checks stay open. S2 itself is not complete until pilot families show repeat return/contribution/share behavior.
+
+### S2-B — Community Umbrella & Opt-in Discovery
+**IMPLEMENTED IN SOURCE / LIVE VERIFY**
+Community hierarchy, governed family links, opt-in cross-family profile discovery, community needs/posts, consent guard for marriage publishing, and curated Community Highlights are implemented. Real cross-family relationship-path intelligence remains deferred until explicit trusted cross-family edges exist.

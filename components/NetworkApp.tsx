@@ -70,6 +70,7 @@ import RelationshipExplorer from "./RelationshipExplorer";
 import { getStrictLineageIds, immediateFamilyForViewer } from "../lib/relationship-intelligence";
 import LifeEventEditor from "./LifeEventEditor";
 import CommunityHub from "./CommunityHub";
+import CommunityNetwork from "./CommunityNetwork";
 import AnalyticsPanel from "./AnalyticsPanel";
 import TimelineView from "./TimelineView";
 import UpcomingWidget, { UpcomingMilestone } from "./UpcomingWidget";
@@ -87,7 +88,7 @@ import {defaultFeatureMap, EffectiveFeatureMap, ExperienceLevel, FeatureKey, isF
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 const ImportModal = dynamic(() => import("./ImportModal"), { ssr: false });
 const repository = getNetworkRepository();
-type View = "home" | "tree" | "directory" | "map" | "community" | "timeline" | "participation" | "admin" | "founder";
+type View = "home" | "tree" | "directory" | "map" | "community" | "umbrella" | "timeline" | "participation" | "admin" | "founder";
 type Visibility = "public" | "member" | "admin";
 const esc = (v: string) => `"${String(v ?? "").replaceAll('"', '""')}"`;
 const uuid = () =>
@@ -1083,6 +1084,7 @@ export default function NetworkApp() {
     ["directory", language === "hi" ? "परिवार खोजें" : language === "mr" ? "कुटुंब शोधा" : "Find family", <Users size={17} key="directory"/>, "core.directory"],
     ["timeline", language === "hi" ? "परिवार का इतिहास" : language === "mr" ? "कुटुंब इतिहास" : "Family history", <CalendarDays size={17} key="history"/>, "remember.history"],
     ["map", language === "hi" ? "परिवार कहाँ है" : language === "mr" ? "कुटुंब कुठे आहे" : "Family places", <MapPinned size={17} key="places"/>, "connect.places"],
+    ["umbrella", language === "hi" ? "समुदाय" : language === "mr" ? "समुदाय" : "Community", <UsersRound size={17} key="community-network"/>, "connect.community"],
     ["participation", language === "hi" ? "परिवार की मदद" : language === "mr" ? "कुटुंबाला मदत" : "Help family", <GitBranch size={17} key="help"/>, "contribute.help_family"],
   ];
   const visibleMemberNav=memberNav.filter(item=>{
@@ -1518,6 +1520,9 @@ export default function NetworkApp() {
               <MapView members={members} onSelect={openMember} />
             </section>
           )}
+          {view === "umbrella" && hasFeature("connect.community") && (
+            <CommunityNetwork members={members} auth={auth} familyName={network?.name} demo={demoPreview} onNotify={notify}/>
+          )}
           {view === "community" && hasFeature("remember.memories") && (
             <CommunityHub
               members={members}
@@ -1892,13 +1897,14 @@ export default function NetworkApp() {
         <button className={view === "tree" ? "active" : ""} onClick={openFamilyView}><TreePine size={19}/><span>{language === "hi" ? "परिवार" : language === "mr" ? "कुटुंब" : "Family"}</span></button>
         {experience!=="simple" && hasFeature("remember.memories") && <button className={view === "community" ? "active" : ""} onClick={() => setView("community")}><HeartHandshake size={19}/><span>{language === "hi" ? "यादें" : language === "mr" ? "आठवणी" : "Memories"}</span></button>}
         {(!demoPreview || !!auth) && <button className={selected?.id===auth?.member_id ? "active" : ""} onClick={openMyProfile}><UserRoundPen size={19}/><span>{language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</span></button>}
-        <button className={showMobileMenu || view === "map" || view === "admin" || view === "founder" || view === "timeline" || view === "participation" || view === "directory" ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19}/><span>{moreLabel}</span></button>
+        <button className={showMobileMenu || view === "map" || view === "admin" || view === "founder" || view === "timeline" || view === "participation" || view === "umbrella" || view === "directory" ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19}/><span>{moreLabel}</span></button>
       </nav>
       {showMobileMenu && <div className="mobile-more-overlay" onMouseDown={(event) => event.target === event.currentTarget && setShowMobileMenu(false)}><section className="mobile-more-sheet" role="dialog" aria-modal="true" aria-label={moreLabel}>
         <div className="mobile-more-head"><div><span className="warm-kicker">{network?.name}</span><h2>{moreLabel}</h2></div><button className="icon-button" aria-label="Close" autoFocus onClick={() => setShowMobileMenu(false)}><X size={19}/></button></div>
         {hasFeature("core.directory")&&<button className="mobile-more-action" onClick={() => { setView("directory"); setShowMobileMenu(false); }}><span><Users />{language==='hi'?'परिवार खोजें':language==='mr'?'कुटुंब शोधा':'Find family'}</span><ArrowRight /></button>}
         {hasFeature("remember.history")&&<button className="mobile-more-action" onClick={() => { setView("timeline"); setShowMobileMenu(false); }}><span><CalendarDays />{language==='hi'?'परिवार का इतिहास':language==='mr'?'कुटुंब इतिहास':'Family history'}</span><ArrowRight /></button>}
         {hasFeature("connect.places")&&<button className="mobile-more-action" onClick={() => { setView("map"); setShowMobileMenu(false); }}><span><MapPinned />{language==='hi'?'परिवार कहाँ है':language==='mr'?'कुटुंब कुठे आहे':'Family places'}</span><ArrowRight /></button>}
+        {hasFeature("connect.community")&&<button className="mobile-more-action" onClick={() => { setView("umbrella"); setShowMobileMenu(false); }}><span><UsersRound />{language==='hi'?'समुदाय':language==='mr'?'समुदाय':'Community network'}</span><ArrowRight /></button>}
         {hasFeature("contribute.help_family")&&<button className="mobile-more-action" onClick={() => { setView("participation"); setShowMobileMenu(false); }}><span><GitBranch />{language==='hi'?'परिवार की मदद':language==='mr'?'कुटुंबाला मदत':'Help improve our family'}</span><ArrowRight /></button>}
         {canAdmin && hasFeature("admin.center") && <button className="mobile-more-action" onClick={() => { setView("admin"); setShowMobileMenu(false); }}><span><Settings2 />{language==='hi'?'परिवार संभालें':language==='mr'?'कुटुंब सांभाळा':'Manage family'}</span><ArrowRight /></button>}
         {isPlatformOwner && isSupabaseConfigured && <button className="mobile-more-action" onClick={() => { setView("founder"); setShowMobileMenu(false); }}><span><Rocket />Launch Control</span><ArrowRight /></button>}

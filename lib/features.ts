@@ -52,7 +52,7 @@ export const FEATURE_REGISTRY: FeatureDefinition[] = [
   {key:"remember.history",bundle:"remember",label:"Family history",description:"Life events and family timeline.",minimumExperience:"explorer",defaultLaunch:"test"},
   {key:"celebrate.special_days",bundle:"celebrate",label:"Special days",description:"Birthdays, anniversaries and On This Day.",minimumExperience:"simple",defaultLaunch:"released"},
   {key:"connect.places",bundle:"connect",label:"Family places",description:"Privacy-safe city-level family map.",minimumExperience:"explorer",defaultLaunch:"test"},
-  {key:"connect.community",bundle:"connect",label:"Family community",description:"Community discovery and family connection tools.",minimumExperience:"explorer",defaultLaunch:"test"},
+  {key:"connect.community",bundle:"connect",label:"Community network",description:"Opt-in discovery across approved family/community umbrellas.",minimumExperience:"explorer",defaultLaunch:"test"},
   {key:"connect.gatherings",bundle:"connect",label:"Gatherings",description:"Family events, attendance and follow-up memories.",minimumExperience:"connected",defaultLaunch:"test"},
   {key:"contribute.help_family",bundle:"contribute",label:"Help improve our family",description:"Invitations, missing information and contribution prompts.",minimumExperience:"explorer",defaultLaunch:"test"},
   {key:"share.family",bundle:"share",label:"Share with family",description:"Privacy-safe WhatsApp/native sharing.",minimumExperience:"connected",defaultLaunch:"test"},

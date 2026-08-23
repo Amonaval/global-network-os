@@ -14,6 +14,7 @@ import {
 import {MemberInvitation,ContributionSuggestion,CommunityGroup,CommunityEvent,ParticipationMetrics} from "./participation-types";
 import { NetworkSettings } from "./network";
 import { resolveSignedUrls } from "./storage";
+import type {CommunitySpace,CommunityProfileCard,CommunityPost,PendingCommunityLink,CommunityProfileCategory,CommunityPostCategory} from "./community-network-types";
 
 const mapMember = (m: any): Member => ({
   ...m,
@@ -708,3 +709,16 @@ export async function fetchCommunityEventAttendees(eventId:string){
   const {data,error}=await supabase.rpc("get_community_event_attendees",{p_event_id:eventId}); if(error)throw error; return (data||[]) as {member_id?:string;full_name:string;response:string;guest_count:number}[];
 }
 export async function linkMemoryToEvent(memoryId:string,eventId:string){if(!supabase)return;const {error}=await supabase.rpc("link_memory_to_event",{p_memory_id:memoryId,p_event_id:eventId});if(error)throw error;}
+
+// S2-B — community umbrella + opt-in cross-family discovery
+export async function fetchCommunitySpaces():Promise<CommunitySpace[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_community_spaces");if(error)throw error;return (data||[]).map((x:any)=>({...x,family_count:Number(x.family_count||0)}));}
+export async function createCommunitySpace(input:{name:string;slug:string;space_type:string;parent_id?:string;city?:string;state?:string;country?:string}){if(!supabase)return;const {data,error}=await supabase.rpc("create_community_space",{p_name:input.name,p_slug:input.slug,p_space_type:input.space_type,p_parent_id:input.parent_id||null,p_city:input.city||null,p_state:input.state||null,p_country:input.country||"India"});if(error)throw error;return data as string;}
+export async function requestFamilyCommunityLink(spaceId:string){if(!supabase)return;const {data,error}=await supabase.rpc("request_family_community_link",{p_space_id:spaceId});if(error)throw error;return data as string;}
+export async function fetchPendingCommunityLinks():Promise<PendingCommunityLink[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_pending_community_links");if(error)throw error;return (data||[]) as PendingCommunityLink[];}
+export async function reviewCommunityLink(linkId:string,approve:boolean){if(!supabase)return;const {error}=await supabase.rpc("review_community_link",{p_link_id:linkId,p_approve:approve});if(error)throw error;}
+export async function publishMyCommunityProfile(input:{member_id:string;space_id:string;category:CommunityProfileCategory;headline?:string;summary?:string;contact_mode?:"family_intro"|"direct_request"}){if(!supabase)return;const {data,error}=await supabase.rpc("publish_my_community_profile",{p_member_id:input.member_id,p_space_id:input.space_id,p_category:input.category,p_headline:input.headline||null,p_summary:input.summary||null,p_contact_mode:input.contact_mode||"family_intro"});if(error)throw error;return data as string;}
+export async function unpublishMyCommunityProfile(cardId:string){if(!supabase)return;const {error}=await supabase.rpc("unpublish_my_community_profile",{p_card_id:cardId});if(error)throw error;}
+export async function searchCommunityProfiles(spaceId:string,category="",query=""):Promise<CommunityProfileCard[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("search_community_profiles",{p_space_id:spaceId,p_category:category||null,p_query:query||null});if(error)throw error;return (data||[]) as CommunityProfileCard[];}
+export async function publishCommunityPost(input:{space_id:string;category:CommunityPostCategory;title:string;body?:string;city?:string;target_member_id?:string}){if(!supabase)return;const {data,error}=await supabase.rpc("publish_community_post",{p_space_id:input.space_id,p_category:input.category,p_title:input.title,p_body:input.body||null,p_city:input.city||null,p_target_member_id:input.target_member_id||null});if(error)throw error;return data as string;}
+export async function fetchCommunityPosts(spaceId:string,category=""):Promise<CommunityPost[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_community_posts",{p_space_id:spaceId,p_category:category||null});if(error)throw error;return (data||[]) as CommunityPost[];}
+export async function setCommunityProfileFeatured(cardId:string,featured:boolean,label?:string){if(!supabase)return;const {error}=await supabase.rpc("set_community_profile_featured",{p_card_id:cardId,p_featured:featured,p_label:label||null});if(error)throw error;}

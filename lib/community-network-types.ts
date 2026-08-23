@@ -1,0 +1,6 @@
+export type CommunitySpace={id:string;parent_id?:string|null;name:string;slug:string;space_type:"community"|"city"|"chapter"|"association"|"other";city?:string;state?:string;country?:string;family_status?:"pending"|"approved"|"rejected";family_count:number};
+export type CommunityProfileCategory="marriage"|"professional"|"service"|"mentor"|"speaker"|"education"|"social_service"|"business"|"arts"|"other";
+export type CommunityProfileCard={id:string;space_id:string;space_name:string;network_id:string;family_name:string;member_id:string;category:CommunityProfileCategory;display_name:string;photo_url?:string;profession?:string;city?:string;headline?:string;summary?:string;contact_mode:"family_intro"|"direct_request";featured:boolean;featured_label?:string;is_mine:boolean};
+export type CommunityPostCategory="marriage"|"professional"|"service"|"event"|"opportunity"|"announcement"|"help"|"other";
+export type CommunityPost={id:string;space_id:string;space_name:string;network_id:string;family_name:string;target_member_id?:string;category:CommunityPostCategory;title:string;body?:string;city?:string;status:string;created_at:string};
+export type PendingCommunityLink={id:string;space_id:string;space_name:string;network_id:string;family_name:string;created_at:string};

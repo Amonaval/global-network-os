@@ -182,3 +182,6 @@ Playground feature visibility is controlled independently from real-family platf
 - Engagement telemetry must be tenant-scoped, privacy-minimal and aggregate-oriented for admins.
 - Demo/Playground interaction may simulate writes locally but must never persist into a real family.
 - S2 completion requires pilot behavior evidence; source gates can only mark implementation, never retention success.
+
+## Cross-family/community data rule
+Community membership never grants direct access to another family's tables. Cross-family discovery must use explicit opt-in snapshots/RPCs. Sensitive categories (especially marriage) require person-level consent. Do not infer family relationship from surname, caste/community, city or similarity. Community publishing must always identify its scope (chapter/city/umbrella) and offer a recovery/unpublish path.
