@@ -94,3 +94,21 @@ Must be tested against live Supabase with migration 031:
 - phone widths 360/390/430px.
 
 Do not mark CR2 VERIFIED until these live checks pass.
+
+## CR2.1 — Alpha onboarding hotfix (2026-08-23)
+
+Status: **IMPLEMENTED IN SOURCE / VERIFY**
+
+Real Alpha testing exposed two blockers and one onboarding improvement:
+
+1. **Demo/local profile IDs were leaking into UUID-only Supabase RPCs.** A sample member such as `m41` could open normally but selecting the profile attempted `get_member_life_events(uuid)` with `m41`, causing PostgreSQL `invalid input syntax for type uuid`. Demo preview now avoids per-member shared RPCs, and remote member-scoped reads defensively ignore non-UUID IDs.
+2. **Starting a family could fail after creation with `new row violates row-level security policy for table network_settings`.** `create_family()` already creates the tenant and initial settings securely; the client then performed a direct `network_settings.upsert`. CR2.1 replaces that direct write with the tenant-scoped `save_network_settings` security-definer RPC in migration 032.
+3. **Excel exploration now offers two sample sizes.** The guided template remains available, plus a small Naval-family workbook for quick tests and the existing 150-person workbook as the full/default scale example. Imported source IDs such as `P001` or `m41` are converted to UUIDs before shared persistence while relationship references are remapped consistently.
+
+### Verification still required
+
+- Run migrations through `032_cr2_1_shared_setup_and_demo_uuid_hotfix.sql`.
+- Fresh signed-in user → Start with a few relatives → family should be created without an RLS error.
+- Explore Sample → open several profiles including non-UUID demo IDs → no UUID database error.
+- Download/import the small Naval workbook and the full 150-person workbook.
+- Confirm imported shared-mode members receive UUID IDs and relationships still point to the correct remapped members.

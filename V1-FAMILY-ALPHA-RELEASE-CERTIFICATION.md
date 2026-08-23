@@ -295,3 +295,11 @@ V1 Alpha cannot be certified until the new no-family journey is verified on live
 - Sample Family is read-only and returns cleanly to real onboarding;
 - Alpha auto-approval permits immediate empty/Excel family creation while approval is OFF;
 - turning approval ON restores the platform-owner approval queue without redeploying.
+
+### CR2.1 live Alpha regression checks
+- [ ] Migration 032 applied after 031.
+- [ ] Fresh user can choose **Start with a few relatives** and complete family creation without a `network_settings` RLS error.
+- [ ] Sample/demo member profiles with friendly IDs such as `m41` open without UUID syntax errors.
+- [ ] Small Naval workbook imports successfully in shared mode.
+- [ ] Full 150-person sample imports successfully in shared mode.
+- [ ] Shared imported members use UUID IDs even when Excel uses friendly IDs such as `P001`.

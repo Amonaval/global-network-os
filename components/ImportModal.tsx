@@ -48,6 +48,15 @@ const friendlyIssue = (issue: ValidationIssue, language: "en" | "hi" | "mr") => 
   return replacements[issue.code] || (language === "en" ? issue.message : "या नोंदीची माहिती तपासा.");
 };
 
+function downloadStaticSample(path: string, filename: string) {
+  const anchor = document.createElement("a");
+  anchor.href = path;
+  anchor.download = filename;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+}
+
 function downloadFamilyTemplate() {
   const exampleMembers = [
     { person_id: "P001", full_name: "Mohan Sharma", gender: "Male", date_of_birth: "1948-06-12", living_status: "Living", generation: 1, city: "Pune", profession: "Teacher", phone: "", email: "", short_introduction: "Our family storyteller" },
@@ -219,7 +228,13 @@ export default function ImportModal({ onClose, onImport, existingMembers = [], e
     <div className="excel-steps"><span className={stage === "guide" ? "active" : "done"}><b>1</b> {c.templateStep}</span><i /><span className={stage === "upload" ? "active" : stage === "review" ? "done" : ""}><b>2</b> {c.uploadStep}</span><i /><span className={stage === "review" ? "active" : ""}><b>3</b> {c.reviewStep}</span></div>
 
     {stage === "guide" && <div className="excel-guide-grid">
-      <div className="template-card"><div className="template-visual"><FileSpreadsheet size={42} /><span>Our Family</span><small>Members · Relationships · Guidance</small></div><h3>{c.templateTitle}</h3><p>{c.templateCopy}</p><button className="btn primary" onClick={downloadFamilyTemplate}><Download size={16} /> {c.download}</button></div>
+      <div className="template-card"><div className="template-visual"><FileSpreadsheet size={42} /><span>Our Family</span><small>Members · Relationships · Guidance</small></div><h3>{c.templateTitle}</h3><p>{c.templateCopy}</p><button className="btn primary" onClick={downloadFamilyTemplate}><Download size={16} /> {c.download}</button>
+        <div className="sample-workbook-actions">
+          <button className="btn" onClick={()=>downloadStaticSample("/family-demo-small-naval.xlsx","family-demo-small-naval.xlsx")}><Download size={16} /> Small demo · Naval family</button>
+          <button className="btn" onClick={()=>downloadStaticSample("/sample-data-150.xlsx","family-demo-full-150.xlsx")}><Download size={16} /> Full demo · 150 people</button>
+        </div>
+        <small className="sample-workbook-note">Use the small sample for a quick test. The 150-person workbook remains the full/default scale example.</small>
+      </div>
       <div className="excel-how"><h3>{c.how}</h3><ol><li><b>{c.one}</b><span>{c.oneHelp}</span></li><li><b>{c.two}</b><span>{c.twoHelp}</span></li><li><b>{c.three}</b><span>{c.threeHelp}</span></li></ol><div className="excel-language-note">{c.scripts}</div></div>
     </div>}
 

@@ -210,3 +210,11 @@ For exact profile ownership, create a **personal invitation link** for the speci
 - **Family** — your personal lineage first on mobile; use Full Tree only when needed.
 - **Me** — your own profile and information.
 - **Help** — open Quick Start instructions at any time.
+
+## Alpha Excel examples
+In the Family Excel assistant you can now choose between:
+
+- **Small demo · Naval family** — a quick multi-generation example with relationships intentionally left blank so you can add them yourself.
+- **Full demo · 150 people** — the larger/default scale example for seeing how a bigger family behaves.
+
+The `person_id` values in Excel are friendly temporary references only. In shared/Supabase mode the app safely creates UUID member IDs and remaps relationship references during import.

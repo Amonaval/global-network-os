@@ -215,3 +215,8 @@ Migration 031 also adds:
 - tenant-safe join RPCs.
 
 Do not use Family Codes as public links. They are intended for trusted/private Alpha sharing (for example a family WhatsApp group). Regenerate the code if it is shared outside the intended audience.
+
+## Migration 032 — CR2.1 onboarding hotfix
+Run `032_cr2_1_shared_setup_and_demo_uuid_hotfix.sql` after migration 031.
+
+This migration adds the secure `save_network_settings(...)` RPC. It fixes the Alpha family-creation flow where the family was created successfully but the subsequent direct client upsert into `network_settings` was rejected by RLS.

@@ -35,6 +35,8 @@ const mapLifeEvent = (r: any): LifeEvent => ({
 });
 
 
+const isUuidValue = (value: unknown) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(value || ""));
+
 export type PlatformFeatureRow={feature_key:string;rollout_state:"hidden"|"test"|"pilot"|"released";enabled:boolean};
 export type PlatformLaunchFeature={feature_key:string;bundle_key:string;rollout_state:"hidden"|"test"|"pilot"|"released";pilot_network_ids:string[];announcement_version:number;updated_at:string};
 export type PlatformFamilyTarget={network_id:string;name:string;slug:string;status:string;member_count:number};
@@ -162,26 +164,21 @@ export async function fetchNetworkSettings(): Promise<NetworkSettings | null> {
 }
 export async function saveNetworkSettings(settings: NetworkSettings) {
   if (!supabase) return;
-  const { error } = await supabase.from("network_settings").upsert(
-    {
-      id: "network",
-      network_id: settings.network_id,
-      name: settings.name,
-      description: settings.description || "",
-      entity_label: settings.entity_label ?? "Member",
-      entity_label_plural: settings.entity_label_plural ?? "Members",
-      level_label: settings.level_label ?? "Generation",
-      level_label_plural: settings.level_label_plural ?? "Generations",
-      parent_label: settings.parent_label ?? "Parent",
-      child_label: settings.child_label ?? "Child",
-      peer_label: settings.peer_label ?? "Spouse",
-      network_template: settings.network_template ?? "family",
-      self_edit_mode: settings.self_edit_mode ?? "review",
-      family_milestones_enabled: settings.family_milestones_enabled ?? true,
-      photo_upload_enabled: settings.photo_upload_enabled ?? false,
-    },
-    { onConflict: "network_id" },
-  );
+  const { error } = await supabase.rpc("save_network_settings", {
+    p_name: settings.name,
+    p_description: settings.description || "",
+    p_entity_label: settings.entity_label ?? "Member",
+    p_entity_label_plural: settings.entity_label_plural ?? "Members",
+    p_level_label: settings.level_label ?? "Generation",
+    p_level_label_plural: settings.level_label_plural ?? "Generations",
+    p_parent_label: settings.parent_label ?? "Parent",
+    p_child_label: settings.child_label ?? "Child",
+    p_peer_label: settings.peer_label ?? "Spouse",
+    p_network_template: settings.network_template ?? "family",
+    p_self_edit_mode: settings.self_edit_mode ?? "review",
+    p_family_milestones_enabled: settings.family_milestones_enabled ?? true,
+    p_photo_upload_enabled: settings.photo_upload_enabled ?? false,
+  });
   if (error) throw error;
 }
 
@@ -482,7 +479,7 @@ export async function fetchParticipationMetrics():Promise<ParticipationMetrics|n
 export async function trackPublicParticipation(eventType:string,memberId?:string,channel?:string){if(!supabase)return;let session=localStorage.getItem("network-public-session");if(!session){session=strongToken();localStorage.setItem("network-public-session",session);}await supabase.rpc("track_public_participation",{p_event_type:eventType,p_public_member_id:memberId||null,p_channel:channel||null,p_session_token:session});}
 
 export async function fetchLifeEvents(memberId: string): Promise<LifeEvent[]> {
-  if (!supabase) return [];
+  if (!supabase || !isUuidValue(memberId)) return [];
   const { data, error } = await supabase.rpc("get_member_life_events", {
     p_member_id: memberId,
   });
@@ -534,6 +531,7 @@ export async function deleteLifeEvent(id: string) {
 
 export async function fetchMemories(memberId?: string): Promise<Memory[]> {
   if (!supabase) return [];
+  if (memberId && !isUuidValue(memberId)) return [];
   const q = supabase.rpc("get_memories", { p_member_id: memberId || null });
   const { data, error } = await q;
   if (error) throw error;

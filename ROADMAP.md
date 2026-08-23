@@ -555,3 +555,10 @@ Still requires live Supabase verification. Do not mark complete based only on so
 - CR2.5: safe expiry/rotation policy for Family Codes if/when Alpha expands beyond trusted distribution.
 
 **Immediate release order remains:** CR1 real-device corrections → CR2 live onboarding verification → V1 Alpha certification → 2–3 trusted-family pilot → evidence-driven corrections.
+
+### CR2.1 — Alpha onboarding/runtime hotfix — IMPLEMENTED / VERIFY
+- Fix demo/local non-UUID profile IDs reaching UUID-only Supabase RPCs.
+- Replace direct `network_settings` writes with tenant-scoped RPC updates.
+- Normalize friendly Excel IDs to UUIDs before shared persistence.
+- Offer both a small quick-start Naval workbook and the existing 150-person full demo workbook.
+- Do not mark complete until fresh-family creation and both sample imports are tested against live Supabase.

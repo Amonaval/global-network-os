@@ -382,3 +382,15 @@ Implemented to remove the current Alpha onboarding blocker:
 - Quick Start user help updated.
 
 Verification pending against live Supabase and real mobile devices. CR2 is not marked complete.
+
+## CR2.1 — Alpha onboarding/runtime hotfix
+**Status: IMPLEMENTED IN SOURCE / LIVE VERIFY REQUIRED**
+
+- [x] Non-UUID demo member profile selection no longer calls UUID-only member RPCs.
+- [x] Excel source IDs are remapped to generated UUIDs before shared persistence.
+- [x] `network_settings` update moved behind tenant/admin-scoped RPC.
+- [x] Small Naval sample workbook added.
+- [x] Existing 150-person workbook retained as full/default scale sample.
+- [ ] Apply migration 032 to live Supabase.
+- [ ] Verify fresh `Start with a few relatives` family creation end-to-end.
+- [ ] Verify small and 150-person imports end-to-end.

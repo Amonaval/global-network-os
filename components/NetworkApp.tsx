@@ -276,7 +276,7 @@ export default function NetworkApp() {
       window.removeEventListener("living-network-profile-updated", updated);
   }, [auth?.role]);
   useEffect(() => {
-    if (!selected) {
+    if (!selected || demoPreview) {
       setLifeEvents([]);
       return;
     }
@@ -287,7 +287,7 @@ export default function NetworkApp() {
         notify(e.message || "Could not load timeline.");
       }
     })();
-  }, [selected]);
+  }, [selected, demoPreview]);
   const saveLifeEvent = async (e: LifeEvent) => {
     try {
       if (repository.mode === "shared") {
