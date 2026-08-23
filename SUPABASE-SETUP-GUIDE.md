@@ -220,3 +220,9 @@ Do not use Family Codes as public links. They are intended for trusted/private A
 Run `032_cr2_1_shared_setup_and_demo_uuid_hotfix.sql` after migration 031.
 
 This migration adds the secure `save_network_settings(...)` RPC. It fixes the Alpha family-creation flow where the family was created successfully but the subsequent direct client upsert into `network_settings` was rejected by RLS.
+
+### Migration 033 — CR2.2 fresh-family context fix
+
+Run `033_cr2_2_explicit_family_context_and_progressive_onboarding.sql` after migration 032.
+
+It fixes the case where a newly-created family exists but the immediate settings save reports `No active family selected`. The client now sends the new family UUID explicitly and the RPC authorizes against that family membership directly.

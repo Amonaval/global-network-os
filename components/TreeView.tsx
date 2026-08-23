@@ -147,23 +147,41 @@ export default function TreeView({
     }
 
     const memberIds = new Set(members.map((m) => m.id));
+    const byId = new Map(members.map((m) => [m.id, m]));
+    const humanRole = (member: Member | undefined, type: "parent" | "child" | "spouse") => {
+      if (type === "parent") return member?.gender === "Male" ? "Father" : member?.gender === "Female" ? "Mother" : "Parent";
+      if (type === "child") return member?.gender === "Male" ? "Son" : member?.gender === "Female" ? "Daughter" : "Child";
+      return member?.gender === "Male" ? "Husband" : member?.gender === "Female" ? "Wife" : "Spouse";
+    };
     const edges: Edge[] = relationships
       .filter(
         (r) => memberIds.has(r.person_id) && memberIds.has(r.related_person_id),
       )
-      .map((r) => ({
-        id: r.id,
-        source: r.person_id,
-        target: r.related_person_id,
-        type: r.relationship_type === "spouse" ? "straight" : "smoothstep",
-        sourceHandle: r.relationship_type === "spouse" ? "right" : undefined,
-        targetHandle: r.relationship_type === "spouse" ? "left" : undefined,
-        animated: false,
-        style:
-          r.relationship_type === "spouse"
-            ? { strokeDasharray: "7 5", strokeWidth: compactLineage ? 3.2 : 2.5, stroke: compactLineage ? "#28352f" : undefined }
-            : { strokeWidth: compactLineage ? 3.4 : 1.7, stroke: compactLineage ? "#28352f" : undefined },
-      }));
+      .map((r) => {
+        const sourceMember = byId.get(r.person_id);
+        const targetMember = byId.get(r.related_person_id);
+        const label = r.relationship_type === "spouse"
+          ? `${humanRole(sourceMember, "spouse")} · ${humanRole(targetMember, "spouse")}`
+          : `${humanRole(sourceMember, "parent")} · ${humanRole(targetMember, "child")}`;
+        return {
+          id: r.id,
+          source: r.person_id,
+          target: r.related_person_id,
+          type: r.relationship_type === "spouse" ? "straight" : "smoothstep",
+          sourceHandle: r.relationship_type === "spouse" ? "right" : undefined,
+          targetHandle: r.relationship_type === "spouse" ? "left" : undefined,
+          animated: false,
+          label,
+          labelStyle: { fill: "#53615a", fontSize: 10, fontWeight: 700 },
+          labelBgPadding: [5, 3],
+          labelBgBorderRadius: 6,
+          labelBgStyle: { fill: "#fffdf8", fillOpacity: 0.94 },
+          style:
+            r.relationship_type === "spouse"
+              ? { strokeDasharray: "7 5", strokeWidth: compactLineage ? 3.2 : 2.5, stroke: compactLineage ? "#28352f" : undefined }
+              : { strokeWidth: compactLineage ? 3.4 : 1.7, stroke: compactLineage ? "#28352f" : undefined },
+        } as Edge;
+      });
 
     return { nodes, edges };
   }, [members, relationships, query, focusMemberId, viewerMemberId, compactLineage]);

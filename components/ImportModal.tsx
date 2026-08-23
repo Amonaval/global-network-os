@@ -8,9 +8,9 @@ import { validateImportRows } from "../lib/validation";
 import { useLanguage } from "../lib/i18n";
 
 const IMPORT_COPY = {
-  en:{assistant:"Family Excel assistant",title:"Bring your family list",intro:"We guide you from a simple template to a safe preview. Nothing is imported without your confirmation.",templateStep:"Get template",uploadStep:"Upload",reviewStep:"Review",templateTitle:"Start with the guided workbook",templateCopy:"It contains a realistic example and separate sheets for people and relationships.",download:"Download family Excel",how:"How it works",one:"Add each person once.",oneHelp:"Use simple IDs such as P001. Never use Aadhaar or another sensitive ID.",two:"Connect people.",twoHelp:"Choose Parent, Child or Spouse in the Relationships sheet.",three:"Leave unknown details blank.",threeHelp:"Only a name, ID and generation are needed to begin.",scripts:"Names can be written in English, हिन्दी, मराठी or any other script.",already:"Already have a completed file?",drop:"Drop it here or choose XLSX, XLS or CSV",cancel:"Cancel",back:"Back",check:"Check family file",checking:"Checking your family…",add:"Add to family",adding:"Adding your family…",looks:"Does this look right?",looksHelp:"Here are the first few people. We will check every row in the next step.",ready:"Your family is ready to add",attention:"A few things need your attention",fix:"Please fix this",review:"Please review",safe:"Safe to continue",safeHelp:"Existing relationships are preserved, uncertain changes are never invented, and private details follow family visibility rules.",chooseAnother:"Choose another"},
-  hi:{assistant:"परिवार Excel सहायक",title:"अपनी परिवार सूची जोड़ें",intro:"सरल टेम्पलेट से सुरक्षित झलक तक हम आपका मार्गदर्शन करेंगे। आपकी पुष्टि के बिना कुछ नहीं जुड़ेगा।",templateStep:"टेम्पलेट लें",uploadStep:"अपलोड",reviewStep:"जाँच",templateTitle:"मार्गदर्शित workbook से शुरू करें",templateCopy:"इसमें वास्तविक उदाहरण और लोगों व रिश्तों के लिए अलग sheets हैं।",download:"पारिवारिक Excel डाउनलोड करें",how:"यह कैसे काम करता है",one:"हर व्यक्ति को एक बार जोड़ें।",oneHelp:"P001 जैसे सरल ID रखें। Aadhaar या अन्य संवेदनशील ID कभी न डालें।",two:"लोगों को रिश्तों से जोड़ें।",twoHelp:"Relationships sheet में Parent, Child या Spouse चुनें।",three:"अनजान जानकारी खाली छोड़ें।",threeHelp:"शुरुआत के लिए केवल नाम, ID और पीढ़ी चाहिए।",scripts:"नाम English, हिन्दी, मराठी या किसी भी लिपि में लिख सकते हैं।",already:"क्या file पहले से तैयार है?",drop:"यहाँ डालें या XLSX, XLS अथवा CSV चुनें",cancel:"रद्द करें",back:"वापस",check:"परिवार file जाँचें",checking:"परिवार की जाँच हो रही है…",add:"परिवार में जोड़ें",adding:"परिवार जोड़ा जा रहा है…",looks:"क्या यह सही दिख रहा है?",looksHelp:"यहाँ कुछ शुरुआती सदस्य हैं। अगले चरण में हर row जाँची जाएगी।",ready:"आपका परिवार जोड़ने के लिए तैयार है",attention:"कुछ चीज़ों पर ध्यान देना है",fix:"इसे ठीक करें",review:"कृपया जाँचें",safe:"आगे बढ़ना सुरक्षित है",safeHelp:"मौजूदा रिश्ते सुरक्षित रहेंगे, अनिश्चित बदलाव नहीं बनाए जाएँगे और निजी जानकारी family privacy के अनुसार रहेगी।",chooseAnother:"दूसरी file चुनें"},
-  mr:{assistant:"कुटुंब Excel सहाय्यक",title:"आपली कुटुंब यादी जोडा",intro:"सोप्या नमुन्यापासून सुरक्षित पूर्वदृश्यापर्यंत आम्ही मार्गदर्शन करतो. आपल्या पुष्टीशिवाय काहीही जोडले जाणार नाही.",templateStep:"नमुना घ्या",uploadStep:"अपलोड",reviewStep:"तपासणी",templateTitle:"मार्गदर्शित workbook ने सुरुवात करा",templateCopy:"यात वास्तव उदाहरण आणि व्यक्ती व नात्यांसाठी स्वतंत्र sheets आहेत.",download:"कुटुंब Excel डाउनलोड करा",how:"हे कसे काम करते",one:"प्रत्येक व्यक्ती एकदाच जोडा.",oneHelp:"P001 सारखे सोपे ID वापरा. Aadhaar किंवा संवेदनशील ID कधीही वापरू नका.",two:"व्यक्तींना नात्यांनी जोडा.",twoHelp:"Relationships sheet मध्ये Parent, Child किंवा Spouse निवडा.",three:"माहित नसलेली माहिती रिकामी ठेवा.",threeHelp:"सुरुवातीला फक्त नाव, ID आणि पिढी आवश्यक आहे.",scripts:"नावे English, हिन्दी, मराठी किंवा कोणत्याही लिपीत लिहू शकता.",already:"file आधीच तयार आहे?",drop:"येथे टाका किंवा XLSX, XLS अथवा CSV निवडा",cancel:"रद्द करा",back:"मागे",check:"कुटुंब file तपासा",checking:"कुटुंब तपासत आहोत…",add:"कुटुंबात जोडा",adding:"कुटुंब जोडत आहोत…",looks:"हे बरोबर दिसते का?",looksHelp:"येथे सुरुवातीच्या काही व्यक्ती आहेत. पुढील टप्प्यात प्रत्येक row तपासली जाईल.",ready:"आपले कुटुंब जोडण्यासाठी तयार आहे",attention:"काही गोष्टींकडे लक्ष देणे आवश्यक आहे",fix:"हे दुरुस्त करा",review:"कृपया तपासा",safe:"पुढे जाणे सुरक्षित आहे",safeHelp:"आधीची नाती सुरक्षित राहतील, अनिश्चित बदल बनवले जाणार नाहीत आणि खाजगी माहिती कुटुंबाच्या नियमांनुसार राहील.",chooseAnother:"दुसरी file निवडा"},
+  en:{assistant:"Family Excel assistant",title:"Bring your family list",intro:"We guide you from a simple template to a safe preview. Nothing is imported without your confirmation.",templateStep:"Get template",uploadStep:"Upload",reviewStep:"Review",templateTitle:"Start with the guided workbook",templateCopy:"It contains a realistic example and separate sheets for people and relationships.",download:"Download family Excel",how:"How it works",one:"Add each person once.",oneHelp:"Use simple IDs such as P001. Never use Aadhaar or another sensitive ID.",two:"Connect people.",twoHelp:"Choose familiar relationships such as Father, Mother, Son, Daughter, Husband or Wife. Parent, Child and Spouse also work.",three:"Leave unknown details blank.",threeHelp:"A name is enough to start. Friendly IDs and generation help, but you can leave unknown details blank and complete them later.",scripts:"Names can be written in English, हिन्दी, मराठी or any other script.",already:"Already have a completed file?",drop:"Drop it here or choose XLSX, XLS or CSV",cancel:"Cancel",back:"Back",check:"Check family file",checking:"Checking your family…",add:"Add to family",adding:"Adding your family…",looks:"Does this look right?",looksHelp:"Here are the first few people. We will check every row in the next step.",ready:"Your family is ready to add",attention:"A few things need your attention",fix:"Please fix this",review:"Please review",safe:"Safe to continue",safeHelp:"Existing relationships are preserved, uncertain changes are never invented, and private details follow family visibility rules.",chooseAnother:"Choose another"},
+  hi:{assistant:"परिवार Excel सहायक",title:"अपनी परिवार सूची जोड़ें",intro:"सरल टेम्पलेट से सुरक्षित झलक तक हम आपका मार्गदर्शन करेंगे। आपकी पुष्टि के बिना कुछ नहीं जुड़ेगा।",templateStep:"टेम्पलेट लें",uploadStep:"अपलोड",reviewStep:"जाँच",templateTitle:"मार्गदर्शित workbook से शुरू करें",templateCopy:"इसमें वास्तविक उदाहरण और लोगों व रिश्तों के लिए अलग sheets हैं।",download:"पारिवारिक Excel डाउनलोड करें",how:"यह कैसे काम करता है",one:"हर व्यक्ति को एक बार जोड़ें।",oneHelp:"P001 जैसे सरल ID रखें। Aadhaar या अन्य संवेदनशील ID कभी न डालें।",two:"लोगों को रिश्तों से जोड़ें।",twoHelp:"Relationships sheet में Parent, Child या Spouse चुनें।",three:"अनजान जानकारी खाली छोड़ें।",threeHelp:"शुरुआत के लिए नाम पर्याप्त है। ID और पीढ़ी मददगार हैं, लेकिन बाकी जानकारी बाद में जोड़ सकते हैं।",scripts:"नाम English, हिन्दी, मराठी या किसी भी लिपि में लिख सकते हैं।",already:"क्या file पहले से तैयार है?",drop:"यहाँ डालें या XLSX, XLS अथवा CSV चुनें",cancel:"रद्द करें",back:"वापस",check:"परिवार file जाँचें",checking:"परिवार की जाँच हो रही है…",add:"परिवार में जोड़ें",adding:"परिवार जोड़ा जा रहा है…",looks:"क्या यह सही दिख रहा है?",looksHelp:"यहाँ कुछ शुरुआती सदस्य हैं। अगले चरण में हर row जाँची जाएगी।",ready:"आपका परिवार जोड़ने के लिए तैयार है",attention:"कुछ चीज़ों पर ध्यान देना है",fix:"इसे ठीक करें",review:"कृपया जाँचें",safe:"आगे बढ़ना सुरक्षित है",safeHelp:"मौजूदा रिश्ते सुरक्षित रहेंगे, अनिश्चित बदलाव नहीं बनाए जाएँगे और निजी जानकारी family privacy के अनुसार रहेगी।",chooseAnother:"दूसरी file चुनें"},
+  mr:{assistant:"कुटुंब Excel सहाय्यक",title:"आपली कुटुंब यादी जोडा",intro:"सोप्या नमुन्यापासून सुरक्षित पूर्वदृश्यापर्यंत आम्ही मार्गदर्शन करतो. आपल्या पुष्टीशिवाय काहीही जोडले जाणार नाही.",templateStep:"नमुना घ्या",uploadStep:"अपलोड",reviewStep:"तपासणी",templateTitle:"मार्गदर्शित workbook ने सुरुवात करा",templateCopy:"यात वास्तव उदाहरण आणि व्यक्ती व नात्यांसाठी स्वतंत्र sheets आहेत.",download:"कुटुंब Excel डाउनलोड करा",how:"हे कसे काम करते",one:"प्रत्येक व्यक्ती एकदाच जोडा.",oneHelp:"P001 सारखे सोपे ID वापरा. Aadhaar किंवा संवेदनशील ID कधीही वापरू नका.",two:"व्यक्तींना नात्यांनी जोडा.",twoHelp:"Relationships sheet मध्ये Parent, Child किंवा Spouse निवडा.",three:"माहित नसलेली माहिती रिकामी ठेवा.",threeHelp:"सुरुवातीला नाव पुरेसे आहे. ID आणि पिढी उपयुक्त आहेत; उरलेली माहिती नंतर भरू शकता.",scripts:"नावे English, हिन्दी, मराठी किंवा कोणत्याही लिपीत लिहू शकता.",already:"file आधीच तयार आहे?",drop:"येथे टाका किंवा XLSX, XLS अथवा CSV निवडा",cancel:"रद्द करा",back:"मागे",check:"कुटुंब file तपासा",checking:"कुटुंब तपासत आहोत…",add:"कुटुंबात जोडा",adding:"कुटुंब जोडत आहोत…",looks:"हे बरोबर दिसते का?",looksHelp:"येथे सुरुवातीच्या काही व्यक्ती आहेत. पुढील टप्प्यात प्रत्येक row तपासली जाईल.",ready:"आपले कुटुंब जोडण्यासाठी तयार आहे",attention:"काही गोष्टींकडे लक्ष देणे आवश्यक आहे",fix:"हे दुरुस्त करा",review:"कृपया तपासा",safe:"पुढे जाणे सुरक्षित आहे",safeHelp:"आधीची नाती सुरक्षित राहतील, अनिश्चित बदल बनवले जाणार नाहीत आणि खाजगी माहिती कुटुंबाच्या नियमांनुसार राहील.",chooseAnother:"दुसरी file निवडा"},
 } as const;
 
 const uuid = () => globalThis.crypto?.randomUUID?.() || "00000000-0000-4000-8000-" + Math.random().toString(16).slice(2).padEnd(12, "0").slice(0, 12);
@@ -58,61 +58,7 @@ function downloadStaticSample(path: string, filename: string) {
 }
 
 function downloadFamilyTemplate() {
-  const exampleMembers = [
-    { person_id: "P001", full_name: "Mohan Sharma", gender: "Male", date_of_birth: "1948-06-12", living_status: "Living", generation: 1, city: "Pune", profession: "Teacher", phone: "", email: "", short_introduction: "Our family storyteller" },
-    { person_id: "P002", full_name: "Meena Sharma", gender: "Female", date_of_birth: "1952-11-03", living_status: "Living", generation: 1, city: "Pune", profession: "", phone: "", email: "", short_introduction: "" },
-    { person_id: "P003", full_name: "Rahul Sharma", gender: "Male", date_of_birth: "1978-02-18", living_status: "Living", generation: 2, city: "Mumbai", profession: "Architect", phone: "", email: "", short_introduction: "" },
-    { person_id: "P004", full_name: "Anita Sharma", gender: "Female", date_of_birth: "1981-09-25", living_status: "Living", generation: 2, city: "Mumbai", profession: "Designer", phone: "", email: "", short_introduction: "" },
-    { person_id: "P005", full_name: "Aarav Sharma", gender: "Male", date_of_birth: "2010-01-08", living_status: "Living", generation: 3, city: "Mumbai", profession: "Student", phone: "", email: "", short_introduction: "" },
-  ];
-  const exampleRelationships = [
-    { person_id: "P001", related_person_id: "P002", relationship: "Spouse", note: "Mohan is Meena's spouse" },
-    { person_id: "P001", related_person_id: "P003", relationship: "Parent", note: "Mohan is Rahul's parent" },
-    { person_id: "P002", related_person_id: "P003", relationship: "Parent", note: "Meena is Rahul's parent" },
-    { person_id: "P003", related_person_id: "P004", relationship: "Spouse", note: "Rahul is Anita's spouse" },
-    { person_id: "P003", related_person_id: "P005", relationship: "Parent", note: "Rahul is Aarav's parent" },
-    { person_id: "P004", related_person_id: "P005", relationship: "Parent", note: "Anita is Aarav's parent" },
-  ];
-  const instructions = [
-    { Step: "1", What_to_do: "Add every person once in the Family Members sheet.", Helpful_example: "Use simple IDs such as P001, P002 and P003." },
-    { Step: "2", What_to_do: "Keep each person_id unique. It is only used to connect people.", Helpful_example: "Do not use Aadhaar, PAN or another sensitive number." },
-    { Step: "3", What_to_do: "Add one relationship per row in the Relationships sheet.", Helpful_example: "P001 → P003 → Parent means P001 is P003's parent." },
-    { Step: "4", What_to_do: "Use Parent, Child or Spouse in the relationship column.", Helpful_example: "Siblings are understood when they share a parent." },
-    { Step: "5", What_to_do: "Use dates as YYYY-MM-DD. Leave unknown information blank.", Helpful_example: "1990-08-21" },
-    { Step: "6", What_to_do: "You may write names and descriptions in English, हिन्दी, मराठी or another script.", Helpful_example: "Names are never automatically translated." },
-    { Step: "7", What_to_do: "Phone, email, birth date and introduction are optional.", Helpful_example: "You can add private details later inside the app." },
-    { Step: "8", What_to_do: "Upload the file and review the preview before confirming.", Helpful_example: "Nothing is imported until you choose Add to family." },
-    { Step: "Allowed values", What_to_do: "gender: Male, Female or Other · living_status: Living or Deceased", Helpful_example: "Keep spelling exactly as shown." },
-    { Step: "Allowed relationships", What_to_do: "relationship: Parent, Child or Spouse", Helpful_example: "P001 → P003 → Parent means P001 is P003's parent." },
-  ];
-  const workbook = XLSX.utils.book_new();
-  const memberHeaders = ["person_id","full_name","gender","date_of_birth","date_of_death","living_status","generation","city","profession","phone","email","short_introduction"];
-  const relationshipHeaders = ["person_id","related_person_id","relationship","note"];
-  const memberSheet = XLSX.utils.aoa_to_sheet([memberHeaders]);
-  const relationshipSheet = XLSX.utils.aoa_to_sheet([relationshipHeaders]);
-  const instructionSheet = XLSX.utils.json_to_sheet(instructions);
-  const exampleSheet = XLSX.utils.aoa_to_sheet([
-    ["EXAMPLE ONLY — do not edit or import this sheet"],
-    [],
-    ["Example people"],
-    memberHeaders,
-    ...exampleMembers.map((row) => memberHeaders.map((header) => (row as any)[header] ?? "")),
-    [],
-    ["Example relationships"],
-    relationshipHeaders,
-    ...exampleRelationships.map((row) => relationshipHeaders.map((header) => (row as any)[header] ?? "")),
-  ]);
-  memberSheet["!cols"] = [{wch:12},{wch:24},{wch:12},{wch:16},{wch:14},{wch:12},{wch:18},{wch:20},{wch:16},{wch:26},{wch:34}];
-  relationshipSheet["!cols"] = [{wch:14},{wch:20},{wch:16},{wch:34}];
-  instructionSheet["!cols"] = [{wch:8},{wch:70},{wch:48}];
-  exampleSheet["!cols"] = memberSheet["!cols"];
-  memberSheet["!autofilter"] = { ref: `A1:L1` };
-  relationshipSheet["!autofilter"] = { ref: `A1:D1` };
-  XLSX.utils.book_append_sheet(workbook, memberSheet, "Family Members");
-  XLSX.utils.book_append_sheet(workbook, relationshipSheet, "Relationships");
-  XLSX.utils.book_append_sheet(workbook, instructionSheet, "Read Me First");
-  XLSX.utils.book_append_sheet(workbook, exampleSheet, "Example Family — Do Not Import");
-  XLSX.writeFile(workbook, "Our-Family-Excel-Template.xlsx");
+  downloadStaticSample("/family-excel-guided-template.xlsx", "family-excel-guided-template.xlsx");
 }
 
 export default function ImportModal({ onClose, onImport, existingMembers = [], existingRelationships = [] }: { onClose: () => void; onImport: (members: Member[], rels: Relationship[]) => void; existingMembers?: Member[]; existingRelationships?: Relationship[] }) {
@@ -193,10 +139,10 @@ export default function ImportModal({ onClose, onImport, existingMembers = [], e
         const second = resolve(row.related_person_id || row.related_person || row.relative);
         const relationship = text(row.relationship || row.relationship_type).toLowerCase();
         if (!first || !second) { errors.push(`Relationship row ${index + 2} refers to a person ID that is not in Family Members.`); return; }
-        if (relationship === "parent") add(first, second, "parent");
-        else if (relationship === "child") add(second, first, "parent");
-        else if (relationship === "spouse") add(first, second, "spouse");
-        else errors.push(`Relationship row ${index + 2} should use Parent, Child or Spouse.`);
+        if (["parent", "father", "mother"].includes(relationship)) add(first, second, "parent");
+        else if (["child", "son", "daughter"].includes(relationship)) add(second, first, "parent");
+        else if (["spouse", "husband", "wife"].includes(relationship)) add(first, second, "spouse");
+        else errors.push(`Relationship row ${index + 2} should use Father, Mother, Son, Daughter, Husband, Wife, Parent, Child or Spouse.`);
       });
     } else {
       memberRows.forEach((raw) => {
@@ -233,7 +179,7 @@ export default function ImportModal({ onClose, onImport, existingMembers = [], e
           <button className="btn" onClick={()=>downloadStaticSample("/family-demo-small-naval.xlsx","family-demo-small-naval.xlsx")}><Download size={16} /> Small demo · Naval family</button>
           <button className="btn" onClick={()=>downloadStaticSample("/sample-data-150.xlsx","family-demo-full-150.xlsx")}><Download size={16} /> Full demo · 150 people</button>
         </div>
-        <small className="sample-workbook-note">Use the small sample for a quick test. The 150-person workbook remains the full/default scale example.</small>
+        <small className="sample-workbook-note">The guided workbook has dropdowns for gender, living status, generation and family relationships. Start with only the details you know; you can complete the family later in the app.</small>
       </div>
       <div className="excel-how"><h3>{c.how}</h3><ol><li><b>{c.one}</b><span>{c.oneHelp}</span></li><li><b>{c.two}</b><span>{c.twoHelp}</span></li><li><b>{c.three}</b><span>{c.threeHelp}</span></li></ol><div className="excel-language-note">{c.scripts}</div></div>
     </div>}

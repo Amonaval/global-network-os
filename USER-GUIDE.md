@@ -218,3 +218,18 @@ In the Family Excel assistant you can now choose between:
 - **Full demo · 150 people** — the larger/default scale example for seeing how a bigger family behaves.
 
 The `person_id` values in Excel are friendly temporary references only. In shared/Supabase mode the app safely creates UUID member IDs and remaps relationship references during import.
+
+## Fastest way to try the app
+
+You do not need an account to understand the product. On the first page choose **Try Playground · no login**. The sample family is read-only and nothing is saved.
+
+When ready for a real family:
+
+1. Sign in.
+2. Join with a Family Code/invitation, or choose **Create my family**.
+3. A new family can start with only its name during Alpha.
+4. Add a few people manually or upload Excel/CSV.
+5. Unknown details can remain blank and be completed later.
+6. Relationships may use familiar words such as Father, Mother, Son, Daughter, Husband and Wife.
+
+Use **Help → Preview detailed family guide** inside the app for the full quick-start document.

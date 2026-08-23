@@ -394,3 +394,11 @@ Verification pending against live Supabase and real mobile devices. CR2 is not m
 - [ ] Apply migration 032 to live Supabase.
 - [ ] Verify fresh `Start with a few relatives` family creation end-to-end.
 - [ ] Verify small and 150-person imports end-to-end.
+
+## CR2.2 — Alpha First-Impressions QA & Progressive Onboarding
+
+**Status: IMPLEMENTED IN SOURCE / BEHAVIOUR VERIFY REQUIRED**
+
+The fresh-family `No active family selected` failure is fixed by carrying the created family UUID explicitly through activation/settings persistence. Anonymous Playground, minimum-data creation, progressive Excel/CSV, familiar relationship vocabulary, labeled tree edges and detailed Help preview are implemented.
+
+Do not promote CR2.2 to VERIFIED until deployed behaviour tests pass for anonymous Playground, fresh family-name-only creation, people-only Excel import, human relationship import and 360/390/430 px mobile use.

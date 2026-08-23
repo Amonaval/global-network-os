@@ -31,6 +31,7 @@ import {
   Home,
   Rocket,
   Sparkles,
+  PlayCircle,
 } from "lucide-react";
 import TreeView from "./TreeView";
 import ProfileDrawer from "./ProfileDrawer";
@@ -76,7 +77,7 @@ import FamilyHome from "./FamilyHome";
 import FamilySwitcher from "./FamilySwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
 import FounderLaunchConsole from "./FounderLaunchConsole";
-import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail } from "../lib/remote";
+import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail, setActiveNetwork } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
@@ -369,6 +370,7 @@ export default function NetworkApp() {
         return;
       }
       const networkId = await createSharedFamily(settings.name, undefined, settings.description || "");
+      await setActiveNetwork(networkId);
       settings = {...settings, network_id: networkId, membership_role: "owner"};
       await repository.saveNetworkSettings(settings);
       if (nextM.length) {
@@ -874,6 +876,18 @@ export default function NetworkApp() {
       "image/svg+xml",
     );
   };
+  const enterPublicPlayground = () => {
+    const d = loadDemoState();
+    setNetwork({id:"network",name:"Sample Family Playground",description:"Try the family experience without signing in. Nothing is saved.",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});
+    setMembers(d.members);
+    setRelationships(d.relationships);
+    setSubmissions(d.submissions);
+    setPlatformFeatures(defaultFeatureMap(true));
+    setDemoPreview(true);
+    setSetupNeeded(false);
+    setView("home");
+  };
+
   if (!ready)
     return (
       <div className="loading-screen">
@@ -896,7 +910,7 @@ export default function NetworkApp() {
         <AuthPanel initialMode="reset" onDone={()=>{}} onResetDone={async()=>{setPasswordRecovery(false);try{await hydrate(await getAuthUser());notify("Password updated successfully.")}catch(e:any){notify(e.message||"Password changed. Please sign in again.");setAuth(null)}}} />
       </div>
     );
-  if (isSupabaseConfigured && !auth)
+  if (isSupabaseConfigured && !auth && !demoPreview)
     return (
       <div className="landing family-signin-page">
         <div className="landing-card family-signin-card">
@@ -906,9 +920,15 @@ export default function NetworkApp() {
           <span className="warm-kicker">A private place for your people</span>
           <h1>Welcome to your family</h1>
           <p>Sign in to explore your family tree, profiles, relationships and shared memories.</p>
-          <button className="btn primary" onClick={() => setShowAuth(true)}>
-            Join or sign in <ArrowRight size={16} />
-          </button>
+          <div className="family-signin-actions">
+            <button className="btn primary" onClick={() => setShowAuth(true)}>
+              Join or sign in <ArrowRight size={16} />
+            </button>
+            <button className="btn" onClick={enterPublicPlayground}>
+              <PlayCircle size={16} /> Try Playground · no login
+            </button>
+          </div>
+          <p className="playground-note">Playground is read-only and temporary. Nothing you do there is saved.</p>
           <LanguageSwitcher />
         </div>
         {showAuth && (
@@ -1053,7 +1073,7 @@ export default function NetworkApp() {
             <option value="member">{t("memberView")}</option>
             <option value="admin">{t("adminView")}</option>
           </select>}
-          {canAdmin && <button className="btn small" onClick={() => setShowGuide(true)}>
+          {<button className="btn small" onClick={() => setShowGuide(true)}>
             <BookOpen size={15} /> {t("guide")}
           </button>}
           {isSupabaseConfigured && (canAdmin || experience!=="simple") && (
@@ -1080,7 +1100,7 @@ export default function NetworkApp() {
             className={`nav-btn ${view === navView ? "active" : ""}`}
             onClick={() => navView === "tree" ? openFamilyView() : setView(navView)}
           >{icon} {label}</button>)}
-          {hasFeature("core.profile") && <button className={`nav-btn ${selected?.id===auth?.member_id ? "active" : ""}`} onClick={openMyProfile}><UserRoundPen size={17}/> {language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</button>}
+          {(!demoPreview || !!auth) && hasFeature("core.profile") && <button className={`nav-btn ${selected?.id===auth?.member_id ? "active" : ""}`} onClick={openMyProfile}><UserRoundPen size={17}/> {language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</button>}
           {canAdmin && hasFeature("admin.center") && <div className="admin-nav-separator">
             <div className="sidebar-section-label">{language === "hi" ? "परिवार प्रबंधन" : language === "mr" ? "कुटुंब व्यवस्थापन" : "Family management"}</div>
             <button className={`nav-btn admin-nav ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><ShieldCheck size={17}/> {language === "hi" ? "परिवार संभालें" : language === "mr" ? "कुटुंब सांभाळा" : "Manage family"}</button>
@@ -1777,7 +1797,7 @@ export default function NetworkApp() {
         <button className={view === "home" ? "active" : ""} onClick={() => setView("home")}><Home size={19}/><span>{language === "hi" ? "आज" : language === "mr" ? "आज" : "Home"}</span></button>
         <button className={view === "tree" ? "active" : ""} onClick={openFamilyView}><TreePine size={19}/><span>{language === "hi" ? "परिवार" : language === "mr" ? "कुटुंब" : "Family"}</span></button>
         {experience!=="simple" && hasFeature("remember.memories") && <button className={view === "community" ? "active" : ""} onClick={() => setView("community")}><HeartHandshake size={19}/><span>{language === "hi" ? "यादें" : language === "mr" ? "आठवणी" : "Memories"}</span></button>}
-        <button className={selected?.id===auth?.member_id ? "active" : ""} onClick={openMyProfile}><UserRoundPen size={19}/><span>{language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</span></button>
+        {(!demoPreview || !!auth) && <button className={selected?.id===auth?.member_id ? "active" : ""} onClick={openMyProfile}><UserRoundPen size={19}/><span>{language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</span></button>}
         <button className={showMobileMenu || view === "map" || view === "admin" || view === "founder" || view === "timeline" || view === "participation" || view === "directory" ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19}/><span>{moreLabel}</span></button>
       </nav>
       {showMobileMenu && <div className="mobile-more-overlay" onMouseDown={(event) => event.target === event.currentTarget && setShowMobileMenu(false)}><section className="mobile-more-sheet" role="dialog" aria-modal="true" aria-label={moreLabel}>
@@ -1903,6 +1923,20 @@ export default function NetworkApp() {
             </div>
             <p className="page-subtitle">{helpCopy.intro}</p>
             <div className="family-help-list">{helpCopy.items.map((item, index) => <div key={item}><span>{index + 1}</span><p>{item}</p></div>)}</div>
+            <details className="family-help-document-preview">
+              <summary><BookOpen size={15}/> Preview detailed family guide</summary>
+              <div className="family-help-document">
+                <h3>Family Network · practical guide</h3>
+                <p><b>Explore first:</b> use Playground without login. It is temporary and nothing is saved.</p>
+                <p><b>Join a real family:</b> sign in, use a family code or personal invitation, then confirm your own profile when offered.</p>
+                <p><b>Create a family:</b> give it a name and start with only a few relatives. You can add everything else later.</p>
+                <p><b>Excel / CSV:</b> names are enough to begin. The guided Excel offers dropdowns for gender, generation and familiar relationships. CSV is best for a simple people list.</p>
+                <p><b>Relationships:</b> use Father, Mother, Son, Daughter, Husband or Wife. The app stores a simple family graph underneath and shows human wording on top.</p>
+                <p><b>Family view:</b> mobile starts with a personal lineage. Use Full Tree only when you want to explore every branch.</p>
+                <p><b>Correct later:</b> missing dates, professions, cities, photos and even relationships can be completed gradually through the UI.</p>
+                <p><b>Privacy:</b> do not add Aadhaar/PAN or sensitive IDs. Contact details are optional.</p>
+              </div>
+            </details>
           </div>
         </div>
       )}

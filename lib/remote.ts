@@ -165,6 +165,7 @@ export async function fetchNetworkSettings(): Promise<NetworkSettings | null> {
 export async function saveNetworkSettings(settings: NetworkSettings) {
   if (!supabase) return;
   const { error } = await supabase.rpc("save_network_settings", {
+    p_network_id: settings.network_id || null,
     p_name: settings.name,
     p_description: settings.description || "",
     p_entity_label: settings.entity_label ?? "Member",

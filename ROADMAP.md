@@ -562,3 +562,24 @@ Still requires live Supabase verification. Do not mark complete based only on so
 - Normalize friendly Excel IDs to UUIDs before shared persistence.
 - Offer both a small quick-start Naval workbook and the existing 150-person full demo workbook.
 - Do not mark complete until fresh-family creation and both sample imports are tested against live Supabase.
+
+## CR2.2 — Alpha First-Impressions QA & Progressive Onboarding — IMPLEMENTED / BEHAVIOUR VERIFY
+
+This is now a release-critical layer before broad family sharing.
+
+Implemented:
+- explicit network ID on fresh-family settings save;
+- no-login read-only Playground;
+- family-name-only creation;
+- progressive Excel/CSV import;
+- guided Excel dropdowns;
+- Father/Mother/Son/Daughter/Husband/Wife import vocabulary;
+- human relationship labels on full-tree edges;
+- detailed Help document preview;
+- binding critical-path behaviour QA.
+
+Not complete until fresh-account, Playground, Excel, mobile and relationship-vocabulary journeys pass against the deployed Supabase/Vercel environment.
+
+### Follow-ups preserved
+- CR2.3 Generation inference + post-import relationship helper — only if Alpha users struggle with generation/relationship entry.
+- CR2.4 Public first-impression polish + privacy-conscious funnel metrics — after real Alpha observation.
