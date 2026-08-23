@@ -370,21 +370,46 @@ export default function NetworkApp() {
         return;
       }
       const networkId = await createSharedFamily(settings.name, undefined, settings.description || "");
+      // create_family already creates the network settings row and owner membership.
+      // Activate the returned family explicitly, then refresh auth before any admin-only work.
       await setActiveNetwork(networkId);
+      let creatorAuth = await getAuthUser();
+      if (creatorAuth?.active_network_id !== networkId || creatorAuth?.family_role !== "owner") {
+        // One retry protects fresh sessions where profile/membership visibility settles a moment later.
+        await setActiveNetwork(networkId);
+        creatorAuth = await getAuthUser();
+      }
       settings = {...settings, network_id: networkId, membership_role: "owner"};
-      await repository.saveNetworkSettings(settings);
+      setAuth(creatorAuth);
+      setNetwork(settings);
+
       if (nextM.length) {
         await repository.upsertMembers(nextM);
-        await repository.mergeRelationships(nextR);
+        if (nextR.length) await repository.mergeRelationships(nextR);
       }
-      await refresh();
-      setNetwork(await repository.fetchNetworkSettings());
-      setAuth(await getAuthUser());
-      await repository.logAudit("network_initialized", {
-        mode,
-        member_count: nextM.length,
-        relationship_count: nextR.length,
-      });
+
+      // Hydrate with the creator's freshly-resolved family role instead of the stale pre-create auth closure.
+      const state = await repository.fetchState("admin");
+      if (state) {
+        setMembers(state.members);
+        setRelationships(state.relationships);
+        setSubmissions(state.submissions);
+      }
+      const savedNetwork = await repository.fetchNetworkSettings();
+      if (savedNetwork) setNetwork({...savedNetwork, membership_role: "owner"});
+      try {
+        const governance = await repository.fetchGovernance();
+        setChangeRequests(governance.changeRequests);
+        setAuditLog(governance.auditLog);
+      } catch {}
+      // Audit telemetry must never turn a successfully-created family into a failed onboarding screen.
+      try {
+        await repository.logAudit("network_initialized", {
+          mode,
+          member_count: nextM.length,
+          relationship_count: nextR.length,
+        });
+      } catch {}
     } else {
       const n = saveLocalNetwork(settings);
       setNetwork(n);
@@ -588,8 +613,9 @@ export default function NetworkApp() {
             .join("\n"),
         );
       if (repository.mode === "shared") {
-        if (auth?.role !== "admin")
-          throw new Error("Admin access is required for bulk import.");
+        const familyAdmin = network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.family_role === "owner" || auth?.family_role === "admin" || auth?.role === "admin";
+        if (!familyAdmin)
+          throw new Error("Family administrator access is required for bulk import.");
         await repository.upsertMembers(ms);
         await repository.mergeRelationships(rs);
         await repository.logAudit("hierarchy_import", {

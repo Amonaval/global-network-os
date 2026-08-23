@@ -6,7 +6,7 @@ const checks=[
  ['family join code backend',read('supabase/migrations/031_cr2_frictionless_alpha_onboarding.sql').includes('join_family_by_code')],
  ['verified email claim backend',read('supabase/migrations/031_cr2_frictionless_alpha_onboarding.sql').includes('claim_profile_by_verified_email')],
  ['no-family entry choices',read('components/SetupScreen.tsx').includes('Join my family')&&read('components/SetupScreen.tsx').includes('Explore a sample family')&&read('components/SetupScreen.tsx').includes('Create my family')],
- ['Excel prominent',read('components/SetupScreen.tsx').includes('Upload guided Excel')],
+ ['Excel prominent',read('components/SetupScreen.tsx').includes('Upload guided Excel')||read('components/SetupScreen.tsx').includes('Upload Excel or CSV')],
  ['demo stays read-only-labelled',read('components/NetworkApp.tsx').includes('Sample family · read-only')],
  ['family code invite UI',read('components/InvitationModal.tsx').includes('Share the Family Code')],
  ['founder auto approval toggle',read('components/FounderLaunchConsole.tsx').includes('Alpha auto-approval ON')],

@@ -548,13 +548,14 @@ Delivered in source:
 Still requires live Supabase verification. Do not mark complete based only on source checks.
 
 ### CR2 follow-ups preserved, not required for first Alpha
-- CR2.1: invitation detection inside normal post-login landing when a token was opened on another device;
-- CR2.2: richer "connect my joined membership to my profile" assistant after Family Code join;
-- CR2.3: optional QR rendering of Family Code/join URL;
-- CR2.4: Alpha onboarding analytics: signed-up → joined/demo/created → opened tree → returned;
-- CR2.5: safe expiry/rotation policy for Family Codes if/when Alpha expands beyond trusted distribution.
+The implementation sequence has consumed CR2.1–CR2.3 as real Alpha stabilization missions. Older ideas are preserved and renumbered rather than overwritten:
+- CR2.4: invitation detection inside normal post-login landing when a token was opened on another device;
+- CR2.5: richer "connect my joined membership to my profile" assistant after Family Code join;
+- CR2.6: optional QR rendering of Family Code/join URL;
+- CR2.7: Alpha onboarding analytics: signed-up → joined/demo/created → opened tree → returned;
+- CR2.8: safe expiry/rotation policy for Family Codes if/when Alpha expands beyond trusted distribution.
 
-**Immediate release order remains:** CR1 real-device corrections → CR2 live onboarding verification → V1 Alpha certification → 2–3 trusted-family pilot → evidence-driven corrections.
+**Immediate release order:** CR2.3 deployed behaviour verification → V1 Alpha certification → 2–3 trusted-family pilot → evidence-driven corrections.
 
 ### CR2.1 — Alpha onboarding/runtime hotfix — IMPLEMENTED / VERIFY
 - Fix demo/local non-UUID profile IDs reaching UUID-only Supabase RPCs.
@@ -580,6 +581,21 @@ Implemented:
 
 Not complete until fresh-account, Playground, Excel, mobile and relationship-vocabulary journeys pass against the deployed Supabase/Vercel environment.
 
+## CR2.3 — Alpha Onboarding Stabilization + Behaviour QA — IMPLEMENTED / LIVE VERIFY
+
+P0 correction after real Alpha testing exposed `Administrator access is required` during fresh-family creation.
+
+Implemented:
+- refresh creator auth immediately after the returned family UUID is activated;
+- hydrate the newly-created family explicitly as Owner/Admin rather than using stale pre-create auth state;
+- remove the redundant immediate settings re-save from the create path because `create_family()` already creates the family settings row;
+- make bulk-import authorization recognize actual family Owner/Admin membership;
+- make post-create audit telemetry non-blocking;
+- migration 034 hardens active-family fallback and family-scoped legacy admin/audit semantics;
+- preserve real-device CSS fixes: Special Days card padding and profile overlay stacking.
+
+**Verification rule:** CR2.3 is not complete until anonymous Playground, fresh creator, Excel/CSV creator, joiner and returning-owner journeys pass on deployed Supabase/Vercel.
+
 ### Follow-ups preserved
-- CR2.3 Generation inference + post-import relationship helper — only if Alpha users struggle with generation/relationship entry.
-- CR2.4 Public first-impression polish + privacy-conscious funnel metrics — after real Alpha observation.
+- CR2.9 Generation inference + post-import relationship helper — only if Alpha users struggle with generation/relationship entry.
+- CR2.10 Public first-impression polish + privacy-conscious funnel metrics — after real Alpha observation.

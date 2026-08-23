@@ -107,3 +107,18 @@ Required release validation:
 4. Run TypeScript/production build validation to catch missing exports and stale consumers.
 5. Validate all previously delivered feature journeys, not only the current mission.
 6. Never mark a release complete when a previous feature is merely hidden from navigation but still expected by the product baseline.
+
+## Hard rule — behaviour QA for user-facing journeys
+
+A user-facing mission is not complete because its component, RPC or source gate exists.
+For every onboarding/navigation/profile/import/share flow changed by a mission:
+
+1. Define the journey from a clean user state (anonymous, fresh signup, member, family owner/admin, returning user as applicable).
+2. Verify the user's next visible action after every successful write; never assume hidden session/auth context refreshed correctly.
+3. A successful primary write must not be presented as a failed journey because optional hydration, telemetry, analytics or secondary UI work failed afterward.
+4. Test both first use and return use (logout/login or reload) when persistence is part of the feature.
+5. Test the narrow mobile path for any flow intended for relatives.
+6. Record what was source-checked versus actually exercised against deployed Supabase/Vercel.
+7. Status remains **IMPLEMENTED / BEHAVIOUR VERIFY** until the critical journey passes in the real runtime.
+
+This rule is especially binding for Alpha onboarding: anonymous Playground, fresh creator, Excel/CSV creator, invited/code joiner and returning Owner.

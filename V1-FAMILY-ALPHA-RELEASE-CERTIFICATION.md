@@ -303,3 +303,20 @@ V1 Alpha cannot be certified until the new no-family journey is verified on live
 - [ ] Small Naval workbook imports successfully in shared mode.
 - [ ] Full 150-person sample imports successfully in shared mode.
 - [ ] Shared imported members use UUID IDs even when Excel uses friendly IDs such as `P001`.
+
+## CR2.3 onboarding stabilization addendum
+
+Migration chain is now **001–034**.
+
+V1 Alpha certification additionally requires the deployed CR2.3 behaviour matrix to pass:
+
+- anonymous/incognito visitor can enter Playground without login or write/auth errors;
+- fresh non-platform-owner can create a family with only a name while Alpha approval is OFF;
+- creator resolves immediately as Family Owner and does not see `Administrator access is required`;
+- creating a family is not reported as failed because optional audit/hydration work failed after the tenant was already created;
+- owner can add/import people immediately after creation and again after logout/login;
+- Family Code/invitation joiner resolves as Member, not Admin;
+- returning Owner resolves the same active family and Owner/Admin capabilities without manual repair;
+- user-verified Special Days padding and profile-overlay stacking remain correct on mobile.
+
+CR2.3 source gates are supporting evidence only; they do not replace deployed behaviour verification.

@@ -1,3 +1,10 @@
+View is not good in mobile. It is take 65% width & left side is empty in mobile. Not fully streched. Fixed that isuse, before I share with family members
+
+& ensure we have point 0 added.
+0) Family creation approval has to come to the owner who owns the platform. Members addition is fine. But family creation is owned by platform owners/admins.
+
+& evaluate this features into cost of implementing and value addition. I got this feedback
+
 1) Family Admin creator can create family
 2) He can create co-admin. Co-admin can't delete existing parent hierarchy defined by admin
 3) Back button on profile relationship network
@@ -24,3 +31,11 @@
 
 
 17) Animated video. Showcasing. Apna family and something on login page background
+
+
+18) Eventually - Subscription based multiple plans. So 3-4 plans & custom contact
+
+    50 Mb - Free - Core features
+    100 Mb - Plan 1 - Core + xyz features  
+    500 Mb - Exclusive plan - All features 
+

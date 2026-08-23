@@ -402,3 +402,25 @@ Verification pending against live Supabase and real mobile devices. CR2 is not m
 The fresh-family `No active family selected` failure is fixed by carrying the created family UUID explicitly through activation/settings persistence. Anonymous Playground, minimum-data creation, progressive Excel/CSV, familiar relationship vocabulary, labeled tree edges and detailed Help preview are implemented.
 
 Do not promote CR2.2 to VERIFIED until deployed behaviour tests pass for anonymous Playground, fresh family-name-only creation, people-only Excel import, human relationship import and 360/390/430 px mobile use.
+
+
+## CR2.3 — Alpha Onboarding Stabilization + Behaviour QA
+
+**Status: IMPLEMENTED IN SOURCE / LIVE BEHAVIOUR VERIFY REQUIRED**
+
+- [x] Fresh-family creation re-reads auth after activation so creator family role resolves as Owner.
+- [x] New-family hydration no longer relies on stale pre-create `auth.role`.
+- [x] Redundant immediate post-create settings save removed from the standard family bootstrap path.
+- [x] Bulk import accepts family Owner/Admin membership rather than only legacy global-admin state.
+- [x] Post-create audit telemetry cannot turn a successful family creation into a failed onboarding screen.
+- [x] Migration 034 hardens active-family fallback and family-scoped legacy admin/audit semantics.
+- [x] User-verified `.card.home-coming` padding and `profile-overlay` z-index corrections retained.
+- [x] `npm run validate:cr2.3` source gate passes.
+- [ ] Apply migration 034 to live Supabase.
+- [ ] Fresh non-platform-owner: family-name-only create → Owner → add relative → logout/login.
+- [ ] Fresh creator: Excel/CSV create/import with partial data.
+- [ ] Anonymous Playground has no auth/write errors.
+- [ ] Family-code/invitation joiner resolves as Member.
+- [ ] Returning Owner automatically resolves the same active family and admin capability.
+
+CR2.3 must not be marked VERIFIED until those deployed behaviour journeys pass.
