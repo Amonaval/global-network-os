@@ -254,3 +254,19 @@ The ordinary-user audit also identified important account lifecycle needs that s
 - versioned Terms/Privacy acknowledgement before broad/public self-service launch.
 
 These are intentionally preserved as follow-up scope. They should not be described as completed by the password-recovery work in V1.
+
+## Addendum — Pre-Alpha family feedback gate (2026-08-23)
+
+V1 certification now additionally requires:
+
+- migration 029 applies cleanly after 028;
+- non-platform users cannot directly create a family;
+- a signed-in user can submit one pending family-creation request;
+- platform owner(s) can see, approve and reject requests in Launch Control;
+- approval creates the family and makes the requester its `owner`;
+- rejection creates no family tenant;
+- the last platform owner protections from V1 remain intact;
+- mobile browser uses the device viewport and the application shell fills the viewport without the previously reported large blank left area;
+- member relationship access remains read-only in both UI and RLS/RPC verification.
+
+Feedback-derived future items are tracked in `PRE-ALPHA-FAMILY-FEEDBACK-PRIORITIZATION.md`; their presence in the roadmap must not be interpreted as current completion.

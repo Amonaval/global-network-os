@@ -43,6 +43,8 @@ export type FamilyFeatureSetting={feature_key:string;enabled:boolean};
 export type FeatureAnnouncement={feature_key:string;announcement_version:number;rollout_state:"hidden"|"test"|"pilot"|"released";updated_at:string};
 export type PlatformOwnerRow={user_id:string;email:string|null;created_at:string;is_me:boolean};
 export type PlatformOwnerAuditRow={id:string;actor_email:string|null;target_email:string|null;action:"added"|"removed";created_at:string};
+export type FamilyCreationRequest={id:string;name:string;status:"pending"|"approved"|"rejected";decision_note:string|null;created_at:string;reviewed_at:string|null;network_id:string|null};
+export type PlatformFamilyCreationRequest=FamilyCreationRequest&{requester_user_id:string;requester_email:string|null;description:string};
 export async function fetchEffectivePlatformFeatures():Promise<PlatformFeatureRow[]>{
   if(!supabase)return [];
   const {data,error}=await supabase.rpc("get_effective_platform_features");
@@ -86,6 +88,10 @@ export async function addPlatformOwnerByEmail(email:string){if(!supabase)return;
 export async function removePlatformOwner(userId:string){if(!supabase)return;const {error}=await supabase.rpc("remove_platform_owner",{p_user_id:userId});if(error)throw error;}
 export async function fetchPlatformOwnerAudit(limit=20):Promise<PlatformOwnerAuditRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_platform_owner_audit",{p_limit:limit});if(error)throw error;return (data||[]) as PlatformOwnerAuditRow[];}
 export async function applyAlphaDay1LaunchPreset(){if(!supabase)return 0;const {data,error}=await supabase.rpc("apply_alpha_day1_launch_preset");if(error)throw error;return Number(data||0);}
+export async function requestFamilyCreation(name:string,description=""){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("request_family_creation",{p_name:name,p_description:description});if(error)throw error;return data as string;}
+export async function fetchMyFamilyCreationRequests():Promise<FamilyCreationRequest[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_my_family_creation_requests");if(error)throw error;return (data||[]) as FamilyCreationRequest[];}
+export async function fetchPlatformFamilyCreationRequests():Promise<PlatformFamilyCreationRequest[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_platform_family_creation_requests");if(error)throw error;return (data||[]) as PlatformFamilyCreationRequest[];}
+export async function reviewFamilyCreationRequest(requestId:string,action:"approve"|"reject",note=""){if(!supabase)return null;const {data,error}=await supabase.rpc("review_family_creation_request",{p_request_id:requestId,p_action:action,p_note:note||null});if(error)throw error;return data as string|null;}
 export async function fetchFamilyFeatureSettings():Promise<FamilyFeatureSetting[]>{
   if(!supabase)return [];
   const {data,error}=await supabase.rpc("get_family_feature_settings");
@@ -624,12 +630,27 @@ export async function updateOwnProfileSafeFields(input: Partial<Member>) {
   if (error) throw error;
 }
 
-export async function fetchNotificationPreferences(){
+export type NotificationPreferences={
+  digest:"off"|"weekly"|"monthly";
+  special_days:boolean;
+  memories:boolean;
+  gatherings:boolean;
+};
+
+export async function fetchNotificationPreferences():Promise<NotificationPreferences>{
   if(!supabase)return {digest:"weekly",special_days:true,memories:false,gatherings:true};
   const {data,error}=await supabase.rpc("get_my_notification_preferences");
-  if(error)throw error; return data as {digest:"off"|"weekly"|"monthly";special_days:boolean;memories:boolean;gatherings:boolean};
+  if(error)throw error;
+  const value=data as Partial<NotificationPreferences>|null;
+  const digest:NotificationPreferences["digest"]=value?.digest==="off"||value?.digest==="monthly"?value.digest:"weekly";
+  return {
+    digest,
+    special_days:value?.special_days!==false,
+    memories:value?.memories===true,
+    gatherings:value?.gatherings!==false,
+  };
 }
-export async function saveNotificationPreferences(input:{digest:"off"|"weekly"|"monthly";special_days:boolean;memories:boolean;gatherings:boolean}){
+export async function saveNotificationPreferences(input:NotificationPreferences){
   if(!supabase)return;
   const {error}=await supabase.rpc("save_my_notification_preferences",{p_digest:input.digest,p_special_days:input.special_days,p_memories:input.memories,p_gatherings:input.gatherings});
   if(error)throw error;

@@ -325,3 +325,18 @@ Pilot with founder family + 2–3 trusted families. Real friction becomes B0-C.1
 
 ### V1.1 explicitly preserved — not completed by V1
 Verified email change, account deletion vs historical-record retention, leave-family semantics, other-session revocation, simple help/support routing and Terms/Privacy acknowledgement remain future account-lifecycle work. They must not be silently treated as complete because forgot-password/reset is implemented.
+
+---
+
+## 2026-08-23 — Pre-Alpha Mobile + Family Creation Governance
+
+Status: **IMPLEMENTED IN SOURCE / VERIFY ON DEVICE + SUPABASE**
+
+- Fixed the mobile-width foundation with an explicit device-width viewport and defensive full-width/overflow rules.
+- Added migration `029_pre_alpha_mobile_and_family_creation_approval.sql`.
+- New family creation is now platform-controlled: non-platform users submit requests; platform owners approve/reject in Launch Control; approved requester becomes Family Owner.
+- `create_family(...)` itself now rejects non-platform-owner callers, preventing client/UI bypass.
+- Added a durable value/cost review of family feedback in `PRE-ALPHA-FAMILY-FEEDBACK-PRIORITIZATION.md` and routed all items into C1/C2/D2/M0 rather than falsely marking them complete.
+- Earlier notification-preferences typing hotfix remains included in the baseline used for this patch.
+
+Required verification before family sharing: run migration 029; test request/approve/reject with separate accounts; verify the requester becomes Owner; verify a non-platform user cannot call `create_family`; test responsive layout on at least one real Android/iPhone-size viewport.

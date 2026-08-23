@@ -12,7 +12,7 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; min-height: 100%; }
+html, body { margin: 0; padding: 0; min-height: 100%; width:100%; max-width:100%; overflow-x:hidden; }
 body {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--bg);
@@ -21,7 +21,7 @@ body {
 button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
 
-.app-shell { min-height: 100vh; }
+.app-shell { min-height: 100vh; width:100%; max-width:100vw; overflow-x:hidden; }
 .topbar {
   height: 64px; background: rgba(255,255,255,.94); border-bottom: 1px solid var(--line);
   display:flex; align-items:center; justify-content:space-between; padding:0 22px;
@@ -30,14 +30,14 @@ button { cursor: pointer; }
 .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:-.02em; }
 .brand-mark { width:34px; height:34px; border-radius:10px; display:grid; place-items:center; background:var(--brand); color:white; }
 .top-actions { display:flex; gap:8px; align-items:center; }
-.layout { display:grid; grid-template-columns: 230px 1fr; min-height: calc(100vh - 64px); }
+.layout { display:grid; grid-template-columns: 230px minmax(0,1fr); min-height: calc(100vh - 64px); width:100%; max-width:100%; }
 .sidebar { background:#fff; border-right:1px solid var(--line); padding:16px 12px; }
 .nav-btn {
   width:100%; border:0; background:transparent; padding:11px 12px; border-radius:10px;
   display:flex; align-items:center; gap:10px; color:#4f5b6f; text-align:left; margin-bottom:4px;
 }
 .nav-btn:hover, .nav-btn.active { background:var(--brand-soft); color:var(--brand); }
-.main { min-width:0; padding:22px; }
+.main { min-width:0; width:100%; max-width:100%; padding:22px; }
 .page-head { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; margin-bottom:18px; }
 .page-title { margin:0; font-size:25px; letter-spacing:-.03em; }
 .page-subtitle { margin:5px 0 0; color:var(--muted); font-size:14px; }
@@ -70,7 +70,7 @@ button { cursor: pointer; }
 .card-actions { display:flex; gap:7px; margin-top:10px; flex-wrap:wrap; }
 .empty { padding:40px 20px; text-align:center; color:var(--muted); }
 .profile-overlay {
-  position:fixed; inset:0; background:rgba(15,23,42,.28); z-index:80; display:flex; justify-content:flex-end;
+  position:fixed; inset:0; background:rgba(15,23,42,.28); z-index:50; display:flex; justify-content:flex-end;
 }
 .drawer { width:min(480px, 100vw); background:#fff; height:100%; overflow:auto; padding:22px; box-shadow:-12px 0 40px rgba(0,0,0,.12); }
 .drawer-head { display:flex; justify-content:space-between; align-items:center; }
@@ -115,9 +115,9 @@ th { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacin
 .mobile-only { display:none; }
 
 @media (max-width: 800px) {
-  .layout { grid-template-columns:1fr; }
+  .layout { display:block; width:100%; max-width:100vw; }
   .sidebar { display:none; }
-  .main { padding:14px; }
+  .main { width:100%; max-width:100vw; margin:0; padding:14px; }
   .mobile-only { display:inline-flex; }
   .topbar { padding:0 14px; }
   .tree-card { height:calc(100vh - 205px); min-height:480px; }
@@ -329,3 +329,16 @@ h1,h2,.family-welcome h1,.onboarding-story h1{font-family:"Iowan Old Style","Pal
 .password-field{position:relative;display:flex;align-items:center}.password-field .text-input{padding-right:48px;width:100%}.password-toggle{position:absolute;right:6px;width:36px;height:36px;border:0;background:transparent;border-radius:10px;display:grid;place-items:center;color:var(--muted,#667085);cursor:pointer}.password-toggle:hover,.password-toggle:focus-visible{background:#f2f4f7;color:var(--text,#172033)}.auth-link{border:0;background:transparent;color:var(--accent,#76543b);font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px;min-height:40px}.auth-link:disabled{opacity:.5;cursor:not-allowed}.success-notice{border-color:#b8e0c4;background:#f0fbf3}.error-notice{border-color:#f0c1c1;background:#fff5f5}.recovery-card{margin-bottom:12px}
 .platform-owners{padding:18px}.owner-add-row{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:10px;margin:14px 0}.platform-owner-list{display:grid;border-top:1px solid var(--line,#eceef2)}.platform-owner-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line,#eceef2)}.platform-owner-row>span{display:grid;gap:3px}.platform-owner-row small{color:var(--muted,#667085)}.icon-button.danger{color:#b42318}.owner-audit{margin-top:12px}.owner-audit summary{cursor:pointer;font-weight:700;padding:8px 0}.alpha-preset{padding:18px;display:flex;align-items:center;justify-content:space-between;gap:22px}.alpha-preset>div{max-width:760px}.alpha-preset h2{margin:5px 0}.alpha-preset p{margin:0;color:var(--muted,#667085)}
 @media(max-width:650px){.owner-add-row{grid-template-columns:1fr}.owner-add-row .btn{width:100%;justify-content:center}.alpha-preset{align-items:stretch;flex-direction:column}.alpha-preset .btn{width:100%;justify-content:center}.platform-owner-row{align-items:flex-start}}
+
+/* Pre-alpha mobile width hardening + platform-controlled family creation */
+.family-approval-page{width:100%;max-width:100vw;padding:16px}
+.family-approval-card{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.family-approval-card h1{margin:0}.family-approval-card p{margin:0;color:var(--muted);line-height:1.6}.family-approval-card small{color:var(--muted)}
+.family-approval-request{padding:18px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;background:#fffaf0;border-color:#e2d8c6}.family-approval-request>svg{color:var(--brand)}.family-approval-request strong{display:block}.family-approval-request p{margin:5px 0 0;color:var(--muted);font-size:12px;line-height:1.5}.family-approval-request .btn{white-space:nowrap}
+.family-creation-approvals{padding:18px}.family-creation-request-list{display:flex;flex-direction:column;margin-top:10px}.family-creation-review-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0;border-top:1px solid var(--line)}.family-creation-review-row>span{display:flex;min-width:0;flex-direction:column;gap:3px}.family-creation-review-row small{color:var(--muted);font-size:10px}.family-creation-review-row em{font-style:normal;color:#596579;font-size:11px}.family-creation-review-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:800px){
+  html,body,#__next{width:100%;max-width:100vw}
+  .app-shell,.layout,.main,.family-home,.family-onboarding,.onboarding-wrap{width:100%;max-width:100vw;min-width:0;margin-left:0;margin-right:0}
+  .family-approval-request{grid-template-columns:1fr}.family-approval-request>svg{display:none}.family-approval-request .btn{width:100%;justify-content:center}
+  .family-creation-review-row{align-items:flex-start;flex-direction:column}.family-creation-review-actions{width:100%;justify-content:flex-start}.family-creation-review-actions .btn{flex:1;justify-content:center}
+}

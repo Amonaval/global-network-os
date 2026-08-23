@@ -445,3 +445,28 @@ Before inviting the first external pilot families:
 
 ### V1.1 preserved after trusted-family Alpha — Account lifecycle & help
 Do not lose: verified email change, account deletion vs family-history retention, leave-family semantics (A3.4/C1), other-session revocation, simple help/contact-family-admin path, and Terms/Privacy acknowledgement before broad public self-service launch.
+
+---
+
+## 2026-08-23 — Pre-Alpha family feedback correction
+
+Before broader family sharing, feature expansion remains secondary to adoption, trust and release control.
+
+### P0 — Pre-alpha blockers
+- **P0.1 Mobile full-width rendering:** device-width viewport + 100% mobile shell. Source fixed; real-device verification required.
+- **P0.2 Platform-controlled family creation:** migration 029. Normal users request a family; platform owners approve/reject; approved requester becomes Family Owner. Direct family creation is rejected at the database layer for non-platform owners.
+- **P0.3 V1 certification remains binding:** authentication, invitation, role/RLS, rollout precedence, mobile/novice journey and historical completeness must pass before Alpha Certified.
+
+### C1 — Trust, Lineage & Cleanup bundle
+Absorb: foundational relationship locks (Owner-defined parent hierarchy), strict Personal Lineage mode, verified member-owned contact visibility, cleanup/reversible repair workflows, and previously recorded trust/recovery/accessibility gaps.
+
+### C2 — Family Delight & Controlled Sharing bundle
+Absorb: focused-person/lineage visual refinement, mobile lineage-first tree, dedicated tree print/PDF, lineage-scoped notifications, memory reactions/download, and lineage/selected-person memory audiences, together with existing remembrance/sharing completion work.
+
+### D2 — Communication (evidence-gated)
+Family chat, direct messages and sub-groups are explicitly preserved but deferred until pilot evidence shows that Family Network should own messaging rather than integrate/share through WhatsApp or another channel.
+
+### M0 — Monetization Foundation (after pilot evidence)
+Preserve subscription/entitlement architecture for Free / Standard / Premium / Custom plans. Candidate storage tiers from feedback are 50 MB / 100 MB / 500 MB, but exact limits and pricing are **not committed** until real-family storage and engagement data is measured.
+
+See `PRE-ALPHA-FAMILY-FEEDBACK-PRIORITIZATION.md` for the complete value/cost matrix. No feedback item is to be silently dropped if priorities change.

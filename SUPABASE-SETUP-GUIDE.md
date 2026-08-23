@@ -188,3 +188,11 @@ https://your-project.vercel.app/**
 Also add your custom domain before enabling it for family users. Test both signup-confirmation links and forgot-password links after changing auth URL configuration.
 
 Launch Control is not controlled by an environment email variable. It uses the protected `platform_owners` table. After migration 028, an existing platform owner can add another existing account by email from **Platform → Launch Control → Who can control launches**.
+
+## Migration 029 — platform approval for new families
+
+Before the pre-alpha family rollout, apply `029_pre_alpha_mobile_and_family_creation_approval.sql` after migration 028.
+
+After 029, ordinary authenticated users **cannot directly create a family tenant**. They submit a family request from onboarding. A platform owner opens **Launch Control → Family creation approvals** and approves or rejects it. Approval creates the family and assigns the requester the Family `owner` role. Platform owners may still create a family directly.
+
+Validate with two separate accounts: one ordinary user and one platform owner. Also confirm a non-platform account receives a permission error if it attempts to call `create_family(...)` directly.

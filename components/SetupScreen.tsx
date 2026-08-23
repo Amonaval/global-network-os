@@ -19,9 +19,10 @@ type Props = {
   onCreate: (settings: NetworkSettings, mode: "empty" | "demo" | "import", members?: Member[], relationships?: Relationship[]) => Promise<void> | void;
   shared: boolean;
   canSetup: boolean;
+  approvalRequired?: boolean;
 };
 
-export default function SetupScreen({ onCreate, shared, canSetup }: Props) {
+export default function SetupScreen({ onCreate, shared, canSetup, approvalRequired=false }: Props) {
   const { language } = useLanguage();
   const c = SETUP_COPY[language];
   const nameError = language === "hi" ? "कृपया अपने परिवार को एक नाम दें।" : language === "mr" ? "कृपया आपल्या कुटुंबाला नाव द्या." : "Please give your family space a name.";
@@ -78,11 +79,11 @@ export default function SetupScreen({ onCreate, shared, canSetup }: Props) {
           <button className="setup-back" onClick={() => setStep(1)}><ArrowLeft size={15} /> {c.back}</button>
           <div className="setup-heading compact-heading"><div><span className="setup-eyebrow">{name}</span><h2>{c.howBegin}</h2></div></div>
           <p className="setup-intro">{c.choose}</p>
-          <div className="family-start-options">
+          {approvalRequired ? <div className="family-approval-request card"><ShieldCheck size={22}/><div><strong>Family creation is approved by the platform owner</strong><p>Your request creates no family data yet. After approval, you become the Family Owner and can add relatives or import the guided Excel file.</p></div><button className="btn primary" disabled={busy || !canSetup} onClick={() => create("empty")}>{busy?"Sending…":"Request family approval"} <ArrowRight size={15}/></button></div> : <div className="family-start-options">
             <button className="family-start-card recommended" disabled={busy || !canSetup} onClick={() => setShowImport(true)}><span className="start-icon"><FileSpreadsheet /></span><span className="recommended-pill">{c.best}</span><strong>{c.useExcel}</strong><small>{c.useExcelCopy}</small><b>{c.openExcel} <ArrowRight size={15} /></b></button>
             <button className="family-start-card" disabled={busy || !canSetup} onClick={() => create("empty")}><span className="start-icon"><UsersRound /></span><strong>{c.few}</strong><small>{c.fewCopy}</small><b>{c.createFamily} <ArrowRight size={15} /></b></button>
             <button className="family-start-card" disabled={busy || !canSetup} onClick={() => create("demo")}><span className="start-icon"><Sparkles /></span><strong>{c.sample}</strong><small>{c.sampleCopy}</small><b>{c.viewSample} <ArrowRight size={15} /></b></button>
-          </div>
+          </div>}
           <div className="setup-privacy"><ShieldCheck size={17} /><span><b>{c.control}</b> {c.controlCopy}</span></div>
           {error && <div className="notice danger-text">{error}</div>}
         </>}

@@ -75,7 +75,7 @@ import FamilyHome from "./FamilyHome";
 import FamilySwitcher from "./FamilySwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
 import FounderLaunchConsole from "./FounderLaunchConsole";
-import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel } from "../lib/remote";
+import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
@@ -111,6 +111,7 @@ export default function NetworkApp() {
     [showAuth, setShowAuth] = useState(false),
     [passwordRecovery, setPasswordRecovery] = useState(false),
     [setupNeeded, setSetupNeeded] = useState(false),
+    [pendingFamilyRequest, setPendingFamilyRequest] = useState<FamilyCreationRequest | null>(null),
     [editingMember, setEditingMember] = useState<Member | undefined>();
   const [platformFeatures,setPlatformFeatures]=useState<EffectiveFeatureMap>(()=>defaultFeatureMap(!isSupabaseConfigured)),
     [experiencePreview,setExperiencePreview]=useState<ExperienceLevel|null>(null),
@@ -174,6 +175,12 @@ export default function NetworkApp() {
         : loadLocalNetwork();
     setNetwork(n);
     setSetupNeeded(!n);
+    if(repository.mode === "shared" && u && !n){
+      try{
+        const requests=await fetchMyFamilyCreationRequests();
+        setPendingFamilyRequest(requests.find(item=>item.status==="pending")||null);
+      }catch{setPendingFamilyRequest(null)}
+    } else { setPendingFamilyRequest(null); }
     if (n) {
       const s = await repository.fetchState(
         u?.role === "admin" ? "admin" : "member",
@@ -338,6 +345,13 @@ export default function NetworkApp() {
         "The selected starting data contains integrity errors. Fix the data before creating the network.",
       );
     if (repository.mode === "shared") {
+      if(!auth?.platform_owner){
+        await requestFamilyCreation(settings.name, settings.description || "");
+        const requests=await fetchMyFamilyCreationRequests();
+        setPendingFamilyRequest(requests.find(item=>item.status==="pending")||requests[0]||null);
+        notify("Family request sent to the platform owner for approval.");
+        return;
+      }
       const networkId = await createSharedFamily(settings.name, undefined, settings.description || "");
       settings = {...settings, network_id: networkId, membership_role: "owner"};
       await repository.saveNetworkSettings(settings);
@@ -965,11 +979,12 @@ export default function NetworkApp() {
   if (setupNeeded)
     return (
       <>
-        <SetupScreen
+        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval from a platform owner. Once approved, you will become its Family Owner and can add relatives or import your family list.</p><div className="notice"><b>Status:</b> Waiting for approval</div><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><small>You do not need to create another request.</small></div></div> : <SetupScreen
           shared={isSupabaseConfigured}
           canSetup={canSetupFamily}
+          approvalRequired={isSupabaseConfigured&&!isPlatformOwner}
           onCreate={createNetwork}
-        />
+        />}
         {toast && (
           <div
             style={{
