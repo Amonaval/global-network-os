@@ -271,3 +271,9 @@ Sustainable monetization is a primary objective. Family may drive engagement/dis
 - `ProfileDrawer.tsx`: preview audience filters profile details, contacts, social links, life events and memories; backdrop dismissal remains supported.
 - Dismissible modal components now close only when the backdrop itself is activated, not when a control inside the dialog is used.
 - `app/globals.css`: user-verified `.card { padding: 10px; }` and Home memory tile bottom spacing are canonical.
+
+## 2026-08-23 — S2-A codebase update
+
+Latest additive migration: `037_s2a_living_family_loop.sql`.
+
+S2-A adds a Home Family Pulse capped at 1–3 relevant moments, memory reactions, family-scoped engagement events, and aggregate living-loop metrics. Primary affected runtime files: `components/FamilyHome.tsx`, `components/CommunityHub.tsx`, `components/ParticipationCenter.tsx`, `lib/types.ts`, `lib/remote.ts`, `lib/demo-data.ts`, and `app/globals.css`. S1 remains substantially verified with residual QA; S2-A remains live verify until deployed/pilot behavior is measured.

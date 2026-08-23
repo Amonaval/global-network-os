@@ -80,3 +80,7 @@ For acquisition, demos and investor conversations, prefer a **dense living famil
 **Prefer family-native engagement over generic engagement.** A game is strategic when family context makes it better: a reunion Tambola room, “Who is this childhood photo?”, family trivia or generation challenges. A video integration is strategic when the family adds durable context—who shared it, why it matters, which memory/event/person it belongs to—not when the product merely recreates a social feed.
 
 **Platform integration is distribution, not moat.** YouTube/Instagram embedding can reduce friction and increase time-in-family, but the defensible asset is the permissioned relationship graph plus identity, memories, history, contribution and family rituals accumulated around it. Do not distort product priorities around a hypothetical acquisition by a large social platform; build unique family value that makes partnership or acquisition optional upside.
+
+## S2 retention rule — added 2026-08-23
+
+Do not turn Family Network into a generic feed. A return surface should answer at least one of: **what is happening, what can I discover, what tiny thing can I contribute, what should I celebrate/remember?** Family Pulse should normally show 1–3 meaningful items, not infinite content. Measure deliberate family actions and returning people; page views alone are not retention proof.

@@ -278,3 +278,9 @@ S1-D **Interaction Reliability & Privacy Preview Clarity** is implemented in sou
 Two engagement concepts are preserved under S2 experimentation rather than being pulled into S1: **Family Play** (beginning with family-native Tambola/trivia/photo guessing) and **Shared Social Video / Family Watch** (external video links embedded where officially permitted and attached to family memories/events). Their purpose is to strengthen the Discover → Feel → Contribute → Share → Return loop while keeping the trusted family graph—not third-party content—the product moat.
 
 S2 remains blocked until S1 deployed behaviour verification is complete.
+
+## 2026-08-23 — S2-A execution update
+
+The S2 gate is now open because the majority of S1 behavior has been founder-verified; unresolved S1 checks remain a residual QA stream. S2-A implements the first living-family loop rather than a broad engagement feature set: **Family Pulse → memory/reaction or celebration → tiny contribution/share → measured return**. Home shows no more than three relevant prompts; memories gain lightweight reactions; deliberate loop actions are measured through family-scoped aggregate telemetry.
+
+S2 remains **LIVE VERIFY**. The next batch must respond to pilot evidence, with attractive share artifacts, digest delivery and deeper contextual contributions as the leading candidates. Chat remains deferred.

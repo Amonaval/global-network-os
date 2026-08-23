@@ -91,6 +91,8 @@ export type RelationshipPath = {
   distance: number;
 };
 
+export type MemoryReaction = "heart" | "smile" | "pray" | "celebrate";
+
 export type Memory = {
   id: string;
   member_id?: string;
@@ -102,6 +104,8 @@ export type Memory = {
   visibility: ProfileVisibility;
   created_by?: string;
   created_at: string;
+  reaction_counts?: Partial<Record<MemoryReaction, number>>;
+  my_reaction?: MemoryReaction;
 };
 
 export type NotificationPreference = {

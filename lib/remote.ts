@@ -7,6 +7,7 @@ import {
   Relationship,
   Submission,
   Memory,
+  MemoryReaction,
   Notification,
   NetworkAnalytics,
 } from "./types";
@@ -550,7 +551,15 @@ export async function fetchMemories(memberId?: string): Promise<Memory[]> {
   const { data, error } = await q;
   if (error) throw error;
   const rows=await resolveSignedUrls((data || []) as Memory[], "community-media");
-  if(rows.length){const links=await supabase.rpc("get_memory_people",{p_memory_ids:rows.map(x=>x.id)});if(!links.error){const by=new Map<string,string[]>();for(const x of links.data||[]){by.set(x.memory_id,[...(by.get(x.memory_id)||[]),x.member_id])}for(const row of rows)row.related_member_ids=by.get(row.id)||[];}}
+  if(rows.length){
+    const ids=rows.map(x=>x.id);
+    const [links,reactions]=await Promise.all([
+      supabase.rpc("get_memory_people",{p_memory_ids:ids}),
+      supabase.rpc("get_memory_reactions",{p_memory_ids:ids})
+    ]);
+    if(!links.error){const by=new Map<string,string[]>();for(const x of links.data||[]){by.set(x.memory_id,[...(by.get(x.memory_id)||[]),x.member_id])}for(const row of rows)row.related_member_ids=by.get(row.id)||[];}
+    if(!reactions.error){const by=new Map<string,any>((reactions.data||[]).map((x:any)=>[x.memory_id,x]));for(const row of rows){const r=by.get(row.id);if(r){row.reaction_counts={heart:Number(r.heart||0),smile:Number(r.smile||0),pray:Number(r.pray||0),celebrate:Number(r.celebrate||0)};row.my_reaction=(r.my_reaction||undefined) as MemoryReaction|undefined;}}}
+  }
   return rows;
 }
 export async function createMemory(
@@ -576,6 +585,24 @@ export async function deleteMemory(id: string) {
   const { error } = await supabase.rpc("delete_memory", { p_memory_id: id });
   if (error) throw error;
 }
+
+export async function setMemoryReaction(memoryId:string,reaction:MemoryReaction|null){
+  if(!supabase)return;
+  const {error}=reaction?await supabase.rpc("set_memory_reaction",{p_memory_id:memoryId,p_reaction:reaction}):await supabase.rpc("clear_memory_reaction",{p_memory_id:memoryId});
+  if(error)throw error;
+}
+export async function trackFamilyEngagement(eventType:string,entityType?:string,entityId?:string,channel?:string){
+  if(!supabase)return;
+  const {error}=await supabase.rpc("track_family_engagement",{p_event_type:eventType,p_entity_type:entityType||null,p_entity_id:entityId&&isUuidValue(entityId)?entityId:null,p_channel:channel||null});
+  if(error)throw error;
+}
+export async function fetchLivingLoopMetrics(days=30):Promise<Record<string,number>>{
+  if(!supabase)return {};
+  const {data,error}=await supabase.rpc("get_living_loop_metrics",{p_days:days});
+  if(error)throw error;
+  return (data||{}) as Record<string,number>;
+}
+
 export async function fetchNotifications(): Promise<Notification[]> {
   if (!supabase) return [];
   const { data, error } = await supabase.rpc("get_my_notifications");

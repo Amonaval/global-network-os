@@ -133,3 +133,7 @@ Live verification required:
 - repeat modal and preview checks at 360/390/430 widths.
 
 S1 remains LIVE VERIFY; this source gate does not replace deployed behaviour QA.
+
+## S2-A validation — 2026-08-23
+
+Run `npm run validate:s2-a` after migration 037 is present. Live verify: Family Pulse relevance, memory reaction add/change/remove, Playground reaction no-save behavior, memory sharing, contribution completion tracking, admin 30-day Living Loop scorecard, tenant isolation, and mobile Home/memory behavior at 360/390/430px.

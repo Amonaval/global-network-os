@@ -174,3 +174,11 @@ Playground feature visibility is controlled independently from real-family platf
 - Never label a narrow privacy preview as a whole-app role simulation. UI labels must describe the actual scope.
 - Admin privacy-preview controls must reduce rendered information to the simulated audience even though the operator's real account has broader privileges.
 - User-verified visual fixes become part of the cumulative baseline and must not be silently reverted by later missions.
+
+## S2 living-loop rules — added 2026-08-23
+
+- Retention features must stay family-contextual and calm; do not introduce infinite-feed mechanics.
+- Family Pulse is capped at 1–3 prioritized items per visit.
+- Engagement telemetry must be tenant-scoped, privacy-minimal and aggregate-oriented for admins.
+- Demo/Playground interaction may simulate writes locally but must never persist into a real family.
+- S2 completion requires pilot behavior evidence; source gates can only mark implementation, never retention success.

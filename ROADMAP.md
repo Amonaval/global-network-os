@@ -728,3 +728,11 @@ This mission also preserves the user-verified UI fixes `.card { padding: 10px; }
 **Shared Social Video / Family Watch — PROMISING S2 EXPERIMENT, PLATFORM-DEPENDENT.** Treat YouTube/Instagram links as a new memory/media attachment rather than creating a generic social-feed clone. A relative shares a supported link, it appears inside a family Memory/Story/Event or a lightweight Family Watch queue, and the app renders an official embedded player where the platform permits it with a safe external-link fallback. This preserves context: *why this video matters to our family* becomes first-party family knowledge. Avoid downloading/rehosting third-party media and avoid making external algorithms the product's center of gravity.
 
 **Acquisition thesis:** integrations alone are not a credible reason for Instagram/YouTube or another platform to buy the company. Strategic value would come from a high-engagement, permissioned family graph plus unique memory/context/contribution data and recurring family rituals. External media should amplify that moat, not replace it.
+
+## 2026-08-23 — S2 execution begins: S2-A Living Family Loop
+
+User verification has covered the majority of S1 journeys; remaining S1 items move to residual thorough QA rather than blocking all retention work. S1 is **SUBSTANTIALLY VERIFIED / RESIDUAL QA**, not retroactively marked fully certified.
+
+S2-A is **IMPLEMENTED IN SOURCE / LIVE VERIFY**. It introduces a restrained Family Pulse (1–3 relevant reasons to act), lightweight memory reactions, privacy-safe engagement instrumentation, and an aggregate 30-day Living Loop scorecard. This is the first concrete implementation of `Discover → Feel → Contribute → Share → Return`.
+
+Next S2 work should be evidence-led: improve the weakest step in the live loop rather than automatically adding breadth. Candidate follow-ons remain attractive share cards, digest delivery and contextual one-tap contributions. Family Play and contextual social-video memories remain later S2 experiments, not prerequisites for proving the core loop.
