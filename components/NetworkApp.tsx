@@ -78,6 +78,7 @@ import ParticipationCenter from "./ParticipationCenter";
 import FamilyHome from "./FamilyHome";
 import FamilySwitcher from "./FamilySwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
+import FamilyIntakeAdmin from "./FamilyIntakeAdmin";
 import QuickFamilyStart from "./QuickFamilyStart";
 import FounderLaunchConsole from "./FounderLaunchConsole";
 import GuidePortal from "./GuidePortal";
@@ -142,6 +143,7 @@ export default function NetworkApp() {
     ),
     [selected, setSelected] = useState<Member | null>(null),
     [showImport, setShowImport] = useState(false),
+    [showFamilyIntake,setShowFamilyIntake]=useState(false),
     [showForm, setShowForm] = useState(false),
     [quickStartDismissed,setQuickStartDismissed]=useState(false),
     [familyReady,setFamilyReady]=useState<string | null>(null),
@@ -1235,10 +1237,10 @@ export default function NetworkApp() {
         </aside>
         <main className="main">
           {view!=="guide" && view!=="founder" && <FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key===guideByView[view])} onOpenGuide={openGuide} onOpenFeature={openGuideFeature} onTryPlayground={tryGuideInPlayground} rememberKey={`view-${view}`}/>}
-          {familyReady && view==="home" && <div className="family-ready-celebration"><div className="family-ready-icon"><Sparkles size={22}/></div><div><span className="warm-kicker">Your family is ready</span><h2>{familyReady}</h2><p>Start with yourself and the people closest to you. You can import a list or enrich everything gradually.</p></div><div className="family-ready-actions"><button className="btn primary small" onClick={()=>{setFamilyReady(null);if(!viewerMemberId)window.scrollTo({top:0,behavior:"smooth"})}}>Add myself / close family</button><button className="btn small" onClick={()=>{setFamilyReady(null);setShowImport(true)}}>Import Excel / CSV</button><button className="icon-button" aria-label="Dismiss" onClick={()=>setFamilyReady(null)}><X size={16}/></button></div></div>}
+          {familyReady && view==="home" && <div className="family-ready-celebration"><div className="family-ready-icon"><Sparkles size={22}/></div><div><span className="warm-kicker">Your family is ready</span><h2>{familyReady}</h2><p>Start with yourself and the people closest to you. You can import a list or enrich everything gradually.</p></div><div className="family-ready-actions">{hasFeature("contribute.branch_intake")&&<button className="btn primary small" onClick={()=>{setFamilyReady(null);setShowFamilyIntake(true)}}>Build together · Recommended</button>}<button className="btn small" onClick={()=>{setFamilyReady(null);if(!viewerMemberId)window.scrollTo({top:0,behavior:"smooth"})}}>Add myself / close family</button><button className="btn small" onClick={()=>{setFamilyReady(null);setShowImport(true)}}>Import Excel / CSV</button><button className="icon-button" aria-label="Dismiss" onClick={()=>setFamilyReady(null)}><X size={16}/></button></div></div>}
           {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">New in your family</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||"New family feature"}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||"There is something new to explore."}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
           {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={openMember} />}
-          {view === "home" && canAdmin && !demoPreview && !quickStartDismissed && members.length < 5 && <QuickFamilyStart viewer={viewerMemberId?members.find(m=>m.id===viewerMemberId):undefined} suggestedName={auth?.email?.split("@")[0]||""} onAddMyself={addMyselfFirst} onAddRelative={addCloseRelative} onImport={()=>setShowImport(true)} onDismiss={()=>setQuickStartDismissed(true)}/>}
+          {view === "home" && canAdmin && !demoPreview && !quickStartDismissed && members.length < 5 && <QuickFamilyStart viewer={viewerMemberId?members.find(m=>m.id===viewerMemberId):undefined} suggestedName={auth?.email?.split("@")[0]||""} onAddMyself={addMyselfFirst} onAddRelative={addCloseRelative} onImport={()=>setShowImport(true)} onBuildTogether={hasFeature("contribute.branch_intake")?()=>setShowFamilyIntake(true):undefined} onDismiss={()=>setQuickStartDismissed(true)}/>}
           {view === "home" && <FamilyHome members={members} events={allLifeEvents} memories={demoPreview?memories:undefined} networkName={network?.name} viewerMemberId={viewerMemberId} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} showFamilyPulse={hasFeature("remember.family_pulse")} showQuietDigest={hasFeature("remember.quiet_digest")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} readOnly={demoPreview} />}
           {view === "tree" && (
             <section className="tree-page">
@@ -1580,7 +1582,7 @@ export default function NetworkApp() {
                   </p>
                 </div>
               </div>
-              {network && <FamilyAdminCenter network={network} members={members} relationships={relationships} memberCount={members.length} relationshipCount={relationships.length} changeRequests={changeRequests} onSaveSettings={updateLivingSetting} onOpenInvitations={()=>setShowInvitation(true)} onOpenParticipation={()=>setView("participation")} onExportCsv={exportCsv} onExportJson={exportJson} onPrint={()=>window.print()} onNotify={notify} onFeatureSettingsChanged={refreshFeatureState}/>}
+              {network && <FamilyAdminCenter network={network} members={members} relationships={relationships} memberCount={members.length} relationshipCount={relationships.length} changeRequests={changeRequests} onSaveSettings={updateLivingSetting} onOpenInvitations={()=>setShowInvitation(true)} onOpenParticipation={()=>setView("participation")} onOpenFamilyIntake={hasFeature("contribute.branch_intake")?()=>setShowFamilyIntake(true):undefined} onExportCsv={exportCsv} onExportJson={exportJson} onPrint={()=>window.print()} onNotify={notify} onFeatureSettingsChanged={refreshFeatureState}/>}
               <details className="legacy-admin-details"><summary>Advanced administration & diagnostics</summary>
               <div className="admin-grid">
                 <div className="card stat">
@@ -1943,6 +1945,9 @@ export default function NetworkApp() {
         {canAdmin&&<label className="mobile-more-setting"><span>{language==='hi'?'सदस्य अनुभव देखें':language==='mr'?'सदस्य अनुभव पहा':'Preview member experience'}</span><select className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>{(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map(level=><option key={level} value={level}>{EXPERIENCE_LABELS[level].label}</option>)}</select></label>}
         {isSupabaseConfigured && <button className="mobile-more-action sign-out" onClick={() => { signOut(); setAuth(null); setShowMobileMenu(false); }}><span><LogOut />{t("signOut")}</span></button>}
       </section></div>}
+      {showFamilyIntake && network && !demoPreview && (
+        <FamilyIntakeAdmin familyName={network.name} onClose={()=>setShowFamilyIntake(false)} onCommitted={async()=>{await refresh()}} onNotify={notify}/>
+      )}{" "}
       {showInvitation && (
         <InvitationModal
           members={members.filter((m) => m.profile_status === "approved")}

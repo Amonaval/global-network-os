@@ -336,3 +336,17 @@ Launch Control now includes explicit feature keys for `core.guide`, `remember.fa
 Active product mission: `S3-A-ACTIVATION-NETWORK-GROWTH.md`. Broad S3 implementation is intentionally paused for real-user evidence.
 
 Historical/superseded planning material is being consolidated under `archive/history/`; canonical current docs remain at root.
+
+## S3-A1 additions — 2026-08-25
+
+Distributed intake is isolated from canonical family editing until Owner approval.
+- Public route: `app/contribute/[token]/page.tsx`
+- Mobile form: `components/FamilyBranchIntakeForm.tsx`
+- Owner review/share modal: `components/FamilyIntakeAdmin.tsx`
+- Types: `lib/family-intake-types.ts`
+- Client RPC wrappers: S3-A1 section in `lib/remote.ts`
+- Feature registry: `contribute.branch_intake` in `lib/features.ts`
+- Database: `supabase/migrations/043_s3a1_distributed_family_intake.sql`
+- Source gate: `scripts/s3-a1-source-gate.mjs`
+
+Canonical `family_members` and `family_relationships` remain the destination; anonymous forms never write them directly. Keep future intake extensions proposal/staging-first.

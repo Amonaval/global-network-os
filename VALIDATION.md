@@ -209,3 +209,28 @@ Before pilot use after applying migration 042, verify:
 8. Playground remains no-save.
 
 Real-user feedback during the pause becomes the primary behavioral validation stream. Capture blockers, repeated confusion, missing recovery, privacy concerns and first-value moments.
+
+## S3-A1 Distributed Family Intake validation — 2026-08-25
+
+Source checks:
+- `npm run validate:s3-a1` → **14/14 PASS**.
+- New/modified TS/TSX syntax transpilation → **PASS**.
+- Dependency-complete Next production build → **LIVE VERIFY**. The canonical ZIP had no installed dependencies; `npm run build` returned `next: not found`, and a dependency-install attempt did not complete inside the execution window.
+
+Required staging/live checks after applying `043_s3a1_distributed_family_intake.sql`:
+1. Platform Owner or Pilot-targeted Family Owner can create an intake; ordinary non-pilot families cannot.
+2. Generate at least 3 representative links under the same session and submit all 3 successfully even while earlier branches are already in review.
+3. Anonymous contribution link reveals only family name/intake label and never members, tree, phone/email, other submissions or network identifiers.
+4. Revoke one link, expire one link and attempt a second submission on a one-use link; all must fail safely.
+5. Submit exact-name+DOB duplicate, exact-name+birth-year/context duplicate, repeated-name ambiguous case and unrelated same-name case. Verify deterministic score/reasons and that uncertain identities never auto-merge.
+6. Verify Same / Different / Not sure. Medium/high Open or Not sure candidates must block canonical commit.
+7. Commit a clean branch. Verify canonical members/relationships appear in the existing app without changing unrelated features.
+8. Commit against an existing matched member with a conflicting DOB/city/gender. Verify canonical value is retained and `family_intake_conflicts` records the contradiction.
+9. Submit two branches sharing a likely person and verify cross-branch candidate review can connect them without silently merging.
+10. Force an invalid generation/cycle relationship and verify the commit rolls back rather than partially corrupting the tree.
+11. Prove Family A token/submission cannot read or mutate Family B staging/canonical data.
+12. Verify 360/390/430 widths: form fields, repeat relatives, progress, sticky actions, review list, Owner match controls and modal scrolling.
+13. Verify metrics: link opens, submissions, people reported and branches committed change as expected without exposing private content.
+14. Re-run existing onboarding/Launch Control/Family Admin smoke tests to ensure S3-A1 remains additive.
+
+Pilot evidence gate: measure representative link-open → submit conversion, people/relationships per completed branch, Owner reconciliation burden, time from family creation to useful connected graph, duplicate/conflict rate, wider-family invitation readiness and second-contributor activation.

@@ -616,3 +616,24 @@ Real-family release: Core + Explore & Guide + Special Days + Memories + Family H
 Pilot: Gatherings + family sharing.
 Test: Places + Community + Trusted Introductions + public profiles + Print/QR.
 Playground: member-facing breadth visible for discovery except public profiles and Print/QR, which remain hidden by default.
+
+
+## 2026-08-25 — S3-A activation hypothesis refined by real adoption friction
+
+**ACTIVE NEXT EXPERIMENT: S3-A1 Distributed Family Intake & Branch Assembly.**
+
+Broad feature development remains frozen. Rather than requiring relatives to enter an incomplete application and manually construct the tree, a Family Starter will eventually share a safe family contribution link/code. Representatives submit familiar mobile forms for the branch they know; submissions are staged, deduplicated with deterministic identity/context signals, reconciled into partial branches, and connected by the Owner/Admin. Wider family onboarding happens after useful family data exists.
+
+No implementation is claimed by this roadmap update. S3-A1 is PLANNED / NEXT when user feedback justifies resuming development.
+
+Also preserved as planned: a configurable About Creator / Connect with us surface for feedback, onboarding help, partnerships, organizations, speaking/media and investor/business opportunities, reusing governed feedback/triage patterns and avoiding exposure of private personal contact data.
+
+## 2026-08-25 — S3-A1 Distributed Family Intake & Branch Assembly V1
+
+**Status: IMPLEMENTED IN SOURCE / LIVE VERIFY REQUIRED**
+
+Implemented as an independent activation/onboarding subsystem rather than a rewrite of the existing Family Network. Family creation now recommends Build Together; Family Owners can generate separate secure branch-contribution links; recipients complete a standalone mobile form without family-tree/app navigation; people and typed relationships are staged; deterministic identity candidates and cross-branch overlaps are surfaced; medium/high ambiguity blocks canonical commit; Same / Different / Not sure decisions are retained; approved branches enter existing `family_members` / `family_relationships` only through an Owner/Admin transactional RPC; conflicting canonical facts are preserved rather than overwritten; and intake funnel events support adoption measurement.
+
+Launch Control key `contribute.branch_intake` defaults to **Pilot**. Voice/WhatsApp/NLP/OCR/AI inference and advanced automatic branch stitching remain **DEFERRED / EVIDENCE-GATED**.
+
+Source gate `validate:s3-a1` passes 14/14. Production build, migration 043, deployed RLS/RPC, cross-family isolation, anonymous token behavior and 360/390/430 browser UX remain **LIVE VERIFY**.

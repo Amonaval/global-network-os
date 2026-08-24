@@ -18,6 +18,7 @@ export type FeatureKey =
   | "connect.trusted_introductions"
   | "connect.gatherings"
   | "contribute.help_family"
+  | "contribute.branch_intake"
   | "share.family"
   | "share.public_profiles"
   | "share.print_qr"
@@ -63,6 +64,7 @@ export const FEATURE_REGISTRY: FeatureDefinition[] = [
   {key:"connect.trusted_introductions",bundle:"connect",label:"Trusted introductions",description:"Consent-based introductions through explicit trusted-family paths.",minimumExperience:"explorer",defaultLaunch:"test"},
   {key:"connect.gatherings",bundle:"connect",label:"Gatherings",description:"Family events, attendance and follow-up memories.",minimumExperience:"connected",defaultLaunch:"test"},
   {key:"contribute.help_family",bundle:"contribute",label:"Help improve our family",description:"Invitations, missing information and contribution prompts.",minimumExperience:"explorer",defaultLaunch:"released"},
+  {key:"contribute.branch_intake",bundle:"contribute",label:"Build family together",description:"Collect simple staged family branches from trusted representatives before wider-family onboarding.",minimumExperience:"admin",defaultLaunch:"pilot"},
   {key:"share.family",bundle:"share",label:"Share with family",description:"Privacy-safe WhatsApp/native sharing.",minimumExperience:"connected",defaultLaunch:"test"},
   {key:"share.public_profiles",bundle:"share",label:"Public family cards",description:"Optional public profile and directory sharing.",minimumExperience:"explorer",defaultLaunch:"test"},
   {key:"share.print_qr",bundle:"share",label:"Print & QR",description:"Printable cards, directories and QR access.",minimumExperience:"explorer",defaultLaunch:"test"},

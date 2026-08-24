@@ -1,0 +1,69 @@
+no option to exit family. Unlink family or manage family. I created one family, I login and it redirects. Not getting any chance to create new one from fresh.
+
+
+playground feature visibility panel in launch control, parallel to actual user feature visibility panel (Right now seeing limited features)
+
+Not seeing logout option for new user who creates network. Now he is stuck there. Neither able to join others, as soon as he logins he get stuck to that screen where he has nothing to view. 
+
+I also wanted to updated the database of default 150 naval family members with something more 50 which are better data set with all feature which we added in seed demo
+
+Verify s1 thoroughly & enhance if you see any points as part of S1.Update candidate including above enhancement or any missing implementation from S1
+
+
+
+
+I fixed ->
+
+
+button.home-memory-tile { 
+    margin-bottom: 10px;
+}
+
+.card.home-coming {
+    padding: 10px;
+} changed to .card {
+    padding: 10px;
+}
+
+
+UsersRound import missing from networkapp.tsx - I added
+
+
+I want -
+
+As soon as someone click outside of popup on modal. Popup should hide
+
+
+
+Issue possible -
+
+On top dropdown -> Family member view, public view & family admin view. Is it useful for everyone & check if it is working
+
+
+Future Roadmap Features Ideas Evaluation ->
+
+1) Family gaming section which will bring them together like tambola
+2) Insta/Youtube videos viewing in it. Portal for that, if anyone shares the link user can view it. Inside portal only, may be integration with memories or so. Any ideas of integration with such apps will make it win-win people will attract, app gets engagement & potential of insta or other such apps buying it. Do you see any such things
+
+
+Implement net mission after above things check, insights, thoughts and update of md files about the same.
+
+
+
+
+
+
+Possibility to link Family network under umbrella of braoder community like mahehwari, baniyan and so on.
+
+Further eligible candidates can visible their profile in categories they are interested in. E.g someone looking for marriage, can make his profile visible under marriage category & person can search under entire community. Further we can leverage our family network to find connections. We can have community publish post that looking for our this guy/girl for marriage. 
+
+Further. Someone looking for interior designer under their community category. Coumminity umbrella can be  Maheshwari -> Pune -> xyz family  or 
+
+Publish things on mahehwari level or pune Maheshwari level and so on.  
+
+
+VIP/Popular: Profile in community which can be rated as top in certain categories e.g education, speaker, social circle, etc etc
+
+Ability to show top public profile under community & their family.
+
+

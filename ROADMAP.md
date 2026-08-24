@@ -810,3 +810,88 @@ Priority order during the pause: **user-blocking issue → privacy/security/corr
 S3-B Retention & Compounding Value, S3-C Founder Operations & Scale, S3-D Trust/Defensibility and S3-E Willingness-to-Pay remain preserved in the roadmap but are not active implementation work. Family Play, Family Watch/social-video memories, external delivery, family book/export, richer AI, community moderation/reputation and adjacent vertical work remain preserved, evidence-gated later options.
 
 Launch Control is now the product-freeze safety valve. Real-family defaults intentionally expose the core family experience, Guide, Special Days, Memories, History, Family Pulse, Quiet Digest, Contributions and Relationship Explorer through progressive experience levels. Community, Places, trusted introductions and public/QR distribution remain Test; Gatherings and family sharing remain Pilot. Playground is broader for discovery while public-profile and print/QR distribution remain off by default.
+
+
+# 2026-08-25 Strategic Addendum — Form-First Distributed Family Intake + Creator Reachability
+
+This addendum preserves every earlier roadmap item and changes the immediate S3-A activation hypothesis based on founder observation: asking relatives to enter and learn the full application before the family is populated creates unnecessary adoption friction. The preferred experiment is now **collect family branches first, assemble the graph safely, then invite the wider family into an already valuable network**.
+
+## S3-A1 — Distributed Family Intake & Branch Assembly — HIGHEST-PRIORITY ACTIVATION EXPERIMENT
+
+**Hypothesis:** people who will not learn a new family application may still complete a familiar 3–5 minute mobile form about the immediate/sub-family they already know.
+
+### Target journey
+1. Family Starter creates a family.
+2. System generates a safe shareable contribution link and optional human-friendly family code. The code identifies the family; it must not grant unrestricted family-data access.
+3. Starter chooses 3–5 knowledgeable representatives from different branches and shares the link, primarily through WhatsApp/native sharing.
+4. Recipient opens a focused mobile-first **Help build <Family>** form. No normal app navigation or tree knowledge is required.
+5. Intake begins with the contributor/self, then conditionally asks for father, mother, spouse, children, siblings, paternal/maternal grandparents and optional extended relatives.
+6. Relationship questions remain anchored (`father's brother`, `mother's sister`, etc.) so submissions create typed graph edges rather than ambiguous labels.
+7. Submission writes to a staging/intake layer first, not directly to canonical family members/relationships.
+8. Deterministic identity resolution normalizes names and uses multiple signals: exact identifiers when consented/available, normalized full name, birth date/year, gender, father/mother, spouse, city and graph context.
+9. High-confidence matches may be resolved automatically; medium-confidence candidates require **Same person / Different person / Not sure** review; low-confidence entries remain separate. Never auto-merge uncertain people.
+10. Duplicate/conflict questions should normally be batched after submission rather than interrupting every field.
+11. Multiple submissions form independently useful family branches. The system reports submitted people, likely unique people, automatic matches, conflicts and disconnected components.
+12. Family Owner/Admin gets a simple **Connect family branches** experience. Prefer relationship questions and common-ancestor suggestions over manual graph editing.
+13. Once the graph is meaningfully populated, wider relatives receive the real activation message: **Your family is ready — find yourself and explore**.
+14. Existing/pre-created people should later receive **Complete my branch** links with known parents/relationships prefilled for confirmation, making later contribution progressively shorter.
+
+### Intake data principle
+The intake form exists primarily to **construct trustworthy family structure**, not to fully enrich profiles. Start with name, relationship, living/deceased and optional birth year/date; keep city/contact fields optional and treat third-party privacy-sensitive information as unverified/private until the person claims or consents.
+
+### Provenance and conflicts
+Preserve who reported each proposed person/relationship/fact. Multiple independent reports can increase confidence. Conflicting birth years, parentage or identity facts must remain reviewable rather than silently overwriting one another.
+
+### Later extensions — evidence gated
+- Branch Collection Campaign dashboard for 3–5 representatives and submission status.
+- Smart branch-completion links for people already present.
+- Assisted common-ancestor / missing-parent suggestions for disconnected branches.
+- Voice/conversational family intake with human confirmation.
+- WhatsApp-style natural-language intake with human confirmation.
+- Photo/PDF/handwritten genealogy extraction into staged proposals.
+
+Do not build voice/OCR/LLM ingestion before the simple structured form proves participation and data quality.
+
+### S3-A1 evidence
+Measure form-open → start → completion, completion time, people submitted per form, unique people after resolution, duplicate/conflict rate, number of branches, owner reconciliation effort, branch connection success and percentage of populated-family recipients who later open/explore the application.
+
+## S3-A2 — Activation after the family exists
+After S3-A1 proves the collection model, optimize **Your family is ready** onboarding, self-identification/claiming, immediate lineage/relationship wow, tiny profile corrections and incremental contributions. Joining should be dramatically easier than creating.
+
+## S3-A3 — Family activation intelligence
+Retain the previously designed Family Journey, deterministic milestones, next-best-action prompts, first-wow measurement and New/Growing/Healthy/Stuck/Dormant family health states. Implement only after the form-first funnel gives real evidence about where families stall.
+
+## Creator / Product Story / Contact & Opportunity Reachability — PLANNED, LOW-COMPLEXITY HIGH-LEVERAGE
+
+As the product reaches families, community leaders, organizations, potential partners or investors, the application should make the responsible creator/product team discoverable without mixing personal promotion into the family experience.
+
+Add a calm **About / Creator / Connect with us** destination accessible from the Guide/About/footer area, controlled through Launch Control if necessary.
+
+It should support configurable—not hard-coded—content:
+- product purpose and short origin story;
+- creator/team name and concise professional background;
+- optional professional profile links (for example LinkedIn/GitHub/website) explicitly supplied by the creator;
+- contact categories: product feedback, bug/problem, family/community onboarding help, partnership/organization use, media/speaking, investment/business opportunity and other;
+- a structured feedback/contact form with consent and spam/rate-limit protection;
+- clear expectation that family/profile/private data should not be pasted into general contact requests;
+- optional public product/contact email or routed backend form rather than exposing private personal contact details;
+- Platform Owner inbox/triage integration where practical, reusing the governed feedback system rather than creating a disconnected second feedback database.
+
+### Product principle
+The creator section should build **trust and reachability**, not become an advertisement. Ordinary family tasks stay primary. Opportunity/contact details should be easy to find for people intentionally looking for them.
+
+### Future organization mode
+If adoption expands beyond individual families, the same contact surface can route community/association/enterprise interest into a lightweight lead/opportunity queue. Do not build CRM complexity before such inquiries exist.
+
+## Updated immediate sequencing
+`Pilot freeze → S3-A1 form-first intake pilot → branch reconciliation → populated-family activation observation → S3-A2 joining/first-wow fixes → S3-A3 activation intelligence → S3-B retention → S3-C scale operations → S3-D defensibility → S3-E willingness-to-pay`
+
+User blockers, privacy/security/correctness and repeated feedback remain higher priority than this sequence at all times.
+
+## 2026-08-25 — S3-A1 implementation checkpoint
+
+S3-A1 Distributed Family Intake & Branch Assembly V1 is now **IMPLEMENTED IN SOURCE / LIVE VERIFY REQUIRED**. It remains the active S3-A adoption experiment and does not reopen broad feature expansion.
+
+Delivered: Build Together family-creation handoff; secure per-representative contribution tokens; standalone mobile branch form; staged people/relationships; deterministic canonical and cross-branch match candidates; Same/Different/Not sure Owner review; conflict/provenance retention; Owner/Admin guarded canonical branch commit; Launch Control Pilot key; and activation instrumentation.
+
+Next priority is **pilot verification and evidence**, not additional breadth. S3-A2 populated-family onboarding remains PLANNED and should begin only after S3-A1 demonstrates that representatives actually complete forms and the resulting branches can be reconciled safely. All previously deferred roadmap items remain preserved.
