@@ -675,3 +675,7 @@ Nowhere by design. G0 is a non-user-facing architecture classification mission. 
 8. No universal relationship enum built from Family semantics.
 9. No universal entity schema until multiple verticals prove it.
 10. Every new mission starts with CLASSIFY before IMPLEMENT.
+
+## Implementation checkpoint — G1.2 / 2026-08-25
+
+The G0 classification of `lib/features.ts` as **CORE runtime + Family catalog** has now been physically separated. Generic contracts/evaluation live in `core/features/`; Family declarations live in `verticals/family/features/`; app-shell composes the catalog into the Family vertical; `lib/features.ts` is now only a compatibility facade. Alumni supplies a separate hidden skeleton catalog, proving the abstraction without relabeling Family semantics.

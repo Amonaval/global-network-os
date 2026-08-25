@@ -137,3 +137,9 @@ The capability-tree vision is now an architecture contract, not only a future id
 The G0 capability-tree decision now has its first physical code seam. Core owns a typed vertical contract; Family and Alumni are explicit definitions; app-shell owns composition. Family is still the only active product vertical and remains behaviorally unchanged. Alumni exists only as a typed skeleton with institutional-membership semantics.
 
 This is deliberately stronger than `NETWORK_TEMPLATES`: labels may configure presentation, but relationship meaning, authorization, matching, conflict resolution and workflow semantics remain typed domain/capability code.
+
+## G1.2 shared runtime is now separated from vertical product catalogs — 2026-08-25
+
+Feature rollout is now a concrete example of the capability-tree rule: the mechanics of launch state, default evaluation and eligibility are reusable core runtime, while what the features *mean* belongs to each explicit vertical.
+
+Family keeps its complete existing feature catalog and product language. Alumni proves the second-consumer contract with a separate hidden skeleton catalog rather than inheriting Family feature semantics. This is the pattern future capabilities should follow: share mechanics downward, keep meaning at the lowest semantically correct vertical/domain layer.

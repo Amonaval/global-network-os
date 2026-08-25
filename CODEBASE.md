@@ -464,3 +464,32 @@ Rules now enforced:
 `components/SetupScreen.tsx` now obtains the existing Family setup labels through the Family vertical definition. Values are unchanged. `NETWORK_TEMPLATES` remains in `lib/network.ts` for compatibility and must not be treated as the new vertical architecture.
 
 Run `npm run validate:g1.1` with the normal source gates before accepting architecture changes.
+
+## G1.2 feature runtime / vertical catalog seam — 2026-08-25
+
+New structure:
+
+```text
+core/features/contracts.ts
+core/features/runtime.ts
+verticals/family/features/catalog.ts
+verticals/alumni/features/catalog.ts
+verticals/family/definition.ts           # composes Family catalog
+verticals/alumni/definition.ts           # composes hidden Alumni skeleton catalog
+app-shell/vertical-registry.ts           # resolves vertical + feature catalog
+lib/features.ts                          # legacy Family compatibility facade
+scripts/g1-2-feature-runtime-gate.mjs
+```
+
+Architecture rule now enforced:
+- core feature runtime owns mechanics only;
+- feature keys/copy/defaults belong to vertical catalogs;
+- core never imports Family/Alumni;
+- Family and Alumni catalogs never import each other;
+- app-shell composes vertical implementations;
+- legacy Family callers may continue through `lib/features.ts` until migrated naturally;
+- current database feature keys/RPC names remain unchanged.
+
+The Family catalog contains the same 23 feature keys, bundle membership, experience thresholds and default launch states as before G1.2. Alumni catalog entries are hidden and are not wired to UI/database rollout.
+
+Run `npm run validate:g1.2` plus the normal source gates. Use `G1.2-RUNTIME-VERIFICATION-CHECKLIST.md` for the short deployed smoke check.

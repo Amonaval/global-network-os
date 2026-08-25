@@ -1,3 +1,5 @@
+import type { FeatureCatalog } from "../features/contracts";
+
 export type NetworkVerticalKind = "family" | "alumni";
 
 export type VerticalCapabilityId =
@@ -29,6 +31,7 @@ export type VerticalDefinition = {
   themeToken: string;
   capabilities: readonly VerticalCapabilityId[];
   navigation: () => readonly VerticalNavigationItem[];
+  featureCatalog: FeatureCatalog;
   legacyNetworkLabels: VerticalNetworkLabels;
   status: "active" | "skeleton";
 };

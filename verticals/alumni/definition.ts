@@ -1,6 +1,7 @@
 import type { VerticalDefinition } from "../../core/verticals/contracts";
+import { ALUMNI_FEATURE_CATALOG } from "./features/catalog";
 
-export const ALUMNI_VERTICAL: VerticalDefinition = {
+export const ALUMNI_VERTICAL = {
   kind: "alumni",
   displayName: "Alumni Network",
   iconToken: "graduation-cap",
@@ -12,9 +13,10 @@ export const ALUMNI_VERTICAL: VerticalDefinition = {
     "identity.privacy", "contribution.governed", "community.groups-events", "notifications.digest",
     "domain.institutional-membership",
   ],
+  featureCatalog: ALUMNI_FEATURE_CATALOG,
   navigation: () => [],
   legacyNetworkLabels: {
     entityLabel: "Alumni", entityLabelPlural: "Alumni", levelLabel: "Batch Year",
     levelLabelPlural: "Batch Years", parentLabel: "Senior", childLabel: "Junior", peerLabel: "Classmate",
   },
-};
+} satisfies VerticalDefinition;

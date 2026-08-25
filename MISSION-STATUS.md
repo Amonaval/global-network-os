@@ -750,3 +750,31 @@ Validation truth:
 Closure: Guide / Playground / Launch Control / What's New are N/A because G1.1 has intentionally no user-facing surface. Family behavior remains the stable contract.
 
 **NEXT CODE MISSION: G1.2 — Feature Runtime / Vertical Catalog Split.**
+
+## 2026-08-25 — G1.2 Feature Runtime / Vertical Catalog Split
+
+**G1.2: IMPLEMENTED IN SOURCE / CLOSED (NON-USER-FACING) / FULL BUILD VERIFY ENVIRONMENT-LIMITED**
+
+Delivered:
+- `core/features/contracts.ts` generic launch/catalog/effective-feature contracts;
+- `core/features/runtime.ts` generic indexed runtime for defaults and eligibility;
+- `verticals/family/features/catalog.ts` canonical Family catalog with all 23 existing keys/defaults preserved;
+- `verticals/alumni/features/catalog.ts` hidden skeleton catalog proving a second vertical without Family semantics;
+- Family and Alumni vertical definitions now compose their own feature catalogs;
+- app-shell exposes typed feature-catalog resolution;
+- `lib/features.ts` remains the compatibility facade for all existing Family callers;
+- historical S2-B and S3-A1 source gates now follow the canonical Family catalog location;
+- `validate:g1.2` prevents reverse dependencies and locks Family feature contracts.
+
+Validation truth:
+- all 20 source gates: PASS;
+- focused TypeScript compile: PASS under TypeScript 5.8.3;
+- focused runtime behavior compatibility assertions: PASS;
+- deletion audit vs cumulative G1.1 baseline: PASS / zero deleted files;
+- full `next build`: NOT CERTIFIED HERE because dependencies are absent and `npm ci` timed out/reset the temporary environment.
+
+Closure: Guide / Playground / Launch Control / What's New changes are N/A because no visible feature changed. Existing Guide/Playground/Launch Control/What's New behavior is preserved. End-user/Admin guide documents are intentionally unchanged.
+
+Quick runtime verification is documented in `G1.2-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+**NEXT CODE MISSION: G1.3 — Neutral Network & Membership Contracts.**

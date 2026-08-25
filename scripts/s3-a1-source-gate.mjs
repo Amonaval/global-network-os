@@ -7,7 +7,7 @@ const form=read('components/FamilyBranchIntakeForm.tsx');
 const admin=read('components/FamilyIntakeAdmin.tsx');
 const app=read('components/NetworkApp.tsx');
 const remote=read('lib/remote.ts');
-const features=read('lib/features.ts');
+const features=read('verticals/family/features/catalog.ts');
 add('staging tables', ['family_intake_sessions','family_intake_access','family_intake_people','family_intake_relationships','family_intake_match_candidates','family_intake_decisions','family_intake_conflicts','family_intake_events'].every(x=>migration.includes(`public.${x}`)));
 add('token hashes only', migration.includes("digest(raw_token,'sha256')") && migration.includes("token_hash bytea") && !migration.includes('raw_token text not null'));
 add('anonymous preview is minimal RPC', migration.includes('get_family_intake_preview') && migration.includes("grant execute on function public.get_family_intake_preview(text) to anon,authenticated"));

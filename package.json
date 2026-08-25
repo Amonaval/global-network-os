@@ -25,7 +25,8 @@
     "validate:s2-e": "node scripts/s2-e-source-gate.mjs",
     "validate:s2-e-closure": "node scripts/s2-e-release-closure-gate.mjs",
     "validate:s3-a1": "node scripts/s3-a1-source-gate.mjs",
-    "validate:g1.1": "node scripts/g1-1-architecture-gate.mjs"
+    "validate:g1.1": "node scripts/g1-1-architecture-gate.mjs",
+    "validate:g1.2": "node scripts/g1-2-feature-runtime-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

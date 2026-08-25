@@ -1167,3 +1167,19 @@ No Family table, RPC, feature key, navigation, S3-A1 workflow or user-facing beh
 Validation: G1.1 gate PASS; all existing source regression gates PASS; new architecture files compile independently under TypeScript 5.8.3. Full repository build remains to be rerun in the normal dependency/CI environment because dependency installation was unavailable/incomplete in this execution environment.
 
 **NEXT: G1.2 — Feature Runtime / Vertical Catalog Split.** Preserve Family feature keys and rollout defaults exactly.
+
+## 2026-08-25 — G1.2 Feature Runtime / Vertical Catalog Split
+
+**Status: IMPLEMENTED IN SOURCE / CLOSED AS NON-USER-FACING ARCHITECTURE MISSION / FULL BUILD VERIFY ENVIRONMENT-LIMITED**
+
+The reusable feature launch/evaluation engine now lives in `core/features/`, while all existing Family feature keys, labels, bundles, experience rules and rollout defaults live in `verticals/family/features/catalog.ts` and are composed through `FAMILY_VERTICAL.featureCatalog`.
+
+`lib/features.ts` remains a compatibility facade so the current Family application, Launch Control, Family Admin, Guide typing and rollout RPCs keep the same API and behavior. Alumni has only a tiny hidden-by-default typed catalog to prove second-vertical composition; no Alumni UI/workflow/database exposure exists yet.
+
+No database migration, RPC rename, feature-key rename, Family UX change, S3-A1 generalization or navigation change was made.
+
+Validation: all 20 source gates PASS after moving two historical gate lookups to the Family catalog; focused TypeScript/runtime compatibility checks PASS; no accepted G1.1 files were deleted. Full Next.js build remains environment-limited because dependencies are absent and `npm ci` timed out.
+
+See `G1.2-FEATURE-RUNTIME-VERTICAL-CATALOG-SPLIT.md` and `G1.2-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+**NEXT: G1.3 — Neutral Network & Membership Contracts.** Preserve Family schema/RPC compatibility while removing Family semantics from reusable TypeScript contracts.

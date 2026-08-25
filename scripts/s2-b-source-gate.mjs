@@ -4,7 +4,7 @@ const files={
  component:fs.readFileSync('components/CommunityNetwork.tsx','utf8'),
  remote:fs.readFileSync('lib/remote.ts','utf8'),
  app:fs.readFileSync('components/NetworkApp.tsx','utf8'),
- features:fs.readFileSync('lib/features.ts','utf8'),
+ features:fs.readFileSync('verticals/family/features/catalog.ts','utf8'),
  docs:fs.readFileSync('S2-B-COMMUNITY-UMBRELLA-DISCOVERY.md','utf8'),
 };
 const checks=[

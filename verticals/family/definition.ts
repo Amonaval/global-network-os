@@ -1,6 +1,7 @@
 import type { VerticalDefinition } from "../../core/verticals/contracts";
+import { FAMILY_FEATURE_CATALOG } from "./features/catalog";
 
-export const FAMILY_VERTICAL: VerticalDefinition = {
+export const FAMILY_VERTICAL = {
   kind: "family",
   displayName: "Family Network",
   iconToken: "tree",
@@ -12,6 +13,7 @@ export const FAMILY_VERTICAL: VerticalDefinition = {
     "identity.privacy", "contribution.governed", "community.groups-events", "notifications.digest",
     "domain.kinship",
   ],
+  featureCatalog: FAMILY_FEATURE_CATALOG,
   navigation: () => [
     { id: "home", label: "Home" },
     { id: "tree", label: "Family", capability: "domain.kinship" },
@@ -22,4 +24,4 @@ export const FAMILY_VERTICAL: VerticalDefinition = {
     entityLabel: "Member", entityLabelPlural: "Members", levelLabel: "Generation",
     levelLabelPlural: "Generations", parentLabel: "Parent", childLabel: "Child", peerLabel: "Spouse",
   },
-};
+} satisfies VerticalDefinition;
