@@ -2,6 +2,7 @@ import fs from 'node:fs';
 const app=fs.readFileSync('./components/NetworkApp.tsx','utf8');
 const switcher=fs.readFileSync('./components/FamilySwitcher.tsx','utf8');
 const founder=fs.readFileSync('./components/FounderLaunchConsole.tsx','utf8');
+const familyComposition=fs.existsSync('./verticals/family/runtime/composition.ts')?fs.readFileSync('./verticals/family/runtime/composition.ts','utf8'):'';
 const remote=fs.readFileSync('./lib/remote.ts','utf8');
 const migration=fs.readFileSync('./supabase/migrations/036_s1_family_access_playground_hardening.sql','utf8');
 const seed=fs.readFileSync('./supabase/seed-demo.sql','utf8');
@@ -17,7 +18,7 @@ const checks=[
  ['ownerless family guard exists',migration.includes('only Owner of a populated family')],
  ['playground independent feature table exists',migration.includes('platform_playground_features')],
  ['anonymous playground feature reader exists',migration.includes('grant execute on function public.get_playground_features() to anon,authenticated')],
- ['launch control has playground panel',founder.includes('Playground feature visibility')],
+ ['launch control has playground panel',founder.includes('Playground feature visibility')||familyComposition.includes('Playground feature visibility')],
  ['playground uses explorer experience',app.includes('demoPreview ? "explorer"')],
  ['playground feature map independent',app.includes('demoPreview?playgroundFeatures:platformFeatures')],
  ['remote family lobby functions exist',remote.includes('enterFamilyLobby')&&remote.includes('leaveCurrentFamily')],

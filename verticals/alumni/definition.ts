@@ -14,7 +14,6 @@ export const ALUMNI_VERTICAL = {
     "domain.institutional-membership",
   ],
   featureCatalog: ALUMNI_FEATURE_CATALOG,
-  navigation: () => [],
   legacyNetworkLabels: {
     entityLabel: "Alumni", entityLabelPlural: "Alumni", levelLabel: "Batch Year",
     levelLabelPlural: "Batch Years", parentLabel: "Senior", childLabel: "Junior", peerLabel: "Classmate",

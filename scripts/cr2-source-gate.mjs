@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8');
+const app=read('components/NetworkApp.tsx'), familyComposition=fs.existsSync('verticals/family/runtime/composition.ts')?read('verticals/family/runtime/composition.ts'):'';
 const checks=[
  ['031 migration exists',fs.existsSync('supabase/migrations/031_cr2_frictionless_alpha_onboarding.sql')],
  ['founder creation policy',read('supabase/migrations/031_cr2_frictionless_alpha_onboarding.sql').includes('set_family_creation_policy')],
@@ -7,7 +8,7 @@ const checks=[
  ['verified email claim backend',read('supabase/migrations/031_cr2_frictionless_alpha_onboarding.sql').includes('claim_profile_by_verified_email')],
  ['no-family entry choices',read('components/SetupScreen.tsx').includes('Join my family')&&read('components/SetupScreen.tsx').includes('Explore a sample family')&&read('components/SetupScreen.tsx').includes('Create my family')],
  ['Excel prominent',read('components/SetupScreen.tsx').includes('Upload guided Excel')||read('components/SetupScreen.tsx').includes('Upload Excel or CSV')],
- ['demo stays read-only-labelled',read('components/NetworkApp.tsx').includes('nothing is saved')&&read('components/NetworkApp.tsx').includes('Read-only sample family')],
+ ['demo stays read-only-labelled',app.includes('nothing is saved')&&(app.includes('Read-only sample family')||familyComposition.includes('Read-only sample family'))],
  ['family code invite UI',read('components/InvitationModal.tsx').includes('Share the Family Code')],
  ['founder auto approval toggle',read('components/FounderLaunchConsole.tsx').includes('Alpha auto-approval ON')],
  ['quick help updated',read('components/NetworkApp.tsx').includes('Quick start · Family help')],

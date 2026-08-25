@@ -65,6 +65,7 @@ import {
   saveLocalNetwork,
   NetworkSettings,
   getNetworkConfig,
+  resolveNetworkVerticalKind,
 } from "../lib/network";
 import RelationshipExplorer from "./RelationshipExplorer";
 import { getStrictLineageIds, immediateFamilyForViewer } from "../lib/relationship-intelligence";
@@ -85,6 +86,7 @@ import GuidePortal from "./GuidePortal";
 import FeatureGuide from "./FeatureGuide";
 import {GUIDE_ENTRIES} from "../lib/user-guide-content";
 import type {GuideAudience} from "../lib/guide-types";
+import {getRenderableVerticalRuntime, localizedSurfaceLabel} from "../app-shell/vertical-runtime";
 // CR2.2 compatibility marker: "Preview detailed family guide" is superseded by the first-class Explore & Guide portal.
 // S1-D compatibility marker for historical help-modal regression gate: event.target===event.currentTarget&&setShowGuide(false)
 import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail, setActiveNetwork, addMyselfToFamily, fetchPlaygroundFeatures, enterFamilyLobby, leaveCurrentFamily, fetchMyNetworks, NetworkMembership } from "../lib/remote";
@@ -172,6 +174,9 @@ export default function NetworkApp() {
   const [memories, setMemories] = useState<Memory[]>([]),
     [notifications, setNotifications] = useState<Notification[]>([]);
   const cfg = getNetworkConfig(network);
+  const verticalRuntime = getRenderableVerticalRuntime(resolveNetworkVerticalKind(network));
+  const appComposition = verticalRuntime.app;
+  const appLocale = language === "hi" ? "hi" : language === "mr" ? "mr" : "en";
   const viewerMemberId = demoPreview ? demoViewerId : auth?.member_id;
   const immediateFamily = useMemo(() => viewerMemberId ? immediateFamilyForViewer(members, relationships, viewerMemberId).slice(0, 8) : [], [members, relationships, viewerMemberId]);
   useEffect(() => {
@@ -964,22 +969,29 @@ export default function NetworkApp() {
       "image/svg+xml",
     );
   };
-  const enterPublicPlayground = () => {
+  const enterVerticalPlayground = (variant:"public"|"setup") => {
+    if(!appComposition.playground.enabled)return;
+    const settings=variant==="public"?appComposition.playground.publicNetworkSettings:appComposition.playground.setupNetworkSettings;
+    if(!settings)return;
     const d = loadDemoState();
-    setNetwork({id:"network",name:"Sample Family Playground",description:"Try the family experience without signing in. Nothing is saved.",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});
+    const preferred=appComposition.playground.preferredViewerIdentityId;
+    const viewer=d.members.find(m=>m.id===preferred)?.id || d.members[Math.floor(d.members.length/2)]?.id;
+    setNetwork(settings as unknown as NetworkSettings);
     setMembers(d.members);
     setRelationships(d.relationships);
     setSubmissions(d.submissions);
     setMemories(d.memories);
     setAllLifeEvents(d.lifeEvents);
-    setPlatformFeatures(defaultFeatureMap(true));
-    setDemoViewerId(d.members.find(m=>m.id==="m37")?.id || d.members[Math.floor(d.members.length/2)]?.id);
+    if(variant==="public")setPlatformFeatures(defaultFeatureMap(true));
+    setDemoViewerId(viewer);
     setDemoPreview(true);
-    setFocusId(d.members.find(m=>m.id==="m37")?.id || d.members[Math.floor(d.members.length/2)]?.id);
+    setFocusId(viewer);
     setLineageOnly(true);
     setSetupNeeded(false);
-    setView("home");
+    setView(appComposition.playground.startView as View);
   };
+  const enterPublicPlayground = () => enterVerticalPlayground("public");
+  const enterSetupPlayground = () => enterVerticalPlayground("setup");
 
   if (!ready)
     return (
@@ -1054,14 +1066,8 @@ export default function NetworkApp() {
   };
   const activeAnnouncement=featureAnnouncements.find(item=>hasFeature(item.feature_key as FeatureKey));
   const openAnnouncedFeature=(key:FeatureKey)=>{
-    if(key==="core.family"||key==="advanced.relationships")setView("tree");
-    else if(key==="core.directory")setView("directory");
-    else if(key==="remember.memories"||key==="connect.community"||key==="connect.gatherings")setView("community");
-    else if(key==="remember.history")setView("timeline");
-    else if(key==="connect.places")setView("map");
-    else if(key==="contribute.help_family")setView("participation");
-    else if(key.startsWith("admin."))setView("admin");
-    else setView("home");
+    const target=appComposition.whatsNew.featureToView[key] || (key.startsWith("admin.") ? "admin" : appComposition.whatsNew.defaultView);
+    setView(target as View);
   };
   const dismissAnnouncement=async()=>{
     if(!activeAnnouncement)return;
@@ -1080,7 +1086,7 @@ export default function NetworkApp() {
     }catch(e:any){notify(e.message||"Could not change your view.")}
   };
   const guideAudience:GuideAudience = isPlatformOwner ? "platform_owner" : canAdmin ? "family_admin" : auth ? "member" : "anonymous";
-  const guideByView:Partial<Record<View,string>>={home:"home",tree:"personal-family-line",directory:"directory",map:"places",community:"memories",umbrella:"community-hierarchy",timeline:"timeline",participation:"contributions",admin:"admin-center",founder:"platform-launch-control"};
+  const guideByView=appComposition.guide.guideByView as Partial<Record<View,string>>;
   const openGuide=(key:string)=>{setGuideKey(key);setView("guide");setShowMobileMenu(false);};
   const openGuideFeature=(action?:string)=>{
     if(!action)return;
@@ -1088,10 +1094,10 @@ export default function NetworkApp() {
     if(action==="add-relative"){setShowForm(true);return;}
     if(action==="import"){setShowImport(true);return;}
     if(action==="setup"){setSetupNeeded(true);return;}
-    if(action==="relationship"){setView("tree");return;}
-    if(["home","tree","directory","map","community","umbrella","timeline","participation","admin","founder"].includes(action))setView(action as View);
+    const target=appComposition.guide.actionToView[action];
+    if(target)setView(target as View);
   };
-  const tryGuideInPlayground=(key?:string)=>{enterPublicPlayground();if(key){const target=GUIDE_ENTRIES.find(e=>e.key===key)?.action;window.setTimeout(()=>{if(target&&["home","tree","directory","map","community","umbrella","timeline","participation"].includes(target))setView(target as View)},0)}};
+  const tryGuideInPlayground=(key?:string)=>{enterPublicPlayground();if(key){const action=GUIDE_ENTRIES.find(e=>e.key===key)?.action;const target=action?appComposition.guide.actionToView[action]:undefined;window.setTimeout(()=>{if(target&&appComposition.guide.playgroundViewIds.includes(target))setView(target as View)},0)}};
   const openMyProfile=()=>{
     if(auth?.member_id){
       const mine=members.find(m=>m.id===auth.member_id);
@@ -1099,27 +1105,35 @@ export default function NetworkApp() {
     }
     setEditingMember(undefined);setShowForm(true);
   };
-  const memberNav:[View,string,ReactNode,FeatureKey][]=[
-    ["home", language === "hi" ? "आज" : language === "mr" ? "आज" : "Home", <Home size={17} key="home"/>, "core.home"],
-    ["tree", language === "hi" ? "परिवार" : language === "mr" ? "कुटुंब" : "Family", <TreePine size={17} key="family"/>, "core.family"],
-    ["community", language === "hi" ? "यादें" : language === "mr" ? "आठवणी" : "Memories", <HeartHandshake size={17} key="memories"/>, "remember.memories"],
-    ["directory", language === "hi" ? "परिवार खोजें" : language === "mr" ? "कुटुंब शोधा" : "Find family", <Users size={17} key="directory"/>, "core.directory"],
-    ["timeline", language === "hi" ? "परिवार का इतिहास" : language === "mr" ? "कुटुंब इतिहास" : "Family history", <CalendarDays size={17} key="history"/>, "remember.history"],
-    ["map", language === "hi" ? "परिवार कहाँ है" : language === "mr" ? "कुटुंब कुठे आहे" : "Family places", <MapPinned size={17} key="places"/>, "connect.places"],
-    ["umbrella", language === "hi" ? "समुदाय" : language === "mr" ? "समुदाय" : "Community", <UsersRound size={17} key="community-network"/>, "connect.community"],
-    ["participation", language === "hi" ? "परिवार की मदद" : language === "mr" ? "कुटुंबाला मदत" : "Help family", <GitBranch size={17} key="help"/>, "contribute.help_family"],
-  ];
+  const surfaceIcon=(token:string,size=17):ReactNode=>{
+    if(token==="home")return <Home size={size}/>;
+    if(token==="tree")return <TreePine size={size}/>;
+    if(token==="memories")return <HeartHandshake size={size}/>;
+    if(token==="directory")return <Users size={size}/>;
+    if(token==="history")return <CalendarDays size={size}/>;
+    if(token==="places")return <MapPinned size={size}/>;
+    if(token==="community")return <UsersRound size={size}/>;
+    if(token==="contribute")return <GitBranch size={size}/>;
+    if(token==="admin")return <Settings2 size={size}/>;
+    return <ArrowRight size={size}/>;
+  };
+  const memberNav:[View,string,ReactNode,FeatureKey,string?][]=appComposition.primaryNavigation.map(surface=>[surface.viewId as View,localizedSurfaceLabel(surface,appLocale),surfaceIcon(surface.iconToken),surface.featureKey as FeatureKey,surface.minimumExperience]);
   const visibleMemberNav=memberNav.filter(item=>{
     if(!hasFeature(item[3])) return false;
-    if(item[0]==="home"||item[0]==="tree") return true;
-    if(item[0]==="community") return EXPERIENCE_RANK[experience]>=EXPERIENCE_RANK.connected;
-    return experience==="explorer";
+    const minimum=item[4] as ExperienceLevel|undefined;
+    if(!minimum)return true;
+    return EXPERIENCE_RANK[experience]>=EXPERIENCE_RANK[minimum];
+  });
+  const mobileBottomSurfaces=appComposition.mobileBottomViewIds.map(id=>appComposition.primaryNavigation.find(surface=>surface.viewId===id)).filter(Boolean) as typeof appComposition.primaryNavigation[number][];
+  const mobileMoreSurfaces=appComposition.mobileMoreNavigation.filter(surface=>{
+    if(surface.adminOnly&&!canAdmin)return false;
+    return !surface.featureKey||hasFeature(surface.featureKey as FeatureKey);
   });
   const canSetupFamily = !isSupabaseConfigured || !!auth;
   if (setupNeeded)
     return (
       <>
-        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval. You can still explore the sample family while you wait.</p><div className="notice"><b>Status:</b> Waiting for approval</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><button className="btn" onClick={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setMemories(d.memories);setAllLifeEvents(d.lifeEvents);setDemoViewerId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}>Explore sample</button><button className="btn" onClick={async()=>{await signOut();setAuth(null);setPendingFamilyRequest(null);setSetupNeeded(true)}}><LogOut size={15}/> Sign out</button></div></div></div> : <SetupScreen
+        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval. You can still explore the sample family while you wait.</p><div className="notice"><b>Status:</b> Waiting for approval</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><button className="btn" onClick={enterSetupPlayground}>Explore sample</button><button className="btn" onClick={async()=>{await signOut();setAuth(null);setPendingFamilyRequest(null);setSetupNeeded(true)}}><LogOut size={15}/> Sign out</button></div></div></div> : <SetupScreen
           shared={isSupabaseConfigured}
           canSetup={canSetupFamily}
           approvalRequired={isSupabaseConfigured&&!isPlatformOwner&&familyCreationApprovalRequired}
@@ -1129,7 +1143,7 @@ export default function NetworkApp() {
           onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}
           onClaimProfile={async(memberId)=>{await claimProfileByVerifiedEmail(memberId);await hydrate(await getAuthUser());setView("home");notify("Welcome to your family.")}}
           onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify("Family joined. Welcome!")}}
-          onExploreDemo={()=>{const d=loadDemoState();setNetwork({id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family"});setMembers(d.members);setRelationships(d.relationships);setSubmissions(d.submissions);setMemories(d.memories);setAllLifeEvents(d.lifeEvents);setDemoViewerId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setFocusId(d.members.find(m=>m.id==="m37")?.id||d.members[Math.floor(d.members.length/2)]?.id);setLineageOnly(true);setDemoPreview(true);setSetupNeeded(false);setView("home")}}
+          onExploreDemo={enterSetupPlayground}
           onOpenGuide={()=>{enterPublicPlayground();setGuideKey("");setView("guide")}}
           onCreate={createNetwork}
         />}
@@ -1238,7 +1252,7 @@ export default function NetworkApp() {
         <main className="main">
           {view!=="guide" && view!=="founder" && <FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key===guideByView[view])} onOpenGuide={openGuide} onOpenFeature={openGuideFeature} onTryPlayground={tryGuideInPlayground} rememberKey={`view-${view}`}/>}
           {familyReady && view==="home" && <div className="family-ready-celebration"><div className="family-ready-icon"><Sparkles size={22}/></div><div><span className="warm-kicker">Your family is ready</span><h2>{familyReady}</h2><p>Start with yourself and the people closest to you. You can import a list or enrich everything gradually.</p></div><div className="family-ready-actions">{hasFeature("contribute.branch_intake")&&<button className="btn primary small" onClick={()=>{setFamilyReady(null);setShowFamilyIntake(true)}}>Build together · Recommended</button>}<button className="btn small" onClick={()=>{setFamilyReady(null);if(!viewerMemberId)window.scrollTo({top:0,behavior:"smooth"})}}>Add myself / close family</button><button className="btn small" onClick={()=>{setFamilyReady(null);setShowImport(true)}}>Import Excel / CSV</button><button className="icon-button" aria-label="Dismiss" onClick={()=>setFamilyReady(null)}><X size={16}/></button></div></div>}
-          {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">New in your family</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||"New family feature"}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||"There is something new to explore."}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
+          {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">{appComposition.whatsNew.kicker}</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||appComposition.whatsNew.fallbackTitle}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||appComposition.whatsNew.fallbackDescription}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
           {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={openMember} />}
           {view === "home" && canAdmin && !demoPreview && !quickStartDismissed && members.length < 5 && <QuickFamilyStart viewer={viewerMemberId?members.find(m=>m.id===viewerMemberId):undefined} suggestedName={auth?.email?.split("@")[0]||""} onAddMyself={addMyselfFirst} onAddRelative={addCloseRelative} onImport={()=>setShowImport(true)} onBuildTogether={hasFeature("contribute.branch_intake")?()=>setShowFamilyIntake(true):undefined} onDismiss={()=>setQuickStartDismissed(true)}/>}
           {view === "home" && <FamilyHome members={members} events={allLifeEvents} memories={demoPreview?memories:undefined} networkName={network?.name} viewerMemberId={viewerMemberId} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} showFamilyPulse={hasFeature("remember.family_pulse")} showQuietDigest={hasFeature("remember.quiet_digest")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} readOnly={demoPreview} />}
@@ -1570,7 +1584,7 @@ export default function NetworkApp() {
               onNotify={notify}
             />
           )}
-          {view === "founder" && isPlatformOwner && isSupabaseConfigured && <><FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key==="platform-launch-control")} onOpenGuide={openGuide} onOpenFeature={openGuideFeature}/><FounderLaunchConsole onChanged={refreshFeatureState} onNotify={notify}/></>}
+          {view === "founder" && isPlatformOwner && isSupabaseConfigured && <><FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key===appComposition.guide.launchControlGuideKey)} onOpenGuide={openGuide} onOpenFeature={openGuideFeature}/><FounderLaunchConsole onChanged={refreshFeatureState} onNotify={notify}/></>}
           {view === "admin" && canAdmin && hasFeature("admin.center") && (
             <section>
               <div className="page-head">
@@ -1920,20 +1934,13 @@ export default function NetworkApp() {
         </main>
       </div>
       <nav className="mobile-bottom-nav has-admin">
-        <button className={view === "home" ? "active" : ""} onClick={() => setView("home")}><Home size={19}/><span>{language === "hi" ? "आज" : language === "mr" ? "आज" : "Home"}</span></button>
-        <button className={view === "tree" ? "active" : ""} onClick={openFamilyView}><TreePine size={19}/><span>{language === "hi" ? "परिवार" : language === "mr" ? "कुटुंब" : "Family"}</span></button>
-        {experience!=="simple" && hasFeature("remember.memories") && <button className={view === "community" ? "active" : ""} onClick={() => setView("community")}><HeartHandshake size={19}/><span>{language === "hi" ? "यादें" : language === "mr" ? "आठवणी" : "Memories"}</span></button>}
+        {mobileBottomSurfaces.filter(surface=>{if(surface.featureKey&&!hasFeature(surface.featureKey as FeatureKey))return false;const minimum=surface.minimumExperience as ExperienceLevel|undefined;return !minimum||EXPERIENCE_RANK[experience]>=EXPERIENCE_RANK[minimum]}).map(surface=><button key={surface.viewId} className={view === surface.viewId ? "active" : ""} onClick={() => surface.viewId === "tree" ? openFamilyView() : setView(surface.viewId as View)}>{surfaceIcon(surface.iconToken,19)}<span>{localizedSurfaceLabel(surface,appLocale)}</span></button>)}
         {(!demoPreview || !!auth) && <button className={selected?.id===auth?.member_id ? "active" : ""} onClick={openMyProfile}><UserRoundPen size={19}/><span>{language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</span></button>}
-        <button className={showMobileMenu || view === "map" || view === "admin" || view === "founder" || view === "timeline" || view === "participation" || view === "umbrella" || view === "directory" ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19}/><span>{moreLabel}</span></button>
+        <button className={showMobileMenu || appComposition.mobileMoreActiveViewIds.includes(view) ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19}/><span>{moreLabel}</span></button>
       </nav>
       {showMobileMenu && <div className="mobile-more-overlay" onMouseDown={(event) => event.target === event.currentTarget && setShowMobileMenu(false)}><section className="mobile-more-sheet" role="dialog" aria-modal="true" aria-label={moreLabel}>
         <div className="mobile-more-head"><div><span className="warm-kicker">{network?.name}</span><h2>{moreLabel}</h2></div><button className="icon-button" aria-label="Close" autoFocus onClick={() => setShowMobileMenu(false)}><X size={19}/></button></div>
-        {hasFeature("core.directory")&&<button className="mobile-more-action" onClick={() => { setView("directory"); setShowMobileMenu(false); }}><span><Users />{language==='hi'?'परिवार खोजें':language==='mr'?'कुटुंब शोधा':'Find family'}</span><ArrowRight /></button>}
-        {hasFeature("remember.history")&&<button className="mobile-more-action" onClick={() => { setView("timeline"); setShowMobileMenu(false); }}><span><CalendarDays />{language==='hi'?'परिवार का इतिहास':language==='mr'?'कुटुंब इतिहास':'Family history'}</span><ArrowRight /></button>}
-        {hasFeature("connect.places")&&<button className="mobile-more-action" onClick={() => { setView("map"); setShowMobileMenu(false); }}><span><MapPinned />{language==='hi'?'परिवार कहाँ है':language==='mr'?'कुटुंब कुठे आहे':'Family places'}</span><ArrowRight /></button>}
-        {hasFeature("connect.community")&&<button className="mobile-more-action" onClick={() => { setView("umbrella"); setShowMobileMenu(false); }}><span><UsersRound />{language==='hi'?'समुदाय':language==='mr'?'समुदाय':'Community network'}</span><ArrowRight /></button>}
-        {hasFeature("contribute.help_family")&&<button className="mobile-more-action" onClick={() => { setView("participation"); setShowMobileMenu(false); }}><span><GitBranch />{language==='hi'?'परिवार की मदद':language==='mr'?'कुटुंबाला मदत':'Help improve our family'}</span><ArrowRight /></button>}
-        {canAdmin && hasFeature("admin.center") && <button className="mobile-more-action" onClick={() => { setView("admin"); setShowMobileMenu(false); }}><span><Settings2 />{language==='hi'?'परिवार संभालें':language==='mr'?'कुटुंब सांभाळा':'Manage family'}</span><ArrowRight /></button>}
+        {mobileMoreSurfaces.map(surface=><button key={surface.viewId} className="mobile-more-action" onClick={() => { setView(surface.viewId as View); setShowMobileMenu(false); }}><span>{surfaceIcon(surface.iconToken)}{localizedSurfaceLabel(surface,appLocale)}</span><ArrowRight /></button>)}
         {isPlatformOwner && isSupabaseConfigured && <button className="mobile-more-action" onClick={() => { setView("founder"); setShowMobileMenu(false); }}><span><Rocket />Launch Control</span><ArrowRight /></button>}
         {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={() => { setSetupNeeded(true); setShowMobileMenu(false); }}><span><UsersRound />Create, join or switch family</span><ArrowRight /></button>}
         {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={async()=>{if(!window.confirm(`Leave ${network?.name||"this family"}? If you are its only account, the empty family will be archived.`))return;try{const action=await leaveCurrentFamily();setShowMobileMenu(false);await hydrate(await getAuthUser());notify(action==="archived"?"Family archived. You can create or join another family.":"You left the family.")}catch(e:any){notify(e.message||"Could not leave this family.")}}}><span><LogOut />Leave this family</span><ArrowRight /></button>}

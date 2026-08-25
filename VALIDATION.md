@@ -311,3 +311,22 @@ Automated validation completed:
 Full Next.js production build is **not certified in this workspace** because installed dependencies are absent. This is an environment limitation, not a build PASS or a confirmed application failure.
 
 Runtime verification is intentionally short; see `G3-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+## G4 validation — Vertical Runtime & App Composition — 2026-08-25
+
+Source/regression result: PASS through D1/V1/CR1/CR2/S1/S2/S3-A1/G1.1/G1.2/G1.3/G1.4/G2/G3/G4.
+
+G4-specific checks:
+- Family navigation order + feature keys preserved;
+- Family Guide/Playground/Launch/What's New registrations present;
+- Family composition references only existing Family feature keys/capabilities;
+- Alumni composition has no Family surfaces and is not renderable while skeleton;
+- 147 historical remote facade exports preserved;
+- 260 accepted G3 files preserved;
+- G2 identity/participation and G3 construction architecture markers preserved;
+- no post-044 migration added;
+- focused TypeScript 5.8.3 composition compile PASS;
+- changed app-shell/TSX syntax transpilation PASS;
+- executable Family/Alumni composition assertion PASS.
+
+Full `next build` is not certified in this workspace because application dependencies are not installed.

@@ -620,4 +620,24 @@ Binding boundaries:
 
 Run `npm run validate:g3` plus every historical gate. Use `G3-RUNTIME-VERIFICATION-CHECKLIST.md` for the short deployed smoke. Full details: `G3-NETWORK-CONSTRUCTION-ENGINE-EXTRACTION.md`.
 
-**Next consolidated architecture batch: G4 — Vertical Runtime & App Composition.**
+**G4 subsequently completed. Current next batch: G5 — Alumni Network V1.**
+
+## G4 — Vertical Runtime & App Composition — 2026-08-25
+
+New composition layer:
+
+```text
+core/verticals/app-composition.ts
+app-shell/vertical-runtime.ts
+verticals/family/runtime/composition.ts
+verticals/alumni/runtime/composition.ts
+```
+
+Key ownership after G4:
+- `core/verticals/contracts.ts` — vertical identity/capability/catalog contract only; no UI navigation registry.
+- `app-shell/vertical-runtime.ts` — composition root and integrity validation.
+- Family runtime composition — current Family navigation, Guide routing, Playground metadata, Launch Control bundles and What's New routing.
+- Alumni runtime composition — explicit skeleton with no Family surfaces and no user-visible renderer.
+- `components/NetworkApp.tsx` and `FounderLaunchConsole.tsx` remain the stable Family renderers and consume registered metadata.
+
+Compatibility: all 147 historical remote exports, all 23 Family feature keys/defaults, G2 identity/participation seams, G3 construction seams, S3-A1 RPCs and Family UX behavior are preserved. G4 adds no migration.

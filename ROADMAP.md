@@ -1226,8 +1226,8 @@ The earlier G2–G8 numbering above is preserved as historical planning context.
 |---|---|---|
 | **G2 — Shared Identity, Claiming & Participation Foundation** | **IMPLEMENTED IN SOURCE / CLOSED** | Neutral identity + binding contracts; shared claim lifecycle; invitation/governed-contribution/participation contracts; Family adapters over existing RPCs; explicit Alumni identity/participation skeleton; compatibility gates. |
 | **G3 — Network Construction Engine Extraction** | **IMPLEMENTED IN SOURCE / CLOSED** | Shared construction lifecycle contracts/runtime; Family S3-A1 adapter over unchanged RPCs; Alumni institutional construction skeleton; compatibility/deletion gates; no schema rewrite. |
-| **G4 — Vertical Runtime & App Composition** | **NEXT / HIGH-EFFORT CONSOLIDATED BATCH** | Vertical manifests/capability composition, navigation/feature/guide/playground/launch/what's-new registration; reduce Family assumptions in app-shell without weakening Family UX. |
-| **G5 — Alumni Network V1** | **PLANNED / FIRST REAL SECOND VERTICAL** | Institution/batch/program identity, profiles, directory/search, onboarding/import, claiming, invitations, cohort connections, basic Alumni Home/Admin, privacy, Guide/Playground/Launch Control. |
+| **G4 — Vertical Runtime & App Composition** | **IMPLEMENTED IN SOURCE / CLOSED** | Vertical app composition contracts/runtime; Family navigation/Guide/Playground/Launch/What's New registration; fail-closed Alumni skeleton; Family UX preserved. |
+| **G5 — Alumni Network V1** | **NEXT / HIGH-EFFORT FIRST REAL SECOND VERTICAL** | Institution/batch/program identity, profiles, directory/search, onboarding/import, claiming, invitations, cohort connections, basic Alumni Home/Admin, privacy, Guide/Playground/Launch Control. |
 | **G6 — Two-Vertical Architecture Proof & Hardening** | **PLANNED / MANDATORY AFTER G5** | Family + Alumni isolation, RLS/security, migration compatibility, performance, accidental coupling removal, relationship-intelligence proof, deployment/runtime certification. |
 | **G7 — Generic Platform Productization** | **EVIDENCE-GATED** | Network creation by vertical, capability packs, reusable admin/runtime infrastructure, extension contracts, third-vertical readiness; preserves association/professional/founder/enterprise roadmap items. |
 | **G8 — Commercial Platform Foundation** | **EVIDENCE-GATED** | Plans/entitlements, quotas/storage policy, usage/metering, paid capability packs, platform operations and monetization boundaries. |
@@ -1255,7 +1255,7 @@ Validation: every historical D1/V1/CR/S1/S2/S3-A1 gate + G1.1–G1.4 + G2 PASS; 
 
 See `G2-SHARED-IDENTITY-CLAIMING-PARTICIPATION-FOUNDATION.md` and `G2-RUNTIME-VERIFICATION-CHECKLIST.md`.
 
-**G3 is now implemented and closed in source. NEXT: G4 — Vertical Runtime & App Composition.** Keep it one consolidated High-effort batch.
+**G4 is now implemented and closed in source. NEXT: G5 — Alumni Network V1.** Keep it one consolidated High-effort product/architecture batch.
 
 
 ## G3 — Network Construction Engine Extraction — 2026-08-25
@@ -1272,4 +1272,14 @@ No migration was added. All historical gates through G3 pass; 147 historical rem
 
 See `G3-NETWORK-CONSTRUCTION-ENGINE-EXTRACTION.md`, `G3-RELEASE-MANIFEST.md` and `G3-RUNTIME-VERIFICATION-CHECKLIST.md`.
 
-**NEXT: G4 — Vertical Runtime & App Composition.**
+**G4 completed. NEXT: G5 — Alumni Network V1.**
+
+## G4 — Vertical Runtime & App Composition — 2026-08-25
+
+G4 is implemented and closed in source. The app-shell now composes explicit vertical-owned navigation, Guide routing, Playground metadata, Launch Control metadata and What's New routing. Family remains behaviorally unchanged and the only active renderer. Alumni remains a fail-closed skeleton with no Family surface inheritance.
+
+No migration was added. Historical gates through G4 pass; 147 historical remote exports and 260 accepted G3 files are compatibility-locked.
+
+See `G4-VERTICAL-RUNTIME-APP-COMPOSITION.md`, `G4-RELEASE-MANIFEST.md` and `G4-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+**NEXT: G5 — Alumni Network V1.**

@@ -346,3 +346,12 @@ From G2 onward, architecture work should be delivered as **coherent High-effort 
 - Never move parent/child/spouse, generation/lineage or `family_members` persistence into Core merely to make an importer look generic.
 - Existing production construction RPCs may remain vertical-named behind adapters; compatibility is more important than cosmetic database renaming.
 - A skeleton vertical must fail closed before persistence exists.
+
+## Vertical app composition rule — G4+
+
+- Vertical app surfaces must be registered in the vertical runtime composition, not added as new Family-specific lookup tables inside shared/app-shell code.
+- Core app-composition contracts contain only neutral metadata shapes and never import vertical implementations.
+- App-shell is the composition root and may import explicit vertical implementations.
+- A skeleton vertical must fail closed; it must never inherit Family navigation, Guide, Playground, Launch Control or What's New surfaces by default.
+- Keep renderers concrete until a second real vertical proves a component is genuinely reusable. Do not create generic React renderers only to reduce folder names.
+- When moving an existing registry into vertical composition, preserve labels/order/feature keys/experience gating exactly and update historical source gates to follow the new canonical source rather than weakening the check.

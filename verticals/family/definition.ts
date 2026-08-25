@@ -14,12 +14,6 @@ export const FAMILY_VERTICAL = {
     "domain.kinship",
   ],
   featureCatalog: FAMILY_FEATURE_CATALOG,
-  navigation: () => [
-    { id: "home", label: "Home" },
-    { id: "tree", label: "Family", capability: "domain.kinship" },
-    { id: "directory", label: "Find family" },
-    { id: "guide", label: "Explore & Guide", capability: "runtime.guide" },
-  ],
   legacyNetworkLabels: {
     entityLabel: "Member", entityLabelPlural: "Members", levelLabel: "Generation",
     levelLabelPlural: "Generations", parentLabel: "Parent", childLabel: "Child", peerLabel: "Spouse",

@@ -176,3 +176,9 @@ The platform can now describe how a trusted network is assembled without making 
 This is a major proof of the capability-tree thesis: **the workflow can be shared while the meaning and integrity rules remain vertical-specific**. Alumni now supplies institutional/batch/program construction semantics as a non-persistent second-consumer skeleton, proving the contract without forcing Alumni into `family_members`.
 
 The next platform proof is G4: compose these capabilities through a cleaner vertical runtime/app shell so navigation, features, Guide, Playground, Launch Control and What's New can be vertical-owned without scattering Family assumptions through the shell.
+
+## G4 app composition becomes vertical-owned — 2026-08-25
+
+The platform now has a clean distinction between **what a vertical can do** and **how that vertical is assembled into the application**. Family registers its own navigation, Guide routing, Playground identity, launch bundles and What's New destinations; the app-shell validates and composes them. Alumni does not inherit Family surfaces by default and remains fail-closed until its real product experience exists.
+
+This is the final major architecture proof before the second vertical: G5 should now build Alumni as a real product using the shared network, identity, participation, construction and app-composition seams rather than reopening Family internals.

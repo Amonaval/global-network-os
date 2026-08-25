@@ -1,0 +1,71 @@
+import type { VerticalAppComposition } from "../../../core/verticals/app-composition";
+
+const label = (en:string, hi:string, mr:string) => ({en,hi,mr} as const);
+
+export const FAMILY_APP_COMPOSITION = {
+  kind: "family",
+  renderStatus: "active",
+  featureCatalogId: "family",
+  primaryNavigation: [
+    {viewId:"home",featureKey:"core.home",iconToken:"home",label:label("Home","आज","आज"),minimumExperience:"simple"},
+    {viewId:"tree",featureKey:"core.family",capability:"domain.kinship",iconToken:"tree",label:label("Family","परिवार","कुटुंब"),minimumExperience:"simple"},
+    {viewId:"community",featureKey:"remember.memories",iconToken:"memories",label:label("Memories","यादें","आठवणी"),minimumExperience:"connected"},
+    {viewId:"directory",featureKey:"core.directory",iconToken:"directory",label:label("Find family","परिवार खोजें","कुटुंब शोधा"),minimumExperience:"explorer"},
+    {viewId:"timeline",featureKey:"remember.history",iconToken:"history",label:label("Family history","परिवार का इतिहास","कुटुंब इतिहास"),minimumExperience:"explorer"},
+    {viewId:"map",featureKey:"connect.places",iconToken:"places",label:label("Family places","परिवार कहाँ है","कुटुंब कुठे आहे"),minimumExperience:"explorer"},
+    {viewId:"umbrella",featureKey:"connect.community",iconToken:"community",label:label("Community","समुदाय","समुदाय"),minimumExperience:"explorer"},
+    {viewId:"participation",featureKey:"contribute.help_family",iconToken:"contribute",label:label("Help family","परिवार की मदद","कुटुंबाला मदत"),minimumExperience:"explorer"},
+  ],
+  mobileMoreNavigation: [
+    {viewId:"directory",featureKey:"core.directory",iconToken:"directory",label:label("Find family","परिवार खोजें","कुटुंब शोधा")},
+    {viewId:"timeline",featureKey:"remember.history",iconToken:"history",label:label("Family history","परिवार का इतिहास","कुटुंब इतिहास")},
+    {viewId:"map",featureKey:"connect.places",iconToken:"places",label:label("Family places","परिवार कहाँ है","कुटुंब कुठे आहे")},
+    {viewId:"umbrella",featureKey:"connect.community",iconToken:"community",label:label("Community network","समुदाय","समुदाय")},
+    {viewId:"participation",featureKey:"contribute.help_family",iconToken:"contribute",label:label("Help improve our family","परिवार की मदद","कुटुंबाला मदत")},
+    {viewId:"admin",featureKey:"admin.center",iconToken:"admin",label:label("Manage family","परिवार संभालें","कुटुंब सांभाळा"),adminOnly:true},
+  ],
+  mobileBottomViewIds:["home","tree","community"],
+  mobileMoreActiveViewIds:["map","admin","founder","timeline","participation","umbrella","directory"],
+  guide:{
+    registryId:"family-guide",
+    guideByView:{home:"home",tree:"personal-family-line",directory:"directory",map:"places",community:"memories",umbrella:"community-hierarchy",timeline:"timeline",participation:"contributions",admin:"admin-center",founder:"platform-launch-control"},
+    actionToView:{home:"home",tree:"tree",directory:"directory",map:"map",community:"community",umbrella:"umbrella",timeline:"timeline",participation:"participation",admin:"admin",founder:"founder",relationship:"tree"},
+    playgroundViewIds:["home","tree","directory","map","community","umbrella","timeline","participation"],
+    launchControlGuideKey:"platform-launch-control",
+  },
+  playground:{
+    enabled:true,
+    preferredViewerIdentityId:"m37",
+    startView:"home",
+    publicNetworkSettings:{id:"network",name:"Sample Family Playground",description:"Try the family experience without signing in. Nothing is saved.",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family",vertical_kind:"family"},
+    setupNetworkSettings:{id:"network",name:"Sample Family",description:"Read-only sample family",entity_label:"Member",entity_label_plural:"Members",level_label:"Generation",level_label_plural:"Generations",parent_label:"Parent",child_label:"Child",peer_label:"Spouse",network_template:"family",vertical_kind:"family"},
+  },
+  launch:{
+    bundles:[
+      {key:"core",label:"Core family",description:"Home, family tree, profiles and family finding."},
+      {key:"remember",label:"Remember",description:"Memories and family history."},
+      {key:"celebrate",label:"Celebrate",description:"Birthdays, anniversaries and special days."},
+      {key:"connect",label:"Connect",description:"Places, community, gatherings and relationship exploration."},
+      {key:"contribute",label:"Contribute",description:"Prompts and tools that help relatives improve the family."},
+      {key:"share",label:"Share",description:"WhatsApp, public cards, QR and printable experiences."},
+      {key:"admin",label:"Administration",description:"Family administration and governance surfaces."},
+    ],
+    playgroundExcludedBundles:["admin"],
+    playgroundTitle:"Playground feature visibility",
+    playgroundDescription:"Independent from real-user rollout. Use this to make the anonymous sample reveal the strongest member-facing capabilities even while Alpha families remain conservative.",
+    playgroundRecommendation:"show the strongest safe product breadth in Playground, while keeping public-profile and print/QR distribution off by default. Real-family rollout remains independent.",
+    dayOneTitle:"Day-1 Alpha preset",
+    dayOneDescription:"Pilot baseline: release Core, Guide, Special Days, Memories, History, Family Pulse, Quiet Digest, Contributions and Relationship Explorer. Keep Community, Places, public-profile/QR distribution in Test; Gatherings and family sharing can stay Pilot.",
+    pilotTargetsTitle:"Pilot families",
+    pilotTargetsDescription:"Select the families used whenever you move a feature or bundle to Pilot.",
+    footnoteTitle:"Family controls come after founder release",
+    footnoteDescription:"Family admins see only member-facing switches and can disable them for their own family. Admin capabilities remain role-controlled, not family-member preferences.",
+  },
+  whatsNew:{
+    featureToView:{"core.family":"tree","advanced.relationships":"tree","core.directory":"directory","remember.memories":"community","connect.community":"community","connect.gatherings":"community","remember.history":"timeline","connect.places":"map","contribute.help_family":"participation","admin.center":"admin","admin.import":"admin","admin.governance":"admin"},
+    defaultView:"home",
+    kicker:"New in your family",
+    fallbackTitle:"New family feature",
+    fallbackDescription:"There is something new to explore.",
+  },
+} satisfies VerticalAppComposition;

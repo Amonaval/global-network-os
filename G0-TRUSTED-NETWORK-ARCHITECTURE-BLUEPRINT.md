@@ -706,3 +706,7 @@ The G0 classification of S3-A1 as **architecturally shared, physically Family-sp
 Kinship scoring context, parent/child/spouse, generation ordering and lineage/cycle integrity remain outside Core. Alumni contributes institutional/batch/program construction semantics only as a skeleton and uses no Family persistence. This confirms the G0 capability-tree rule: share workflow at the lowest proven layer; keep domain truth explicit.
 
 G4 should now focus on app-shell/vertical composition, not reopen the construction schema or rename deployed Family RPCs.
+
+## G4 execution note — vertical app composition is now explicit
+
+G4 turns the earlier typed-vertical idea into a user-surface composition boundary. Navigation, Guide routing, Playground registration, Launch Control bundle metadata and What's New routing are now vertical-owned metadata validated by the app-shell. Family remains the only active renderer; Alumni is fail-closed until G5 supplies real Alumni surfaces. The older `VerticalDefinition.navigation` field was removed so app navigation has one owner rather than two competing registries.

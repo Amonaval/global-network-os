@@ -892,7 +892,7 @@ Closure lifecycle:
 
 Quick runtime check: `G2-RUNTIME-VERIFICATION-CHECKLIST.md`. Full architecture record: `G2-SHARED-IDENTITY-CLAIMING-PARTICIPATION-FOUNDATION.md`.
 
-**G3 has been completed as one consolidated batch. NEXT CODE MISSION: G4 — Vertical Runtime & App Composition.**
+**G3 completed as one consolidated batch; G4 subsequently completed. Current next batch: G5 — Alumni Network V1.**
 
 
 ## 2026-08-25 — G3 Network Construction Engine Extraction
@@ -928,4 +928,38 @@ Closure lifecycle:
 - [x] CLOSE
 - [ ] SHORT DEPLOYED SMOKE
 
-**NEXT CODE MISSION: G4 — Vertical Runtime & App Composition.**
+**G4 subsequently completed; current next batch is G5 — Alumni Network V1.**
+
+## 2026-08-25 — G4 Vertical Runtime & App Composition
+
+**G4: IMPLEMENTED IN SOURCE / CLOSED / SHORT DEPLOYED SMOKE RECOMMENDED**
+
+Delivered as one consolidated High-effort batch:
+- neutral app-composition contracts;
+- validated app-shell vertical runtime;
+- Family navigation/Guide/Playground/Launch/What's New runtime registration;
+- explicit fail-closed Alumni app skeleton;
+- `NetworkApp` and Launch Control moved from inline registries to Family vertical composition without changing renderers;
+- duplicate legacy `VerticalDefinition.navigation` ownership removed;
+- `validate:g4` preserving 147 remote exports and 260 accepted G3 files.
+
+Validation truth:
+- every historical source gate through G4: PASS;
+- focused TypeScript 5.8.3 composition compile: PASS;
+- changed TS/TSX syntax transpilation: PASS;
+- executable Family/Alumni composition assertion: PASS;
+- no migration/RPC/RLS/Family UX change.
+
+Closure lifecycle:
+- [x] CLASSIFY
+- [x] IMPLEMENT
+- [x] VALIDATE
+- [x] GUIDE registration moved; content unchanged
+- [x] PLAYGROUND registration moved; behavior unchanged
+- [x] LAUNCH CONTROL metadata moved; behavior unchanged
+- [x] WHAT'S NEW routing moved; behavior unchanged
+- [x] ROADMAP / STATUS
+- [x] CLOSE
+- [ ] SHORT DEPLOYED SMOKE
+
+**NEXT CONSOLIDATED BATCH: G5 — Alumni Network V1.**

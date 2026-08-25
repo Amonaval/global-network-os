@@ -19,7 +19,6 @@ export type VerticalCapabilityId =
   | "domain.kinship"
   | "domain.institutional-membership";
 
-export type VerticalNavigationItem = { id: string; label: string; capability?: VerticalCapabilityId };
 export type VerticalNetworkLabels = {
   entityLabel: string; entityLabelPlural: string; levelLabel: string; levelLabelPlural: string;
   parentLabel: string; childLabel: string; peerLabel: string;
@@ -31,7 +30,6 @@ export type VerticalDefinition = {
   iconToken: string;
   themeToken: string;
   capabilities: readonly VerticalCapabilityId[];
-  navigation: () => readonly VerticalNavigationItem[];
   featureCatalog: FeatureCatalog;
   legacyNetworkLabels: VerticalNetworkLabels;
   status: "active" | "skeleton";
