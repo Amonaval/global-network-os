@@ -415,3 +415,9 @@ Corrections:
 Permanent G8 source guards were added and the complete D1→G8 automated chain passed after the correction.
 
 A full Next.js build still requires the installed dependency tree; this artifact workspace does not contain `node_modules`.
+
+## G8 Launch Control bundle typing regression — PASS
+
+A real Next.js build exposed `string` → `never` inference at `playgroundExcludedBundles.includes(f.bundle)`. Launch Control now widens the concrete vertical composition list to the shared `readonly string[]` contract before filtering.
+
+`validate:g8` contains permanent source assertions for this rule. Complete D1→G8 automated source chain: **PASS**.

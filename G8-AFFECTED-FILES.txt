@@ -3,6 +3,7 @@ DEVELOPMENT-RULES.md
 Family-Network-Complete-User-Admin-Guide.docx
 G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md
 G8-AFFECTED-FILES.txt
+G8-CERTIFICATION-HOTFIX-BUILD-SQL.md
 G8-IMPLEMENTATION-DASHBOARD.html
 G8-PRODUCTIZED-BUSINESS-VERTICALS.md
 G8-RELEASE-MANIFEST.md
@@ -22,6 +23,7 @@ capabilities/affiliation/remote.ts
 capabilities/template-product/composition.ts
 capabilities/template-product/features.ts
 capabilities/template-product/remote.ts
+components/AlumniNetworkApp.tsx
 components/FounderLaunchConsole.tsx
 components/NetworkApp.tsx
 components/SetupScreen.tsx

@@ -45,6 +45,8 @@ const app=read('components/NetworkApp.tsx');const productHandoff=app.indexOf('is
 
 const setup=read('components/SetupScreen.tsx');for(const marker of ['"organization","business-trust","franchise"','Create another kind of trusted network','Try sample','Have a Network OS join code?','path==="productized"'])if(!setup.includes(marker))fail(`Setup flow missing ${marker}`);
 const founder=read('components/FounderLaunchConsole.tsx');for(const kind of ['"family"','"alumni"','"organization"','"business-trust"','"franchise"'])if(!founder.includes(kind))fail(`Launch Control active vertical selector missing ${kind}`);if(founder.includes('setPlatformBundleRollout('))fail('Launch Control regressed to unscoped bundle rollout');
+if(!founder.includes('const PLAYGROUND_EXCLUDED_BUNDLES=LAUNCH_COMPOSITION.playgroundExcludedBundles as readonly string[]'))fail('Launch Control must widen playgroundExcludedBundles before includes() to avoid never inference');
+if(founder.includes('LAUNCH_COMPOSITION.playgroundExcludedBundles.includes(f.bundle)'))fail('Launch Control directly calls includes() on literal-inferred playgroundExcludedBundles and may regress to never');
 
 // Migration 048 must be additive, tenant-safe, and support released product workflows.
 const migration=read('supabase/migrations/048_g8_productized_verticals.sql');

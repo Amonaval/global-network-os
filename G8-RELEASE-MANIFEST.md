@@ -151,3 +151,13 @@ The authoritative G8 release now includes two release-blocking corrections found
 `validate:g8` includes permanent guards for both regressions. The complete D1→G8 source chain passed after these fixes.
 
 Use the refreshed G8 Certified R2 artifact as the baseline going forward.
+
+## Certification hotfix — Launch Control bundle typing
+
+Real Next.js build validation exposed a TypeScript narrow-literal inference issue in `FounderLaunchConsole.tsx`: calling `.includes(f.bundle)` directly on a concrete vertical's `playgroundExcludedBundles` could infer the parameter as `never`, especially for compositions declaring an empty exclusion array.
+
+Launch Control now widens the value to the shared `readonly string[]` contract before filtering. `validate:g8` permanently guards this call pattern.
+
+No feature behavior or migration changed. Full D1→G8 source chain passed after the fix.
+
+**G8 Certified R3 supersedes the original G8 and Certified R2 artifacts.**

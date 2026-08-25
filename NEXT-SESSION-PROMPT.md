@@ -49,3 +49,12 @@ Delivery remains: historical gates + G9 gate, docs, Guide update if visible, Pla
 ## G8 Certified R2 baseline
 
 Use the refreshed **G8 Productized Business Verticals — Certified R2** artifact as the code baseline. It includes the deployment hotfix for Alumni navigation typing and the corrected migration-048 membership timestamp. Do not resume from the earlier pre-hotfix G8 ZIP.
+
+## G8 Certified R3 baseline
+
+Use **G8 Productized Business Verticals — Certified R3** as the authoritative code baseline. It includes:
+- the Alumni `adminOnly` navigation typing correction;
+- corrected migration-048 `network_memberships.joined_at`;
+- Launch Control `playgroundExcludedBundles` widening that prevents `string` → `never` Next.js build failures.
+
+Do not resume from the original G8 or R2 artifacts.

@@ -1050,3 +1050,12 @@ Migration: `048_g8_productized_verticals.sql` after 047.
 - Added permanent G8 regression guards.
 - Full D1→G8 source-gate chain passed after the fixes.
 - G8 Certified R2 supersedes the original certified G8 ZIP.
+
+## G8 certification hotfix — Launch Control bundle typing — CLOSED
+
+- Fixed Next.js TypeScript `string` not assignable to `never` failure in Platform Launch Control.
+- Shared launch composition contract remains unchanged; the concrete exclusion list is widened at the caller.
+- Added permanent G8 regression guard.
+- No database migration change.
+- Full D1→G8 source chain passed.
+- **G8 Certified R3 is now the authoritative baseline.**
