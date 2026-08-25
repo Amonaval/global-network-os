@@ -378,3 +378,15 @@ From G2 onward, architecture work should be delivered as **coherent High-effort 
 8. **Tenant integrity is database-level.** Cross-network entity/value/activity references require composite network-aware constraints where applicable.
 9. **Shared UX does not mean identical UX.** Reuse shells/engines while vertical terminology and workflows remain domain-appropriate.
 10. **Unknown future use cases remain possible.** Custom Network must remain representable through entities + dimensions + relationships + capability composition without importing Family/Alumni code.
+
+## G8 productized vertical release rules — permanent
+
+1. Organization, Business Trust and Franchise are now released verticals, not fail-closed template proofs.
+2. The shared `TemplateNetworkApp` may contain only proven common product interaction mechanics; domain labels, dimensions, projections and relationship meaning remain vertical/template-owned.
+3. Productized network creation/join/claim/admin RPCs must explicitly reject Family and Alumni networks.
+4. A normal member may modify only their claimed generic entity; network-wide entity writes remain admin-only.
+5. One account may not claim multiple generic entities in the same network.
+6. Removing a member must not leave stale active-network or claimed-owner state.
+7. Multi-value affiliations must remain lossless through UI, import and persistence.
+8. Every new released vertical requires feature catalog + composition + backend feature registry + Playground + Guide + Launch Control classification.
+9. G8 protects critical Family + Alumni foundations by hash. Any later modification requires an explicit compatibility justification and corresponding gate update.

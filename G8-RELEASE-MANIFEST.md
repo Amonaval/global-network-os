@@ -1,0 +1,142 @@
+# G8 Release Manifest — Productized Business Verticals
+
+**Release:** G8 — Organizational Intelligence + Business Trust + Franchise
+**Status:** SOURCE CERTIFIED / READY FOR DEPLOYED SMOKE
+**Baseline:** G7 Generic Network OS Certified R2
+**Date:** 2026-08-25
+**Database migration:** `048_g8_productized_verticals.sql` after 047
+
+## Release result
+
+G8 promotes three G7 template proofs into real user-creatable products:
+- Organizational Intelligence
+- Business Trust Network
+- Franchise Network
+
+They share the Generic Network OS affiliation/projection/activity/governance foundations and the productized UI/runtime while retaining domain-specific dimensions, projections, typed relationships and copy.
+
+## Exact affected-file delta
+
+- **Total affected files:** 51
+- **Added:** 23
+- **Modified:** 28
+- **Deleted accepted baseline files:** 0
+
+The release ZIP contains only these affected files and preserves their original folder hierarchy.
+
+### Added files
+
+- `G8-AFFECTED-FILES.txt`
+- `G8-IMPLEMENTATION-DASHBOARD.html`
+- `G8-PRODUCTIZED-BUSINESS-VERTICALS.md`
+- `G8-RELEASE-MANIFEST.md`
+- `G8-RUNTIME-VERIFICATION-CHECKLIST.md`
+- `capabilities/template-product/composition.ts`
+- `capabilities/template-product/features.ts`
+- `capabilities/template-product/remote.ts`
+- `components/TemplateNetworkApp.tsx`
+- `scripts/g8-accepted-g7-baseline.txt`
+- `scripts/g8-productized-verticals-gate.mjs`
+- `scripts/g8-protected-existing-vertical-foundations.json`
+- `supabase/migrations/048_g8_productized_verticals.sql`
+- `templates/productized/config.ts`
+- `verticals/business-trust/definition.ts`
+- `verticals/business-trust/features/catalog.ts`
+- `verticals/business-trust/runtime/composition.ts`
+- `verticals/franchise/definition.ts`
+- `verticals/franchise/features/catalog.ts`
+- `verticals/franchise/runtime/composition.ts`
+- `verticals/organization/definition.ts`
+- `verticals/organization/features/catalog.ts`
+- `verticals/organization/runtime/composition.ts`
+
+### Modified files
+
+- `CODEBASE.md`
+- `DEVELOPMENT-RULES.md`
+- `Family-Network-Complete-User-Admin-Guide.docx`
+- `G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md`
+- `MISSION-STATUS.md`
+- `NEXT-SESSION-PROMPT.md`
+- `PROJECT-VISION.md`
+- `ROADMAP.md`
+- `SUPABASE-SETUP-GUIDE.md`
+- `USER-GUIDE.md`
+- `VALIDATION.md`
+- `app-shell/vertical-capabilities.ts`
+- `app-shell/vertical-registry.ts`
+- `app-shell/vertical-runtime.ts`
+- `app/globals.css`
+- `capabilities/affiliation/remote.ts`
+- `components/FounderLaunchConsole.tsx`
+- `components/NetworkApp.tsx`
+- `components/SetupScreen.tsx`
+- `components/shared/NetworkActivityHub.tsx`
+- `components/shared/NetworkProjectionExplorer.tsx`
+- `components/shared/NetworkSwitcher.tsx`
+- `core/verticals/contracts.ts`
+- `lib/network.ts`
+- `package.json`
+- `templates/business-trust/definition.ts`
+- `templates/franchise/definition.ts`
+- `templates/organization/definition.ts`
+
+### Deleted files
+
+- None.
+
+## User-visible capabilities
+
+- normal create flow for all three verticals;
+- read-only Playground for all three;
+- Home / Explorer / Directory / Community / Places / Connections / Contribute / Admin / Guide;
+- Excel/CSV import with multi-value affiliation support;
+- Network OS join code;
+- verified-email `This is me` claiming;
+- claimed-record self edit for ordinary members;
+- typed relationships + connection paths;
+- events/RSVP, memories/history, milestones, announcements and groups;
+- governed contribution/review;
+- owner/admin member lifecycle;
+- independent Launch Control catalogs/bundles for five active verticals.
+
+## Security hardening
+
+- productized RPCs reject non-G8 verticals;
+- direct access to productized tables is revoked;
+- internal SECURITY DEFINER helpers remain non-public;
+- composite tenant constraints protect entity relationships/contributions;
+- one account cannot claim multiple entities in one productized network;
+- ordinary users can edit only their claimed entity;
+- member removal clears stale active-network state and claimed ownership;
+- Family and Alumni foundations are hash-protected by the G8 gate.
+
+## Automated certification
+
+Final complete source chain: **PASS**
+
+`D1 → V1 → CR1/CR2 → S1 → S2 → S3-A1 → G1.1/G1.2/G1.3/G1.4 → G2 → G3 → G4 → G5 → G6 → G7 → G8`
+
+G8 gate:
+- 147 historical remote exports preserved;
+- 333 accepted G7 files preserved;
+- 12 protected Family/Alumni foundations preserved;
+- 3 released business verticals verified;
+- changed G8 TypeScript/TSX transpile checks pass;
+- CSS integrity checks pass.
+
+Full Next.js production build is not claimed because the artifact workspace does not contain installed application dependencies. Vercel/CI build remains a deployment gate.
+
+## User/Admin Guide
+
+`Family-Network-Complete-User-Admin-Guide.docx` was updated for G8 and rendered to 22 pages. All pages were visually inspected after the final edit; the new G8 section renders cleanly.
+
+## Short deployed verification
+
+Use `G8-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+## Next mission
+
+**G9 — Network Intelligence Layer & Five-Vertical Proof**.
+
+Commercial Platform Foundation moves to G10 and remains evidence-gated.

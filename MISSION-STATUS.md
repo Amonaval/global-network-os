@@ -1020,10 +1020,25 @@ Implemented:
 - G7 acceptance and compatibility gate.
 
 User-facing closure requires Guide/Playground/Launch/What's New alignment already represented through Alumni composition and updated guide docs. Final release certification must rerun all historical gates and package the exact affected-file delta.
+# G8 — Productized Business Verticals: Organization, Business Trust & Franchise
 
-## G7 certification hotfix: Native Map collision — CLOSED
-- Fixed Lucide `Map` icon shadowing JavaScript's native `Map` constructor in Alumni Places aggregation.
-- Added permanent G7 regression protection.
-- No database migration required.
-- Full D1→G7 source gate chain passed after the correction.
-- The refreshed certified G7 R2 artifact supersedes the earlier G7 ZIP.
+**Status: IMPLEMENTED / SOURCE CERTIFIED / CLOSED IN SOURCE / SHORT DEPLOYED SMOKE REQUIRED**
+
+Delivered:
+- [x] CLASSIFY — G7 template proofs promoted to explicit released verticals
+- [x] IMPLEMENT — Organization, Business Trust and Franchise creation + product runtime
+- [x] VALIDATE — full D1→G8 automated chain PASS
+- [x] GUIDE — in-app Guide plus User/Admin documentation
+- [x] PLAYGROUND — three read-only domain sample networks
+- [x] LAUNCH CONTROL — independent vertical catalogs/bundles
+- [x] WHAT'S NEW / composition — released surfaces registered through vertical composition
+- [x] ROADMAP / STATUS / HANDOFF
+- [x] IDENTITY — verified-email claim + own claimed record edit
+- [x] MEMBERSHIP — join code + owner/admin lifecycle
+- [x] IMPORT — CSV/XLSX with multi-value affiliations
+- [x] SECURITY — productized RPC scope, helper revocation, tenant-aware constraints
+- [ ] SHORT DEPLOYED SMOKE / VERCEL BUILD
+
+Migration: `048_g8_productized_verticals.sql` after 047.
+
+**NEXT: G9 — Network Intelligence Layer & Five-Vertical Proof.**

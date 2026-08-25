@@ -63,9 +63,9 @@ export const NETWORK_TEMPLATES = [
     peer_label: "Spouse",
   },
   {
-    id: "org",
-    name: "Organisation Chart",
-    description: "Company reporting lines and team structures",
+    id: "organization",
+    name: "Organizational Intelligence",
+    description: "Matrix organization, teams, projects, expertise and ownership",
     entity_label: "Employee",
     entity_label_plural: "Employees",
     level_label: "Seniority",
@@ -85,6 +85,18 @@ export const NETWORK_TEMPLATES = [
     parent_label: "Senior",
     child_label: "Junior",
     peer_label: "Classmate",
+  },
+  {
+    id: "business-trust",
+    name: "Business Trust Network",
+    description: "Trusted businesses, suppliers, service providers and relationship paths",
+    entity_label: "Business", entity_label_plural: "Businesses", level_label: "Category", level_label_plural: "Categories", parent_label: "Recommender", child_label: "Recommended", peer_label: "Partner",
+  },
+  {
+    id: "franchise",
+    name: "Franchise Network",
+    description: "Regions, cities, locations, owners and operational communities",
+    entity_label: "Location", entity_label_plural: "Locations", level_label: "Region", level_label_plural: "Regions", parent_label: "Owner", child_label: "Location", peer_label: "Peer location",
   },
   {
     id: "academic",

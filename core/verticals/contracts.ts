@@ -1,11 +1,13 @@
 import type { FeatureCatalog } from "../features/contracts";
 
-export type NetworkVerticalKind = "family" | "alumni";
+export type NetworkVerticalKind = "family" | "alumni" | "organization" | "business-trust" | "franchise";
 
 export type VerticalCapabilityId =
   | "network.context"
   | "network.membership"
   | "network.construction"
+  | "network.affiliation"
+  | "network.activity"
   | "runtime.launch-control"
   | "runtime.guide"
   | "runtime.playground"
@@ -17,7 +19,10 @@ export type VerticalCapabilityId =
   | "community.groups-events"
   | "notifications.digest"
   | "domain.kinship"
-  | "domain.institutional-membership";
+  | "domain.institutional-membership"
+  | "domain.organizational-intelligence"
+  | "domain.business-trust"
+  | "domain.franchise-operations";
 
 export type VerticalNetworkLabels = {
   entityLabel: string; entityLabelPlural: string; levelLabel: string; levelLabelPlural: string;

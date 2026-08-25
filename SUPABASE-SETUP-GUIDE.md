@@ -283,3 +283,17 @@ After G6 migration 046, apply:
 Migration 047 adds the generic Network OS entity/dimension/affiliation/projection and shared activity/group foundation. It also backfills existing Alumni profiles into the affiliation registry and installs an Alumni profile synchronization trigger.
 
 Do **not** run 047 before 045 and 046 because it depends on Alumni profile/network settings and G6 vertical-scoped launch infrastructure.
+
+## G8 migration 048 — Productized business verticals
+
+To deploy Organizational Intelligence, Business Trust and Franchise, run:
+
+```text
+048_g8_productized_verticals.sql
+```
+
+after migration 047.
+
+Migration 048 activates the three vertical kinds and adds productized settings, typed relationships, join codes, governed contributions, creation/import/entity RPCs, verified-email claiming and member/admin management. Direct table access remains closed and internal SECURITY DEFINER helpers are not application APIs.
+
+After migration 048, redeploy the frontend and use `G8-RUNTIME-VERIFICATION-CHECKLIST.md` for the short smoke test.

@@ -1230,8 +1230,10 @@ The earlier G2–G8 numbering above is preserved as historical planning context.
 | **G5 — Alumni Network V1** | **IMPLEMENTED / CERTIFIED R2** | Institution/batch/program identity, profiles, directory/search, onboarding/import, claiming, invitations, cohort connections, basic Alumni Home/Admin, privacy, Guide/Playground/Launch Control. |
 | **G6 — Two-Vertical Architecture Proof, Shared UX Composition & Hardening** | **IMPLEMENTED IN SOURCE / CLOSED / DEPLOYED SMOKE REQUIRED** | Family + Alumni isolation, shared UX primitives, polished Alumni experience, vertical-scoped Launch Control, tenant/RLS hardening, migration compatibility and cross-vertical regression protection. |
 | **G7 — Generic Network OS Productization & Template Architecture** | **IMPLEMENTED IN SOURCE / SOURCE CERTIFIED / DEPLOYED SMOKE REQUIRED** | Configurable affiliations/projections, template contracts, reusable Network Explorer + shared activity/group foundation, rich Alumni reuse proof, future template definitions. |
-| **G8 — Commercial Platform Foundation** | **NEXT / EVIDENCE-GATED** | Plans/entitlements, quotas/storage policy, usage/metering, paid capability packs, platform operations and monetization boundaries. |
-| **G9+ — Future Verticals & Ecosystem Scale** | **FUTURE** | Professional/trade associations, enterprise expertise, founder/investor, clubs/societies/nonprofit, integrations/APIs/white-label/extension ecosystem where evidence supports them. |
+| **G8 — Productized Business Verticals: Organization, Business Trust & Franchise** | **IMPLEMENTED / SOURCE CERTIFIED / DEPLOYED SMOKE REQUIRED** | Three real user-creatable business verticals on the G7 Network OS with Explorer, Directory, Community, Places, Connections, Contributions, claiming, join codes, member/admin lifecycle, import, Guide, Playground and Launch Control. |
+| **G9 — Network Intelligence Layer & Five-Vertical Proof** | **NEXT / HIGH EFFORT** | Permission-aware semantic/entity discovery, explainable connection paths, network health, expertise/trust/dependency insights and five-vertical hardening without genericizing domain truth. |
+| **G10 — Commercial Platform Foundation** | **PLANNED / EVIDENCE-GATED** | Plans/entitlements, quotas/storage policy, usage/metering, paid capability packs, branded/managed networks and monetization experiments by vertical. |
+| **G11+ — Future Verticals & Ecosystem Scale** | **FUTURE** | Education/Professional/Association/Supply Chain/Investor/Customer vertical expansion, integrations/APIs/white-label/extension ecosystem where evidence supports them. |
 
 ## G2 — Shared Identity, Claiming & Participation Foundation — 2026-08-25
 
@@ -1319,3 +1321,14 @@ Binding proof: one MET dataset supports both `MET → Engineering → 2011 → C
 Migration: `047_g7_generic_network_os.sql` after 046.
 
 **NEXT after G7 certification: G8 — Commercial Platform Foundation**, with business-evidence gates before broad entitlement/metering work.
+## G8 — Productized Business Verticals — 2026-08-25
+
+**Status: IMPLEMENTED / SOURCE CERTIFIED / SHORT DEPLOYED SMOKE REQUIRED**
+
+Organizational Intelligence, Business Trust and Franchise are now active user-creatable products. They reuse the G7 Network OS affiliation/projection/activity foundation and a shared product shell while retaining explicit domain dimensions, typed relationships, labels, Guide content and Launch Control catalogs.
+
+Migration: `048_g8_productized_verticals.sql` after 047.
+
+G8 also closes verified-email claiming, own-claimed-entity editing, join codes, member/admin lifecycle, multi-value affiliations and governed contributions/import for these products. Family + Alumni foundations remain protected.
+
+**NEXT: G9 — Network Intelligence Layer & Five-Vertical Proof.** Commercial platform work moves to G10 and remains evidence-gated.

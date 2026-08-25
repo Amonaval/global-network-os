@@ -41,6 +41,7 @@ import AuthPanel from "./AuthPanel";
 import RelationshipModal from "./RelationshipModal";
 import SetupScreen from "./SetupScreen";
 import AlumniNetworkApp from "./AlumniNetworkApp";
+import TemplateNetworkApp from "./TemplateNetworkApp";
 import NetworkTopbar from "./shared/NetworkTopbar";
 import InvitationModal from "./InvitationModal";
 import {
@@ -95,6 +96,8 @@ import {getVerticalDefinition} from "../app-shell/vertical-registry";
 import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail, setActiveNetwork, addMyselfToFamily, fetchPlaygroundFeatures, enterFamilyLobby, leaveCurrentFamily, fetchMyNetworks, NetworkMembership } from "../lib/remote";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import {createAlumniNetwork,fetchClaimableAlumniProfiles,claimAlumniProfile,acceptAlumniInvitation,type ClaimableAlumniProfile} from "../verticals/alumni/data/remote";
+import {createTemplateNetwork,joinProductizedNetworkByCode} from "../capabilities/template-product/remote";
+import {PRODUCTIZED_NETWORK_CONFIGS,isProductizedVerticalKind,type ProductizedVerticalKind} from "../templates/productized/config";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
 import {defaultFeatureMap, EffectiveFeatureMap, ExperienceLevel, FeatureKey, isFeatureAvailable, EXPERIENCE_LABELS, EXPERIENCE_RANK, FEATURE_BY_KEY} from "../lib/features";
@@ -135,6 +138,7 @@ export default function NetworkApp() {
     [claimableAlumniProfiles,setClaimableAlumniProfiles]=useState<ClaimableAlumniProfile[]>([]),
     [myFamilies,setMyFamilies]=useState<NetworkMembership[]>([]),
     [alumniDemo,setAlumniDemo]=useState(false),
+    [productizedDemo,setProductizedDemo]=useState<ProductizedVerticalKind|null>(null),
     [pendingAlumniInvite,setPendingAlumniInvite]=useState<string>(""),
     [demoPreview,setDemoPreview]=useState(false),
     [demoViewerId,setDemoViewerId]=useState<string | undefined>(undefined),
@@ -1066,6 +1070,8 @@ export default function NetworkApp() {
   // G5 bugfix: evaluating Alumni surface keys through lib/features (the Family compatibility facade)
   // throws by design. Alumni owns its own feature catalog/runtime and UI workspace.
   if(network && activeVerticalKind==="alumni" && !setupNeeded) return <AlumniNetworkApp network={network} auth={auth} demo={alumniDemo} onNetworkChanged={async()=>{setAlumniDemo(false);await hydrate(await getAuthUser());setView("home")}} onOpenNetworkLobby={async()=>{setAlumniDemo(false);setNetwork(null);setSetupNeeded(true);setMembers([]);setRelationships([])}} onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setSetupNeeded(true)}}/>;
+  // G8: productized verticals hand off before Family-only feature evaluation, exactly like Alumni.
+  if(network && isProductizedVerticalKind(activeVerticalKind) && !setupNeeded) return <TemplateNetworkApp network={network} auth={auth} kind={activeVerticalKind} demo={productizedDemo===activeVerticalKind} onNetworkChanged={async()=>{setProductizedDemo(null);await hydrate(await getAuthUser());setView("home")}} onOpenNetworkLobby={async()=>{setProductizedDemo(null);setNetwork(null);setSetupNeeded(true);setMembers([]);setRelationships([]);setSubmissions([])}} onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setSetupNeeded(true)}}/>;
   const experience:ExperienceLevel = demoPreview ? "explorer" : (experiencePreview || (!isSupabaseConfigured ? "explorer" : (auth?.experience_level || "simple")));
   // Defensive guard for transient setup/switch states: Family feature runtime never receives another vertical's key.
   const hasFeature=(key:FeatureKey)=>activeVerticalKind==="family"&&isFeatureAvailable(key,demoPreview?playgroundFeatures:platformFeatures,experience,canAdmin);
@@ -1154,7 +1160,7 @@ export default function NetworkApp() {
           approvalRequired={isSupabaseConfigured&&!isPlatformOwner&&familyCreationApprovalRequired}
           claimableProfiles={claimableProfiles}
           existingFamilies={myFamilies}
-          onOpenFamily={async(id)=>{await setActiveNetwork(id);await hydrate(await getAuthUser());setView("home")}}
+          onOpenFamily={async(id)=>{setProductizedDemo(null);setAlumniDemo(false);await setActiveNetwork(id);await hydrate(await getAuthUser());setView("home")}}
           onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}
           onClaimProfile={async(memberId)=>{await claimProfileByVerifiedEmail(memberId);await hydrate(await getAuthUser());setView("home");notify("Welcome to your family.")}}
           onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify("Family joined. Welcome!")}}
@@ -1165,6 +1171,9 @@ export default function NetworkApp() {
           onClaimAlumniProfile={async(profileId)=>{await claimAlumniProfile(profileId);await hydrate(await getAuthUser());setView("home");notify("Welcome to your Alumni Network.")}}
           onCreateAlumni={async(name,institution,description)=>{const id=await createAlumniNetwork(name,institution,description);await setActiveNetwork(id);setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify(`${name} is ready.`)}}
           onExploreAlumniDemo={()=>{const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setDemoPreview(false);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:"Read-only sample alumni community",entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setSetupNeeded(false);setMembers([]);setRelationships([]);setSubmissions([]);}}
+          onCreateProductized={async(kind,name,contextValue,description)=>{const id=await createTemplateNetwork(kind,name,contextValue,description);await setActiveNetwork(id);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);await hydrate(await getAuthUser());setView("home");notify(`${name} is ready.`)}}
+          onExploreProductizedDemo={(kind)=>{const def=getVerticalDefinition(kind);const pc=PRODUCTIZED_NETWORK_CONFIGS[kind];setProductizedDemo(kind);setAlumniDemo(false);setDemoPreview(false);setNetwork({id:`${kind}-playground`,name:pc.sampleName,description:pc.sampleDescription,entity_label:def.legacyNetworkLabels.entityLabel,entity_label_plural:def.legacyNetworkLabels.entityLabelPlural,level_label:def.legacyNetworkLabels.levelLabel,level_label_plural:def.legacyNetworkLabels.levelLabelPlural,parent_label:def.legacyNetworkLabels.parentLabel,child_label:def.legacyNetworkLabels.childLabel,peer_label:def.legacyNetworkLabels.peerLabel,network_template:kind,vertical_kind:kind,membership_role:"member"});setSetupNeeded(false);setMembers([]);setRelationships([]);setSubmissions([]);}}
+          onJoinProductizedCode={async(code)=>{await joinProductizedNetworkByCode(code);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);await hydrate(await getAuthUser());setView("home");notify("Network joined. Welcome!")}}
           onOpenGuide={()=>{enterPublicPlayground();setGuideKey("");setView("guide")}}
           onCreate={createNetwork}
         />}

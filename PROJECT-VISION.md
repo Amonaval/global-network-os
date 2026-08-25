@@ -202,3 +202,11 @@ The platform model is now:
 `Generic Network Core → Shared Capability Engines → Vertical Templates/Adapters → Strong Vertical Products → Permission-aware Intelligence`
 
 Family remains the kinship-first vertical. Alumni becomes the first affiliation-first vertical. Future Organization/Trust/Franchise/Education networks can prove additional relationship and non-person entity semantics without rewriting Core.
+
+# G8 — Business vertical proof expansion
+
+The Network OS now has five active vertical products: Family, Alumni, Organizational Intelligence, Business Trust and Franchise. This moves the platform beyond consumer/community proof into multiple B2B network structures while retaining one reusable foundation.
+
+G8 validates that the same Network OS can model people-centric matrix organizations, trust-centric business ecosystems and geography/ownership-centric franchise systems without forcing those domains into Family or Alumni semantics.
+
+The next strategic layer is Network Intelligence: permission-aware discovery and insights over affiliations, typed relationships, activity/history and network structure. Commercial packaging remains evidence-gated and may differ materially by vertical.

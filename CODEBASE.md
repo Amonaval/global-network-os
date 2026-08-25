@@ -695,3 +695,31 @@ supabase/migrations/047_g7_generic_network_os.sql
 The generic registry/affiliation layer sits **beside** authoritative vertical stores. Alumni currently has the first sync adapter through database trigger `trg_g7_sync_alumni_profile`. Family kinship is intentionally not written into generic affiliation semantics.
 
 Active product templates remain Family + Alumni. Organization, Business Trust, Franchise, Education, Professional, Association, Residential, Supply Chain, Investor, Customer Intelligence and Custom Network are template proofs/future definitions only.
+
+## G8 productized business vertical runtime — 2026-08-25
+
+New released vertical structure:
+
+```text
+components/TemplateNetworkApp.tsx
+capabilities/template-product/
+templates/productized/config.ts
+verticals/organization/
+verticals/business-trust/
+verticals/franchise/
+templates/organization/
+templates/business-trust/
+templates/franchise/
+supabase/migrations/048_g8_productized_verticals.sql
+```
+
+Organization, Business Trust and Franchise are active products rather than future template proofs. They reuse the G7 Network OS affiliation/projection/activity layers and one productized UX/runtime shell, while each owns feature catalog, app composition, dimensions, projections, relationship vocabulary and domain copy.
+
+Identity/member boundaries after G8:
+- imported entity email can enable verified-email claiming;
+- one account can own at most one claimed entity per productized network;
+- members can edit only their claimed entity; admins can manage network entities;
+- productized owner/admin member-management RPCs are restricted to Organization/Business Trust/Franchise;
+- member removal clears stale active-network context and claimed owner link.
+
+G8 migration: `048_g8_productized_verticals.sql` after 047.

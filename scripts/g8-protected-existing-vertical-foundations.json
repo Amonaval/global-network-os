@@ -1,0 +1,14 @@
+{
+  "verticals/family/identity/claiming-adapter.ts": "681c43d653d57bf810436d1141b07c650b8811bade065d5dc6ed114cb3a61e14",
+  "verticals/family/participation/adapter.ts": "e98f7fb39a70cdb2383ba2f7dfa4c6f175f01674c275c86654af5596a48f9847",
+  "verticals/family/construction/adapter.ts": "00ebf23add02c598ebc34266c73b71ae06c2cecd5e3c81786f4607e1367d5cab",
+  "verticals/family/features/catalog.ts": "5a42d031e8fb735932013d43323f659a77308f04d3145af2fed2b87466ae8ca9",
+  "verticals/family/runtime/composition.ts": "54c9767b16fe4a8536a00cd03290e760a6ac64f2b181ef7c049f3844cb17d7ad",
+  "verticals/family/definition.ts": "c3cddae7778451d549266b905af393322e8eefdd1a890895c3f2d70627147ec9",
+  "supabase/migrations/043_s3a1_distributed_family_intake.sql": "8a1ae837b2364161f5d7b3755143cdf0b302d34b0508e73efdb3bef17ee1e276",
+  "verticals/alumni/features/catalog.ts": "3d5aa594ac78ae67a0b0b5c2e8229443d2d87b78ff38439378cba28a9b725441",
+  "verticals/alumni/runtime/composition.ts": "5fcc569d8331223925184523e271b5720c6f8c54c62e7d7a40df5b8ee636b17d",
+  "verticals/alumni/data/remote.ts": "e39f0fd623f1bbd4962e2b1c09d4dccacc5aac87faf7a485c735fb5a83801d7f",
+  "verticals/alumni/definition.ts": "6fe67cf0edcee89af50c17edc91300ee5d480b64b7a51df8cd6146e0ad1e89cf",
+  "components/AlumniNetworkApp.tsx": "e073277b2f338af782032a790819447860c14e3c4d4f9f633a078133fd4e90b9"
+}

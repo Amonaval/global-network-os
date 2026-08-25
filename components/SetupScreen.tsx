@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { ArrowLeft, ArrowRight, BookOpen, FileSpreadsheet, Heart, KeyRound, LogOut, PlayCircle, ShieldCheck, Sparkles, TreePine, UsersRound } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Building2, FileSpreadsheet, Handshake, Heart, KeyRound, LogOut, PlayCircle, ShieldCheck, Sparkles, Store, TreePine, UsersRound } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Member, Relationship } from "../lib/types";
 import { NetworkSettings } from "../lib/network";
 import { getVerticalDefinition } from "../app-shell/vertical-registry";
+import type {NetworkVerticalKind} from "../core/verticals/contracts";
+import {PRODUCTIZED_NETWORK_CONFIGS,type ProductizedVerticalKind} from "../templates/productized/config";
 import { useLanguage } from "../lib/i18n";
 const ImportModal = dynamic(() => import("./ImportModal"), { ssr: false });
 
@@ -18,7 +20,7 @@ const SETUP_COPY = {
 
 
 type ClaimableProfile={network_id:string;family_name:string;member_id:string;member_name:string};
-type ExistingFamily={network_id:string;name:string;role:string;is_active:boolean;vertical_kind?:"family"|"alumni"|null};
+type ExistingFamily={network_id:string;name:string;role:string;is_active:boolean;vertical_kind?:NetworkVerticalKind|null};
 type ClaimableAlumni={profile_id:string;network_id:string;network_name:string;full_name:string;graduation_year?:number|null;program?:string|null};
 type Props = {
   onCreate: (settings: NetworkSettings, mode: "empty" | "demo" | "import", members?: Member[], relationships?: Relationship[]) => Promise<void> | void;
@@ -39,13 +41,16 @@ type Props = {
   onExploreAlumniDemo?:()=>void;
   alumniInviteToken?:string;
   onAcceptAlumniInvite?:()=>Promise<void>;
+  onCreateProductized?:(kind:ProductizedVerticalKind,name:string,contextValue:string,description:string)=>Promise<void>;
+  onExploreProductizedDemo?:(kind:ProductizedVerticalKind)=>void;
+  onJoinProductizedCode?:(code:string)=>Promise<void>;
 };
 
-export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],existingFamilies=[],onOpenFamily,onSignOut,onClaimProfile,shared,canSetup,approvalRequired=false,onOpenGuide,claimableAlumniProfiles=[],onClaimAlumniProfile,onCreateAlumni,onExploreAlumniDemo,alumniInviteToken,onAcceptAlumniInvite }: Props) {
+export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],existingFamilies=[],onOpenFamily,onSignOut,onClaimProfile,shared,canSetup,approvalRequired=false,onOpenGuide,claimableAlumniProfiles=[],onClaimAlumniProfile,onCreateAlumni,onExploreAlumniDemo,alumniInviteToken,onAcceptAlumniInvite,onCreateProductized,onExploreProductizedDemo,onJoinProductizedCode }: Props) {
   const { language } = useLanguage();
   const c = SETUP_COPY[language];
   const nameError = language === "hi" ? "कृपया अपने परिवार को एक नाम दें।" : language === "mr" ? "कृपया आपल्या कुटुंबाला नाव द्या." : "Please give your family space a name.";
-  const [path,setPath]=useState<"entry"|"join"|"create"|"alumni">("entry");
+  const [path,setPath]=useState<"entry"|"join"|"create"|"alumni"|"productized">("entry");
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -56,6 +61,11 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
   const [institution,setInstitution]=useState("");
   const [alumniName,setAlumniName]=useState("");
   const [alumniDescription,setAlumniDescription]=useState("");
+  const [productizedKind,setProductizedKind]=useState<ProductizedVerticalKind>("organization");
+  const [productizedName,setProductizedName]=useState("");
+  const [productizedContext,setProductizedContext]=useState("");
+  const [productizedDescription,setProductizedDescription]=useState("");
+  const [productizedJoinCode,setProductizedJoinCode]=useState("");
   const familyVertical = getVerticalDefinition("family");
   const familyLabels = familyVertical.legacyNetworkLabels;
 
@@ -74,11 +84,11 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
   return <div className="family-onboarding alpha-entry">
     <header className="onboarding-topbar"><div className="onboarding-brand"><span><TreePine size={20}/></span>{c.brand}</div><div className="onboarding-account-actions">{onOpenGuide&&<button className="btn small" onClick={onOpenGuide}><BookOpen size={15}/> Explore & Guide</button>}<LanguageSwitcher/>{shared&&canSetup&&onSignOut&&<button className="btn small" onClick={()=>onSignOut()}><LogOut size={15}/> Sign out</button>}</div></header>
     <main className="onboarding-wrap">
-      <section className="onboarding-story"><span className="warm-kicker"><Heart size={13} fill="currentColor"/> Made for every generation</span><h1>{path==="entry"?"Your family is one tap away.":path==="join"?"Join your family":"Create your family space"}</h1><p>{path==="entry"?"You can join an existing family, explore a sample, or create your own. You do not need to understand setup or technology first.":path==="join"?"Use the family code shared with you, or connect a profile we found for your verified email.":"Start small, use the guided Excel workbook, or build from a few relatives."}</p></section>
+      <section className="onboarding-story"><span className="warm-kicker"><Heart size={13} fill="currentColor"/> Made for every generation</span><h1>{path==="entry"?"Your network is one tap away.":path==="join"?"Join your family":path==="productized"?PRODUCTIZED_NETWORK_CONFIGS[productizedKind].createTitle:"Create your family space"}</h1><p>{path==="entry"?"Open an existing network, explore a sample, or create Family, Alumni, Organization, Business Trust or Franchise spaces from one platform.":path==="join"?"Use the family code shared with you, or connect a profile we found for your verified email.":path==="productized"?PRODUCTIZED_NETWORK_CONFIGS[productizedKind].createDescription:"Start small, use the guided Excel workbook, or build from a few relatives."}</p></section>
       <section className="onboarding-card alpha-entry-card">
       {path==="entry"&&<>
         <div className="setup-heading"><div className="brand-mark"><TreePine size={24}/></div><div><span className="setup-eyebrow">Welcome</span><h2>What would you like to do?</h2></div></div>
-        {existingFamilies.length>0&&<div className="claimable-family-box existing-family-box"><span className="warm-kicker">Your networks</span>{existingFamilies.map(f=><div className="claimable-family-row" key={f.network_id}><span><b>{f.name}</b><small>{f.vertical_kind==="alumni"?"Alumni Network":`Family · ${f.role}`}</small></span><button className="btn" disabled={busy||!onOpenFamily} onClick={async()=>{if(!onOpenFamily)return;setBusy(true);setError("");try{await onOpenFamily(f.network_id)}catch(e:any){setError(e.message||"Could not open that network.")}finally{setBusy(false)}}}>Open</button></div>)}</div>}
+        {existingFamilies.length>0&&<div className="claimable-family-box existing-family-box"><span className="warm-kicker">Your networks</span>{existingFamilies.map(f=><div className="claimable-family-row" key={f.network_id}><span><b>{f.name}</b><small>{f.vertical_kind?`${getVerticalDefinition(f.vertical_kind).displayName} · ${f.role}`:`Family · ${f.role}`}</small></span><button className="btn" disabled={busy||!onOpenFamily} onClick={async()=>{if(!onOpenFamily)return;setBusy(true);setError("");try{await onOpenFamily(f.network_id)}catch(e:any){setError(e.message||"Could not open that network.")}finally{setBusy(false)}}}>Open</button></div>)}</div>}
         {alumniInviteToken&&onAcceptAlumniInvite&&<div className="claimable-family-box"><span className="warm-kicker">Alumni invitation ready</span><div className="claimable-family-row"><span><b>You have a private Alumni invitation</b><small>Nothing is joined until you confirm.</small></span><button className="btn primary" disabled={busy} onClick={async()=>{setBusy(true);setError("");try{await onAcceptAlumniInvite()}catch(e:any){setError(e.message||"Could not accept Alumni invitation.")}finally{setBusy(false)}}}>Yes, join this Alumni Network</button></div></div>}
         {claimableAlumniProfiles.length>0&&<div className="claimable-family-box"><span className="warm-kicker">Alumni profiles matching your verified email</span>{claimableAlumniProfiles.slice(0,3).map(p=><div className="claimable-family-row" key={p.profile_id}><span><b>{p.full_name}</b><small>{p.network_name} · {[p.program,p.graduation_year].filter(Boolean).join(" · ")}</small></span><button className="btn primary" disabled={busy||!onClaimAlumniProfile} onClick={async()=>{if(!onClaimAlumniProfile)return;setBusy(true);setError("");try{await onClaimAlumniProfile(p.profile_id)}catch(e:any){setError(e.message||"Could not claim that alumni profile.")}finally{setBusy(false)}}}>This is me</button></div>)}</div>}
         {claimableProfiles.length>0&&<div className="claimable-family-box"><span className="warm-kicker">We may have found you</span>{claimableProfiles.slice(0,3).map(p=><div className="claimable-family-row" key={`${p.network_id}-${p.member_id}`}><span><b>{p.member_name}</b><small>{p.family_name}</small></span><button className="btn primary" disabled={busy} onClick={()=>claim(p.member_id)}>This is me</button></div>)}</div>}
@@ -88,6 +98,7 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
           <button className="alpha-entry-option" onClick={()=>setPath("create")}><span><TreePine/></span><b>Create my family</b><small>Upload Excel, start with a few relatives, or begin empty.</small><em>{approvalRequired?"Request / create":"Create now"} <ArrowRight size={15}/></em></button>
           {shared&&onCreateAlumni&&<button className="alpha-entry-option" onClick={()=>setPath("alumni")}><span><UsersRound/></span><b>Create Alumni Network</b><small>Build an institution, batch or program directory with separate Alumni profiles.</small><em>Create Alumni <ArrowRight size={15}/></em></button>}
           {shared&&onExploreAlumniDemo&&<button className="alpha-entry-option" onClick={onExploreAlumniDemo}><span><PlayCircle/></span><b>Explore Alumni sample</b><small>Preview directory, cohorts and Alumni identity without changing real data.</small><em>Open Alumni Playground <ArrowRight size={15}/></em></button>}
+          {shared&&onCreateProductized&&<div className="productized-create-strip"><div className="productized-create-head"><span className="warm-kicker">Network OS products</span><b>Create another kind of trusted network</b><small>Each product uses shared capabilities but keeps its own structure, relationships and language.</small></div><div className="productized-create-grid">{(["organization","business-trust","franchise"] as ProductizedVerticalKind[]).map(kind=>{const pc=PRODUCTIZED_NETWORK_CONFIGS[kind];const Icon=kind==="organization"?Building2:kind==="business-trust"?Handshake:Store;return <div className="productized-create-card" key={kind}><button onClick={()=>{setProductizedKind(kind);setProductizedName("");setProductizedContext("");setProductizedDescription("");setPath("productized")}}><span><Icon/></span><b>{pc.label}</b><small>{pc.createDescription}</small><em>Create network <ArrowRight size={14}/></em></button>{onExploreProductizedDemo&&<button className="productized-demo-link" onClick={()=>onExploreProductizedDemo(kind)}><PlayCircle size={14}/> Try sample</button>}</div>})}</div>{onJoinProductizedCode&&<div className="productized-join-row"><div><KeyRound size={17}/><span><b>Have a Network OS join code?</b><small>Join an Organization, Business Trust or Franchise network shared with you.</small></span></div><input className="text-input" value={productizedJoinCode} onChange={e=>setProductizedJoinCode(e.target.value.toUpperCase())} placeholder="Network code" maxLength={12}/><button className="btn" disabled={busy||productizedJoinCode.trim().length<4} onClick={async()=>{if(!onJoinProductizedCode)return;setBusy(true);setError("");try{await onJoinProductizedCode(productizedJoinCode.trim())}catch(e:any){setError(e.message||"Could not join that network.")}finally{setBusy(false)}}}>Join network</button></div>}</div>}
         </div>
         <div className="setup-privacy"><ShieldCheck size={17}/><span><b>Already invited by a link?</b> Open that private invitation link after signing in and it will connect you to the intended profile.</span></div>
       </>}
@@ -108,6 +119,16 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
         <div className="field spacious"><label>Description <em>optional</em></label><textarea className="text-input" rows={3} value={alumniDescription} onChange={e=>setAlumniDescription(e.target.value)} placeholder="Who this alumni network is for…"/></div>
         <button className="btn primary setup-next" disabled={busy||!alumniName.trim()||!institution.trim()} onClick={async()=>{if(!onCreateAlumni)return;setBusy(true);setError("");try{await onCreateAlumni(alumniName.trim(),institution.trim(),alumniDescription.trim())}catch(e:any){setError(e.message||"Could not create Alumni Network.")}finally{setBusy(false)}}}>Create Alumni Network <ArrowRight size={17}/></button>
       </>}
+      {path==="productized"&&(()=>{const pc=PRODUCTIZED_NETWORK_CONFIGS[productizedKind];const Icon=productizedKind==="organization"?Building2:productizedKind==="business-trust"?Handshake:Store;return <>
+        <button className="setup-back" onClick={()=>{setPath("entry");setError("")}}><ArrowLeft size={15}/> Back</button>
+        <div className="setup-heading"><div className="brand-mark"><Icon size={24}/></div><div><span className="setup-eyebrow">Network OS · ready product</span><h2>{pc.createTitle}</h2></div></div>
+        <p className="setup-intro">{pc.createDescription}</p>
+        <div className="field spacious"><label>Network name</label><input className="text-input" value={productizedName} onChange={e=>setProductizedName(e.target.value)} placeholder={pc.namePlaceholder}/></div>
+        <div className="field spacious"><label>{pc.contextLabel}</label><input className="text-input" value={productizedContext} onChange={e=>setProductizedContext(e.target.value)} placeholder={pc.contextPlaceholder}/></div>
+        <div className="field spacious"><label>Description <em>optional</em></label><textarea className="text-input" rows={3} value={productizedDescription} onChange={e=>setProductizedDescription(e.target.value)} placeholder="What should members understand about this network?"/></div>
+        <div className="notice success-notice"><ShieldCheck size={15}/><span><b>Separate network, shared platform.</b> Creation gives you Owner access, template-specific dimensions/projections, Admin import, join code, Community, Explorer, Places and governed Contributions.</span></div>
+        <button className="btn primary setup-next" disabled={busy||!productizedName.trim()||!productizedContext.trim()} onClick={async()=>{if(!onCreateProductized)return;setBusy(true);setError("");try{await onCreateProductized(productizedKind,productizedName.trim(),productizedContext.trim(),productizedDescription.trim())}catch(e:any){setError(e.message||`Could not create ${pc.label}.`)}finally{setBusy(false)}}}>Create {pc.shortLabel} Network <ArrowRight size={17}/></button>
+      </>})()}
       {path==="create"&&<>
         <button className="setup-back" onClick={()=>{if(step===2)setStep(1);else setPath("entry");setError("")}}><ArrowLeft size={15}/> Back</button>
         {step===1?<>

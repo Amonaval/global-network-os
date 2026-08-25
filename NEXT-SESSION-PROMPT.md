@@ -1,39 +1,47 @@
-# NEXT SESSION — G8 Commercial Platform Foundation
+# NEXT SESSION — G9 Network Intelligence Layer & Five-Vertical Proof
 
-Use the final certified G7 release as the baseline.
+Use the final certified G8 release as the runtime baseline. Apply migrations through `048_g8_productized_verticals.sql`.
 
-Before implementation, read:
-- G7-GENERIC-NETWORK-OS-IMPLEMENTATION.md
-- G7-GENERIC-NETWORK-OS-VISION.md
-- G7-CAPABILITY-ARCHITECTURE.md
-- G7-VERTICAL-TEMPLATE-CATALOG.md
-- G7-PLATFORM-TEMPLATE-CONTRACT.md
-- G7-RELEASE-MANIFEST.md
-- ROADMAP.md
-- MISSION-STATUS.md
-- CODEBASE.md
-- DEVELOPMENT-RULES.md
-- VALIDATION.md
+Read first:
+- `G8-PRODUCTIZED-BUSINESS-VERTICALS.md`
+- `G8-RELEASE-MANIFEST.md`
+- `G8-RUNTIME-VERIFICATION-CHECKLIST.md`
+- `G7-GENERIC-NETWORK-OS-IMPLEMENTATION.md`
+- `ROADMAP.md`
+- `MISSION-STATUS.md`
+- `CODEBASE.md`
+- `DEVELOPMENT-RULES.md`
+- `VALIDATION.md`
 
-## Current platform state
+## Current product state
 
-Family + Alumni are active products. G7 added a generic affiliation/projection layer, reusable Network Explorer, shared activity/group foundation and template architecture. Future vertical templates remain fail-closed proofs.
+Five active products share the Network OS:
+1. Family
+2. Alumni
+3. Organizational Intelligence
+4. Business Trust Network
+5. Franchise Network
+
+G8 provides real create/join/import/claim/member-admin/community/explorer workflows for the three business verticals. Family + Alumni remain compatibility protected.
 
 ## Next mission
 
-**G8 — Commercial Platform Foundation**
+**G9 — Network Intelligence Layer & Five-Vertical Proof**
 
-Do not blindly monetize every capability. First preserve evidence gates and define a commercial model that can vary by vertical. Candidate scope:
-- plan / entitlement contracts
-- capability-pack entitlements
-- storage / quota policy
-- usage and metering hooks
-- branded/managed network options
-- platform operations/admin
-- paid pilot support
-- monetization experiment definitions for Family, Alumni and higher-value B2B templates
+Treat as one consolidated High-effort mission.
 
-Keep G7 Network OS contracts stable. Do not build speculative enterprise billing complexity without a concrete product need.
+Priority goals:
+- permission-aware semantic/entity discovery;
+- explainable connection-path intelligence;
+- network health / missing-data / missing-link insights;
+- Organization expertise/ownership/dependency insights;
+- Business Trust provenance/trusted-introduction insights without opaque universal trust scoring;
+- Franchise coverage/operator/operational-network insights;
+- Alumni discovery/network insights;
+- Family-safe intelligence adapters without leaking private kinship data;
+- five-vertical runtime/security/performance hardening;
+- clear evidence grounding for every AI-generated answer.
 
-## G7 R2 hotfix baseline
-Use the refreshed **G7 Generic Network OS Certified R2** artifact as the code baseline. It includes the Alumni native-`Map` collision fix and the permanent `validate:g7` guard. Do not resume from the earlier pre-hotfix G7 ZIP.
+Do not build generic AI that bypasses vertical privacy or fabricates graph meaning. Commercial packaging remains G10 and evidence-gated.
+
+Delivery remains: historical gates + G9 gate, docs, Guide update if visible, Playground/Launch classification, release manifest, short smoke checklist and affected-files-only ZIP.

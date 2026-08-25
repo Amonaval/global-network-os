@@ -301,3 +301,46 @@ Admins can create events and announcements. Members can share memories/milestone
 Graduation year, Program/School, Stream/Course, City and Company are now more than profile text: they help build Explorer projections and discovery views.
 
 Privacy remains network-scoped. Ordinary members still do not receive private Alumni email data.
+
+# G8 — Organizational Intelligence, Business Trust & Franchise
+
+The welcome/setup flow now lets signed-in users create three additional private network types or try their read-only samples.
+
+## Common experience
+
+All three provide:
+- Home dashboard and network health;
+- Explorer with multiple useful hierarchy projections;
+- Directory/search;
+- Community with events/RSVP, memories/history, milestones, announcements and groups;
+- Places/geographic coverage;
+- typed Connections and connection paths;
+- governed Contributions;
+- Admin with join code, member/admin management, add/edit and Excel/CSV import;
+- Guide and Playground.
+
+When an imported record contains your verified account email, **This is me** links it to your account. After claiming, a normal member may edit that claimed record, but cannot edit other entities.
+
+## Organizational Intelligence
+
+Use dimensions such as Region, Business Unit, Department, Team, Project and Skill/Expertise. One person may have multiple projects or skills. Explore the formal organization or switch to Project/Expertise views without duplicating people.
+
+Use typed relationships such as Reports to, Works with, Owns and Depends on.
+
+## Business Trust Network
+
+Add trusted businesses with Region, Business Category and one or more Products/Services. Record explicit relationships such as Recommends, Verified by, Supplies to and Worked with. The purpose is a private trusted ecosystem, not an anonymous public rating directory.
+
+## Franchise Network
+
+Add/import locations using Country, State, City, Store Type and Franchise Owner. Switch between Geography and Ownership views. Use Community for operator groups, training, launch history and shared operational learning.
+
+## Joining and administration
+
+Admins can share the Network OS join code. The owner can promote/demote admins. Owners/admins can remove members subject to owner protections. If a member is removed, their stale active-network context and claimed record link are cleared.
+
+## Import guidance
+
+Use Name/Label plus the relevant dimension columns. Comma-separated values are supported for multi-value dimensions such as Skills, Projects or Services.
+
+Deployment requires migration `048_g8_productized_verticals.sql` after 047.

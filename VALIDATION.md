@@ -381,5 +381,25 @@ G7 gate result: 147 historical remote exports, 289 accepted G6 files, 7 protecte
 
 The User/Admin DOCX was rendered after the G7 guide addition; the existing pages remain visually stable and the new G7 page renders cleanly.
 
-## G7 native Map symbol-collision regression — PASS
-Following a runtime error on Alumni login, `AlumniNetworkApp.tsx` was corrected to alias Lucide `Map` as `MapIcon`. The G7 source gate now detects an unaliased Lucide `Map` when native `new Map(...)` is used. Complete D1→G7 automated source chain rerun after the fix: **PASS**.
+## G8 — Productized Business Verticals validation — 2026-08-25
+
+Final automated source/regression chain after identity and member-administration hardening:
+
+**D1 → V1 → CR1/CR2 → S1 → S2 → S3-A1 → G1.1/G1.2/G1.3/G1.4 → G2 → G3 → G4 → G5 → G6 → G7 → G8: PASS**
+
+G8-specific gate confirms:
+- 147 historical remote exports preserved;
+- all 333 accepted G7 files remain present;
+- 12 protected Family/Alumni foundations match their G7 SHA-256 hashes;
+- Organization, Business Trust and Franchise are active in vertical registry/runtime;
+- each has coherent dimensions/projections/catalog/composition;
+- productized runtime does not import deployed Family/Alumni persistence semantics;
+- productized handoff precedes Family feature evaluation;
+- migration 048 contains direct-table lockdown, composite tenant constraints, internal helper revocation, vertical-scoped rollout, claiming and member-admin guards;
+- one-account/one-entity claiming and own-claimed-entity editing are enforced;
+- member removal clears stale active-network and claimed-owner state;
+- multi-value affiliations are preserved;
+- changed G8 TypeScript/TSX surface transpiles under TypeScript 5.8.3;
+- CSS integrity checks pass.
+
+Full Next.js production build is not certified in this artifact workspace because `node_modules` is absent. Vercel/CI build remains a deployment gate.

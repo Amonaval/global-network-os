@@ -743,3 +743,15 @@ New reusable layers:
 The G0 boundary remains binding: Family kinship (parent/child/spouse/lineage/generation) is not rewritten as generic affiliation. Alumni institutional identity remains Alumni-owned. Generic Network OS storage is additive and receives vertical-owned projections/adapted data rather than replacing every canonical domain table.
 
 Future templates (Organization, Business Trust, Franchise, Education, Professional, Association, Residential, Supply Chain, Investor, Customer Intelligence, Custom) are fail-closed definitions until a real product mission activates their runtime/persistence.
+
+## G8 proof expansion — three business verticals
+
+G8 promotes Organizational Intelligence, Business Trust and Franchise from G7 template proofs to active products. This validates the Network OS across three structurally different B2B domains:
+
+- Organization: people + matrix affiliations + reporting/ownership/dependency relationships;
+- Business Trust: organizations + category/service affiliations + explicit recommendation/provenance relationships;
+- Franchise: branches + geography/ownership affiliations + operating/support relationships.
+
+The architectural proof is that these products reuse the same affiliation/projection/activity/identity/governance mechanics without importing Family or Alumni implementations. Domain vocabularies remain explicit.
+
+After G8 the active product set is Family, Alumni, Organizational Intelligence, Business Trust and Franchise. The next architectural differentiator is a permission-aware Network Intelligence layer over this five-vertical proof.
