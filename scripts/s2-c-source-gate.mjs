@@ -15,7 +15,7 @@ const checks=[
  ['UI introduction tab','components/CommunityNetwork.tsx','Introductions'],
  ['playground simulated path','components/CommunityNetwork.tsx','Rathi Family","Somani Family'],
  ['privacy wording','components/CommunityNetwork.tsx','Direct contact stays private'],
- ['mission doc','S2-C-TRUSTED-INTRODUCTIONS-CONNECTION-PATHS.md','family-level'],
+ ['mission doc','archive/docs/family-foundation/S2-C-TRUSTED-INTRODUCTIONS-CONNECTION-PATHS.md','family-level'],
 ];
 let pass=0;for(const [name,file,needle] of checks){const ok=fs.existsSync(file)&&fs.readFileSync(file,'utf8').includes(needle);console.log(`${ok?'PASS':'FAIL'} ${name}`);if(ok)pass++;}
 console.log(`S2-C source gate: ${pass}/${checks.length}`);if(pass!==checks.length)process.exit(1);

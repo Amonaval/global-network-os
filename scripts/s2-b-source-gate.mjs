@@ -5,7 +5,7 @@ const files={
  remote:fs.readFileSync('lib/remote.ts','utf8'),
  app:fs.readFileSync('components/NetworkApp.tsx','utf8'),
  features:fs.readFileSync('verticals/family/features/catalog.ts','utf8'),
- docs:fs.readFileSync('S2-B-COMMUNITY-UMBRELLA-DISCOVERY.md','utf8'),
+ docs:fs.readFileSync('archive/docs/family-foundation/S2-B-COMMUNITY-UMBRELLA-DISCOVERY.md','utf8'),
 };
 const checks=[
  ['community hierarchy table',/community_spaces/.test(files.migration)],

@@ -739,3 +739,25 @@ Updated consumers:
 - `app/globals.css` — responsive shell, Playground gallery and Light/Dark/Aurora surfaces.
 
 No new persistence/schema migration was introduced by R4.
+
+## G8.5-A documentation + product-depth governance — 2026-08-25
+
+Historical mission/release Markdown is now stored under `archive/docs/` rather than the repository root. `scripts/*accepted*baseline.txt` uses the archived paths so append-only historical evidence remains enforced instead of being deleted. `scripts/archive-legacy-docs.mjs` is the idempotent archive normalizer.
+
+Two G5 certification artifacts referenced by later accepted baselines but missing from the R4 ZIP were restored under `archive/docs/g0-g6/`.
+
+New operating artifacts:
+
+```text
+GENERIC-CAPABILITY-UTILIZATION-RULE.md
+G8.5-A-CAPABILITY-APPLICABILITY-MATRIX.md
+G8.5-A-BASELINE-CLEANUP-AUDIT.md
+G8.5-A-RUNTIME-VERIFICATION-CHECKLIST.md
+G8.5-A-RELEASE-MANIFEST.md
+ARCHIVE-INDEX.md
+scripts/g8-5a-clean-audit-gate.mjs
+```
+
+Architecture/product rule: a capability that is semantically applicable to another vertical must be reused by default or explicitly excluded/deferred. A vertical is not Productized merely because a route/feature key exists; applicable mature shared capabilities must be usable and demonstrable.
+
+G8.5-A changes no production runtime and adds no migration. G8.5-B is responsible for capability extraction/integration.

@@ -437,3 +437,27 @@ Reported UX regressions were fixed and converted into source-gate assertions:
 Complete D1→G8 historical source chain after these changes: **PASS**.
 
 DOCX QA: the updated User/Admin Guide renders to 23 pages. Pages 1–22 are pixel-identical to the previously visually accepted G8 render; page 23 was visually inspected and is clean.
+
+## G8.5-A — Baseline cleanup and capability-governance validation
+
+G8.5-A adds `npm run validate:g8.5a`.
+
+The gate verifies:
+- required current G8.5-A audit/rule/release artifacts exist;
+- historical docs are present in categorized archive folders;
+- repository-root Markdown remains intentionally small;
+- the two missing accepted G5 certification artifacts are restored;
+- every accepted-baseline manifest entry still resolves after archival;
+- the capability utilization rule contains reuse/productized/showcase requirements;
+- the applicability matrix covers maps, connection paths, stories/history, contributions, Launch Control, notifications/digest and all three G8 business verticals;
+- current roadmap/status/codebase/validation/handoff reference G8.5-A and resume at G8.5-B.
+
+G8.5-A must also rerun `validate:g8`; this proves documentation archival did not silently weaken historical G8 acceptance. No Supabase migration is introduced.
+
+### G8.5-A certification result
+
+Complete historical source chain **D1 → V1 → CR1/CR2 → S1 → S2 → S3-A1 → G1.1/G1.2/G1.3/G1.4 → G2 → G3 → G4 → G5 → G6 → G7 → G8 → G8.5-A: PASS**.
+
+`validate:g8` now passes with 147 historical remote exports, 333 accepted G7 files, 12 protected Family/Alumni foundations and all three released G8 product verticals preserved. `validate:g8.5a` passes with 21 root Markdown docs and all accepted baseline paths resolving through the archive.
+
+Production `npm run build` was attempted in the artifact workspace but cannot execute because the uploaded baseline does not contain `node_modules` (`next: not found`). Run `npm ci && npm run build` in the normal local/CI/Vercel environment.

@@ -16,7 +16,7 @@ const checks=[
  ['playground read only','components/FamilyHome.tsx','readOnly={readOnly}'],
  ['quiet preference UI','components/CommunityHub.tsx','Quiet family digest'],
  ['admin retention metrics','components/ParticipationCenter.tsx','Digest returns'],
- ['mission doc','S2-D-QUIET-FAMILY-DIGEST-RETURN-ENGINE.md','Discover → Feel → Contribute → Share → Return'],
+ ['mission doc','archive/docs/family-foundation/S2-D-QUIET-FAMILY-DIGEST-RETURN-ENGINE.md','Discover → Feel → Contribute → Share → Return'],
 ];
 let pass=0;for(const [name,file,needle] of checks){const ok=fs.existsSync(file)&&fs.readFileSync(file,'utf8').includes(needle);console.log(`${ok?'PASS':'FAIL'} ${name}`);if(ok)pass++;}
 console.log(`S2-D source gate: ${pass}/${checks.length}`);if(pass!==checks.length)process.exit(1);

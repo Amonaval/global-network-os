@@ -21,8 +21,8 @@ add('relationship contextual help',read('components/RelationshipModal.tsx').incl
 add('playground guide remains no-save',guide.includes('must never write into the authenticated user\'s real family')||guide.includes('never write into the authenticated user'));
 add('feedback RPC authenticated only',read('supabase/migrations/041_s2e_guided_family_help_feedback.sql').includes('grant execute on function public.submit_guide_feedback')&&read('supabase/migrations/041_s2e_guided_family_help_feedback.sql').includes('to authenticated'));
 add('platform feedback retrieval owner-gated',read('supabase/migrations/041_s2e_guided_family_help_feedback.sql').includes('where public.is_platform_owner()'));
-add('S2-E content map not marked merely planned',!read('S2-E-COMPLETE-GUIDE-CONTENT-MAP.md').includes('Status: **PLANNED CONTENT INVENTORY**'));
-add('S3 business proof design exists',fs.existsSync('S3-BUSINESS-PROOF-DESIGN.md'));
+add('S2-E content map not marked merely planned',!read('archive/docs/family-foundation/S2-E-COMPLETE-GUIDE-CONTENT-MAP.md').includes('Status: **PLANNED CONTENT INVENTORY**'));
+add('S3 business proof design exists',fs.existsSync('archive/docs/family-foundation/S3-BUSINESS-PROOF-DESIGN.md'));
 
 for(const [name,ok] of checks) console.log(`${ok?'PASS':'FAIL'} ${name}`);
 if(missingRelated.length) console.log(`Broken related guide keys: ${missingRelated.join(', ')}`);

@@ -13,7 +13,7 @@ const checks=[
  ['new password action',read('lib/auth.ts').includes('updateUser({password})')],
  ['confirmation resend',read('components/AuthPanel.tsx').includes('Resend confirmation email')],
  ['platform owner UI',read('components/FounderLaunchConsole.tsx').includes('Who can control launches')],
- ['V1 release document',fs.existsSync(path.join(root,'V1-FAMILY-ALPHA-RELEASE-CERTIFICATION.md'))],
+ ['V1 release document',fs.existsSync(path.join(root,'archive/docs/family-foundation/V1-FAMILY-ALPHA-RELEASE-CERTIFICATION.md'))],
 ];
 let failed=0;
 for(const [name,ok] of checks){console.log(`${ok?'PASS':'FAIL'}  ${name}`);if(!ok)failed++;}

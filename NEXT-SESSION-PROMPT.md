@@ -1,74 +1,84 @@
-# NEXT SESSION — G9 Network Intelligence Layer & Five-Vertical Proof
+# NEXT SESSION — G8.5-B Generic Capability Parity
 
-Use the final certified G8 release as the runtime baseline. Apply migrations through `048_g8_productized_verticals.sql`.
+Use the refreshed **G8.5-A Clean + Audit + Rules** baseline as authoritative. Apply Supabase migrations only through `048_g8_productized_verticals.sql`; G8.5-A adds no migration.
 
 Read first:
-- `G8-PRODUCTIZED-BUSINESS-VERTICALS.md`
-- `G8-RELEASE-MANIFEST.md`
-- `G8-RUNTIME-VERIFICATION-CHECKLIST.md`
-- `G7-GENERIC-NETWORK-OS-IMPLEMENTATION.md`
+- `GENERIC-CAPABILITY-UTILIZATION-RULE.md`
+- `G8.5-A-CAPABILITY-APPLICABILITY-MATRIX.md`
+- `G8.5-A-BASELINE-CLEANUP-AUDIT.md`
+- `G8.5-A-RELEASE-MANIFEST.md`
 - `ROADMAP.md`
 - `MISSION-STATUS.md`
 - `CODEBASE.md`
 - `DEVELOPMENT-RULES.md`
 - `VALIDATION.md`
+- `ARCHIVE-INDEX.md`
+
+Historical release/mission documents are preserved under `archive/docs/`. Do not move them back to root and do not delete them merely to reduce file count. Accepted baseline manifests intentionally resolve to archived paths.
 
 ## Current product state
 
-Five active products share the Network OS:
-1. Family
-2. Alumni
+Five active products share the Generic Network OS:
+1. Family Network
+2. Alumni Network
 3. Organizational Intelligence
 4. Business Trust Network
 5. Franchise Network
 
-G8 provides real create/join/import/claim/member-admin/community/explorer workflows for the three business verticals. Family + Alumni remain compatibility protected.
+G8 proved rapid productized vertical composition. G8.5-A established that the five products are **not yet at equal capability depth**. Family is the mature reference, Alumni is materially developed, while Organization/Business Trust/Franchise still use thinner representations for several capabilities.
+
+## Permanent rule
+
+If a mature capability is semantically applicable to another vertical, reuse it by default. Missing integration is product incompleteness unless an explicit semantic/product/privacy reason is documented. Do not chase arbitrary reuse percentages and do not copy Family-only kinship/remembrance semantics into unrelated products.
 
 ## Next mission
 
-**G9 — Network Intelligence Layer & Five-Vertical Proof**
+**G8.5-B — Generic Capability Parity**
 
-Treat as one consolidated High-effort mission.
+Use Medium effort and implement in capability-family batches rather than a giant rewrite.
 
-Priority goals:
-- permission-aware semantic/entity discovery;
-- explainable connection-path intelligence;
-- network health / missing-data / missing-link insights;
-- Organization expertise/ownership/dependency insights;
-- Business Trust provenance/trusted-introduction insights without opaque universal trust scoring;
-- Franchise coverage/operator/operational-network insights;
-- Alumni discovery/network insights;
-- Family-safe intelligence adapters without leaking private kinship data;
-- five-vertical runtime/security/performance hardening;
-- clear evidence grounding for every AI-generated answer.
+Priority families:
 
-Do not build generic AI that bypasses vertical privacy or fabricates graph meaning. Commercial packaging remains G10 and evidence-gated.
+### B1 — Discovery & Relationship Experience
+- reusable map/geography capability;
+- richer typed relationship explorer;
+- reusable connection-path UX/context;
+- richer reusable entity/profile detail;
+- strengthen search/filter/projection discoverability.
 
-Delivery remains: historical gates + G9 gate, docs, Guide update if visible, Playground/Launch classification, release manifest, short smoke checklist and affected-files-only ZIP.
+### B2 — Living Network & Participation
+- groups/community product depth;
+- events + RSVP lifecycle;
+- neutral stories/history + milestones while keeping Family remembrance domain-only;
+- governed contributions beyond a generic textbox;
+- evaluate neutral media attachment reuse;
+- evaluate notification/digest extraction where semantically useful.
 
-## G8 Certified R2 baseline
+### B3 — Lifecycle, Governance & Help
+- invitation/join/claim UX reuse;
+- import/construction preview/validation experience;
+- admin/governance primitives;
+- proper Launch Control exposure for business vertical capability bundles;
+- contextual Guide / Doc Portal reuse;
+- What's New/release discoverability.
 
-Use the refreshed **G8 Productized Business Verticals — Certified R2** artifact as the code baseline. It includes the deployment hotfix for Alumni navigation typing and the corrected migration-048 membership timestamp. Do not resume from the earlier pre-hotfix G8 ZIP.
+For each capability: inspect the strongest existing Family/Alumni implementation, extract only the semantically neutral layer, keep domain semantics in vertical adapters, then consume it in every applicable active vertical.
 
-## G8 Certified R3 baseline
+Do not begin G9 AI/Network Intelligence until G8.5-B/C capability maturity is certified.
 
-Use **G8 Productized Business Verticals — Certified R3** as the authoritative code baseline. It includes:
-- the Alumni `adminOnly` navigation typing correction;
-- corrected migration-048 `network_memberships.joined_at`;
-- Launch Control `playgroundExcludedBundles` widening that prevents `string` → `never` Next.js build failures.
+## Preserve
 
-Do not resume from the original G8 or R2 artifacts.
+- Family and Alumni behavior/capabilities;
+- five Playgrounds;
+- Light / Dark / Aurora themes;
+- responsive productized shell;
+- G7 affiliation/projection acceptance test;
+- historical remote exports and regression gates;
+- tenant isolation and verified-email claiming rules;
+- no Core → vertical dependency and no vertical → another vertical implementation dependency.
 
-## Authoritative G8 baseline update — Certified R4
+## Delivery
 
-Use **G8 Productized Business Verticals — Certified R4** as the baseline for G9. It supersedes original G8, R2 and R3.
+Follow IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE.
 
-R4 includes:
-- responsive productized side navigation;
-- container-safe creation cards;
-- Family + Alumni + Organization + Business Trust + Franchise Playground gallery;
-- persisted Light / Dark / Aurora themes;
-- shared Network Pulse for the three G8 business products;
-- no new SQL migration beyond corrected 048.
-
-Do not resume from pre-R4 artifacts.
+Prefer affected-files-only ZIP for the implementation batch, preserving folder hierarchy. At major G8.5 closure create a refreshed authoritative baseline.

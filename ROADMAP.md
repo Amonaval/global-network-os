@@ -1338,3 +1338,34 @@ G8 also closes verified-email claiming, own-claimed-entity editing, join codes, 
 Before moving to G9, G8 received a product-experience closure pass prompted by real runtime screenshots. The release now has responsive productized navigation, container-safe network creation cards, five first-class Playgrounds, persisted Light/Dark/Aurora themes and a shared Network Pulse for the three G8 business verticals.
 
 This does not change the G9 direction. Next major mission remains **G9 — Network Intelligence Layer & Five-Vertical Proof**. Future cross-vertical media, scheduled digests and public-sharing engines remain evidence-gated rather than forced into G8.
+
+## G8.5 — Five-Vertical Capability Parity & Product Maturity — INSERTED BEFORE G9
+
+G8 architecture/productization proved that new verticals can be composed rapidly, but the five active products do not yet have equal capability depth. G9 intelligence is therefore gated on G8.5 maturity rather than being layered immediately over thin business-vertical showcases.
+
+### G8.5-A — Clean + Audit + Rules — DONE
+
+- archived historical Markdown artifacts without deleting project history;
+- repaired two missing G5 accepted-baseline certification artifacts;
+- repointed accepted baseline manifests to archived historical paths instead of weakening gates;
+- created the five-vertical capability applicability/product-depth matrix;
+- established the permanent Generic Capability Utilization Rule and Productized Vertical Gate;
+- no runtime/schema behavior change.
+
+### G8.5-B — Generic Capability Parity — NEXT
+
+Consolidated capability-family implementation across every semantically applicable vertical:
+
+1. Discovery & Relationships — map/geography, entity detail, typed relationship explorer, connection paths, search/filter/projection experience.
+2. Living Network & Participation — groups, events/RSVP, neutral stories/history/milestones, contributions, media/digest evaluation.
+3. Lifecycle/Governance/Help — invite/join/claim, construction/import UX, admin primitives, Launch Control, contextual Guide/Doc Portal and What's New.
+
+Do not copy Family-only kinship, ancestry, deceased/remembrance or generation semantics into other verticals.
+
+### G8.5-C — Five-Vertical Showcase & Certification — AFTER B
+
+Build realistic Playgrounds large enough to demonstrate the applicable capability set, complete product-specific copy/empty states, run historical + G8.5 gates, close Guide/Launch/What's New/roadmap/status, and publish a refreshed authoritative baseline.
+
+### G9 — Network Intelligence Layer — AFTER G8.5 CERTIFICATION
+
+Permission-aware deterministic network intelligence first, selectively augmented by AI. G9 remains planned; it is delayed only until the five active products provide mature network substrate and showcase data.

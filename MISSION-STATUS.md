@@ -1071,3 +1071,21 @@ Migration: `048_g8_productized_verticals.sql` after 047.
 - No migration beyond corrected 048.
 - Complete D1→G8 source/regression chain passed.
 - R4 supersedes the original G8, R2 and R3 artifacts.
+
+# G8.5-A — Clean + Audit + Rules
+
+**Status: IMPLEMENTED / SOURCE CERTIFIED / CLOSED**
+
+Delivered:
+- [x] historical Markdown archive under `archive/docs/`;
+- [x] root documentation reduced to active operating/current-release material;
+- [x] accepted baseline manifests repointed to archived artifacts;
+- [x] missing G5 certification-history artifacts restored;
+- [x] five-vertical capability applicability/product-depth audit;
+- [x] Generic Capability Utilization Rule;
+- [x] Productized Vertical Gate definition;
+- [x] permanent `validate:g8.5a` source guard;
+- [x] roadmap/codebase/validation/handoff updates;
+- [x] no runtime/schema behavior changed.
+
+**NEXT: G8.5-B — Generic Capability Parity.**
