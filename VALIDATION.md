@@ -380,3 +380,6 @@ Final source/regression chain D1 → G7: **PASS**.
 G7 gate result: 147 historical remote exports, 289 accepted G6 files, 7 protected Family foundations and the dual MET projection acceptance test all PASS. Changed G7 TS/TSX files pass TypeScript transpile validation and G7 CSS brace integrity passes.
 
 The User/Admin DOCX was rendered after the G7 guide addition; the existing pages remain visually stable and the new G7 page renders cleanly.
+
+## G7 native Map symbol-collision regression — PASS
+Following a runtime error on Alumni login, `AlumniNetworkApp.tsx` was corrected to alias Lucide `Map` as `MapIcon`. The G7 source gate now detects an unaliased Lucide `Map` when native `new Map(...)` is used. Complete D1→G7 automated source chain rerun after the fix: **PASS**.

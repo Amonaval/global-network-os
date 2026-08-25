@@ -34,3 +34,6 @@ Do not blindly monetize every capability. First preserve evidence gates and defi
 - monetization experiment definitions for Family, Alumni and higher-value B2B templates
 
 Keep G7 Network OS contracts stable. Do not build speculative enterprise billing complexity without a concrete product need.
+
+## G7 R2 hotfix baseline
+Use the refreshed **G7 Generic Network OS Certified R2** artifact as the code baseline. It includes the Alumni native-`Map` collision fix and the permanent `validate:g7` guard. Do not resume from the earlier pre-hotfix G7 ZIP.

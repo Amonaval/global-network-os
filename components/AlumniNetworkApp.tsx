@@ -1,7 +1,7 @@
 "use client";
 import {useEffect,useMemo,useState,type ReactNode} from "react";
 import * as XLSX from "xlsx";
-import {ArrowRight,BookOpen,BriefcaseBusiness,Building2,CalendarDays,CheckCircle2,FileSpreadsheet,GraduationCap,HeartHandshake,Home,Layers3,LockKeyhole,LogOut,Map,MapPin,Search,ShieldCheck,Sparkles,UserRound,UsersRound} from "lucide-react";
+import {ArrowRight,BookOpen,BriefcaseBusiness,Building2,CalendarDays,CheckCircle2,FileSpreadsheet,GraduationCap,HeartHandshake,Home,Layers3,LockKeyhole,LogOut,Map as MapIcon,MapPin,Search,ShieldCheck,Sparkles,UserRound,UsersRound} from "lucide-react";
 import {getVerticalCapabilityRuntime} from "../app-shell/vertical-capabilities";
 import {getVerticalAppComposition,localizedSurfaceLabel} from "../app-shell/vertical-runtime";
 import {createFeatureRuntime} from "../core/features/runtime";
@@ -49,7 +49,7 @@ const sampleActivities:NetworkActivity[]=[
 ];
 const sampleGroups:NetworkGroup[]=[{id:"g1",name:"Pune Chapter",groupType:"chapter",description:"Alumni in Pune",memberCount:3},{id:"g2",name:"Technology Circle",groupType:"interest",description:"Technology professionals",memberCount:4}];
 
-function icon(token:string,size=17):ReactNode{if(token==="home")return <Home size={size}/>;if(token==="users")return <UsersRound size={size}/>;if(token==="layers")return <Layers3 size={size}/>;if(token==="calendar")return <CalendarDays size={size}/>;if(token==="map")return <Map size={size}/>;if(token==="heart-handshake")return <HeartHandshake size={size}/>;if(token==="book-open")return <BookOpen size={size}/>;return <ShieldCheck size={size}/>}
+function icon(token:string,size=17):ReactNode{if(token==="home")return <Home size={size}/>;if(token==="users")return <UsersRound size={size}/>;if(token==="layers")return <Layers3 size={size}/>;if(token==="calendar")return <CalendarDays size={size}/>;if(token==="map")return <MapIcon size={size}/>;if(token==="heart-handshake")return <HeartHandshake size={size}/>;if(token==="book-open")return <BookOpen size={size}/>;return <ShieldCheck size={size}/>}
 function connectionReason(me:AlumniProfile|undefined,p:AlumniProfile){if(!me)return p.program||p.company||"Alumni connection";if(me.graduation_year&&me.graduation_year===p.graduation_year)return `Class of ${p.graduation_year}`;if(me.program&&me.program===p.program)return `Same stream · ${p.program}`;if(me.company&&me.company===p.company)return `Both at ${p.company}`;if(me.city&&me.city===p.city)return `Both in ${p.city}`;return p.program||p.company||"Across the alumni network"}
 
 export default function AlumniNetworkApp({network,auth,demo=false,onNetworkChanged,onOpenNetworkLobby,onSignOut}:{network:NetworkSettings;auth:AuthUser|null;demo?:boolean;onNetworkChanged:()=>Promise<void>|void;onOpenNetworkLobby?:()=>Promise<void>|void;onSignOut:()=>Promise<void>|void}){

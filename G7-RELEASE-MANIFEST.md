@@ -158,3 +158,6 @@ Use `G7-RUNTIME-VERIFICATION-CHECKLIST.md`. The intended smoke is Family sanity 
 ## Deleted files
 
 - None
+
+## Certification hotfix — Native Map collision
+The certified G7 baseline includes a frontend runtime correction in `components/AlumniNetworkApp.tsx`: the Lucide `Map` icon is imported as `MapIcon`, preventing it from shadowing JavaScript's native `Map` constructor used by Alumni Places aggregation. `validate:g7` now guards this collision. No migration change is required.

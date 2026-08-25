@@ -1020,3 +1020,10 @@ Implemented:
 - G7 acceptance and compatibility gate.
 
 User-facing closure requires Guide/Playground/Launch/What's New alignment already represented through Alumni composition and updated guide docs. Final release certification must rerun all historical gates and package the exact affected-file delta.
+
+## G7 certification hotfix: Native Map collision — CLOSED
+- Fixed Lucide `Map` icon shadowing JavaScript's native `Map` constructor in Alumni Places aggregation.
+- Added permanent G7 regression protection.
+- No database migration required.
+- Full D1→G7 source gate chain passed after the correction.
+- The refreshed certified G7 R2 artifact supersedes the earlier G7 ZIP.
