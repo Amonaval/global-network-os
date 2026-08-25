@@ -1042,3 +1042,11 @@ Delivered:
 Migration: `048_g8_productized_verticals.sql` after 047.
 
 **NEXT: G9 — Network Intelligence Layer & Five-Vertical Proof.**
+
+## G8 certification hotfix — build + migration — CLOSED
+
+- Fixed Alumni `adminOnly` TypeScript build failure by widening merged navigation to the shared surface contract.
+- Fixed migration 048 membership listing to use `joined_at`, the real migration-019 column.
+- Added permanent G8 regression guards.
+- Full D1→G8 source-gate chain passed after the fixes.
+- G8 Certified R2 supersedes the original certified G8 ZIP.

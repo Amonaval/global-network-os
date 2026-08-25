@@ -10,5 +10,5 @@
   "verticals/alumni/runtime/composition.ts": "5fcc569d8331223925184523e271b5720c6f8c54c62e7d7a40df5b8ee636b17d",
   "verticals/alumni/data/remote.ts": "e39f0fd623f1bbd4962e2b1c09d4dccacc5aac87faf7a485c735fb5a83801d7f",
   "verticals/alumni/definition.ts": "6fe67cf0edcee89af50c17edc91300ee5d480b64b7a51df8cd6146e0ad1e89cf",
-  "components/AlumniNetworkApp.tsx": "e073277b2f338af782032a790819447860c14e3c4d4f9f633a078133fd4e90b9"
+  "components/AlumniNetworkApp.tsx": "502e04078037242ff918a30bfabbb4ebc2c766af05727957c55ad390fff9804f"
 }

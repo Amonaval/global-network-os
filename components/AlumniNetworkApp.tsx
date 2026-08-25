@@ -12,6 +12,7 @@ import {ALUMNI_FEATURE_CATALOG,type AlumniExperienceLevel,type AlumniFeatureKey}
 import {fetchAlumniConnections,fetchAlumniDirectory,fetchAlumniNetworkOverview,saveMyAlumniProfile,createAlumniInvitation,connectAlumniProfile,type AlumniConnection,type AlumniNetworkOverview,type AlumniProfile,type AlumniImportRow} from "../verticals/alumni/data/remote";
 import {fetchNetworkAffiliatedEntities,fetchNetworkProjections} from "../capabilities/affiliation/remote";
 import {createNetworkActivity,createNetworkGroup,fetchNetworkActivities,fetchNetworkGroups,respondNetworkEvent,joinNetworkGroup,leaveNetworkGroup,type NetworkGroup} from "../capabilities/activity/remote";
+import type {VerticalSurfaceDescriptor} from "../core/verticals/app-composition";
 import type {NetworkSettings} from "../lib/network";
 import type {AuthUser} from "../lib/auth";
 import NetworkTopbar from "./shared/NetworkTopbar";
@@ -67,7 +68,7 @@ export default function AlumniNetworkApp({network,auth,demo=false,onNetworkChang
  const allYears=useMemo(()=>Array.from(new Set(profiles.map(p=>p.graduation_year).filter(Boolean) as number[])).sort((a,b)=>b-a),[profiles]);
  const programs=useMemo(()=>Array.from(new Set(profiles.map(p=>p.program).filter(Boolean) as string[])).sort(),[profiles]);
  const me=profiles.find(p=>p.is_me);
- const visibleSurfaces=useMemo(()=>[...composition.primaryNavigation,...composition.mobileMoreNavigation].filter(surface=>{if(surface.adminOnly&&!isAdmin)return false;if(surface.featureKey&&!hasFeature(surface.featureKey as AlumniFeatureKey))return false;return true}),[features,isAdmin,experience]);
+ const visibleSurfaces=useMemo(()=>{const surfaces:readonly VerticalSurfaceDescriptor[]=[...composition.primaryNavigation,...composition.mobileMoreNavigation];return surfaces.filter(surface=>{if(surface.adminOnly&&!isAdmin)return false;if(surface.featureKey&&!hasFeature(surface.featureKey as AlumniFeatureKey))return false;return true})},[features,isAdmin,experience]);
  const connectedIds=useMemo(()=>new Set(connections.map(c=>c.related_profile_id)),[connections]);
  const suggestions=useMemo(()=>profiles.filter(p=>!p.is_me).map(p=>({p,score:(me?.graduation_year&&me.graduation_year===p.graduation_year?5:0)+(me?.program&&me.program===p.program?4:0)+(me?.city&&me.city===p.city?2:0)+(me?.company&&me.company===p.company?3:0)})).sort((a,b)=>b.score-a.score||a.p.full_name.localeCompare(b.p.full_name)).slice(0,5),[profiles,me]);
  const duplicateImportRows=useMemo(()=>{const seen=new Set<string>(),dupes=new Set<number>();importRows.forEach((r,i)=>{const key=(r.email||`${r.full_name}|${r.graduation_year||""}|${r.program||""}`).trim().toLowerCase();if(key&&seen.has(key))dupes.add(i);if(key)seen.add(key)});return dupes},[importRows]);

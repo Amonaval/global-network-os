@@ -140,3 +140,14 @@ Use `G8-RUNTIME-VERIFICATION-CHECKLIST.md`.
 **G9 — Network Intelligence Layer & Five-Vertical Proof**.
 
 Commercial Platform Foundation moves to G10 and remains evidence-gated.
+
+## Certification hotfix — Alumni navigation typing + membership timestamp
+
+The authoritative G8 release now includes two release-blocking corrections found during real deployment validation:
+
+1. `AlumniNetworkApp.tsx` widens merged navigation surfaces to `VerticalSurfaceDescriptor[]`, fixing the Next.js TypeScript `adminOnly` error.
+2. migration 048 uses `network_memberships.joined_at` rather than nonexistent `network_memberships.created_at`.
+
+`validate:g8` includes permanent guards for both regressions. The complete D1→G8 source chain passed after these fixes.
+
+Use the refreshed G8 Certified R2 artifact as the baseline going forward.

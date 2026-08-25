@@ -67,6 +67,11 @@ for(const marker of [
 for(const helper of ['g8_productized_vertical(text)','g8_allowed_entity_kind(text,text)','g8_allowed_relationship(text,text)','g8_seed_productized_structure(uuid,text)','g8_set_entity_affiliations(uuid,uuid,text,jsonb)'])if(!migration.includes(`revoke all on function public.${helper} from public`))fail(`internal SECURITY DEFINER helper not revoked: ${helper}`);
 for(const kind of kinds)for(const suffix of ['core.home','shared.explorer','core.directory','shared.community','shared.places','core.connections','shared.contribute','admin.manage','admin.import'])if(!migration.includes(`${kind}.${suffix}`))fail(`backend feature catalog missing ${kind}.${suffix}`);
 if((migration.match(/'\{\}'::uuid\[\]/g)||[]).length<3)fail('feature seeds must explicitly cast empty pilot arrays to uuid[]');
+// G8 certification hotfix guards.
+if(!read('components/AlumniNetworkApp.tsx').includes('readonly VerticalSurfaceDescriptor[]'))fail('Alumni navigation surfaces must widen to VerticalSurfaceDescriptor so optional adminOnly is type-safe');
+if(migration.includes('e.label,m.created_at'))fail('migration 048 references nonexistent network_memberships.created_at; use joined_at');
+if(!migration.includes('e.label,m.joined_at'))fail('migration 048 membership listing must return network_memberships.joined_at');
+
 
 // Multiple affiliations are a binding G8 product capability.
 const templateApp=read('components/TemplateNetworkApp.tsx');if(!templateApp.includes('v.split(",").map(x=>x.trim()).filter(Boolean)'))fail('entity editor does not preserve multiple affiliation values');if(!templateApp.includes('new globalThis.Map<string,number>()'))fail('Places aggregation must use explicit native globalThis.Map');

@@ -45,3 +45,7 @@ Priority goals:
 Do not build generic AI that bypasses vertical privacy or fabricates graph meaning. Commercial packaging remains G10 and evidence-gated.
 
 Delivery remains: historical gates + G9 gate, docs, Guide update if visible, Playground/Launch classification, release manifest, short smoke checklist and affected-files-only ZIP.
+
+## G8 Certified R2 baseline
+
+Use the refreshed **G8 Productized Business Verticals — Certified R2** artifact as the code baseline. It includes the deployment hotfix for Alumni navigation typing and the corrected migration-048 membership timestamp. Do not resume from the earlier pre-hotfix G8 ZIP.

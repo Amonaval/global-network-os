@@ -304,7 +304,7 @@ revoke all on function public.join_productized_network_by_code(text) from public
 create or replace function public.get_productized_network_memberships()
 returns table(user_id uuid,email text,role varchar,status varchar,entity_label varchar,joined_at timestamptz)
 language sql security definer stable set search_path=public as $$
- select m.user_id,u.email::text,m.role,m.status,e.label,m.created_at
+ select m.user_id,u.email::text,m.role,m.status,e.label,m.joined_at
  from public.network_memberships m
  left join auth.users u on u.id=m.user_id
  left join public.network_entities e on e.network_id=m.network_id and e.owner_user_id=m.user_id

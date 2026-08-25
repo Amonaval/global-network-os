@@ -403,3 +403,15 @@ G8-specific gate confirms:
 - CSS integrity checks pass.
 
 Full Next.js production build is not certified in this artifact workspace because `node_modules` is absent. Vercel/CI build remains a deployment gate.
+
+## G8 deployment hotfix — build typing + SQL membership timestamp — PASS
+
+Real deployment validation exposed two issues not caught by the earlier transpile-only gate: a TypeScript optional-property inference issue in Alumni navigation and an invalid membership timestamp column in migration 048.
+
+Corrections:
+- merged Alumni navigation is explicitly typed as `readonly VerticalSurfaceDescriptor[]`;
+- `get_productized_network_memberships()` selects `m.joined_at`.
+
+Permanent G8 source guards were added and the complete D1→G8 automated chain passed after the correction.
+
+A full Next.js build still requires the installed dependency tree; this artifact workspace does not contain `node_modules`.
