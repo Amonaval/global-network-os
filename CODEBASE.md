@@ -1,3 +1,11 @@
+# G9 CODEBASE UPDATE
+
+The Generic Network OS now contains `core/intelligence/` as a shared deterministic intelligence layer. `NetworkIntelligenceCenter` is the common UI boundary. Family and Alumni use thin adapters over their existing domain stores; Organization, Business Trust and Franchise consume the generic Network OS entity/affiliation/relationship contracts directly.
+
+No unrestricted LLM data path has been added. Migration 049 only registers feature rollout state.
+
+---
+
 # Codebase — Family Release 1
 
 ## Current product state

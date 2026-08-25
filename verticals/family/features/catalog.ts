@@ -1,10 +1,11 @@
 import type { FeatureCatalog, FeatureDefinition } from "../../../core/features/contracts";
 
 export type FamilyExperienceLevel = "simple" | "connected" | "explorer";
-export type FamilyFeatureBundle = "core" | "remember" | "celebrate" | "connect" | "contribute" | "share" | "admin";
+export type FamilyFeatureBundle = "core" | "intelligence" | "remember" | "celebrate" | "connect" | "contribute" | "share" | "admin";
 
 export const FAMILY_FEATURES = [
   {key:"core.home",bundle:"core",label:"Family home",description:"A calm return screen for the family.",minimumExperience:"simple",defaultLaunch:"released"},
+  {key:"intelligence.network",bundle:"intelligence",label:"Family intelligence",description:"Permission-aware family completeness, shared-context and connection intelligence with evidence-backed Ask Network.",minimumExperience:"explorer",defaultLaunch:"test"},
   {key:"core.family",bundle:"core",label:"Family tree",description:"Explore relatives and family branches.",minimumExperience:"simple",defaultLaunch:"released"},
   {key:"core.directory",bundle:"core",label:"Find family",description:"Search the family by name, city or profession.",minimumExperience:"simple",defaultLaunch:"released"},
   {key:"core.profile",bundle:"core",label:"My profile",description:"View or improve your own family profile.",minimumExperience:"simple",defaultLaunch:"released"},

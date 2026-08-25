@@ -8,6 +8,7 @@ export type VerticalCapabilityId =
   | "network.construction"
   | "network.affiliation"
   | "network.activity"
+  | "network.intelligence"
   | "runtime.launch-control"
   | "runtime.guide"
   | "runtime.playground"

@@ -111,7 +111,8 @@ if (missingExports.length) fail(`historical lib/remote.ts exports missing: ${mis
 if (!founder.includes("playgroundByKey.has(f.key)") || !founder.includes("Database update required"))
   fail("Playground code↔database drift guard regressed");
 const catalogKeys = [...catalog.matchAll(/\{key:"([^"]+)"/g)].map(m => m[1]);
-const missingCatalogKeys = catalogKeys.filter(key => !migration.includes(`'${key}'`));
+const g9Migration = fs.existsSync(path.join(root,"supabase/migrations/049_g9_network_intelligence.sql")) ? read("supabase/migrations/049_g9_network_intelligence.sql") : "";
+const missingCatalogKeys = catalogKeys.filter(key => !migration.includes(`'${key}'`) && !g9Migration.includes(`'${key}'`));
 if (missingCatalogKeys.length) fail(`feature catalog reconciliation missing keys: ${missingCatalogKeys.join(", ")}`);
 
 if (!process.exitCode) console.log(`G1.4 remote capability gate: PASS — ${baseline.length} historical facade exports preserved`);

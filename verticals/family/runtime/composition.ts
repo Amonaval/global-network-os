@@ -8,6 +8,7 @@ export const FAMILY_APP_COMPOSITION = {
   featureCatalogId: "family",
   primaryNavigation: [
     {viewId:"home",featureKey:"core.home",iconToken:"home",label:label("Home","आज","आज"),minimumExperience:"simple"},
+    {viewId:"intelligence",featureKey:"intelligence.network",iconToken:"intelligence",label:label("Intelligence","समझ","अंतर्दृष्टी"),minimumExperience:"explorer"},
     {viewId:"tree",featureKey:"core.family",capability:"domain.kinship",iconToken:"tree",label:label("Family","परिवार","कुटुंब"),minimumExperience:"simple"},
     {viewId:"community",featureKey:"remember.memories",iconToken:"memories",label:label("Memories","यादें","आठवणी"),minimumExperience:"connected"},
     {viewId:"directory",featureKey:"core.directory",iconToken:"directory",label:label("Find family","परिवार खोजें","कुटुंब शोधा"),minimumExperience:"explorer"},
@@ -25,12 +26,12 @@ export const FAMILY_APP_COMPOSITION = {
     {viewId:"admin",featureKey:"admin.center",iconToken:"admin",label:label("Manage family","परिवार संभालें","कुटुंब सांभाळा"),adminOnly:true},
   ],
   mobileBottomViewIds:["home","tree","community"],
-  mobileMoreActiveViewIds:["map","admin","founder","timeline","participation","umbrella","directory"],
+  mobileMoreActiveViewIds:["intelligence","map","admin","founder","timeline","participation","umbrella","directory"],
   guide:{
     registryId:"family-guide",
-    guideByView:{home:"home",tree:"personal-family-line",directory:"directory",map:"places",community:"memories",umbrella:"community-hierarchy",timeline:"timeline",participation:"contributions",admin:"admin-center",founder:"platform-launch-control"},
-    actionToView:{home:"home",tree:"tree",directory:"directory",map:"map",community:"community",umbrella:"umbrella",timeline:"timeline",participation:"participation",admin:"admin",founder:"founder",relationship:"tree"},
-    playgroundViewIds:["home","tree","directory","map","community","umbrella","timeline","participation"],
+    guideByView:{home:"home",intelligence:"family-intelligence",tree:"personal-family-line",directory:"directory",map:"places",community:"memories",umbrella:"community-hierarchy",timeline:"timeline",participation:"contributions",admin:"admin-center",founder:"platform-launch-control"},
+    actionToView:{home:"home",intelligence:"intelligence",tree:"tree",directory:"directory",map:"map",community:"community",umbrella:"umbrella",timeline:"timeline",participation:"participation",admin:"admin",founder:"founder",relationship:"tree"},
+    playgroundViewIds:["home","intelligence","tree","directory","map","community","umbrella","timeline","participation"],
     launchControlGuideKey:"platform-launch-control",
   },
   playground:{
@@ -43,6 +44,7 @@ export const FAMILY_APP_COMPOSITION = {
   launch:{
     bundles:[
       {key:"core",label:"Core family",description:"Home, family tree, profiles and family finding."},
+      {key:"intelligence",label:"Intelligence",description:"Completeness, shared context, network connectors and Ask Network."},
       {key:"remember",label:"Remember",description:"Memories and family history."},
       {key:"celebrate",label:"Celebrate",description:"Birthdays, anniversaries and special days."},
       {key:"connect",label:"Connect",description:"Places, community, gatherings and relationship exploration."},
@@ -62,7 +64,7 @@ export const FAMILY_APP_COMPOSITION = {
     footnoteDescription:"Family admins see only member-facing switches and can disable them for their own family. Admin capabilities remain role-controlled, not family-member preferences.",
   },
   whatsNew:{
-    featureToView:{"core.family":"tree","advanced.relationships":"tree","core.directory":"directory","remember.memories":"community","connect.community":"community","connect.gatherings":"community","remember.history":"timeline","connect.places":"map","contribute.help_family":"participation","admin.center":"admin","admin.import":"admin","admin.governance":"admin"},
+    featureToView:{"intelligence.network":"intelligence","core.family":"tree","advanced.relationships":"tree","core.directory":"directory","remember.memories":"community","connect.community":"community","connect.gatherings":"community","remember.history":"timeline","connect.places":"map","contribute.help_family":"participation","admin.center":"admin","admin.import":"admin","admin.governance":"admin"},
     defaultView:"home",
     kicker:"New in your family",
     fallbackTitle:"New family feature",

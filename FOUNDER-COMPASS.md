@@ -1,3 +1,9 @@
+# G9 FOUNDER COMPASS UPDATE
+
+A feature is strategically valuable only when it helps answer a painful network question faster or better than the user's current manual process. G9 must prove: **Who knows? Who owns? Who solved this? Who can help? Who do I trust? What is missing or at risk?** If real buyers will not import data or run a pilot for those outcomes, stop adding platform breadth and narrow/freeze.
+
+---
+
 # Founder Compass
 
 ## Objective Hierarchy

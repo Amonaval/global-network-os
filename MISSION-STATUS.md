@@ -1,3 +1,13 @@
+# CURRENT MISSION STATUS — G9 IMPLEMENTED / RUNTIME VERIFY
+
+**G9 — Network Intelligence Layer:** IMPLEMENTED at source level.
+
+Completed: deterministic intelligence engine, five-vertical surfaces, Ask Network, evidence/confidence, health/missing-link/connector insights, Launch Control registration, Guide/Playground coverage and G9 certification gate.
+
+Remaining closure check: dependency-installed `npm run build`, migration 049 deployment verification and runtime smoke test.
+
+---
+
 # Mission Status
 
 ## Current — Family Release 1 source complete

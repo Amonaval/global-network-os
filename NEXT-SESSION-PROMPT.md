@@ -1,3 +1,9 @@
+# NEXT SESSION — G9 RUNTIME CERTIFICATION + COMMERCIAL REALITY GATE
+
+Start from the G9 certified baseline. Do not redo G0–G8.6. First run/install dependencies and verify `npm run build`, apply migration 049, run `npm run validate:g9`, and smoke-test Intelligence in all five Playgrounds. Fix only actual build/runtime defects. Then perform the Commercial Reality Gate: choose the strongest primary ICP (Organization vs Franchise), define 3–5 buyer-critical workflows, pilot data requirements, measurable value signals, and what would justify a paid pilot. Do not start G10 or a sixth vertical without evidence.
+
+---
+
 # Resume from G8.6-C — authoritative baseline
 
 Treat the attached G8.6-C certified baseline as authoritative.

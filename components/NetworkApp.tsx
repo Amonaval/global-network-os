@@ -16,6 +16,7 @@ import {
   MapPinned,
   GitBranch,
   BookOpen,
+  BrainCircuit,
   HeartHandshake,
   Eye,
   LogOut,
@@ -43,6 +44,9 @@ import SetupScreen from "./SetupScreen";
 import AlumniNetworkApp from "./AlumniNetworkApp";
 import TemplateNetworkApp from "./TemplateNetworkApp";
 import NetworkTopbar from "./shared/NetworkTopbar";
+import NetworkIntelligenceCenter from "./shared/NetworkIntelligenceCenter";
+import type {NetworkAffiliatedEntity,NetworkActivity} from "../core/network-os/contracts";
+import type {NetworkEntityRelationship} from "../capabilities/template-product/remote";
 import InvitationModal from "./InvitationModal";
 import {
   loadState,
@@ -104,7 +108,7 @@ import {defaultFeatureMap, EffectiveFeatureMap, ExperienceLevel, FeatureKey, isF
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 const ImportModal = dynamic(() => import("./ImportModal"), { ssr: false });
 const repository = getNetworkRepository();
-type View = "home" | "tree" | "directory" | "map" | "community" | "umbrella" | "timeline" | "participation" | "admin" | "founder" | "guide";
+type View = "home" | "intelligence" | "tree" | "directory" | "map" | "community" | "umbrella" | "timeline" | "participation" | "admin" | "founder" | "guide";
 type Visibility = "public" | "member" | "admin";
 const esc = (v: string) => `"${String(v ?? "").replaceAll('"', '""')}"`;
 const uuid = () =>
@@ -191,6 +195,9 @@ export default function NetworkApp() {
   const appLocale = language === "hi" ? "hi" : language === "mr" ? "mr" : "en";
   const viewerMemberId = demoPreview ? demoViewerId : auth?.member_id;
   const immediateFamily = useMemo(() => viewerMemberId ? immediateFamilyForViewer(members, relationships, viewerMemberId).slice(0, 8) : [], [members, relationships, viewerMemberId]);
+  const familyIntelligenceEntities = useMemo<NetworkAffiliatedEntity[]>(()=>members.map(m=>({entity:{id:m.id,networkId:network?.id||"family",kind:"person",label:m.full_name,metadata:{profession:m.profession||"",city:m.city||"",country:m.country||""}},affiliations:{generation:[String(m.generation_level)],city:m.city?[m.city]:[],country:m.country?[m.country]:[],profession:m.profession?[m.profession]:[]}})),[members,network?.id]);
+  const familyIntelligenceRelationships = useMemo<NetworkEntityRelationship[]>(()=>relationships.map(r=>({id:r.id,fromEntityId:r.person_id,toEntityId:r.related_person_id,fromLabel:members.find(m=>m.id===r.person_id)?.full_name||r.person_id,toLabel:members.find(m=>m.id===r.related_person_id)?.full_name||r.related_person_id,relationshipType:r.relationship_type,label:r.relationship_type})),[relationships,members]);
+  const familyIntelligenceActivities = useMemo<NetworkActivity[]>(()=>allLifeEvents.slice(0,30).map(e=>({id:e.id,type:e.event_type==="milestone"?"milestone":"memory",title:e.title,body:e.description||"",place:e.location||null,startsAt:e.event_date||null})),[allLifeEvents]);
   useEffect(() => {
     try { setLargeText(localStorage.getItem("family-large-text") === "1"); } catch {}
   }, []);
@@ -1128,6 +1135,7 @@ export default function NetworkApp() {
   };
   const surfaceIcon=(token:string,size=17):ReactNode=>{
     if(token==="home")return <Home size={size}/>;
+    if(token==="intelligence")return <BrainCircuit size={size}/>;
     if(token==="tree")return <TreePine size={size}/>;
     if(token==="memories")return <HeartHandshake size={size}/>;
     if(token==="directory")return <Users size={size}/>;
@@ -1251,6 +1259,7 @@ export default function NetworkApp() {
           {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">{appComposition.whatsNew.kicker}</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||appComposition.whatsNew.fallbackTitle}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||appComposition.whatsNew.fallbackDescription}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
           {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={openMember} />}
           {view === "home" && canAdmin && !demoPreview && !quickStartDismissed && members.length < 5 && <QuickFamilyStart viewer={viewerMemberId?members.find(m=>m.id===viewerMemberId):undefined} suggestedName={auth?.email?.split("@")[0]||""} onAddMyself={addMyselfFirst} onAddRelative={addCloseRelative} onImport={()=>setShowImport(true)} onBuildTogether={hasFeature("contribute.branch_intake")?()=>setShowFamilyIntake(true):undefined} onDismiss={()=>setQuickStartDismissed(true)}/>}
+          {view === "intelligence" && <NetworkIntelligenceCenter kind="family" entities={familyIntelligenceEntities} relationships={familyIntelligenceRelationships} activities={familyIntelligenceActivities} dimensionKeys={["generation","city","country","profession"]} onGo={target=>{if(target==="connections")setView("tree");else if(target==="contribute")setView("participation");else if(target==="community")setView("community");else if(target==="directory")setView("directory");else if(target==="explorer")setView("tree");}} onEntityOpen={entity=>{const member=members.find(m=>m.id===entity.entity.id);if(member)openMember(member)}}/>}
           {view === "home" && <FamilyHome members={members} events={allLifeEvents} memories={demoPreview?memories:undefined} networkName={network?.name} viewerMemberId={viewerMemberId} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} showFamilyPulse={hasFeature("remember.family_pulse")} showQuietDigest={hasFeature("remember.quiet_digest")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} readOnly={demoPreview} />}
           {view === "tree" && (
             <section className="tree-page">

@@ -27,7 +27,10 @@ if(/alter table\s+public\.network_memberships|drop table\s+public\.network_membe
 if(!migration.includes("043_s3a1_distributed_family_intake.sql")) fail("feature repair does not guard the S3-A1 backend prerequisite");
 if(!founder.includes("playgroundByKey.has(f.key)")||!founder.includes("Database update required")) fail("Launch Control does not guard code↔database feature catalog drift");
 const catalogKeys=[...catalog.matchAll(/\{key:"([^"]+)"/g)].map(m=>m[1]);
-const missing=catalogKeys.filter(k=>!migration.includes(`'${k}'`));
+const g9Migration=fs.existsSync(path.join(root,"supabase/migrations/049_g9_network_intelligence.sql"))?read("supabase/migrations/049_g9_network_intelligence.sql"):"";
+const missing=catalogKeys.filter(k=>!migration.includes(`'${k}'`)&&!g9Migration.includes(`'${k}'`));
 if(missing.length) fail(`feature catalog reconciliation missing keys: ${missing.join(", ")}`);
-if(catalogKeys.length!==23) fail(`expected 23 Family feature keys, found ${catalogKeys.length}`);
+const historicalKeys=catalogKeys.filter(k=>k!=="intelligence.network");
+if(historicalKeys.length!==23) fail(`expected 23 historical Family feature keys, found ${historicalKeys.length}`);
+if(catalogKeys.includes("intelligence.network")&&!g9Migration.includes("'intelligence.network'"))fail("G9 Family intelligence feature is not reconciled by migration 049");
 if(!process.exitCode) console.log("G1.3 network/membership gate: PASS");

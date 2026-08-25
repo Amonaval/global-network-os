@@ -1,11 +1,12 @@
 import type {FeatureCatalog,FeatureDefinition} from "../../core/features/contracts";
 import type {ProductizedVerticalKind} from "../../templates/productized/config";
 export type ProductizedExperienceLevel="member"|"connected"|"admin";
-export type ProductizedFeatureBundle="core"|"discover"|"community"|"connect"|"contribute"|"admin";
+export type ProductizedFeatureBundle="core"|"intelligence"|"discover"|"community"|"connect"|"contribute"|"admin";
 export function productizedFeatureKey(kind:ProductizedVerticalKind,suffix:string){return `${kind}.${suffix}` as const}
 export function createProductizedFeatureCatalog(kind:ProductizedVerticalKind,label:string):FeatureCatalog<string,ProductizedFeatureBundle,ProductizedExperienceLevel>{
  const features:FeatureDefinition<string,ProductizedFeatureBundle,ProductizedExperienceLevel>[]=[
   {key:`${kind}.core.home`,bundle:"core",label:`${label} home`,description:"Network overview, health and next actions.",minimumExperience:"member",defaultLaunch:"released"},
+  {key:`${kind}.shared.intelligence`,bundle:"intelligence",label:"Network intelligence",description:"Permission-aware deterministic search, connection intelligence, health and evidence-backed Ask Network.",minimumExperience:"connected",defaultLaunch:"test"},
   {key:`${kind}.shared.explorer`,bundle:"discover",label:"Network explorer",description:"Explore the same entities through configurable hierarchy projections.",minimumExperience:"member",defaultLaunch:"released"},
   {key:`${kind}.core.directory`,bundle:"discover",label:"Directory",description:"Search and filter network entities and affiliations.",minimumExperience:"member",defaultLaunch:"released"},
   {key:`${kind}.shared.community`,bundle:"community",label:"Community life",description:"Groups, events, RSVP, memories/history, milestones and updates.",minimumExperience:"member",defaultLaunch:"released"},

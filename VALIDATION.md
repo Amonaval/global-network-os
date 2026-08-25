@@ -1,3 +1,14 @@
+# G9 VALIDATION UPDATE
+
+- `core/intelligence/contracts.ts` + `engine.ts`: strict standalone TypeScript check PASS.
+- G9 changed TS/TSX surface: TypeScript transpile/syntax checks PASS.
+- `npm run validate:g8`: PASS with historical Family/Alumni protection preserved through explicit G9 normalization only.
+- `npm run validate:g8-6c`: PASS through the full G8.5/G8.6 chain.
+- `npm run validate:g9`: new final gate.
+- Production Next build still requires dependency-installed workspace (`npm ci`).
+
+---
+
 # P3 validation checklist
 
 ## Fresh local installation
@@ -497,3 +508,8 @@ Production build must still be run in an environment with installed dependencies
 
 ### G8.6-C certification result
 Historical source gates D1 through G8 passed in this workspace. After archive-lifecycle correction, G8.5-A/B/C, G8.6-A/B and G8.6-C also pass. Full semantic TypeScript/Next compilation is not certified in this extracted workspace because React/Next/Lucide dependencies are not installed locally; run the runtime checklist in the normal dependency-installed environment.
+
+## G9 final certification
+- Complete historical source chain D1 → V1 → CR1/CR2 → S1/S2/S3 → G1/G2/G3/G4/G5/G6/G7 → G8 → G8.5 → G8.6 → G9: **PASS**.
+- G9 deterministic engine standalone strict TypeScript check: **PASS**.
+- `npm ci` in the artifact workspace did not complete within the execution window; therefore production `npm run build` remains a local/CI runtime check and is not claimed as passed here.

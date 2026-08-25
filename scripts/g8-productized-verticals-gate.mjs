@@ -32,6 +32,7 @@ const normalizeProtectedAlumniShowcase=source=>source
  .replace(/\{isPlatformOwner&&<button className=\"icon-btn\" title=\"Launch Control\"[\s\S]*?<\/button>\}/g,'')
  .replace(/<NetworkOutcomeHome kind=\"alumni\"[\s\S]*?\/>/g,'')
  .replace(/\n    \{tab===\"launch\"&&isPlatformOwner&&[\s\S]*?\}\n/g,'\n')
+ .replace(/<section className=\"card g9-guide-card\">[\s\S]*?<\/section>/g,'')
  .replace(/<section className=\"card g86c-whats-new\">[\s\S]*?<\/section>/g,'')
  .replace(/<NetworkMatureGuide product=\"Alumni Network\"[\s\S]*?\/>/g,'')
  .replace(/\{\/\* G8\.6_ALUMNI_BEGIN \*\/\}[\s\S]*?\{\/\* G8\.6_ALUMNI_END \*\/\}/g,'')
@@ -41,7 +42,44 @@ const normalizeProtectedAlumniShowcase=source=>source
  .replace(/\{demo&&<section className="whats-new-card alumni-showcase-whats-new">.*?<\/section>\}/s,'')
  .replace(/\{demo&&<section className="card guide-showcase-proof">.*?<\/section>\}/s,'');
 const protectedAlumniCoreHash='5c96e7e6072cabd01b7dd2e3976b646f4345a805f07e0def8fb2a79414dd85bf';
-for(const [file,expected] of Object.entries(protectedHashes)){if(!exists(file)){fail(`protected existing vertical file missing: ${file}`);continue;}const source=fs.readFileSync(path.join(root,file));if(file==='components/AlumniNetworkApp.tsx'){const actual=crypto.createHash('sha256').update(normalizeProtectedAlumniShowcase(source.toString('utf8'))).digest('hex');if(actual!==protectedAlumniCoreHash)fail(`protected Alumni runtime core changed outside authorized showcase regions: ${file}`);continue;}const actual=crypto.createHash('sha256').update(source).digest('hex');if(actual!==expected)fail(`protected Family/Alumni foundation changed in G8: ${file}`)}
+const normalizeG9ProtectedFoundation=(file,source)=>{
+ let x=source;
+ if(file==='verticals/family/features/catalog.ts')x=x
+  .replace(' | \"intelligence\"','')
+  .replace(/\n  \{key:\"intelligence\.network\"[^\n]+/g,'');
+ if(file==='verticals/family/runtime/composition.ts')x=x
+  .replace(/\n    \{viewId:\"intelligence\"[^\n]+/g,'')
+  .replace('\"intelligence\",\"map\"','\"map\"')
+  .replace('intelligence:\"family-intelligence\",','')
+  .replace('intelligence:\"intelligence\",','')
+  .replace('\"home\",\"intelligence\",\"tree\"','\"home\",\"tree\"')
+  .replace(/\n      \{key:\"intelligence\"[^\n]+/g,'')
+  .replace('\"intelligence.network\":\"intelligence\",','');
+ if(file==='verticals/family/definition.ts')x=x.replace(' \"network.intelligence\",','');
+ if(file==='verticals/alumni/features/catalog.ts')x=x
+  .replace('|\"intelligence\"','')
+  .replace(/\n \{key:\"alumni\.shared\.intelligence\"[^\n]+/g,'');
+ if(file==='verticals/alumni/runtime/composition.ts')x=x
+  .replace(/\n \{viewId:\"intelligence\"[^\n]+/g,'')
+  .replace('\"intelligence\",\"places\"','\"places\"')
+  .replace('intelligence:\"alumni-intelligence\",','')
+  .replace('\"home\",\"intelligence\",\"explorer\"','\"home\",\"explorer\"')
+  .replace(/,\{key:\"intelligence\",label:\"Intelligence\",description:\"Evidence-backed alumni discovery, health and warm paths\"\}/g,'')
+  .replace('\"alumni.shared.intelligence\":\"intelligence\",','');
+ if(file==='verticals/alumni/definition.ts')x=x.replace('\"network.intelligence\",','');
+ return x;
+};
+for(const [file,expected] of Object.entries(protectedHashes)){if(!exists(file)){fail(`protected existing vertical file missing: ${file}`);continue;}const source=fs.readFileSync(path.join(root,file));if(file==='components/AlumniNetworkApp.tsx'){let alumni=source.toString('utf8')
+ .replace(',BrainCircuit,BriefcaseBusiness',',BriefcaseBusiness')
+ .replace(/\nimport NetworkIntelligenceCenter from \"\.\/shared\/NetworkIntelligenceCenter\";/g,'')
+ .replace(/\nimport type \{NetworkEntityRelationship\} from \"\.\.\/capabilities\/template-product\/remote\";/g,'')
+ .replace('|\"intelligence\"','')
+ .replace('if(token===\"intelligence\")return <BrainCircuit size={size}/>;','')
+ .replace(/\n const intelligenceRelationships=useMemo<NetworkEntityRelationship\[\]?>\(\(\)=>\{[\s\S]*?\},\[connections,me,demo\]\);/g,'')
+ .replace(/\n    \{tab===\"intelligence\"&&<NetworkIntelligenceCenter[\s\S]*?\/>\}/g,'')
+ .replace(/<button className=\"btn\" onClick=\{\(\)=>navTo\(\"intelligence\"\)\}><BrainCircuit size=\{16\}\/> Ask Network<\/button>/g,'')
+ .replace(' relationships={intelligenceRelationships}',' relationships={[]}');
+ const actual=crypto.createHash('sha256').update(normalizeProtectedAlumniShowcase(alumni)).digest('hex');if(actual!==protectedAlumniCoreHash)fail(`protected Alumni runtime core changed outside authorized G8.6/G9 regions: ${file}`);continue;}const normalized=normalizeG9ProtectedFoundation(file,source.toString('utf8'));const actual=crypto.createHash('sha256').update(normalized).digest('hex');if(actual!==expected)fail(`protected Family/Alumni foundation changed outside authorized G9 regions: ${file}`)}
 
 const kinds=['organization','business-trust','franchise'];
 const registry=read('app-shell/vertical-registry.ts'),runtime=read('app-shell/vertical-runtime.ts'),contracts=read('core/verticals/contracts.ts');

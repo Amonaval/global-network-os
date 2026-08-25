@@ -1,3 +1,11 @@
+# G9 UPDATE — NETWORK INTELLIGENCE LAYER IMPLEMENTED
+
+G9 is implemented as deterministic, permission-aware intelligence across all five verticals. It adds network search, connection/path intelligence, network health/completeness, missing-link detection, connector analysis and evidence-backed Ask Network. Intelligence starts in Test for real networks and is enabled in Playground.
+
+**Next gate:** G9 runtime/build verification and real buyer/pilot evaluation. G10 Commercial Platform Foundation remains evidence-gated; no sixth vertical.
+
+---
+
 # Family Product Roadmap — Platform Vision Preserved for Later
 
 ## Binding priority — ship to families first

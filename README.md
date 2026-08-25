@@ -1,3 +1,9 @@
+# Current baseline: G9 Network Intelligence Layer
+
+The product now goes beyond structure and participation into permission-aware deterministic network intelligence across Family, Alumni, Organization, Business Trust and Franchise. See `G9-NETWORK-INTELLIGENCE-LAYER.md` and `G9-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+---
+
 # Generic Network OS
 
 A configurable platform for representing, activating and understanding real-world human, organizational, affiliation and trust networks.

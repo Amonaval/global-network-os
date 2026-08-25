@@ -32,10 +32,16 @@ if(missing.length)fail(`accepted G5 files deleted: ${missing.join(', ')}`);
 
 // Protect the Family domain foundations while shared chrome evolves.
 const protectedHashes=JSON.parse(read('scripts/g6-protected-family-foundations.json'));
+const normalizeG9Family= (file,source)=>{let x=source;
+ if(file==='verticals/family/features/catalog.ts')x=x.replace(' | \"intelligence\"','').replace(/\n  \{key:\"intelligence\.network\"[^\n]+/g,'');
+ if(file==='verticals/family/runtime/composition.ts')x=x.replace(/\n    \{viewId:\"intelligence\"[^\n]+/g,'').replace('\"intelligence\",\"map\"','\"map\"').replace('intelligence:\"family-intelligence\",','').replace('intelligence:\"intelligence\",','').replace('\"home\",\"intelligence\",\"tree\"','\"home\",\"tree\"').replace(/\n      \{key:\"intelligence\"[^\n]+/g,'').replace('\"intelligence.network\":\"intelligence\",','');
+ if(file==='verticals/family/definition.ts')x=x.replace(' \"network.intelligence\",','');
+ return x;};
 for(const [file,expected] of Object.entries(protectedHashes)){
   if(!fs.existsSync(path.join(root,file))){fail(`protected Family foundation missing: ${file}`);continue;}
-  const actual=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex');
-  if(actual!==expected)fail(`protected Family foundation changed during G6: ${file}`);
+  const source=fs.readFileSync(path.join(root,file),'utf8');
+  const actual=crypto.createHash('sha256').update(normalizeG9Family(file,source)).digest('hex');
+  if(actual!==expected)fail(`protected Family foundation changed outside authorized G9 additions: ${file}`);
 }
 
 // Historical facade remains source-compatible.

@@ -1,3 +1,9 @@
+# G9 PRODUCT VISION UPDATE
+
+The product is no longer merely a Generic Network OS. Its differentiating direction is a **Network Decision & Action Layer**: convert relationships, affiliations and captured outcomes into the right person, path, evidence and next action. The graph is infrastructure; repeated decision advantage is the product value.
+
+---
+
 # Project Vision --- Relationship Intelligence Platform
 
 ## Immediate North Star

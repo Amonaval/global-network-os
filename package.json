@@ -40,7 +40,8 @@
     "validate:g8-5b": "node scripts/g8-5b-capability-parity-gate.mjs && npm run validate:g8",
     "validate:g8-5c": "node scripts/g8-5c-five-vertical-showcase-gate.mjs && npm run validate:g8-5b",
     "validate:g8-6ab": "node scripts/g8-6ab-outcome-experience-gate.mjs && npm run validate:g8-5c",
-    "validate:g8-6c": "node scripts/g8-6c-product-closure-gate.mjs && npm run validate:g8-6ab"
+    "validate:g8-6c": "node scripts/g8-6c-product-closure-gate.mjs && npm run validate:g8-6ab",
+    "validate:g9": "node scripts/g9-network-intelligence-gate.mjs && npm run validate:g8-6c"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

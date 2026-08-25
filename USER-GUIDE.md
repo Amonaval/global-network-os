@@ -1,3 +1,11 @@
+# G9 — USING NETWORK INTELLIGENCE
+
+Open **Intelligence** to ask network questions and review evidence-backed insights. Suggested questions differ by vertical. G9 analyzes only information already visible in the current network session. Answers show confidence and a **Why this answer** section. Use the evidence to open people/entities or move to Connections, Community, Directory or Contribute. Intelligence never creates a relationship automatically.
+
+For real networks, the feature begins in **Test** and must be released by the platform owner through Launch Control. It is enabled in Playground for safe evaluation.
+
+---
+
 # Our Family — User Guide
 
 Our Family is a private place to explore your family tree, find relatives,
