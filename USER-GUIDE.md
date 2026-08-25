@@ -272,3 +272,32 @@ When you switch from Alumni to Family (or the reverse), the app reloads the acti
 ## Alumni privacy
 
 Directory email addresses remain hidden from ordinary members except for their own profile. Alumni profile, invitation and connection data uses Alumni-specific persistence and tenant checks; it is not stored as Family relationships.
+
+# G7 Alumni — Explore the Network, Community & Places
+
+## Explore
+Alumni is no longer limited to a flat Directory or one fixed cohort order. Open **Explore** and choose how to browse the same people:
+- Program → Batch → Stream
+- Batch → Program → Stream
+- City → Institution → Batch
+- Company → Institution → Batch
+
+Changing the view does not create duplicate profiles. It changes how existing affiliations are grouped.
+
+## Community
+**Community** brings reusable network-life capabilities into Alumni:
+- Meetups / reunions and RSVP
+- Memories
+- Milestones
+- Announcements
+- Groups / chapters
+
+Admins can create events and announcements. Members can share memories/milestones and RSVP. Admins can create groups; members can join or leave them.
+
+## Places
+**Places** summarizes the network using profile city affiliations. Select a city to narrow the Alumni Directory.
+
+## Profile data powers the network
+Graduation year, Program/School, Stream/Course, City and Company are now more than profile text: they help build Explorer projections and discovery views.
+
+Privacy remains network-scoped. Ordinary members still do not receive private Alumni email data.

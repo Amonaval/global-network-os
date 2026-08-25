@@ -726,3 +726,20 @@ The G0 capability-tree hypothesis is now exercised by two active verticals rathe
 - Cross-vertical switching must resolve vertical ownership before any vertical-specific feature/runtime/data hydration.
 
 This is the strongest proof so far that the intended architecture is a tree of reusable capabilities rather than one generic base module or a renamed Family application.
+
+# G7 architecture evolution — Generic Network OS
+
+G0's capability-tree direction is now executable through G7.
+
+New reusable layers:
+- generic entity registry;
+- configurable dimensions and values;
+- network-scoped entity affiliations;
+- multiple hierarchy projection definitions over one dataset;
+- reusable Network Projection Explorer;
+- shared activity/group foundation for events, RSVP, memories, milestones, announcements and chapters/groups;
+- first-class vertical template contracts and future template definitions.
+
+The G0 boundary remains binding: Family kinship (parent/child/spouse/lineage/generation) is not rewritten as generic affiliation. Alumni institutional identity remains Alumni-owned. Generic Network OS storage is additive and receives vertical-owned projections/adapted data rather than replacing every canonical domain table.
+
+Future templates (Organization, Business Trust, Franchise, Education, Professional, Association, Residential, Supply Chain, Investor, Customer Intelligence, Custom) are fail-closed definitions until a real product mission activates their runtime/persistence.

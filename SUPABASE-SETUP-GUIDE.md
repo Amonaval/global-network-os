@@ -271,3 +271,15 @@ Migration 046 is required for the polished/two-vertical G6 runtime. It:
 Existing Family data and rollout rows are backfilled/preserved as Family. The migration does not rename Family tables/RPCs or rewrite Family relationship data.
 
 After applying 046, as Platform Owner open **Launch Control** and switch between **Family Network** and **Alumni Network** once. Each tab should show only that vertical's feature catalog and pilot-network targets.
+
+## G7 migration
+
+After G6 migration 046, apply:
+
+```text
+047_g7_generic_network_os.sql
+```
+
+Migration 047 adds the generic Network OS entity/dimension/affiliation/projection and shared activity/group foundation. It also backfills existing Alumni profiles into the affiliation registry and installs an Alumni profile synchronization trigger.
+
+Do **not** run 047 before 045 and 046 because it depends on Alumni profile/network settings and G6 vertical-scoped launch infrastructure.

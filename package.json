@@ -33,7 +33,8 @@
     "validate:g3": "node scripts/g3-network-construction-gate.mjs",
     "validate:g4": "node scripts/g4-vertical-runtime-gate.mjs",
     "validate:g5": "node scripts/g5-alumni-v1-gate.mjs",
-    "validate:g6": "node scripts/g6-two-vertical-hardening-gate.mjs"
+    "validate:g6": "node scripts/g6-two-vertical-hardening-gate.mjs",
+    "validate:g7": "node scripts/g7-network-os-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

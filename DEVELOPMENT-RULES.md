@@ -365,3 +365,16 @@ From G2 onward, architecture work should be delivered as **coherent High-effort 
 4. Cross-profile Alumni references must be tenant-safe at the database level, not only checked in React/RPC code.
 5. A shared UI primitive is allowed only when Family and Alumni genuinely share the interaction pattern; domain meaning/copy stays vertical-owned.
 6. G6 protects critical Family domain foundations by hash. Later platform productization must explicitly justify any change to those files.
+
+## G7 Generic Network OS rules — permanent
+
+1. **Reuse has no quota.** Share the lowest correct layer; never target a numeric reuse percentage.
+2. **Affiliations are not kinship.** Generic dimensions/projections may represent belonging. Parent/child/spouse/ancestry remain Family semantics.
+3. **One dataset, many projections.** A new hierarchy order must not require duplicated entities.
+4. **Templates compose; they do not execute arbitrary logic.** SQL and domain algorithms stay in capabilities/adapters.
+5. **Future templates are fail-closed.** A proof/future template does not become a visible product without an explicit active vertical runtime.
+6. **Generic persistence is additive.** Do not big-bang migrate deployed vertical tables merely for purity.
+7. **Generic SECURITY DEFINER helpers are internal.** Revoke PUBLIC execution unless a function is an intentional application RPC.
+8. **Tenant integrity is database-level.** Cross-network entity/value/activity references require composite network-aware constraints where applicable.
+9. **Shared UX does not mean identical UX.** Reuse shells/engines while vertical terminology and workflows remain domain-appropriate.
+10. **Unknown future use cases remain possible.** Custom Network must remain representable through entities + dimensions + relationships + capability composition without importing Family/Alumni code.

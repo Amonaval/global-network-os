@@ -1229,8 +1229,8 @@ The earlier G2–G8 numbering above is preserved as historical planning context.
 | **G4 — Vertical Runtime & App Composition** | **IMPLEMENTED IN SOURCE / CLOSED** | Vertical app composition contracts/runtime; Family navigation/Guide/Playground/Launch/What's New registration; fail-closed Alumni skeleton; Family UX preserved. |
 | **G5 — Alumni Network V1** | **IMPLEMENTED / CERTIFIED R2** | Institution/batch/program identity, profiles, directory/search, onboarding/import, claiming, invitations, cohort connections, basic Alumni Home/Admin, privacy, Guide/Playground/Launch Control. |
 | **G6 — Two-Vertical Architecture Proof, Shared UX Composition & Hardening** | **IMPLEMENTED IN SOURCE / CLOSED / DEPLOYED SMOKE REQUIRED** | Family + Alumni isolation, shared UX primitives, polished Alumni experience, vertical-scoped Launch Control, tenant/RLS hardening, migration compatibility and cross-vertical regression protection. |
-| **G7 — Generic Platform Productization** | **NEXT / EVIDENCE-GATED HIGH-EFFORT BATCH** | Network creation by vertical, capability packs, reusable admin/runtime infrastructure, extension contracts, third-vertical readiness; preserves association/professional/founder/enterprise roadmap items. |
-| **G8 — Commercial Platform Foundation** | **EVIDENCE-GATED** | Plans/entitlements, quotas/storage policy, usage/metering, paid capability packs, platform operations and monetization boundaries. |
+| **G7 — Generic Network OS Productization & Template Architecture** | **IMPLEMENTED IN SOURCE / SOURCE CERTIFIED / DEPLOYED SMOKE REQUIRED** | Configurable affiliations/projections, template contracts, reusable Network Explorer + shared activity/group foundation, rich Alumni reuse proof, future template definitions. |
+| **G8 — Commercial Platform Foundation** | **NEXT / EVIDENCE-GATED** | Plans/entitlements, quotas/storage policy, usage/metering, paid capability packs, platform operations and monetization boundaries. |
 | **G9+ — Future Verticals & Ecosystem Scale** | **FUTURE** | Professional/trade associations, enterprise expertise, founder/investor, clubs/societies/nonprofit, integrations/APIs/white-label/extension ecosystem where evidence supports them. |
 
 ## G2 — Shared Identity, Claiming & Participation Foundation — 2026-08-25
@@ -1305,35 +1305,17 @@ See `G6-TWO-VERTICAL-PROOF-SHARED-UX-HARDENING.md`, `G6-RELEASE-MANIFEST.md` and
 
 **NEXT: G7 — Generic Platform Productization.**
 
-# 2026-08-25 — G7 Direction Addendum: Generic Network OS Productization
 
-G6 proved two active verticals. The authoritative next mission is:
+## G7 — Generic Network OS Productization & Template Architecture — 2026-08-25
 
-**G7 — Generic Network OS Productization & Template Architecture**
+**Status: IMPLEMENTED IN SOURCE / SOURCE CERTIFIED / DEPLOYED SMOKE REQUIRED**
 
-G7 will maximize correct capability reuse without enforcing an arbitrary reuse percentage.
+G7 turns the Family + Alumni proof into a reusable Network OS foundation without forcing a universal domain model. New generic contracts/persistence cover entities, dimensions, affiliations, hierarchy projections, activities and groups. Alumni becomes the first active consumer of projection-based Explore, shared Community activity and Places.
 
-Primary architectural additions:
-- configurable affiliations/dimensions
-- multiple hierarchy projections over one dataset
-- typed relationship contracts
-- first-class vertical templates
-- capability-pack composition
-- realistic future template proofs
+Future template definitions now exist for Organizational Intelligence, Business Trust, Franchise, Education Graph, Professional, Association, Residential, Supply Chain, Investor, Customer Intelligence and Custom Network. They remain fail-closed architecture proofs/future templates, not active products.
 
-Future template directions preserved:
-- Organizational Intelligence
-- Business Trust Network
-- Franchise Network
-- Education Graph
-- Professional / Industry Network
-- Association Network
-- Residential / Society Network
-- Supply Chain / Partner Ecosystem
-- Investor / Startup Ecosystem
-- Customer / Account Intelligence
-- Custom Network
+Binding proof: one MET dataset supports both `MET → Engineering → 2011 → Computer` and `MET → 2011 → Engineering → Computer` through projection order only.
 
-Family + Alumni remain the active production proofs. Future templates in G7 are architecture/configuration/Playground proofs, not four additional full products.
+Migration: `047_g7_generic_network_os.sql` after 046.
 
-See the dedicated G7 strategy artifacts in this pack.
+**NEXT after G7 certification: G8 — Commercial Platform Foundation**, with business-evidence gates before broad entitlement/metering work.

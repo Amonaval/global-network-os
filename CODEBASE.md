@@ -670,3 +670,28 @@ Rules after G6:
 G6 migration: `046_g6_two_vertical_hardening.sql`.
 
 Run `npm run validate:g6` plus historical gates. See `G6-TWO-VERTICAL-PROOF-SHARED-UX-HARDENING.md`.
+
+## G7 Generic Network OS layer — 2026-08-25
+
+```text
+core/network-os/contracts.ts
+core/templates/contracts.ts
+core/templates/runtime.ts
+core/templates/catalog.ts
+capabilities/affiliation/runtime.ts
+capabilities/affiliation/remote.ts
+capabilities/activity/runtime.ts
+capabilities/activity/remote.ts
+app-shell/network-os-runtime.ts
+app-shell/template-registry.ts
+components/shared/NetworkProjectionExplorer.tsx
+components/shared/NetworkActivityHub.tsx
+verticals/family/template.ts
+verticals/alumni/template.ts
+templates/*/definition.ts
+supabase/migrations/047_g7_generic_network_os.sql
+```
+
+The generic registry/affiliation layer sits **beside** authoritative vertical stores. Alumni currently has the first sync adapter through database trigger `trg_g7_sync_alumni_profile`. Family kinship is intentionally not written into generic affiliation semantics.
+
+Active product templates remain Family + Alumni. Organization, Business Trust, Franchise, Education, Professional, Association, Residential, Supply Chain, Investor, Customer Intelligence and Custom Network are template proofs/future definitions only.

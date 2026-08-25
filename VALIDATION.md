@@ -351,6 +351,32 @@ Automated source certification completed after the final G6 hardening changes:
 - 7 protected Family foundations match the certified G5 SHA-256 snapshot;
 - changed G6 TS/TSX files transpile successfully under TypeScript 5.8.3;
 - CSS brace integrity check: PASS;
-- migration audit expects only `046_g6_two_vertical_hardening.sql` after 045.
+- historical G6 gate confirms migration 046 remains present; later additive migrations are owned by later G-gates.
 
 Full `next build` is not certified in this artifact workspace because dependencies are not installed. CI/Vercel build remains required after applying the release. Deployed manual smoke is intentionally limited to `G6-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+## G7 — Generic Network OS validation — 2026-08-25
+
+G7 adds migration 047 and therefore requires deployed Supabase smoke after source certification.
+
+G7-specific automated gate validates:
+- accepted G6 files are not deleted;
+- all 147 historical `lib/remote.ts` exports remain available;
+- seven protected Family foundations remain SHA-256 identical;
+- generic Core/capability code does not import Family/Alumni implementations or persistence vocabulary;
+- future template definitions do not import deployed vertical implementations;
+- generic entity/dimension/affiliation/projection/activity/group persistence exists;
+- generic tables are direct-access closed and internal SECURITY DEFINER helpers are not public application APIs;
+- Alumni G7 feature keys exist in catalog, composition and migration registry;
+- the real projection runtime executes the dual MET acceptance test without entity duplication;
+- changed G7 TypeScript/TSX files pass TypeScript transpile validation.
+
+Full `next build` is not claimed in the artifact workspace when application dependencies are absent. Vercel/CI build remains a deployment gate.
+
+### G7 source certification result
+
+Final source/regression chain D1 → G7: **PASS**.
+
+G7 gate result: 147 historical remote exports, 289 accepted G6 files, 7 protected Family foundations and the dual MET projection acceptance test all PASS. Changed G7 TS/TSX files pass TypeScript transpile validation and G7 CSS brace integrity passes.
+
+The User/Admin DOCX was rendered after the G7 guide addition; the existing pages remain visually stable and the new G7 page renders cleanly.

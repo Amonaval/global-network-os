@@ -101,9 +101,9 @@ for(const key of ['alumni.core.home','alumni.core.directory','alumni.core.cohort
   if(!migration.includes(key))fail(`Alumni backend feature registry missing ${key}`);
 }
 
-// Only the intended next migration may be introduced in this release.
+// G6 historically owned migration 046. Later additive migrations are validated by later gates;
+// their presence must not make the historical G6 gate fail.
 const migrations=fs.readdirSync(path.join(root,'supabase/migrations')).filter(x=>x.endsWith('.sql')).sort();
-const post045=migrations.filter(x=>(/^04[6-9]_/.test(x)||/^[1-9][0-9]{2,}_/.test(x))&&x!=='046_g6_two_vertical_hardening.sql');
-if(post045.length)fail(`unexpected post-G5 migrations in G6: ${post045.join(', ')}`);
+if(!migrations.includes('046_g6_two_vertical_hardening.sql'))fail('G6 migration 046 is missing');
 
 if(!process.exitCode)console.log(`G6 two-vertical hardening gate: PASS — ${historical.length} historical remote exports, ${baseline.length} accepted G5 files, and ${Object.keys(protectedHashes).length} Family foundations preserved`);

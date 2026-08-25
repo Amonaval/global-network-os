@@ -192,17 +192,13 @@ The product rule going forward is **shared quality system, vertical-specific exp
 
 G7 can productize the platform only from these proven seams and should make a third vertical cheaper without weakening Family or Alumni.
 
-# G7 Vision Expansion — Generic Network OS
 
-Family + Alumni now prove a broader platform direction: a configurable Network OS for real-world human, organizational, affiliation and trust networks.
+## G7 — Network OS vision now executable
 
-The durable architecture is:
-- Generic Network Core
-- Shared Capability Engines
-- Vertical Templates
-- Vertical-specific semantics/adapters
-- permission-aware Intelligence Layer
+The long-term architecture is no longer only a vision statement. G7 introduces executable primitives for configurable entities, affiliations, hierarchy projections, shared network activity and vertical templates.
 
-A fixed hierarchy is insufficient. G7 should support dimensions, affiliations and multiple projections over the same underlying data.
+The platform model is now:
 
-The platform should emerge from repeatedly proven capabilities while vertical products remain strong customer-facing solutions.
+`Generic Network Core → Shared Capability Engines → Vertical Templates/Adapters → Strong Vertical Products → Permission-aware Intelligence`
+
+Family remains the kinship-first vertical. Alumni becomes the first affiliation-first vertical. Future Organization/Trust/Franchise/Education networks can prove additional relationship and non-person entity semantics without rewriting Core.
