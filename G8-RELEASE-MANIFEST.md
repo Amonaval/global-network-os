@@ -161,3 +161,48 @@ Launch Control now widens the value to the shared `readonly string[]` contract b
 No feature behavior or migration changed. Full D1→G8 source chain passed after the fix.
 
 **G8 Certified R3 supersedes the original G8 and Certified R2 artifacts.**
+
+
+# Certified R4 — Product Experience Completion
+
+**Status:** CERTIFIED  
+**Supersedes:** original G8, R2 and R3  
+**Database:** no new migration; continue using corrected `048_g8_productized_verticals.sql`.
+
+## R4 purpose
+
+Close the product-experience gap exposed by real screenshots: responsive shell correctness, five-product Playgrounds, persisted Light/Dark/Aurora appearance, and richer living-network Home experience.
+
+## R3 → R4 delta
+
+- Added: **4**
+- Modified: **16**
+- Deleted: **0**
+- Total affected: **20**
+
+## Certified G7 → G8 R4 cumulative release delta
+
+- Added: **29**
+- Modified: **31**
+- Deleted: **0**
+- Total affected: **60**
+
+Exact cumulative list: `G8-AFFECTED-FILES.txt`.
+
+## R4 additions
+
+- `components/ThemeProvider.tsx`
+- `components/ThemeSwitcher.tsx`
+- `components/shared/NetworkPulse.tsx`
+- corrected productized sidebar class/style contract
+- container-safe create-network grids
+- unified Safe Playgrounds gallery for all five released products
+- root Light / Dark / Aurora theme system
+- G8 source-gate protections for UX wiring
+- User/Admin Guide G8 Product Experience Completion page
+
+## Certification
+
+Complete D1→G8 source/regression chain: **PASS**.
+
+Protected Family/Alumni foundations remain unchanged.

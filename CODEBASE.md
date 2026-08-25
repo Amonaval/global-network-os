@@ -723,3 +723,19 @@ Identity/member boundaries after G8:
 - member removal clears stale active-network context and claimed owner link.
 
 G8 migration: `048_g8_productized_verticals.sql` after 047.
+
+## G8 R4 Product Experience additions
+
+Shared UI/runtime additions:
+- `components/ThemeProvider.tsx` — persisted `light | dark | aurora` root appearance state.
+- `components/ThemeSwitcher.tsx` — shared compact/full appearance control.
+- `components/shared/NetworkPulse.tsx` — reusable living-network summary for productized G8 Home.
+
+Updated consumers:
+- `app/layout.tsx` — root ThemeProvider.
+- `components/shared/NetworkTopbar.tsx` — cross-vertical appearance control.
+- `components/SetupScreen.tsx` — five-product Playground gallery and theme control.
+- `components/TemplateNetworkApp.tsx` — corrected shared nav classes + Network Pulse.
+- `app/globals.css` — responsive shell, Playground gallery and Light/Dark/Aurora surfaces.
+
+No new persistence/schema migration was introduced by R4.

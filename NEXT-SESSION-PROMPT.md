@@ -58,3 +58,17 @@ Use **G8 Productized Business Verticals — Certified R3** as the authoritative 
 - Launch Control `playgroundExcludedBundles` widening that prevents `string` → `never` Next.js build failures.
 
 Do not resume from the original G8 or R2 artifacts.
+
+## Authoritative G8 baseline update — Certified R4
+
+Use **G8 Productized Business Verticals — Certified R4** as the baseline for G9. It supersedes original G8, R2 and R3.
+
+R4 includes:
+- responsive productized side navigation;
+- container-safe creation cards;
+- Family + Alumni + Organization + Business Trust + Franchise Playground gallery;
+- persisted Light / Dark / Aurora themes;
+- shared Network Pulse for the three G8 business products;
+- no new SQL migration beyond corrected 048.
+
+Do not resume from pre-R4 artifacts.

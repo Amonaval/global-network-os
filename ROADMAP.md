@@ -1332,3 +1332,9 @@ Migration: `048_g8_productized_verticals.sql` after 047.
 G8 also closes verified-email claiming, own-claimed-entity editing, join codes, member/admin lifecycle, multi-value affiliations and governed contributions/import for these products. Family + Alumni foundations remain protected.
 
 **NEXT: G9 — Network Intelligence Layer & Five-Vertical Proof.** Commercial platform work moves to G10 and remains evidence-gated.
+
+## G8 Product Experience Completion — CLOSED (R4)
+
+Before moving to G9, G8 received a product-experience closure pass prompted by real runtime screenshots. The release now has responsive productized navigation, container-safe network creation cards, five first-class Playgrounds, persisted Light/Dark/Aurora themes and a shared Network Pulse for the three G8 business verticals.
+
+This does not change the G9 direction. Next major mission remains **G9 — Network Intelligence Layer & Five-Vertical Proof**. Future cross-vertical media, scheduled digests and public-sharing engines remain evidence-gated rather than forced into G8.

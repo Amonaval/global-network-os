@@ -1,12 +1,12 @@
-# G8 — Short Runtime Verification Checklist
+# G8 R4 — Short Runtime Verification
 
-Apply `048_g8_productized_verticals.sql` after 047, then keep manual verification short:
+No new migration. Use corrected migration `048_g8_productized_verticals.sql`.
 
-1. **Regression glance:** open one existing Family and one Alumni network.
-2. **Creation:** create one of Organization / Business Trust / Franchise from setup; confirm it opens its correct product shell.
-3. **Core workflow:** add/import 2–3 entities, open Explorer, Directory and Places; switch one projection.
-4. **Identity / member lifecycle:** join a second test account by Network OS code; if email matches an imported entity use **This is me**; owner promotes/demotes or removes the test member once.
-5. **Living network:** create one event/group or memory, RSVP/join as a member, and submit one governed contribution.
-6. **Isolation:** switch Productized → Family → Alumni → Productized and glance at the console for unknown-feature, wrong-vertical or permission errors.
+1. **Lobby responsive check** — at desktop and narrow width, confirm Create Network cards wrap cleanly and do not become thin columns.
+2. **Playgrounds** — open Family, Alumni, Organization, Business Trust and Franchise from **Safe Playgrounds**; all must be read-only.
+3. **G8 shell** — open Organization/Trust/Franchise; desktop left navigation must be styled, active state visible, and no browser-default buttons.
+4. **Themes** — switch **Light → Dark → Aurora**; navigate across two different verticals and reload once to verify persistence.
+5. **Living network** — on Organization/Trust/Franchise Home, open one Network Pulse item, Community event/RSVP and Places.
+6. **Regression glance** — switch Family → Alumni → one G8 business vertical and check console for feature/runtime errors.
 
-If these pass and Vercel/CI builds cleanly, G8 is deployable.
+If all six pass, R4 runtime UX is accepted.

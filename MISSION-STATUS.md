@@ -1059,3 +1059,15 @@ Migration: `048_g8_productized_verticals.sql` after 047.
 - No database migration change.
 - Full D1→G8 source chain passed.
 - **G8 Certified R3 is now the authoritative baseline.**
+
+## G8 Product Experience Completion / Certified R4 — CLOSED
+
+- Fixed browser-default productized sidebar caused by missing shared navigation class/styling.
+- Fixed narrow onboarding card collapse using container-safe responsive grids.
+- Added Safe Playgrounds gallery for Family, Alumni, Organization, Business Trust and Franchise.
+- Added persisted Light / Dark / Aurora appearance system across the released app.
+- Added shared Network Pulse to Organization, Business Trust and Franchise Home.
+- Preserved all protected Family/Alumni foundations.
+- No migration beyond corrected 048.
+- Complete D1→G8 source/regression chain passed.
+- R4 supersedes the original G8, R2 and R3 artifacts.

@@ -7,7 +7,7 @@ const root=process.cwd(),read=p=>fs.readFileSync(path.join(root,p),'utf8'),exist
 const failures=[];const fail=m=>failures.push(m);
 
 const required=[
- 'components/TemplateNetworkApp.tsx','capabilities/template-product/remote.ts','capabilities/template-product/features.ts','capabilities/template-product/composition.ts','templates/productized/config.ts',
+ 'components/TemplateNetworkApp.tsx','components/ThemeProvider.tsx','components/ThemeSwitcher.tsx','components/shared/NetworkPulse.tsx','capabilities/template-product/remote.ts','capabilities/template-product/features.ts','capabilities/template-product/composition.ts','templates/productized/config.ts',
  'verticals/organization/definition.ts','verticals/organization/features/catalog.ts','verticals/organization/runtime/composition.ts',
  'verticals/business-trust/definition.ts','verticals/business-trust/features/catalog.ts','verticals/business-trust/runtime/composition.ts',
  'verticals/franchise/definition.ts','verticals/franchise/features/catalog.ts','verticals/franchise/runtime/composition.ts',
@@ -37,7 +37,7 @@ for(const kind of kinds){const tpl=read(`templates/${kind}/definition.ts`),v=rea
 }
 
 // Productized reusable implementation must not import deployed Family/Alumni implementations.
-const productSources=['components/TemplateNetworkApp.tsx','capabilities/template-product/remote.ts','capabilities/template-product/features.ts','capabilities/template-product/composition.ts','templates/productized/config.ts',...kinds.flatMap(k=>[`verticals/${k}/definition.ts`,`verticals/${k}/features/catalog.ts`,`verticals/${k}/runtime/composition.ts`,`templates/${k}/definition.ts`])].map(read).join('\n').toLowerCase();
+const productSources=['components/TemplateNetworkApp.tsx','components/ThemeProvider.tsx','components/ThemeSwitcher.tsx','components/shared/NetworkPulse.tsx','capabilities/template-product/remote.ts','capabilities/template-product/features.ts','capabilities/template-product/composition.ts','templates/productized/config.ts',...kinds.flatMap(k=>[`verticals/${k}/definition.ts`,`verticals/${k}/features/catalog.ts`,`verticals/${k}/runtime/composition.ts`,`templates/${k}/definition.ts`])].map(read).join('\n').toLowerCase();
 for(const forbidden of ['verticals/family','verticals/alumni','family_members','family_relationships','alumni_profiles','create_family_intake','commit_family_intake'])if(productSources.includes(forbidden))fail(`G8 productized runtime leaked existing vertical semantic: ${forbidden}`);
 
 // Main shell must hand off all productized verticals before Family feature evaluation.
@@ -81,14 +81,25 @@ for(const marker of ['NetworkProjectionExplorer','NetworkActivityHub','fetchClai
 const productRemote=read('capabilities/template-product/remote.ts');for(const marker of ['get_productized_network_memberships','set_productized_network_member_role','remove_productized_network_member'])if(!productRemote.includes(marker))fail(`productized remote missing membership workflow ${marker}`);
 if(/import\s*\{[^}]*\bMap\b[^}]*\}\s*from\s*["']lucide-react["']/.test(templateApp)&&templateApp.includes('new Map<'))fail('TemplateNetworkApp shadows native Map with Lucide Map icon');
 
+
+// G8 product experience completion: responsive shell, five Playgrounds and app-wide themes.
+const topbar=read('components/shared/NetworkTopbar.tsx'),layout=read('app/layout.tsx'),themeProvider=read('components/ThemeProvider.tsx'),themeSwitcher=read('components/ThemeSwitcher.tsx');
+for(const marker of ['ThemeProvider','data-theme="light"'])if(!layout.includes(marker))fail(`root theme wiring missing ${marker}`);
+for(const marker of ['light','dark','aurora','network-os-theme'])if(!themeProvider.includes(marker))fail(`theme provider missing ${marker}`);
+if(!topbar.includes('<ThemeSwitcher compact/>'))fail('shared NetworkTopbar must expose app-wide theme control');
+if(!setup.includes('Explore every released network product first'))fail('setup missing unified Playground gallery');
+for(const marker of ['onExploreDemo','onExploreAlumniDemo','onExploreProductizedDemo'])if(!setup.includes(marker))fail(`Playground gallery missing ${marker}`);
+if(!templateApp.includes('className={`nav-btn ${tab===s.viewId?"active":""}`}'))fail('productized sidebar must use shared nav-btn styling');
+if(!templateApp.includes('<NetworkPulse'))fail('productized Home missing shared Network Pulse');
+
 // Domain vocabularies are not generic placeholders.
 const org=read('templates/organization/definition.ts'),trust=read('templates/business-trust/definition.ts'),franchise=read('templates/franchise/definition.ts');for(const m of ['reports_to','works_with','depends_on','skill','project'])if(!org.includes(m))fail(`Organization semantics missing ${m}`);for(const m of ['recommends','verified_by','supplies_to','service','category'])if(!trust.includes(m))fail(`Business Trust semantics missing ${m}`);for(const m of ['owns','operates','manages','supports','country','state','city','owner'])if(!franchise.includes(m))fail(`Franchise semantics missing ${m}`);
 
 // Transpile the G8 change surface for syntax/JSX regressions.
-const tsFiles=['components/NetworkApp.tsx','components/SetupScreen.tsx','components/TemplateNetworkApp.tsx','components/FounderLaunchConsole.tsx','components/shared/NetworkSwitcher.tsx','components/shared/NetworkProjectionExplorer.tsx','components/shared/NetworkActivityHub.tsx','core/verticals/contracts.ts','app-shell/vertical-registry.ts','app-shell/vertical-runtime.ts','app-shell/vertical-capabilities.ts','capabilities/template-product/remote.ts','capabilities/template-product/features.ts','capabilities/template-product/composition.ts','templates/productized/config.ts',...kinds.flatMap(k=>[`verticals/${k}/definition.ts`,`verticals/${k}/features/catalog.ts`,`verticals/${k}/runtime/composition.ts`,`templates/${k}/definition.ts`])];
+const tsFiles=['components/NetworkApp.tsx','components/SetupScreen.tsx','components/TemplateNetworkApp.tsx','components/FounderLaunchConsole.tsx','components/shared/NetworkSwitcher.tsx','components/shared/NetworkProjectionExplorer.tsx','components/shared/NetworkActivityHub.tsx','components/shared/NetworkPulse.tsx','components/ThemeProvider.tsx','components/ThemeSwitcher.tsx','core/verticals/contracts.ts','app-shell/vertical-registry.ts','app-shell/vertical-runtime.ts','app-shell/vertical-capabilities.ts','capabilities/template-product/remote.ts','capabilities/template-product/features.ts','capabilities/template-product/composition.ts','templates/productized/config.ts',...kinds.flatMap(k=>[`verticals/${k}/definition.ts`,`verticals/${k}/features/catalog.ts`,`verticals/${k}/runtime/composition.ts`,`templates/${k}/definition.ts`])];
 for(const f of tsFiles){const result=ts.transpileModule(read(f),{compilerOptions:{jsx:ts.JsxEmit.ReactJSX,target:ts.ScriptTarget.ES2020,module:ts.ModuleKind.ESNext},reportDiagnostics:true,fileName:f});const errors=(result.diagnostics||[]).filter(d=>d.category===ts.DiagnosticCategory.Error);if(errors.length)fail(`TypeScript transpile failed for ${f}: ${errors.map(d=>ts.flattenDiagnosticMessageText(d.messageText,' ')).join('; ')}`)}
 
-const css=read('app/globals.css');for(const marker of ['.product-network-app','.product-network-shell','.product-hero','.product-directory-grid','.productized-create-grid','.product-mobile-nav','.product-claim-card','.vertical-launch-options'])if(!css.includes(marker))fail(`G8 product UX CSS missing ${marker}`);let braces=0;for(const c of css){if(c==='{')braces++;else if(c==='}')braces--;}if(braces!==0)fail(`CSS brace integrity failed: ${braces}`);
+const css=read('app/globals.css');for(const marker of ['.product-network-app','.product-network-shell','.product-hero','.product-directory-grid','.productized-create-grid','.product-mobile-nav','.product-claim-card','.vertical-launch-options','.theme-switcher','.playground-gallery','.product-side-brand','.network-pulse-card'])if(!css.includes(marker))fail(`G8 product UX CSS missing ${marker}`);let braces=0;for(const c of css){if(c==='{')braces++;else if(c==='}')braces--;}if(braces!==0)fail(`CSS brace integrity failed: ${braces}`);
 
 if(failures.length){for(const f of failures)console.error(`G8 productized verticals gate: FAIL — ${f}`);process.exit(1)}
 console.log(`G8 productized verticals gate: PASS — ${historical.length} historical remote exports, ${baseline.length} accepted G7 files, ${Object.keys(protectedHashes).length} protected Family/Alumni foundations, and 3 released product verticals preserved`);

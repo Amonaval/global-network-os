@@ -421,3 +421,19 @@ A full Next.js build still requires the installed dependency tree; this artifact
 A real Next.js build exposed `string` → `never` inference at `playgroundExcludedBundles.includes(f.bundle)`. Launch Control now widens the concrete vertical composition list to the shared `readonly string[]` contract before filtering.
 
 `validate:g8` contains permanent source assertions for this rule. Complete D1→G8 automated source chain: **PASS**.
+
+## G8 R4 Product Experience Completion — PASS
+
+Reported UX regressions were fixed and converted into source-gate assertions:
+
+- productized sidebar navigation now uses `nav-btn` and has an explicit styled product identity block;
+- product creation cards use container-safe `auto-fit/minmax` responsive layout;
+- onboarding exposes read-only Playgrounds for all five released products;
+- root ThemeProvider exposes Light / Dark / Aurora and persists `network-os-theme`;
+- shared NetworkTopbar exposes the compact theme control across verticals;
+- G8 business Home uses shared Network Pulse for events/history/groups/places;
+- CSS brace integrity remains enforced.
+
+Complete D1→G8 historical source chain after these changes: **PASS**.
+
+DOCX QA: the updated User/Admin Guide renders to 23 pages. Pages 1–22 are pixel-identical to the previously visually accepted G8 render; page 23 was visually inspected and is clean.

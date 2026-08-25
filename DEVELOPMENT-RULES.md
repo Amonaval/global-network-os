@@ -390,3 +390,13 @@ From G2 onward, architecture work should be delivered as **coherent High-effort 
 7. Multi-value affiliations must remain lossless through UI, import and persistence.
 8. Every new released vertical requires feature catalog + composition + backend feature registry + Playground + Guide + Launch Control classification.
 9. G8 protects critical Family + Alumni foundations by hash. Any later modification requires an explicit compatibility justification and corresponding gate update.
+
+## Product experience closure rule (G8 R4+)
+
+A new released vertical is not UX-complete merely because the domain workflow works. Before release, verify:
+- shared navigation classes are actually applied (no browser-default controls);
+- responsive behavior is based on available container space where components can live inside split/narrow panes;
+- Playground is discoverable and read-only;
+- shared appearance themes do not make cards/forms/nav unreadable;
+- at least one living-network summary links structure to activity/community;
+- Family/Alumni protected foundations remain unchanged unless an explicit backward-compatible mission requires otherwise.
