@@ -5,7 +5,8 @@ import dynamic from "next/dynamic";
 import { ArrowLeft, ArrowRight, BookOpen, FileSpreadsheet, Heart, KeyRound, LogOut, PlayCircle, ShieldCheck, Sparkles, TreePine, UsersRound } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Member, Relationship } from "../lib/types";
-import { NetworkSettings, NETWORK_TEMPLATES } from "../lib/network";
+import { NetworkSettings } from "../lib/network";
+import { getVerticalDefinition } from "../app-shell/vertical-registry";
 import { useLanguage } from "../lib/i18n";
 const ImportModal = dynamic(() => import("./ImportModal"), { ssr: false });
 
@@ -45,14 +46,15 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
   const [busy, setBusy] = useState(false);
   const [showImport, setShowImport] = useState(false);
   const [error, setError] = useState("");
-  const familyTemplate = NETWORK_TEMPLATES.find((item) => item.id === "family") || NETWORK_TEMPLATES[0];
+  const familyVertical = getVerticalDefinition("family");
+  const familyLabels = familyVertical.legacyNetworkLabels;
 
   const create = async (mode: "empty" | "demo" | "import", members: Member[] = [], relationships: Relationship[] = []) => {
     setError("");
     if (!name.trim()) { setStep(1); setError(nameError); return; }
     setBusy(true);
     try {
-      await onCreate({ id: "network", name: name.trim(), description: description.trim(), entity_label: familyTemplate.entity_label, entity_label_plural: familyTemplate.entity_label_plural, level_label: familyTemplate.level_label, level_label_plural: familyTemplate.level_label_plural, parent_label: familyTemplate.parent_label, child_label: familyTemplate.child_label, peer_label: familyTemplate.peer_label, network_template: "family" }, mode, members, relationships);
+      await onCreate({ id: "network", name: name.trim(), description: description.trim(), entity_label: familyLabels.entityLabel, entity_label_plural: familyLabels.entityLabelPlural, level_label: familyLabels.levelLabel, level_label_plural: familyLabels.levelLabelPlural, parent_label: familyLabels.parentLabel, child_label: familyLabels.childLabel, peer_label: familyLabels.peerLabel, network_template: "family", vertical_kind: familyVertical.kind }, mode, members, relationships);
     } catch (e: any) { setError(e.message || "We could not create your family space. Please try again."); } finally { setBusy(false); }
   };
   const continueSetup=()=>{if(!name.trim()){setError(nameError);return;}setError("");setStep(2)};

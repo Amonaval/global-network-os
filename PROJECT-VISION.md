@@ -131,3 +131,9 @@ A future idea should be evaluated by asking:
 ## G0 architecture decision — 2026-08-25
 
 The capability-tree vision is now an architecture contract, not only a future idea. The platform will use typed composition with explicit verticals. Reuse will be earned at the lowest semantically correct layer and proven by a second consumer. Family kinship will not become the universal graph model, and Alumni will not be implemented by relabeling parent/child/spouse. See `G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md`.
+
+## G1.1 architecture becomes executable — 2026-08-25
+
+The G0 capability-tree decision now has its first physical code seam. Core owns a typed vertical contract; Family and Alumni are explicit definitions; app-shell owns composition. Family is still the only active product vertical and remains behaviorally unchanged. Alumni exists only as a typed skeleton with institutional-membership semantics.
+
+This is deliberately stronger than `NETWORK_TEMPLATES`: labels may configure presentation, but relationship meaning, authorization, matching, conflict resolution and workflow semantics remain typed domain/capability code.

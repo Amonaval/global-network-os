@@ -1148,3 +1148,22 @@ Priority verticals:
 7. Nonprofit / Volunteer Networks
 
 > **Build trusted networks from fragmented knowledge, reconcile identity and relationships safely, activate them through discovery and trusted connection intelligence, and reuse the same capability tree across multiple vertical products.**
+
+## 2026-08-25 — G1.1 Architecture Guardrails + Typed Vertical Registry
+
+**Status: IMPLEMENTED IN SOURCE / CLOSED AS NON-USER-FACING ARCHITECTURE MISSION / FULL BUILD VERIFY PENDING NORMAL DEPENDENCY ENVIRONMENT**
+
+Implemented the first physical capability-tree seam:
+- typed `NetworkVerticalKind` and `VerticalDefinition` contract in core;
+- explicit active Family vertical;
+- explicit Alumni skeleton using institutional-membership semantics rather than kinship relabeling;
+- app-shell registry with duplicate-registration protection and Family default;
+- optional runtime `vertical_kind` compatibility bridge with no database migration;
+- Family setup wired through the registry with the exact existing Member/Generation/Parent/Child/Spouse defaults;
+- dependency-direction source gate.
+
+No Family table, RPC, feature key, navigation, S3-A1 workflow or user-facing behavior was changed.
+
+Validation: G1.1 gate PASS; all existing source regression gates PASS; new architecture files compile independently under TypeScript 5.8.3. Full repository build remains to be rerun in the normal dependency/CI environment because dependency installation was unavailable/incomplete in this execution environment.
+
+**NEXT: G1.2 — Feature Runtime / Vertical Catalog Split.** Preserve Family feature keys and rollout defaults exactly.

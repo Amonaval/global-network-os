@@ -1,3 +1,6 @@
+import type { NetworkVerticalKind } from "../core/verticals/contracts";
+import { DEFAULT_VERTICAL_KIND, isRegisteredVerticalKind } from "../app-shell/vertical-registry";
+
 export type NetworkSettings = {
   id: string;
   network_id?: string;
@@ -15,10 +18,18 @@ export type NetworkSettings = {
   child_label: string;
   peer_label: string;
   network_template: string;
+  /** Typed runtime identity; optional until an additive persistence migration is justified. */
+  vertical_kind?: NetworkVerticalKind;
   self_edit_mode?: "review" | "safe_fields_direct";
   family_milestones_enabled?: boolean;
   photo_upload_enabled?: boolean;
 };
+
+export function resolveNetworkVerticalKind(network: Pick<NetworkSettings, "vertical_kind" | "network_template"> | null): NetworkVerticalKind {
+  if (isRegisteredVerticalKind(network?.vertical_kind)) return network.vertical_kind;
+  if (network?.network_template === "alumni") return "alumni";
+  return DEFAULT_VERTICAL_KIND;
+}
 
 export function getNetworkConfig(network: NetworkSettings | null) {
   return {
@@ -30,6 +41,7 @@ export function getNetworkConfig(network: NetworkSettings | null) {
     child_label: network?.child_label ?? "Child",
     peer_label: network?.peer_label ?? "Spouse",
     network_template: network?.network_template ?? "family",
+    vertical_kind: resolveNetworkVerticalKind(network),
     self_edit_mode: network?.self_edit_mode ?? "review",
     family_milestones_enabled: network?.family_milestones_enabled ?? true,
     photo_upload_enabled: network?.photo_upload_enabled ?? false,
@@ -138,6 +150,7 @@ export function saveLocalNetwork(
     child_label: settings.child_label ?? "Child",
     peer_label: settings.peer_label ?? "Spouse",
     network_template: settings.network_template ?? "family",
+    vertical_kind: settings.vertical_kind ?? resolveNetworkVerticalKind(settings),
     self_edit_mode: settings.self_edit_mode ?? "review",
     family_milestones_enabled: settings.family_milestones_enabled ?? true,
     photo_upload_enabled: settings.photo_upload_enabled ?? false,

@@ -727,3 +727,26 @@ Key conclusions:
 - S3-A2 is pre-classified so reusable seams can be used without delaying the Family activation experiment.
 
 **NEXT CODE MISSION: G1.1 — Architecture Guardrails + Typed Vertical Registry.** Preserve all Family behavior and existing RPC/link compatibility.
+
+## 2026-08-25 — G1.1 Architecture Guardrails + Typed Vertical Registry
+
+**G1.1: IMPLEMENTED IN SOURCE / CLOSED (NON-USER-FACING) / FULL BUILD VERIFY ENVIRONMENT-LIMITED**
+
+Delivered:
+- `core/verticals/contracts.ts` typed vertical/capability composition contract;
+- `verticals/family/definition.ts` active Family registration;
+- `verticals/alumni/definition.ts` Alumni skeleton only;
+- `app-shell/vertical-registry.ts` composition registry + uniqueness guard + Family default;
+- optional `NetworkSettings.vertical_kind` runtime compatibility resolution;
+- Family SetupScreen defaults sourced from the Family registry definition with identical existing values;
+- `validate:g1.1` dependency-direction and registration gate.
+
+Validation truth:
+- G1.1 architecture gate: PASS.
+- Every pre-existing source gate: PASS.
+- New G1.1 TS architecture layer: PASS under TypeScript 5.8.3.
+- Full `next build`: NOT CERTIFIED HERE because dependencies were not present and install did not complete; this is recorded as environment limitation rather than a passed build.
+
+Closure: Guide / Playground / Launch Control / What's New are N/A because G1.1 has intentionally no user-facing surface. Family behavior remains the stable contract.
+
+**NEXT CODE MISSION: G1.2 — Feature Runtime / Vertical Catalog Split.**

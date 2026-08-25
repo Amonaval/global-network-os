@@ -439,3 +439,28 @@ Binding codebase direction:
 Important current leaks to remove incrementally: `network_memberships.member_id` references `family_members`; `Member` mixes generic identity with Family-only fields; `NetworkRepository` is Family-domain heavy; `lib/remote.ts` is monolithic; `lib/features.ts` mixes rollout engine with Family catalog; and legacy `NETWORK_TEMPLATES` incorrectly imply domain semantics can be generalized by relabeling Parent/Child/Spouse.
 
 Approved first physical extraction is G1.1 architecture guardrails + typed vertical registry. S3-A1 physical generalization is explicitly deferred to G2.
+
+## G1.1 physical architecture seam — 2026-08-25
+
+New structure:
+
+```text
+core/verticals/contracts.ts
+verticals/family/definition.ts
+verticals/alumni/definition.ts
+app-shell/vertical-registry.ts
+scripts/g1-1-architecture-gate.mjs
+```
+
+Rules now enforced:
+- core defines vertical contracts but does not import explicit vertical implementations;
+- explicit verticals do not import each other;
+- app-shell owns composition/registration;
+- Family remains the default active vertical;
+- Alumni remains a skeleton and must not reuse kinship semantics merely through labels;
+- `vertical_kind` is currently a runtime compatibility field, not a required persisted database column;
+- legacy `network_template` remains for compatibility until additive migrations are justified.
+
+`components/SetupScreen.tsx` now obtains the existing Family setup labels through the Family vertical definition. Values are unchanged. `NETWORK_TEMPLATES` remains in `lib/network.ts` for compatibility and must not be treated as the new vertical architecture.
+
+Run `npm run validate:g1.1` with the normal source gates before accepting architecture changes.
