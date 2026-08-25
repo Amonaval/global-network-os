@@ -260,3 +260,29 @@ These closure checks do not convert unverified runtime behavior into VERIFIED. A
 - WHAT'S NEW: PENDING.
 - ROADMAP/STATUS: PASS for implementation checkpoint; must refresh after closure patch.
 - LIVE VERIFY: PENDING.
+
+---
+
+# G2 — Shared Identity, Claiming & Participation Foundation validation
+
+Date: 2026-08-25
+
+G2 is an architecture extraction release with no intended Family UX, RPC, RLS or database-schema behavior change.
+
+Automated validation completed:
+- complete historical source/regression gate suite through G1.4: PASS;
+- `validate:g2`: PASS;
+- all 147 historical `lib/remote.ts` facade exports preserved;
+- Family claiming and participation callers remain compatible with the facade;
+- Family adapters retain the existing verified-email, invitation, governed-contribution and participation RPC names;
+- Alumni identity/participation adapters contain no Family persistence/RPC reuse;
+- shared identity/participation runtime does not import Family/Alumni implementations;
+- focused TypeScript 5.8.3 no-emit compilation for the G2 architecture layer: PASS;
+- G2 gate JavaScript syntax check: PASS;
+- no G2 Supabase migration added.
+
+During extraction the new compatibility gate detected that the first participation move had accidentally included adjacent Family community group/event exports. Those functions were restored unchanged before release, demonstrating the value of the historical export snapshot gate.
+
+Full Next.js production build is **not certified in this workspace** because the dependency install did not complete before the execution timeout. This is recorded as an environment limitation, not a build pass or a confirmed application failure.
+
+Runtime verification is intentionally short; see `G2-RUNTIME-VERIFICATION-CHECKLIST.md`.

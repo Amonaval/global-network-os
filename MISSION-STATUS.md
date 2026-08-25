@@ -696,14 +696,15 @@ Create Family → Build together with relatives; Home quick-start → ask relati
 # Generic Platform Expansion Missions — 2026-08-25
 
 - **G0 — Trusted Network Architecture Blueprint:** ARCHITECTURE COMPLETE / 2026-08-25
-- **G1 — Shared Capability Extraction + Alumni Skeleton:** IN PROGRESS — G1.1/G1.2/G1.3 COMPLETE; G1.4 NEXT
-- **G2 — Distributed Network Construction Platform:** PLANNED
-- **G3 — Relationship Intelligence Platform:** PLANNED
-- **G4 — Alumni Network MVP:** PLANNED / FIRST COMMERCIAL SECOND VERTICAL
-- **G5 — Association Network:** FUTURE / HIGH COMMERCIAL PRIORITY
-- **G6 — Enterprise Relationship & Expertise Intelligence:** FUTURE / HIGH VALUE
-- **G7 — Founder / Investor / Industry Trusted Network:** FUTURE
-- **G8 — Clubs / Societies / Nonprofit / Volunteer Networks:** FUTURE
+- **G1 — First Shared Capability Extraction:** COMPLETE — G1.1/G1.2/G1.3/G1.4 CLOSED; planned G1.5 absorbed into G2
+- **G2 — Shared Identity, Claiming & Participation Foundation:** IMPLEMENTED IN SOURCE / CLOSED
+- **G3 — Network Construction Engine Extraction:** NEXT / HIGH-EFFORT CONSOLIDATED BATCH
+- **G4 — Vertical Runtime & App Composition:** PLANNED
+- **G5 — Alumni Network V1:** PLANNED / FIRST REAL SECOND VERTICAL
+- **G6 — Two-Vertical Architecture Proof & Hardening:** PLANNED / MANDATORY AFTER G5
+- **G7 — Generic Platform Productization:** EVIDENCE-GATED
+- **G8 — Commercial Platform Foundation:** EVIDENCE-GATED
+- **G9+ — Future Verticals & Ecosystem Scale:** FUTURE — association/professional/enterprise/founder/clubs/nonprofit scopes preserved
 
 Permanent lifecycle:
 **CLASSIFY → IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**
@@ -723,7 +724,7 @@ Key conclusions:
 - parent/child/spouse, generation ordering, lineage and kinship explanation belong to a KINSHIP intermediate domain layer rather than universal core.
 - Family memories/history/deceased/special-day/branch language stays explicit Family specialization.
 - `NETWORK_TEMPLATES` vocabulary substitution is not the architecture for Alumni; Alumni is an explicit second vertical.
-- S3-A1 is architecturally a future Distributed Network Construction capability but remains physically Family-specific until G2/Alumni evidence proves the shared contract.
+- S3-A1 is architecturally a future Distributed Network Construction capability and remains physically Family-specific until consolidated G3 extracts the workflow using the second-consumer evidence established by G2.
 - S3-A2 is pre-classified so reusable seams can be used without delaying the Family activation experiment.
 
 **NEXT CODE MISSION: G1.1 — Architecture Guardrails + Typed Vertical Registry.** Preserve all Family behavior and existing RPC/link compatibility.
@@ -847,4 +848,48 @@ Closure lifecycle:
 - [x] ROADMAP / STATUS
 - [x] CLOSE
 
-**NEXT CODE MISSION: G1.5 — Claiming Seam + Alumni Identity Skeleton.**
+**BATCHING UPDATE:** planned G1.5 was absorbed into consolidated G2 together with invitation and participation seams.
+
+
+## 2026-08-25 — G2 Shared Identity, Claiming & Participation Foundation
+
+**G2: IMPLEMENTED IN SOURCE / CLOSED / SHORT DEPLOYED SMOKE RECOMMENDED**
+
+Delivered as one consolidated High-effort batch:
+- `core/identity/contracts.ts` neutral vertical identity, account↔identity binding and claim contracts;
+- `core/participation/contracts.ts` neutral invitation, governed contribution and metrics contracts;
+- `capabilities/identity-claiming/runtime.ts` and `capabilities/participation/runtime.ts` adapter-independent runtimes;
+- Family verified-email claiming adapter over existing `get_my_claimable_profiles` / `claim_profile_by_verified_email`;
+- Family invitation/contribution/participation adapter over the existing production RPC set;
+- Family invitation/contribution transport shapes moved behind `lib/participation-types.ts` compatibility facade;
+- explicit Alumni institutional identity model + unavailable claiming/participation adapters, with no `family_members` or Family RPC reuse;
+- app-shell vertical capability composition;
+- G2 architecture/regression gate preserving all 147 historical `lib/remote.ts` exports.
+
+Validation truth:
+- every historical D1/V1/CR1/CR2/S1/S2/S3-A1 gate: PASS;
+- G1.1/G1.2/G1.3/G1.4/G2 gates: PASS;
+- 147/147 historical remote facade exports preserved;
+- focused strict TypeScript 5.8.3 compile for the complete G2 contract/runtime/adapter layer: PASS;
+- no post-044 migration introduced;
+- no accepted application file deleted;
+- full `next build`: NOT CERTIFIED HERE because `node_modules` is absent and `npm ci` timed out.
+
+No Family UI/navigation/copy/feature defaults/RPC/RLS/schema changed. User/Admin Guide is intentionally unchanged because there is no visible workflow change.
+
+Closure lifecycle:
+- [x] CLASSIFY
+- [x] IMPLEMENT
+- [x] VALIDATE
+- [x] GUIDE — architecture docs only; end-user guide N/A
+- [x] PLAYGROUND — existing behavior preserved; no artificial architecture screen
+- [x] LAUNCH CONTROL — existing behavior + feature-catalog drift guard preserved
+- [x] WHAT'S NEW — N/A
+- [x] ROADMAP / STATUS
+- [x] WHERE TO SEE THIS — existing Family claim/invite/Participation surfaces unchanged
+- [x] CLOSE
+- [ ] SHORT DEPLOYED SMOKE
+
+Quick runtime check: `G2-RUNTIME-VERIFICATION-CHECKLIST.md`. Full architecture record: `G2-SHARED-IDENTITY-CLAIMING-PARTICIPATION-FOUNDATION.md`.
+
+**NEXT CODE MISSION: G3 — Network Construction Engine Extraction.** Keep it one consolidated High-effort batch; do not split into G3.1/G3.2 unless a genuine security/migration boundary requires it.

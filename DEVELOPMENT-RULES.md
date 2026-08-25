@@ -328,3 +328,12 @@ Rules:
 - one vertical must not directly depend on another vertical's implementation;
 - keep strong generic primitives and explicit vertical semantics;
 - avoid giant metadata/configuration abstractions when explicit code is safer.
+
+## G-architecture batching rule — 2026-08-25
+
+From G2 onward, architecture work should be delivered as **coherent High-effort batches**, not fragmented into minor Gx.y missions merely because individual files can be extracted separately.
+
+- Absorb closely related identity/claiming/invitation/participation seams into one batch when they share the same architectural proof.
+- Prefer G2, G3, G4... over G2.1/G2.2/G2.3 unless a security, migration or release-risk boundary genuinely requires isolation.
+- Every G batch must preserve Family behavior, keep compatibility facades where needed, run all historical regression gates, update architecture/status/handoff docs, produce an affected-files artifact, and include only a short high-level runtime smoke checklist for invisible architecture changes.
+- Do not use batching as permission for a big-bang rewrite. A batch is coherent by capability boundary, not by file count.

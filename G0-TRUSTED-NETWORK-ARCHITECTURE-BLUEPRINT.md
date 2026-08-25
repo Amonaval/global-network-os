@@ -636,7 +636,7 @@ Recommended next implementation sequence:
 - zero RPC rename in this step;
 - move only core/runtime calls first.
 
-**G1.5 — Claiming seam + Alumni identity skeleton**
+**Historical planned G1.5 — Claiming seam + Alumni identity skeleton (absorbed into consolidated G2)**
 - shared claim contract;
 - Family adapter delegates to current behavior;
 - Alumni adapter/types without overbuilding Alumni UI.
@@ -687,6 +687,13 @@ As of 2026-08-25:
 - G1.2 feature runtime / vertical catalog split: COMPLETE;
 - G1.3 neutral network & membership contracts: COMPLETE;
 - G1.4 remote capability split behind compatibility facade: COMPLETE;
-- G1.5 claiming seam + Alumni identity skeleton: NEXT.
+- G1.5 claiming seam + Alumni identity skeleton: SUPERSEDED / DELIVERED INSIDE CONSOLIDATED G2.
 
 G1.3 confirms the original G0 classification: user↔network membership is Core, while `network_memberships.member_id -> family_members` is a Family compatibility link that must remain outside the neutral contract until a safe additive persistence evolution is justified. G1.4 confirms the transport strategy: move proven shared implementation downward into capability modules while preserving stable Family-facing compatibility exports and unchanged backend RPC names.
+
+
+## G2 implementation outcome — 2026-08-25
+
+The G0 classification of identity claiming, invitations and governed participation as shared-capability candidates is now physically implemented. Neutral contracts live under `core/identity` and `core/participation`; adapter-independent runtimes live under `capabilities/identity-claiming` and `capabilities/participation`; Family delegates to its existing verified-email/invitation/contribution RPCs through explicit adapters; Alumni supplies institutional identity/participation skeletons without using `family_members`.
+
+The previously planned fine-grained G1.5 claiming seam was intentionally absorbed into consolidated G2. S3-A1 construction extraction moves to G3 so the next architecture batch can address intake/staging/matching/conflict/provenance/commit as one coherent capability boundary.

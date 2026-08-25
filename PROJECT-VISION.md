@@ -158,3 +158,12 @@ G1.3 also adds a product-runtime integrity principle: frontend vertical catalogs
 The capability-tree architecture now extends through remote transport. Network context, launch/playground runtime and Platform Owner operations are reusable capability modules, while Family behavior continues through the stable `lib/remote.ts` compatibility surface.
 
 This establishes an important platform rule: **sharing a capability does not require renaming the deployed database or forcing every existing caller to migrate at once.** We can move implementation ownership downward while keeping compatibility upward. Family-specific claiming, kinship, memories, admin and construction remain explicit until a second consumer proves the right contract.
+
+
+## G2 identity and participation become shared capability contracts — 2026-08-25
+
+The platform now distinguishes three concepts that Family previously exposed through one implementation shape: **account membership**, **vertical identity/profile**, and **participation lifecycle**. Shared identity/claiming/invitation/contribution mechanics are typed capability contracts; Family keeps its existing secure backend through adapters; Alumni is represented explicitly with institutional identity semantics and no Family persistence reuse.
+
+This reinforces the platform thesis: reuse is earned at the lifecycle/mechanics layer while profile meaning and persistence remain vertical-specific. A future Alumni user may belong to the same Core network/membership runtime and use the same claiming/participation lifecycle without becoming a `family_member`.
+
+G2 also establishes the new delivery cadence for architecture work: coherent High-effort G batches rather than micro-extractions. The next proof is G3, where the S3-A1 distributed intake workflow will be separated into reusable construction mechanics plus Family/Alumni domain adapters.

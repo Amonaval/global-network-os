@@ -181,7 +181,10 @@ TypeScript target corrected to `es2017` in `tsconfig.json`.
 | `lib/types.ts` | Domain types: Member, Relationship, Submission, LifeEvent, Memory, Notification |
 | `lib/network.ts` | NetworkSettings type, getNetworkConfig(), NETWORK_TEMPLATES, local persistence |
 | `lib/supabase.ts` | Supabase client (anon key) |
-| `lib/remote.ts` | All Supabase data access (fetchRemoteState, fetchMemories, etc.) |
+| `capabilities/*` | Adapter-independent shared runtime/remote capabilities extracted from the legacy facade |
+| `verticals/family/*` | Family-specific adapters, catalogs and semantics that preserve existing RPC/schema behavior |
+| `verticals/alumni/*` | Explicit Alumni contracts/skeletons; never aliases for Family persistence/kinship |
+| `lib/remote.ts` | Compatibility facade + remaining Family-domain Supabase transport; proven shared seams delegate to capability/vertical adapters |
 | `lib/storage.ts` | Photo upload (returns path), resolveSignedUrls batch helper |
 | `lib/repository.ts` | Repository pattern — routes calls to remote or local store |
 | `lib/store.ts` | Local/demo persistence (localStorage) |
@@ -436,9 +439,9 @@ Binding codebase direction:
 - INTERMEDIATE KINSHIP DOMAIN: parent/child/spouse, generation ordering, ancestry/lineage and kinship explanations.
 - FAMILY VERTICAL: emotional Home, memories/history/deceased/special days, Family-specific intake language, Family admin/copy and kinship presentation.
 
-Important current leaks to remove incrementally: `network_memberships.member_id` references `family_members`; `Member` mixes generic identity with Family-only fields; `NetworkRepository` is Family-domain heavy; `lib/remote.ts` is monolithic; `lib/features.ts` mixes rollout engine with Family catalog; and legacy `NETWORK_TEMPLATES` incorrectly imply domain semantics can be generalized by relabeling Parent/Child/Spouse.
+Important remaining leaks to remove incrementally: `network_memberships.member_id` still references `family_members`; `Member` still mixes generic identity with Family-only fields; `NetworkRepository` remains Family-domain heavy; `lib/remote.ts` is now a partial compatibility facade but still contains substantial Family-domain transport; and legacy `NETWORK_TEMPLATES` still incorrectly imply domain semantics can be generalized by relabeling Parent/Child/Spouse. The former `lib/features.ts` mixed-runtime/catalog leak and the first identity/participation transport seams have been extracted.
 
-Approved first physical extraction is G1.1 architecture guardrails + typed vertical registry. S3-A1 physical generalization is explicitly deferred to G2.
+G1.1–G1.4 established the first physical seams. The formerly planned G1.5 claiming work was absorbed into the consolidated G2 identity/claiming/participation batch. S3-A1 physical generalization is now explicitly deferred to consolidated G3.
 
 ## G1.1 physical architecture seam — 2026-08-25
 
@@ -544,6 +547,44 @@ Rules now enforced:
 - deployed RPC names remain unchanged;
 - the G1.3 frontend↔backend feature-catalog drift guard is protected during transport refactors.
 
-Current extracted shared transport covers network context, launch/playground runtime and platform ownership only. Identity claiming is intentionally the next separate seam (G1.5).
+G1.4 extracted network context, launch/playground runtime and platform ownership. G2 now adds shared identity/claiming/participation contracts and Family adapters while keeping the deployed Family backend unchanged.
 
 Run `npm run validate:g1.4` plus all historical gates. Use `G1.4-RUNTIME-VERIFICATION-CHECKLIST.md` for the short deployed smoke check.
+
+
+## G2 shared identity / claiming / participation seam — 2026-08-25
+
+New structure:
+
+```text
+core/identity/contracts.ts
+core/participation/contracts.ts
+capabilities/identity-claiming/runtime.ts
+capabilities/participation/runtime.ts
+app-shell/vertical-capabilities.ts
+verticals/family/identity/claiming-adapter.ts
+verticals/family/participation/types.ts
+verticals/family/participation/adapter.ts
+verticals/alumni/identity/types.ts
+verticals/alumni/identity/claiming-adapter.ts
+verticals/alumni/participation/adapter.ts
+lib/remote.ts                                  # stable Family compatibility facade
+lib/participation-types.ts                     # stable Family type compatibility facade
+scripts/g2-shared-identity-participation-gate.mjs
+```
+
+Binding boundaries:
+- Core identity uses a `VerticalIdentityRef`; it does not universalize `member_id`.
+- Account↔identity binding is a neutral contract; current Family persistence remains the legacy `profiles.member_id` / `network_memberships.member_id` implementation detail.
+- Family verified-email claim adapter delegates to `get_my_claimable_profiles` + `claim_profile_by_verified_email` unchanged.
+- Family invitation/contribution adapter delegates to the existing invitation/contribution/participation RPCs unchanged.
+- Alumni identity expresses institution/program/department/graduation-year semantics and is an explicit unavailable skeleton until its own persistence/RLS exists.
+- Alumni adapters must never call Family RPCs or use `family_members`.
+- Family community groups/events remain Family/community semantics and were deliberately not generalized in G2.
+- app-shell composes vertical adapters; shared capability runtimes do not import vertical implementations.
+- all 147 historical `lib/remote.ts` exports remain compatibility-locked.
+- G2 adds no migration.
+
+Run `npm run validate:g2` plus every historical source gate. Use `G2-RUNTIME-VERIFICATION-CHECKLIST.md` only for the very short deployed smoke check. Full details: `G2-SHARED-IDENTITY-CLAIMING-PARTICIPATION-FOUNDATION.md`.
+
+**Next consolidated architecture batch: G3 — Network Construction Engine Extraction.**

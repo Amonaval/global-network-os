@@ -998,10 +998,10 @@ Permanent mission lifecycle becomes:
 
 **CLASSIFY → IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**
 
-G0 is closed in `G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md`. It establishes that the existing network tenancy/membership/rollout spine is genuinely reusable, while kinship relations, generations, lineage and Family experience remain explicit domain/vertical semantics. G1 begins with architecture guardrails + a typed vertical registry, then separates feature runtime from Family feature catalog, introduces neutral network/membership contracts, splits transport behind compatibility exports, and finally adds a claiming seam plus Alumni skeleton. S3-A1 construction is deliberately deferred to G2 rather than generalized prematurely.
+G0 is closed in `G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md`. It establishes that the existing network tenancy/membership/rollout spine is genuinely reusable, while kinship relations, generations, lineage and Family experience remain explicit domain/vertical semantics. G1 established architecture guardrails, typed vertical registration, separated feature runtime/catalogs, neutral network/membership contracts and remote compatibility seams. The formerly planned G1.5 claiming work was deliberately batched with invitations/participation into consolidated G2. S3-A1 construction is deliberately deferred to consolidated G3 rather than generalized prematurely.
 
 ## G1 — First Shared Capability Extraction + Alumni Skeleton
-**IN PROGRESS — G1.1 / G1.2 / G1.3 / G1.4 COMPLETE; G1.5 NEXT**
+**COMPLETE — G1.1 / G1.2 / G1.3 / G1.4 CLOSED; planned G1.5 absorbed into consolidated G2**
 
 Initial likely extraction candidates:
 - network tenancy;
@@ -1022,7 +1022,7 @@ Parallel deliverable:
 Directional KPI:
 > Alumni MVP should reuse roughly 60%+ of applicable runtime capability code if semantics genuinely support it.
 
-## G2 — Distributed Network Construction Platform
+## Historical pre-batching G2 — Distributed Network Construction Platform
 **PLANNED**
 
 Generalize S3-A1 beneath the existing Family implementation:
@@ -1034,7 +1034,7 @@ Adapters:
 - Alumni Batch/Department Intake
 - Association Chapter Intake
 
-## G3 — Relationship Intelligence Platform
+## Historical pre-batching G3 — Relationship Intelligence Platform
 **PLANNED**
 
 Shared:
@@ -1051,7 +1051,7 @@ Vertical semantics remain explicit:
 - Enterprise team/project/skill/collaboration;
 - Business founder/investor/advisor paths.
 
-## G4 — Alumni Network MVP
+## Historical pre-batching G4 — Alumni Network MVP
 **PLANNED / FIRST COMMERCIAL SECOND VERTICAL**
 
 Initial scope:
@@ -1071,7 +1071,7 @@ Initial scope:
 
 Do not attempt a full university ERP or broad donation suite in V1.
 
-## G5 — Professional / Trade / Community Association Vertical
+## Historical pre-batching G5 — Professional / Trade / Community Association Vertical
 **FUTURE / HIGH COMMERCIAL PRIORITY**
 
 Potential specialization:
@@ -1082,7 +1082,7 @@ Potential specialization:
 - opportunities;
 - events/introductions.
 
-## G6 — Enterprise Relationship & Expertise Intelligence
+## Historical pre-batching G6 — Enterprise Relationship & Expertise Intelligence
 **FUTURE / HIGH VALUE / HIGHER COMPLEXITY**
 
 Potential specialization:
@@ -1095,7 +1095,7 @@ Potential specialization:
 - internal opportunities;
 - SSO/HRIS/security.
 
-## G7 — Founder / Investor / Industry Trusted Network
+## Historical pre-batching G7 — Founder / Investor / Industry Trusted Network
 **FUTURE**
 
 Potential specialization:
@@ -1104,7 +1104,7 @@ Potential specialization:
 - warm-introduction paths;
 - expertise/opportunity discovery.
 
-## G8 — Clubs / Societies / Nonprofit / Volunteer Networks
+## Historical pre-batching G8 — Clubs / Societies / Nonprofit / Volunteer Networks
 **FUTURE**
 
 Potential specialization:
@@ -1215,4 +1215,44 @@ Validation: all historical gates + G1.1–G1.4 PASS; focused TypeScript 5.8.3 co
 
 See `G1.4-REMOTE-CAPABILITY-SPLIT.md` and `G1.4-RUNTIME-VERIFICATION-CHECKLIST.md`.
 
-**NEXT: G1.5 — Claiming Seam + Alumni Identity Skeleton.** Prove shared claiming via typed adapters while preserving current Family claiming behavior and avoiding a destructive membership/profile schema rewrite.
+**BATCHING UPDATE:** the planned G1.5 claiming seam was absorbed into consolidated G2 together with invitations and governed participation. No capability was dropped.
+
+
+# Consolidated G.x Architecture Roadmap — Authoritative from 2026-08-25
+
+The earlier G2–G8 numbering above is preserved as historical planning context. After G1.4, architecture work was intentionally rebundled into larger High-effort missions to avoid micro-extraction churn. **This section is the authoritative current G.x sequence.**
+
+| Mission | Status | Consolidated scope |
+|---|---|---|
+| **G2 — Shared Identity, Claiming & Participation Foundation** | **IMPLEMENTED IN SOURCE / CLOSED** | Neutral identity + binding contracts; shared claim lifecycle; invitation/governed-contribution/participation contracts; Family adapters over existing RPCs; explicit Alumni identity/participation skeleton; compatibility gates. |
+| **G3 — Network Construction Engine Extraction** | **NEXT** | Extract S3-A1 workflow mechanics: intake session, staged entities/edges, deterministic matching, decisions/conflicts, provenance, validation and commit contracts. Keep Family kinship semantics in Family adapter; add minimum Alumni batch/department adapter. |
+| **G4 — Vertical Runtime & App Composition** | **PLANNED** | Vertical manifests/capability composition, navigation/feature/guide/playground/launch/what's-new registration; reduce Family assumptions in app-shell without weakening Family UX. |
+| **G5 — Alumni Network V1** | **PLANNED / FIRST REAL SECOND VERTICAL** | Institution/batch/program identity, profiles, directory/search, onboarding/import, claiming, invitations, cohort connections, basic Alumni Home/Admin, privacy, Guide/Playground/Launch Control. |
+| **G6 — Two-Vertical Architecture Proof & Hardening** | **PLANNED / MANDATORY AFTER G5** | Family + Alumni isolation, RLS/security, migration compatibility, performance, accidental coupling removal, relationship-intelligence proof, deployment/runtime certification. |
+| **G7 — Generic Platform Productization** | **EVIDENCE-GATED** | Network creation by vertical, capability packs, reusable admin/runtime infrastructure, extension contracts, third-vertical readiness; preserves association/professional/founder/enterprise roadmap items. |
+| **G8 — Commercial Platform Foundation** | **EVIDENCE-GATED** | Plans/entitlements, quotas/storage policy, usage/metering, paid capability packs, platform operations and monetization boundaries. |
+| **G9+ — Future Verticals & Ecosystem Scale** | **FUTURE** | Professional/trade associations, enterprise expertise, founder/investor, clubs/societies/nonprofit, integrations/APIs/white-label/extension ecosystem where evidence supports them. |
+
+## G2 — Shared Identity, Claiming & Participation Foundation — 2026-08-25
+
+**Status: IMPLEMENTED IN SOURCE / CLOSED AS CONSOLIDATED NON-USER-FACING ARCHITECTURE BATCH**
+
+Delivered in one batch rather than G1.5/G1.6/G1.7:
+- neutral `core/identity` contracts for vertical identity, claim eligibility/request/result and account↔identity binding;
+- neutral `core/participation` invitation, contribution-prompt and metrics contracts;
+- adapter-independent claiming + participation runtimes;
+- Family claiming adapter delegating to existing verified-email RPCs unchanged;
+- Family invitation/contribution/participation adapter delegating to existing RPCs unchanged;
+- Family transport type compatibility facade;
+- explicit Alumni institutional identity + claiming/participation skeletons with no `family_members` reuse;
+- app-shell composition proving two consumers;
+- compatibility lock preserving all 147 historical remote exports;
+- `validate:g2` dependency/contract/no-fake-Alumni-DB gate.
+
+No migration, RLS change, RPC rename, feature-key/default change or Family UX change was introduced. Family community groups/events and S3-A1 construction remain intentionally un-generalized in G2.
+
+Validation: every historical D1/V1/CR/S1/S2/S3-A1 gate + G1.1–G1.4 + G2 PASS; focused strict TypeScript 5.8.3 compile PASS. Full Next.js build is not claimed because `npm ci` timed out in this dependency-less execution workspace.
+
+See `G2-SHARED-IDENTITY-CLAIMING-PARTICIPATION-FOUNDATION.md` and `G2-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+**NEXT: G3 — Network Construction Engine Extraction.** Do it as one consolidated High-effort batch, not G3.1/G3.2 micro-missions.

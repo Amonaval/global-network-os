@@ -28,7 +28,8 @@
     "validate:g1.1": "node scripts/g1-1-architecture-gate.mjs",
     "validate:g1.2": "node scripts/g1-2-feature-runtime-gate.mjs",
     "validate:g1.3": "node scripts/g1-3-network-membership-gate.mjs",
-    "validate:g1.4": "node scripts/g1-4-remote-capability-gate.mjs"
+    "validate:g1.4": "node scripts/g1-4-remote-capability-gate.mjs",
+    "validate:g2": "node scripts/g2-shared-identity-participation-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",
