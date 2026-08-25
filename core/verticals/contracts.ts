@@ -5,6 +5,7 @@ export type NetworkVerticalKind = "family" | "alumni";
 export type VerticalCapabilityId =
   | "network.context"
   | "network.membership"
+  | "network.construction"
   | "runtime.launch-control"
   | "runtime.guide"
   | "runtime.playground"

@@ -698,8 +698,8 @@ Create Family → Build together with relatives; Home quick-start → ask relati
 - **G0 — Trusted Network Architecture Blueprint:** ARCHITECTURE COMPLETE / 2026-08-25
 - **G1 — First Shared Capability Extraction:** COMPLETE — G1.1/G1.2/G1.3/G1.4 CLOSED; planned G1.5 absorbed into G2
 - **G2 — Shared Identity, Claiming & Participation Foundation:** IMPLEMENTED IN SOURCE / CLOSED
-- **G3 — Network Construction Engine Extraction:** NEXT / HIGH-EFFORT CONSOLIDATED BATCH
-- **G4 — Vertical Runtime & App Composition:** PLANNED
+- **G3 — Network Construction Engine Extraction:** IMPLEMENTED IN SOURCE / CLOSED
+- **G4 — Vertical Runtime & App Composition:** NEXT / HIGH-EFFORT CONSOLIDATED BATCH
 - **G5 — Alumni Network V1:** PLANNED / FIRST REAL SECOND VERTICAL
 - **G6 — Two-Vertical Architecture Proof & Hardening:** PLANNED / MANDATORY AFTER G5
 - **G7 — Generic Platform Productization:** EVIDENCE-GATED
@@ -892,4 +892,40 @@ Closure lifecycle:
 
 Quick runtime check: `G2-RUNTIME-VERIFICATION-CHECKLIST.md`. Full architecture record: `G2-SHARED-IDENTITY-CLAIMING-PARTICIPATION-FOUNDATION.md`.
 
-**NEXT CODE MISSION: G3 — Network Construction Engine Extraction.** Keep it one consolidated High-effort batch; do not split into G3.1/G3.2 unless a genuine security/migration boundary requires it.
+**G3 has been completed as one consolidated batch. NEXT CODE MISSION: G4 — Vertical Runtime & App Composition.**
+
+
+## 2026-08-25 — G3 Network Construction Engine Extraction
+
+**G3: IMPLEMENTED IN SOURCE / CLOSED / SHORT DEPLOYED SMOKE RECOMMENDED**
+
+Delivered:
+- neutral construction source/provenance/session/access/staged entity+edge/match/decision/conflict/validation/commit contracts;
+- adapter-independent construction runtime;
+- Family construction adapter owning all historical S3-A1 RPCs unchanged;
+- Family intake type ownership moved under the Family vertical with `lib/family-intake-types.ts` compatibility preserved;
+- explicit Alumni institutional construction types + skeleton adapter with zero Family persistence/kinship reuse;
+- app-shell construction composition;
+- `network.construction` typed capability;
+- `validate:g3` including 147-export preservation and 234-file accepted-baseline deletion protection.
+
+Validation truth:
+- every historical D1/V1/CR/S1/S2/S3-A1 gate: PASS;
+- G1.1/G1.2/G1.3/G1.4/G2/G3 gates: PASS;
+- focused strict TypeScript 5.8.3 compile: PASS;
+- focused runtime delegation/skeleton guard assertion: PASS;
+- no G3 migration/RPC/RLS/Family UX change.
+
+Closure lifecycle:
+- [x] CLASSIFY
+- [x] IMPLEMENT
+- [x] VALIDATE
+- [x] GUIDE N/A for new user-facing content
+- [x] PLAYGROUND existing S3-A1 experience unchanged
+- [x] LAUNCH CONTROL existing `contribute.branch_intake` unchanged
+- [x] WHAT'S NEW N/A
+- [x] ROADMAP / STATUS
+- [x] CLOSE
+- [ ] SHORT DEPLOYED SMOKE
+
+**NEXT CODE MISSION: G4 — Vertical Runtime & App Composition.**

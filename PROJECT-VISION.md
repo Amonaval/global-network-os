@@ -167,3 +167,12 @@ The platform now distinguishes three concepts that Family previously exposed thr
 This reinforces the platform thesis: reuse is earned at the lifecycle/mechanics layer while profile meaning and persistence remain vertical-specific. A future Alumni user may belong to the same Core network/membership runtime and use the same claiming/participation lifecycle without becoming a `family_member`.
 
 G2 also establishes the new delivery cadence for architecture work: coherent High-effort G batches rather than micro-extractions. The next proof is G3, where the S3-A1 distributed intake workflow will be separated into reusable construction mechanics plus Family/Alumni domain adapters.
+
+
+## G3 network construction becomes a shared lifecycle — 2026-08-25
+
+The platform can now describe how a trusted network is assembled without making kinship the universal model. Source/session/access, staging, candidate identity resolution, decisions, conflicts, provenance, validation and commit are shared construction concepts; Family parent/child/spouse, generation/lineage rules and canonical Family graph commit remain explicit Family/Kinship semantics.
+
+This is a major proof of the capability-tree thesis: **the workflow can be shared while the meaning and integrity rules remain vertical-specific**. Alumni now supplies institutional/batch/program construction semantics as a non-persistent second-consumer skeleton, proving the contract without forcing Alumni into `family_members`.
+
+The next platform proof is G4: compose these capabilities through a cleaner vertical runtime/app shell so navigation, features, Guide, Playground, Launch Control and What's New can be vertical-owned without scattering Family assumptions through the shell.

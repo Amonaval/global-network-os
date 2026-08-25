@@ -697,3 +697,12 @@ G1.3 confirms the original G0 classification: user↔network membership is Core,
 The G0 classification of identity claiming, invitations and governed participation as shared-capability candidates is now physically implemented. Neutral contracts live under `core/identity` and `core/participation`; adapter-independent runtimes live under `capabilities/identity-claiming` and `capabilities/participation`; Family delegates to its existing verified-email/invitation/contribution RPCs through explicit adapters; Alumni supplies institutional identity/participation skeletons without using `family_members`.
 
 The previously planned fine-grained G1.5 claiming seam was intentionally absorbed into consolidated G2. S3-A1 construction extraction moves to G3 so the next architecture batch can address intake/staging/matching/conflict/provenance/commit as one coherent capability boundary.
+
+
+## G3 implementation outcome — 2026-08-25
+
+The G0 classification of S3-A1 as **architecturally shared, physically Family-specific** has now been executed safely. Shared construction contracts/runtime cover source/session/access, staged entity/edge envelopes, candidate/decision/conflict/provenance, validation and commit mechanics. The current Family implementation remains authoritative behind an adapter using the unchanged migration 043 RPC/table/security model.
+
+Kinship scoring context, parent/child/spouse, generation ordering and lineage/cycle integrity remain outside Core. Alumni contributes institutional/batch/program construction semantics only as a skeleton and uses no Family persistence. This confirms the G0 capability-tree rule: share workflow at the lowest proven layer; keep domain truth explicit.
+
+G4 should now focus on app-shell/vertical composition, not reopen the construction schema or rename deployed Family RPCs.

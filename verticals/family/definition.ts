@@ -8,7 +8,7 @@ export const FAMILY_VERTICAL = {
   themeToken: "family-warm",
   status: "active",
   capabilities: [
-    "network.context", "network.membership", "runtime.launch-control", "runtime.guide",
+    "network.context", "network.membership", "network.construction", "runtime.launch-control", "runtime.guide",
     "runtime.playground", "runtime.whats-new", "identity.claiming", "identity.invitations",
     "identity.privacy", "contribution.governed", "community.groups-events", "notifications.digest",
     "domain.kinship",

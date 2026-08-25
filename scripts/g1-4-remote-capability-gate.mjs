@@ -17,6 +17,7 @@ const required = [
   "components/FounderLaunchConsole.tsx",
   "supabase/migrations/044_g1_3_feature_catalog_integrity.sql",
   "verticals/family/features/catalog.ts",
+  "verticals/family/construction/adapter.ts",
 ];
 for (const file of required) {
   if (!fs.existsSync(path.join(root, file))) fail(`missing ${file}`);
@@ -29,6 +30,7 @@ const ownerRemote = read("capabilities/platform-ownership/remote.ts");
 const founder = read("components/FounderLaunchConsole.tsx");
 const migration = read("supabase/migrations/044_g1_3_feature_catalog_integrity.sql");
 const catalog = read("verticals/family/features/catalog.ts");
+const familyConstruction = read("verticals/family/construction/adapter.ts");
 
 for (const [name, source] of [
   ["network-context", networkRemote],
@@ -69,10 +71,13 @@ if (!facade.includes('../capabilities/network-context/remote') ||
   fail("lib/remote.ts is not acting as the G1.4 compatibility facade");
 }
 
-// G1.4 intentionally leaves Family semantics in the legacy facade.
-for (const familyRpc of ["create_family", "get_family_memberships", "get_family_intake_admin_dashboard", "get_visible_family_members"]) {
+// Family semantics that remain outside later extracted seams still live in the legacy facade.
+for (const familyRpc of ["create_family", "get_family_memberships", "get_visible_family_members"]) {
   if (!facade.includes(`\"${familyRpc}\"`)) fail(`Family RPC ${familyRpc} was moved or removed prematurely`);
 }
+// G3 is allowed to move the already-proven S3-A1 transport behind the Family construction adapter.
+if (!facade.includes('verticals/family/construction/adapter') || !familyConstruction.includes('"get_family_intake_admin_dashboard"'))
+  fail("Family intake transport is neither preserved in facade nor owned by the G3 Family construction adapter");
 
 function exportedNames(source) {
   const names = new Set();

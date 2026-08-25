@@ -587,4 +587,37 @@ Binding boundaries:
 
 Run `npm run validate:g2` plus every historical source gate. Use `G2-RUNTIME-VERIFICATION-CHECKLIST.md` only for the very short deployed smoke check. Full details: `G2-SHARED-IDENTITY-CLAIMING-PARTICIPATION-FOUNDATION.md`.
 
-**Next consolidated architecture batch: G3 — Network Construction Engine Extraction.**
+**G3 construction extraction is complete. Next consolidated architecture batch: G4 — Vertical Runtime & App Composition.**
+
+
+## G3 network-construction seam — 2026-08-25
+
+New structure:
+
+```text
+core/construction/contracts.ts
+capabilities/construction/runtime.ts
+verticals/family/construction/types.ts
+verticals/family/construction/adapter.ts
+verticals/alumni/construction/types.ts
+verticals/alumni/construction/adapter.ts
+app-shell/vertical-capabilities.ts
+lib/remote.ts                         # Family compatibility facade
+lib/family-intake-types.ts            # Family type compatibility facade
+scripts/g3-network-construction-gate.mjs
+scripts/g3-accepted-source-baseline.txt
+```
+
+Binding boundaries:
+- shared construction owns lifecycle/envelope/provenance/validation/commit mechanics, not Family relationship meaning;
+- Family S3-A1 SQL remains the authoritative scoring/kinship graph/atomic commit implementation;
+- all historical `family_intake_*` RPC names remain unchanged inside the Family adapter;
+- current Family S3-A1 UI continues importing from `lib/remote.ts` and `lib/family-intake-types.ts`;
+- Alumni construction is institutional and persistence-disabled; it may not use Family tables/RPCs/parent-child-spouse/generation semantics;
+- app-shell composes Family/Alumni construction runtimes; Core/shared modules never compose verticals;
+- `network.construction` is now a typed capability;
+- G3 adds no migration.
+
+Run `npm run validate:g3` plus every historical gate. Use `G3-RUNTIME-VERIFICATION-CHECKLIST.md` for the short deployed smoke. Full details: `G3-NETWORK-CONSTRUCTION-ENGINE-EXTRACTION.md`.
+
+**Next consolidated architecture batch: G4 — Vertical Runtime & App Composition.**

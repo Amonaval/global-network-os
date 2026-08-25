@@ -337,3 +337,12 @@ From G2 onward, architecture work should be delivered as **coherent High-effort 
 - Prefer G2, G3, G4... over G2.1/G2.2/G2.3 unless a security, migration or release-risk boundary genuinely requires isolation.
 - Every G batch must preserve Family behavior, keep compatibility facades where needed, run all historical regression gates, update architecture/status/handoff docs, produce an affected-files artifact, and include only a short high-level runtime smoke checklist for invisible architecture changes.
 - Do not use batching as permission for a big-bang rewrite. A batch is coherent by capability boundary, not by file count.
+
+
+## Network construction extraction rule — G3+
+
+- Shared construction may own source/session/access/staging/match-decision/conflict/provenance/validation/commit **mechanics**.
+- Vertical/domain adapters own relationship meaning, scoring/context policy and canonical graph integrity rules until a second real implementation proves a lower common layer.
+- Never move parent/child/spouse, generation/lineage or `family_members` persistence into Core merely to make an importer look generic.
+- Existing production construction RPCs may remain vertical-named behind adapters; compatibility is more important than cosmetic database renaming.
+- A skeleton vertical must fail closed before persistence exists.

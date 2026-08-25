@@ -1225,8 +1225,8 @@ The earlier G2–G8 numbering above is preserved as historical planning context.
 | Mission | Status | Consolidated scope |
 |---|---|---|
 | **G2 — Shared Identity, Claiming & Participation Foundation** | **IMPLEMENTED IN SOURCE / CLOSED** | Neutral identity + binding contracts; shared claim lifecycle; invitation/governed-contribution/participation contracts; Family adapters over existing RPCs; explicit Alumni identity/participation skeleton; compatibility gates. |
-| **G3 — Network Construction Engine Extraction** | **NEXT** | Extract S3-A1 workflow mechanics: intake session, staged entities/edges, deterministic matching, decisions/conflicts, provenance, validation and commit contracts. Keep Family kinship semantics in Family adapter; add minimum Alumni batch/department adapter. |
-| **G4 — Vertical Runtime & App Composition** | **PLANNED** | Vertical manifests/capability composition, navigation/feature/guide/playground/launch/what's-new registration; reduce Family assumptions in app-shell without weakening Family UX. |
+| **G3 — Network Construction Engine Extraction** | **IMPLEMENTED IN SOURCE / CLOSED** | Shared construction lifecycle contracts/runtime; Family S3-A1 adapter over unchanged RPCs; Alumni institutional construction skeleton; compatibility/deletion gates; no schema rewrite. |
+| **G4 — Vertical Runtime & App Composition** | **NEXT / HIGH-EFFORT CONSOLIDATED BATCH** | Vertical manifests/capability composition, navigation/feature/guide/playground/launch/what's-new registration; reduce Family assumptions in app-shell without weakening Family UX. |
 | **G5 — Alumni Network V1** | **PLANNED / FIRST REAL SECOND VERTICAL** | Institution/batch/program identity, profiles, directory/search, onboarding/import, claiming, invitations, cohort connections, basic Alumni Home/Admin, privacy, Guide/Playground/Launch Control. |
 | **G6 — Two-Vertical Architecture Proof & Hardening** | **PLANNED / MANDATORY AFTER G5** | Family + Alumni isolation, RLS/security, migration compatibility, performance, accidental coupling removal, relationship-intelligence proof, deployment/runtime certification. |
 | **G7 — Generic Platform Productization** | **EVIDENCE-GATED** | Network creation by vertical, capability packs, reusable admin/runtime infrastructure, extension contracts, third-vertical readiness; preserves association/professional/founder/enterprise roadmap items. |
@@ -1255,4 +1255,21 @@ Validation: every historical D1/V1/CR/S1/S2/S3-A1 gate + G1.1–G1.4 + G2 PASS; 
 
 See `G2-SHARED-IDENTITY-CLAIMING-PARTICIPATION-FOUNDATION.md` and `G2-RUNTIME-VERIFICATION-CHECKLIST.md`.
 
-**NEXT: G3 — Network Construction Engine Extraction.** Do it as one consolidated High-effort batch, not G3.1/G3.2 micro-missions.
+**G3 is now implemented and closed in source. NEXT: G4 — Vertical Runtime & App Composition.** Keep it one consolidated High-effort batch.
+
+
+## G3 — Network Construction Engine Extraction — 2026-08-25
+
+**Status: IMPLEMENTED IN SOURCE / CLOSED AS CONSOLIDATED NON-USER-FACING ARCHITECTURE BATCH**
+
+The construction seam proven by S3-A1 is now explicit: neutral source/session/access/staged entity+edge/candidate/decision/conflict/provenance/validation/commit contracts live under `core/construction`, adapter-independent orchestration lives under `capabilities/construction`, and app-shell composes vertical adapters.
+
+Family keeps the exact deployed `family_intake_*` RPC/table/RLS behavior behind `verticals/family/construction/adapter.ts`; current Family UI and `lib/remote.ts` / `lib/family-intake-types.ts` imports remain compatible. Parent/child/spouse, generation ordering, lineage/cycle validation, branch copy and canonical `family_members` commit semantics remain Family/Kinship-specific.
+
+Alumni contributes institution/batch/program/department and batchmate/classmate/mentor/professional-connection semantics only as a persistence-disabled skeleton. It does not reuse Family tables/RPCs/kinship.
+
+No migration was added. All historical gates through G3 pass; 147 historical remote exports and 234 accepted G2 files are compatibility-locked.
+
+See `G3-NETWORK-CONSTRUCTION-ENGINE-EXTRACTION.md`, `G3-RELEASE-MANIFEST.md` and `G3-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+**NEXT: G4 — Vertical Runtime & App Composition.**

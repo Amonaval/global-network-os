@@ -94,6 +94,18 @@ export {
   trackPublicParticipation,
 } from "../verticals/family/participation/adapter";
 
+// G3 compatibility facade: Family distributed-intake transport now lives in the Family construction adapter.
+export {
+  createFamilyIntakeSession,
+  createFamilyIntakeLink,
+  fetchFamilyIntakePreview,
+  submitFamilyIntake,
+  fetchFamilyIntakeDashboard,
+  decideFamilyIntakeMatch,
+  commitFamilyIntakeBranch,
+  revokeFamilyIntakeLink,
+} from "../verticals/family/construction/adapter";
+
 export async function enterFamilyLobby(){if(!supabase)return;const {error}=await supabase.rpc("enter_family_lobby");if(error)throw error;}
 export async function leaveCurrentFamily():Promise<"left"|"archived">{if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("leave_current_family");if(error)throw error;return data as "left"|"archived";}
 
@@ -700,14 +712,3 @@ export async function submitGuideFeedback(input:GuideFeedbackInput){if(!supabase
 export async function fetchPlatformGuideFeedback(status?:string):Promise<PlatformGuideFeedback[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_platform_guide_feedback",{p_status:status||null});if(error)throw error;return (data||[]) as PlatformGuideFeedback[];}
 export async function updatePlatformGuideFeedbackStatus(id:string,status:string){if(!supabase)return;const {error}=await supabase.rpc("set_guide_feedback_status",{p_feedback_id:id,p_status:status});if(error)throw error;}
 export async function fetchGuideFeedbackSignals():Promise<{guide_key:string;feedback_type:string;family_count:number;feedback_count:number}[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_guide_feedback_signals");if(error)throw error;return (data||[]) as any[];}
-
-// S3-A1 — Distributed Family Intake. Contribution tokens never grant family read access.
-import type {FamilyIntakeDashboard,FamilyIntakePreview,IntakePersonInput,IntakeRelationshipInput} from "./family-intake-types";
-export async function createFamilyIntakeSession(title="Build our family together"){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("create_family_intake_session",{p_title:title});if(error)throw error;return String(data);}
-export async function createFamilyIntakeLink(sessionId:string,representativeLabel="",days=30){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("create_family_intake_link",{p_session_id:sessionId,p_representative_label:representativeLabel||null,p_days:days});if(error)throw error;return String(data);}
-export async function fetchFamilyIntakePreview(token:string):Promise<FamilyIntakePreview>{if(!supabase)throw new Error("This contribution form needs the shared Family Network service.");const {data,error}=await supabase.rpc("get_family_intake_preview",{p_token:token});if(error)throw error;return data as FamilyIntakePreview;}
-export async function submitFamilyIntake(token:string,people:IntakePersonInput[],relationships:IntakeRelationshipInput[]){if(!supabase)throw new Error("This contribution form needs the shared Family Network service.");const {data,error}=await supabase.rpc("submit_family_intake",{p_token:token,p_people:people,p_relationships:relationships});if(error)throw error;return data as {people_reported:number;relationships_reported:number;message:string};}
-export async function fetchFamilyIntakeDashboard():Promise<FamilyIntakeDashboard>{if(!supabase)return {sessions:[],branches:[],people:[],candidates:[],conflicts:[],metrics:{links_opened:0,submissions:0,people_reported:0,branches_committed:0}};const {data,error}=await supabase.rpc("get_family_intake_admin_dashboard");if(error)throw error;return data as FamilyIntakeDashboard;}
-export async function decideFamilyIntakeMatch(candidateId:string,decision:"same"|"different"|"not_sure"){if(!supabase)return;const {error}=await supabase.rpc("decide_family_intake_match",{p_candidate_id:candidateId,p_decision:decision});if(error)throw error;}
-export async function commitFamilyIntakeBranch(accessId:string){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("commit_family_intake_branch",{p_access_id:accessId});if(error)throw error;return data as {created_people:number;matched_people:number;relationships:number};}
-export async function revokeFamilyIntakeLink(accessId:string){if(!supabase)return;const {error}=await supabase.rpc("revoke_family_intake_link",{p_access_id:accessId});if(error)throw error;}

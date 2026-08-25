@@ -7,6 +7,7 @@ const form=read('components/FamilyBranchIntakeForm.tsx');
 const admin=read('components/FamilyIntakeAdmin.tsx');
 const app=read('components/NetworkApp.tsx');
 const remote=read('lib/remote.ts');
+const construction=read('verticals/family/construction/adapter.ts');
 const features=read('verticals/family/features/catalog.ts');
 add('staging tables', ['family_intake_sessions','family_intake_access','family_intake_people','family_intake_relationships','family_intake_match_candidates','family_intake_decisions','family_intake_conflicts','family_intake_events'].every(x=>migration.includes(`public.${x}`)));
 add('token hashes only', migration.includes("digest(raw_token,'sha256')") && migration.includes("token_hash bytea") && !migration.includes('raw_token text not null'));
@@ -21,7 +22,7 @@ add('pilot launch key', features.includes('contribute.branch_intake') && migrati
 add('standalone mobile form', form.includes('Help build') && form.includes('Grandparents') && form.includes('Send my family branch'));
 add('owner review UI', admin.includes('Possible overlaps') && admin.includes('Same') && admin.includes('Different') && admin.includes('Not sure'));
 add('family creation handoff', app.includes('Build together · Recommended') && app.includes('setShowFamilyIntake(true)'));
-add('remote APIs', ['createFamilyIntakeSession','createFamilyIntakeLink','fetchFamilyIntakePreview','submitFamilyIntake','fetchFamilyIntakeDashboard','decideFamilyIntakeMatch','commitFamilyIntakeBranch'].every(x=>remote.includes(`function ${x}`)));
+add('remote APIs', ['createFamilyIntakeSession','createFamilyIntakeLink','fetchFamilyIntakePreview','submitFamilyIntake','fetchFamilyIntakeDashboard','decideFamilyIntakeMatch','commitFamilyIntakeBranch'].every(x=>construction.includes(`function ${x}`)) && remote.includes('../verticals/family/construction/adapter'));
 const failed=checks.filter(([,ok])=>!ok);
 checks.forEach(([name,ok])=>console.log(`${ok?'PASS':'FAIL'} ${name}`));
 console.log(`\n${checks.length-failed.length}/${checks.length} PASS`);

@@ -286,3 +286,28 @@ During extraction the new compatibility gate detected that the first participati
 Full Next.js production build is **not certified in this workspace** because the dependency install did not complete before the execution timeout. This is recorded as an environment limitation, not a build pass or a confirmed application failure.
 
 Runtime verification is intentionally short; see `G2-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+
+# G3 — Network Construction Engine Extraction validation
+
+Date: 2026-08-25
+
+G3 is an architecture extraction release with no intended Family UX, RPC, RLS or database-schema behavior change.
+
+Automated validation completed:
+- complete historical source/regression gate suite through G2: PASS;
+- `validate:g3`: PASS;
+- all 147 historical `lib/remote.ts` facade exports preserved;
+- all 234 accepted G2 baseline files still present;
+- all eight historical S3-A1 Family intake RPCs now owned by the Family construction adapter and absent as direct implementations from `lib/remote.ts`;
+- existing S3-A1 contributor/Admin callers remain on compatibility paths;
+- Core/shared construction code contains no Family/Alumni implementation dependency or Family/Kinship persistence vocabulary;
+- Alumni construction skeleton contains no Family table/RPC/kinship reuse;
+- G2 identity/participation contracts remain intact;
+- focused strict TypeScript 5.8.3 no-emit compilation for the G3 architecture layer: PASS;
+- focused executable construction-runtime delegation + skeleton-blocking assertion: PASS;
+- no G3 Supabase migration added.
+
+Full Next.js production build is **not certified in this workspace** because installed dependencies are absent. This is an environment limitation, not a build PASS or a confirmed application failure.
+
+Runtime verification is intentionally short; see `G3-RUNTIME-VERIFICATION-CHECKLIST.md`.
