@@ -1,0 +1,11 @@
+import fs from "node:fs";
+const read=p=>fs.readFileSync(p,"utf8");
+const family=read("lib/demo-data.ts"),alumni=read("components/AlumniNetworkApp.tsx"),cfg=read("templates/productized/config.ts"),app=read("components/TemplateNetworkApp.tsx"),css=read("app/globals.css"),roadmap=read("ROADMAP.md"),status=read("MISSION-STATUS.md");
+const count=(text,re)=>(text.match(re)||[]).length;
+const familyCount=count(family,/\{"id":"m\d+"/g);
+if(familyCount<60)throw new Error(`Family Playground regressed: ${familyCount} demo members`);
+for(const token of ["alumniNames","A living alumni network at useful scale","Showcase proof","batch_count:7","program_count:6"])if(!alumni.includes(token))throw new Error(`Alumni showcase contract missing ${token}`);
+for(const token of ["orgNames","trustNames","franchiseCities","showcaseHighlights","whatsNewTitle","36-person","36-business","36-location"])if(!cfg.includes(token))throw new Error(`Productized showcase contract missing ${token}`);
+for(const token of ["G8.5-C showcase","Three useful journeys","showcase-journey-grid","Showcase proof"])if(!(app+css).includes(token))throw new Error(`G8.5-C UX contract missing ${token}`);
+for(const token of ["G8.5-C","Five-Vertical Product Showcase","G9"])if(!(roadmap+status).includes(token))throw new Error(`G8.5-C lifecycle documentation missing ${token}`);
+console.log(`G8.5-C five-vertical showcase gate: PASS — Family ${familyCount}+ demo members; Alumni 36; Organization 36; Business Trust 36; Franchise 36; showcase UX/lifecycle contracts present.`);

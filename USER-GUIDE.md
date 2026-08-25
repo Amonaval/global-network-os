@@ -347,3 +347,7 @@ Deployment requires migration `048_g8_productized_verticals.sql` after 047.
 
 ## Shared productized-network experiences (G8.5-B)
 Organization, Business Trust and Franchise now include an interactive Places map where coordinates exist, richer typed-relationship exploration with connection paths, reusable entity details, visible Events/Announcements/Stories/Milestones, categorized contribution suggestions, admin rollout visibility and a capability-aware Guide. Playground is read-only; create/join a real network to edit, RSVP, contribute or administer.
+
+
+## G8.5-C Playground showcase
+The five Playgrounds are designed for exploration rather than as tiny mock screens. Family uses the existing 60-member family dataset. Alumni now demonstrates 36 people across batches, programs, cities and companies. Organization, Business Trust and Franchise each demonstrate 36 primary entities with richer relationships, communities, events, history and milestones. On the three productized business Home screens, use **Three useful journeys** to jump directly into discovery, connections or community. Playground remains read-only.

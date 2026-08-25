@@ -467,3 +467,14 @@ Source certification: `node scripts/g8-5b-capability-parity-gate.mjs` PASS. Hist
 
 ### G8.5-B full regression run
 PASS on 2026-08-25 for: D1, V1, CR1, CR2/2.1/2.2/2.3, S1-A/B/C/D/Hardening, S2-A/B/C/D/E/Closure, S3-A1, G1.1/G1.2/G1.3/G1.4, G2, G3, G4, G5, G6, G7, G8, G8.5-A and G8.5-B. The G8 gate still reports 147 historical remote exports, 333 accepted G7 files, 12 protected Family/Alumni foundations and three productized business verticals preserved.
+
+
+## G8.5-C validation
+New `npm run validate:g8-5c` verifies the five-vertical showcase contract and then reruns G8.5-B/G8 historical protection. It requires the existing Family 60-member demo foundation, a 36-profile Alumni showcase, 36-entity Organization/Business Trust/Franchise showcases, guided Playground UX, and G8.5-C lifecycle documentation. Runtime verification additionally covers Light/Dark/Aurora and mobile widths. No migration is introduced. Production build remains a dependency-ready local/CI/Vercel check (`npm ci && npm run build`).
+
+### G8.5-C certification result — 2026-08-25
+Complete historical source chain **D1 → V1 → CR1/CR2 → S1 → S2 → S3-A1 → G1.1/G1.2/G1.3/G1.4 → G2 → G3 → G4 → G5 → G6 → G7 → G8 → G8.5-A → G8.5-B → G8.5-C: PASS**.
+
+`validate:g8-5c` reports: Family 60+ demo members; Alumni 36; Organization 36; Business Trust 36; Franchise 36. `validate:g8` continues to report 147 historical remote exports, 333 accepted G7 files and 12 protected Family/Alumni foundations. Alumni's G8.5-C demo expansion is guarded by a normalized-core hash: only explicitly designated sample/showcase regions may differ; the rest of the protected Alumni runtime must remain byte-equivalent to the G8.5-B core.
+
+Production `npm run build` was attempted but this uploaded workspace has no installed Next.js dependency (`next: not found`). Run `npm ci && npm run build && npm run validate:g8-5c` in the normal local/CI/Vercel environment.

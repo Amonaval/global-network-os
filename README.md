@@ -18,7 +18,7 @@ The architecture is additive: shared capability engines sit below vertical compo
 
 **G8.5-A** cleaned and archived historical documentation, repaired accepted-baseline history, audited capability depth across all five verticals and introduced the Generic Capability Utilization Rule.
 
-**NEXT: G8.5-B — Generic Capability Parity**, followed by G8.5-C showcase/certification and then G9 Network Intelligence.
+**G8.5-B** completed Generic Capability Parity. **G8.5-C** completed the five-vertical showcase/certification. **NEXT: G9 — Network Intelligence Layer & Five-Vertical Product Proof.**
 
 Read:
 - `PROJECT-VISION.md`
@@ -38,9 +38,14 @@ Read:
 npm ci
 npm run validate:g8
 npm run validate:g8.5a
+npm run validate:g8-5b
+npm run validate:g8-5c
 npm run dev
 ```
 
 ## Production
 
 Use `SUPABASE-SETUP-GUIDE.md` and `VERCEL-SETUP-GUIDE.md`. Current latest schema migration is `048_g8_productized_verticals.sql` after migration 047. G8.5-A adds no database migration.
+
+
+G8.5-C adds no database migration. See `G8.5-C-FIVE-VERTICAL-PRODUCT-SHOWCASE.md` and `G8.5-C-RUNTIME-VERIFICATION-CHECKLIST.md`.

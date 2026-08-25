@@ -24,7 +24,12 @@ for(const name of historical){const re=new RegExp(`export(?:\\s+type|\\s+interfa
 
 // Family + Alumni product foundations must not be silently rewritten while new verticals ship.
 const protectedHashes=JSON.parse(read('scripts/g8-protected-existing-vertical-foundations.json'));
-for(const [file,expected] of Object.entries(protectedHashes)){if(!exists(file)){fail(`protected existing vertical file missing: ${file}`);continue;}const actual=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex');if(actual!==expected)fail(`protected Family/Alumni foundation changed in G8: ${file}`)}
+const normalizeProtectedAlumniShowcase=source=>source
+ .replace(/const (?:sample|alumniSeed):AlumniProfile\[\]=\[.*?const sampleGroups:NetworkGroup\[\]=\[.*?\];/s,'/* ALUMNI_SHOWCASE_DATA */')
+ .replace(/\{demo&&<section className="whats-new-card alumni-showcase-whats-new">.*?<\/section>\}/s,'')
+ .replace(/\{demo&&<section className="card guide-showcase-proof">.*?<\/section>\}/s,'');
+const protectedAlumniCoreHash='5c96e7e6072cabd01b7dd2e3976b646f4345a805f07e0def8fb2a79414dd85bf';
+for(const [file,expected] of Object.entries(protectedHashes)){if(!exists(file)){fail(`protected existing vertical file missing: ${file}`);continue;}const source=fs.readFileSync(path.join(root,file));if(file==='components/AlumniNetworkApp.tsx'){const actual=crypto.createHash('sha256').update(normalizeProtectedAlumniShowcase(source.toString('utf8'))).digest('hex');if(actual!==protectedAlumniCoreHash)fail(`protected Alumni runtime core changed outside authorized showcase regions: ${file}`);continue;}const actual=crypto.createHash('sha256').update(source).digest('hex');if(actual!==expected)fail(`protected Family/Alumni foundation changed in G8: ${file}`)}
 
 const kinds=['organization','business-trust','franchise'];
 const registry=read('app-shell/vertical-registry.ts'),runtime=read('app-shell/vertical-runtime.ts'),contracts=read('core/verticals/contracts.ts');

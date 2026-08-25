@@ -764,3 +764,7 @@ G8.5-A changes no production runtime and adds no migration. G8.5-B is responsibl
 
 ## G8.5-B shared product-depth layer
 `components/shared/NetworkGeography.tsx`, `NetworkRelationshipExplorer.tsx` and `NetworkEntityDetail.tsx` are now reusable product-experience primitives for productized verticals. `TemplateNetworkApp.tsx` composes them using template labels/relationships instead of embedding domain-specific copies.
+
+
+## G8.5-C showcase layer
+`templates/productized/config.ts` now carries meaningful read-only showcase datasets for Organization, Business Trust and Franchise (36 primary entities each) while `components/AlumniNetworkApp.tsx` carries a 36-profile Alumni showcase. `components/TemplateNetworkApp.tsx` renders shared What's New, guided showcase journeys and Guide proof from vertical configuration. `scripts/g8-5c-five-vertical-showcase-gate.mjs` protects minimum five-product showcase depth. Family continues to use its existing 60-member rich demo; no Family semantics were extracted into unrelated verticals. No schema migration was added.

@@ -1095,3 +1095,14 @@ Delivered:
 - B2 Living Network & Participation: corrected activity discoverability and enriched governed contribution intent.
 - B3 Lifecycle, Governance & Help: added rollout visibility and capability-aware guide while preserving platform-owner Launch Control authority.
 - No database migration. Historical G8/G8.5-A gates preserved.
+
+
+## G8.5-C — CLOSED / SOURCE CERTIFIED
+- Five-vertical showcase scale certified: Family 60+, Alumni 36, Organization 36, Business Trust 36, Franchise 36.
+- Alumni expanded from 6 to 36 profiles with seven batches, six programs, 6 groups and 10 network-life items.
+- Organization / Business Trust / Franchise expanded to 36 entities each with dense typed relationships, 6 groups and 10 activity items.
+- Added Playground What's New, guided exploration journeys, Guide showcase proof, and responsive/theme-safe showcase polish.
+- Added `validate:g8-5c`; historical regression chain remains mandatory.
+- No database migration.
+
+**NEXT: G9 — Network Intelligence Layer & Five-Vertical Product Proof.**

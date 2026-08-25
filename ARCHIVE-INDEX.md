@@ -21,3 +21,5 @@ Historical Markdown artifacts are preserved under:
 ## Regression rule
 
 Archiving is **not deletion**. Accepted-baseline manifests were repointed to the archived files so historical gates continue proving that the accepted artifacts exist. Gate assertions were not removed or weakened.
+
+- `archive/docs/g8.5/` — closed G8.5-A/G8.5-B release/audit/checklist artifacts; current G8.5-C remains at root until superseded.

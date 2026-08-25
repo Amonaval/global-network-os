@@ -1352,7 +1352,7 @@ G8 architecture/productization proved that new verticals can be composed rapidly
 - established the permanent Generic Capability Utilization Rule and Productized Vertical Gate;
 - no runtime/schema behavior change.
 
-### G8.5-B — Generic Capability Parity — NEXT
+### G8.5-B — Generic Capability Parity — DONE
 
 Consolidated capability-family implementation across every semantically applicable vertical:
 
@@ -1362,13 +1362,17 @@ Consolidated capability-family implementation across every semantically applicab
 
 Do not copy Family-only kinship, ancestry, deceased/remembrance or generation semantics into other verticals.
 
-### G8.5-C — Five-Vertical Showcase & Certification — AFTER B
+### G8.5-C — Five-Vertical Showcase & Certification — DONE
 
 Build realistic Playgrounds large enough to demonstrate the applicable capability set, complete product-specific copy/empty states, run historical + G8.5 gates, close Guide/Launch/What's New/roadmap/status, and publish a refreshed authoritative baseline.
 
-### G9 — Network Intelligence Layer — AFTER G8.5 CERTIFICATION
+### G9 — Network Intelligence Layer — NEXT
 
 Permission-aware deterministic network intelligence first, selectively augmented by AI. G9 remains planned; it is delayed only until the five active products provide mature network substrate and showcase data.
 
 ## G8.5-B — Generic Capability Parity — DONE
 B1 Discovery & Relationships, B2 Living Network & Participation and B3 Lifecycle/Governance/Help are implemented as one certified batch. Organization, Business Trust and Franchise now consume richer shared geography, relationship/path, entity-detail, activity, contribution and capability-help experiences. G8.5-C remains next for deep showcase data/product polish; G9 stays gated until C closes.
+
+
+## G8.5-C — Five-Vertical Product Showcase & Certification — CLOSED
+All five Playgrounds now satisfy the product-depth proof: Family 60-member demo foundation; Alumni 36 profiles; Organization 36 people; Business Trust 36 businesses; Franchise 36 locations. The latter four include richer groups, events, stories/history, milestones and discoverable showcase journeys. G8.5-C adds a permanent five-vertical showcase gate and closes Guide / Launch Control visibility / What's New / mobile-theme showcase polish. G9 may now begin.
