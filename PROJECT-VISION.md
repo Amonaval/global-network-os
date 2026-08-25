@@ -210,3 +210,24 @@ The Network OS now has five active vertical products: Family, Alumni, Organizati
 G8 validates that the same Network OS can model people-centric matrix organizations, trust-centric business ecosystems and geography/ownership-centric franchise systems without forcing those domains into Family or Alumni semantics.
 
 The next strategic layer is Network Intelligence: permission-aware discovery and insights over affiliations, typed relationships, activity/history and network structure. Commercial packaging remains evidence-gated and may differ materially by vertical.
+
+## 2026-08-26 Strategic commercial reset — outcome loops, not network software
+
+G8.5 proved that the Generic Network OS can support five meaningful verticals, but the strategic review identified a more important truth: **buyers do not pay for graphs, directories, maps, activity feeds or generic AI. They pay for recurring outcomes.**
+
+The shared commercial thesis is now:
+
+> Turn a fragmented real-world network into a living operating system that helps people find the right knowledge, person, path, proof or next action—and gets smarter when the outcome is captured.
+
+The product loop is **Find → Understand → Connect → Act → Capture → Improve**.
+
+Near-term commercial priority is intentionally unequal:
+1. Organizational Intelligence — expertise, ownership, dependency and knowledge-risk outcomes.
+2. Franchise Network — distributed operational learning, support and consistency.
+3. Business Trust — provenance-backed sourcing and warm introductions, incubated in bounded trusted networks.
+4. Alumni — opportunity, mentoring and professional/community access.
+5. Family — emotional flagship, trust/UX laboratory and independently validated consumer proposition.
+
+No sixth vertical should be built before at least one existing vertical produces credible commercial evidence.
+
+See `STRATEGIC-PRODUCT-REVIEW.md` and `FAMILY-TO-NETWORK-EXPERIENCE-MAP.md`.

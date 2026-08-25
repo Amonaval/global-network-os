@@ -139,3 +139,26 @@ Principles:
 - prioritize real product/customer evidence over theoretical reuse percentages.
 
 > Family proves trust and relationship depth. Alumni proves cross-vertical reuse. Associations test B2B monetization. Enterprise tests high-value relationship intelligence.
+
+## 2026-08-26 founder rule — no pain, no product
+
+The strategic review resets the success standard from platform breadth to buyer pull.
+
+For every major capability ask:
+
+> If this product disappeared tomorrow, what painful task would the user have to go back to doing manually or badly?
+
+Acceptable answers describe a recurring pain: finding ownership/expertise, repeating operational mistakes across locations, cold-sourcing suppliers, losing trusted introductions, or rebuilding family knowledge.
+
+Unacceptable answers are “I lose a nice graph”, “I lose a dashboard”, “I lose a directory” or “I lose an AI chatbot”.
+
+### Binding founder decisions
+- The Generic Network OS is an enabling asset, not the proposition sold to customers.
+- Outcome loops sit above capability engines: **Find → Understand → Connect → Act → Capture → Improve**.
+- Family remains the product-quality/trust laboratory; transfer the job a Family feature performs, never blindly copy Family semantics.
+- Organizational Intelligence and Franchise are the first paid-wedge candidates.
+- Business Trust is differentiated but must prove network density and outcome-backed provenance.
+- No sixth vertical before paid evidence.
+- No G10 commercial-platform expansion before a real buyer gives a concrete pilot/data/LOI/paid-trial signal.
+- Data-entry burden is a strategic risk. B2B value eventually requires imports/connectors from systems where source truth already exists.
+- If the next experience + intelligence proof still cannot create an unqualified “yes, I would pay for this” from at least one target buyer, freeze or narrow the product rather than continuing feature accumulation.

@@ -1,38 +1,71 @@
-# NEXT SESSION — G9 Network Intelligence Layer
+# NEXT SESSION — G8.6 Outcome-Driven Vertical Experience Closure
 
-Resume from the authoritative **G8.5-C certified baseline**. Do not restart G0–G8.5 architecture or reduce existing product capability depth.
+Resume from the G8.5-C codebase plus the 2026-08-26 Strategic Product Review. Do not jump directly to generic G9 AI/intelligence and do not create another vertical.
 
-## Current product state
-Five active products are now product-depth certified:
-- Family Network — rich 60-member Playground foundation.
-- Alumni Network — 36-profile showcase with multi-projection discovery, chapters/events/history and connections.
-- Organizational Intelligence — 36-person matrix showcase with geography, expertise context and dense relationships.
-- Business Trust Network — 36-business trusted ecosystem with provenance-style typed relationships and partner activity.
-- Franchise Network — 36-location multi-city showcase with geography/ownership and operational communities.
+## Strategic decision
+The Generic Network OS is an enabling platform, not the customer proposition. Current business verticals are architecturally strong but are not yet an unqualified subscription purchase.
 
-G8.5-A cleaned/archive-governed docs and established the Generic Capability Utilization Rule. G8.5-B closed reusable capability parity. G8.5-C closed showcase scale, Guide/Launch/What's New, theme/mobile polish and five-product certification.
+The new product loop is:
 
-## Next mission — G9
-Build permission-aware Network Intelligence on top of the now-mature substrate. Prefer deterministic graph/data intelligence before LLM use. Candidate engines:
-1. Network Search / semantic discovery.
-2. Recommendation and relevant-entity ranking.
-3. Missing-link / completeness / network-health intelligence.
-4. Connection-path intelligence.
-5. Trust/confidence and provenance intelligence where domain-valid.
-6. Expertise / knowledge concentration intelligence.
-7. Structural / dependency intelligence.
-8. Permission-aware AI Network Assistant using only already-authorized, provenance-bearing context.
-9. Vertical-specific intelligence adapters for Family, Alumni, Organization, Business Trust and Franchise.
+**Find → Understand → Connect → Act → Capture → Improve**
 
-## Preserve
-- complete historical regression gates;
-- Generic Capability Utilization Rule and Productized Vertical Gate;
-- five mature Playgrounds;
-- Light / Dark / Aurora;
-- Family/Alumni protected semantics and foundations;
-- tenant isolation, role boundaries, verified claiming;
-- Core must never import a vertical; one vertical must never import another implementation;
-- AI must not receive unrestricted tenant/network data.
+Read first:
+- `STRATEGIC-PRODUCT-REVIEW.md`
+- `FAMILY-TO-NETWORK-EXPERIENCE-MAP.md`
+- `FOUNDER-COMPASS.md`
+- `ROADMAP.md`
+- `GENERIC-CAPABILITY-UTILIZATION-RULE.md`
 
-## Delivery rule
-Use consolidated batches, not dozens of tiny missions. Follow IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE. Prefer affected-files ZIP plus a refreshed authoritative baseline for major closure.
+## Mission — G8.6
+Translate the strongest mature Family product *jobs* into domain-native experiences for Alumni, Organization, Business Trust and Franchise. Do not copy Family terminology or semantics.
+
+### Batch A — Orientation & Entity Action
+1. Fix productized entity-detail popup/modal positioning so it behaves as a true viewport modal.
+2. Add a first-class Structure / Network Map experience to every applicable non-Family vertical:
+   - Alumni: institution/program/batch/chapter;
+   - Organization: reporting/team/project/skill + relationship graph;
+   - Business Trust: category/region/trust ecosystem;
+   - Franchise: geography + owner/operator/location.
+3. Build richer Profile / Entity 360:
+   - view in graph/structure;
+   - explain connection to viewer/current entity;
+   - show shared contexts;
+   - show history/stories/evidence;
+   - edit/update when permitted;
+   - update/report relationships;
+   - request help/introduction where meaningful.
+
+### Batch B — Living Knowledge & Help Network
+4. Add domain-native “memory wall” analogues:
+   - Organization — Wins & Lessons / Decisions & Project History;
+   - Franchise — Operations Playbook / Wins & Lessons;
+   - Business Trust — Trust Evidence & Success Stories;
+   - Alumni — Journeys & Community Stories.
+5. Replace generic Contribute with **Help the Network** workflows tied to real network gaps/needs.
+6. Mature Community into domain-native trusted sub-networks, needs/posts, introductions and problem-solving contexts where semantically valid.
+
+### Batch C — Home, Guide, Launch & Return Loop
+7. Build enriched Home/Pulse surfaces that answer:
+   - What changed?
+   - What needs attention?
+   - Who/what may help?
+   - What can I contribute?
+   - What is worth revisiting?
+8. Mature Explore & Guide around user goals rather than feature names.
+9. Add full Platform Owner Launch Control parity for all vertical capability bundles while preserving tenant-admin boundaries.
+10. Close What’s New, contextual guidance, mobile/theme/error/empty/modal states and runtime verification.
+
+## Product-value gate
+For every implemented surface state the pain it solves. A graph, card, feed or AI-style element is not complete unless it helps the user act.
+
+## Commercial focus
+- Organization: expertise, ownership, dependency, knowledge risk.
+- Franchise: operational learning, peer help, support/capability gaps.
+- Business Trust: provenance-backed sourcing and warm introductions.
+- Alumni: career/opportunity/mentor access.
+- Family: preserve existing depth; do not weaken it.
+
+## Exit
+A skeptical target user must find at least three recognizable valuable workflows in each applicable Playground. No applicable mature Family product job may remain missing without an explicit semantic exclusion or roadmap deferment.
+
+After G8.6, proceed to G9 Paid Outcome Intelligence Proof, then a real Commercial Reality Gate before G10.

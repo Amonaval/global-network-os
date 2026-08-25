@@ -1106,3 +1106,20 @@ Delivered:
 - No database migration.
 
 **NEXT: G9 — Network Intelligence Layer & Five-Vertical Product Proof.**
+
+## 2026-08-26 — Strategic Product Review — COMPLETE / EXECUTION RESET
+
+A founder-level go/no-go review was performed after G8.5-C.
+
+### Conclusion
+- Current three business verticals are **not yet strong enough to justify an unqualified subscription purchase**.
+- The project should continue because the underlying trusted/multi-projection relationship platform enables credible high-value wedges, but further generic feature/vertical expansion is blocked.
+- Commercial proposition is reset from “Generic Network OS” to outcome loops: **Find → Understand → Connect → Act → Capture → Improve**.
+- Paid-wedge priority: Organizational Intelligence and Franchise first; Business Trust incubation; Alumni opportunity/community; Family remains flagship trust/UX laboratory.
+
+### New binding artifacts
+- `STRATEGIC-PRODUCT-REVIEW.md`
+- `FAMILY-TO-NETWORK-EXPERIENCE-MAP.md`
+
+### Next
+**G8.6 — Outcome-Driven Vertical Experience Closure**, followed by **G9 — Paid Outcome Intelligence Proof**, followed by a real Commercial Reality Gate before G10.

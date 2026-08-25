@@ -49,3 +49,7 @@ Use `SUPABASE-SETUP-GUIDE.md` and `VERCEL-SETUP-GUIDE.md`. Current latest schema
 
 
 G8.5-C adds no database migration. See `G8.5-C-FIVE-VERTICAL-PRODUCT-SHOWCASE.md` and `G8.5-C-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+## Strategic product reset — 2026-08-26
+
+G8.5 proved five-vertical platform breadth. The next execution target is **G8.6 Outcome-Driven Vertical Experience Closure**, not another vertical and not a generic AI layer. Read `STRATEGIC-PRODUCT-REVIEW.md` and `FAMILY-TO-NETWORK-EXPERIENCE-MAP.md` before continuing.

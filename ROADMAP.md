@@ -1376,3 +1376,84 @@ B1 Discovery & Relationships, B2 Living Network & Participation and B3 Lifecycle
 
 ## G8.5-C — Five-Vertical Product Showcase & Certification — CLOSED
 All five Playgrounds now satisfy the product-depth proof: Family 60-member demo foundation; Alumni 36 profiles; Organization 36 people; Business Trust 36 businesses; Franchise 36 locations. The latter four include richer groups, events, stories/history, milestones and discoverable showcase journeys. G8.5-C adds a permanent five-vertical showcase gate and closes Guide / Launch Control visibility / What's New / mobile-theme showcase polish. G9 may now begin.
+
+# 2026-08-26 Strategic Roadmap Reset — Must-Buy Outcome Gate
+
+This section supersedes **execution order**, not historical roadmap content.
+
+G8.5 demonstrated platform breadth and reusable capability depth. The next goal is not more verticals. It is to prove a repeated outcome worth paying for.
+
+## G8.6 — Outcome-Driven Vertical Experience Closure — NEXT
+
+**Mission:** translate the strongest mature Family product jobs into domain-native experiences across Alumni, Organization, Business Trust and Franchise, while fixing obvious product defects and avoiding semantic copying.
+
+### G8.6-A — Orientation & Entity Action
+- fix productized modal/overlay positioning;
+- add first-class Structure / Network Map to all applicable verticals;
+- add Profile / Entity 360 with View in Graph, connection explanation, context/history, edit/correction and relationship actions;
+- preserve Family Tree/kinship as Family-specific.
+
+### G8.6-B — Living Knowledge & Help Network
+- Organization: Wins & Lessons / Decisions / Project History;
+- Franchise: Operations Playbook / Wins & Lessons;
+- Business Trust: Trust Evidence / Success Stories;
+- Alumni: Journeys / Community Stories;
+- replace generic contribution with domain-specific Help the Network flows;
+- add community needs, trusted introductions and domain-native sub-networks where meaningful.
+
+### G8.6-C — Home, Guide, Launch & Return Loop
+- enriched domain-native Home/Pulse surfaces;
+- small meaningful next-action prompts instead of dashboard clutter;
+- mature goal-led Explore & Guide;
+- full Platform Owner Launch Control parity;
+- What’s New / contextual discovery;
+- low-noise domain digest/pulse where useful;
+- mobile/theme/empty/error/modal acceptance across five verticals.
+
+**G8.6 exit:** a skeptical target user can enter each relevant Playground and encounter at least three recognizable domain problems that can be understood and acted on. No applicable mature Family product job is silently absent without a semantic exclusion/deferment.
+
+See `FAMILY-TO-NETWORK-EXPERIENCE-MAP.md`.
+
+## G9 — Paid Outcome Intelligence Proof — AFTER G8.6
+
+Do not start with a universal chatbot. Build deterministic, permission-aware, explainable intelligence around paid outcome loops.
+
+### Organization — Expertise & Dependency Intelligence
+- expertise discovery with evidence;
+- ownership/dependency paths;
+- knowledge concentration/key-person risk;
+- onboarding connection recommendations;
+- missing ownership/expertise signals.
+
+### Franchise — Operational Learning Intelligence
+- similar-location/problem discovery;
+- peer expert and proven-solution recommendations;
+- support-isolation/coverage gaps;
+- training/capability gaps;
+- solution propagation history.
+
+### Business Trust — Trust-Path Sourcing Intelligence
+- provenance/recency/context-backed trust paths;
+- warm introduction routes;
+- trusted alternatives;
+- introduction/outcome capture.
+
+### Smaller adapters
+- Alumni: career/mentor/company/city discovery and warm paths.
+- Family: relation/completeness/contribution intelligence.
+
+**G9 exit:** a high-value question produces an answer, evidence and an immediately useful next action.
+
+## Commercial Reality Gate — BLOCKS G10
+
+Before billing/enterprise platform expansion:
+- pick one primary ICP and one secondary ICP;
+- demo with real target buyers/users;
+- use real or representative customer network data;
+- measure repeated problem resolution, not demo admiration;
+- seek a concrete commitment: pilot, data import, follow-up, LOI or paid trial;
+- classify result as **DOUBLE DOWN / NARROW-PIVOT / FREEZE**.
+
+No sixth vertical and no G10 until at least one product has a named buyer, repeated pain, measurable outcome, willingness to provide data, repeated workflow use and a credible paid-pilot path.
+
+Full reasoning: `STRATEGIC-PRODUCT-REVIEW.md`.
