@@ -344,3 +344,6 @@ Admins can share the Network OS join code. The owner can promote/demote admins. 
 Use Name/Label plus the relevant dimension columns. Comma-separated values are supported for multi-value dimensions such as Skills, Projects or Services.
 
 Deployment requires migration `048_g8_productized_verticals.sql` after 047.
+
+## Shared productized-network experiences (G8.5-B)
+Organization, Business Trust and Franchise now include an interactive Places map where coordinates exist, richer typed-relationship exploration with connection paths, reusable entity details, visible Events/Announcements/Stories/Milestones, categorized contribution suggestions, admin rollout visibility and a capability-aware Guide. Playground is read-only; create/join a real network to edit, RSVP, contribute or administer.

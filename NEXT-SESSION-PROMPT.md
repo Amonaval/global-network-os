@@ -82,3 +82,6 @@ Do not begin G9 AI/Network Intelligence until G8.5-B/C capability maturity is ce
 Follow IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE.
 
 Prefer affected-files-only ZIP for the implementation batch, preserving folder hierarchy. At major G8.5 closure create a refreshed authoritative baseline.
+
+## Current authoritative continuation
+G8.5-B Generic Capability Parity is complete. Next: G8.5-C — Five-Vertical Product Showcase & Certification. Expand business-vertical Playground data to roughly 30–60 meaningful entities each, deepen domain-specific stories/events/groups/relationships, polish empty/loading/mobile/theme states, certify five-vertical product proof, update Guide/Launch Control/What's New/roadmap/status and produce the next authoritative baseline. Do not start G9 intelligence until G8.5-C closes.

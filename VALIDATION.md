@@ -461,3 +461,9 @@ Complete historical source chain **D1 → V1 → CR1/CR2 → S1 → S2 → S3-A1
 `validate:g8` now passes with 147 historical remote exports, 333 accepted G7 files, 12 protected Family/Alumni foundations and all three released G8 product verticals preserved. `validate:g8.5a` passes with 21 root Markdown docs and all accepted baseline paths resolving through the archive.
 
 Production `npm run build` was attempted in the artifact workspace but cannot execute because the uploaded baseline does not contain `node_modules` (`next: not found`). Run `npm ci && npm run build` in the normal local/CI/Vercel environment.
+
+## G8.5-B validation
+Source certification: `node scripts/g8-5b-capability-parity-gate.mjs` PASS. Historical `g8-5a-clean-audit-gate` and `g8-productized-verticals-gate` PASS after implementation. Normal production build remains a local/CI check because dependency installation could not complete inside this sandbox execution window.
+
+### G8.5-B full regression run
+PASS on 2026-08-25 for: D1, V1, CR1, CR2/2.1/2.2/2.3, S1-A/B/C/D/Hardening, S2-A/B/C/D/E/Closure, S3-A1, G1.1/G1.2/G1.3/G1.4, G2, G3, G4, G5, G6, G7, G8, G8.5-A and G8.5-B. The G8 gate still reports 147 historical remote exports, 333 accepted G7 files, 12 protected Family/Alumni foundations and three productized business verticals preserved.

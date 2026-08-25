@@ -1089,3 +1089,9 @@ Delivered:
 - [x] no runtime/schema behavior changed.
 
 **NEXT: G8.5-B — Generic Capability Parity.**
+
+## G8.5-B — CLOSED
+- B1 Discovery & Relationships: implemented shared map/geography, entity detail and relationship/path explorer.
+- B2 Living Network & Participation: corrected activity discoverability and enriched governed contribution intent.
+- B3 Lifecycle, Governance & Help: added rollout visibility and capability-aware guide while preserving platform-owner Launch Control authority.
+- No database migration. Historical G8/G8.5-A gates preserved.

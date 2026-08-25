@@ -1369,3 +1369,6 @@ Build realistic Playgrounds large enough to demonstrate the applicable capabilit
 ### G9 — Network Intelligence Layer — AFTER G8.5 CERTIFICATION
 
 Permission-aware deterministic network intelligence first, selectively augmented by AI. G9 remains planned; it is delayed only until the five active products provide mature network substrate and showcase data.
+
+## G8.5-B — Generic Capability Parity — DONE
+B1 Discovery & Relationships, B2 Living Network & Participation and B3 Lifecycle/Governance/Help are implemented as one certified batch. Organization, Business Trust and Franchise now consume richer shared geography, relationship/path, entity-detail, activity, contribution and capability-help experiences. G8.5-C remains next for deep showcase data/product polish; G9 stays gated until C closes.

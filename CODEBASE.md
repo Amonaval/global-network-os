@@ -761,3 +761,6 @@ scripts/g8-5a-clean-audit-gate.mjs
 Architecture/product rule: a capability that is semantically applicable to another vertical must be reused by default or explicitly excluded/deferred. A vertical is not Productized merely because a route/feature key exists; applicable mature shared capabilities must be usable and demonstrable.
 
 G8.5-A changes no production runtime and adds no migration. G8.5-B is responsible for capability extraction/integration.
+
+## G8.5-B shared product-depth layer
+`components/shared/NetworkGeography.tsx`, `NetworkRelationshipExplorer.tsx` and `NetworkEntityDetail.tsx` are now reusable product-experience primitives for productized verticals. `TemplateNetworkApp.tsx` composes them using template labels/relationships instead of embedding domain-specific copies.
