@@ -306,3 +306,25 @@ Use this checklist in the mission document:
 - [ ] ROADMAP / STATUS
 - [ ] WHERE TO SEE THIS IN THE PRODUCT
 - [ ] CLOSE
+
+
+## Architecture classification gate — permanent rule
+
+Before IMPLEMENT for any meaningful feature, run **CLASSIFY**.
+
+**CLASSIFY → IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**
+
+CLASSIFY must determine:
+1. Core Network Foundation?
+2. Shared Capability?
+3. Intermediate reusable Domain Layer?
+4. Vertical-specific?
+
+Rules:
+- prefer the lowest genuinely reusable layer;
+- apply the Second-Consumer Rule;
+- preserve existing Family behavior behind stable contracts;
+- Core/shared layers must not import vertical modules;
+- one vertical must not directly depend on another vertical's implementation;
+- keep strong generic primitives and explicit vertical semantics;
+- avoid giant metadata/configuration abstractions when explicit code is safer.

@@ -323,3 +323,12 @@ Detailed design lives in `S3-BUSINESS-PROOF-DESIGN.md`.
 Only **S3-A Family Activation & Network Growth** is active now. S3-B/C/D/E remain preserved roadmap stages, but no implementation should begin merely because they are next on paper. Resume them only after pilot evidence shows the activation foundation is working and the highest-priority user feedback has been addressed.
 
 During the pause, product work is reactive and evidence-led: unblock users, fix trust/correctness problems, remove repeated friction, and record everything else. Do not resume broad roadmap execution until explicitly decided.
+
+
+## 2026-08-25 strategic update
+
+1. **G0 — Trusted Network Architecture Blueprint**
+2. **S3-A2 — Populated-Family Onboarding under CLASSIFY rules**
+3. **G1 — Shared extraction + Alumni skeleton**
+
+Then proceed to G2 Distributed Network Construction, G3 Relationship Intelligence, G4 Alumni MVP, followed by Association and Enterprise opportunities.

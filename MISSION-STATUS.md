@@ -667,3 +667,63 @@ A feature may be IMPLEMENTED before this sequence is complete, but it must not b
 **S3-A2 — Populated-Family Onboarding: PLANNED / EVIDENCE-GATED.**
 
 S3-A1 gets useful family data into the product before mass onboarding. S3-A2 begins after that: invite the wider family with **"Your family is ready — find yourself and explore"**, help each person identify/claim their pre-created profile, deliver immediate relationship/lineage value, and offer a prefilled **Complete my branch** flow for small missing pieces. It should optimize joining an already-useful family, not ask users to rebuild it.
+
+## 2026-08-25 — S3-A1 closure patch completed
+
+**S3-A1 — Distributed Family Intake & Branch Assembly: IMPLEMENTED IN SOURCE / UX CLOSURE COMPLETE / LIVE VERIFY REQUIRED**
+
+Closure lifecycle:
+- [x] IMPLEMENT
+- [x] VALIDATE (implementation source gate + closure source gate)
+- [x] GUIDE
+- [x] PLAYGROUND
+- [x] LAUNCH CONTROL
+- [x] WHAT'S NEW
+- [x] ROADMAP / STATUS
+- [x] WHERE TO SEE THIS IN THE PRODUCT
+- [x] CLOSE
+- [ ] LIVE VERIFY
+
+The previous `CLOSURE PARTIAL` checkpoint is superseded by this source/UI closure. It is **not** superseded into VERIFIED: migration 043, deployed anonymous token/RLS/RPC isolation, real multi-link submission, commit behavior and 360/390/430 browser verification remain outstanding.
+
+### Where to see S3-A1
+Create Family → Build together with relatives; Home quick-start → ask relatives through simple forms; Family Admin → Build together; contributor `/contribute/[token]`; Explore & Guide → Build Together; Playground → no-save Build Together walkthrough; Platform Owner → Launch Control → Contribute → Build family together; Explore & Guide → What's new.
+
+### Next related mission
+**S3-A2 — Populated-Family Onboarding remains PLANNED / EVIDENCE-GATED.** Its job begins after S3-A1 succeeds: wider relatives arrive to an already useful family, find themselves, safely claim the right pre-created profile, get an immediate relationship/lineage wow moment, and complete only missing pieces of their own branch.
+
+
+# Generic Platform Expansion Missions — 2026-08-25
+
+- **G0 — Trusted Network Architecture Blueprint:** ARCHITECTURE COMPLETE / 2026-08-25
+- **G1 — Shared Capability Extraction + Alumni Skeleton:** PLANNED
+- **G2 — Distributed Network Construction Platform:** PLANNED
+- **G3 — Relationship Intelligence Platform:** PLANNED
+- **G4 — Alumni Network MVP:** PLANNED / FIRST COMMERCIAL SECOND VERTICAL
+- **G5 — Association Network:** FUTURE / HIGH COMMERCIAL PRIORITY
+- **G6 — Enterprise Relationship & Expertise Intelligence:** FUTURE / HIGH VALUE
+- **G7 — Founder / Investor / Industry Trusted Network:** FUTURE
+- **G8 — Clubs / Societies / Nonprofit / Volunteer Networks:** FUTURE
+
+Permanent lifecycle:
+**CLASSIFY → IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**
+
+Working Family behavior must remain a stable contract throughout extraction.
+
+
+## 2026-08-25 — G0 Trusted Network Architecture Blueprint closed
+
+**G0 — ARCHITECTURE COMPLETE / NO RUNTIME REFACTOR PERFORMED**
+
+G0 audited the current source, TypeScript domain model, repository/remote boundaries, feature runtime, database tenancy/membership spine and S3-A1 construction pipeline. Binding decisions are recorded in `G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md`.
+
+Key conclusions:
+- `networks`, `network_memberships`, active-network context, authorization primitives and platform rollout are the strongest current CORE candidates.
+- identity/claiming, invitations, product runtime frameworks, governed contribution and construction workflow patterns are SHARED-capability candidates.
+- parent/child/spouse, generation ordering, lineage and kinship explanation belong to a KINSHIP intermediate domain layer rather than universal core.
+- Family memories/history/deceased/special-day/branch language stays explicit Family specialization.
+- `NETWORK_TEMPLATES` vocabulary substitution is not the architecture for Alumni; Alumni is an explicit second vertical.
+- S3-A1 is architecturally a future Distributed Network Construction capability but remains physically Family-specific until G2/Alumni evidence proves the shared contract.
+- S3-A2 is pre-classified so reusable seams can be used without delaying the Family activation experiment.
+
+**NEXT CODE MISSION: G1.1 — Architecture Guardrails + Typed Vertical Registry.** Preserve all Family behavior and existing RPC/link compatibility.

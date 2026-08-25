@@ -361,3 +361,81 @@ The repository now treats user-facing mission closure as a product contract, not
 Canonical rule details live in `DEVELOPMENT-RULES.md`. Major mission documents must expose where the capability appears in the real product, Playground, Guide and Launch Control. Central guide content should be reused by contextual help where practical. Playground remains no-save. Launch visibility remains independent from code presence.
 
 S3-A1 is currently **IMPLEMENTED IN SOURCE / CLOSURE PARTIAL / LIVE VERIFY REQUIRED** because Guide, Playground and What's New closure surfaces still need implementation.
+
+## S3-A1 closure surfaces — 2026-08-25
+
+S3-A1 now follows the permanent mission closure contract at source/UI level.
+
+New/updated closure surfaces:
+- `lib/user-guide-content.ts` — canonical `build-together` guide entry.
+- `components/FeatureGuide.tsx` — full-guide action is now shown only when a destination callback exists, allowing the same contextual guide to be safely embedded in the public intake form.
+- `components/FamilyIntakeAdmin.tsx` — contextual S3-A1 guide.
+- `components/FamilyBranchIntakeForm.tsx` — contributor-facing contextual guide.
+- `components/FamilyIntakePlayground.tsx` — new no-save/no-token/no-Supabase simulation.
+- `components/NetworkApp.tsx` — routes guide/demo/feature announcements into real intake or simulated Playground appropriately.
+- `components/GuidePortal.tsx` — S3-A1 What's New discovery.
+- `components/FounderLaunchConsole.tsx` — explicit S3-A1 rollout/security/Playground explanation.
+- `USER-GUIDE.md` — central owner/contributor instructions.
+- `scripts/s3-a1-closure-source-gate.mjs` + `validate:s3-a1-closure` — closure regression contract.
+
+Status: **UX CLOSURE COMPLETE / LIVE VERIFY REQUIRED**. The Playground component is intentionally separate from the real anonymous contribution RPC path.
+
+
+## Strategic architecture direction — capability tree
+
+Logical target:
+
+```text
+core/
+capabilities/
+domain-layers/
+verticals/
+apps/
+```
+
+This is a logical direction, **not** an instruction to move the whole repository immediately.
+
+Likely shared capabilities:
+- tenancy/network;
+- identity/profile;
+- membership;
+- graph/relationships;
+- invitations/claiming;
+- distributed network construction;
+- identity resolution;
+- audit/provenance;
+- relationship intelligence;
+- discovery/introductions;
+- groups/events/contributions/digest;
+- Guide/Playground/Launch Control/What's New.
+
+Likely Family specialization:
+- genealogy;
+- generations;
+- ancestor/kinship semantics;
+- deceased workflows;
+- family-specific memories/language.
+
+Likely Alumni specialization:
+- institution;
+- department/program;
+- batch/year;
+- alumnus/faculty semantics;
+- career/mentorship/opportunity context.
+
+Do not physically reorganize until G0 identifies stable boundaries and regression gates.
+
+
+## G0 architecture classification — 2026-08-25
+
+G0 is complete in `G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md`. No runtime files were moved in G0.
+
+Binding codebase direction:
+- CORE: network tenancy, memberships, active-network context, authorization primitives, platform ownership and rollout runtime.
+- SHARED CAPABILITY: claiming/invitations/privacy primitives, governed contribution, construction workflow, graph algorithms, Guide/Playground/Launch Control/What's New frameworks.
+- INTERMEDIATE KINSHIP DOMAIN: parent/child/spouse, generation ordering, ancestry/lineage and kinship explanations.
+- FAMILY VERTICAL: emotional Home, memories/history/deceased/special days, Family-specific intake language, Family admin/copy and kinship presentation.
+
+Important current leaks to remove incrementally: `network_memberships.member_id` references `family_members`; `Member` mixes generic identity with Family-only fields; `NetworkRepository` is Family-domain heavy; `lib/remote.ts` is monolithic; `lib/features.ts` mixes rollout engine with Family catalog; and legacy `NETWORK_TEMPLATES` incorrectly imply domain semantics can be generalized by relabeling Parent/Child/Spouse.
+
+Approved first physical extraction is G1.1 architecture guardrails + typed vertical registry. S3-A1 physical generalization is explicitly deferred to G2.

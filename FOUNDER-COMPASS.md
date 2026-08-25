@@ -112,3 +112,30 @@ The guide is now part of product activation, not a documentation afterthought. M
 The product has enough breadth for the next learning cycle. Do not reward feature count. Let real families reveal what matters. During the pilot, a repeated user problem is more valuable than an internally attractive roadmap idea. Fix blockers and trust failures immediately; prioritize repeated friction; preserve but defer everything else.
 
 Use Launch Control to reduce exposure instead of deleting capability. Playground may demonstrate more breadth than real-family Alpha, but privacy-sensitive or distribution-heavy surfaces should not be released merely because they demo well.
+
+
+## 2026-08-25 founder learning — onboard family knowledge before onboarding everyone
+
+A major adoption insight: an empty or incomplete family app asks busy relatives to learn software before receiving value. Prefer distributed, familiar micro-contribution first. A few knowledgeable branch representatives can submit the family structure they know; the system should perform the tedious identity matching and branch assembly; the wider family should arrive only when there is something meaningful to explore.
+
+This does not invalidate in-app creation/import/contribution. It adds a lower-friction acquisition path and should be tested before broader feature expansion.
+
+## Creator reachability
+If the product reaches influential community leaders, organizations, partners or investors, make the creator/product team intentionally discoverable through a tasteful configurable About/Connect surface. Preserve user trust: do not inject promotion into family workflows, do not expose private contact information by default, and route structured inquiries/feedback through governed channels.
+
+
+## Founder strategic direction — Trusted Network Product Family
+
+Family remains the flagship vertical and product-quality laboratory, but the underlying commercial asset is increasingly a **Trusted Network Platform**.
+
+Principles:
+- do not wait for hundreds of Family users before proving a second vertical;
+- do not abandon or destabilize Family;
+- do not perform a giant speculative rewrite;
+- begin architecture classification now;
+- use Alumni as the second real consumer that proves abstractions;
+- let new Family work strengthen shared layers when semantics are truly generic;
+- preserve commercial optionality across Family, Alumni, Associations and Enterprise;
+- prioritize real product/customer evidence over theoretical reuse percentages.
+
+> Family proves trust and relationship depth. Alumni proves cross-vertical reuse. Associations test B2B monetization. Enterprise tests high-value relationship intelligence.

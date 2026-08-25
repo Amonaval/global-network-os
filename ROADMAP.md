@@ -934,3 +934,217 @@ S3-A2 should focus on:
 6. **Measure activation** — invitation/open → find-self → claim → first-wow → correction/contribution → return.
 
 S3-A2 remains **PLANNED / EVIDENCE-GATED**. Do not start it merely because S3-A1 source implementation exists. First complete S3-A1 UX closure and LIVE VERIFY/pilot observation sufficiently to confirm that distributed forms actually create useful family graphs.
+
+## 2026-08-25 — S3-A1 UX closure complete
+
+S3-A1 has completed the source/UI mission lifecycle: **IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**.
+
+Current truth: **IMPLEMENTED IN SOURCE / UX CLOSURE COMPLETE / LIVE VERIFY REQUIRED**.
+
+The closure patch adds a canonical Build Together guide, contextual help on Owner + contributor interfaces, a dedicated safe no-save Playground simulation, explicit Launch Control explanation, a What's New discovery card and formal UI traceability. No real-family Launch Control state was broadened: `contribute.branch_intake` remains **Pilot**.
+
+### Next: S3-A2 — Populated-Family Onboarding
+Keep **PLANNED / EVIDENCE-GATED** until S3-A1 receives enough live validation/pilot evidence. S3-A2 should optimize the moment after the family is populated: **Your family is ready → find myself → safely claim → immediate personal family context → Complete my branch → small corrections/contributions → return**. Do not turn S3-A2 into another empty-family builder.
+
+
+# Strategic Platform Expansion — Trusted Network Product Family
+
+Family remains the first and deepest production vertical, but the codebase now intentionally evolves toward a **layered Trusted Network Platform** rather than one family-specific application.
+
+The target is a **capability tree**, not one giant generic base module. Each vertical should reuse the lowest genuinely common ancestor layer and add only its specialization.
+
+```text
+Trusted Network Platform
+├── Core Network Foundation
+├── Network Construction
+├── Relationship Intelligence
+├── Community & Engagement
+├── Governance & Product Runtime
+├── Kinship / Genealogy → Family Network
+├── Institutional Membership → Alumni / Associations
+├── Organizational Intelligence → Enterprise
+├── Business Trust Networks → Founder / Investor / Industry
+└── Membership Communities → Clubs / Societies / Nonprofits
+```
+
+## G0 — Trusted Network Architecture Classification & Extraction Blueprint
+**ARCHITECTURE COMPLETE / 2026-08-25**
+
+Classify the current codebase into:
+- CORE
+- SHARED CAPABILITY
+- INTERMEDIATE DOMAIN LAYER
+- VERTICAL-SPECIFIC
+
+Deliverables:
+- capability dependency map;
+- Family-hardcoded assumptions inside otherwise reusable areas;
+- stable contracts and dependency direction;
+- vertical/module registry approach;
+- extraction safety rules preserving Family behavior;
+- first low-risk extraction candidates;
+- Alumni MVP as the second consumer;
+- reuse/regression KPIs.
+
+Permanent architecture rules:
+- **Lowest Common Capability Principle**
+- **Second-Consumer Rule**
+- **Stable Vertical Rule**
+- **Dependency Direction:** Vertical → Domain Layer → Shared Capability → Core
+- **Strong Primitives, Explicit Verticals**
+- **Classification Gate**
+
+Permanent mission lifecycle becomes:
+
+**CLASSIFY → IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**
+
+G0 is closed in `G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md`. It establishes that the existing network tenancy/membership/rollout spine is genuinely reusable, while kinship relations, generations, lineage and Family experience remain explicit domain/vertical semantics. G1 begins with architecture guardrails + a typed vertical registry, then separates feature runtime from Family feature catalog, introduces neutral network/membership contracts, splits transport behind compatibility exports, and finally adds a claiming seam plus Alumni skeleton. S3-A1 construction is deliberately deferred to G2 rather than generalized prematurely.
+
+## G1 — First Shared Capability Extraction + Alumni Skeleton
+**PLANNED**
+
+Initial likely extraction candidates:
+- network tenancy;
+- identity/profile primitives;
+- membership;
+- invitations;
+- claiming;
+- relationship/graph primitives;
+- audit/provenance;
+- feature runtime;
+- Launch Control / Guide / Playground / What's New framework.
+
+Parallel deliverable:
+- create explicit Family + Alumni vertical registrations;
+- Alumni becomes the second real consumer;
+- Family behavior remains unchanged.
+
+Directional KPI:
+> Alumni MVP should reuse roughly 60%+ of applicable runtime capability code if semantics genuinely support it.
+
+## G2 — Distributed Network Construction Platform
+**PLANNED**
+
+Generalize S3-A1 beneath the existing Family implementation:
+
+`representative → structured intake → staged entities/relationships → identity resolution → conflicts/provenance → reconciliation → canonical network`
+
+Adapters:
+- Family Branch Intake
+- Alumni Batch/Department Intake
+- Association Chapter Intake
+
+## G3 — Relationship Intelligence Platform
+**PLANNED**
+
+Shared:
+- graph traversal;
+- trusted/shortest paths;
+- mutual connections;
+- common-context discovery;
+- introductions;
+- graph search/discovery.
+
+Vertical semantics remain explicit:
+- Family lineage/kinship;
+- Alumni batch/department/faculty/employer;
+- Enterprise team/project/skill/collaboration;
+- Business founder/investor/advisor paths.
+
+## G4 — Alumni Network MVP
+**PLANNED / FIRST COMMERCIAL SECOND VERTICAL**
+
+Initial scope:
+- institution;
+- department/program;
+- batch/year;
+- alumnus/faculty profile;
+- company/role;
+- claiming;
+- search/discovery;
+- relationship paths;
+- mentorship interest;
+- groups/events;
+- distributed batch intake;
+- privacy/governance;
+- Launch Control + Guide + Playground + What's New.
+
+Do not attempt a full university ERP or broad donation suite in V1.
+
+## G5 — Professional / Trade / Community Association Vertical
+**FUTURE / HIGH COMMERCIAL PRIORITY**
+
+Potential specialization:
+- chapters;
+- membership roles/lifecycle;
+- professional specialties;
+- organization directory;
+- opportunities;
+- events/introductions.
+
+## G6 — Enterprise Relationship & Expertise Intelligence
+**FUTURE / HIGH VALUE / HIGHER COMPLEXITY**
+
+Potential specialization:
+- org hierarchy;
+- teams;
+- projects;
+- skills/expertise;
+- collaboration;
+- mentorship;
+- internal opportunities;
+- SSO/HRIS/security.
+
+## G7 — Founder / Investor / Industry Trusted Network
+**FUTURE**
+
+Potential specialization:
+- founder/company/investor/advisor entities;
+- worked-with / invested-in / advised / introduced-by;
+- warm-introduction paths;
+- expertise/opportunity discovery.
+
+## G8 — Clubs / Societies / Nonprofit / Volunteer Networks
+**FUTURE**
+
+Potential specialization:
+- membership/roles;
+- chapters;
+- committees;
+- participation;
+- events;
+- volunteer/community discovery.
+
+## Sequencing with S3-A
+
+```text
+S3-A1 ✅ source implementation + UX closure
+    ↓
+LIVE VERIFY / pilot observation
+    +
+G0 architecture blueprint ✅ complete
+    ↓
+S3-A2 Populated-Family Onboarding
+    built under G0 CLASSIFY rules
+    ↓
+G1 shared extraction + Alumni skeleton
+    ↓
+Family + Alumni continue in parallel
+    ↓
+G2/G3 extraction driven by real second-consumer evidence
+```
+
+We do **not** wait for hundreds of Family users before broader work begins.
+
+## Commercial thesis
+
+Priority verticals:
+1. Family / Kinship
+2. Alumni / Education
+3. Professional / Trade / Community Associations
+4. Enterprise Relationship & Expertise Intelligence
+5. Founder / Investor / Industry Networks
+6. Clubs / Societies / Membership Communities
+7. Nonprofit / Volunteer Networks
+
+> **Build trusted networks from fragmented knowledge, reconcile identity and relationships safely, activate them through discovery and trusted connection intelligence, and reuse the same capability tree across multiple vertical products.**

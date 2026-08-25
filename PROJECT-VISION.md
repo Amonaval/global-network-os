@@ -112,3 +112,22 @@ The near-term objective is no longer to maximize capability. It is to make the e
 The investor/acquirer story must therefore be stronger than “we built a family tree.” The asset is a consumer-quality family product on top of a privacy-aware relationship intelligence platform, with structured relationship data that compounds as families participate.
 
 AI is differentiated only when grounded in authorized relationship data. Generic chat or content generation is not the moat.
+
+
+## Expanded platform vision — 2026-08-25
+
+The long-term product is a **family-first Trusted Network Platform** composed as a capability tree:
+- core primitives;
+- reusable capabilities;
+- intermediate domain layers;
+- explicit vertical specializations.
+
+Target product family includes Family, Alumni, Professional Associations, Enterprise Relationship Intelligence, Founder/Investor Networks, Clubs/Societies and Nonprofit/Volunteer Networks.
+
+A future idea should be evaluated by asking:
+> What is the lowest existing capability layer it can reuse, and what is genuinely unique?
+
+
+## G0 architecture decision — 2026-08-25
+
+The capability-tree vision is now an architecture contract, not only a future idea. The platform will use typed composition with explicit verticals. Reuse will be earned at the lowest semantically correct layer and proven by a second consumer. Family kinship will not become the universal graph model, and Alumni will not be implemented by relabeling parent/child/spouse. See `G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md`.
