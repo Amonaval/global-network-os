@@ -1,0 +1,38 @@
+G8.6-C affected files
+
+Changed / added:
+CODEBASE.md
+ARCHIVE-INDEX.md
+USER-GUIDE.md
+NEXT-SESSION-PROMPT.md
+G8.6-C-RUNTIME-VERIFICATION-CHECKLIST.md
+VALIDATION.md
+README.md
+G8.6-C-HOME-GUIDE-LAUNCH-RETURN.md
+package.json
+G8.6-C-RELEASE-MANIFEST.md
+MISSION-STATUS.md
+ROADMAP.md
+scripts/g8-6ab-outcome-experience-gate.mjs
+scripts/g8-productized-verticals-gate.mjs
+scripts/g8-6c-product-closure-gate.mjs
+components/TemplateNetworkApp.tsx
+components/AlumniNetworkApp.tsx
+components/FounderLaunchConsole.tsx
+app/globals.css
+components/shared/NetworkOutcomeHome.tsx
+components/shared/NetworkMatureGuide.tsx
+archive/docs/g8.5/G8.5-C-RUNTIME-VERIFICATION-CHECKLIST.md
+archive/docs/g8.5/G8.5-C-RELEASE-MANIFEST.md
+archive/docs/g8.5/G8.5-C-FIVE-VERTICAL-PRODUCT-SHOWCASE.md
+archive/docs/g8.6/G8.6-A-B-OUTCOME-EXPERIENCE.md
+archive/docs/g8.6/G8.6-A-B-RUNTIME-VERIFICATION-CHECKLIST.md
+archive/docs/g8.6/G8.6-A-B-RELEASE-MANIFEST.md
+
+Moved / removed from old root (use authoritative baseline for exact cleanup):
+G8.6-A-B-OUTCOME-EXPERIENCE.md
+G8.6-A-B-RUNTIME-VERIFICATION-CHECKLIST.md
+G8.5-C-RUNTIME-VERIFICATION-CHECKLIST.md
+G8.5-C-RELEASE-MANIFEST.md
+G8.6-A-B-RELEASE-MANIFEST.md
+G8.5-C-FIVE-VERTICAL-PRODUCT-SHOWCASE.md

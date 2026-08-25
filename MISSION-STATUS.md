@@ -1139,3 +1139,7 @@ A founder-level go/no-go review was performed after G8.5-C.
 - [x] inherited G8/G8.5 gates preserved.
 
 **NEXT: G8.6-C — enriched Home, mature Guide/Explore, Platform Owner Launch Control parity, What's New/return loop and final five-vertical product closure.**
+
+## G8.6-C — CLOSED
+Status: DONE / source-certified.
+Outcome Home, Guide, Launch Control and Return Loop are now part of the five-vertical product proof. G9 is the next mission.

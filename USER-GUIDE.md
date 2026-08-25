@@ -369,3 +369,6 @@ The shared activity foundation now presents different product jobs:
 
 ### Help the network
 Use the suggested prompts to request expertise, ownership, verification, a warm path or peer operational help. In live networks these requests continue through the governed contribution workflow so ordinary members do not receive unrestricted admin write access.
+
+## G8.6-C — What to do when you open a network
+The Home page now highlights useful paths, reusable knowledge/evidence, active communities, missing context and a recommended next action. Use the Return Loop cards to see what changed and where participation can make the network more useful. Platform owners can open Launch Control directly from Alumni and the business verticals; ordinary network admins cannot change platform rollout state.

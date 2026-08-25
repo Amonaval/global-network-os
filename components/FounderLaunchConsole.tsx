@@ -12,8 +12,8 @@ const STATES:LaunchState[]=["hidden","test","pilot","released"];
 const ACTIVE_VERTICALS:NetworkVerticalKind[]=["family","alumni","organization","business-trust","franchise"];
 const stateHelp:Record<LaunchState,string>={hidden:"Nobody sees it.",test:"Only platform owners see it.",pilot:"Only selected pilot networks see it.",released:"Available to all eligible networks."};
 
-export default function FounderLaunchConsole({onChanged,onNotify}:{onChanged:()=>Promise<void>|void;onNotify:(message:string)=>void}){
- const [verticalKind,setVerticalKind]=useState<NetworkVerticalKind>("family");
+export default function FounderLaunchConsole({onChanged,onNotify,initialVertical="family"}:{onChanged:()=>Promise<void>|void;onNotify:(message:string)=>void;initialVertical?:NetworkVerticalKind}){
+ const [verticalKind,setVerticalKind]=useState<NetworkVerticalKind>(initialVertical);
  const verticalDefinition=getVerticalDefinition(verticalKind);
  const FEATURE_REGISTRY=verticalDefinition.featureCatalog.features as readonly FeatureDefinition<string,string,string>[];
  const LAUNCH_COMPOSITION=getVerticalAppComposition(verticalKind).launch;

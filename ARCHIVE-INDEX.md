@@ -23,3 +23,8 @@ Historical Markdown artifacts are preserved under:
 Archiving is **not deletion**. Accepted-baseline manifests were repointed to the archived files so historical gates continue proving that the accepted artifacts exist. Gate assertions were not removed or weakened.
 
 - `archive/docs/g8.5/` — closed G8.5-A/G8.5-B release/audit/checklist artifacts; current G8.5-C remains at root until superseded.
+
+## G8.5-C and G8.6-A/B closure
+- `archive/docs/g8.5/` preserves closed G8.5-C showcase/release/verification evidence.
+- `archive/docs/g8.6/` preserves closed G8.6-A/B outcome-experience/release/verification evidence.
+- G8.6-C remains current at root until the next release closes it.

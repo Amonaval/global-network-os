@@ -56,3 +56,6 @@ G8.5 proved five-vertical platform breadth. The next execution target is **G8.6 
 
 ## Current release: G8.6-A + G8.6-B
 The Generic Network OS now translates Family's strongest product jobs into domain-native non-Family experiences: living structure, 360° entity actions, connection paths, reusable knowledge, focused communities and Help-the-Network flows. Next is G8.6-C Home/Guide/Launch/Return closure before G9 intelligence.
+
+## Current release: G8.6-C
+Five-vertical product closure is complete. Alumni and the three business products now add outcome-driven Home, return loops, mature guidance and direct vertical-aware Launch Control for platform owners. Next architecture/product mission: G9 Network Intelligence Layer.

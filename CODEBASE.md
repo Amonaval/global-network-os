@@ -778,3 +778,6 @@ Shared outcome-experience components:
 - `components/shared/NetworkRelationshipExplorer.tsx` — focused connection entry from an entity.
 
 Productized configuration now owns domain-native outcome language rather than generic placeholders. Alumni consumes the shared structure/knowledge components through explicitly bounded augmentation regions so the protected Alumni runtime core remains regression-checkable.
+
+## G8.6-C codebase update
+Added shared `NetworkOutcomeHome` and `NetworkMatureGuide`. Productized business verticals and Alumni now expose outcome-oriented Home/return experiences and platform-owner Launch Control. `FounderLaunchConsole` accepts `initialVertical` so embedded launch access opens on the active product. No persistence migration was required.

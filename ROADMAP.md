@@ -1467,3 +1467,13 @@ Implemented the first two outcome-driven closure batches:
 The product job is translated rather than copied from Family. Family memories/kinship remain Family-specific; business verticals use Wins & Lessons, Trust Evidence, Operations Playbook and Alumni Journeys.
 
 **NEXT: G8.6-C — Home, Guide, Launch & Return Loop.**
+
+## G8.6-C — Home, Guide, Launch & Return Loop — DONE
+- Outcome-driven Home for Alumni + Organization + Business Trust + Franchise.
+- Domain-specific return loops and next-best-action prompts.
+- Mature goal-based Guide and contextual What's New.
+- Full vertical-aware platform-owner Launch Control access.
+- Final pre-G9 product closure.
+
+### Next: G9 — Network Intelligence Layer
+G9 must build decision advantage on top of the completed Find → Understand → Connect → Act → Capture → Improve loop. No new vertical before commercial evidence.

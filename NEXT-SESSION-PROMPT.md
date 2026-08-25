@@ -1,21 +1,23 @@
-# Resume from G8.6-A + G8.6-B certified baseline
+# Resume from G8.6-C — authoritative baseline
 
-Current product sequence:
-G8.5 complete → G8.6-A/B complete → **G8.6-C NEXT** → G9 paid-outcome intelligence proof → Commercial Reality Gate.
+Treat the attached G8.6-C certified baseline as authoritative.
 
-G8.6-A/B delivered:
-- true productized modal overlay;
-- Structure Map plus guided drill-down;
-- Entity 360 with View in Network / connection explanation / relationship update / Ask Network;
-- Organization Wins & Lessons + Communities of Practice;
-- Business Trust Evidence & Success Stories + Business Circles;
-- Franchise Operations Playbook + Operator Networks;
-- Alumni Journeys & Give Back and living structure;
-- domain-native Help-the-Network prompts using governed contribution persistence.
+Completed: G0–G8, G8.5-A/B/C, G8.6-A/B/C.
 
-Do not restart architecture extraction and do not begin G9 yet.
+G8.6-C closed the final pre-intelligence product gaps:
+- outcome-driven Home and return loop,
+- mature goal-based Guide,
+- contextual What's New,
+- vertical-aware Launch Control for platform owners,
+- five-vertical product experience closure.
 
-Next consolidated mission: **G8.6-C — Home, Guide, Launch & Return Loop**.
-It must deliver enriched domain-native Home/Pulse, mature Explore/Guide, Platform Owner Launch Control parity/discoverability, What's New/contextual guidance, low-noise return/digest cues, and mobile/theme/empty/error acceptance across five verticals.
+Next mission: G9 — Network Intelligence Layer.
 
-After G8.6-C, G9 must prove paid outcomes rather than a generic AI chatbot.
+G9 must not be a generic chatbot. Prefer deterministic, permission-aware, provenance-aware intelligence first, then selectively use AI. Prioritize real buyer outcomes:
+- Organization: expertise, ownership, dependency and knowledge-risk intelligence.
+- Franchise: operational learning, coverage/training gaps and cross-location reuse.
+- Business Trust: provenance-backed trusted sourcing and warm paths.
+- Alumni: opportunity/mentor/introduction intelligence.
+- Family: relationship explanation and completeness intelligence.
+
+Do not add another vertical. Preserve the Generic Capability Utilization Rule and full historical regression chain.

@@ -489,3 +489,11 @@ This verifies the shared structure, 360° entity, living knowledge/help, Alumni 
 Production build remains an installed-environment gate: `npm ci && npm run build && npm run validate:g8-6ab`.
 
 G8.6-A/B packaging certification also re-ran the historical D1 → V1 → CR → S1 → S2 → S3 → G1 → G2 → G3 → G4 → G5 → G6 → G7 source gates. No protected Family foundation was changed.
+
+## G8.6-C
+`npm run validate:g8-6c` verifies outcome Home, return loop, mature Guide, contextual What's New and vertical-aware Launch Control, then executes the G8.6-A/B → G8.5 → G8 protected chain.
+
+Production build must still be run in an environment with installed dependencies: `npm ci && npm run build && npm run validate:g8-6c`.
+
+### G8.6-C certification result
+Historical source gates D1 through G8 passed in this workspace. After archive-lifecycle correction, G8.5-A/B/C, G8.6-A/B and G8.6-C also pass. Full semantic TypeScript/Next compilation is not certified in this extracted workspace because React/Next/Lucide dependencies are not installed locally; run the runtime checklist in the normal dependency-installed environment.

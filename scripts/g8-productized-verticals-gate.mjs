@@ -25,6 +25,15 @@ for(const name of historical){const re=new RegExp(`export(?:\\s+type|\\s+interfa
 // Family + Alumni product foundations must not be silently rewritten while new verticals ship.
 const protectedHashes=JSON.parse(read('scripts/g8-protected-existing-vertical-foundations.json'));
 const normalizeProtectedAlumniShowcase=source=>source
+ .replace(',Rocket,Search',',Search')
+ .replace(/\nimport NetworkOutcomeHome from \"\.\/shared\/NetworkOutcomeHome\";\nimport NetworkMatureGuide from \"\.\/shared\/NetworkMatureGuide\";\nimport FounderLaunchConsole from \"\.\/FounderLaunchConsole\";/g,'')
+ .replace('|\"launch\"','')
+ .replace(/\n const isPlatformOwner=!demo&&!!auth\?\.platform_owner;/g,'')
+ .replace(/\{isPlatformOwner&&<button className=\"icon-btn\" title=\"Launch Control\"[\s\S]*?<\/button>\}/g,'')
+ .replace(/<NetworkOutcomeHome kind=\"alumni\"[\s\S]*?\/>/g,'')
+ .replace(/\n    \{tab===\"launch\"&&isPlatformOwner&&[\s\S]*?\}\n/g,'\n')
+ .replace(/<section className=\"card g86c-whats-new\">[\s\S]*?<\/section>/g,'')
+ .replace(/<NetworkMatureGuide product=\"Alumni Network\"[\s\S]*?\/>/g,'')
  .replace(/\{\/\* G8\.6_ALUMNI_BEGIN \*\/\}[\s\S]*?\{\/\* G8\.6_ALUMNI_END \*\/\}/g,'')
  .replace(/\n?\/\* G8\.6_ALUMNI_BEGIN \*\/[\s\S]*?\/\* G8\.6_ALUMNI_END \*\//g,'')
  .replace(/\n\s+\n(\s+\{tab==="(?:explorer|community)")/g,'\n$1')
