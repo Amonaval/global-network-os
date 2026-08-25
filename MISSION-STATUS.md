@@ -1123,3 +1123,19 @@ A founder-level go/no-go review was performed after G8.5-C.
 
 ### Next
 **G8.6 — Outcome-Driven Vertical Experience Closure**, followed by **G9 — Paid Outcome Intelligence Proof**, followed by a real Commercial Reality Gate before G10.
+
+## G8.6-A + G8.6-B — CLOSED / SOURCE CERTIFIED
+
+- [x] fixed `.modal-backdrop` as a true viewport modal contract;
+- [x] shared Structure Map for productized verticals;
+- [x] Alumni living-structure augmentation within protected bounded regions;
+- [x] Entity 360: view in network, connection question, update connection, ask network, edit where authorized;
+- [x] Organization Wins & Lessons + Communities of Practice + expertise/help prompts;
+- [x] Business Trust Evidence & Success Stories + Business Circles + warm-path/verification prompts;
+- [x] Franchise Operations Playbook + Operator Networks + peer-location help prompts;
+- [x] Alumni Journeys & Give Back;
+- [x] governed contribution retained as persistence path for help requests;
+- [x] no database migration;
+- [x] inherited G8/G8.5 gates preserved.
+
+**NEXT: G8.6-C — enriched Home, mature Guide/Explore, Platform Owner Launch Control parity, What's New/return loop and final five-vertical product closure.**

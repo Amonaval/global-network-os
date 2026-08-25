@@ -478,3 +478,14 @@ Complete historical source chain **D1 → V1 → CR1/CR2 → S1 → S2 → S3-A1
 `validate:g8-5c` reports: Family 60+ demo members; Alumni 36; Organization 36; Business Trust 36; Franchise 36. `validate:g8` continues to report 147 historical remote exports, 333 accepted G7 files and 12 protected Family/Alumni foundations. Alumni's G8.5-C demo expansion is guarded by a normalized-core hash: only explicitly designated sample/showcase regions may differ; the rest of the protected Alumni runtime must remain byte-equivalent to the G8.5-B core.
 
 Production `npm run build` was attempted but this uploaded workspace has no installed Next.js dependency (`next: not found`). Run `npm ci && npm run build && npm run validate:g8-5c` in the normal local/CI/Vercel environment.
+
+## G8.6-A + B validation
+
+Source certification command:
+`npm run validate:g8-6ab`
+
+This verifies the shared structure, 360° entity, living knowledge/help, Alumni bounded augmentation and modal contracts, then runs the G8.5-C → G8.5-B → G8 historical gates.
+
+Production build remains an installed-environment gate: `npm ci && npm run build && npm run validate:g8-6ab`.
+
+G8.6-A/B packaging certification also re-ran the historical D1 → V1 → CR → S1 → S2 → S3 → G1 → G2 → G3 → G4 → G5 → G6 → G7 source gates. No protected Family foundation was changed.

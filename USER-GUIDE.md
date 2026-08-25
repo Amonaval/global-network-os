@@ -351,3 +351,21 @@ Organization, Business Trust and Franchise now include an interactive Places map
 
 ## G8.5-C Playground showcase
 The five Playgrounds are designed for exploration rather than as tiny mock screens. Family uses the existing 60-member family dataset. Alumni now demonstrates 36 people across batches, programs, cities and companies. Organization, Business Trust and Franchise each demonstrate 36 primary entities with richer relationships, communities, events, history and milestones. On the three productized business Home screens, use **Three useful journeys** to jump directly into discovery, connections or community. Playground remains read-only.
+
+## G8.6 — Understand, connect and reuse network knowledge
+
+### Structure Map
+Organization, Business Trust, Franchise and Alumni can now be explored as a living structure, not only a flat directory. Switch projection order to answer different questions without duplicating entities.
+
+### Entity 360
+Open an entity to see its affiliations and relationships, then use domain-aware actions such as **View in network**, **How are we connected?**, **Update connection**, or **Ask the network**. Editing remains permission-aware.
+
+### Living knowledge
+The shared activity foundation now presents different product jobs:
+- Organization — **Wins & Lessons**;
+- Business Trust — **Trust Evidence & Success Stories**;
+- Franchise — **Operations Playbook**;
+- Alumni — **Alumni Journeys & Give Back**.
+
+### Help the network
+Use the suggested prompts to request expertise, ownership, verification, a warm path or peer operational help. In live networks these requests continue through the governed contribution workflow so ordinary members do not receive unrestricted admin write access.

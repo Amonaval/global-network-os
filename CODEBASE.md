@@ -768,3 +768,13 @@ G8.5-A changes no production runtime and adds no migration. G8.5-B is responsibl
 
 ## G8.5-C showcase layer
 `templates/productized/config.ts` now carries meaningful read-only showcase datasets for Organization, Business Trust and Franchise (36 primary entities each) while `components/AlumniNetworkApp.tsx` carries a 36-profile Alumni showcase. `components/TemplateNetworkApp.tsx` renders shared What's New, guided showcase journeys and Guide proof from vertical configuration. `scripts/g8-5c-five-vertical-showcase-gate.mjs` protects minimum five-product showcase depth. Family continues to use its existing 60-member rich demo; no Family semantics were extracted into unrelated verticals. No schema migration was added.
+
+## G8.6-A/B additions
+
+Shared outcome-experience components:
+- `components/shared/NetworkStructureView.tsx` — projection-backed visual hierarchy/structure map.
+- `components/shared/NetworkEntityDetail.tsx` — 360° contextual entity action modal.
+- `components/shared/NetworkKnowledgeHelpHub.tsx` — reusable knowledge/help/community-value layer.
+- `components/shared/NetworkRelationshipExplorer.tsx` — focused connection entry from an entity.
+
+Productized configuration now owns domain-native outcome language rather than generic placeholders. Alumni consumes the shared structure/knowledge components through explicitly bounded augmentation regions so the protected Alumni runtime core remains regression-checkable.

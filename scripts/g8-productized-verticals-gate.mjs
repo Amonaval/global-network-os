@@ -25,6 +25,9 @@ for(const name of historical){const re=new RegExp(`export(?:\\s+type|\\s+interfa
 // Family + Alumni product foundations must not be silently rewritten while new verticals ship.
 const protectedHashes=JSON.parse(read('scripts/g8-protected-existing-vertical-foundations.json'));
 const normalizeProtectedAlumniShowcase=source=>source
+ .replace(/\{\/\* G8\.6_ALUMNI_BEGIN \*\/\}[\s\S]*?\{\/\* G8\.6_ALUMNI_END \*\/\}/g,'')
+ .replace(/\n?\/\* G8\.6_ALUMNI_BEGIN \*\/[\s\S]*?\/\* G8\.6_ALUMNI_END \*\//g,'')
+ .replace(/\n\s+\n(\s+\{tab==="(?:explorer|community)")/g,'\n$1')
  .replace(/const (?:sample|alumniSeed):AlumniProfile\[\]=\[.*?const sampleGroups:NetworkGroup\[\]=\[.*?\];/s,'/* ALUMNI_SHOWCASE_DATA */')
  .replace(/\{demo&&<section className="whats-new-card alumni-showcase-whats-new">.*?<\/section>\}/s,'')
  .replace(/\{demo&&<section className="card guide-showcase-proof">.*?<\/section>\}/s,'');

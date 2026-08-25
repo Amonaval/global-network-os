@@ -1457,3 +1457,13 @@ Before billing/enterprise platform expansion:
 No sixth vertical and no G10 until at least one product has a named buyer, repeated pain, measurable outcome, willingness to provide data, repeated workflow use and a credible paid-pilot path.
 
 Full reasoning: `STRATEGIC-PRODUCT-REVIEW.md`.
+
+## G8.6-A + G8.6-B — CLOSED / SOURCE CERTIFIED
+
+Implemented the first two outcome-driven closure batches:
+- **A — Orientation & Entity Action:** fixed productized modals, added living Structure Map, entity 360 actions, focused connection-path entry and relationship correction paths.
+- **B — Living Knowledge & Help Network:** added domain-native knowledge walls, focused communities and Help-the-Network prompts across Alumni, Organization, Business Trust and Franchise.
+
+The product job is translated rather than copied from Family. Family memories/kinship remain Family-specific; business verticals use Wins & Lessons, Trust Evidence, Operations Playbook and Alumni Journeys.
+
+**NEXT: G8.6-C — Home, Guide, Launch & Return Loop.**
