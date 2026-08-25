@@ -1304,3 +1304,36 @@ Validation: complete historical D1 → G6 source gates PASS; 147 historical remo
 See `G6-TWO-VERTICAL-PROOF-SHARED-UX-HARDENING.md`, `G6-RELEASE-MANIFEST.md` and `G6-RUNTIME-VERIFICATION-CHECKLIST.md`.
 
 **NEXT: G7 — Generic Platform Productization.**
+
+# 2026-08-25 — G7 Direction Addendum: Generic Network OS Productization
+
+G6 proved two active verticals. The authoritative next mission is:
+
+**G7 — Generic Network OS Productization & Template Architecture**
+
+G7 will maximize correct capability reuse without enforcing an arbitrary reuse percentage.
+
+Primary architectural additions:
+- configurable affiliations/dimensions
+- multiple hierarchy projections over one dataset
+- typed relationship contracts
+- first-class vertical templates
+- capability-pack composition
+- realistic future template proofs
+
+Future template directions preserved:
+- Organizational Intelligence
+- Business Trust Network
+- Franchise Network
+- Education Graph
+- Professional / Industry Network
+- Association Network
+- Residential / Society Network
+- Supply Chain / Partner Ecosystem
+- Investor / Startup Ecosystem
+- Customer / Account Intelligence
+- Custom Network
+
+Family + Alumni remain the active production proofs. Future templates in G7 are architecture/configuration/Playground proofs, not four additional full products.
+
+See the dedicated G7 strategy artifacts in this pack.

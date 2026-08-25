@@ -1,54 +1,55 @@
-# NEXT SESSION — G7 Generic Platform Productization
+# NEXT SESSION — G7 Generic Network OS Productization & Template Architecture
 
-Use the latest **G6 certified affected-files release** on top of the accepted G5 R2/full baseline. Read these first:
+Use the latest **certified G6 release** as the runtime baseline.
 
-1. `G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md`
-2. `G6-TWO-VERTICAL-PROOF-SHARED-UX-HARDENING.md`
-3. `G6-RELEASE-MANIFEST.md`
-4. `ROADMAP.md`
-5. `MISSION-STATUS.md`
-6. `CODEBASE.md`
-7. `DEVELOPMENT-RULES.md`
-8. `VALIDATION.md`
+Read first:
+1. `G7-GENERIC-NETWORK-OS-VISION.md`
+2. `G7-CAPABILITY-ARCHITECTURE.md`
+3. `G7-VERTICAL-TEMPLATE-CATALOG.md`
+4. `G7-CAPABILITY-REUSE-MATRIX.md`
+5. `G7-PLATFORM-TEMPLATE-CONTRACT.md`
+6. `G7-ROADMAP-TIMELINE.md`
+7. `G7-FUTURE-IDEATION-BACKLOG.md`
+8. `ROADMAP.md`
+9. `PROJECT-VISION.md`
+10. `MISSION-STATUS.md`
+11. `CODEBASE.md`
+12. `DEVELOPMENT-RULES.md`
+13. `VALIDATION.md`
 
-## Authoritative next mission
+## Mission
 
-**G7 — Generic Platform Productization**
+**G7 — Generic Network OS Productization & Template Architecture**
 
-Treat G7 as one consolidated High-effort batch, not micro-missions.
+Treat this as one consolidated High-effort mission.
 
-### Goal
+## Goals
+- configurable affiliation/dimension model
+- multiple projections over one dataset
+- first-class vertical template contract
+- capability-pack composition
+- proven Family→Alumni capability reuse
+- richer Alumni via shared Explorer, Groups, Events/RSVP, Memories, Maps, Milestones, Contributions, Connection Paths and Digest where semantically correct
+- architecture/Playground proofs for Organization, Business Trust, Franchise, Education and Custom Network
+- preserve Family + Alumni behavior, RLS, strict feature ownership and compatibility facades
 
-Turn the architecture proven by Family + Alumni into a productizable platform layer without reducing either vertical to a generic lowest-common-denominator UX.
+## Binding acceptance test
 
-### Scope
+The same Alumni dataset must support, without duplication:
+- `MET → Engineering → 2011 → Computer`
+- `MET → 2011 → Engineering → Computer`
 
-- vertical-aware network creation/selection contract rather than ad-hoc Family/Alumni onboarding branches;
-- reusable capability-pack registration and runtime eligibility;
-- reusable admin shell patterns where Family + Alumni prove common behavior;
-- reusable import/claim/invite composition contracts where proven;
-- platform-level network/vertical metadata and operational visibility;
-- clear extension contract for a future third vertical;
-- dependency guards preventing Core/shared code from importing vertical implementations;
-- preserve Family + Alumni routes/data/RPC behavior unless a migration is explicitly additive and justified;
-- keep Launch Control vertical-scoped;
-- keep G5/G6 vertical dispatch invariant strict;
-- retain G6 shared UX rule: shared quality system, vertical-specific experience.
+## Do not
+- target a reuse percentage
+- force domain semantics into Core
+- build four complete new vertical products in G7
+- introduce a universal page renderer
+- weaken RLS, tenant isolation, strict unknown-feature guards or accepted-file preservation
 
-### Do not
-
-- create a third vertical merely to prove an interface;
-- rename Family/Alumni database tables for cosmetic genericity;
-- force Family and Alumni page models into one universal renderer;
-- weaken unknown-feature, RLS, tenant-isolation or compatibility gates;
-- split G7 into tiny G7.1/G7.2 missions unless a genuine blocking risk requires it.
-
-### Delivery
-
-After implementation:
-- run every historical automated source gate plus a new G7 gate;
-- preserve accepted files and historical remote facade exports;
-- update architecture/roadmap/status/handoff docs;
-- update User/Admin Guide only for actual user/admin-visible changes;
-- create a G7 release architecture note, manifest and very short runtime checklist;
-- deliver affected files only, preserving folder hierarchy.
+## Delivery after implementation
+- all historical gates + new G7 gate
+- release note + manifest
+- short runtime checklist
+- roadmap/status/handoff updates
+- User/Admin Guide updates for visible changes
+- affected-files-only ZIP

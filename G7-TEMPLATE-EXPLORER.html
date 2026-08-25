@@ -1,0 +1,33 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>G7 Template Explorer</title><style>
+:root{--bg:#f5f7f4;--panel:#fff;--ink:#173d36;--muted:#67736f;--line:#dce5e0;--accent:#1d7a66;--accent2:#c87932;--soft:#e9f3ef;--warm:#fff0d9}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#1e2b28;line-height:1.55}
+header{background:linear-gradient(135deg,#143f36,#286958);color:white;padding:48px 20px}.wrap{max-width:1160px;margin:auto}
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;opacity:.8}h1{font-size:clamp(36px,6vw,66px);line-height:1.02;margin:10px 0 16px}
+h2,h3{color:var(--ink)}.lead{max-width:900px;font-size:19px;color:#e4f3ee}
+nav{position:sticky;top:0;z-index:20;background:rgba(245,247,244,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:8px;overflow:auto;padding:10px 16px}nav a{white-space:nowrap;text-decoration:none;color:var(--ink);font-weight:700;padding:8px 12px;border-radius:999px}nav a:hover{background:var(--soft)}
+section{padding:42px 18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 8px 26px rgba(20,63,54,.04)}
+.badge{display:inline-block;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800;background:var(--soft);color:var(--accent)}.orange{background:var(--warm);color:#855019}
+.flow{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#102f29;color:#e2f8f1;padding:20px;border-radius:16px;overflow:auto;white-space:pre}
+.kpi{font-size:34px;font-weight:850;color:var(--accent)}.timeline{border-left:3px solid var(--accent);margin-left:12px;padding-left:24px}.mile{position:relative;margin:0 0 28px}.mile:before{content:"";position:absolute;left:-33px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+input{font:inherit;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:white}a{color:var(--accent)}footer{text-align:center;color:var(--muted);padding:32px 18px}
+</style></head>
+<body><header><div class="wrap"><div class="eyebrow">G7 Template Architecture</div><h1>Vertical Template Explorer</h1><p class="lead">Future products are compositions of shared capabilities plus explicit domain semantics — not forks of the Family codebase.</p></div></header>
+<section><div class="wrap"><input id="q" placeholder="Search templates, capabilities or semantics…"><div id="grid" class="grid" style="margin-top:18px"><article class="card tpl"><h3>Family</h3><p><strong>Entities:</strong> Person</p><p><strong>Structure:</strong> Kinship graph</p><p><strong>Reusable:</strong> Explorer, Memories, Events, Maps, Milestones</p><p><strong>Unique:</strong> Lineage, generation, deceased</p></article><article class="card tpl"><h3>Alumni</h3><p><strong>Entities:</strong> Person + Institution</p><p><strong>Structure:</strong> Multi-dimensional affiliation</p><p><strong>Reusable:</strong> Explorer, Directory, Cohorts, Events, Memories, Maps</p><p><strong>Unique:</strong> Batch/program/stream, mentorship</p></article><article class="card tpl"><h3>Organizational Intelligence</h3><p><strong>Entities:</strong> Person + Team + Project</p><p><strong>Structure:</strong> Matrix affiliation graph</p><p><strong>Reusable:</strong> Explorer, Expertise, Groups, Events, Paths</p><p><strong>Unique:</strong> Reporting, ownership, dependencies</p></article><article class="card tpl"><h3>Business Trust</h3><p><strong>Entities:</strong> Person + Business</p><p><strong>Structure:</strong> Trust/partner graph</p><p><strong>Reusable:</strong> Discovery, Profiles, Maps, Paths, Contributions</p><p><strong>Unique:</strong> Recommendations, verification</p></article><article class="card tpl"><h3>Franchise</h3><p><strong>Entities:</strong> Store + Person + Region</p><p><strong>Structure:</strong> Geography + ownership</p><p><strong>Reusable:</strong> Explorer, Maps, Directory, Training, Groups</p><p><strong>Unique:</strong> Operations, compliance, performance</p></article><article class="card tpl"><h3>Education Graph</h3><p><strong>Entities:</strong> Subject + Course + Career</p><p><strong>Structure:</strong> Knowledge graph</p><p><strong>Reusable:</strong> Explorer, Search, Pathways, Guides</p><p><strong>Unique:</strong> Prerequisites, stream relationships</p></article><article class="card tpl"><h3>Supply Chain</h3><p><strong>Entities:</strong> Company + Logistics</p><p><strong>Structure:</strong> Dependency graph</p><p><strong>Reusable:</strong> Explorer, Maps, Discovery, Alerts</p><p><strong>Unique:</strong> Supply/dependency risk</p></article><article class="card tpl"><h3>Investor Ecosystem</h3><p><strong>Entities:</strong> Founder + Startup + Investor</p><p><strong>Structure:</strong> Investment graph</p><p><strong>Reusable:</strong> Discovery, Profiles, Events, Paths</p><p><strong>Unique:</strong> Investments, warm intros</p></article><article class="card tpl"><h3>Customer Intelligence</h3><p><strong>Entities:</strong> Account + Stakeholder</p><p><strong>Structure:</strong> Relationship graph</p><p><strong>Reusable:</strong> Explorer, History, Paths, Notifications</p><p><strong>Unique:</strong> Influence, sponsor, account ownership</p></article><article class="card tpl"><h3>Custom Network</h3><p><strong>Entities:</strong> Configurable</p><p><strong>Structure:</strong> Configurable</p><p><strong>Reusable:</strong> Selected capability packs</p><p><strong>Unique:</strong> Template-defined</p></article></div></div></section>
+<section><div class="wrap"><h2>Template contract</h2><div class="flow">Template
+├─ entity types
+├─ dimensions / affiliations
+├─ typed relationships
+├─ hierarchy projections
+├─ capability packs
+├─ profile + search schema
+├─ terminology
+├─ navigation / home
+├─ privacy + roles
+├─ guide / playground / launch
+└─ intelligence adapters</div></div></section>
+<footer>G7 Generic Network OS • Vertical template catalog</footer>
+<script>
+const q=document.getElementById('q'),items=[...document.querySelectorAll('.tpl')];
+q.addEventListener('input',()=>{const s=q.value.toLowerCase();items.forEach(x=>x.style.display=x.innerText.toLowerCase().includes(s)?'block':'none')})
+</script></body></html>

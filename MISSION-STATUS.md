@@ -1002,3 +1002,11 @@ Closure lifecycle:
 - [ ] SHORT DEPLOYED SMOKE
 
 **NEXT CONSOLIDATED BATCH: G7 — Generic Platform Productization.**
+
+## 2026-08-25 — G7 Strategy Definition — READY
+
+- Certified G6 remains the runtime baseline.
+- Authoritative next mission: **G7 — Generic Network OS Productization & Template Architecture**.
+- This strategy pack does not claim G7 runtime implementation.
+- G7 remains one consolidated High-effort mission.
+- Binding architecture proof: the same MET Alumni dataset must support both `MET → Engineering → 2011 → Computer` and `MET → 2011 → Engineering → Computer` without data duplication.

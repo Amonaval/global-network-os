@@ -191,3 +191,18 @@ Family + Alumni now provide the first concrete proof that the architecture is no
 The product rule going forward is **shared quality system, vertical-specific experience**. Reuse topbars, navigation mechanics, metrics, search/filter shells, empty states, import/claim/invite patterns and platform controls where evidence proves they are common. Do not force Family memories/lineage or Alumni cohort/career concepts into a generic lowest-common-denominator screen.
 
 G7 can productize the platform only from these proven seams and should make a third vertical cheaper without weakening Family or Alumni.
+
+# G7 Vision Expansion — Generic Network OS
+
+Family + Alumni now prove a broader platform direction: a configurable Network OS for real-world human, organizational, affiliation and trust networks.
+
+The durable architecture is:
+- Generic Network Core
+- Shared Capability Engines
+- Vertical Templates
+- Vertical-specific semantics/adapters
+- permission-aware Intelligence Layer
+
+A fixed hierarchy is insufficient. G7 should support dimensions, affiliations and multiple projections over the same underlying data.
+
+The platform should emerge from repeatedly proven capabilities while vertical products remain strong customer-facing solutions.
