@@ -895,3 +895,42 @@ S3-A1 Distributed Family Intake & Branch Assembly V1 is now **IMPLEMENTED IN SOU
 Delivered: Build Together family-creation handoff; secure per-representative contribution tokens; standalone mobile branch form; staged people/relationships; deterministic canonical and cross-branch match candidates; Same/Different/Not sure Owner review; conflict/provenance retention; Owner/Admin guarded canonical branch commit; Launch Control Pilot key; and activation instrumentation.
 
 Next priority is **pilot verification and evidence**, not additional breadth. S3-A2 populated-family onboarding remains PLANNED and should begin only after S3-A1 demonstrates that representatives actually complete forms and the resulting branches can be reconciled safely. All previously deferred roadmap items remain preserved.
+
+
+## 2026-08-25 — Mission closure discipline added
+
+All future major user-facing missions, or coherent batches of 2–3 small missions, now follow the permanent delivery lifecycle:
+
+**IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**
+
+This prevents technically completed features from becoming hard to discover or understand. A mission is not **UX COMPLETE / CLOSED** until the applicable user guide, safe Playground demonstration, rollout classification, What's New communication and mission-to-UI traceability are also complete. Backend-only work uses only applicable layers.
+
+### S3-A1 closure status
+S3-A1 remains **IMPLEMENTED IN SOURCE / LIVE VERIFY REQUIRED**, but its new closure layers are still **PARTIAL**. The next closure patch should add:
+- contextual help for Build Together, branch contribution and Owner reconciliation;
+- central Guide/Doc Portal coverage;
+- a no-save Playground walkthrough of multiple representatives → staged branches → duplicate decision → connected family;
+- Launch Control presentation/description for `contribute.branch_intake`;
+- a What's New entry;
+- explicit **Where to see this in the product** traceability.
+
+Only after these are present should S3-A1 be labelled **UX CLOSURE COMPLETE**. Deployed migration/RLS/browser checks remain a separate LIVE VERIFY gate.
+
+### Related next mission — S3-A2 Populated-Family Onboarding
+S3-A1 solves **how a family gets populated without asking everyone to learn/build the app**.
+
+S3-A2 solves the next adoption problem: **what happens when the wider family finally arrives after the family already exists**.
+
+The intended handoff is:
+
+`3–5 representatives build branches → Owner reconciles/approves → family becomes meaningfully populated → "Your family is ready — find yourself and explore" → S3-A2`
+
+S3-A2 should focus on:
+1. **Find myself quickly** — search/identify the person's pre-created family profile without browsing a complex tree.
+2. **Claim safely** — connect the authenticated user to the correct pre-created person with deterministic safeguards and Owner/review fallback for ambiguity.
+3. **Immediate first wow** — after identification, show useful personal context immediately: parents/children/siblings, lineage, relationship paths and relevant family highlights rather than an empty dashboard.
+4. **Complete my branch** — prefilled incremental contribution from the person's existing position; ask only for missing close relatives/facts.
+5. **Tiny corrections** — make correcting name/year/relationship mistakes simpler than opening a full admin workflow while retaining governance/provenance.
+6. **Measure activation** — invitation/open → find-self → claim → first-wow → correction/contribution → return.
+
+S3-A2 remains **PLANNED / EVIDENCE-GATED**. Do not start it merely because S3-A1 source implementation exists. First complete S3-A1 UX closure and LIVE VERIFY/pilot observation sufficiently to confirm that distributed forms actually create useful family graphs.

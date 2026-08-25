@@ -27,3 +27,19 @@ This is the canonical default exposure policy for the real-user learning pause. 
 ## S3-A1 launch addition — 2026-08-25
 
 `contribute.branch_intake` — **PILOT** for real families. Platform Owner can exercise it for controlled testing; Pilot targeting uses the existing Launch Control family list. The public token form is available only for valid links created under an enabled/pilot intake. It does not grant membership or family-read access. Playground registry may advertise the capability, but the real save/commit flow is not executed in no-save Playground.
+
+
+## Mission closure coupling — 2026-08-25
+
+Launch Control is now a mandatory checkpoint in the mission closure lifecycle:
+
+**IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**
+
+For every meaningful user-facing mission:
+- record whether it is Hidden, Test, Pilot or Released for real families;
+- record Playground visibility separately;
+- keep Guide and What's New claims consistent with that rollout;
+- never expose a privacy-sensitive feature merely because its source implementation exists.
+
+### S3-A1
+`contribute.branch_intake` remains **Pilot** for real families. Playground should receive a separate safe no-save demonstration during the S3-A1 closure patch. The real anonymous token/RPC flow must not be invoked from Playground merely to demonstrate the feature.

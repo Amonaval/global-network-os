@@ -234,3 +234,29 @@ Required staging/live checks after applying `043_s3a1_distributed_family_intake.
 14. Re-run existing onboarding/Launch Control/Family Admin smoke tests to ensure S3-A1 remains additive.
 
 Pilot evidence gate: measure representative link-open → submit conversion, people/relationships per completed branch, Owner reconciliation burden, time from family creation to useful connected graph, duplicate/conflict rate, wider-family invitation readiness and second-contributor activation.
+
+
+## Mission closure validation rule — 2026-08-25
+
+For major user-facing missions, validation is no longer only a code/source gate. Closure review must separately record:
+
+1. implementation/source/build/regression evidence;
+2. deployed/RLS/browser/mobile evidence where required;
+3. contextual + central Guide coverage;
+4. Playground coverage or justified N/A;
+5. Launch Control key/default/role behavior;
+6. What's New visibility;
+7. roadmap/status/codebase traceability;
+8. **Where to see this in the product**.
+
+These closure checks do not convert unverified runtime behavior into VERIFIED. A valid intermediate state is **IMPLEMENTED / UX CLOSURE COMPLETE / LIVE VERIFY REQUIRED**.
+
+### S3-A1 current closure validation
+- IMPLEMENT: PASS in source.
+- VALIDATE source gate: PASS 14/14.
+- GUIDE: PENDING.
+- PLAYGROUND: PENDING.
+- LAUNCH CONTROL: source key/default PASS; UI/help closure PENDING.
+- WHAT'S NEW: PENDING.
+- ROADMAP/STATUS: PASS for implementation checkpoint; must refresh after closure patch.
+- LIVE VERIFY: PENDING.

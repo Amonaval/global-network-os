@@ -637,3 +637,33 @@ Implemented as an independent activation/onboarding subsystem rather than a rewr
 Launch Control key `contribute.branch_intake` defaults to **Pilot**. Voice/WhatsApp/NLP/OCR/AI inference and advanced automatic branch stitching remain **DEFERRED / EVIDENCE-GATED**.
 
 Source gate `validate:s3-a1` passes 14/14. Production build, migration 043, deployed RLS/RPC, cross-family isolation, anonymous token behavior and 360/390/430 browser UX remain **LIVE VERIFY**.
+
+
+## 2026-08-25 — Permanent mission closure lifecycle
+
+**RULE ADDED / ACTIVE**
+
+Major user-facing missions and coherent batches of 2–3 small missions now close through:
+
+**IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**
+
+A feature may be IMPLEMENTED before this sequence is complete, but it must not be called **UX COMPLETE / CLOSED** until all applicable closure layers are done. Backend-only work may mark irrelevant user-facing layers N/A with a reason.
+
+### S3-A1 closure ledger
+- [x] IMPLEMENT — distributed intake V1 is implemented in source.
+- [x] VALIDATE — `validate:s3-a1` 14/14 plus surrounding source regression gates passed.
+- [ ] GUIDE — contextual interfaces + central Guide/Doc Portal coverage still to be added.
+- [ ] PLAYGROUND — safe no-save end-to-end Build Together demonstration still to be added.
+- [x] LAUNCH CONTROL — feature key `contribute.branch_intake` exists and defaults to Pilot; closure patch should also make the feature meaning/placement clear in Launch Control UI/help.
+- [ ] WHAT'S NEW — user-facing release entry still to be added.
+- [x] ROADMAP/STATUS — implementation truth recorded; update again after closure patch.
+- [ ] WHERE TO SEE THIS IN THE PRODUCT — formal traceability block still to be added with the closure patch.
+- [ ] CLOSE — not yet UX complete.
+- [ ] LIVE VERIFY — migration 043, deployed RLS/RPC/token behavior and mobile/browser validation remain outstanding.
+
+**Current truthful state: IMPLEMENTED IN SOURCE / CLOSURE PARTIAL / LIVE VERIFY REQUIRED.**
+
+### Next related mission
+**S3-A2 — Populated-Family Onboarding: PLANNED / EVIDENCE-GATED.**
+
+S3-A1 gets useful family data into the product before mass onboarding. S3-A2 begins after that: invite the wider family with **"Your family is ready — find yourself and explore"**, help each person identify/claim their pre-created profile, deliver immediate relationship/lineage value, and offer a prefilled **Complete my branch** flow for small missing pieces. It should optimize joining an already-useful family, not ask users to rebuild it.

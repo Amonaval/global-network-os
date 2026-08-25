@@ -228,3 +228,81 @@ Community membership never grants direct access to another family's tables. Cros
 - Preserve deferred ideas and mission history. Archive obsolete planning files; never delete historical reasoning solely to keep the root clean.
 - Launch visibility is configuration, not code ownership: hide/test/pilot early features rather than ripping them out.
 - Playground visibility is independent from real-family rollout and must remain no-save.
+
+
+## Mission closure lifecycle — permanent delivery rule
+
+For every **major user-facing mission**, and after every coherent batch of **2–3 smaller user-facing missions**, use this closure sequence:
+
+**IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**
+
+A mission can be technically implemented before every closure layer is complete, but it must not be labelled **UX COMPLETE / CLOSED** until every applicable layer below is finished.
+
+### 1. IMPLEMENT
+- Evolve the current architecture; do not silently remove existing capabilities.
+- Preserve tenant boundaries, privacy, provenance and existing contracts.
+- Prefer additive integration over rewrites.
+
+### 2. VALIDATE
+- Run mission-specific source/build/regression checks.
+- Record what is source-verified versus what still requires deployed Supabase/RLS/browser/mobile verification.
+- Never use source checks as a substitute for LIVE VERIFY.
+
+### 3. GUIDE
+- Add/update the feature in the central guide registry / Doc Portal.
+- Add contextual, collapsible guidance on each meaningful new interface.
+- Explain: **what this is → who should use it → where to find it → how to use it → what happens next → permissions/privacy → recovery/help**.
+- User/Admin Guide documentation must remain consistent with actual Launch Control and runtime behavior.
+
+### 4. PLAYGROUND
+- Demonstrate every meaningful safe user-facing capability in Playground.
+- Playground demonstrations must be no-save and must never mutate a real family.
+- If the real feature requires authentication, private data, external recipients or privileged actions, simulate the journey with safe sample data rather than bypassing those protections.
+- Backend-only/security/internal work does not require an artificial Playground screen.
+
+### 5. LAUNCH CONTROL
+- Every meaningful user-facing feature must have an explicit rollout decision: **Hidden / Test / Pilot / Released** (and Playground visibility where applicable).
+- Real-family visibility and Playground visibility are independent.
+- New privacy-sensitive/distribution/community capabilities should not silently become Released.
+- Mission closure documentation must state the default rollout and intended audience.
+
+### 6. WHAT'S NEW
+- Add a short human-readable release/change entry for meaningful user-facing missions.
+- Explain the user benefit and **where to find it**, not implementation internals.
+- Respect role and Launch Control visibility; do not advertise inaccessible Pilot/Test features to ordinary users.
+- Batch small changes into one understandable update rather than producing noisy release notes.
+
+### 7. ROADMAP / STATUS
+- Update ROADMAP, MISSION-STATUS, CODEBASE and VALIDATION where applicable.
+- Preserve prior mission history and deferred ideas.
+- Every major mission must include **Where to see this in the product** traceability covering relevant Owner, Member/Contributor, Playground, Guide and Launch Control locations.
+- Preserve status truth: **PLANNED / IMPLEMENTED / PARTIAL / VERIFIED / LIVE VERIFY / DEFERRED**.
+
+### 8. CLOSE
+A user-facing mission may be marked **CLOSED / UX COMPLETE** only when:
+- implementation is present;
+- applicable validation is recorded;
+- contextual + central guidance is present;
+- safe Playground coverage exists where meaningful;
+- Launch Control is explicit;
+- What's New is updated;
+- roadmap/status/codebase truth is updated;
+- product locations are traceable.
+
+If deployed verification is still outstanding, use a truthful state such as **IMPLEMENTED / UX CLOSURE COMPLETE / LIVE VERIFY REQUIRED** rather than VERIFIED.
+
+### Small/internal mission exception
+For backend-only, migration-only, security-only, refactor or invisible reliability work, update only the applicable closure layers. Do not create fake user guides, Playground demos or What's New entries for changes users cannot meaningfully see. Such work must still update validation/status/security documentation when relevant.
+
+### Mission closure checklist
+Use this checklist in the mission document:
+
+- [ ] IMPLEMENT
+- [ ] VALIDATE
+- [ ] GUIDE
+- [ ] PLAYGROUND (or N/A with reason)
+- [ ] LAUNCH CONTROL (or N/A with reason)
+- [ ] WHAT'S NEW (or N/A with reason)
+- [ ] ROADMAP / STATUS
+- [ ] WHERE TO SEE THIS IN THE PRODUCT
+- [ ] CLOSE

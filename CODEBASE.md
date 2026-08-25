@@ -350,3 +350,14 @@ Distributed intake is isolated from canonical family editing until Owner approva
 - Source gate: `scripts/s3-a1-source-gate.mjs`
 
 Canonical `family_members` and `family_relationships` remain the destination; anonymous forms never write them directly. Keep future intake extensions proposal/staging-first.
+
+
+## Documentation / release-governance rule — 2026-08-25
+
+The repository now treats user-facing mission closure as a product contract, not an optional documentation task:
+
+**IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**
+
+Canonical rule details live in `DEVELOPMENT-RULES.md`. Major mission documents must expose where the capability appears in the real product, Playground, Guide and Launch Control. Central guide content should be reused by contextual help where practical. Playground remains no-save. Launch visibility remains independent from code presence.
+
+S3-A1 is currently **IMPLEMENTED IN SOURCE / CLOSURE PARTIAL / LIVE VERIFY REQUIRED** because Guide, Playground and What's New closure surfaces still need implementation.
