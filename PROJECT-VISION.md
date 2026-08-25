@@ -182,3 +182,6 @@ The next platform proof is G4: compose these capabilities through a cleaner vert
 The platform now has a clean distinction between **what a vertical can do** and **how that vertical is assembled into the application**. Family registers its own navigation, Guide routing, Playground identity, launch bundles and What's New destinations; the app-shell validates and composes them. Alumni does not inherit Family surfaces by default and remains fail-closed until its real product experience exists.
 
 This is the final major architecture proof before the second vertical: G5 should now build Alumni as a real product using the shared network, identity, participation, construction and app-composition seams rather than reopening Family internals.
+
+## G5 proof point — second vertical is real
+The platform thesis is now tested by two distinct domains. Alumni is not a relabelled Family tree: institutional identity, cohorts and professional discovery use separate persistence and semantics while reusing the network/identity/participation/construction/runtime seams extracted in G1–G4.

@@ -14,6 +14,8 @@ export type LegacyFamilyNetworkMembershipRow = {
   photo_upload_enabled: boolean;
   photo_max_bytes: number;
   is_active: boolean;
+  vertical_kind?: "family" | "alumni" | null;
+  network_template?: string | null;
   member_id?: string | null;
 };
 

@@ -82,7 +82,7 @@ for (const forbidden of ["family_", "family_members", "member_id", "parent", "ch
 for (const marker of ["institutionId", "graduationYear", "program", "department", "batchmate", "classmate", "mentor"]) {
   if (!alumniTypes.includes(marker)) fail(`Alumni construction evidence missing ${marker}`);
 }
-if (!alumniAdapter.includes('availability: "skeleton"')) fail("Alumni construction adapter availability is not explicit");
+if (!/availability:\s*"(?:skeleton|ready)"/.test(alumniAdapter)) fail("Alumni construction adapter availability is not explicit");
 
 // App-shell is the composition root; vertical implementations do not compose each other.
 for (const marker of ["FAMILY_CONSTRUCTION_ADAPTER", "ALUMNI_CONSTRUCTION_ADAPTER", "createNetworkConstructionRuntime"]) {
@@ -139,7 +139,7 @@ if (missingFiles.length) fail(`accepted G2 files deleted: ${missingFiles.join(",
 
 // G3 is an adapter/runtime extraction, not a schema rewrite.
 const migrations = fs.readdirSync(path.join(root, "supabase/migrations")).filter(x => x.endsWith(".sql")).sort();
-const post044 = migrations.filter(x => /^04[5-9]_/.test(x) || /^[1-9][0-9]{2,}_/.test(x));
+const post044 = migrations.filter(x => (/^04[5-9]_/.test(x) || /^[1-9][0-9]{2,}_/.test(x)) && x !== '045_g5_alumni_network_v1.sql');
 if (post044.length) fail(`G3 unexpectedly added database migrations: ${post044.join(", ")}`);
 
 if (!process.exitCode) console.log(`G3 network construction gate: PASS — ${baselineExports.length} historical remote exports and ${acceptedFiles.length} accepted G2 files preserved`);

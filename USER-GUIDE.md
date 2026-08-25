@@ -247,3 +247,15 @@ Users can send structured feedback such as something confusing/missing, a featur
 ## Explore & Guide closure note
 
 Explore & Guide now includes contextual help not only on the main Family Network screens but also inside important tasks such as viewing a profile, importing Excel/CSV, inviting relatives and managing relationships. Platform Owners also have a dedicated guide entry for structured feedback triage. Deployment-sensitive privacy or governance behavior may still appear as **Live · verify deployment** until the target environment is certified.
+
+## Alumni Network V1
+An Alumni Network is separate from a Family Network. Create one from the welcome screen using **Create Alumni Network**, then add your institution/community name.
+
+### Alumni members
+Use **Directory** to find alumni by name, city or company and filter by graduation year/program. Use **Cohorts** to jump into a batch or program. In **Connections**, keep your own alumni profile current. If an admin already created a profile using your verified email, the welcome screen can offer **This is me** to claim it.
+
+### Alumni admins
+Open **Admin** to import Excel/CSV. Use columns such as `full_name`, `email`, `graduation_year`, `program`, `department`, `city`, `company`, `job_title`. Review the preview before confirming. Matching email addresses update an existing alumni profile instead of creating another one. From Directory, admins can create a private invitation link for an alumni profile.
+
+### Privacy
+Ordinary members do not receive other alumni email addresses from the directory. Alumni profiles and relationships are stored separately from Family members and Family relationships.

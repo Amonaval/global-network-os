@@ -31,7 +31,8 @@
     "validate:g1.4": "node scripts/g1-4-remote-capability-gate.mjs",
     "validate:g2": "node scripts/g2-shared-identity-participation-gate.mjs",
     "validate:g3": "node scripts/g3-network-construction-gate.mjs",
-    "validate:g4": "node scripts/g4-vertical-runtime-gate.mjs"
+    "validate:g4": "node scripts/g4-vertical-runtime-gate.mjs",
+    "validate:g5": "node scripts/g5-alumni-v1-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

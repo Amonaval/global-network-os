@@ -1,15 +1,3 @@
-import type { VerticalAppComposition } from "../../../core/verticals/app-composition";
-
-export const ALUMNI_APP_COMPOSITION = {
-  kind:"alumni",
-  renderStatus:"skeleton",
-  featureCatalogId:"alumni",
-  primaryNavigation:[],
-  mobileMoreNavigation:[],
-  mobileBottomViewIds:[],
-  mobileMoreActiveViewIds:[],
-  guide:{registryId:"alumni-guide-skeleton",guideByView:{},actionToView:{},playgroundViewIds:[]},
-  playground:{enabled:false,startView:"home"},
-  launch:{bundles:[],playgroundExcludedBundles:[],playgroundTitle:"",playgroundDescription:"",playgroundRecommendation:"",dayOneTitle:"",dayOneDescription:"",pilotTargetsTitle:"",pilotTargetsDescription:"",footnoteTitle:"",footnoteDescription:""},
-  whatsNew:{featureToView:{},defaultView:"home",kicker:"",fallbackTitle:"",fallbackDescription:""},
-} satisfies VerticalAppComposition;
+import type {VerticalAppComposition} from "../../../core/verticals/app-composition";
+const label=(en:string)=>({en,hi:en,mr:en});
+export const ALUMNI_APP_COMPOSITION={kind:"alumni",renderStatus:"active",featureCatalogId:"alumni",primaryNavigation:[{viewId:"home",featureKey:"alumni.core.home",iconToken:"home",label:label("Home")},{viewId:"directory",featureKey:"alumni.core.directory",iconToken:"users",label:label("Directory")},{viewId:"cohorts",featureKey:"alumni.core.cohorts",iconToken:"calendar",label:label("Cohorts")},{viewId:"connections",featureKey:"alumni.core.connections",iconToken:"heart-handshake",label:label("Connections")},{viewId:"guide",iconToken:"book-open",label:label("Guide")}],mobileMoreNavigation:[{viewId:"admin",featureKey:"alumni.admin.manage",iconToken:"settings",label:label("Admin"),adminOnly:true}],mobileBottomViewIds:["home","directory","cohorts","connections"],mobileMoreActiveViewIds:["admin","guide"],guide:{registryId:"alumni-guide-v1",guideByView:{home:"alumni-home",directory:"alumni-directory",cohorts:"alumni-cohorts",connections:"alumni-connections",admin:"alumni-admin"},actionToView:{"Open alumni directory":"directory","Open alumni admin":"admin"},playgroundViewIds:["home","directory","cohorts"]},playground:{enabled:true,startView:"home",publicNetworkSettings:{name:"Sample Alumni Network",network_template:"alumni",vertical_kind:"alumni"}},launch:{bundles:[{key:"core",label:"Core",description:"Alumni home"},{key:"discover",label:"Discover",description:"Directory and cohorts"},{key:"connect",label:"Connect",description:"Identity and connections"},{key:"admin",label:"Admin",description:"Import and management"}],playgroundExcludedBundles:[],playgroundTitle:"Alumni Playground",playgroundDescription:"Safe sample Alumni Network.",playgroundRecommendation:"Explore directory and cohorts before creating a real network.",dayOneTitle:"Alumni V1",dayOneDescription:"Core Alumni workflows",pilotTargetsTitle:"Alumni pilot",pilotTargetsDescription:"Invite one real institution cohort.",footnoteTitle:"Independent vertical",footnoteDescription:"No kinship persistence is reused."},whatsNew:{featureToView:{"alumni.core.directory":"directory","alumni.core.cohorts":"cohorts","alumni.admin.import":"admin"},defaultView:"home",kicker:"New in Alumni",fallbackTitle:"Alumni update",fallbackDescription:"A new Alumni capability is ready."}} satisfies VerticalAppComposition;

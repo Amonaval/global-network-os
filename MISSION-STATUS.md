@@ -963,3 +963,11 @@ Closure lifecycle:
 - [ ] SHORT DEPLOYED SMOKE
 
 **NEXT CONSOLIDATED BATCH: G5 — Alumni Network V1.**
+
+## G5 — Alumni Network V1 — ✅ CERTIFIED
+- Real Alumni vertical active with separate persistence/RLS/RPCs.
+- Alumni Home, Directory, Cohorts, profile/claiming, invitations, Excel/CSV import, Admin, Guide and Playground delivered.
+- Family repository hydration skipped for Alumni context.
+- 147 historical remote exports and 269 accepted G4 files preserved.
+- Migration 045 required.
+- Next: G6 — Two-Vertical Architecture Proof & Hardening.

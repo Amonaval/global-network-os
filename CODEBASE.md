@@ -641,3 +641,6 @@ Key ownership after G4:
 - `components/NetworkApp.tsx` and `FounderLaunchConsole.tsx` remain the stable Family renderers and consume registered metadata.
 
 Compatibility: all 147 historical remote exports, all 23 Family feature keys/defaults, G2 identity/participation seams, G3 construction seams, S3-A1 RPCs and Family UX behavior are preserved. G4 adds no migration.
+
+## G5 architecture delta
+The codebase now has two active verticals: `family` and `alumni`. `vertical_kind` is persisted on network/settings records. Alumni owns `alumni_profiles`, `alumni_connections`, `alumni_invitations` and Alumni RPCs in migration 045. `components/AlumniNetworkApp.tsx` is the V1 Alumni renderer. The outer `NetworkApp` must not hydrate Family repository state when `resolveNetworkVerticalKind(network)==="alumni"`.

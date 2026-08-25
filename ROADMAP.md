@@ -1283,3 +1283,9 @@ No migration was added. Historical gates through G4 pass; 147 historical remote 
 See `G4-VERTICAL-RUNTIME-APP-COMPOSITION.md`, `G4-RELEASE-MANIFEST.md` and `G4-RUNTIME-VERIFICATION-CHECKLIST.md`.
 
 **NEXT: G5 — Alumni Network V1.**
+
+## G5 — Alumni Network V1 — CLOSED / CERTIFIED
+G5 activates the first real second vertical. Alumni now has independent persistence, identity, directory/cohorts, claiming, invitations, import, Admin, Guide and Playground while Family behavior remains preserved. Migration: `045_g5_alumni_network_v1.sql`.
+
+### NEXT: G6 — Two-Vertical Architecture Proof & Hardening
+Stress Family + Alumni together: cross-vertical isolation, RLS/security, switching, performance, rollout/runtime composition, migration safety, and removal of abstractions that only looked generic before the second vertical existed.

@@ -355,3 +355,9 @@ From G2 onward, architecture work should be delivered as **coherent High-effort 
 - A skeleton vertical must fail closed; it must never inherit Family navigation, Guide, Playground, Launch Control or What's New surfaces by default.
 - Keep renderers concrete until a second real vertical proves a component is genuinely reusable. Do not create generic React renderers only to reduce folder names.
 - When moving an existing registry into vertical composition, preserve labels/order/feature keys/experience gating exactly and update historical source gates to follow the new canonical source rather than weakening the check.
+
+## Two-vertical rule (G5+)
+- Never make Alumni depend on `family_members`, `family_relationships`, Family intake RPCs or kinship semantics.
+- Never make Family behavior conditional on Alumni-specific domain fields.
+- Shared code may depend only on neutral core/capability contracts.
+- Any migration touching network tenancy must prove existing Family rows remain `family` and active-network behavior remains backward compatible.

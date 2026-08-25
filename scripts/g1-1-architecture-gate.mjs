@@ -6,7 +6,8 @@ for(const f of ["core/verticals/contracts.ts","app-shell/vertical-registry.ts","
 const c=read("core/verticals/contracts.ts"), r=read("app-shell/vertical-registry.ts"), f=read("verticals/family/definition.ts"), a=read("verticals/alumni/definition.ts"), n=read("lib/network.ts"), s=read("components/SetupScreen.tsx");
 if(!c.includes('NetworkVerticalKind = "family" | "alumni"')) fail("typed family/alumni vertical kind is missing");
 if(!f.includes('kind: "family"')||!f.includes('status: "active"')) fail("Family must be active");
-if(!a.includes('kind: "alumni"')||!a.includes('status: "skeleton"')) fail("Alumni must remain skeleton");
+if(!a.includes('kind:"alumni"')&&!a.includes('kind: "alumni"')) fail("Alumni vertical registration missing");
+if(!a.includes('status:"active"')&&!a.includes('status: "skeleton"')) fail("Alumni vertical status must be explicit");
 if(!r.includes("Duplicate vertical registration")) fail("registry uniqueness guard missing");
 if(!r.includes('DEFAULT_VERTICAL_KIND: NetworkVerticalKind = "family"')) fail("Family must stay default");
 if(!n.includes("resolveNetworkVerticalKind")) fail("runtime vertical resolver missing");

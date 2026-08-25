@@ -54,12 +54,13 @@ const familyFeatureKeys=new Set([...familyCatalog.matchAll(/\{key:"([^"]+)"/g)].
 for(const m of family.matchAll(/featureKey:"([^"]+)"/g)) if(!familyFeatureKeys.has(m[1])) fail(`Family surface references unknown feature ${m[1]}`);
 
 const alumniCode=stripComments(alumni);
-for(const marker of ['renderStatus:"skeleton"','primaryNavigation:[]','mobileMoreNavigation:[]','playground:{enabled:false','launch:{bundles:[]','whatsNew:{featureToView:{}']) if(!alumni.includes(marker)) fail(`Alumni skeleton composition missing ${marker}`);
+if(!alumni.includes('renderStatus:"skeleton"')&&!alumni.includes('renderStatus:"active"')) fail('Alumni render status is not explicit');
+if(alumni.includes('renderStatus:"skeleton"')){for(const marker of ['primaryNavigation:[]','mobileMoreNavigation:[]','playground:{enabled:false']) if(!alumni.includes(marker)) fail(`Alumni skeleton composition missing ${marker}`);}else{for(const marker of ['alumni.core.home','alumni.core.directory','alumni.core.cohorts','playground:{enabled:true']) if(!alumni.includes(marker)) fail(`Active Alumni composition missing ${marker}`);}
 for(const forbidden of ["core.family","remember.memories","contribute.help_family","Family","family tree","m37"]) if(alumniCode.includes(forbidden)) fail(`Alumni composition inherited Family-only surface/content: ${forbidden}`);
 if(!alumniCatalog.includes('catalogId: "alumni"')) fail("Alumni feature catalog registration regressed");
 
 for(const marker of [
-  'getRenderableVerticalRuntime(resolveNetworkVerticalKind(network))',
+  'getRenderableVerticalRuntime(activeVerticalKind)',
   'appComposition.primaryNavigation',
   'appComposition.mobileMoreNavigation',
   'appComposition.guide.guideByView',
@@ -93,7 +94,7 @@ const missingFiles=accepted.filter(f=>!fs.existsSync(path.join(root,f)));
 if(missingFiles.length) fail(`accepted G3 files deleted: ${missingFiles.join(", ")}`);
 
 const migrations=fs.readdirSync(path.join(root,"supabase/migrations")).filter(x=>x.endsWith(".sql")).sort();
-const post044=migrations.filter(x=>/^04[5-9]_/.test(x)||/^[1-9][0-9]{2,}_/.test(x));
+const post044=migrations.filter(x=>(/^04[5-9]_/.test(x)||/^[1-9][0-9]{2,}_/.test(x))&&x!=='045_g5_alumni_network_v1.sql');
 if(post044.length) fail(`G4 unexpectedly added database migrations: ${post044.join(", ")}`);
 
 if(!process.exitCode) console.log(`G4 vertical runtime gate: PASS — ${baselineExports.length} historical remote exports and ${accepted.length} accepted G3 files preserved`);

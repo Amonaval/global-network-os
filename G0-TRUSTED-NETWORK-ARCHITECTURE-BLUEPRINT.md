@@ -710,3 +710,6 @@ G4 should now focus on app-shell/vertical composition, not reopen the constructi
 ## G4 execution note — vertical app composition is now explicit
 
 G4 turns the earlier typed-vertical idea into a user-surface composition boundary. Navigation, Guide routing, Playground registration, Launch Control bundle metadata and What's New routing are now vertical-owned metadata validated by the app-shell. Family remains the only active renderer; Alumni is fail-closed until G5 supplies real Alumni surfaces. The older `VerticalDefinition.navigation` field was removed so app navigation has one owner rather than two competing registries.
+
+## G5 validation of the blueprint
+G5 supplies the second real semantic consumer. The architecture is no longer inferred only from Family: Alumni uses institutional identity/cohorts and separate persistence while sharing neutral tenancy, identity claiming, participation, construction orchestration and vertical runtime composition. This validates the capability-tree direction and moves remaining accidental coupling work into G6 hardening.

@@ -247,3 +247,10 @@ Migration 044 intentionally checks that the S3-A1 backend exists before repairin
 Migration 044 is idempotent and uses `ON CONFLICT DO NOTHING`; it repairs only missing feature/Playground registry rows and does **not** overwrite existing Platform Owner rollout or Playground choices.
 
 If Launch Control shows **Database update required** beside a feature, the frontend is ahead of Supabase. Apply pending migrations rather than repeatedly toggling the control. This is the guarded replacement for the previous `Unknown feature key` failure.
+
+## G5 Alumni Network V1
+After migration 044, run:
+
+`045_g5_alumni_network_v1.sql`
+
+It adds persisted vertical identity and separate Alumni tables/RPCs. Existing networks are backfilled to `family`; no Family data needs to be re-imported. After applying it, deploy the matching G5 frontend so `get_my_networks()` and the new Alumni RPCs stay in sync.

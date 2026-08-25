@@ -330,3 +330,10 @@ G4-specific checks:
 - executable Family/Alumni composition assertion PASS.
 
 Full `next build` is not certified in this workspace because application dependencies are not installed.
+
+## G5 certification
+- D1→S3-A1 historical source gates: PASS during certification.
+- G1.1→G5 gates: PASS.
+- G5 gate preserves 147 historical remote exports and 269 accepted G4 files.
+- Changed G5 TS/TSX TypeScript 5.8.3 transpile: PASS.
+- Runtime smoke was independently reported healthy at a high level before closure; use `G5-RUNTIME-VERIFICATION-CHECKLIST.md` after migration 045.

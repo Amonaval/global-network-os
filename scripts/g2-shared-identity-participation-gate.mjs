@@ -80,8 +80,8 @@ for (const forbidden of ["family_members", "get_my_claimable_profiles", "claim_p
   if (stripComments(alumniClaim).includes(forbidden) || stripComments(alumniParticipation).includes(forbidden) || stripComments(alumniTypes).includes(forbidden))
     fail(`Alumni skeleton illegally reuses Family identity semantics: ${forbidden}`);
 }
-if (!alumniClaim.includes('availability: "skeleton"') || !alumniParticipation.includes('availability: "skeleton"'))
-  fail("Alumni identity/participation skeleton availability is not explicit");
+if (!/availability:\s*"(?:skeleton|ready)"/.test(alumniClaim) || !/availability:\s*"(?:skeleton|ready)"/.test(alumniParticipation))
+  fail("Alumni identity/participation availability is not explicit");
 if (!alumniTypes.includes("institutionId") || !alumniTypes.includes("graduationYear"))
   fail("Alumni identity skeleton does not express institutional identity semantics");
 
@@ -153,7 +153,7 @@ if (missing.length) fail(`historical lib/remote.ts exports missing: ${missing.jo
 
 // G2 is TypeScript/API extraction only: do not create a fake Alumni DB by adding a new migration.
 const migrationNames = fs.readdirSync(path.join(root, "supabase/migrations")).filter(x => x.endsWith(".sql")).sort();
-const postG13 = migrationNames.filter(x => /^04[5-9]_/.test(x) || /^[1-9][0-9]{2,}_/.test(x));
+const postG13 = migrationNames.filter(x => (/^04[5-9]_/.test(x) || /^[1-9][0-9]{2,}_/.test(x)) && x !== '045_g5_alumni_network_v1.sql');
 if (postG13.length) fail(`G2 unexpectedly added database migrations: ${postG13.join(", ")}`);
 
 if (!process.exitCode) console.log(`G2 shared identity/participation gate: PASS — ${baseline.length} historical remote exports preserved`);

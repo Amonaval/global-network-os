@@ -1,0 +1,23 @@
+import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';
+const root=process.cwd(),read=p=>fs.readFileSync(path.join(root,p),'utf8'),fail=m=>{console.error(`G5 Alumni V1 gate: FAIL — ${m}`);process.exitCode=1};
+const required=['supabase/migrations/045_g5_alumni_network_v1.sql','components/AlumniNetworkApp.tsx','verticals/alumni/data/remote.ts','verticals/alumni/identity/claiming-adapter.ts','verticals/alumni/participation/adapter.ts','verticals/alumni/construction/adapter.ts','verticals/alumni/features/catalog.ts','verticals/alumni/runtime/composition.ts','verticals/alumni/definition.ts','scripts/g5-accepted-g4-baseline.txt'];
+for(const f of required)if(!fs.existsSync(path.join(root,f)))fail(`missing ${f}`);
+const sql=read('supabase/migrations/045_g5_alumni_network_v1.sql'),alumniFiles=['components/AlumniNetworkApp.tsx','verticals/alumni/data/remote.ts','verticals/alumni/identity/claiming-adapter.ts','verticals/alumni/participation/adapter.ts','verticals/alumni/construction/adapter.ts','verticals/alumni/features/catalog.ts','verticals/alumni/runtime/composition.ts','verticals/alumni/definition.ts'].map(read).join('\n');
+for(const marker of ['vertical_kind','create_alumni_network','alumni_profiles','get_alumni_directory','get_my_claimable_alumni_profiles','claim_alumni_profile_by_verified_email','import_alumni_profiles','create_alumni_invitation','accept_alumni_invitation'])if(!sql.includes(marker))fail(`migration missing ${marker}`);
+for(const forbidden of ['family_members','family_relationships','create_family_intake','commit_family_intake','relationship_type:"parent"','relationship_type:"spouse"'])if(alumniFiles.toLowerCase().includes(forbidden))fail(`Alumni implementation reuses Family/Kinship semantics: ${forbidden}`);
+for(const marker of ['renderStatus:"active"','alumni.core.directory','alumni.core.cohorts','playground:{enabled:true'])if(!read('verticals/alumni/runtime/composition.ts').includes(marker))fail(`active Alumni composition missing ${marker}`);
+for(const marker of ['availability:"ready"','availability: "ready"']){if(read('verticals/alumni/identity/claiming-adapter.ts').includes(marker))break;if(marker==='availability: "ready"')fail('Alumni identity claiming not ready');}
+if(!read('verticals/alumni/participation/adapter.ts').includes('availability:"ready"'))fail('Alumni participation not ready');
+if(!read('verticals/alumni/construction/adapter.ts').includes('availability:"ready"'))fail('Alumni construction not ready');
+const app=read('components/NetworkApp.tsx');for(const marker of ['resolveNetworkVerticalKind(n)==="family"','<AlumniNetworkApp','onCreateAlumni','claimableAlumniProfiles'])if(!app.includes(marker))fail(`NetworkApp missing ${marker}`);
+// G5 certification hotfix: vertical dispatch must occur before the Family feature compatibility facade
+// can see Alumni feature keys. Keep the runtime's unknown-key exception strict; fix ownership at the caller.
+for(const marker of ['const activeVerticalKind = resolveNetworkVerticalKind(network);','getRenderableVerticalRuntime(activeVerticalKind)','activeVerticalKind==="family"&&isFeatureAvailable'])if(!app.includes(marker))fail(`NetworkApp vertical feature isolation missing ${marker}`);
+const alumniHandoff=app.indexOf('if(network && activeVerticalKind==="alumni" && !setupNeeded) return <AlumniNetworkApp');
+const familyFeatureEvaluation=app.indexOf('const hasFeature=');
+if(alumniHandoff<0||familyFeatureEvaluation<0||alumniHandoff>familyFeatureEvaluation)fail('Alumni handoff must occur before Family feature evaluation');
+
+const baseline=read('scripts/g5-accepted-g4-baseline.txt').split(/\r?\n/).filter(Boolean);const missing=baseline.filter(f=>!fs.existsSync(path.join(root,f)));if(missing.length)fail(`accepted G4 files deleted: ${missing.join(', ')}`);
+const facade=read('lib/remote.ts'),exports=JSON.parse(read('scripts/g1-4-remote-compatibility-exports.json'));for(const name of exports){const re=new RegExp(`export(?:\\s+type|\\s+interface|\\s+(?:async\\s+)?function|\\s+(?:const|let|var|class|enum))\\s+${name}\\b|export\\s+(?:type\\s+)?\\{[^}]*\\b${name}\\b`,'m');if(!re.test(facade))fail(`historical remote export missing: ${name}`)}
+for(const marker of ['revoke all on table public.alumni_profiles from anon,authenticated','case when ap.claimed_by=auth.uid() or public.is_network_admin(ap.network_id) then ap.email else null end','status=\'active\' and expires_at>now()'])if(!sql.includes(marker))fail(`security/privacy marker missing: ${marker}`);
+if(!process.exitCode)console.log(`G5 Alumni V1 gate: PASS — ${exports.length} historical remote exports and ${baseline.length} accepted G4 files preserved`);

@@ -18,7 +18,8 @@ const SETUP_COPY = {
 
 
 type ClaimableProfile={network_id:string;family_name:string;member_id:string;member_name:string};
-type ExistingFamily={network_id:string;name:string;role:string;is_active:boolean};
+type ExistingFamily={network_id:string;name:string;role:string;is_active:boolean;vertical_kind?:"family"|"alumni"|null};
+type ClaimableAlumni={profile_id:string;network_id:string;network_name:string;full_name:string;graduation_year?:number|null;program?:string|null};
 type Props = {
   onCreate: (settings: NetworkSettings, mode: "empty" | "demo" | "import", members?: Member[], relationships?: Relationship[]) => Promise<void> | void;
   onExploreDemo:()=>void;
@@ -32,13 +33,19 @@ type Props = {
   canSetup: boolean;
   approvalRequired?: boolean;
   onOpenGuide?:()=>void;
+  claimableAlumniProfiles?:ClaimableAlumni[];
+  onClaimAlumniProfile?:(profileId:string)=>Promise<void>;
+  onCreateAlumni?:(name:string,institution:string,description:string)=>Promise<void>;
+  onExploreAlumniDemo?:()=>void;
+  alumniInviteToken?:string;
+  onAcceptAlumniInvite?:()=>Promise<void>;
 };
 
-export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],existingFamilies=[],onOpenFamily,onSignOut,onClaimProfile,shared,canSetup,approvalRequired=false,onOpenGuide }: Props) {
+export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],existingFamilies=[],onOpenFamily,onSignOut,onClaimProfile,shared,canSetup,approvalRequired=false,onOpenGuide,claimableAlumniProfiles=[],onClaimAlumniProfile,onCreateAlumni,onExploreAlumniDemo,alumniInviteToken,onAcceptAlumniInvite }: Props) {
   const { language } = useLanguage();
   const c = SETUP_COPY[language];
   const nameError = language === "hi" ? "कृपया अपने परिवार को एक नाम दें।" : language === "mr" ? "कृपया आपल्या कुटुंबाला नाव द्या." : "Please give your family space a name.";
-  const [path,setPath]=useState<"entry"|"join"|"create">("entry");
+  const [path,setPath]=useState<"entry"|"join"|"create"|"alumni">("entry");
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -46,6 +53,9 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
   const [busy, setBusy] = useState(false);
   const [showImport, setShowImport] = useState(false);
   const [error, setError] = useState("");
+  const [institution,setInstitution]=useState("");
+  const [alumniName,setAlumniName]=useState("");
+  const [alumniDescription,setAlumniDescription]=useState("");
   const familyVertical = getVerticalDefinition("family");
   const familyLabels = familyVertical.legacyNetworkLabels;
 
@@ -68,12 +78,16 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
       <section className="onboarding-card alpha-entry-card">
       {path==="entry"&&<>
         <div className="setup-heading"><div className="brand-mark"><TreePine size={24}/></div><div><span className="setup-eyebrow">Welcome</span><h2>What would you like to do?</h2></div></div>
-        {existingFamilies.length>0&&<div className="claimable-family-box existing-family-box"><span className="warm-kicker">Your families</span>{existingFamilies.map(f=><div className="claimable-family-row" key={f.network_id}><span><b>{f.name}</b><small>{f.role}</small></span><button className="btn" disabled={busy||!onOpenFamily} onClick={async()=>{if(!onOpenFamily)return;setBusy(true);setError("");try{await onOpenFamily(f.network_id)}catch(e:any){setError(e.message||"Could not open that family.")}finally{setBusy(false)}}}>Open family</button></div>)}</div>}
+        {existingFamilies.length>0&&<div className="claimable-family-box existing-family-box"><span className="warm-kicker">Your networks</span>{existingFamilies.map(f=><div className="claimable-family-row" key={f.network_id}><span><b>{f.name}</b><small>{f.vertical_kind==="alumni"?"Alumni Network":`Family · ${f.role}`}</small></span><button className="btn" disabled={busy||!onOpenFamily} onClick={async()=>{if(!onOpenFamily)return;setBusy(true);setError("");try{await onOpenFamily(f.network_id)}catch(e:any){setError(e.message||"Could not open that network.")}finally{setBusy(false)}}}>Open</button></div>)}</div>}
+        {alumniInviteToken&&onAcceptAlumniInvite&&<div className="claimable-family-box"><span className="warm-kicker">Alumni invitation ready</span><div className="claimable-family-row"><span><b>You have a private Alumni invitation</b><small>Nothing is joined until you confirm.</small></span><button className="btn primary" disabled={busy} onClick={async()=>{setBusy(true);setError("");try{await onAcceptAlumniInvite()}catch(e:any){setError(e.message||"Could not accept Alumni invitation.")}finally{setBusy(false)}}}>Yes, join this Alumni Network</button></div></div>}
+        {claimableAlumniProfiles.length>0&&<div className="claimable-family-box"><span className="warm-kicker">Alumni profiles matching your verified email</span>{claimableAlumniProfiles.slice(0,3).map(p=><div className="claimable-family-row" key={p.profile_id}><span><b>{p.full_name}</b><small>{p.network_name} · {[p.program,p.graduation_year].filter(Boolean).join(" · ")}</small></span><button className="btn primary" disabled={busy||!onClaimAlumniProfile} onClick={async()=>{if(!onClaimAlumniProfile)return;setBusy(true);setError("");try{await onClaimAlumniProfile(p.profile_id)}catch(e:any){setError(e.message||"Could not claim that alumni profile.")}finally{setBusy(false)}}}>This is me</button></div>)}</div>}
         {claimableProfiles.length>0&&<div className="claimable-family-box"><span className="warm-kicker">We may have found you</span>{claimableProfiles.slice(0,3).map(p=><div className="claimable-family-row" key={`${p.network_id}-${p.member_id}`}><span><b>{p.member_name}</b><small>{p.family_name}</small></span><button className="btn primary" disabled={busy} onClick={()=>claim(p.member_id)}>This is me</button></div>)}</div>}
         <div className="alpha-entry-options">
           <button className="alpha-entry-option primary-choice" onClick={()=>setPath("join")}><span><UsersRound/></span><b>Join my family</b><small>Use a family code or connect a family profile already created for you.</small><em>Join family <ArrowRight size={15}/></em></button>
           <button className="alpha-entry-option" onClick={onExploreDemo}><span><PlayCircle/></span><b>Explore a sample family</b><small>See the app immediately. Demo data is read-only and your Supabase account stays signed in.</small><em>Explore demo <ArrowRight size={15}/></em></button>
           <button className="alpha-entry-option" onClick={()=>setPath("create")}><span><TreePine/></span><b>Create my family</b><small>Upload Excel, start with a few relatives, or begin empty.</small><em>{approvalRequired?"Request / create":"Create now"} <ArrowRight size={15}/></em></button>
+          {shared&&onCreateAlumni&&<button className="alpha-entry-option" onClick={()=>setPath("alumni")}><span><UsersRound/></span><b>Create Alumni Network</b><small>Build an institution, batch or program directory with separate Alumni profiles.</small><em>Create Alumni <ArrowRight size={15}/></em></button>}
+          {shared&&onExploreAlumniDemo&&<button className="alpha-entry-option" onClick={onExploreAlumniDemo}><span><PlayCircle/></span><b>Explore Alumni sample</b><small>Preview directory, cohorts and Alumni identity without changing real data.</small><em>Open Alumni Playground <ArrowRight size={15}/></em></button>}
         </div>
         <div className="setup-privacy"><ShieldCheck size={17}/><span><b>Already invited by a link?</b> Open that private invitation link after signing in and it will connect you to the intended profile.</span></div>
       </>}
@@ -84,6 +98,15 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
         <div className="join-code-row"><div className="field"><label>Family code</label><input className="text-input family-code-input" value={joinCode} onChange={e=>setJoinCode(e.target.value.toUpperCase())} placeholder="e.g. A1B2C3D4" maxLength={12} autoCapitalize="characters" onKeyDown={e=>e.key==="Enter"&&join()}/></div><button className="btn primary" disabled={busy||joinCode.trim().length<4} onClick={join}><KeyRound size={16}/>{busy?"Joining…":"Join family"}</button></div>
         {claimableProfiles.length>0&&<><div className="entry-or"><span>or</span></div><div className="claimable-family-box"><b>Profiles matching your verified email</b>{claimableProfiles.map(p=><div className="claimable-family-row" key={p.member_id}><span><b>{p.member_name}</b><small>{p.family_name}</small></span><button className="btn" disabled={busy} onClick={()=>claim(p.member_id)}>This is me</button></div>)}</div></>}
         <button className="btn demo-inline" onClick={onExploreDemo}><PlayCircle size={16}/> Just explore the sample instead</button>
+      </>}
+      {path==="alumni"&&<>
+        <button className="setup-back" onClick={()=>{setPath("entry");setError("")}}><ArrowLeft size={15}/> Back</button>
+        <div className="setup-heading"><div><span className="setup-eyebrow">Alumni Network V1</span><h2>Create your alumni community</h2></div></div>
+        <p className="setup-intro">Alumni data stays separate from Family members and relationships. Start with one institution/community; import batches after creation.</p>
+        <div className="field spacious"><label>Network name</label><input className="text-input" value={alumniName} onChange={e=>setAlumniName(e.target.value)} placeholder="e.g. COEP Alumni 2008–2012"/></div>
+        <div className="field spacious"><label>Institution / community</label><input className="text-input" value={institution} onChange={e=>setInstitution(e.target.value)} placeholder="e.g. College of Engineering Pune"/></div>
+        <div className="field spacious"><label>Description <em>optional</em></label><textarea className="text-input" rows={3} value={alumniDescription} onChange={e=>setAlumniDescription(e.target.value)} placeholder="Who this alumni network is for…"/></div>
+        <button className="btn primary setup-next" disabled={busy||!alumniName.trim()||!institution.trim()} onClick={async()=>{if(!onCreateAlumni)return;setBusy(true);setError("");try{await onCreateAlumni(alumniName.trim(),institution.trim(),alumniDescription.trim())}catch(e:any){setError(e.message||"Could not create Alumni Network.")}finally{setBusy(false)}}}>Create Alumni Network <ArrowRight size={17}/></button>
       </>}
       {path==="create"&&<>
         <button className="setup-back" onClick={()=>{if(step===2)setStep(1);else setPath("entry");setError("")}}><ArrowLeft size={15}/> Back</button>
