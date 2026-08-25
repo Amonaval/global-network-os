@@ -48,3 +48,23 @@ Apply after migration 044:
 
 ## Next
 **G6 — Two-Vertical Architecture Proof & Hardening**
+
+## G5 certification hotfix — vertical feature dispatch
+
+A post-certification runtime smoke test found that opening the active Alumni vertical could throw `Unknown feature key: alumni.core.home` before the Alumni workspace rendered. The strict unknown-key exception in `core/features/runtime.ts` was correct; the caller was wrong.
+
+Root cause: `NetworkApp` resolved the Alumni composition, but still derived Family navigation/announcement visibility through the historical Family-only `lib/features.ts` compatibility facade before handing rendering to `AlumniNetworkApp`.
+
+Correction:
+
+- `NetworkApp` resolves `activeVerticalKind` once and hands an active Alumni network to `AlumniNetworkApp` before Family-only feature evaluation.
+- the Family `hasFeature` helper additionally fails closed unless `activeVerticalKind === "family"`, protecting transient setup/network-switch states.
+- the generic feature runtime continues throwing on unknown keys so future cross-catalog misuse remains visible rather than silently accepted.
+- the G5 gate now enforces dispatch ordering and the Family-only feature guard.
+- the G4 historical gate was updated only for the equivalent `activeVerticalKind` refactor; its composition guarantees remain unchanged.
+
+Certification after the fix: complete D1 → G5 source gate chain PASS; focused TypeScript 5.8.3 transpile PASS.
+
+## Superseded baseline note — G6
+
+G5 Certified R2 remains the accepted historical Alumni V1 baseline. G6 subsequently adds shared UX composition, polished Alumni presentation, vertical-scoped Launch Control and additional tenant hardening. Use the G6 release as the current source baseline after applying migration 046.

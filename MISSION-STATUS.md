@@ -700,9 +700,9 @@ Create Family → Build together with relatives; Home quick-start → ask relati
 - **G2 — Shared Identity, Claiming & Participation Foundation:** IMPLEMENTED IN SOURCE / CLOSED
 - **G3 — Network Construction Engine Extraction:** IMPLEMENTED IN SOURCE / CLOSED
 - **G4 — Vertical Runtime & App Composition:** NEXT / HIGH-EFFORT CONSOLIDATED BATCH
-- **G5 — Alumni Network V1:** PLANNED / FIRST REAL SECOND VERTICAL
-- **G6 — Two-Vertical Architecture Proof & Hardening:** PLANNED / MANDATORY AFTER G5
-- **G7 — Generic Platform Productization:** EVIDENCE-GATED
+- **G5 — Alumni Network V1:** IMPLEMENTED / CERTIFIED R2
+- **G6 — Two-Vertical Architecture Proof, Shared UX Composition & Hardening:** IMPLEMENTED IN SOURCE / CLOSED / DEPLOYED SMOKE REQUIRED
+- **G7 — Generic Platform Productization:** NEXT / EVIDENCE-GATED HIGH-EFFORT BATCH
 - **G8 — Commercial Platform Foundation:** EVIDENCE-GATED
 - **G9+ — Future Verticals & Ecosystem Scale:** FUTURE — association/professional/enterprise/founder/clubs/nonprofit scopes preserved
 
@@ -964,10 +964,41 @@ Closure lifecycle:
 
 **NEXT CONSOLIDATED BATCH: G5 — Alumni Network V1.**
 
-## G5 — Alumni Network V1 — ✅ CERTIFIED
-- Real Alumni vertical active with separate persistence/RLS/RPCs.
-- Alumni Home, Directory, Cohorts, profile/claiming, invitations, Excel/CSV import, Admin, Guide and Playground delivered.
-- Family repository hydration skipped for Alumni context.
-- 147 historical remote exports and 269 accepted G4 files preserved.
-- Migration 045 required.
-- Next: G6 — Two-Vertical Architecture Proof & Hardening.
+## G5 CERTIFICATION HOTFIX — CLOSED
+
+Post-certification smoke testing exposed one cross-catalog dispatch bug (`alumni.core.home` evaluated by the Family feature facade). The issue is fixed without changing Family or Alumni feature catalogs. Full D1 → G5 gates pass again. G5 remains CLOSED/CERTIFIED, and G6 must use this corrected baseline.
+
+
+## 2026-08-25 — G5 Alumni Network V1
+
+**G5: IMPLEMENTED / CERTIFIED R2 / CLOSED**
+
+The first real Alumni vertical is active with separate persistence and product surfaces. The `alumni.core.home` dispatch hotfix is included in the accepted R2 baseline used by G6.
+
+## 2026-08-25 — G6 Two-Vertical Architecture Proof, Shared UX Composition & Hardening
+
+**G6: IMPLEMENTED IN SOURCE / CLOSED / SHORT DEPLOYED SMOKE REQUIRED**
+
+Delivered as one consolidated batch:
+- shared topbar + neutral network switcher + reusable metric/section/empty/avatar primitives;
+- polished responsive Alumni Home/Directory/Cohorts/Connections/Admin/Guide UX;
+- Alumni-specific feature runtime/rollout evaluation retained;
+- Family → Alumni early dispatch invariant retained;
+- vertical-scoped Platform Launch Control and network targeting;
+- migration 046 with Alumni feature registry, durable institution settings, tenant-integrity foreign keys/indexes and trusted connection RPCs;
+- complete D1 → G6 source gate chain PASS;
+- 147 historical remote exports, 280 accepted G5 files and 7 protected Family foundations preserved;
+- G6 changed TS/TSX syntax/transpile PASS.
+
+Closure lifecycle:
+- [x] IMPLEMENT
+- [x] VALIDATE
+- [x] GUIDE
+- [x] PLAYGROUND
+- [x] LAUNCH CONTROL
+- [x] WHAT'S NEW / composition integrity
+- [x] ROADMAP / STATUS
+- [x] CLOSE
+- [ ] SHORT DEPLOYED SMOKE
+
+**NEXT CONSOLIDATED BATCH: G7 — Generic Platform Productization.**

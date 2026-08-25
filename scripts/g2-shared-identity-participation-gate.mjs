@@ -153,7 +153,7 @@ if (missing.length) fail(`historical lib/remote.ts exports missing: ${missing.jo
 
 // G2 is TypeScript/API extraction only: do not create a fake Alumni DB by adding a new migration.
 const migrationNames = fs.readdirSync(path.join(root, "supabase/migrations")).filter(x => x.endsWith(".sql")).sort();
-const postG13 = migrationNames.filter(x => (/^04[5-9]_/.test(x) || /^[1-9][0-9]{2,}_/.test(x)) && x !== '045_g5_alumni_network_v1.sql');
+const postG13 = migrationNames.filter(x => (/^04[5-9]_/.test(x) || /^[1-9][0-9]{2,}_/.test(x)) && !['045_g5_alumni_network_v1.sql','046_g6_two_vertical_hardening.sql'].includes(x));
 if (postG13.length) fail(`G2 unexpectedly added database migrations: ${postG13.join(", ")}`);
 
 if (!process.exitCode) console.log(`G2 shared identity/participation gate: PASS — ${baseline.length} historical remote exports preserved`);

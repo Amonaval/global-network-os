@@ -1,4 +1,5 @@
 import type { LaunchState } from "../../core/features/contracts";
+import type { NetworkVerticalKind } from "../../core/verticals/contracts";
 import { supabase } from "../../lib/supabase";
 
 export type PlaygroundFeatureRow = { feature_key: string; enabled: boolean; updated_at?: string };
@@ -10,6 +11,7 @@ export type PlatformLaunchFeature = {
   pilot_network_ids: string[];
   announcement_version: number;
   updated_at: string;
+  vertical_kind?: NetworkVerticalKind;
 };
 
 /**
@@ -23,6 +25,7 @@ export type PlatformFamilyTarget = {
   slug: string;
   status: string;
   member_count: number;
+  vertical_kind?: NetworkVerticalKind;
 };
 
 export type PlatformRolloutAudit = {
@@ -141,4 +144,37 @@ export async function markFeatureAnnouncementSeen(featureKey: string, version: n
     p_announcement_version: version,
   });
   if (error) throw error;
+}
+
+export async function fetchPlatformVerticalLaunchConsole(verticalKind: NetworkVerticalKind): Promise<PlatformLaunchFeature[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("get_platform_vertical_launch_console", { p_vertical_kind: verticalKind });
+  if (error) throw error;
+  return (data || []).map((row: any) => ({...row, vertical_kind: verticalKind})) as PlatformLaunchFeature[];
+}
+
+export async function setPlatformVerticalBundleRollout(
+  verticalKind: NetworkVerticalKind,
+  bundleKey: string,
+  rolloutState: LaunchState,
+  pilotNetworkIds: string[] = [],
+  announce = false,
+): Promise<number> {
+  if (!supabase) return 0;
+  const { data, error } = await supabase.rpc("set_platform_vertical_bundle_rollout", {
+    p_vertical_kind: verticalKind,
+    p_bundle_key: bundleKey,
+    p_rollout_state: rolloutState,
+    p_pilot_network_ids: pilotNetworkIds,
+    p_announce: announce,
+  });
+  if (error) throw error;
+  return Number(data || 0);
+}
+
+export async function fetchPlatformNetworkTargets(): Promise<PlatformFamilyTarget[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("get_platform_network_targets");
+  if (error) throw error;
+  return (data || []).map((row: any) => ({ ...row, member_count: Number(row.member_count || 0) })) as PlatformFamilyTarget[];
 }

@@ -642,5 +642,31 @@ Key ownership after G4:
 
 Compatibility: all 147 historical remote exports, all 23 Family feature keys/defaults, G2 identity/participation seams, G3 construction seams, S3-A1 RPCs and Family UX behavior are preserved. G4 adds no migration.
 
-## G5 architecture delta
-The codebase now has two active verticals: `family` and `alumni`. `vertical_kind` is persisted on network/settings records. Alumni owns `alumni_profiles`, `alumni_connections`, `alumni_invitations` and Alumni RPCs in migration 045. `components/AlumniNetworkApp.tsx` is the V1 Alumni renderer. The outer `NetworkApp` must not hydrate Family repository state when `resolveNetworkVerticalKind(network)==="alumni"`.
+## G5 vertical dispatch invariant
+
+`lib/features.ts` remains a Family compatibility facade. Therefore shared host code must never pass Alumni feature keys into it. `NetworkApp` now performs the active Alumni handoff before Family feature derivation and guards the Family `hasFeature` helper with `activeVerticalKind === "family"`. Keep the unknown-feature exception strict; future verticals must use their own catalog/runtime instead of weakening the guard.
+
+
+## G6 two-vertical UX and isolation seam — 2026-08-25
+
+New shared presentation boundary:
+
+```text
+components/shared/NetworkTopbar.tsx
+components/shared/NetworkSwitcher.tsx
+components/shared/NetworkUi.tsx
+```
+
+Rules after G6:
+- shared UI primitives may express network-neutral chrome/layout/state, but never Parent/Child/Spouse or Alumni cohort semantics;
+- Family and Alumni may share primitives while owning their own page composition and domain copy;
+- shared NetworkSwitcher uses `fetchMyNetworkMemberships()` rather than the legacy Family membership row;
+- `NetworkApp` must hand Alumni off before any Family compatibility feature evaluation;
+- each active vertical evaluates its own feature catalog; the Core unknown-feature exception remains strict;
+- Platform bundle rollout is vertical-scoped because bundle names are not globally unique across verticals;
+- Alumni tenant links are protected by composite profile/network foreign keys;
+- Family identity/participation/construction/catalog/composition foundations are protected during G6 by hashes from the certified G5 baseline.
+
+G6 migration: `046_g6_two_vertical_hardening.sql`.
+
+Run `npm run validate:g6` plus historical gates. See `G6-TWO-VERTICAL-PROOF-SHARED-UX-HARDENING.md`.

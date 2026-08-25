@@ -1227,9 +1227,9 @@ The earlier G2–G8 numbering above is preserved as historical planning context.
 | **G2 — Shared Identity, Claiming & Participation Foundation** | **IMPLEMENTED IN SOURCE / CLOSED** | Neutral identity + binding contracts; shared claim lifecycle; invitation/governed-contribution/participation contracts; Family adapters over existing RPCs; explicit Alumni identity/participation skeleton; compatibility gates. |
 | **G3 — Network Construction Engine Extraction** | **IMPLEMENTED IN SOURCE / CLOSED** | Shared construction lifecycle contracts/runtime; Family S3-A1 adapter over unchanged RPCs; Alumni institutional construction skeleton; compatibility/deletion gates; no schema rewrite. |
 | **G4 — Vertical Runtime & App Composition** | **IMPLEMENTED IN SOURCE / CLOSED** | Vertical app composition contracts/runtime; Family navigation/Guide/Playground/Launch/What's New registration; fail-closed Alumni skeleton; Family UX preserved. |
-| **G5 — Alumni Network V1** | **NEXT / HIGH-EFFORT FIRST REAL SECOND VERTICAL** | Institution/batch/program identity, profiles, directory/search, onboarding/import, claiming, invitations, cohort connections, basic Alumni Home/Admin, privacy, Guide/Playground/Launch Control. |
-| **G6 — Two-Vertical Architecture Proof & Hardening** | **PLANNED / MANDATORY AFTER G5** | Family + Alumni isolation, RLS/security, migration compatibility, performance, accidental coupling removal, relationship-intelligence proof, deployment/runtime certification. |
-| **G7 — Generic Platform Productization** | **EVIDENCE-GATED** | Network creation by vertical, capability packs, reusable admin/runtime infrastructure, extension contracts, third-vertical readiness; preserves association/professional/founder/enterprise roadmap items. |
+| **G5 — Alumni Network V1** | **IMPLEMENTED / CERTIFIED R2** | Institution/batch/program identity, profiles, directory/search, onboarding/import, claiming, invitations, cohort connections, basic Alumni Home/Admin, privacy, Guide/Playground/Launch Control. |
+| **G6 — Two-Vertical Architecture Proof, Shared UX Composition & Hardening** | **IMPLEMENTED IN SOURCE / CLOSED / DEPLOYED SMOKE REQUIRED** | Family + Alumni isolation, shared UX primitives, polished Alumni experience, vertical-scoped Launch Control, tenant/RLS hardening, migration compatibility and cross-vertical regression protection. |
+| **G7 — Generic Platform Productization** | **NEXT / EVIDENCE-GATED HIGH-EFFORT BATCH** | Network creation by vertical, capability packs, reusable admin/runtime infrastructure, extension contracts, third-vertical readiness; preserves association/professional/founder/enterprise roadmap items. |
 | **G8 — Commercial Platform Foundation** | **EVIDENCE-GATED** | Plans/entitlements, quotas/storage policy, usage/metering, paid capability packs, platform operations and monetization boundaries. |
 | **G9+ — Future Verticals & Ecosystem Scale** | **FUTURE** | Professional/trade associations, enterprise expertise, founder/investor, clubs/societies/nonprofit, integrations/APIs/white-label/extension ecosystem where evidence supports them. |
 
@@ -1284,8 +1284,23 @@ See `G4-VERTICAL-RUNTIME-APP-COMPOSITION.md`, `G4-RELEASE-MANIFEST.md` and `G4-R
 
 **NEXT: G5 — Alumni Network V1.**
 
-## G5 — Alumni Network V1 — CLOSED / CERTIFIED
-G5 activates the first real second vertical. Alumni now has independent persistence, identity, directory/cohorts, claiming, invitations, import, Admin, Guide and Playground while Family behavior remains preserved. Migration: `045_g5_alumni_network_v1.sql`.
 
-### NEXT: G6 — Two-Vertical Architecture Proof & Hardening
-Stress Family + Alumni together: cross-vertical isolation, RLS/security, switching, performance, rollout/runtime composition, migration safety, and removal of abstractions that only looked generic before the second vertical existed.
+## G5 — Alumni Network V1 — 2026-08-25
+
+**Status: IMPLEMENTED / CERTIFIED R2 / SUPERSEDED AS BASELINE BY G6**
+
+G5 activated the first real second vertical with separate Alumni persistence, institutional identity, directory/cohorts, claiming, invitations, import, Admin, Guide and Playground. The post-certification vertical-feature dispatch hotfix is part of the accepted R2 baseline.
+
+## G6 — Two-Vertical Architecture Proof, Shared UX Composition & Hardening — 2026-08-25
+
+**Status: IMPLEMENTED IN SOURCE / CLOSED / SHORT DEPLOYED SMOKE REQUIRED**
+
+G6 proves Family + Alumni together and closes the first real two-vertical defects: shared UX primitives are now consumed by both products, Alumni receives a polished responsive product shell, network switching uses the neutral membership contract, Platform Launch Control is vertical-scoped, Alumni feature registry rows are backend-backed, and database-level Alumni tenant integrity is strengthened. Family domain foundations remain hash-identical to the certified G5 baseline.
+
+Migration: `046_g6_two_vertical_hardening.sql` after 045.
+
+Validation: complete historical D1 → G6 source gates PASS; 147 historical remote exports, 280 accepted G5 files and 7 protected Family foundations preserved; changed G6 TS/TSX transpile PASS.
+
+See `G6-TWO-VERTICAL-PROOF-SHARED-UX-HARDENING.md`, `G6-RELEASE-MANIFEST.md` and `G6-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+**NEXT: G7 — Generic Platform Productization.**

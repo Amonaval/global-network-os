@@ -248,9 +248,26 @@ Migration 044 is idempotent and uses `ON CONFLICT DO NOTHING`; it repairs only m
 
 If Launch Control shows **Database update required** beside a feature, the frontend is ahead of Supabase. Apply pending migrations rather than repeatedly toggling the control. This is the guarded replacement for the previous `Unknown feature key` failure.
 
-## G5 Alumni Network V1
-After migration 044, run:
 
-`045_g5_alumni_network_v1.sql`
+## Migration 045 — Alumni Network V1
 
-It adds persisted vertical identity and separate Alumni tables/RPCs. Existing networks are backfilled to `family`; no Family data needs to be re-imported. After applying it, deploy the matching G5 frontend so `get_my_networks()` and the new Alumni RPCs stay in sync.
+Apply `045_g5_alumni_network_v1.sql` after migration 044 before enabling real Alumni Networks. It persists vertical identity, creates separate Alumni profiles/connections/invitations, and adds the Alumni V1 RPC boundary.
+
+## Migration 046 — G6 two-vertical hardening
+
+After 045, apply:
+
+```text
+046_g6_two_vertical_hardening.sql
+```
+
+Migration 046 is required for the polished/two-vertical G6 runtime. It:
+- scopes Platform Launch Control feature bundles by `vertical_kind`;
+- registers the Alumni feature catalog and missing Alumni Playground rows;
+- stores Alumni institution identity in `alumni_network_settings`;
+- hardens Alumni profile/network foreign-key integrity;
+- adds Alumni overview and trusted-connection RPCs.
+
+Existing Family data and rollout rows are backfilled/preserved as Family. The migration does not rename Family tables/RPCs or rewrite Family relationship data.
+
+After applying 046, as Platform Owner open **Launch Control** and switch between **Family Network** and **Alumni Network** once. Each tab should show only that vertical's feature catalog and pilot-network targets.

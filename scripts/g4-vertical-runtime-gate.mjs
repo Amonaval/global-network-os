@@ -71,7 +71,8 @@ for(const marker of [
 ]) if(!app.includes(marker)) fail(`NetworkApp is not composition-driven for ${marker}`);
 if(app.includes('const guideByView:Partial<Record<View,string>>={home:')) fail("NetworkApp still hardcodes the Family guide/view registry");
 if(app.includes('["home", language === "hi"')) fail("NetworkApp still hardcodes the Family primary navigation array");
-for(const marker of ['getVerticalAppComposition("family")','LAUNCH_COMPOSITION.bundles','LAUNCH_COMPOSITION.playgroundExcludedBundles','LAUNCH_COMPOSITION.dayOneDescription']) if(!founder.includes(marker)) fail(`Launch Control is not composition-driven for ${marker}`);
+if(!(founder.includes('getVerticalAppComposition("family")')||founder.includes('getVerticalAppComposition(verticalKind)'))) fail('Launch Control no longer resolves vertical composition');
+for(const marker of ['LAUNCH_COMPOSITION.bundles','LAUNCH_COMPOSITION.playgroundExcludedBundles','LAUNCH_COMPOSITION.dayOneDescription']) if(!founder.includes(marker)) fail(`Launch Control is not composition-driven for ${marker}`);
 
 for(const marker of ["IdentityClaimAdapter","VerticalIdentityRef"]) if(!g2Identity.includes(marker)) fail(`G2 identity contract regressed: ${marker}`);
 for(const marker of ["ParticipationAdapter","NetworkInvitationSummary"]) if(!g2Participation.includes(marker)) fail(`G2 participation contract regressed: ${marker}`);
@@ -94,7 +95,7 @@ const missingFiles=accepted.filter(f=>!fs.existsSync(path.join(root,f)));
 if(missingFiles.length) fail(`accepted G3 files deleted: ${missingFiles.join(", ")}`);
 
 const migrations=fs.readdirSync(path.join(root,"supabase/migrations")).filter(x=>x.endsWith(".sql")).sort();
-const post044=migrations.filter(x=>(/^04[5-9]_/.test(x)||/^[1-9][0-9]{2,}_/.test(x))&&x!=='045_g5_alumni_network_v1.sql');
+const post044=migrations.filter(x=>(/^04[5-9]_/.test(x)||/^[1-9][0-9]{2,}_/.test(x))&&!['045_g5_alumni_network_v1.sql','046_g6_two_vertical_hardening.sql'].includes(x));
 if(post044.length) fail(`G4 unexpectedly added database migrations: ${post044.join(", ")}`);
 
 if(!process.exitCode) console.log(`G4 vertical runtime gate: PASS — ${baselineExports.length} historical remote exports and ${accepted.length} accepted G3 files preserved`);

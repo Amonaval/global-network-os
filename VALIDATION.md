@@ -331,9 +331,26 @@ G4-specific checks:
 
 Full `next build` is not certified in this workspace because application dependencies are not installed.
 
-## G5 certification
-- D1→S3-A1 historical source gates: PASS during certification.
-- G1.1→G5 gates: PASS.
-- G5 gate preserves 147 historical remote exports and 269 accepted G4 files.
-- Changed G5 TS/TSX TypeScript 5.8.3 transpile: PASS.
-- Runtime smoke was independently reported healthy at a high level before closure; use `G5-RUNTIME-VERIFICATION-CHECKLIST.md` after migration 045.
+## G5 post-certification vertical dispatch hotfix
+
+- Runtime issue reproduced from user smoke test: opening Alumni could evaluate `alumni.core.home` through the Family feature compatibility facade and throw `Unknown feature key`.
+- Fixed by dispatching active Alumni networks before Family feature evaluation and guarding Family `hasFeature` by active vertical.
+- `core/features/runtime.ts` strict unknown-key behavior intentionally retained.
+- Complete automated source/regression chain D1 → G5: **PASS** after the fix.
+- Focused TypeScript 5.8.3 transpile of `components/NetworkApp.tsx`: **PASS**.
+
+
+## G6 certification — 2026-08-25
+
+Automated source certification completed after the final G6 hardening changes:
+
+- every historical validation script from D1 through G5: PASS;
+- `npm run validate:g6`: PASS;
+- G6 gate preserves 147 historical `lib/remote.ts` exports;
+- G6 gate preserves all 280 accepted G5 files;
+- 7 protected Family foundations match the certified G5 SHA-256 snapshot;
+- changed G6 TS/TSX files transpile successfully under TypeScript 5.8.3;
+- CSS brace integrity check: PASS;
+- migration audit expects only `046_g6_two_vertical_hardening.sql` after 045.
+
+Full `next build` is not certified in this artifact workspace because dependencies are not installed. CI/Vercel build remains required after applying the release. Deployed manual smoke is intentionally limited to `G6-RUNTIME-VERIFICATION-CHECKLIST.md`.

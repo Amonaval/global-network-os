@@ -713,3 +713,16 @@ G4 turns the earlier typed-vertical idea into a user-surface composition boundar
 
 ## G5 validation of the blueprint
 G5 supplies the second real semantic consumer. The architecture is no longer inferred only from Family: Alumni uses institutional identity/cohorts and separate persistence while sharing neutral tenancy, identity claiming, participation, construction orchestration and vertical runtime composition. This validates the capability-tree direction and moves remaining accidental coupling work into G6 hardening.
+
+## G6 proof update — 2026-08-25
+
+The G0 capability-tree hypothesis is now exercised by two active verticals rather than one active product plus skeletons.
+
+- Family and Alumni share Core membership/context, feature/runtime contracts, identity/participation/construction lifecycle seams and selected UX primitives.
+- Family retains kinship graph semantics, memories/history and Family-specific workflows.
+- Alumni retains institutional identity, cohorts/directory/career discovery and Alumni-specific persistence/connections.
+- Shared UI is now evidence-based: topbar/network switching/metrics/sections/empty states are reusable; domain page composition is not collapsed.
+- Platform rollout must be vertical-scoped; bundle names are vertical-local.
+- Cross-vertical switching must resolve vertical ownership before any vertical-specific feature/runtime/data hydration.
+
+This is the strongest proof so far that the intended architecture is a tree of reusable capabilities rather than one generic base module or a renamed Family application.

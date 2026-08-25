@@ -60,9 +60,12 @@ export {
   fetchEffectivePlatformFeatures,
   fetchPlatformLaunchConsole,
   fetchPlatformFamilyTargets,
+  fetchPlatformNetworkTargets,
+  fetchPlatformVerticalLaunchConsole,
   fetchPlatformRolloutAudit,
   setPlatformFeatureRollout,
   setPlatformBundleRollout,
+  setPlatformVerticalBundleRollout,
   fetchMyFeatureAnnouncements,
   markFeatureAnnouncementSeen,
 } from "../capabilities/launch-runtime/remote";

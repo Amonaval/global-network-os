@@ -9,7 +9,7 @@ const seed=fs.readFileSync('./supabase/seed-demo.sql','utf8');
 const checks=[
  ['local state persists memories',app.includes('saveState({ members, relationships, submissions, lifeEvents, memories })')],
  ['family switcher visible to authenticated simple users',app.includes('auth && <FamilySwitcher')],
- ['desktop sign out no longer experience-gated',app.includes('isSupabaseConfigured && auth && (')],
+ ['desktop sign out no longer experience-gated',app.includes('isSupabaseConfigured && auth && (')||app.includes('isSupabaseConfigured&&auth&&<button')||app.includes('isSupabaseConfigured && auth && <button')],
  ['mobile create/join/switch escape exists',app.includes('Create, join or switch family')],
  ['mobile leave family exists',app.includes('Leave this family')],
  ['switcher create/join action exists',switcher.includes('Create or join another family')],

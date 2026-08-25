@@ -356,8 +356,12 @@ From G2 onward, architecture work should be delivered as **coherent High-effort 
 - Keep renderers concrete until a second real vertical proves a component is genuinely reusable. Do not create generic React renderers only to reduce folder names.
 - When moving an existing registry into vertical composition, preserve labels/order/feature keys/experience gating exactly and update historical source gates to follow the new canonical source rather than weakening the check.
 
-## Two-vertical rule (G5+)
-- Never make Alumni depend on `family_members`, `family_relationships`, Family intake RPCs or kinship semantics.
-- Never make Family behavior conditional on Alumni-specific domain fields.
-- Shared code may depend only on neutral core/capability contracts.
-- Any migration touching network tenancy must prove existing Family rows remain `family` and active-network behavior remains backward compatible.
+
+## G6 two-vertical rules
+
+1. Shared app-shell/UI code must use neutral network contracts (`fetchMyNetworkMemberships`) and may not depend on Family profile links.
+2. Never evaluate a feature key through another vertical's catalog/runtime. Keep unknown-key failures strict.
+3. Bundle names such as `core` or `admin` are vertical-local; any platform bundle operation must include `vertical_kind`.
+4. Cross-profile Alumni references must be tenant-safe at the database level, not only checked in React/RPC code.
+5. A shared UI primitive is allowed only when Family and Alumni genuinely share the interaction pattern; domain meaning/copy stays vertical-owned.
+6. G6 protects critical Family domain foundations by hash. Later platform productization must explicitly justify any change to those files.

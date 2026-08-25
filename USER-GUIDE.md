@@ -248,14 +248,27 @@ Users can send structured feedback such as something confusing/missing, a featur
 
 Explore & Guide now includes contextual help not only on the main Family Network screens but also inside important tasks such as viewing a profile, importing Excel/CSV, inviting relatives and managing relationships. Platform Owners also have a dedicated guide entry for structured feedback triage. Deployment-sensitive privacy or governance behavior may still appear as **Live · verify deployment** until the target environment is certified.
 
-## Alumni Network V1
-An Alumni Network is separate from a Family Network. Create one from the welcome screen using **Create Alumni Network**, then add your institution/community name.
 
-### Alumni members
-Use **Directory** to find alumni by name, city or company and filter by graduation year/program. Use **Cohorts** to jump into a batch or program. In **Connections**, keep your own alumni profile current. If an admin already created a profile using your verified email, the welcome screen can offer **This is me** to claim it.
+# G6 — Family + Alumni shared experience
 
-### Alumni admins
-Open **Admin** to import Excel/CSV. Use columns such as `full_name`, `email`, `graduation_year`, `program`, `department`, `city`, `company`, `job_title`. Review the preview before confirming. Matching email addresses update an existing alumni profile instead of creating another one. From Directory, admins can create a private invitation link for an alumni profile.
+The same application can now host both **Family Networks** and **Alumni Networks** while keeping their information and relationship meaning separate. Use the network switcher in the header to move between networks you belong to. The app changes to the correct experience automatically.
 
-### Privacy
-Ordinary members do not receive other alumni email addresses from the directory. Alumni profiles and relationships are stored separately from Family members and Family relationships.
+## Alumni experience
+
+The Alumni workspace now has a full responsive product layout rather than a basic proof screen:
+- **Home** — institution summary, network metrics, your identity and suggested connections;
+- **Directory** — search/filter alumni by name, company, city, graduation year and program;
+- **Cohorts** — explore graduation batches and programs;
+- **Connections** — update your own profile and create trusted alumni connections;
+- **Admin** — preview/import Excel or CSV and manage growth;
+- **Guide** — quick help and privacy guidance.
+
+Family and Alumni intentionally do not show the same content. Family keeps lineage, memories and family-specific workflows; Alumni focuses on institution, cohort and professional connection. Shared controls are reused only where the interaction is genuinely common.
+
+## Switching safely
+
+When you switch from Alumni to Family (or the reverse), the app reloads the active network context before showing that vertical. If a screen ever shows another vertical's terminology/data after switching, reload once and report it rather than editing data.
+
+## Alumni privacy
+
+Directory email addresses remain hidden from ordinary members except for their own profile. Alumni profile, invitation and connection data uses Alumni-specific persistence and tenant checks; it is not stored as Family relationships.

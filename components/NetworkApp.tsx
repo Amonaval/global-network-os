@@ -41,6 +41,7 @@ import AuthPanel from "./AuthPanel";
 import RelationshipModal from "./RelationshipModal";
 import SetupScreen from "./SetupScreen";
 import AlumniNetworkApp from "./AlumniNetworkApp";
+import NetworkTopbar from "./shared/NetworkTopbar";
 import InvitationModal from "./InvitationModal";
 import {
   loadState,
@@ -1064,7 +1065,7 @@ export default function NetworkApp() {
   // Vertical handoff must happen before any Family-only feature evaluation.
   // G5 bugfix: evaluating Alumni surface keys through lib/features (the Family compatibility facade)
   // throws by design. Alumni owns its own feature catalog/runtime and UI workspace.
-  if(network && activeVerticalKind==="alumni" && !setupNeeded) return <AlumniNetworkApp network={network} auth={auth} demo={alumniDemo} onSwitchNetwork={async()=>{setAlumniDemo(false);setNetwork(null);setSetupNeeded(true);setMembers([]);setRelationships([])}} onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setSetupNeeded(true)}}/>;
+  if(network && activeVerticalKind==="alumni" && !setupNeeded) return <AlumniNetworkApp network={network} auth={auth} demo={alumniDemo} onNetworkChanged={async()=>{setAlumniDemo(false);await hydrate(await getAuthUser());setView("home")}} onOpenNetworkLobby={async()=>{setAlumniDemo(false);setNetwork(null);setSetupNeeded(true);setMembers([]);setRelationships([])}} onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setSetupNeeded(true)}}/>;
   const experience:ExperienceLevel = demoPreview ? "explorer" : (experiencePreview || (!isSupabaseConfigured ? "explorer" : (auth?.experience_level || "simple")));
   // Defensive guard for transient setup/switch states: Family feature runtime never receives another vertical's key.
   const hasFeature=(key:FeatureKey)=>activeVerticalKind==="family"&&isFeatureAvailable(key,demoPreview?playgroundFeatures:platformFeatures,experience,canAdmin);
@@ -1188,55 +1189,21 @@ export default function NetworkApp() {
     );
   return (
     <div className={`app-shell ${largeText ? "large-text" : ""}`}>
-      <header className="topbar">
-        <div className="brand">
-          <div className="brand-mark">
-            <TreePine size={20} />
-          </div>
-          <span>{network?.name || "Our Family"}</span>
-          {canAdmin && <span className={`mode-pill ${isSupabaseConfigured ? "shared" : "demo"}`}>
-            {isSupabaseConfigured ? <><Database size={12} /> {t("sharedFamily")}</> : <>{t("localFamily")}</>}
-          </span>}
-        </div>
-        {demoPreview&&<div className="demo-preview-banner"><Sparkles size={14}/><span>Playground · you are {members.find(m=>m.id===demoViewerId)?.full_name.split(/\s+/)[0] || "a sample family member"} for this visit · nothing is saved</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setDemoViewerId(undefined);setFocusId(undefined);setLineageOnly(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>Join or create mine</button></div>}
-        <div className={`top-actions ${experience==="simple"&&!canAdmin?"simple-top-actions":""}`}>
+      <NetworkTopbar
+        icon={<TreePine size={20}/>}
+        title={network?.name || "Our Family"}
+        badges={canAdmin?[{label:isSupabaseConfigured?t("sharedFamily"):t("localFamily"),tone:isSupabaseConfigured?"shared":"demo",icon:isSupabaseConfigured?<Database size={12}/>:undefined}]:[]}
+        middle={demoPreview?<div className="demo-preview-banner"><Sparkles size={14}/><span>Playground · you are {members.find(m=>m.id===demoViewerId)?.full_name.split(/\s+/)[0] || "a sample family member"} for this visit · nothing is saved</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setDemoViewerId(undefined);setFocusId(undefined);setLineageOnly(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>Join or create mine</button></div>:undefined}
+        actions={<div className={experience==="simple"&&!canAdmin?"simple-top-actions":""}>
           {isSupabaseConfigured && !demoPreview && auth && <FamilySwitcher onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>setSetupNeeded(true)} onLobby={async()=>{await enterFamilyLobby();await hydrate(await getAuthUser());setView("home");}} onLeave={async()=>{const action=await leaveCurrentFamily();await hydrate(await getAuthUser());setView("home");notify(action==="archived"?"Family archived. You can now create or join another family.":"You left the family. You can now create or join another family.");}} />}
           <LanguageSwitcher compact />
-          {isSupabaseConfigured && canAdmin && (
-            <span className="person-meta">
-              {auth?.email} · {network?.membership_role || auth?.family_role || "member"}
-              {isPlatformOwner ? " · Platform owner" : ""}
-            </span>
-          )}
-          {canAdmin && <select
-            className="select"
-            aria-label="Preview profile privacy as"
-            value={visibility}
-            onChange={(e) => setVisibility(e.target.value as Visibility)}
-          >
-            <option value="public">Public visitor preview</option>
-            <option value="member">Family member preview</option>
-            <option value="admin">Family admin preview</option>
-          </select>}
-          {<button className="btn small" onClick={() => { setGuideKey(""); setView("guide"); }}>
-            <BookOpen size={15} /> Explore & Guide
-          </button>}
-          {isSupabaseConfigured && auth && (
-            <button
-              className="btn small"
-              onClick={() => {
-                signOut();
-                setAuth(null);
-              }}
-            >
-              <LogOut size={15} /> {t("signOut")}
-            </button>
-          )}
-          {(canAdmin || experience!=="simple") && <button className="btn small" onClick={openMyProfile}>
-            <UserRoundPen size={15} /> {t("myProfile")}
-          </button>}
-        </div>
-      </header>
+          {isSupabaseConfigured && canAdmin && <span className="person-meta">{auth?.email} · {network?.membership_role || auth?.family_role || "member"}{isPlatformOwner ? " · Platform owner" : ""}</span>}
+          {canAdmin && <select className="select" aria-label="Preview profile privacy as" value={visibility} onChange={(e) => setVisibility(e.target.value as Visibility)}><option value="public">Public visitor preview</option><option value="member">Family member preview</option><option value="admin">Family admin preview</option></select>}
+          <button className="btn small" onClick={() => { setGuideKey(""); setView("guide"); }}><BookOpen size={15} /> Explore & Guide</button>
+          {isSupabaseConfigured && auth && <button className="btn small" onClick={() => {signOut();setAuth(null);}}><LogOut size={15} /> {t("signOut")}</button>}
+          {(canAdmin || experience!=="simple") && <button className="btn small" onClick={openMyProfile}><UserRoundPen size={15} /> {t("myProfile")}</button>}
+        </div>}
+      />
       <div className="layout">
         <aside className="sidebar">
           <div className="sidebar-section-label">{language === "hi" ? "मेरा परिवार" : language === "mr" ? "माझे कुटुंब" : "My family"}</div>

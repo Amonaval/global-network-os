@@ -183,5 +183,11 @@ The platform now has a clean distinction between **what a vertical can do** and 
 
 This is the final major architecture proof before the second vertical: G5 should now build Alumni as a real product using the shared network, identity, participation, construction and app-composition seams rather than reopening Family internals.
 
-## G5 proof point — second vertical is real
-The platform thesis is now tested by two distinct domains. Alumni is not a relabelled Family tree: institutional identity, cohorts and professional discovery use separate persistence and semantics while reusing the network/identity/participation/construction/runtime seams extracted in G1–G4.
+
+## G6 proof — one platform, two product-quality verticals — 2026-08-25
+
+Family + Alumni now provide the first concrete proof that the architecture is not merely reorganized Family code. The products share trusted-network mechanics, launch/runtime infrastructure and selected UX primitives, while preserving different identity models, relationship semantics, persistence and user value.
+
+The product rule going forward is **shared quality system, vertical-specific experience**. Reuse topbars, navigation mechanics, metrics, search/filter shells, empty states, import/claim/invite patterns and platform controls where evidence proves they are common. Do not force Family memories/lineage or Alumni cohort/career concepts into a generic lowest-common-denominator screen.
+
+G7 can productize the platform only from these proven seams and should make a third vertical cheaper without weakening Family or Alumni.

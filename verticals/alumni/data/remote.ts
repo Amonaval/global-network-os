@@ -3,6 +3,8 @@ import { supabase } from "../../../lib/supabase";
 export type AlumniProfile = {id:string;full_name:string;email?:string|null;graduation_year?:number|null;program?:string|null;department?:string|null;city?:string|null;company?:string|null;job_title?:string|null;bio?:string|null;visibility:"members"|"private";claimed:boolean;is_me:boolean};
 export type ClaimableAlumniProfile={profile_id:string;network_id:string;network_name:string;full_name:string;graduation_year?:number|null;program?:string|null};
 export type AlumniImportRow={full_name:string;email?:string;graduation_year?:number;program?:string;department?:string;city?:string;company?:string;job_title?:string};
+export type AlumniNetworkOverview={institution_name:string;profile_count:number;claimed_count:number;batch_count:number;program_count:number};
+export type AlumniConnection={connection_id:string;related_profile_id:string;full_name:string;graduation_year?:number|null;program?:string|null;city?:string|null;company?:string|null;job_title?:string|null;relation_kind:string};
 
 function required(){if(!supabase)throw new Error("Shared Supabase mode is required for Alumni networks.");return supabase;}
 export async function createAlumniNetwork(name:string,institution:string,description=""){const s=required();const {data,error}=await s.rpc("create_alumni_network",{p_name:name,p_institution:institution,p_description:description});if(error)throw error;return data as string;}
@@ -15,3 +17,7 @@ export async function importAlumniProfiles(rows:AlumniImportRow[]){const s=requi
 export async function createAlumniInvitation(profileId:string,recipientHint?:string){const s=required();const {data,error}=await s.rpc("create_alumni_invitation",{p_profile_id:profileId,p_recipient_hint:recipientHint||null,p_expires_days:30});if(error)throw error;return data as string;}
 export async function previewAlumniInvitation(token:string){const s=required();const {data,error}=await s.rpc("preview_alumni_invitation",{p_token:token});if(error)throw error;return (data||[])[0] as {full_name:string;network_name:string;status:string;expires_at:string}|undefined;}
 export async function acceptAlumniInvitation(token:string){const s=required();const {data,error}=await s.rpc("accept_alumni_invitation",{p_token:token});if(error)throw error;return data as string;}
+
+export async function fetchAlumniNetworkOverview(){const s=required();const {data,error}=await s.rpc("get_alumni_network_overview");if(error)throw error;const row=(data||[])[0]||{};return {institution_name:String(row.institution_name||"Alumni Network"),profile_count:Number(row.profile_count||0),claimed_count:Number(row.claimed_count||0),batch_count:Number(row.batch_count||0),program_count:Number(row.program_count||0)} as AlumniNetworkOverview;}
+export async function fetchAlumniConnections(){const s=required();const {data,error}=await s.rpc("get_my_alumni_connections");if(error)throw error;return (data||[]) as AlumniConnection[];}
+export async function connectAlumniProfile(profileId:string,relationKind="professional_connection"){const s=required();const {data,error}=await s.rpc("create_alumni_connection",{p_related_profile_id:profileId,p_relation_kind:relationKind});if(error)throw error;return data as string;}
