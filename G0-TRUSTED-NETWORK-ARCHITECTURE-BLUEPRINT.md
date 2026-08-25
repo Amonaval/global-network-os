@@ -679,3 +679,14 @@ Nowhere by design. G0 is a non-user-facing architecture classification mission. 
 ## Implementation checkpoint — G1.2 / 2026-08-25
 
 The G0 classification of `lib/features.ts` as **CORE runtime + Family catalog** has now been physically separated. Generic contracts/evaluation live in `core/features/`; Family declarations live in `verticals/family/features/`; app-shell composes the catalog into the Family vertical; `lib/features.ts` is now only a compatibility facade. Alumni supplies a separate hidden skeleton catalog, proving the abstraction without relabeling Family semantics.
+
+## G1 implementation checkpoint — through G1.4
+
+As of 2026-08-25:
+- G1.1 typed vertical registry: COMPLETE;
+- G1.2 feature runtime / vertical catalog split: COMPLETE;
+- G1.3 neutral network & membership contracts: COMPLETE;
+- G1.4 remote capability split behind compatibility facade: COMPLETE;
+- G1.5 claiming seam + Alumni identity skeleton: NEXT.
+
+G1.3 confirms the original G0 classification: user↔network membership is Core, while `network_memberships.member_id -> family_members` is a Family compatibility link that must remain outside the neutral contract until a safe additive persistence evolution is justified. G1.4 confirms the transport strategy: move proven shared implementation downward into capability modules while preserving stable Family-facing compatibility exports and unchanged backend RPC names.

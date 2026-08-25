@@ -143,3 +143,18 @@ This is deliberately stronger than `NETWORK_TEMPLATES`: labels may configure pre
 Feature rollout is now a concrete example of the capability-tree rule: the mechanics of launch state, default evaluation and eligibility are reusable core runtime, while what the features *mean* belongs to each explicit vertical.
 
 Family keeps its complete existing feature catalog and product language. Alumni proves the second-consumer contract with a separate hidden skeleton catalog rather than inheriting Family feature semantics. This is the pattern future capabilities should follow: share mechanics downward, keep meaning at the lowest semantically correct vertical/domain layer.
+
+## G1.3 core membership semantics are now separated from Family profile claims — 2026-08-25
+
+The platform now has an explicit distinction between **belonging to a network** and **being linked to a vertical-specific profile/entity inside that network**. A user↔network membership is Core; the current `member_id -> family_members` pointer is Family compatibility, not the future universal membership model.
+
+That distinction is important for Alumni and future verticals: Alumni can reuse tenancy, role, active-network context and resource-policy mechanics without being forced to claim a kinship `family_member`. Vertical identity-link semantics will be introduced only where a real second consumer proves them.
+
+G1.3 also adds a product-runtime integrity principle: frontend vertical catalogs and deployed backend registries must fail safely when temporarily out of sync. Platform Owner controls now surface migration drift rather than executing against unknown feature keys.
+
+
+## G1.4 shared transport is now a capability boundary — 2026-08-25
+
+The capability-tree architecture now extends through remote transport. Network context, launch/playground runtime and Platform Owner operations are reusable capability modules, while Family behavior continues through the stable `lib/remote.ts` compatibility surface.
+
+This establishes an important platform rule: **sharing a capability does not require renaming the deployed database or forcing every existing caller to migrate at once.** We can move implementation ownership downward while keeping compatibility upward. Family-specific claiming, kinship, memories, admin and construction remain explicit until a second consumer proves the right contract.

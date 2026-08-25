@@ -493,3 +493,57 @@ Architecture rule now enforced:
 The Family catalog contains the same 23 feature keys, bundle membership, experience thresholds and default launch states as before G1.2. Alumni catalog entries are hidden and are not wired to UI/database rollout.
 
 Run `npm run validate:g1.2` plus the normal source gates. Use `G1.2-RUNTIME-VERIFICATION-CHECKLIST.md` for the short deployed smoke check.
+
+## G1.3 neutral network/membership seam — 2026-08-25
+
+New structure:
+
+```text
+core/network/contracts.ts
+verticals/family/network/membership-adapter.ts
+supabase/migrations/044_g1_3_feature_catalog_integrity.sql
+scripts/g1-3-network-membership-gate.mjs
+```
+
+Important boundaries:
+- Core `NetworkMembership` contains network identity, role/status, active state and resource policy only.
+- `network_memberships.member_id` remains a Family database compatibility pointer and is represented only by the Family adapter in the new seam.
+- `lib/remote.ts` still exports historical `NetworkMembership` + `fetchMyNetworks()` for Family UI, and now adds `fetchMyNetworkMemberships()` for neutral callers.
+- `fetchNetworkSettings()` uses the neutral membership path internally.
+- `AuthUser.family_role` remains supported while new neutral code may use `membership_role`.
+- no membership schema/RPC rename occurred.
+
+Feature registry integrity:
+- migration 044 requires migration 043/S3-A1 first;
+- it inserts only missing feature/Playground rows and preserves existing founder choices;
+- Launch Control disables missing backend keys and labels them `Database update required`;
+- bulk Playground controls operate only on backend-confirmed keys.
+
+Run `npm run validate:g1.3` plus all historical gates. After deployment use `G1.3-RUNTIME-VERIFICATION-CHECKLIST.md` for the short smoke check.
+
+
+## G1.4 remote capability seam — 2026-08-25
+
+New structure:
+
+```text
+capabilities/network-context/remote.ts
+capabilities/launch-runtime/remote.ts
+capabilities/platform-ownership/remote.ts
+lib/remote.ts                                  # historical compatibility facade
+scripts/g1-4-remote-capability-gate.mjs
+scripts/g1-4-remote-compatibility-exports.json
+```
+
+Rules now enforced:
+- capability transport may depend on Core contracts/infrastructure but not root `verticals/*` implementations;
+- neutral network-context transport does not expose `member_id`;
+- existing Family callers continue importing from `lib/remote.ts`;
+- all 147 historical G1.3 facade exports are compatibility-locked;
+- Family-domain RPCs stay in the legacy/domain side until a real shared contract exists;
+- deployed RPC names remain unchanged;
+- the G1.3 frontend↔backend feature-catalog drift guard is protected during transport refactors.
+
+Current extracted shared transport covers network context, launch/playground runtime and platform ownership only. Identity claiming is intentionally the next separate seam (G1.5).
+
+Run `npm run validate:g1.4` plus all historical gates. Use `G1.4-RUNTIME-VERIFICATION-CHECKLIST.md` for the short deployed smoke check.

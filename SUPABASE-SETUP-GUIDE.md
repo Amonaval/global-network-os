@@ -234,3 +234,16 @@ After deploying this batch, apply `supabase/migrations/035_s1c_profile_submissio
 This migration intentionally **does not** grant direct UPDATE on `profile_submissions`. It adds the governed `review_profile_submission(...)` RPC used by Family Owner/co-admin approval, adds optional member gender context for human relationship wording, and adds the secure `add_myself_to_family(...)` bootstrap.
 
 If the UI is deployed before migration 035, profile approval/Add Myself can fail because the required RPC does not yet exist.
+
+## Migration 044 — G1.3 feature catalog integrity
+
+For the G1.3 codebase, apply migrations sequentially through:
+
+1. `043_s3a1_distributed_family_intake.sql`
+2. `044_g1_3_feature_catalog_integrity.sql`
+
+Migration 044 intentionally checks that the S3-A1 backend exists before repairing the `contribute.branch_intake` registry row. This prevents a dangerous state where Launch Control exposes **Build family together** but its actual intake RPC/tables were never installed.
+
+Migration 044 is idempotent and uses `ON CONFLICT DO NOTHING`; it repairs only missing feature/Playground registry rows and does **not** overwrite existing Platform Owner rollout or Playground choices.
+
+If Launch Control shows **Database update required** beside a feature, the frontend is ahead of Supabase. Apply pending migrations rather than repeatedly toggling the control. This is the guarded replacement for the previous `Unknown feature key` failure.

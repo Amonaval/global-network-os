@@ -1,11 +1,12 @@
 import type { NetworkVerticalKind } from "../core/verticals/contracts";
+import type { NetworkMembershipRole } from "../core/network/contracts";
 import { DEFAULT_VERTICAL_KIND, isRegisteredVerticalKind } from "../app-shell/vertical-registry";
 
 export type NetworkSettings = {
   id: string;
   network_id?: string;
   slug?: string;
-  membership_role?: "owner" | "admin" | "member";
+  membership_role?: NetworkMembershipRole;
   name: string;
   description?: string;
   initialized_at?: string;

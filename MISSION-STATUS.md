@@ -696,7 +696,7 @@ Create Family → Build together with relatives; Home quick-start → ask relati
 # Generic Platform Expansion Missions — 2026-08-25
 
 - **G0 — Trusted Network Architecture Blueprint:** ARCHITECTURE COMPLETE / 2026-08-25
-- **G1 — Shared Capability Extraction + Alumni Skeleton:** PLANNED
+- **G1 — Shared Capability Extraction + Alumni Skeleton:** IN PROGRESS — G1.1/G1.2/G1.3 COMPLETE; G1.4 NEXT
 - **G2 — Distributed Network Construction Platform:** PLANNED
 - **G3 — Relationship Intelligence Platform:** PLANNED
 - **G4 — Alumni Network MVP:** PLANNED / FIRST COMMERCIAL SECOND VERTICAL
@@ -778,3 +778,73 @@ Closure: Guide / Playground / Launch Control / What's New changes are N/A becaus
 Quick runtime verification is documented in `G1.2-RUNTIME-VERIFICATION-CHECKLIST.md`.
 
 **NEXT CODE MISSION: G1.3 — Neutral Network & Membership Contracts.**
+
+## 2026-08-25 — G1.3 Neutral Network & Membership Contracts
+
+**G1.3: IMPLEMENTED IN SOURCE / CLOSED / DEPLOYED DB SMOKE REQUIRED**
+
+Delivered:
+- neutral Core network/membership/context contracts;
+- Family transport adapter isolating the `member_id -> family_members` compatibility leak;
+- neutral `fetchMyNetworkMemberships()` plus preserved `fetchMyNetworks()` Family facade;
+- neutral `membership_role` with preserved `family_role` auth alias;
+- Playground/Launch Control code↔DB catalog-drift guard;
+- additive/idempotent migration 044 repairing missing feature registry/Playground rows without overwriting existing rollout choices;
+- `validate:g1.3` including all-23-feature catalog reconciliation checks.
+
+Validation truth:
+- all historical source gates: PASS;
+- G1.1/G1.2/G1.3 gates: PASS;
+- focused TypeScript 5.8.3 compile/syntax checks: PASS;
+- focused membership runtime assertions: PASS;
+- full Next.js build: not claimed in this dependency-less artifact workspace.
+
+Closure lifecycle:
+- [x] CLASSIFY
+- [x] IMPLEMENT
+- [x] VALIDATE
+- [ ] DEPLOYED DB SMOKE — apply migrations through 044 and re-toggle Build family together
+- [x] GUIDE N/A for ordinary users/admins
+- [x] PLAYGROUND regression guard
+- [x] LAUNCH CONTROL regression guard
+- [x] WHAT'S NEW N/A
+- [x] ROADMAP / STATUS
+- [x] CLOSE in source
+
+**NEXT CODE MISSION: G1.4 — Remote Capability Split Behind Compatibility Facade.**
+
+
+## 2026-08-25 — G1.4 Remote Capability Split Behind Compatibility Facade
+
+**G1.4: IMPLEMENTED IN SOURCE / CLOSED / NORMAL DEPLOYED SMOKE RECOMMENDED**
+
+Delivered:
+- `capabilities/network-context/remote.ts` for neutral membership retrieval + active-network switching;
+- `capabilities/launch-runtime/remote.ts` for Playground/Launch Control/effective feature/rollout/announcement transport;
+- `capabilities/platform-ownership/remote.ts` for Platform Owner transport;
+- `lib/remote.ts` preserved as compatibility facade;
+- compatibility snapshot/gate protecting all 147 historical remote exports;
+- G1.3 gate updated to follow the neutral membership seam into its new capability module;
+- G1.3 Playground catalog-drift protection included in the G1.4 gate.
+
+Validation truth:
+- every historical D1/V1/CR/S1/S2/S3-A1 source gate: PASS;
+- G1.1/G1.2/G1.3/G1.4 gates: PASS;
+- 147/147 historical remote facade exports preserved;
+- focused TypeScript 5.8.3 compile: PASS;
+- full Next.js build not claimed because dependencies are not present in this artifact workspace.
+
+No migration/RPC rename/RLS change/Family UX change was introduced. User/Admin guide remains unchanged because there is no visible workflow change.
+
+Closure lifecycle:
+- [x] CLASSIFY
+- [x] IMPLEMENT
+- [x] VALIDATE
+- [x] GUIDE N/A
+- [x] PLAYGROUND existing G1.3 protection preserved
+- [x] LAUNCH CONTROL existing behavior preserved
+- [x] WHAT'S NEW N/A
+- [x] ROADMAP / STATUS
+- [x] CLOSE
+
+**NEXT CODE MISSION: G1.5 — Claiming Seam + Alumni Identity Skeleton.**

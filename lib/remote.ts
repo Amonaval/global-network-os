@@ -15,6 +15,9 @@ import {MemberInvitation,ContributionSuggestion,CommunityGroup,CommunityEvent,Pa
 import { NetworkSettings } from "./network";
 import { resolveSignedUrls } from "./storage";
 import type {CommunitySpace,CommunityProfileCard,CommunityPost,PendingCommunityLink,CommunityProfileCategory,CommunityPostCategory,CommunityTrustConnection,TrustedConnectionPath,CommunityIntroduction} from "./community-network-types";
+import type { NetworkMembership as NeutralNetworkMembershipContract } from "../core/network/contracts";
+import type { LegacyFamilyNetworkMembershipRow } from "../verticals/family/network/membership-adapter";
+import { fetchMyNetworkMemberships } from "../capabilities/network-context/remote";
 
 const mapMember = (m: any): Member => ({
   ...m,
@@ -40,65 +43,43 @@ const mapLifeEvent = (r: any): LifeEvent => ({
 const isUuidValue = (value: unknown) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(value || ""));
 
 
-export type PlaygroundFeatureRow={feature_key:string;enabled:boolean;updated_at?:string};
-export async function fetchPlaygroundFeatures():Promise<PlaygroundFeatureRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_playground_features");if(error)throw error;return (data||[]) as PlaygroundFeatureRow[];}
-export async function fetchPlaygroundLaunchConsole():Promise<PlaygroundFeatureRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_playground_launch_console");if(error)throw error;return (data||[]) as PlaygroundFeatureRow[];}
-export async function setPlaygroundFeatureVisibility(featureKey:string,enabled:boolean){if(!supabase)return;const {error}=await supabase.rpc("set_playground_feature_visibility",{p_feature_key:featureKey,p_enabled:enabled});if(error)throw error;}
+// G1.4 compatibility facade: shared runtime transport now lives behind capability modules.
+export { fetchMyNetworkMemberships, setActiveNetwork } from "../capabilities/network-context/remote";
+export type {
+  PlaygroundFeatureRow,
+  PlatformFeatureRow,
+  PlatformLaunchFeature,
+  PlatformFamilyTarget,
+  PlatformRolloutAudit,
+  FeatureAnnouncement,
+} from "../capabilities/launch-runtime/remote";
+export {
+  fetchPlaygroundFeatures,
+  fetchPlaygroundLaunchConsole,
+  setPlaygroundFeatureVisibility,
+  fetchEffectivePlatformFeatures,
+  fetchPlatformLaunchConsole,
+  fetchPlatformFamilyTargets,
+  fetchPlatformRolloutAudit,
+  setPlatformFeatureRollout,
+  setPlatformBundleRollout,
+  fetchMyFeatureAnnouncements,
+  markFeatureAnnouncementSeen,
+} from "../capabilities/launch-runtime/remote";
+export type { PlatformOwnerRow, PlatformOwnerAuditRow } from "../capabilities/platform-ownership/remote";
+export {
+  fetchPlatformOwners,
+  addPlatformOwnerByEmail,
+  removePlatformOwner,
+  fetchPlatformOwnerAudit,
+} from "../capabilities/platform-ownership/remote";
+
 export async function enterFamilyLobby(){if(!supabase)return;const {error}=await supabase.rpc("enter_family_lobby");if(error)throw error;}
 export async function leaveCurrentFamily():Promise<"left"|"archived">{if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("leave_current_family");if(error)throw error;return data as "left"|"archived";}
 
-export type PlatformFeatureRow={feature_key:string;rollout_state:"hidden"|"test"|"pilot"|"released";enabled:boolean};
-export type PlatformLaunchFeature={feature_key:string;bundle_key:string;rollout_state:"hidden"|"test"|"pilot"|"released";pilot_network_ids:string[];announcement_version:number;updated_at:string};
-export type PlatformFamilyTarget={network_id:string;name:string;slug:string;status:string;member_count:number};
-export type PlatformRolloutAudit={id:number;feature_key:string;bundle_key:string;previous_state:string;new_state:string;pilot_network_ids:string[];announced:boolean;changed_at:string};
 export type FamilyFeatureSetting={feature_key:string;enabled:boolean};
-export type FeatureAnnouncement={feature_key:string;announcement_version:number;rollout_state:"hidden"|"test"|"pilot"|"released";updated_at:string};
-export type PlatformOwnerRow={user_id:string;email:string|null;created_at:string;is_me:boolean};
-export type PlatformOwnerAuditRow={id:string;actor_email:string|null;target_email:string|null;action:"added"|"removed";created_at:string};
 export type FamilyCreationRequest={id:string;name:string;status:"pending"|"approved"|"rejected";decision_note:string|null;created_at:string;reviewed_at:string|null;network_id:string|null};
 export type PlatformFamilyCreationRequest=FamilyCreationRequest&{requester_user_id:string;requester_email:string|null;description:string};
-export async function fetchEffectivePlatformFeatures():Promise<PlatformFeatureRow[]>{
-  if(!supabase)return [];
-  const {data,error}=await supabase.rpc("get_effective_platform_features");
-  if(error)throw error;
-  return (data||[]) as PlatformFeatureRow[];
-}
-export async function fetchPlatformLaunchConsole():Promise<PlatformLaunchFeature[]>{
-  if(!supabase)return [];
-  const {data,error}=await supabase.rpc("get_platform_launch_console");
-  if(error)throw error;
-  return (data||[]) as PlatformLaunchFeature[];
-}
-export async function fetchPlatformFamilyTargets():Promise<PlatformFamilyTarget[]>{
-  if(!supabase)return [];
-  const {data,error}=await supabase.rpc("get_platform_family_targets");
-  if(error)throw error;
-  return (data||[]).map((row:any)=>({...row,member_count:Number(row.member_count||0)})) as PlatformFamilyTarget[];
-}
-export async function fetchPlatformRolloutAudit(limit=30):Promise<PlatformRolloutAudit[]>{
-  if(!supabase)return [];
-  const {data,error}=await supabase.rpc("get_platform_rollout_audit",{p_limit:limit});
-  if(error)throw error;
-  return (data||[]).map((row:any)=>({...row,id:Number(row.id)})) as PlatformRolloutAudit[];
-}
-export async function setPlatformFeatureRollout(featureKey:string,rolloutState:"hidden"|"test"|"pilot"|"released",pilotNetworkIds:string[]=[],announce=false){
-  if(!supabase)return;
-  const {error}=await supabase.rpc("set_platform_feature_rollout",{p_feature_key:featureKey,p_rollout_state:rolloutState,p_pilot_network_ids:pilotNetworkIds,p_announce:announce});
-  if(error)throw error;
-}
-export async function setPlatformBundleRollout(bundleKey:string,rolloutState:"hidden"|"test"|"pilot"|"released",pilotNetworkIds:string[]=[],announce=false){
-  if(!supabase)return 0;
-  const {data,error}=await supabase.rpc("set_platform_bundle_rollout",{p_bundle_key:bundleKey,p_rollout_state:rolloutState,p_pilot_network_ids:pilotNetworkIds,p_announce:announce});
-  if(error)throw error;
-  return Number(data||0);
-}
-export async function fetchPlatformOwners():Promise<PlatformOwnerRow[]>{
-  if(!supabase)return [];
-  const {data,error}=await supabase.rpc("get_platform_owners");if(error)throw error;return (data||[]) as PlatformOwnerRow[];
-}
-export async function addPlatformOwnerByEmail(email:string){if(!supabase)return;const {error}=await supabase.rpc("add_platform_owner_by_email",{p_email:email.trim()});if(error)throw error;}
-export async function removePlatformOwner(userId:string){if(!supabase)return;const {error}=await supabase.rpc("remove_platform_owner",{p_user_id:userId});if(error)throw error;}
-export async function fetchPlatformOwnerAudit(limit=20):Promise<PlatformOwnerAuditRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_platform_owner_audit",{p_limit:limit});if(error)throw error;return (data||[]) as PlatformOwnerAuditRow[];}
 export async function applyAlphaDay1LaunchPreset(){if(!supabase)return 0;const {data,error}=await supabase.rpc("apply_alpha_day1_launch_preset");if(error)throw error;return Number(data||0);}
 
 export type ClaimableFamilyProfile={network_id:string;family_name:string;member_id:string;member_name:string};
@@ -124,41 +105,32 @@ export async function setFamilyFeatureSetting(featureKey:string,enabled:boolean)
   const {error}=await supabase.rpc("set_family_feature_setting",{p_feature_key:featureKey,p_enabled:enabled});
   if(error)throw error;
 }
-export async function fetchMyFeatureAnnouncements():Promise<FeatureAnnouncement[]>{
-  if(!supabase)return [];
-  const {data,error}=await supabase.rpc("get_my_feature_announcements");
-  if(error)throw error;
-  return (data||[]) as FeatureAnnouncement[];
-}
-export async function markFeatureAnnouncementSeen(featureKey:string,version:number){
-  if(!supabase)return;
-  const {error}=await supabase.rpc("mark_feature_announcement_seen",{p_feature_key:featureKey,p_announcement_version:version});
-  if(error)throw error;
-}
 export async function setMyExperienceLevel(level:"simple"|"connected"|"explorer"){
   if(!supabase)return;
   const {error}=await supabase.rpc("set_my_experience_level",{p_level:level});
   if(error)throw error;
 }
 
-export type NetworkMembership = { network_id:string; name:string; slug:string; role:"owner"|"admin"|"member"; status:string; storage_limit_bytes:number; photo_upload_enabled:boolean; photo_max_bytes:number; is_active:boolean; member_id?:string|null };
+/** @deprecated Family compatibility transport shape. Prefer fetchMyNetworkMemberships() for neutral runtime code. */
+export type NetworkMembership = LegacyFamilyNetworkMembershipRow;
+export type NeutralNetworkMembership = NeutralNetworkMembershipContract;
 
-export async function fetchMyNetworks(): Promise<NetworkMembership[]> {
+async function fetchMyNetworkMembershipRows(): Promise<LegacyFamilyNetworkMembershipRow[]> {
   if (!supabase) return [];
   const {data,error}=await supabase.rpc("get_my_networks");
   if(error) throw error;
-  return (data||[]) as NetworkMembership[];
+  return (data||[]) as LegacyFamilyNetworkMembershipRow[];
+}
+
+/** Historical Family UI facade; shape and RPC behavior remain unchanged. */
+export async function fetchMyNetworks(): Promise<NetworkMembership[]> {
+  return fetchMyNetworkMembershipRows();
 }
 export type FamilyAdminSummary={member_profiles:number;claimed_profiles:number;active_invitations:number;admin_count:number;media_usage_bytes:number;storage_limit_bytes:number;photo_max_bytes:number};
 export type FamilyMembershipRow={user_id:string;role:"owner"|"admin"|"member";status:string;member_id?:string|null;display_name?:string|null;email?:string|null;member_name?:string|null};
 export async function fetchFamilyAdminSummary():Promise<FamilyAdminSummary|null>{if(!supabase)return null;const {data,error}=await supabase.rpc("get_family_admin_summary");if(error)throw error;return (data||[])[0]||null;}
 export async function fetchFamilyMemberships():Promise<FamilyMembershipRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_family_memberships");if(error)throw error;return (data||[]) as FamilyMembershipRow[];}
 export async function setFamilyMemberRole(userId:string,role:"admin"|"member"){if(!supabase)return;const {error}=await supabase.rpc("set_family_member_role",{p_user_id:userId,p_role:role});if(error)throw error;}
-export async function setActiveNetwork(networkId:string){
-  if(!supabase) return;
-  const {error}=await supabase.rpc("set_active_network",{p_network_id:networkId});
-  if(error) throw error;
-}
 export async function addMyselfToFamily(fullName:string,gender?:"Male"|"Female"|"Other"){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("add_myself_to_family",{p_full_name:fullName,p_gender:gender||null});if(error)throw error;return data as string;}
 export async function createFamily(name:string,slug?:string,description=""){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("create_family",{p_name:name,p_slug:slug||null,p_description:description});if(error)throw error;return data as string;}
 export async function fetchNetworkSettings(): Promise<NetworkSettings | null> {
@@ -169,9 +141,9 @@ export async function fetchNetworkSettings(): Promise<NetworkSettings | null> {
     .maybeSingle();
   if (error) throw error;
   if(!data) return null;
-  const memberships=await fetchMyNetworks();
-  const active=memberships.find(x=>x.is_active);
-  return {...data,network_id:data.network_id||active?.network_id,slug:active?.slug,membership_role:active?.role};
+  const memberships=await fetchMyNetworkMemberships();
+  const active=memberships.find(x=>x.isActive);
+  return {...data,network_id:data.network_id||active?.network.id,slug:active?.network.slug,membership_role:active?.role};
 }
 export async function saveNetworkSettings(settings: NetworkSettings) {
   if (!supabase) return;

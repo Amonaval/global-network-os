@@ -1,35 +1,37 @@
-# Next Session Prompt — G1.3 Neutral Network & Membership Contracts
+# Next Session Prompt — G1.5 Claiming Seam + Alumni Identity Skeleton
 
-Use the latest cumulative codebase containing G0 + G1.1 + G1.2.
+Use the latest cumulative codebase containing G0 + G1.1 + G1.2 + G1.3 + G1.4.
 
 Read first:
 1. `G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md`
 2. `G1.1-ARCHITECTURE-GUARDRAILS-TYPED-VERTICAL-REGISTRY.md`
 3. `G1.2-FEATURE-RUNTIME-VERTICAL-CATALOG-SPLIT.md`
-4. `G1.2-RUNTIME-VERIFICATION-CHECKLIST.md`
-5. `DEVELOPMENT-RULES.md`
-6. `CODEBASE-UPDATE-RULE.md`
-7. `ROADMAP.md`
-8. `MISSION-STATUS.md`
-9. `CODEBASE.md`
+4. `G1.3-NEUTRAL-NETWORK-MEMBERSHIP-CONTRACTS.md`
+5. `G1.4-REMOTE-CAPABILITY-SPLIT.md`
+6. `DEVELOPMENT-RULES.md`
+7. `CODEBASE-UPDATE-RULE.md`
+8. `ROADMAP.md`
+9. `MISSION-STATUS.md`
+10. `CODEBASE.md`
 
 ## Mission
 
-Implement **G1.3 — Neutral Network & Membership Contracts**.
+Implement **G1.5 — Claiming Seam + Alumni Identity Skeleton**.
 
 Binding constraints:
-- CLASSIFY before moving code;
-- preserve Family runtime/UI/database behavior exactly;
-- introduce neutral TypeScript contracts for network identity/context and user↔network membership where semantics are genuinely shared;
-- keep Family compatibility aliases/adapters for existing callers;
-- do not migrate/drop/rename `family_members`, existing RPC names, membership columns or Supabase schema in G1.3 unless an additive compatibility change is strictly required and proven safe;
-- do not pretend `network_memberships.member_id -> family_members` is already generic; isolate that leak rather than hiding it;
-- Alumni must not be forced to use kinship member semantics;
-- do not generalize graph/relationships, S3-A1 construction, memories, lineage or kinship intelligence;
-- preserve all G1.1/G1.2 architecture gates and all historical regression gates;
-- add a G1.3 source gate for dependency direction and Family compatibility;
-- run focused TypeScript/runtime checks plus full build when dependencies are available;
-- update architecture/roadmap/status/handoff docs and add a short runtime smoke checklist after the round;
-- only update end-user/Admin guide content if visible behavior changes.
+- CLASSIFY current Family claiming semantics before extracting;
+- define a shared typed claim contract around claimable identity summary, claim policy/eligibility, claim operation and result;
+- Family adapter must delegate to the existing verified-email/current Family claiming behavior rather than reimplementing it;
+- Alumni gets only the minimum identity/profile claim types/adapter skeleton required to prove the second consumer; no fake kinship reuse and no broad Alumni UI;
+- do not destructively change `network_memberships.member_id -> family_members` in G1.5;
+- do not rename current Family RPCs/tables or weaken RLS/security for generic naming;
+- keep existing `lib/remote.ts` imports working through the G1.4 compatibility facade;
+- preserve all 147 historical remote facade exports unless an additive export is intentionally introduced;
+- preserve the G1.3 Playground feature-catalog drift guard;
+- preserve every historical source gate plus G1.1–G1.4 gates;
+- add a G1.5 gate enforcing shared claiming contracts do not import Family/Alumni implementations and Family/Alumni adapters do not import each other;
+- run focused TypeScript/runtime checks and full build when dependencies are available;
+- update architecture/roadmap/status/handoff docs and add only a short high-level runtime checklist;
+- update end-user/Admin guide only if visible Family behavior changes.
 
-Target result: a neutral network/membership contract seam that makes the next transport/repository split possible without destabilizing Family.
+Target result: prove identity claiming as a shared capability with Family unchanged and Alumni represented explicitly, making the second vertical real enough to inform the next extraction decision without overbuilding it.

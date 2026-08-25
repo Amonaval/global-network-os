@@ -1001,7 +1001,7 @@ Permanent mission lifecycle becomes:
 G0 is closed in `G0-TRUSTED-NETWORK-ARCHITECTURE-BLUEPRINT.md`. It establishes that the existing network tenancy/membership/rollout spine is genuinely reusable, while kinship relations, generations, lineage and Family experience remain explicit domain/vertical semantics. G1 begins with architecture guardrails + a typed vertical registry, then separates feature runtime from Family feature catalog, introduces neutral network/membership contracts, splits transport behind compatibility exports, and finally adds a claiming seam plus Alumni skeleton. S3-A1 construction is deliberately deferred to G2 rather than generalized prematurely.
 
 ## G1 — First Shared Capability Extraction + Alumni Skeleton
-**PLANNED**
+**IN PROGRESS — G1.1 / G1.2 / G1.3 / G1.4 COMPLETE; G1.5 NEXT**
 
 Initial likely extraction candidates:
 - network tenancy;
@@ -1183,3 +1183,36 @@ Validation: all 20 source gates PASS after moving two historical gate lookups to
 See `G1.2-FEATURE-RUNTIME-VERTICAL-CATALOG-SPLIT.md` and `G1.2-RUNTIME-VERIFICATION-CHECKLIST.md`.
 
 **NEXT: G1.3 — Neutral Network & Membership Contracts.** Preserve Family schema/RPC compatibility while removing Family semantics from reusable TypeScript contracts.
+
+## 2026-08-25 — G1.3 Neutral Network & Membership Contracts
+
+**Status: IMPLEMENTED IN SOURCE / CLOSED AS NON-BREAKING ARCHITECTURE MISSION / DEPLOYED DB SMOKE REQUIRED**
+
+Implemented the next Core seam without changing Family membership behavior:
+- neutral network identity, membership role/status, resource policy and active-network context contracts in `core/network/contracts.ts`;
+- Family-only adapter owns the historical `get_my_networks()` row and isolates `member_id -> family_members` instead of pretending it is generic;
+- `fetchMyNetworkMemberships()` provides the neutral contract while `fetchMyNetworks()` remains the unchanged Family compatibility facade;
+- `AuthUser.membership_role` is neutral while `family_role` remains a compatibility alias;
+- `NetworkSettings.membership_role` now uses the neutral role contract.
+
+The G1.2 Playground issue is also closed defensively. Migration `044_g1_3_feature_catalog_integrity.sql` reconciles missing feature-registry rows after confirming S3-A1 migration 043 is present, preserves existing rollout/Playground choices, and Launch Control disables code-known/database-missing controls with `Database update required` instead of throwing `Unknown feature key`.
+
+No Family membership table/column/RPC was renamed or migrated. No Alumni profile-link semantics were invented.
+
+Validation: all historical source gates + G1.1/G1.2/G1.3 PASS; focused TypeScript and membership-adapter runtime assertions PASS.
+
+See `G1.3-NEUTRAL-NETWORK-MEMBERSHIP-CONTRACTS.md` and `G1.3-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+## 2026-08-25 — G1.4 Remote Capability Split Behind Compatibility Facade
+
+**Status: IMPLEMENTED IN SOURCE / CLOSED AS NON-BREAKING ARCHITECTURE MISSION**
+
+Moved only proven shared transport into `capabilities/network-context/remote.ts`, `capabilities/launch-runtime/remote.ts`, and `capabilities/platform-ownership/remote.ts`. `lib/remote.ts` remains the Family compatibility facade, and a G1.4 export snapshot/gate proves all 147 historical G1.3 facade exports remain available.
+
+No RPC/table/schema/RLS/feature-key/Family UX change was made. Family creation/claiming/admin/data/community/memories/guide/S3-A1 transport remains intentionally legacy/domain-specific. The G1.3 Playground code↔database catalog-drift protection is now a permanent G1.4 regression assertion.
+
+Validation: all historical gates + G1.1–G1.4 PASS; focused TypeScript 5.8.3 compile PASS. Full Next.js build remains normal-environment work because dependencies are absent in the artifact workspace.
+
+See `G1.4-REMOTE-CAPABILITY-SPLIT.md` and `G1.4-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+**NEXT: G1.5 — Claiming Seam + Alumni Identity Skeleton.** Prove shared claiming via typed adapters while preserving current Family claiming behavior and avoiding a destructive membership/profile schema rewrite.
