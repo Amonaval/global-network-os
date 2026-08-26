@@ -1173,3 +1173,26 @@ Primary commercial wedge: Organizational Intelligence focused on expertise, owne
 Status: IMPLEMENTED / SOURCE-GATE VERIFIED
 
 Delivered as additive bridge code. Existing G9 runtime behavior is preserved. Evidence, source, candidate-assertion and decision contracts are isolated from canonical graph truth. The Knowledge Hub bridge is network/corpus scoped and does not alter its existing Electron/API/query paths.
+
+## G9.1-A Runtime / Database Verification — COMPLETE / SOURCE-CERTIFIED
+
+- [x] active-membership enforcement verified for all G9.1-A read policies;
+- [x] ordinary member SELECT excludes `restricted` knowledge sources/evidence;
+- [x] no direct client write policies opened for evidence/candidate tables;
+- [x] explicit network/corpus/principal/authorization adapter context verified;
+- [x] principal/network mismatch and empty-scope blocking verified;
+- [x] existing G9 deterministic intelligence remains decoupled from the bridge;
+- [x] complete G9→G8 regression validation chain passes;
+- [x] Knowledge Hub bridge syntax/context negative paths pass;
+- [x] read-only Supabase catalog verification script added;
+- [ ] live two-user/two-network Supabase isolation smoke test remains an environment certification step after migration 050 is applied.
+
+**NEXT:** G9.1-B Organization Knowledge Bootstrap. Keep G9.1-B, G9.1-C and G9.1-D as independently gated missions; batch only small sub-batches inside each mission.
+
+## G9.1-B — Organization Knowledge Bootstrap
+**Status: IMPLEMENTED / SOURCE-VALIDATED**
+- Added network-scoped corpus ingestion and targeted Organization extraction in additive Knowledge Hub bridge modules.
+- Added governed Network OS evidence/candidate RPCs and an Organization-admin Knowledge Discovery Inbox.
+- Supported first facts: expertise, ownership, dependency, architectural decision.
+- Human verification is mandatory before graph-affecting commits; existing G9 runtime remains unchanged.
+- Automated validation: `npm run validate:g9.1b` PASS, including complete G9/G8 regression chain and Knowledge Hub bridge syntax checks. Live Supabase/Ollama smoke remains the deployment gate.

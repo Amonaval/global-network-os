@@ -1,0 +1,8 @@
+/** Additive network-scoped corpus writer for G9.1-B. Does not use/alter the standalone Knowledge Hub corpus. */
+const path=require('path');const crypto=require('crypto');const {JSONVectorStore}=require('../vectorstore/store');const {getEmbedder}=require('../ingestion/embedder');const {createNetworkContext,assertAuthorizedContext}=require('./network-context');
+const safe=v=>String(v).replace(/[^a-z0-9_-]/gi,'_');
+class NetworkCorpusIngestor{
+ constructor(options={}){this.baseDataDir=options.baseDataDir||process.env.NETWORK_CORPUS_DIR||path.resolve(process.cwd(),'./data/network-corpora');this.embedder=options.embedder||getEmbedder()}
+ async ingest(rawContext,chunks=[]){const c=assertAuthorizedContext(createNetworkContext(rawContext));if(!Array.isArray(chunks)||!chunks.length)return {ingested:0};const allowed=new Set(c.allowedSections);const clean=chunks.filter(x=>x&&x.text&&allowed.has(String(x.section||x.meta?.section||''))).map((x,i)=>({text:String(x.text),meta:{...(x.meta||{}),section:String(x.section||x.meta?.section),title:String(x.title||x.meta?.title||''),chunkIndex:Number(x.chunkIndex??x.meta?.chunkIndex??i),authorizationRefs:c.authorizationRefs,networkId:c.networkId,corpusId:c.corpusId,contentHash:crypto.createHash('sha256').update(String(x.text)).digest('hex')}}));if(!clean.length)return {ingested:0};const vectors=await this.embedder.embed(clean.map(x=>x.text));clean.forEach((x,i)=>x.embedding=vectors[i]);const dir=path.join(this.baseDataDir,safe(c.networkId),safe(c.corpusId));new JSONVectorStore(path.join(dir,'vectors.json')).upsert(clean);return {ingested:clean.length,networkId:c.networkId,corpusId:c.corpusId}}
+}
+module.exports={NetworkCorpusIngestor};

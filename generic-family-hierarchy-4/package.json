@@ -43,7 +43,9 @@
     "validate:g8-6c": "node scripts/g8-6c-product-closure-gate.mjs && npm run validate:g8-6ab",
     "validate:g9": "npm run validate:g9-runtime && node scripts/g9-network-intelligence-gate.mjs && npm run validate:g8-6c",
     "validate:g9-runtime": "node scripts/g9-intelligence-runtime-smoke.mjs",
-    "validate:g9.1a": "node scripts/g9-1a-evidence-foundation-gate.mjs && npm run validate:g9"
+    "validate:g9.1a": "node scripts/g9-1a-evidence-foundation-gate.mjs && npm run validate:g9",
+    "validate:g9.1a:verify": "node scripts/g9-1a-runtime-database-verification-gate.mjs && npm run validate:g9.1a",
+    "validate:g9.1b": "node scripts/g9-1b-organization-knowledge-bootstrap-gate.mjs && npm run validate:g9.1a:verify"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

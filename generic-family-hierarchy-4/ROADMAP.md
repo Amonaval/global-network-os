@@ -1585,3 +1585,21 @@ Reject designs that:
 - Existing G9 deterministic intelligence and all vertical runtimes remain unchanged.
 - Knowledge Hub integration follows strict decoupling: bridge-first, standalone behavior preserved.
 - Next gate: G9.1-B Organization Knowledge Bootstrap only after runtime/database verification of G9.1-A.
+
+## G9.1-A Runtime / Database Verification — COMPLETE
+
+G9.1-A is source-certified with strengthened regression/security gates. The bridge remains additive and decoupled from the certified G9 runtime. A read-only database catalog gate now verifies table presence, RLS, active-membership enforcement, restricted-evidence protection and closed direct writes after migration 050.
+
+### Remaining environment certification
+Apply migration 050 to the target Supabase project and perform the two-user/two-network isolation smoke test documented in `G9.1-A-RUNTIME-DATABASE-VERIFICATION.md`.
+
+### Sequencing decision
+Do **not** batch G9.1-B + G9.1-C + G9.1-D into one implementation release. They form distinct risk gates:
+- **G9.1-B — Knowledge Bootstrap:** ingestion → evidence → extraction → entity resolution → candidate review;
+- **G9.1-C — Graph-Aware RAG:** graph/evidence orchestration, ranking, confidence and evidence-backed answers;
+- **G9.1-D — Knowledge Risk Loop:** question-derived gaps, concentration/risk scoring and contribution closure.
+
+Small internal batches are encouraged inside each mission, but each mission must independently validate before the next begins. This preserves rollback, commercial learning and the decoupled-code rule.
+
+### G9.1-B — Organization Knowledge Bootstrap — IMPLEMENTED
+Evidence-backed targeted extraction for expertise, ownership, dependencies and architectural decisions with governed review. Next gate: G9.1-B live Supabase/RAG smoke verification before G9.1-C Graph-Aware RAG.
