@@ -1196,3 +1196,9 @@ Delivered as additive bridge code. Existing G9 runtime behavior is preserved. Ev
 - Supported first facts: expertise, ownership, dependency, architectural decision.
 - Human verification is mandatory before graph-affecting commits; existing G9 runtime remains unchanged.
 - Automated validation: `npm run validate:g9.1b` PASS, including complete G9/G8 regression chain and Knowledge Hub bridge syntax checks. Live Supabase/Ollama smoke remains the deployment gate.
+
+
+## G9.1-C — Graph-Aware RAG
+Status: IMPLEMENTED / SOURCE-GATE PASS
+
+Graph truth and authorized organizational evidence now combine through a decoupled Organization-only orchestrator. Directed ownership/dependency traversal, skill expertise matching, decision evidence, provenance/freshness and graph-only fallback are implemented. Existing G9 and G8 regression chain remains green. Manual live runtime verification may be performed by the founder before G9.1-D.

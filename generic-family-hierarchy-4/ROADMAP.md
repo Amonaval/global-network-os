@@ -1603,3 +1603,10 @@ Small internal batches are encouraged inside each mission, but each mission must
 
 ### G9.1-B — Organization Knowledge Bootstrap — IMPLEMENTED
 Evidence-backed targeted extraction for expertise, ownership, dependencies and architectural decisions with governed review. Next gate: G9.1-B live Supabase/RAG smoke verification before G9.1-C Graph-Aware RAG.
+
+
+## G9.1-C — Graph-Aware RAG — IMPLEMENTED
+- Organization-only graph + authorized evidence orchestration delivered.
+- Supports expertise, ownership, dependency and decision/rationale questions.
+- G9 deterministic engine and all non-Organization vertical behavior remain unchanged.
+- Next strategic mission: G9.1-D Organizational Knowledge Risk Loop after manual G9.1-C runtime smoke.
