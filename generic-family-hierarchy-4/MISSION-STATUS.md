@@ -1241,3 +1241,12 @@ Graph truth and authorized organizational evidence now combine through a decoupl
 
 ## G9.1-B.1 + C.1 — Intelligence Quality Hardening
 Implemented after Northstar manual validation exposed explicit-target resolution and candidate-coverage defects. Exact named entities now win before fuzzy matching; dependency direction is question-aware; expertise ranking is strengthened; answer evidence is progressively disclosed; Knowledge Hub extraction uses focused structural/knowledge passes with diagnostics and de-duplication. No schema migration and no canonical G9 engine changes.
+
+## 2026-08-26 — Product Doctrine + Lean AI Context — COMPLETE
+
+- Added a binding product mission: build a remarkable/self-demonstrating product before making founder-led outreach the primary learning engine.
+- Expanded AI responsibility from implementation/architecture to proactive product co-creation and strategic challenge.
+- Adopted a lean AIDLC loop and progressive-context rule.
+- Added four compact read-first docs: `AI-START-HERE.md`, `PRODUCT-CONSTITUTION.md`, `CURRENT-STATE.md`, `AIDLC-OPERATING-RULE.md`.
+- Replaced the oversized active `NEXT-SESSION-PROMPT.md` with a lean bootstrap; archived the prior detailed handoff under `docs/history/`.
+- No runtime/product code changed.
