@@ -1,0 +1,666 @@
+<title>Intelligence OS · Live Companion</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #070C14;
+    --ink: #E8EDF5;
+    --ink2: #9BACC8;
+    --surface: #0F1828;
+    --border: #1A2A40;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* ── Deck ── */
+  .deck {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── Slides ── */
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem 2.8rem 4.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s ease;
+    overflow: hidden;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Accent glow per slide — top-left radial */
+  .slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 10% 5%, var(--accent-glow, transparent), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .slide > * { position: relative; z-index: 1; }
+
+  /* ── Stage label ── */
+  .stage-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .stage-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.25;
+    max-width: 80px;
+  }
+
+  /* ── Headline ── */
+  .headline {
+    font-size: clamp(1.7rem, 3.8vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    color: #fff;
+    text-wrap: balance;
+    margin-bottom: 1.3rem;
+    max-width: 700px;
+  }
+
+  .headline em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  /* ── Body ── */
+  .body-text {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--ink2);
+    max-width: 620px;
+    margin-bottom: 1rem;
+  }
+
+  .body-text p + p { margin-top: 0.65rem; }
+
+  .body-text strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Two-column layout ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 580px) { .two-col { grid-template-columns: 1fr; } }
+
+  .col-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+  }
+
+  .col-card-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .col-card p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--ink2);
+  }
+
+  /* ── Terminal block ── */
+  .terminal {
+    background: #0A0F18;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    font-family: "SF Mono", "Fira Code", "Courier New", monospace;
+  }
+
+  .terminal-bar {
+    background: #141F2E;
+    padding: 0.45rem 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dot { width: 9px; height: 9px; border-radius: 50%; }
+  .dot.r { background: #FF5F57; }
+  .dot.y { background: #FFBD2E; }
+  .dot.g { background: #28CA41; }
+  .terminal-title { font-size: 0.65rem; color: #4A5568; margin-left: 0.3rem; letter-spacing: 0.05em; }
+
+  .terminal-body { padding: 0.85rem 1rem; font-size: 0.78rem; line-height: 1.7; }
+  .t-prompt { color: var(--accent); }
+  .t-input  { color: var(--ink); }
+  .t-response { color: var(--ink2); margin-top: 0.4rem; }
+  .t-highlight { color: var(--accent); font-weight: 600; }
+  .t-dim { color: #3A4A60; }
+
+  /* ── File tree ── */
+  .file-tree {
+    background: #0A0F18;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    font-family: "SF Mono", "Fira Code", "Courier New", monospace;
+    font-size: 0.78rem;
+    line-height: 1.9;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+  }
+
+  .ft-dir   { color: var(--accent); font-weight: 600; }
+  .ft-file  { color: var(--ink2); }
+  .ft-desc  { color: #3D5070; font-style: italic; }
+  .ft-indent { display: inline-block; width: 1.4rem; }
+  .ft-indent2 { display: inline-block; width: 2.8rem; }
+
+  /* ── Hierarchy diagram ── */
+  .hierarchy {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 1rem;
+    max-width: 480px;
+  }
+
+  .h-level {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .h-box {
+    border: 1px solid var(--accent);
+    border-radius: 7px;
+    padding: 0.4rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(0,0,0,0.3);
+    white-space: nowrap;
+  }
+
+  .h-box.dim {
+    border-color: var(--border);
+    color: var(--ink2);
+  }
+
+  .h-desc {
+    font-size: 0.78rem;
+    color: #3D5070;
+  }
+
+  .h-arrow {
+    font-size: 0.7rem;
+    color: #3D5070;
+    padding-left: 1rem;
+    margin: 0.1rem 0;
+  }
+
+  /* ── Insight callout ── */
+  .insight {
+    margin-top: auto;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 0.65rem 1rem;
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 620px;
+  }
+
+  .insight strong { color: var(--accent); }
+
+  /* ── Big word slide ── */
+  .big-word {
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  /* ── Transformation slide ── */
+  .transform-line {
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    line-height: 1.6;
+    color: var(--ink2);
+    margin-bottom: 1.4rem;
+    max-width: 580px;
+  }
+
+  .transform-line span {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .transform-tagline {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: #fff;
+    margin-bottom: 1.8rem;
+  }
+
+  .transform-tagline em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  /* ── Welcome slide ── */
+  .welcome-eyebrow {
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .welcome-sub {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 1.8rem;
+  }
+
+  .welcome-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: #2A3A55;
+    margin-top: auto;
+  }
+
+  .welcome-hint svg { opacity: 0.4; }
+
+  /* ── Nav bar ── */
+  .nav-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    background: linear-gradient(to top, rgba(7,12,20,0.95) 60%, transparent);
+    z-index: 100;
+  }
+
+  .nav-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    width: 36px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--ink2);
+    transition: border-color 0.15s, color 0.15s;
+    font-size: 14px;
+  }
+
+  .nav-btn:hover { border-color: var(--ink2); color: var(--ink); }
+  .nav-btn:disabled { opacity: 0.2; cursor: default; }
+
+  .nav-dots {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+  }
+
+  .nav-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .nav-dot.active {
+    background: var(--current-accent, #00D4C8);
+    transform: scale(1.4);
+  }
+
+  .nav-counter {
+    font-size: 0.65rem;
+    color: #2A3A55;
+    font-variant-numeric: tabular-nums;
+    min-width: 36px;
+    text-align: center;
+  }
+
+  /* ── Slide accent vars ── */
+  .s0 { --accent: #00D4C8; --accent-glow: rgba(0,212,200,0.12); }
+  .s1 { --accent: #F0B429; --accent-glow: rgba(240,180,41,0.10); }
+  .s2 { --accent: #FF7B72; --accent-glow: rgba(255,123,114,0.12); }
+  .s3 { --accent: #818CF8; --accent-glow: rgba(129,140,248,0.12); }
+  .s4 { --accent: #3DD68C; --accent-glow: rgba(61,214,140,0.10); }
+  .s5 { --accent: #38BDF8; --accent-glow: rgba(56,189,248,0.10); }
+  .s6 { --accent: #FBD38D; --accent-glow: rgba(251,211,141,0.10); }
+  .s7 { --accent: #C084FC; --accent-glow: rgba(192,132,252,0.10); }
+  .s8 { --accent: #00D4C8; --accent-glow: rgba(0,212,200,0.18); }
+
+  /* mission loop */
+  .mission-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 500px) { .mission-pair { grid-template-columns: 1fr; } }
+
+  .m-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+  }
+
+  .m-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .m-body { font-size: 0.82rem; line-height: 1.6; color: var(--ink2); }
+  .m-body strong { color: var(--ink); font-weight: 600; }
+</style>
+
+<div class="deck" id="deck">
+
+  <!-- Slide 0: Welcome -->
+  <div class="slide s0 active" data-index="0">
+    <div class="stage-label">Intelligence OS</div>
+    <div class="welcome-eyebrow">Intelligence<br>OS</div>
+    <div class="welcome-sub">Live Demo Companion</div>
+    <div class="body-text">
+      <p>Over the next 30 minutes you'll see a live demo of a pattern that gives AI sessions persistent institutional memory — the company's principles, decisions, and direction, loaded automatically in every session.</p>
+      <p>This companion explains what you're watching at each stage and why it matters. Follow along, read ahead, or come back to any slide.</p>
+    </div>
+    <div class="insight">
+      <strong>The core idea:</strong> Instead of explaining your company to AI every time you open a session, what if it already knew?
+    </div>
+    <div class="welcome-hint">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l6 6-6 6M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Use arrow keys or the buttons below to navigate
+    </div>
+  </div>
+
+  <!-- Slide 1: The Problem -->
+  <div class="slide s1" data-index="1">
+    <div class="stage-label">01 · The Problem</div>
+    <div class="headline">Every AI session starts <em>from zero.</em></div>
+    <div class="two-col">
+      <div class="col-card">
+        <div class="col-card-label">What happens today</div>
+        <p>Open Claude. Explain what you're building. Describe the architecture. Mention the constraints. Remind it of the decisions already made. Then get to the actual question.</p>
+      </div>
+      <div class="col-card">
+        <div class="col-card-label">What happens tomorrow</div>
+        <p>Start again. The context resets. Institutional knowledge lives in people's heads — or it disappears when they move on.</p>
+      </div>
+    </div>
+    <div class="body-text">
+      <p>Across a team of engineers, product managers, and designers — each re-explaining the same company to the same AI, every day — the cost is invisible but constant.</p>
+    </div>
+    <div class="insight">
+      <strong>The problem isn't the AI.</strong> It's that there's nowhere for the company's knowledge to live between sessions.
+    </div>
+  </div>
+
+  <!-- Slide 2: The Defense Test -->
+  <div class="slide s2" data-index="2">
+    <div class="stage-label">02 · The Defense Test</div>
+    <div class="headline">What if Claude <em>already knew</em> what you'd decided?</div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span class="terminal-title">Claude Code · Syndigo OS</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-prompt">›</span> <span class="t-input">Add real-time pricing comparison to the product roadmap</span></div>
+        <div class="t-response">I need to flag this before adding it. <span class="t-highlight">Decision record COM-006</span> explicitly rules out competitor pricing features — the reasoning was that displaying competitor data creates legal exposure and conflicts with our retailer-first principle in the company constitution.</div>
+        <div class="t-response" style="margin-top:0.5rem;">Rather than re-open a settled decision, I can suggest an alternative: <span class="t-highlight">price-readiness scoring</span> against the brand's own historical benchmarks. Same user value, no legal risk. Want me to draft that brief instead?</div>
+      </div>
+    </div>
+    <div class="insight">
+      <strong>This isn't rule-following.</strong> Claude read the reasoning and applied judgment. That's the difference between compliance and institutional intelligence.
+    </div>
+  </div>
+
+  <!-- Slide 3: The OS Structure -->
+  <div class="slide s3" data-index="3">
+    <div class="stage-label">03 · The OS Structure</div>
+    <div class="headline">A company written in <em>plain text.</em></div>
+    <div class="file-tree">
+<span class="ft-file">CLAUDE.md</span>  <span class="ft-desc">← loads everything below, every session</span>
+<span class="ft-dir">.company/</span>
+<span class="ft-indent"></span><span class="ft-file">00_COMPANY_CONSTITUTION.md</span>  <span class="ft-desc">← what we stand for</span>
+<span class="ft-indent"></span><span class="ft-file">02_EXECUTIVE_COUNCIL.md</span>  <span class="ft-desc">← what leadership cares about</span>
+<span class="ft-indent"></span><span class="ft-file">03_DECISIONS.md</span>  <span class="ft-desc">← what's already been decided</span>
+<span class="ft-dir">.product/</span>
+<span class="ft-indent"></span><span class="ft-file">00_PRODUCT_VISION.md</span>  <span class="ft-desc">← north star &amp; evolution path</span>
+<span class="ft-indent"></span><span class="ft-file">01_CEO_DASHBOARD.md</span>  <span class="ft-desc">← health signals &amp; objectives</span>
+<span class="ft-indent"></span><span class="ft-file">04_NEXT_MISSION.md</span>  <span class="ft-desc">← what we're building right now</span>
+<span class="ft-dir">.engineering/</span>
+<span class="ft-indent"></span><span class="ft-file">ARCHITECTURE.md</span>  <span class="ft-desc">← how the system is built</span>
+<span class="ft-indent"></span><span class="ft-file">DECISIONS.md</span>  <span class="ft-desc">← patterns &amp; approaches already tried</span>
+    </div>
+    <div class="insight">
+      <strong>No database. No infrastructure. No API keys.</strong> Plain Markdown files in a folder — loaded automatically at the start of every Claude session.
+    </div>
+  </div>
+
+  <!-- Slide 4: Session Restart -->
+  <div class="slide s4" data-index="4">
+    <div class="stage-label">04 · The Session Restart</div>
+    <div class="headline">Close everything.<br>Type <em>one word.</em></div>
+    <div class="big-word">start</div>
+    <div class="body-text" style="margin-top:1rem;">
+      <p>The conversation is closed. The history is gone. Claude opens with no memory of what was discussed.</p>
+      <p>One word. Claude reads the OS — the constitution, the dashboard, the active mission, the decision records. Full institutional context. Instantly.</p>
+    </div>
+    <div class="insight">
+      <strong>Conversation history is temporary. Institutional knowledge is permanent.</strong> The OS is the difference between the two.
+    </div>
+  </div>
+
+  <!-- Slide 5: Mission Loop + Rule Injection -->
+  <div class="slide s5" data-index="5">
+    <div class="stage-label">05 · Mission Execution + Live Rule Injection</div>
+    <div class="headline">The OS <em>learns</em> as you build.</div>
+    <div class="mission-pair">
+      <div class="m-card">
+        <div class="m-label">Mission Loop</div>
+        <div class="m-body">Work is structured as <strong>missions</strong> with a clear success criterion. When a mission completes, the lesson is recorded in the OS. The next engineer — or the next session — starts with that lesson already loaded.</div>
+      </div>
+      <div class="m-card">
+        <div class="m-label">Live Rule Injection</div>
+        <div class="m-body">Watch: a new instruction is added to <strong>CLAUDE.md</strong> right now, mid-session. That rule becomes a permanent behavior for every future session — every team member, every project in this OS.</div>
+      </div>
+    </div>
+    <div class="insight">
+      <strong>Every mission adds a lesson. Every rule shapes future behavior.</strong> The OS doesn't just remember — it compounds.
+    </div>
+  </div>
+
+  <!-- Slide 6: Strategic Review -->
+  <div class="slide s6" data-index="6">
+    <div class="stage-label">06 · The Strategic Review</div>
+    <div class="headline">Are we still building <em>the right things?</em></div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span class="terminal-title">Strategic Review Prompt</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-prompt">›</span> <span class="t-input">Run a full strategic review. Read the OS. Are our active missions aligned with the company constitution? Is there a risk in our current direction that no one is naming? What would you change?</span></div>
+        <div class="t-response" style="margin-top:0.5rem;"><span class="t-highlight">Risk surfaced:</span> Mission 4 is optimizing Synapse AI acceptance rate through bulk review UX — but the Target accuracy gap (88% vs. 94.1% avg) is being amplified at scale. Fixing the UX may increase the volume of slightly-wrong suggestions approved faster. <span class="t-highlight">Recommend:</span> sequencing an accuracy audit before UX optimization ships.</div>
+      </div>
+    </div>
+    <div class="insight">
+      <strong>The review found something the builder hadn't named.</strong> Not because Claude is smarter — because reading the full OS together reveals patterns no single file shows.
+    </div>
+  </div>
+
+  <!-- Slide 7: From Product to Company -->
+  <div class="slide s7" data-index="7">
+    <div class="stage-label">07 · From Product to Company</div>
+    <div class="headline">One OS. <em>Every team.</em></div>
+    <div class="hierarchy">
+      <div class="h-level">
+        <div class="h-box">Company OS</div>
+        <div class="h-desc">Constitution · Executive Council · Vision · Decisions</div>
+      </div>
+      <div class="h-arrow">↓ loads into</div>
+      <div class="h-level">
+        <div class="h-box dim">Division OS</div>
+        <div class="h-desc" style="color:#2A3A55;">Product Intelligence · Platform · GTM</div>
+      </div>
+      <div class="h-arrow">↓ loads into</div>
+      <div class="h-level">
+        <div class="h-box dim">Team OS</div>
+        <div class="h-desc" style="color:#2A3A55;">Engineering · Product · Marketing · Sales</div>
+      </div>
+      <div class="h-arrow">↓ loads into</div>
+      <div class="h-level">
+        <div class="h-box dim">Personal OS</div>
+        <div class="h-desc" style="color:#2A3A55;">Individual context · Active work · Preferences</div>
+      </div>
+    </div>
+    <div class="insight">
+      <strong>Each layer inherits the one above — automatically.</strong> A developer opens their project. Claude loads team, division, and company context. The full institutional baseline, every session, every person, without anyone thinking about it.
+    </div>
+  </div>
+
+  <!-- Slide 8: The Transformation -->
+  <div class="slide s8" data-index="8">
+    <div class="stage-label">08 · The Transformation</div>
+    <div class="transform-tagline">Stop prompting.<br><em>Start compounding.</em></div>
+    <div class="transform-line">
+      <span>Right now, AI makes individuals more productive.</span><br>
+      The Intelligence OS makes the organization more intelligent.<br>
+      <span>That's a different order of magnitude.</span>
+    </div>
+    <div class="two-col">
+      <div class="col-card">
+        <div class="col-card-label">Without the OS</div>
+        <p>Every session starts from zero. Decisions get re-debated. New hires spend months reconstructing context. AI quality varies by how much context each person brings.</p>
+      </div>
+      <div class="col-card">
+        <div class="col-card-label">With the OS</div>
+        <p>Every session starts from the company's accumulated knowledge. Decisions are recorded. New hires brief themselves on day one. The quality floor rises for everyone.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav-bar" id="nav">
+  <button class="nav-btn" id="prev-btn" onclick="navigate(-1)" disabled>←</button>
+  <div class="nav-dots" id="dots"></div>
+  <span class="nav-counter" id="counter">1 / 9</span>
+  <button class="nav-btn" id="next-btn" onclick="navigate(1)">→</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const accents = ['#00D4C8','#F0B429','#FF7B72','#818CF8','#3DD68C','#38BDF8','#FBD38D','#C084FC','#00D4C8'];
+
+  let current = 0;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Slide ' + (i+1));
+    d.onclick = () => goTo(i);
+    dots.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dots.children[current].classList.remove('active');
+    current = Math.max(0, Math.min(slides.length - 1, n));
+    slides[current].classList.add('active');
+    dots.children[current].classList.add('active');
+    dots.children[current].style.background = accents[current];
+    counter.textContent = (current + 1) + ' / ' + slides.length;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === slides.length - 1;
+    // Reset other dot colors
+    Array.from(dots.children).forEach((d, i) => {
+      if (i !== current) d.style.background = '';
+    });
+  }
+
+  function navigate(dir) { goTo(current + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')  { e.preventDefault(); navigate(-1); }
+  });
+
+  // Touch swipe
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend',   e => {
+    const dx = tx - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 50) navigate(dx > 0 ? 1 : -1);
+  }, {passive:true});
+
+  // Init first dot color
+  dots.children[0].style.background = accents[0];
+</script>

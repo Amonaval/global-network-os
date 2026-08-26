@@ -1,0 +1,1288 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API Reference — Knowledge Hub</title>
+<style>
+/* ── Tokens ────────────────────────────────────────────────────────── */
+:root {
+  --bg:        #F6F8FA;
+  --bg-alt:    #EAEEF2;
+  --bg-card:   #FFFFFF;
+  --bg-code:   #F0F3F7;
+  --sidebar:   #F0F3F7;
+  --border:    #D0D7DE;
+  --border-2:  #B1BAC4;
+  --text:      #1F2328;
+  --text-2:    #636C76;
+  --text-3:    #9198A1;
+  --mint:      #1A7F64;
+  --mint-dim:  #DAFBE1;
+  --rail:      #1A7F64;
+  --get:       #1A7F64;  --get-bg:   #DAFBE1;
+  --post:      #9A6700;  --post-bg:  #FFF8C5;
+  --del:       #CF222E;  --del-bg:   #FFEBE9;
+  --patch:     #6639BA;  --patch-bg: #FBEFFF;
+  --stream:    #0550AE;  --stream-bg:#DFF7FF;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #0D1117;
+    --bg-alt:    #161B22;
+    --bg-card:   #161B22;
+    --bg-code:   #0D1117;
+    --sidebar:   #010409;
+    --border:    #30363D;
+    --border-2:  #484F58;
+    --text:      #E6EDF3;
+    --text-2:    #8B949E;
+    --text-3:    #6E7681;
+    --mint:      #3FB950;
+    --mint-dim:  #0D2714;
+    --rail:      #3FB950;
+    --get:       #3FB950;  --get-bg:   #0D2714;
+    --post:      #D29922;  --post-bg:  #272115;
+    --del:       #F85149;  --del-bg:   #2D1414;
+    --patch:     #BC8CFF;  --patch-bg: #1F1435;
+    --stream:    #58A6FF;  --stream-bg:#0C2032;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:        #0D1117;
+  --bg-alt:    #161B22;
+  --bg-card:   #161B22;
+  --bg-code:   #0D1117;
+  --sidebar:   #010409;
+  --border:    #30363D;
+  --border-2:  #484F58;
+  --text:      #E6EDF3;
+  --text-2:    #8B949E;
+  --text-3:    #6E7681;
+  --mint:      #3FB950;
+  --mint-dim:  #0D2714;
+  --rail:      #3FB950;
+  --get:       #3FB950;  --get-bg:   #0D2714;
+  --post:      #D29922;  --post-bg:  #272115;
+  --del:       #F85149;  --del-bg:   #2D1414;
+  --patch:     #BC8CFF;  --patch-bg: #1F1435;
+  --stream:    #58A6FF;  --stream-bg:#0C2032;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
+code, kbd, pre {
+  font-family: 'Cascadia Code', 'Fira Code', ui-monospace, 'Consolas', monospace;
+  font-size: 0.85em;
+}
+
+/* ── Layout shell ──────────────────────────────────────────────────── */
+.shell {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* ── Sidebar ────────────────────────────────────────────────────────── */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-head {
+  padding: 1.25rem 1rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-brand {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mint);
+  margin-bottom: 0.2rem;
+}
+.sidebar-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.sidebar-nav { padding: 0.75rem 0; flex: 1; }
+.nav-section { margin-bottom: 0.1rem; }
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1rem;
+  font-size: 0.82rem;
+  color: var(--text-2);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: border-color 0.1s, background 0.1s;
+}
+.nav-link:hover { background: var(--bg-alt); color: var(--text); }
+.nav-link.active { border-left-color: var(--rail); color: var(--text); font-weight: 600; }
+.nav-count {
+  margin-left: auto;
+  font-size: 0.68rem;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Main content ──────────────────────────────────────────────────── */
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 1.5rem 2rem 4rem;
+}
+.page-header {
+  max-width: 800px;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.page-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.page-header p {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.meta-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+.meta-item {
+  font-size: 0.78rem;
+  color: var(--text-3);
+}
+.meta-item strong { color: var(--text-2); }
+
+/* SSE spec box */
+.sse-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  max-width: 800px;
+  margin-bottom: 2.5rem;
+}
+.sse-box h3 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--stream);
+  margin-bottom: 0.75rem;
+}
+.sse-events { display: flex; flex-direction: column; gap: 0.4rem; }
+.sse-event {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+.sse-type {
+  font-family: 'Cascadia Code', 'Fira Code', ui-monospace, 'Consolas', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--stream);
+}
+.sse-desc { font-size: 0.85rem; color: var(--text-2); }
+
+/* ── Endpoint group ────────────────────────────────────────────────── */
+.ep-group {
+  max-width: 800px;
+  margin-bottom: 3rem;
+  scroll-margin-top: 1rem;
+}
+.group-heading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Endpoint card ─────────────────────────────────────────────────── */
+.ep {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+.ep-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  user-select: none;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.ep-head:hover { background: var(--bg-alt); }
+.method {
+  font-family: 'Cascadia Code', 'Fira Code', ui-monospace, 'Consolas', monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.m-get   { color: var(--get);   background: var(--get-bg);   }
+.m-post  { color: var(--post);  background: var(--post-bg);  }
+.m-del   { color: var(--del);   background: var(--del-bg);   }
+.m-patch { color: var(--patch); background: var(--patch-bg); }
+.ep-path {
+  font-family: 'Cascadia Code', 'Fira Code', ui-monospace, 'Consolas', monospace;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.ep-desc {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  flex: 1;
+  min-width: 200px;
+}
+.badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.45rem;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.badge-stream { color: var(--stream); background: var(--stream-bg); }
+.ep-toggle {
+  color: var(--text-3);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.ep-toggle.open { transform: rotate(180deg); }
+
+.ep-body {
+  display: none;
+  padding: 0 1rem 1rem;
+  border-top: 1px solid var(--border);
+}
+.ep-body.open { display: block; }
+
+.ep-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin: 0.9rem 0 0.4rem;
+}
+.ep-body pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  color: var(--text-2);
+}
+.ep-note {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+.ep-note code {
+  background: var(--bg-code);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-size: 0.8em;
+  color: var(--text);
+}
+.ep-params-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin-top: 0.4rem;
+}
+.ep-params-table th {
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid var(--border-2);
+}
+.ep-params-table td {
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-2);
+  vertical-align: top;
+}
+.ep-params-table tr:last-child td { border-bottom: none; }
+.ep-params-table code {
+  background: var(--bg-code);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-size: 0.8em;
+  color: var(--text);
+}
+.req { color: var(--del) !important; font-weight: 700; }
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+.page-footer {
+  max-width: 800px;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.page-footer a { font-size: 0.8rem; color: var(--text-3); }
+.page-footer a:hover { color: var(--mint); }
+
+/* ── Responsive ────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .sidebar { display: none; }
+  .main { padding: 1rem 1rem 3rem; }
+  .sse-event { grid-template-columns: 1fr; gap: 0.1rem; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Sidebar -->
+  <nav class="sidebar" aria-label="API groups">
+    <div class="sidebar-head">
+      <div class="sidebar-brand">Knowledge Hub</div>
+      <div class="sidebar-title">API Reference</div>
+    </div>
+    <div class="sidebar-nav">
+      <a class="nav-link active" href="#chat" onclick="scrollTo('chat',this)">Chat &amp; Query <span class="nav-count">2</span></a>
+      <a class="nav-link" href="#setup" onclick="scrollTo('setup',this)">Setup &amp; Build <span class="nav-count">6</span></a>
+      <a class="nav-link" href="#docs" onclick="scrollTo('docs',this)">Document Upload <span class="nav-count">3</span></a>
+      <a class="nav-link" href="#confluence" onclick="scrollTo('confluence',this)">Confluence <span class="nav-count">5</span></a>
+      <a class="nav-link" href="#intelligence" onclick="scrollTo('intelligence',this)">Intelligence &amp; IDS <span class="nav-count">3</span></a>
+      <a class="nav-link" href="#analytics" onclick="scrollTo('analytics',this)">Analytics &amp; Gaps <span class="nav-count">4</span></a>
+      <a class="nav-link" href="#knowledge" onclick="scrollTo('knowledge',this)">Knowledge <span class="nav-count">3</span></a>
+      <a class="nav-link" href="#insights" onclick="scrollTo('insights',this)">Insights &amp; Memory <span class="nav-count">4</span></a>
+      <a class="nav-link" href="#health" onclick="scrollTo('health',this)">Health &amp; Sections <span class="nav-count">6</span></a>
+      <a class="nav-link" href="#sessions" onclick="scrollTo('sessions',this)">Sessions <span class="nav-count">4</span></a>
+      <a class="nav-link" href="#codegen" onclick="scrollTo('codegen',this)">Code Generation <span class="nav-count">1</span></a>
+      <a class="nav-link" href="#config" onclick="scrollTo('config',this)">Config &amp; Status <span class="nav-count">5</span></a>
+      <a class="nav-link" href="#onboard" onclick="scrollTo('onboard',this)">Onboarding &amp; Maintenance <span class="nav-count">3</span></a>
+      <a class="nav-link" href="#chunks" onclick="scrollTo('chunks',this)">Chunk Explorer <span class="nav-count">1</span></a>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="page-header">
+      <h1>Knowledge Hub · API Reference</h1>
+      <p>All Express endpoints served by <code>src/api/server.js</code>. Every streaming endpoint uses Server-Sent Events (SSE). Prefix all paths with <code>http://localhost:PORT</code>.</p>
+      <div class="meta-row">
+        <span class="meta-item"><strong>Source:</strong> src/api/server.js</span>
+        <span class="meta-item"><strong>Default port:</strong> 3000</span>
+        <span class="meta-item"><strong>Auth:</strong> none (local-first)</span>
+        <span class="meta-item"><strong>Endpoints:</strong> 40+</span>
+      </div>
+    </div>
+
+    <!-- SSE event types -->
+    <div class="sse-box">
+      <h3>⚡ SSE Event Types (streaming endpoints)</h3>
+      <div class="sse-events">
+        <div class="sse-event"><span class="sse-type">token</span><span class="sse-desc">One LLM output token. Accumulate to build the full answer.</span></div>
+        <div class="sse-event"><span class="sse-type">phase</span><span class="sse-desc">Pipeline phase update — <code>"retrieving"</code>, <code>"ranking"</code>, <code>"generating"</code>. Show as a progress indicator.</span></div>
+        <div class="sse-event"><span class="sse-type">log</span><span class="sse-desc">Build / ingest progress line. Free-text string. Append to a log panel.</span></div>
+        <div class="sse-event"><span class="sse-type">done</span><span class="sse-desc">Final payload. JSON body: <code>{answer, sources, sessionId, score}</code>. Close the SSE connection after receiving this.</span></div>
+        <div class="sse-event"><span class="sse-type">error</span><span class="sse-desc">Error string. Connection will close; display to user.</span></div>
+      </div>
+    </div>
+
+    <!-- ── Chat & Query ── -->
+    <div class="ep-group" id="chat">
+      <div class="group-heading">Chat &amp; Query</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/chat/stream</span>
+          <span class="ep-desc">Streaming SSE chat — tokens stream as the LLM generates them</span>
+          <span class="badge badge-stream">⚡ SSE</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Request body</div>
+          <pre>{ "question": string,         // required
+  "sessionId": string,        // optional — continue a session
+  "section": string,          // optional — filter to one section
+  "sections": string[],       // optional — filter to multiple sections
+  "history": Message[],       // optional — prior turns
+  "userId": string,           // optional — for IDS attribution
+  "pinnedChunkIds": string[]  // optional — bypass retrieval gate
+}</pre>
+          <div class="ep-section-title">SSE events</div>
+          <div class="ep-note">Fires <code>token</code> events during generation. Fires <code>done</code> with <code>{answer, sources:[{section,title,url,score}], sessionId, score}</code> at completion. Fires <code>error</code> on failure.</div>
+          <div class="ep-section-title">Notes</div>
+          <div class="ep-note">Runs the full RAG pipeline: embed → hybrid retrieval (BM25+dense+RRF) → confidence gate → context compression → LLM stream. Logs to <code>data/eval.jsonl</code>. Use this for all interactive chat UI.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/chat</span>
+          <span class="ep-desc">Non-streaming chat — returns the complete answer in one response</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Request body</div>
+          <pre>{ "question": string,         // required
+  "sessionId": string,        // optional
+  "section": string,          // optional
+  "sections": string[],       // optional
+  "history": Message[],       // optional
+  "userId": string            // optional
+}</pre>
+          <div class="ep-section-title">Response</div>
+          <pre>{ "answer": string,
+  "sources": [{section, title, url, score}],
+  "sessionId": string,
+  "blocked": boolean
+}</pre>
+          <div class="ep-note">Same pipeline as <code>/api/chat/stream</code> but blocks until generation completes. Use for CLI integrations or the VS Code extension where streaming is inconvenient.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Setup & Build ── -->
+    <div class="ep-group" id="setup">
+      <div class="group-heading">Setup &amp; Build</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/setup/build</span>
+          <span class="ep-desc">Save config, run full fetch + ingest pipeline</span>
+          <span class="badge badge-stream">⚡ SSE</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Request body</div>
+          <pre>{ "config": AppConfig }  // full app config object (see /api/app/config)</pre>
+          <div class="ep-section-title">SSE events</div>
+          <div class="ep-note">Streams <code>log</code> events showing crawl and ingest progress. Fires <code>done</code> when complete with chunk count, or <code>error</code> on failure.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/setup/rebuild</span>
+          <span class="ep-desc">Re-fetch + re-ingest with existing saved config</span>
+          <span class="badge badge-stream">⚡ SSE</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">No request body. Uses the config already saved on disk. Streams the same log/done/error SSE events as <code>/api/setup/build</code>.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/setup/cancel</span>
+          <span class="ep-desc">Kill any running build job and reset build state</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">No request body. Returns <code>{ "ok": true }</code> immediately after terminating the build process.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/setup/reset</span>
+          <span class="ep-desc">Wipe all indexed data and clear setupComplete flag</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">Deletes vector store files and resets the setup state. Irreversible — requires a full rebuild to restore. Returns <code>{ "ok": true }</code>.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/setup/test-url</span>
+          <span class="ep-desc">Verify a URL is reachable</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Query params</div>
+          <table class="ep-params-table"><thead><tr><th>Param</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody><tr><td><code>url</code></td><td class="req">✓</td><td>URL to test</td></tr></tbody></table>
+          <div class="ep-section-title">Response</div>
+          <pre>{ "ok": boolean, "status": number, "error": string | null }</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/setup/test-ollama &nbsp;/api/setup/test-vllm</span>
+          <span class="ep-desc">Verify LLM server is running</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Query params</div>
+          <table class="ep-params-table"><thead><tr><th>Param</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody><tr><td><code>url</code></td><td class="req">✓</td><td>Base URL of the server (e.g. <code>http://localhost:11434</code>)</td></tr></tbody></table>
+          <div class="ep-section-title">Response</div>
+          <pre>{ "ok": boolean, "models": string[], "error": string | null }</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Document Upload ── -->
+    <div class="ep-group" id="docs">
+      <div class="group-heading">Document Upload</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/docs/upload</span>
+          <span class="ep-desc">Upload files — extracts, chunks, embeds, and stores them</span>
+          <span class="badge badge-stream">⚡ SSE</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Request</div>
+          <div class="ep-note">Multipart form data. Field name: <code>files</code>. Accepts PDF, DOCX, MD, TXT. The <code>section</code> field names the knowledge section these files belong to.</div>
+          <div class="ep-section-title">SSE events</div>
+          <div class="ep-note">Streams <code>log</code> events per file. Fires <code>done</code> with total chunk count on completion.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/docs/uploads</span>
+          <span class="ep-desc">List all uploaded files with metadata</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Response</div>
+          <pre>{ "files": [{ "name": string, "size": number, "section": string, "uploadedAt": string }] }</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-del">DELETE</span>
+          <span class="ep-path">/api/docs/upload/:name</span>
+          <span class="ep-desc">Remove an uploaded file and its vector chunks</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">URL-encodes the filename. Removes both the file from disk and all associated chunks from the vector store. Returns <code>{ "ok": true, "chunksRemoved": number }</code>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Confluence ── -->
+    <div class="ep-group" id="confluence">
+      <div class="group-heading">Confluence Integration</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/confluence/test</span>
+          <span class="ep-desc">Test Confluence API token or OAuth connection</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <pre>{ "baseUrl": string, "email": string, "token": string }  // token auth
+// OR omit token to test OAuth via saved tokens</pre>
+          <div class="ep-note">Returns <code>{ "ok": boolean, "displayName": string, "error": string | null }</code>.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/confluence/spaces</span>
+          <span class="ep-desc">List available Confluence spaces from saved config</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">Returns <code>{ "spaces": [{ "key": string, "name": string }] }</code>. Uses credentials from saved app config.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/confluence/oauth/start</span>
+          <span class="ep-desc">Generate Atlassian OAuth authorization URL</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">Returns <code>{ "authUrl": string, "state": string }</code>. Open <code>authUrl</code> in a browser. Poll <code>/api/confluence/oauth/status?state=…</code> for completion.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/confluence/oauth/callback</span>
+          <span class="ep-desc">Atlassian OAuth redirect — exchanges code for tokens</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">Handled automatically by Atlassian redirect. Stores refresh and access tokens. Do not call directly.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/confluence/oauth/status</span>
+          <span class="ep-desc">Poll OAuth completion state</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Query params</div>
+          <table class="ep-params-table"><thead><tr><th>Param</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody><tr><td><code>state</code></td><td class="req">✓</td><td>State value from <code>/api/confluence/oauth/start</code> response</td></tr></tbody></table>
+          <div class="ep-section-title">Response</div>
+          <pre>{ "complete": boolean, "accessToken": string | null }</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Intelligence & IDS ── -->
+    <div class="ep-group" id="intelligence">
+      <div class="group-heading">Intelligence &amp; IDS</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/team/ids</span>
+          <span class="ep-desc">Team Intelligence Density Score + per-user IDS breakdown</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Response</div>
+          <pre>{ "teamIds": number,           // 0–1 aggregate IDS
+  "users": [{
+    "userId": string,
+    "ids": number,
+    "queryCount": number,
+    "answeredCount": number
+  }]
+}</pre>
+          <div class="ep-note">Used by the IntelligenceDashboard TeamIdsSection. The aggregate IDS uses the same <code>computeIDS()</code> formula as the main dashboard.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/intelligence/history</span>
+          <span class="ep-desc">All IDS snapshots with week-over-week deltas</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Response</div>
+          <pre>{ "snapshots": [{ "ts": string, "ids": number, "delta": number }] }</pre>
+          <div class="ep-note">Reads <code>data/intelligence_snapshots.jsonl</code>. Used by the sparkline trend component in IntelligenceDashboard.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/intelligence/snapshot</span>
+          <span class="ep-desc">Force an IDS snapshot now (bypasses the 7-day guard)</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">No request body. Computes current IDS from all signals and appends to <code>data/intelligence_snapshots.jsonl</code>. Returns <code>{ "ids": number, "ts": string }</code>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Analytics & Gaps ── -->
+    <div class="ep-group" id="analytics">
+      <div class="group-heading">Analytics &amp; Gaps</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/analytics</span>
+          <span class="ep-desc">Aggregate eval.jsonl into KPIs, top unanswered, top sections</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Response</div>
+          <pre>{ "total": number,
+  "answered": number,
+  "blocked": number,
+  "answerRate": number,       // 0–1
+  "avgSemScore": number,
+  "avgLatencyMs": number,
+  "topSections": [{ "section": string, "count": number }],
+  "topBlocked": [{ "question": string, "count": number }]
+}</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/gaps</span>
+          <span class="ep-desc">Documentation gap clusters of unanswered questions</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Response</div>
+          <pre>{ "totalBlocked": number,
+  "clusters": [{
+    "topic": string,
+    "count": number,
+    "questions": string[]
+  }]
+}</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/gaps/intelligence</span>
+          <span class="ep-desc">Enriched gap clusters with priority, trending, and action recommendations</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">LLM-enriched version of <code>/api/gaps</code>. Adds <code>priority</code>, <code>trending</code>, and <code>action</code> fields to each cluster. Slower — calls the configured LLM.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/gaps/outline</span>
+          <span class="ep-desc">LLM-generated documentation outline for a gap topic</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Request body</div>
+          <pre>{ "topic": string, "questions": string[] }</pre>
+          <div class="ep-section-title">Response</div>
+          <pre>{ "outline": string }  // markdown outline for a new doc</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Knowledge ── -->
+    <div class="ep-group" id="knowledge">
+      <div class="group-heading">Knowledge</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/knowledge/map</span>
+          <span class="ep-desc">Cross-source knowledge synthesis for a topic</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Query params</div>
+          <table class="ep-params-table"><thead><tr><th>Param</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody><tr><td><code>q</code></td><td class="req">✓</td><td>Topic or question to map across all sections</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/knowledge/summary</span>
+          <span class="ep-desc">LLM-generated organizational knowledge summary for a topic</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <pre>{ "topic": string }</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/knowledge/risk</span>
+          <span class="ep-desc">Per-section risk scores — dead sections, single-expert, SPOF</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Response</div>
+          <pre>{ "sections": [{
+    "section": string,
+    "riskLevel": "critical" | "high" | "medium" | "low",
+    "signals": ("dead_section" | "single_expert" | "single_point_of_failure")[],
+    "score": number
+  }]
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Insights & Memory ── -->
+    <div class="ep-group" id="insights">
+      <div class="group-heading">Insights &amp; Memory</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/insights</span>
+          <span class="ep-desc">Four-dimension quality dashboard</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Query params (all optional)</div>
+          <table class="ep-params-table"><thead><tr><th>Param</th><th>Description</th></tr></thead><tbody>
+            <tr><td><code>window</code></td><td>Time window in days (default: 30)</td></tr>
+            <tr><td><code>last</code></td><td>Last N queries</td></tr>
+            <tr><td><code>section</code></td><td>Filter to a section</td></tr>
+            <tr><td><code>status</code></td><td><code>answered</code> or <code>blocked</code></td></tr>
+            <tr><td><code>keyword</code></td><td>Text search in questions</td></tr>
+            <tr><td><code>user</code></td><td>Filter by userId</td></tr>
+          </tbody></table>
+          <div class="ep-section-title">Response includes</div>
+          <div class="ep-note"><code>overallSuccessRate</code>, <code>totalQueries</code>, <code>avgLatencyMs</code>, <code>avgSemScore</code>, <code>topSections</code>, <code>recentQueries[]</code>.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/memory</span>
+          <span class="ep-desc">Recurring answered-question clusters — organisational memory</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Response</div>
+          <pre>{ "clusters": [{ "topic": string, "count": number, "examples": string[] }] }</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/decisions</span>
+          <span class="ep-desc">Return stored engineering decisions</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Query params (all optional)</div>
+          <table class="ep-params-table"><thead><tr><th>Param</th><th>Description</th></tr></thead><tbody>
+            <tr><td><code>section</code></td><td>Filter by section</td></tr>
+            <tr><td><code>q</code></td><td>Text search</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/decisions/extract</span>
+          <span class="ep-desc">Run decision extraction against current vector store</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">No request body. Runs the LLM-based decision extractor over all indexed chunks and writes results to <code>data/decisions.json</code>. Slow — call on demand, not on every ingest.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Health & Sections ── -->
+    <div class="ep-group" id="health">
+      <div class="group-heading">Health &amp; Sections</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/health</span>
+          <span class="ep-desc">Per-section composite health score + user-set priorities</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Response</div>
+          <pre>{ "sections": [{
+    "section": string,
+    "score": number,       // 0–100
+    "chunkCount": number,
+    "priority": "boost" | "ignore" | "normal"
+  }]
+}</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-patch">PATCH</span>
+          <span class="ep-path">/api/health/section/:section</span>
+          <span class="ep-desc">Set retrieval priority for a section</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <pre>{ "priority": "boost" | "ignore" | "normal" }</pre>
+          <div class="ep-note">Stored in <code>data/section_config.json</code>. Applied at retrieval time via <code>applyPriorityMultipliers()</code> in query.js.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-del">DELETE</span>
+          <span class="ep-path">/api/health/section/:section</span>
+          <span class="ep-desc">Remove all chunks for a section from the vector index</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">Destructive — cannot be undone without a rebuild. Returns <code>{ "ok": true, "chunksRemoved": number }</code>.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/health/review/:section</span>
+          <span class="ep-desc">AI suggestions for improving a low-health section</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">No request body. Returns <code>{ "suggestions": string[] }</code> — LLM-generated recommendations based on which queries blocked in that section.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/sections</span>
+          <span class="ep-desc">All indexed sections with chunk counts and display metadata</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Response</div>
+          <pre>{ "sections": [{ "name": string, "chunkCount": number, "displayName": string }] }</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/users</span>
+          <span class="ep-desc">Distinct users sorted by query count</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Response</div>
+          <pre>{ "users": [{ "userId": string, "queryCount": number }] }</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Sessions ── -->
+    <div class="ep-group" id="sessions">
+      <div class="group-heading">Sessions</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/sessions</span>
+          <span class="ep-desc">List last 30 sessions sorted by activity</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <pre>{ "sessions": [{ "id": string, "title": string, "updatedAt": string, "messageCount": number }] }</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/session/:id</span>
+          <span class="ep-desc">Get session messages and title</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <pre>{ "id": string, "title": string,
+  "messages": [{ "role": "user"|"assistant", "content": string }] }</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-del">DELETE</span>
+          <span class="ep-path">/api/session/:id</span>
+          <span class="ep-desc">Delete a session</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body"><div class="ep-note">Returns <code>{ "ok": true }</code>.</div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-del">DELETE</span>
+          <span class="ep-path">/api/sessions</span>
+          <span class="ep-desc">Delete all sessions</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body"><div class="ep-note">Clears <code>data/sessions.json</code>. Irreversible. Returns <code>{ "ok": true, "deleted": number }</code>.</div></div>
+      </div>
+    </div>
+
+    <!-- ── Code Generation ── -->
+    <div class="ep-group" id="codegen">
+      <div class="group-heading">Code Generation</div>
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/code/generate</span>
+          <span class="ep-desc">Stream-generate code from a spec + codebase context</span>
+          <span class="badge badge-stream">⚡ SSE</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Request body</div>
+          <pre>{ "spec": string,            // natural language spec
+  "sections": string[],      // optional — which sections to pull context from
+  "sessionId": string        // optional
+}</pre>
+          <div class="ep-section-title">Notes</div>
+          <div class="ep-note">Uses a separate code generation pipeline in <code>src/rag/codegen.js</code> with a larger context budget (<code>CTX_BUDGET_CODE = 30000</code>) and output limit (<code>MAX_OUTPUT_TOKENS = 52048</code>). Streams tokens, then fires <code>done</code>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Config & Status ── -->
+    <div class="ep-group" id="config">
+      <div class="group-heading">Config &amp; Status</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/app/config</span>
+          <span class="ep-desc">Return app config with passwords redacted</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body"><div class="ep-note">Returns the full <code>AppConfig</code> object from <code>src/config/config.js</code>. Token and password fields are masked. Default LLM: <code>ollama / qwen2.5:3b</code>.</div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/app/config</span>
+          <span class="ep-desc">Save app config</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-note">Accepts an <code>AppConfig</code> body. Validates against <code>AppConfigSchema</code> (Zod), writes to <code>data/config.json</code>, and calls <code>configToEnv()</code> to update process env vars live.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/app/status</span>
+          <span class="ep-desc">Setup status, chunks indexed, last crawled, app name</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <pre>{ "setupComplete": boolean, "chunkCount": number,
+  "lastCrawled": string | null, "appName": string }</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/stats</span>
+          <span class="ep-desc">System stats — chunks, LLM provider, embedding provider</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <pre>{ "chunkCount": number, "llmProvider": string,
+  "llmModel": string, "embeddingProvider": string, "embeddingModel": string }</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/license</span>
+          <span class="ep-desc">Current license status and usage KPIs</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <pre>{ "tier": "free"|"pro", "valid": boolean, "expiresAt": string | null,
+  "usage": { "queries": number, "users": number } }</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Onboarding & Maintenance ── -->
+    <div class="ep-group" id="onboard">
+      <div class="group-heading">Onboarding &amp; Maintenance</div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/onboard</span>
+          <span class="ep-desc">Generate a personalized learning path from indexed docs</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <pre>{ "role": string, "goals": string[] }  // optional context</pre>
+          <div class="ep-note">Returns <code>{ "path": [{ "title": string, "sections": string[], "why": string }] }</code> — an LLM-generated onboarding sequence tailored to the org's indexed knowledge.</div>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-get">GET</span>
+          <span class="ep-path">/api/maintenance/staleness</span>
+          <span class="ep-desc">Compare stored file hashes vs. current disk state</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-section-title">Response</div>
+          <pre>{ "stale": [{ "file": string, "section": string, "lastIndexed": string }],
+  "missing": string[], "unchanged": number }</pre>
+        </div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/maintenance/suggest</span>
+          <span class="ep-desc">LLM rewrite suggestions for a stale document file</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <pre>{ "file": string, "section": string }</pre>
+          <div class="ep-note">Returns <code>{ "suggestions": string[] }</code> — structural and content improvement recommendations based on what queries have been blocked in that section.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Chunk Explorer ── -->
+    <div class="ep-group" id="chunks">
+      <div class="group-heading">Chunk Explorer</div>
+      <div class="ep">
+        <div class="ep-head" onclick="toggle(this)">
+          <span class="method m-post">POST</span>
+          <span class="ep-path">/api/chunks/search</span>
+          <span class="ep-desc">Direct vector search without LLM — for Chunk Explorer UI</span>
+          <span class="ep-toggle">▼</span>
+        </div>
+        <div class="ep-body">
+          <pre>{ "query": string, "section": string,  // optional
+  "topK": number                         // optional, default 10
+}</pre>
+          <div class="ep-section-title">Response</div>
+          <pre>{ "chunks": [{
+    "id": string, "text": string,
+    "meta": { "section": string, "title": string, "url": string, "chunkIndex": number },
+    "score": number, "semScore": number
+  }]
+}</pre>
+          <div class="ep-note">Bypasses the confidence gate and LLM. Used by the ChunkExplorer panel to inspect raw retrieval results for debugging.</div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <div style="display:flex;gap:1.25rem;flex-wrap:wrap">
+        <a href="./rag-system-design.html">RAG System Design</a>
+        <a href="./rag-architect-deepdive.html">Architect Deep-Dive</a>
+        <a href="./eval-observability.html">Eval &amp; Observability</a>
+      </div>
+      <span style="font-size:0.75rem;color:var(--text-3)">api-reference.html · src/api/server.js</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+function toggle(head) {
+  const body = head.nextElementSibling;
+  const arrow = head.querySelector('.ep-toggle');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  if (arrow) arrow.classList.toggle('open', !isOpen);
+}
+
+function scrollTo(id, link) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+  }
+  return false;
+}
+
+// Highlight active nav on scroll
+const groups = document.querySelectorAll('.ep-group');
+const navLinks = document.querySelectorAll('.nav-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.15 });
+groups.forEach(g => observer.observe(g));
+</script>
+</body>
+</html>

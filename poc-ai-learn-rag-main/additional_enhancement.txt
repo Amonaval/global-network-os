@@ -1,0 +1,20 @@
+1. No data should go outside. No cred mandatory 
+
+  a. Provision to upload document for evaluation in zip or docs or most widely used formats.
+  b. Only licensed version user can login and use. Signup and licensing 
+  c. Payment gateway to subscribe 
+  d. Ingestion on uploaded document but documents stays in machine.
+
+
+2. Any app integration. Confluence, docs, xyz
+    User can select end app and run the crawler on it. Using oAuth MCP. So no credential requirement. Lets evaluate more on this
+
+3. Selection of different OLM like vLLM.
+
+4. Different level of confiure like split section or one entire section. Please refer our "D:\AI\xyz_org AI\CLAUDE_CODE_WORKFLOW.md" & D:\AI\xyz_org AI\confluence\confluence-rag-multi-level folder md files on what we did for confluence-rag-multi-level or other enhancement. Lets encorporate those as well here. 
+
+5. I see a lot of api you have provided in server.js but not used anywhere like reconfigure, reingest. Use them smartly.
+
+Think of more such next level enhancement which will make it unique and most in demand product which companies and people with such requirement will willing to pay for. Even small amount but potential subscriber we need for this product. 
+
+Lets bring it to that level & for that suggest what are more enhancement or top 3 to 5 major leap/enhancement this app need to make.

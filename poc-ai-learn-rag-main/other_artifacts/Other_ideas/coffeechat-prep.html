@@ -1,0 +1,430 @@
+<title>Coffee Chat Prep Kit</title>
+<style>
+  :root {
+    --ground: #F4F6F9;
+    --surface: #FFFFFF;
+    --ink: #111827;
+    --ink2: #374151;
+    --muted: #6B7280;
+    --teal: #0D7A8A;
+    --teal-light: #E0F2F4;
+    --amber: #F59E0B;
+    --amber-bg: #FFFBEB;
+    --border: #E2E8F0;
+    --success: #059669;
+    --success-bg: #ECFDF5;
+    --teams-bg: #F3F2F1;
+    --teams-strip: #6264A7;
+    --label-bg: #EEF2FF;
+    --label-fg: #3730A3;
+    --tab-active-bg: #0D7A8A;
+    --tab-active-fg: #fff;
+    --tab-bg: #F4F6F9;
+    --tab-fg: #6B7280;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0C1017; --surface: #151C27; --ink: #F0F4F8; --ink2: #CBD5E1;
+      --muted: #94A3B8; --teal: #0FB8CC; --teal-light: #0C2D35;
+      --amber: #FBBF24; --amber-bg: #1C1608; --border: #1E2A3B;
+      --success: #34D399; --success-bg: #022C22; --teams-bg: #1E1C2E;
+      --teams-strip: #7B7FC4; --label-bg: #1E1B4B; --label-fg: #A5B4FC;
+      --tab-active-bg: #0FB8CC; --tab-active-fg: #0C1017;
+      --tab-bg: #1E2A3B; --tab-fg: #94A3B8;
+    }
+  }
+
+  :root[data-theme="light"] {
+    --ground: #F4F6F9; --surface: #FFFFFF; --ink: #111827; --ink2: #374151;
+    --muted: #6B7280; --teal: #0D7A8A; --teal-light: #E0F2F4;
+    --amber: #F59E0B; --amber-bg: #FFFBEB; --border: #E2E8F0;
+    --success: #059669; --success-bg: #ECFDF5; --teams-bg: #F3F2F1;
+    --teams-strip: #6264A7; --label-bg: #EEF2FF; --label-fg: #3730A3;
+    --tab-active-bg: #0D7A8A; --tab-active-fg: #fff;
+    --tab-bg: #F4F6F9; --tab-fg: #6B7280;
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0C1017; --surface: #151C27; --ink: #F0F4F8; --ink2: #CBD5E1;
+    --muted: #94A3B8; --teal: #0FB8CC; --teal-light: #0C2D35;
+    --amber: #FBBF24; --amber-bg: #1C1608; --border: #1E2A3B;
+    --success: #34D399; --success-bg: #022C22; --teams-bg: #1E1C2E;
+    --teams-strip: #7B7FC4; --label-bg: #1E1B4B; --label-fg: #A5B4FC;
+    --tab-active-bg: #0FB8CC; --tab-active-fg: #0C1017;
+    --tab-bg: #1E2A3B; --tab-fg: #94A3B8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .page-header { margin-bottom: 0.5rem; }
+  .page-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.3rem; }
+  .page-title { font-size: 1.4rem; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
+  .page-sub { font-size: 13px; color: var(--muted); margin-top: 0.3rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.85rem 1.1rem 0.75rem; border-bottom: 1px solid var(--border); gap: 0.75rem;
+  }
+  .card-header-left { display: flex; align-items: center; gap: 0.6rem; }
+  .card-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .card-icon.brief { background: var(--teal-light); }
+  .card-icon.teams { background: var(--label-bg); }
+  .card-icon.note  { background: var(--amber-bg); }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .card-badge { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .card-badge.brief { background: var(--teal-light); color: var(--teal); }
+  .card-badge.teams { background: var(--label-bg); color: var(--label-fg); }
+  .card-badge.note  { background: var(--amber-bg); color: var(--amber); }
+
+  .copy-btn {
+    font-size: 11px; font-weight: 500; padding: 5px 12px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--ground); color: var(--muted);
+    cursor: pointer; transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
+  }
+  .copy-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .copy-btn.copied { background: var(--success-bg); border-color: var(--success); color: var(--success); }
+
+  .card-body { padding: 1rem 1.1rem; }
+
+  /* Brief */
+  .brief-meta { font-size: 12px; color: var(--muted); margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+  .brief-meta span::before { content: "· "; }
+  .brief-meta span:first-child::before { content: ""; }
+  .brief-section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; margin-top: 1rem; }
+  .brief-section-label:first-of-type { margin-top: 0; }
+  .brief-what { font-size: 13px; color: var(--ink2); line-height: 1.65; }
+  .moments-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .moment-item { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 13px; color: var(--ink2); line-height: 1.5; }
+  .moment-num { font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--teal); background: var(--teal-light); border-radius: 4px; padding: 1px 6px; flex-shrink: 0; margin-top: 1px; }
+  .brief-callout { background: var(--teal-light); border-left: 3px solid var(--teal); border-radius: 0 6px 6px 0; padding: 0.65rem 0.85rem; font-size: 13px; color: var(--ink2); margin-top: 0.5rem; }
+  .brief-callout strong { color: var(--teal); }
+
+  /* Version tabs */
+  .version-tabs {
+    display: flex; gap: 0.4rem; margin-bottom: 0.85rem; flex-wrap: wrap;
+  }
+  .vtab {
+    display: flex; flex-direction: column; gap: 1px;
+    padding: 5px 12px 6px; border-radius: 7px; border: 1px solid var(--border);
+    background: var(--tab-bg); color: var(--tab-fg);
+    cursor: pointer; transition: all 0.15s; text-align: left;
+  }
+  .vtab:hover { border-color: var(--teal); color: var(--teal); }
+  .vtab.active { background: var(--tab-active-bg); color: var(--tab-active-fg); border-color: var(--tab-active-bg); }
+  .vtab-letter { font-size: 12px; font-weight: 700; }
+  .vtab-label { font-size: 10px; white-space: nowrap; opacity: 0.8; }
+  .vtab.active .vtab-label { opacity: 0.9; }
+
+  /* Teams message panels */
+  .version-panel { display: none; }
+  .version-panel.active { display: block; }
+
+  .teams-preview { background: var(--teams-bg); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .teams-topbar { background: var(--teams-strip); height: 4px; }
+  .teams-inner { padding: 0.85rem 1rem; }
+  .teams-sender { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.65rem; }
+  .teams-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--teams-strip); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .teams-sender-info { font-size: 12px; }
+  .teams-sender-name { font-weight: 600; color: var(--ink); }
+  .teams-sender-time { color: var(--muted); font-size: 11px; }
+  .teams-body { font-size: 13px; color: var(--ink2); line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+  .ph { background: var(--amber-bg); color: var(--amber); border-radius: 3px; padding: 1px 4px; font-weight: 600; font-size: 12px; font-family: "Courier New", monospace; }
+  .teams-arrow-row { display: flex; flex-direction: column; gap: 0.3rem; margin: 0.5rem 0; }
+  .teams-arrow { display: flex; gap: 0.5rem; font-size: 13px; color: var(--ink2); }
+  .teams-arrow::before { content: "→"; color: var(--teal); font-weight: 600; flex-shrink: 0; }
+
+  .version-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.7rem; flex-wrap: wrap; gap: 0.5rem; }
+  .version-hint { font-size: 11px; color: var(--muted); }
+
+  /* Note */
+  .note-body { font-size: 13.5px; color: var(--ink2); line-height: 1.75; white-space: pre-wrap; }
+</style>
+
+<div class="container">
+
+  <div class="page-header">
+    <div class="page-eyebrow">Intelligence OS</div>
+    <div class="page-title">Coffee Chat Prep Kit</div>
+    <div class="page-sub">Three things ready to copy — briefing card, Teams invite (3 versions), organizer note.</div>
+  </div>
+
+  <!-- CARD 1: Pre-Meeting Brief -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-icon brief">📋</div>
+        <div class="card-title">Pre-Meeting Brief</div>
+        <span class="card-badge brief">Day-before read</span>
+      </div>
+      <button class="copy-btn" onclick="copyBrief(this)">Copy</button>
+    </div>
+    <div class="card-body">
+      <div class="brief-meta">
+        <span>Intelligence OS Demo</span>
+        <span>30 minutes</span>
+        <span>Internal coffee chat</span>
+      </div>
+
+      <div class="brief-section-label">What you're showing</div>
+      <p class="brief-what">A pattern for giving any Claude session — individual or org-wide — persistent institutional memory. Company constitution, product vision, executive council perspectives, active missions, decision records. All plain Markdown files; no infrastructure. The Syndigo version is pre-populated with real context and ready to demo live.</p>
+
+      <div class="brief-section-label">Five moments to nail</div>
+      <ul class="moments-list">
+        <li class="moment-item"><span class="moment-num">01</span><span><strong>Defense test</strong> — Propose a feature already in the decision records as rejected. Claude cites the record and the reasoning. Don't explain it first — let the moment land.</span></li>
+        <li class="moment-item"><span class="moment-num">02</span><span><strong>Session restart</strong> — Close entirely. Type "start". Full company context restored. Conversation is disposable; the OS is not.</span></li>
+        <li class="moment-item"><span class="moment-num">03</span><span><strong>Alignment check</strong> — Ask: "Are our active missions still aligned with the company constitution and the direction leadership has set?" Watch it synthesize an honest answer.</span></li>
+        <li class="moment-item"><span class="moment-num">04</span><span><strong>Four-level hierarchy</strong> — Company → Division → Team → Personal. Each inherits the layer above automatically. A developer session carries the full company baseline without thinking about it.</span></li>
+        <li class="moment-item"><span class="moment-num">05</span><span><strong>The close</strong> — "AI makes individuals productive. The Intelligence OS makes the organization intelligent. That's a different order of magnitude."</span></li>
+      </ul>
+
+      <div class="brief-section-label">If only one moment lands</div>
+      <div class="brief-callout">The defense test. Lead with it — don't build up to it. It's the most surprising thing in the demo and it earns the next 25 minutes.</div>
+
+      <div class="brief-section-label">The line to leave them with</div>
+      <div class="brief-callout"><strong>"Stop prompting. Start compounding."</strong></div>
+    </div>
+  </div>
+
+  <!-- CARD 2: Teams Message (3 versions) -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-icon teams">💬</div>
+        <div class="card-title">Teams Message</div>
+        <span class="card-badge teams">3 versions — pick one</span>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="version-tabs">
+        <button class="vtab active" onclick="switchVersion('a', this)">
+          <span class="vtab-letter">A</span>
+          <span class="vtab-label">Short · Curious</span>
+        </button>
+        <button class="vtab" onclick="switchVersion('b', this)">
+          <span class="vtab-letter">B</span>
+          <span class="vtab-label">Balanced · Conceptual</span>
+        </button>
+        <button class="vtab" onclick="switchVersion('c', this)">
+          <span class="vtab-letter">C</span>
+          <span class="vtab-label">Full · Role-aware</span>
+        </button>
+      </div>
+
+      <!-- Version A -->
+      <div class="version-panel active" id="panel-a">
+        <div class="teams-preview">
+          <div class="teams-topbar"></div>
+          <div class="teams-inner">
+            <div class="teams-sender">
+              <div class="teams-avatar">A</div>
+              <div class="teams-sender-info">
+                <div class="teams-sender-name">You</div>
+                <div class="teams-sender-time">Coffee Chat · <span class="ph">[DATE &amp; TIME]</span> · <span class="ph">[LOCATION / LINK]</span></div>
+              </div>
+            </div>
+            <div class="teams-body">One question I've been sitting with: when we use AI to help build things at Syndigo, does the AI actually know what Syndigo stands for? Its principles, its product direction, what we've already decided not to do?
+
+I put together a small experiment around that — a way to give Claude sessions a shared memory of the company's context, so every session starts from the same foundation rather than from zero. Happy to share what I found in 30 minutes.
+
+No preparation needed. Come as you are.</div>
+          </div>
+        </div>
+        <div class="version-footer">
+          <span class="version-hint">Best when the audience already knows you. Lets curiosity do the work.</span>
+          <button class="copy-btn" onclick="copyVersion('a', this)">Copy Version A</button>
+        </div>
+      </div>
+
+      <!-- Version B -->
+      <div class="version-panel" id="panel-b">
+        <div class="teams-preview">
+          <div class="teams-topbar"></div>
+          <div class="teams-inner">
+            <div class="teams-sender">
+              <div class="teams-avatar">A</div>
+              <div class="teams-sender-info">
+                <div class="teams-sender-name">You</div>
+                <div class="teams-sender-time">Coffee Chat · <span class="ph">[DATE &amp; TIME]</span> · <span class="ph">[LOCATION / LINK]</span></div>
+              </div>
+            </div>
+            <div class="teams-body">I've been working on something I'd like to share with this group — a pattern for giving AI sessions persistent institutional memory of the company.
+
+In plain terms: what if every Claude session automatically loaded Syndigo's company constitution, its product vision and active missions, the executive perspective on what matters most, and the decisions that are already settled — so no one has to re-explain or re-debate them? And what if there was a built-in way to periodically ask: are the things we're currently building still aligned with the principles and direction we've committed to?
+
+I have a Syndigo-specific version built with real context already in it. There's a demo moment where Claude reads a decision record and declines to re-open something already decided — I found that moment more useful than I expected.
+
+I genuinely don't know yet how useful others will find it. But I thought this group would have the best instincts about that.
+
+30 minutes. No preparation needed.</div>
+          </div>
+        </div>
+        <div class="version-footer">
+          <span class="version-hint">Best for mixed audiences. Covers the concepts without overselling.</span>
+          <button class="copy-btn" onclick="copyVersion('b', this)">Copy Version B</button>
+        </div>
+      </div>
+
+      <!-- Version C -->
+      <div class="version-panel" id="panel-c">
+        <div class="teams-preview">
+          <div class="teams-topbar"></div>
+          <div class="teams-inner">
+            <div class="teams-sender">
+              <div class="teams-avatar">A</div>
+              <div class="teams-sender-info">
+                <div class="teams-sender-name">You</div>
+                <div class="teams-sender-time">Coffee Chat · <span class="ph">[DATE &amp; TIME]</span> · <span class="ph">[LOCATION / LINK]</span></div>
+              </div>
+            </div>
+            <div class="teams-body">I've been experimenting with something and would love honest reactions from people across different parts of the company.
+
+The idea: a pattern for giving AI sessions a shared institutional memory — the company's principles and constitution, the product vision and north star, the executive perspectives on what matters, active missions and their reasoning, and past decisions so they aren't re-debated from scratch. Set it up once and every Claude session, for anyone on any team, starts from this foundation automatically instead of starting from zero.
+
+What I've noticed is the value looks quite different depending on your role:</div>
+            <div class="teams-arrow-row">
+              <div class="teams-arrow">Engineers get architecture context and decision guardrails in every session — no more re-explaining Syndigo before asking a question</div>
+              <div class="teams-arrow">Product teams get a live briefing on health, mission status, and priorities before any planning meeting</div>
+              <div class="teams-arrow">Leadership gets a way to ask "are our active missions aligned with our constitution, and is there a risk no one is naming?" — without reconstructing everything from context first</div>
+              <div class="teams-arrow">Anyone new gets a structured briefing on what Syndigo is, what it's building, and what's already decided — in their first session</div>
+            </div>
+            <div class="teams-body">I've built a Syndigo-specific version to show live. Thirty minutes, nothing to prepare. I'd genuinely be curious what people from different roles find most useful — or most missing — in what I've put together.
+
+<span class="ph">[DATE &amp; TIME]</span>  ·  <span class="ph">[LOCATION / LINK]</span></div>
+          </div>
+        </div>
+        <div class="version-footer">
+          <span class="version-hint">Best when leadership is in the channel. Shows versatility across roles without claiming credit.</span>
+          <button class="copy-btn" onclick="copyVersion('c', this)">Copy Version C</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CARD 3: Organizer Note -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-icon note">✉️</div>
+        <div class="card-title">Organizer Note</div>
+        <span class="card-badge note">Quick DM / email</span>
+      </div>
+      <button class="copy-btn" onclick="copyNote(this)">Copy</button>
+    </div>
+    <div class="card-body">
+      <div class="note-body">Hey <span class="ph">[NAME]</span> — is there a coffee chat slot available this week?
+
+I have a 30-minute demo I'd like to share — a pattern for giving AI sessions institutional memory of the company. Company principles, product direction, decisions that shouldn't be re-debated — loaded automatically so every session starts from what Syndigo already knows.
+
+I have a Syndigo-specific version built out and ready to show live. Thought it might be interesting for the group, especially folks across different roles and teams.
+
+Happy to take whatever slot works — let me know!</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const versions = {
+    a: `📌 Coffee Chat · [DATE & TIME] · [LOCATION / LINK]
+
+One question I've been sitting with: when we use AI to help build things at Syndigo, does the AI actually know what Syndigo stands for? Its principles, its product direction, what we've already decided not to do?
+
+I put together a small experiment around that — a way to give Claude sessions a shared memory of the company's context, so every session starts from the same foundation rather than from zero. Happy to share what I found in 30 minutes.
+
+No preparation needed. Come as you are.`,
+
+    b: `📌 Coffee Chat · [DATE & TIME] · [LOCATION / LINK]
+
+I've been working on something I'd like to share with this group — a pattern for giving AI sessions persistent institutional memory of the company.
+
+In plain terms: what if every Claude session automatically loaded Syndigo's company constitution, its product vision and active missions, the executive perspective on what matters most, and the decisions that are already settled — so no one has to re-explain or re-debate them? And what if there was a built-in way to periodically ask: are the things we're currently building still aligned with the principles and direction we've committed to?
+
+I have a Syndigo-specific version built with real context already in it. There's a demo moment where Claude reads a decision record and declines to re-open something already decided — I found that moment more useful than I expected.
+
+I genuinely don't know yet how useful others will find it. But I thought this group would have the best instincts about that.
+
+30 minutes. No preparation needed.`,
+
+    c: `📌 Coffee Chat · [DATE & TIME] · [LOCATION / LINK]
+
+I've been experimenting with something and would love honest reactions from people across different parts of the company.
+
+The idea: a pattern for giving AI sessions a shared institutional memory — the company's principles and constitution, the product vision and north star, the executive perspectives on what matters, active missions and their reasoning, and past decisions so they aren't re-debated from scratch. Set it up once and every Claude session, for anyone on any team, starts from this foundation automatically instead of starting from zero.
+
+What I've noticed is the value looks quite different depending on your role:
+→ Engineers get architecture context and decision guardrails in every session — no more re-explaining Syndigo before asking a question
+→ Product teams get a live briefing on health, mission status, and priorities before any planning meeting
+→ Leadership gets a way to ask "are our active missions aligned with our constitution, and is there a risk no one is naming?" — without reconstructing everything from context first
+→ Anyone new gets a structured briefing on what Syndigo is, what it's building, and what's already decided — in their first session
+
+I've built a Syndigo-specific version to show live. Thirty minutes, nothing to prepare. I'd genuinely be curious what people from different roles find most useful — or most missing — in what I've put together.
+
+[DATE & TIME]  ·  [LOCATION / LINK]`
+  };
+
+  const noteText = `Hey [NAME] — is there a coffee chat slot available this week?
+
+I have a 30-minute demo I'd like to share — a pattern for giving AI sessions institutional memory of the company. Company principles, product direction, decisions that shouldn't be re-debated — loaded automatically so every session starts from what Syndigo already knows.
+
+I have a Syndigo-specific version built out and ready to show live. Thought it might be interesting for the group, especially folks across different roles and teams.
+
+Happy to take whatever slot works — let me know!`;
+
+  const briefText = `PRE-MEETING BRIEF — Intelligence OS Demo
+30 minutes | Internal coffee chat
+
+WHAT YOU'RE SHOWING
+A pattern for giving any Claude session — individual or org-wide — persistent institutional memory. Company constitution, product vision, executive council perspectives, active missions, decision records. All plain Markdown files; no infrastructure. The Syndigo version is pre-populated with real context and ready to demo live.
+
+FIVE MOMENTS TO NAIL
+01  Defense test — Propose a feature already in the decision records as rejected. Claude cites the record and the reasoning. Don't explain it first — let the moment land.
+02  Session restart — Close entirely. Type "start". Full company context restored. Conversation is disposable; the OS is not.
+03  Alignment check — Ask: "Are our active missions still aligned with the company constitution and the direction leadership has set?" Watch it synthesize an honest answer.
+04  Four-level hierarchy — Company → Division → Team → Personal. Each inherits the layer above automatically.
+05  The close — "AI makes individuals productive. The Intelligence OS makes the organization intelligent. That's a different order of magnitude."
+
+IF ONLY ONE MOMENT LANDS
+The defense test. Lead with it — don't build up to it.
+
+THE LINE TO LEAVE THEM WITH
+"Stop prompting. Start compounding."`;
+
+  let activeVersion = 'a';
+
+  function switchVersion(v, btn) {
+    document.querySelectorAll('.version-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.vtab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + v).classList.add('active');
+    btn.classList.add('active');
+    activeVersion = v;
+  }
+
+  function copyText(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function copyVersion(v, btn) { copyText(btn, versions[v]); }
+  function copyBrief(btn)       { copyText(btn, briefText); }
+  function copyNote(btn)        { copyText(btn, noteText); }
+</script>

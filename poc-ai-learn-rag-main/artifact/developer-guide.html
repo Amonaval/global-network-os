@@ -1,0 +1,1060 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Developer Guide — Knowledge Hub</title>
+<style>
+/* ── Tokens ──────────────────────────────────────────────────────────── */
+:root {
+  --bg:         #FDFAF5;
+  --bg-card:    #F7F1E6;
+  --bg-code:    #F0E8D8;
+  --bg-alt:     #EDE3D0;
+  --border:     #D8CEBC;
+  --border-2:   #C8BCA8;
+  --text:       #1C1409;
+  --text-2:     #5A4D3A;
+  --text-3:     #9A8C78;
+  --amber:      #B87314;
+  --amber-dim:  #FDF3DF;
+  --amber-2:    #E8931A;
+  --green:      #1F6E3C;
+  --green-dim:  #E4F5EC;
+  --red:        #B91C1C;
+  --red-dim:    #FEE9E9;
+  --blue:       #2055A8;
+  --blue-dim:   #E5EDFB;
+  --note-bg:    #FFF8E8;
+  --note-border:#DFC060;
+  --warn-bg:    #FFF0F0;
+  --warn-border:#F8A0A0;
+  --token-type: #8B2E60;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:         #130E07;
+    --bg-card:    #1E1508;
+    --bg-code:    #2A1E0A;
+    --bg-alt:     #251C0E;
+    --border:     #3A2C1A;
+    --border-2:   #4A3C2A;
+    --text:       #F5EDD8;
+    --text-2:     #C0AA88;
+    --text-3:     #806A50;
+    --amber:      #F0A030;
+    --amber-dim:  #2A1A00;
+    --amber-2:    #FFC050;
+    --green:      #4ADE80;
+    --green-dim:  #052E15;
+    --red:        #F87171;
+    --red-dim:    #2D0808;
+    --blue:       #60A0F0;
+    --blue-dim:   #061435;
+    --note-bg:    #2A1E00;
+    --note-border:#806010;
+    --warn-bg:    #2D0808;
+    --warn-border:#8B2222;
+    --token-type: #F090C0;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:         #130E07;
+  --bg-card:    #1E1508;
+  --bg-code:    #2A1E0A;
+  --bg-alt:     #251C0E;
+  --border:     #3A2C1A;
+  --border-2:   #4A3C2A;
+  --text:       #F5EDD8;
+  --text-2:     #C0AA88;
+  --text-3:     #806A50;
+  --amber:      #F0A030;
+  --amber-dim:  #2A1A00;
+  --amber-2:    #FFC050;
+  --green:      #4ADE80;
+  --green-dim:  #052E15;
+  --red:        #F87171;
+  --red-dim:    #2D0808;
+  --blue:       #60A0F0;
+  --blue-dim:   #061435;
+  --note-bg:    #2A1E00;
+  --note-border:#806010;
+  --warn-bg:    #2D0808;
+  --warn-border:#8B2222;
+  --token-type: #F090C0;
+}
+
+/* ── Reset ────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-padding-top: 80px; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+}
+a { color: var(--amber); text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+code, pre {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', 'Courier New', monospace;
+}
+code {
+  font-size: 0.83em;
+  background: var(--bg-code);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--token-type);
+}
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  overflow-x: auto;
+  font-size: 0.825rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+.highlight-amber { color: var(--amber-2); }
+.highlight-green { color: var(--green); }
+.highlight-blue  { color: var(--blue); }
+.highlight-gray  { color: var(--text-3); }
+b, strong { color: var(--text); font-weight: 700; }
+
+/* ── Site header ──────────────────────────────────────────────────────── */
+.site-header {
+  background: var(--text);
+  color: var(--bg);
+  padding: 2.5rem 1.5rem 2rem;
+  border-bottom: 3px solid var(--amber);
+}
+.header-inner { max-width: 860px; margin: 0 auto; }
+.header-kicker {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber-2);
+  margin-bottom: 0.6rem;
+}
+.header-title {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 0.65rem;
+  color: var(--bg);
+}
+.header-sub {
+  font-size: 0.9rem;
+  color: var(--text-3);
+  max-width: 60ch;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+.header-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  border: 1px solid;
+}
+.badge-a { background: #2A1A00; border-color: var(--amber-2); color: var(--amber-2); }
+.badge-g { background: #052E15; border-color: #4ADE80; color: #4ADE80; }
+.badge-b { background: #061435; border-color: #60A0F0; color: #60A0F0; }
+
+/* ── Jump nav ─────────────────────────────────────────────────────────── */
+.jump-nav-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.jump-nav-wrap::-webkit-scrollbar { display: none; }
+.jump-nav {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.jump-nav a {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  color: var(--text-3);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+.jump-nav a:hover, .jump-nav a.active {
+  color: var(--amber);
+  border-bottom-color: var(--amber);
+}
+
+/* ── Main content ─────────────────────────────────────────────────────── */
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+/* ── Section ──────────────────────────────────────────────────────────── */
+.doc-section {
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2.5rem;
+}
+.doc-section:first-child { border-top: none; margin-top: 0; padding-top: 2rem; }
+.section-num {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.4rem;
+}
+.section-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+}
+.section-intro {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  max-width: 70ch;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Note / Warning ───────────────────────────────────────────────────── */
+.note, .warn {
+  border-left: 3px solid;
+  padding: 0.75rem 1rem;
+  border-radius: 0 6px 6px 0;
+  margin: 1rem 0;
+}
+.note { background: var(--note-bg); border-color: var(--note-border); font-size: 0.85rem; color: var(--text-2); }
+.warn { background: var(--warn-bg); border-color: var(--warn-border); font-size: 0.85rem; color: var(--text-2); }
+.note strong, .warn strong { color: var(--amber); }
+
+/* ── Step list ────────────────────────────────────────────────────────── */
+.steps { display: flex; flex-direction: column; gap: 0; }
+.step {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: start;
+}
+.step:last-child { border-bottom: none; }
+.step-n {
+  width: 2rem;
+  height: 2rem;
+  background: var(--amber);
+  color: var(--bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+.step-content {}
+.step-title { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 0.3rem; }
+.step-body { font-size: 0.875rem; color: var(--text-2); line-height: 1.65; }
+.step-body pre { margin-top: 0.6rem; }
+
+/* ── Directory tree ───────────────────────────────────────────────────── */
+.tree {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.8rem;
+  line-height: 1.75;
+  overflow-x: auto;
+}
+.tree-dir  { color: var(--amber-2); font-weight: 700; }
+.tree-file { color: var(--text-2); }
+.tree-note { color: var(--text-3); font-style: italic; }
+.tree-sep  { color: var(--border-2); }
+
+/* ── Script table ─────────────────────────────────────────────────────── */
+.script-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.855rem;
+  margin-bottom: 1rem;
+}
+.script-table th {
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--border);
+}
+.script-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.script-table tr:last-child td { border-bottom: none; }
+.script-table tr:hover td { background: var(--bg-alt); }
+.script-cmd { color: var(--amber-2); font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.8rem; white-space: nowrap; }
+.script-desc { color: var(--text-2); }
+.script-port { color: var(--text-3); font-size: 0.8rem; }
+
+/* ── Data files table ─────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.855rem;
+}
+.data-table th {
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 0.4rem 0.75rem;
+  border-bottom: 2px solid var(--border);
+}
+.data-table td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--bg-alt); }
+.data-file { color: var(--amber-2); font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.78rem; white-space: nowrap; }
+.data-type { font-size: 0.78rem; color: var(--token-type); }
+.data-desc { color: var(--text-2); line-height: 1.5; }
+.data-flag { font-size: 0.7rem; padding: 0.1rem 0.35rem; border-radius: 3px; font-weight: 700; }
+.flag-gen     { background: var(--green-dim); color: var(--green); }
+.flag-config  { background: var(--blue-dim); color: var(--blue); }
+.flag-cache   { background: var(--amber-dim); color: var(--amber); }
+.flag-runtime { background: var(--bg-alt); color: var(--text-3); border: 1px solid var(--border); }
+
+/* ── Pattern box ──────────────────────────────────────────────────────── */
+.pattern-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.pattern-half { }
+.pattern-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.4rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border);
+}
+.pattern-half pre { margin: 0; }
+
+/* ── Decision list ────────────────────────────────────────────────────── */
+.decision {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+  margin-bottom: 0.75rem;
+}
+.decision-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.3rem;
+}
+.decision-id {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+  background: var(--amber-dim);
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+}
+.decision-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.decision-body {
+  font-size: 0.835rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.decision-locked {
+  font-size: 0.7rem;
+  margin-top: 0.35rem;
+  color: var(--red);
+}
+
+/* ── Hook anatomy ─────────────────────────────────────────────────────── */
+.hook-anatomy {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.1rem 1.25rem;
+}
+.hook-anatomy h4 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.75rem;
+}
+
+/* ── Completion questions ─────────────────────────────────────────────── */
+.cq-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.cq {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  align-items: flex-start;
+}
+.cq-n {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--amber);
+  background: var(--amber-dim);
+  min-width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+.cq-text {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.cq-text strong { color: var(--text); }
+
+/* ── Footer ───────────────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--text);
+  padding: 1.5rem;
+  margin-top: 3rem;
+}
+.footer-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-links a { font-size: 0.8rem; color: var(--text-3); text-decoration: none; }
+.footer-links a:hover { color: var(--bg); }
+.footer-stamp { font-size: 0.75rem; color: var(--text-3); }
+
+@media (max-width: 640px) {
+  .pattern-pair { grid-template-columns: 1fr; }
+  .site-header { padding: 2rem 1rem 1.5rem; }
+  .page { padding: 0 1rem 3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Site header -->
+<header class="site-header">
+  <div class="header-inner">
+    <p class="header-kicker">Knowledge Hub · Engineering Reference</p>
+    <h1 class="header-title">Developer Guide</h1>
+    <p class="header-sub">Everything a new developer needs to understand the codebase, run it locally, and add to it — from prerequisites to architectural decisions to the patterns for extending every layer.</p>
+    <div class="header-badges">
+      <span class="badge badge-a">Node.js 18+</span>
+      <span class="badge badge-a">React 19 + TypeScript</span>
+      <span class="badge badge-g">Ollama required</span>
+      <span class="badge badge-b">Electron + Vite</span>
+    </div>
+  </div>
+</header>
+
+<!-- Jump nav -->
+<nav class="jump-nav-wrap" aria-label="Page sections">
+  <ul class="jump-nav">
+    <li><a href="#prereqs">Prerequisites</a></li>
+    <li><a href="#quickstart">Quick Start</a></li>
+    <li><a href="#structure">Structure</a></li>
+    <li><a href="#scripts">npm Scripts</a></li>
+    <li><a href="#frontend">Frontend</a></li>
+    <li><a href="#add-endpoint">Add Endpoint</a></li>
+    <li><a href="#add-panel">Add Panel</a></li>
+    <li><a href="#data-files">Data Files</a></li>
+    <li><a href="#decisions">Decisions</a></li>
+    <li><a href="#eval">Eval &amp; Debug</a></li>
+    <li><a href="#completion">Completion</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+
+  <!-- ── Prerequisites ──────────────────────────────────────────────────── -->
+  <section class="doc-section" id="prereqs">
+    <p class="section-num">01 · Prerequisites</p>
+    <h2 class="section-title">Before You Start</h2>
+    <p class="section-intro">Three things must be running before the platform will work. Node.js handles the server and build tools; Ollama provides the local LLM and embedding models; everything else is installed by npm.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div class="step-content">
+          <div class="step-title">Node.js 18 or later</div>
+          <div class="step-body">Check with <code>node -v</code>. Install from nodejs.org if needed — LTS version preferred. npm comes bundled.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div class="step-content">
+          <div class="step-title">Ollama with required models</div>
+          <div class="step-body">
+            Install from <a href="https://ollama.com">ollama.com</a> and pull the two models the app uses by default:
+            <pre><span class="highlight-amber">ollama pull</span> <span class="highlight-green">qwen2.5:3b</span>     <span class="highlight-gray"># LLM for chat + codegen</span>
+<span class="highlight-amber">ollama pull</span> <span class="highlight-green">nomic-embed-text</span>       <span class="highlight-gray"># Embedding model (768d vectors)</span></pre>
+            Verify Ollama is running at <code>http://localhost:11434</code> — the app health check calls <code>GET /api/app/status</code> which pings Ollama on startup.
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div class="step-content">
+          <div class="step-title">Optional: Claude API key (for cloud LLM)</div>
+          <div class="step-body">Set <code>CLAUDE_API_KEY</code> in your <code>.env</code> file. Without it, the app falls back to Ollama for all LLM calls. This is fine for development — Ollama is the default provider.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Quick Start ─────────────────────────────────────────────────────── -->
+  <section class="doc-section" id="quickstart">
+    <p class="section-num">02 · Quick Start</p>
+    <h2 class="section-title">Running Locally</h2>
+    <p class="section-intro">The development stack is two processes: the Express server (port 3000) and the Vite dev server (port 5173). Run them together with a single command.</p>
+
+    <pre><span class="highlight-gray"># 1. Install dependencies</span>
+<span class="highlight-amber">npm install</span>
+
+<span class="highlight-gray"># 2. Set up environment</span>
+<span class="highlight-amber">cp</span> .env.example .env
+<span class="highlight-gray"># Open .env and fill in CLAUDE_API_KEY if using cloud LLM (optional)</span>
+
+<span class="highlight-gray"># 3. Start both server + Vite concurrently</span>
+<span class="highlight-amber">npm run dev:all</span>
+<span class="highlight-gray"># Express: http://localhost:3000</span>
+<span class="highlight-gray"># React:   http://localhost:5173</span></pre>
+
+    <div class="note">
+      <strong>First run?</strong> Navigate to http://localhost:5173 and the app will prompt you to run the setup wizard. The wizard configures your LLM provider, crawl URL, and creates the data/ directory with initial content.
+    </div>
+
+    <p style="font-size:0.875rem;color:var(--text-2);margin-top:1rem;line-height:1.65">To run just the server (no frontend dev server), use <code>npm run server</code>. To run the built production frontend, run <code>npm run build:ui</code> first — the Express server will serve <code>dist/</code> as static files. For the Electron desktop app, use <code>npm run electron</code> (server must already be running).</p>
+  </section>
+
+
+  <!-- ── Project Structure ───────────────────────────────────────────────── -->
+  <section class="doc-section" id="structure">
+    <p class="section-num">03 · Project Structure</p>
+    <h2 class="section-title">Directory Tour</h2>
+    <p class="section-intro">The repo is a monorepo-in-a-folder: Express backend in <code>src/</code>, React frontend in <code>frontend/</code>, Electron wrapper at the root, runtime data in <code>data/</code> (git-ignored).</p>
+
+    <div class="tree">
+<span class="tree-dir">poc-ai-learn-rag/</span><br>
+├── <span class="tree-dir">src/</span>                    <span class="tree-note"># Express server + RAG pipeline</span><br>
+│   ├── <span class="tree-dir">api/</span><br>
+│   │   └── <span class="tree-file">server.js</span>          <span class="tree-note"># All 40+ Express routes</span><br>
+│   ├── <span class="tree-dir">config/</span><br>
+│   │   └── <span class="tree-file">config.js</span>          <span class="tree-note"># Central config (provider, models, ports, thresholds)</span><br>
+│   └── <span class="tree-dir">rag/</span><br>
+│       ├── <span class="tree-file">query.js</span>           <span class="tree-note"># Core RAG pipeline + logEval()</span><br>
+│       ├── <span class="tree-file">codegen.js</span>         <span class="tree-note"># Code generation pipeline (separate from chat)</span><br>
+│       ├── <span class="tree-file">diagnose.js</span>        <span class="tree-note"># Health diagnostics (npm run diagnose)</span><br>
+│       ├── <span class="tree-file">eval.js</span>            <span class="tree-note"># CLI eval log analyzer (npm run eval)</span><br>
+│       └── <span class="tree-file">llm.js</span>             <span class="tree-note"># LLM abstraction layer (Ollama / Claude / vLLM)</span><br>
+│<br>
+├── <span class="tree-dir">frontend/</span>              <span class="tree-note"># React 19 + TypeScript + Vite</span><br>
+│   └── <span class="tree-dir">src/</span><br>
+│       ├── <span class="tree-dir">components/</span><br>
+│       │   ├── <span class="tree-dir">chat/</span>          <span class="tree-note"># Chat UI + all 10 intelligence panels</span><br>
+│       │   ├── <span class="tree-dir">wizard/</span>        <span class="tree-note"># Step1–Step5 setup wizard</span><br>
+│       │   └── <span class="tree-dir">ui/</span>            <span class="tree-note"># Shared UI primitives</span><br>
+│       ├── <span class="tree-dir">hooks/</span><br>
+│       │   └── <span class="tree-file">useApi.ts</span>      <span class="tree-note"># All React Query hooks (source of truth for API shape)</span><br>
+│       ├── <span class="tree-dir">store/</span><br>
+│       │   ├── <span class="tree-file">appStore.ts</span>    <span class="tree-note"># App-level Zustand state (current section, theme, etc.)</span><br>
+│       │   └── <span class="tree-file">wizardStore.ts</span> <span class="tree-note"># Wizard step state + form data</span><br>
+│       └── <span class="tree-file">main.tsx</span>           <span class="tree-note"># React entry point + QueryClient setup</span><br>
+│<br>
+├── <span class="tree-dir">data/</span>                  <span class="tree-note"># Runtime data (git-ignored, created on first run)</span><br>
+│   ├── <span class="tree-file">eval.jsonl</span>         <span class="tree-note"># Append-only query log (drives all intelligence panels)</span><br>
+│   ├── <span class="tree-file">vectors_*.json</span>     <span class="tree-note"># Per-section embeddings (one file per knowledge section)</span><br>
+│   └── <span class="tree-file">…</span>                  <span class="tree-note"># See Data Files section below for full list</span><br>
+│<br>
+├── <span class="tree-dir">.claude/</span>               <span class="tree-note"># Internal knowledge base (git-tracked)</span><br>
+│   ├── <span class="tree-dir">.engineering/</span>      <span class="tree-note"># Architecture docs, decisions, RAG strategy</span><br>
+│   ├── <span class="tree-dir">.product/</span>          <span class="tree-note"># Product vision, roadmap, backlog</span><br>
+│   └── <span class="tree-dir">.company/</span>          <span class="tree-note"># Company constitution, operating principles</span><br>
+│<br>
+├── <span class="tree-dir">vscode-extension/</span>      <span class="tree-note"># VS Code sidebar extension (built, not published)</span><br>
+├── <span class="tree-dir">artifact/</span>             <span class="tree-note"># HTML reference documents (this file)</span><br>
+├── <span class="tree-file">main.js</span>               <span class="tree-note"># Electron main process</span><br>
+├── <span class="tree-file">package.json</span>          <span class="tree-note"># Scripts, dependencies, electron-builder config</span><br>
+└── <span class="tree-file">.env.example</span>         <span class="tree-note"># Template for .env (never commit .env)</span><br>
+    </div>
+  </section>
+
+
+  <!-- ── npm Scripts ────────────────────────────────────────────────────── -->
+  <section class="doc-section" id="scripts">
+    <p class="section-num">04 · npm Scripts</p>
+    <h2 class="section-title">Command Reference</h2>
+    <p class="section-intro">All common operations are in <code>package.json</code> scripts. Use these — they set the correct environment variables and load order.</p>
+
+    <div style="overflow-x:auto">
+    <table class="script-table">
+      <thead><tr><th>Command</th><th>What it does</th><th>Port / Output</th></tr></thead>
+      <tbody>
+        <tr><td class="script-cmd">npm run dev:all</td><td class="script-desc">Start Express + Vite concurrently. Primary dev command.</td><td class="script-port">:3000 + :5173</td></tr>
+        <tr><td class="script-cmd">npm run server</td><td class="script-desc">Start Express server only. Serves built frontend from dist/ if it exists.</td><td class="script-port">:3000</td></tr>
+        <tr><td class="script-cmd">npm run dev</td><td class="script-desc">Vite dev server only. Proxies API calls to :3000.</td><td class="script-port">:5173</td></tr>
+        <tr><td class="script-cmd">npm run build:ui</td><td class="script-desc">Compile React app to dist/. Required before npm run server in production.</td><td class="script-port">dist/</td></tr>
+        <tr><td class="script-cmd">npm run electron</td><td class="script-desc">Launch Electron app. Server must already be running.</td><td class="script-port">App window</td></tr>
+        <tr><td class="script-cmd">npm run dist</td><td class="script-desc">Build distributable installer (Windows .exe / macOS .dmg) via electron-builder.</td><td class="script-port">release/</td></tr>
+        <tr><td class="script-cmd">npm run eval</td><td class="script-desc">Analyze eval.jsonl. Add flags: --summary, --blocked, --tail N, --section &lt;name&gt;</td><td class="script-port">stdout</td></tr>
+        <tr><td class="script-cmd">npm run diagnose</td><td class="script-desc">Run the diagnostic suite — checks vector dimensions, Ollama connectivity, data/ file integrity.</td><td class="script-port">stdout</td></tr>
+        <tr><td class="script-cmd">npm test</td><td class="script-desc">Run Vitest test suite (unit + integration tests).</td><td class="script-port">stdout</td></tr>
+        <tr><td class="script-cmd">npm run test:watch</td><td class="script-desc">Vitest in watch mode — re-runs on file change.</td><td class="script-port">stdout</td></tr>
+        <tr><td class="script-cmd">npm run test:ui</td><td class="script-desc">Vitest with the browser-based UI at localhost:51204.</td><td class="script-port">:51204</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="note">
+      <strong>Tip:</strong> Use <code>npm run eval -- --summary</code> to get the aggregated summary at any point — it's the fastest way to see how many queries have been answered vs. blocked without opening the UI.
+    </div>
+  </section>
+
+
+  <!-- ── Frontend Architecture ──────────────────────────────────────────── -->
+  <section class="doc-section" id="frontend">
+    <p class="section-num">05 · Frontend Architecture</p>
+    <h2 class="section-title">React, State &amp; Data Fetching</h2>
+    <p class="section-intro">The frontend is React 19 + TypeScript + Vite. All API calls go through typed React Query hooks in <code>useApi.ts</code>. Application state lives in Zustand stores. There are no Redux patterns here.</p>
+
+    <h3 style="font-size:0.9rem;font-weight:700;color:var(--text);margin:1.25rem 0 0.5rem">React Query — the data layer</h3>
+    <p style="font-size:0.875rem;color:var(--text-2);line-height:1.65;margin-bottom:0.75rem">Every server resource is a typed hook in <code>frontend/src/hooks/useApi.ts</code>. The pattern is consistent:</p>
+    <div class="hook-anatomy">
+      <h4>Hook pattern (read query)</h4>
+      <pre><span class="highlight-green">export function</span> <span class="highlight-amber">useGaps</span>() {
+  <span class="highlight-green">return</span> useQuery({
+    queryKey: [<span class="highlight-blue">'gaps'</span>],
+    queryFn:  () => apiFetch&lt;<span class="highlight-green">GapsResponse</span>&gt;(<span class="highlight-blue">'/api/gaps'</span>),
+    staleTime: <span class="highlight-green">60_000</span>,            <span class="highlight-gray">// ms before refetch on re-focus</span>
+  })
+}
+
+<span class="highlight-gray">// In a component:</span>
+<span class="highlight-green">const</span> { data, isLoading, error } = <span class="highlight-amber">useGaps</span>()
+<span class="highlight-green">if</span> (isLoading) <span class="highlight-green">return</span> &lt;Spinner /&gt;
+<span class="highlight-green">if</span> (error)     <span class="highlight-green">return</span> &lt;ErrorBanner error={error} /&gt;</pre>
+    </div>
+    <div class="hook-anatomy" style="margin-top:0.75rem">
+      <h4>Hook pattern (mutation)</h4>
+      <pre><span class="highlight-green">export function</span> <span class="highlight-amber">usePatchHealthSection</span>() {
+  <span class="highlight-green">const</span> qc = useQueryClient()
+  <span class="highlight-green">return</span> useMutation({
+    mutationFn: ({ name, priority }: PatchHealthArgs) =>
+      apiFetch(<span class="highlight-blue">`/api/health/section/${name}`</span>, {
+        method: <span class="highlight-blue">'PATCH'</span>,
+        body: JSON.stringify({ priority }),
+      }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: [<span class="highlight-blue">'health'</span>] }),
+  })
+}</pre>
+    </div>
+
+    <h3 style="font-size:0.9rem;font-weight:700;color:var(--text);margin:1.25rem 0 0.5rem">Zustand stores</h3>
+    <p style="font-size:0.875rem;color:var(--text-2);line-height:1.65;margin-bottom:0.75rem">Two stores. Use the appropriate one — don't store server data in Zustand (that's React Query's job).</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.5rem">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:7px;padding:0.85rem">
+        <div style="font-size:0.78rem;font-weight:700;color:var(--amber);margin-bottom:0.3rem">appStore.ts</div>
+        <div style="font-size:0.8rem;color:var(--text-2);line-height:1.55">Active section, sidebar state, theme toggle, chat session ID, filter bar selections (time window, section, user, status). Everything that affects which data the UI shows.</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:7px;padding:0.85rem">
+        <div style="font-size:0.78rem;font-weight:700;color:var(--amber);margin-bottom:0.3rem">wizardStore.ts</div>
+        <div style="font-size:0.8rem;color:var(--text-2);line-height:1.55">Setup wizard step (1–5), form values for each step (provider, URL, credentials), build progress state. Cleared when the wizard completes.</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Adding an Endpoint ─────────────────────────────────────────────── -->
+  <section class="doc-section" id="add-endpoint">
+    <p class="section-num">06 · Adding an Endpoint</p>
+    <h2 class="section-title">How to Add a Server Route</h2>
+    <p class="section-intro">All routes are registered in <code>src/api/server.js</code>. Each route reads from a data source (eval.jsonl, a JSON file, the vector store) and returns JSON. The pattern is consistent across all 40+ existing routes.</p>
+
+    <div class="pattern-pair">
+      <div class="pattern-half">
+        <div class="pattern-label">1. Register the route in server.js</div>
+<pre><span class="highlight-amber">app.get</span>(<span class="highlight-blue">'/api/my-feature'</span>, async (req, res) => {
+  <span class="highlight-green">try</span> {
+    <span class="highlight-green">const</span> result = await <span class="highlight-amber">computeMyFeature</span>(req.query)
+    res.json({ data: result, ok: <span class="highlight-green">true</span> })
+  } <span class="highlight-green">catch</span> (err) {
+    console.error(<span class="highlight-blue">'[my-feature]'</span>, err)
+    res.status(<span class="highlight-green">500</span>).json({ error: err.message })
+  }
+})</pre>
+      </div>
+      <div class="pattern-half">
+        <div class="pattern-label">2. Add a typed hook in useApi.ts</div>
+<pre><span class="highlight-gray">// Define the response type</span>
+<span class="highlight-green">interface</span> <span class="highlight-amber">MyFeatureResponse</span> {
+  data: { <span class="highlight-blue">field</span>: string }[]
+  ok: boolean
+}
+
+<span class="highlight-gray">// Export the hook</span>
+<span class="highlight-green">export function</span> <span class="highlight-amber">useMyFeature</span>() {
+  <span class="highlight-green">return</span> useQuery({
+    queryKey: [<span class="highlight-blue">'my-feature'</span>],
+    queryFn:  () => apiFetch&lt;<span class="highlight-amber">MyFeatureResponse</span>&gt;(
+      <span class="highlight-blue">'/api/my-feature'</span>
+    ),
+    staleTime: <span class="highlight-green">60_000</span>,
+  })
+}</pre>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Convention:</strong> Log all errors with a module prefix in brackets — <code>[my-feature]</code> — so grep in server logs finds them immediately. Return <code>{ error: err.message }</code> with a 4xx/5xx status, never an empty 200.
+    </div>
+  </section>
+
+
+  <!-- ── Adding an Intelligence Panel ───────────────────────────────────── -->
+  <section class="doc-section" id="add-panel">
+    <p class="section-num">07 · Adding an Intelligence Panel</p>
+    <h2 class="section-title">How to Add a New Intelligence Panel</h2>
+    <p class="section-intro">Each intelligence panel is a React component in <code>frontend/src/components/chat/</code> that uses one or more hooks from <code>useApi.ts</code>. The sidebar navigation registers panels in <code>appStore.ts</code>.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div class="step-content">
+          <div class="step-title">Add the API endpoint (see §06)</div>
+          <div class="step-body">Build and test <code>GET /api/my-panel</code> and add the typed hook <code>useMyPanel()</code> in <code>useApi.ts</code>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div class="step-content">
+          <div class="step-title">Create the panel component</div>
+          <div class="step-body">
+            Create <code>frontend/src/components/chat/MyPanel.tsx</code>. Follow the existing panel structure:
+            <pre><span class="highlight-green">export function</span> <span class="highlight-amber">MyPanel</span>() {
+  <span class="highlight-green">const</span> { data, isLoading, error } = <span class="highlight-amber">useMyPanel</span>()
+
+  <span class="highlight-green">if</span> (isLoading) <span class="highlight-green">return</span> &lt;PanelSkeleton /&gt;
+  <span class="highlight-green">if</span> (error)     <span class="highlight-green">return</span> &lt;PanelError error={error} /&gt;
+  <span class="highlight-green">if</span> (!data)     <span class="highlight-green">return</span> <span class="highlight-green">null</span>
+
+  <span class="highlight-green">return</span> (
+    &lt;div className="panel"&gt;
+      &lt;h2&gt;My Panel&lt;/h2&gt;
+      <span class="highlight-gray">// Your panel content here</span>
+    &lt;/div&gt;
+  )
+}</pre>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div class="step-content">
+          <div class="step-title">Register in the navigation</div>
+          <div class="step-body">Add an entry to the <code>panels</code> array in <code>appStore.ts</code> (or wherever the sidebar nav items are defined — check how GapsPanel, MemoryPanel etc. are registered). The entry needs an <code>id</code>, <code>label</code>, <code>icon</code>, and the component reference.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">4</div>
+        <div class="step-content">
+          <div class="step-title">Wire the panel into the router / switch</div>
+          <div class="step-body">In <code>ChatLayout.tsx</code> (or the equivalent panel switcher), add a case for the new panel id that renders <code>&lt;MyPanel /&gt;</code>.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Data Files ─────────────────────────────────────────────────────── -->
+  <section class="doc-section" id="data-files">
+    <p class="section-num">08 · Data Files Reference</p>
+    <h2 class="section-title">What Lives in data/</h2>
+    <p class="section-intro">The <code>data/</code> directory is git-ignored and created by the app at runtime. It holds all runtime state. Here is every file, its format, and which part of the system writes and reads it.</p>
+
+    <div style="overflow-x:auto">
+    <table class="data-table">
+      <thead><tr><th>File</th><th>Format</th><th>Written by</th><th>Read by</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="data-file">eval.jsonl</td>
+          <td class="data-type">Append-only JSONL</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">query.js (logEval)</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">eval.js, all intelligence endpoints</td>
+          <td class="data-desc"><span class="data-flag flag-runtime">runtime</span> The source of all intelligence. One line per query: ts, question, blocked, softBlocked, topSemScore, latencyMs, sectionsUsed, nearMissSections, usedChunks, budgetUsed, userId</td>
+        </tr>
+        <tr>
+          <td class="data-file">vectors_*.json</td>
+          <td class="data-type">JSON array</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">ingest pipeline</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">query.js (retrieval)</td>
+          <td class="data-desc"><span class="data-flag flag-gen">generated</span> One file per knowledge section. Contains chunk text, embedding vectors, metadata (source URL, file path, title, position). Do not edit manually — re-ingest if you change them.</td>
+        </tr>
+        <tr>
+          <td class="data-file">decisions.json</td>
+          <td class="data-type">JSON array</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">POST /api/decisions/extract</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">GET /api/decisions</td>
+          <td class="data-desc"><span class="data-flag flag-gen">generated</span> LLM-extracted architectural decisions. Each record: id, title, context, decision, alternatives, consequences, section, extractedAt.</td>
+        </tr>
+        <tr>
+          <td class="data-file">sessions.json</td>
+          <td class="data-type">JSON object</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">POST /api/chat</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">POST /api/chat (history)</td>
+          <td class="data-desc"><span class="data-flag flag-runtime">runtime</span> Keyed by sessionId. Each session stores up to 8 prior turns for context window injection.</td>
+        </tr>
+        <tr>
+          <td class="data-file">intelligence_history.json</td>
+          <td class="data-type">JSON array</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">POST /api/intelligence/snapshot</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">GET /api/intelligence/history</td>
+          <td class="data-desc"><span class="data-flag flag-runtime">runtime</span> Weekly IDS snapshots for the sparkline trend chart. Each entry: ts, ids, totalQueries, answerRate, clusterCount, gapRatio.</td>
+        </tr>
+        <tr>
+          <td class="data-file">crawl_hashes.json</td>
+          <td class="data-type">JSON object</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">crawl pipeline</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">Maintenance panel</td>
+          <td class="data-desc"><span class="data-flag flag-cache">cache</span> URL → MD5 hash map. Used by incremental crawl to skip unchanged pages and by the Maintenance panel to detect staleness.</td>
+        </tr>
+        <tr>
+          <td class="data-file">app_config.json</td>
+          <td class="data-type">JSON object</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">POST /api/app/config, setup wizard</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">config.js (startup)</td>
+          <td class="data-desc"><span class="data-flag flag-config">config</span> User-chosen settings: LLM provider, model, Ollama URL, embedding model, portal URL, section list, boost/ignore priorities.</td>
+        </tr>
+        <tr>
+          <td class="data-file">users.json</td>
+          <td class="data-type">JSON array</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">POST /api/users</td>
+          <td style="font-size:0.8rem;color:var(--text-2)">Team IDS endpoint, Analytics</td>
+          <td class="data-desc"><span class="data-flag flag-config">config</span> Registered users for multi-user / team mode. Each entry: id, name, email, role, createdAt.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="warn" style="margin-top:1rem">
+      <strong>Never commit data/</strong> — it contains real query logs and potentially sensitive document vectors. The <code>.gitignore</code> excludes the entire directory. If you accidentally stage a file from <code>data/</code>, run <code>git rm --cached data/&lt;file&gt;</code> before committing.
+    </div>
+  </section>
+
+
+  <!-- ── Architectural Decisions ────────────────────────────────────────── -->
+  <section class="doc-section" id="decisions">
+    <p class="section-num">09 · Architectural Decisions</p>
+    <h2 class="section-title">What Is Already Decided</h2>
+    <p class="section-intro">These decisions are locked. Understanding the <em>why</em> behind each one prevents accidentally reversing them. For the full decision records with context and alternatives, read <code>.claude/.engineering/DECISIONS.md</code>.</p>
+
+    <div class="decision">
+      <div class="decision-head"><span class="decision-id">D.01</span><span class="decision-title">Local-first, single-user by default</span></div>
+      <div class="decision-body">All data lives in <code>data/</code> on the user's machine. No cloud sync, no SaaS backend. This is the core privacy guarantee and the primary differentiator vs. every hosted RAG platform.</div>
+      <div class="decision-locked">Locked — reverting this means becoming AnythingLLM, which already exists and is free.</div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-head"><span class="decision-id">D.02</span><span class="decision-title">Hybrid BM25 + Dense + RRF retrieval</span></div>
+      <div class="decision-body">BM25 handles keyword precision; dense vectors handle semantic similarity; RRF fuses them at weight 0.5/0.5. Both retrieval paths run in parallel and are fused before the confidence gate. Do not replace with pure BM25 or pure vector search.</div>
+      <div class="decision-locked">Locked — the hybrid system provides ~20% better coverage than either alone at our corpus sizes.</div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-head"><span class="decision-id">D.03</span><span class="decision-title">Confidence gate before LLM — dual condition</span></div>
+      <div class="decision-body">The gate: <code>topSemScore &gt;= 0.15</code> OR <code>(topRrfScore &gt;= 0.014 AND topSemScore &gt;= 0.05)</code>. Do not make the gate a simple threshold — the dual condition exists to catch queries where BM25 is confident but dense similarity is moderate (technical queries with exact keyword matches).</div>
+      <div class="decision-locked">Locked — gating is what makes blocked queries into documentation gap signals, which drives the Gaps panel.</div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-head"><span class="decision-id">D.04</span><span class="decision-title">eval.jsonl is append-only</span></div>
+      <div class="decision-body"><code>logEval()</code> only appends. Intelligence panels always read the full log and aggregate in memory. This means the log grows unboundedly — the trade-off for never losing historical data.</div>
+      <div class="decision-locked">Locked — compaction or truncation would destroy historical intelligence and break the IDS trend sparkline.</div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-head"><span class="decision-id">D.05</span><span class="decision-title">No AST or code graph traversal in RAG</span></div>
+      <div class="decision-body">Knowledge Hub does not index code semantically at the AST level, does not traverse import graphs, and does not chunk by function boundaries. Code is treated as text. Engineering documents (READMEs, DECISIONS.md, architecture docs) are the unit of knowledge, not code files.</div>
+      <div class="decision-locked">Locked per RAG_STRATEGY.md — this is a deliberate scope boundary, not a gap. The roadmap has code intelligence as a separate capability (Stage 3+).</div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-head"><span class="decision-id">D.06</span><span class="decision-title">React Query is the data layer — Zustand is UI state only</span></div>
+      <div class="decision-body">Server-sourced data (sections, health scores, gaps, IDS) lives in React Query caches. Zustand holds only local UI state (selected section, sidebar open/closed, filter bar values, wizard step). Never store server responses in Zustand stores.</div>
+      <div class="decision-locked">Locked — mixing the two causes cache invalidation bugs and double-fetching.</div>
+    </div>
+  </section>
+
+
+  <!-- ── Eval & Debugging ────────────────────────────────────────────────── -->
+  <section class="doc-section" id="eval">
+    <p class="section-num">10 · Eval &amp; Debugging</p>
+    <h2 class="section-title">Diagnosing Problems</h2>
+    <p class="section-intro">Two CLI tools help you understand what the pipeline is doing without opening the UI.</p>
+
+    <h3 style="font-size:0.9rem;font-weight:700;color:var(--text);margin-bottom:0.5rem">npm run eval — analyze the query log</h3>
+    <pre><span class="highlight-green">npm run eval</span> -- --summary                    <span class="highlight-gray"># Total queries, answer rate, latency p50/p95</span>
+<span class="highlight-green">npm run eval</span> -- --blocked                    <span class="highlight-gray"># Show blocked queries and their topSemScore</span>
+<span class="highlight-green">npm run eval</span> -- --tail 50                    <span class="highlight-gray"># Last 50 entries from eval.jsonl</span>
+<span class="highlight-green">npm run eval</span> -- --section "Engineering Docs" <span class="highlight-gray"># Queries that hit this section only</span></pre>
+
+    <h3 style="font-size:0.9rem;font-weight:700;color:var(--text);margin:1.25rem 0 0.5rem">npm run diagnose — check system health</h3>
+    <pre><span class="highlight-green">npm run diagnose</span>
+<span class="highlight-gray"># Checks:</span>
+<span class="highlight-gray">#  - Ollama reachable at configured URL</span>
+<span class="highlight-gray">#  - Embedding model (nomic-embed-text) loaded and returning correct vector dimensions</span>
+<span class="highlight-gray">#  - Vector files exist for all configured sections</span>
+<span class="highlight-gray">#  - Dimension mismatch between stored vectors and current embedding model</span>
+<span class="highlight-gray">#  - data/ directory present and writable</span>
+<span class="highlight-gray">#  - eval.jsonl accessible (for intelligence panels)</span></pre>
+
+    <h3 style="font-size:0.9rem;font-weight:700;color:var(--text);margin:1.25rem 0 0.5rem">Common issues</h3>
+    <div style="display:flex;flex-direction:column;gap:0.6rem">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:7px;padding:0.85rem">
+        <div style="font-size:0.8rem;font-weight:700;color:var(--red);margin-bottom:0.25rem">Everything returns blocked (empty gaps panel shows many blocks)</div>
+        <div style="font-size:0.8rem;color:var(--text-2);line-height:1.55">Ollama is running but the embedding model isn't loaded. Run <code>ollama pull nomic-embed-text</code>. Also check that <code>OLLAMA_BASE_URL</code> in <code>.env</code> matches the Ollama port.</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:7px;padding:0.85rem">
+        <div style="font-size:0.8rem;font-weight:700;color:var(--red);margin-bottom:0.25rem">Intelligence panels show "no data" after ingestion</div>
+        <div style="font-size:0.8rem;color:var(--text-2);line-height:1.55">The panels read <code>eval.jsonl</code>, not the vectors. You must ask at least a few questions through the chat interface to populate the log. The vector store is built correctly when ingestion succeeds.</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:7px;padding:0.85rem">
+        <div style="font-size:0.8rem;font-weight:700;color:var(--red);margin-bottom:0.25rem">Vector dimension mismatch error</div>
+        <div style="font-size:0.8rem;color:var(--text-2);line-height:1.55">You changed the embedding model in config but still have old <code>data/vectors_*.json</code> files. Delete them and re-ingest. The diagnose tool will confirm the mismatch and tell you which section is affected.</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:7px;padding:0.85rem">
+        <div style="font-size:0.8rem;font-weight:700;color:var(--red);margin-bottom:0.25rem">Frontend not connecting to server (CORS or 502)</div>
+        <div style="font-size:0.8rem;color:var(--text-2);line-height:1.55">In development, the Vite dev server at :5173 proxies API calls to :3000. If the server isn't running, you'll get a 502. Always start both with <code>npm run dev:all</code>, not <code>npm run dev</code> alone.</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Completion Questions ───────────────────────────────────────────── -->
+  <section class="doc-section" id="completion">
+    <p class="section-num">11 · Before Shipping</p>
+    <h2 class="section-title">The Completion Questions</h2>
+    <p class="section-intro">Ask these four questions at the end of every meaningful engineering session. They are not checkboxes — answer each one honestly before closing the work.</p>
+
+    <div class="cq-list">
+      <div class="cq">
+        <div class="cq-n">1</div>
+        <div class="cq-text"><strong>Did we solve the right problem?</strong> Could the user's real need have been addressed at a higher level — product, architecture, or process — without this code?</div>
+      </div>
+      <div class="cq">
+        <div class="cq-n">2</div>
+        <div class="cq-text"><strong>Is there a more transformative opportunity here?</strong> Does what we just built reveal a larger capability that would be more valuable to build next?</div>
+      </div>
+      <div class="cq">
+        <div class="cq-n">3</div>
+        <div class="cq-text"><strong>Should the roadmap change?</strong> Does this session's work shift the prioritization of anything in <code>.product/05_WORK_QUEUE.md</code> or <code>.product/07_FEATURE_BACKLOG.md</code>?</div>
+      </div>
+      <div class="cq">
+        <div class="cq-n">4</div>
+        <div class="cq-text"><strong>What knowledge should be preserved?</strong> Update <code>.product/06_PROGRESS.md</code>, <code>.product/04_NEXT_MISSION.md</code>, and <code>.product/01_CEO_DASHBOARD.md</code>. Only update if there is genuinely new knowledge — never update for the sake of updating.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page -->
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="./product-feature-map.html">Product Feature Map</a>
+      <a href="./api-reference.html">API Reference</a>
+      <a href="./rag-system-design.html">RAG System Design</a>
+      <a href="./eval-observability.html">Eval &amp; Observability</a>
+    </div>
+    <div class="footer-stamp">developer-guide.html · v0.9 · 2026-08-08</div>
+  </div>
+</footer>
+
+<script>
+// Active jump nav highlight on scroll
+const sections = document.querySelectorAll('.doc-section[id]')
+const navLinks = document.querySelectorAll('.jump-nav a')
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id
+      navLinks.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + id)
+      })
+    }
+  })
+}, { rootMargin: '-80px 0px -60% 0px', threshold: 0 })
+sections.forEach(s => observer.observe(s))
+</script>
+
+</body>
+</html>

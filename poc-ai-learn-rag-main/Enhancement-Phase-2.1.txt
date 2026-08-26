@@ -1,0 +1,729 @@
+
+Here is Claude's plan:                                                                                                    ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ Plan: Knowledge Hub — Next Level Enhancement Roadmap
+
+Status: Prototype complete (setup wizard, generic crawl, Electron .exe working).
+ ▎ Goal: Turn this into a product companies and individuals will pay for.
+
+ ---
+ Context
+
+ The working prototype can crawl any web-based doc portal, ingest it into a local vector store, and answer questions via a chat UI. The Electron .exe ships with a setup wizard. The user's ideas (from additional_enhancement.txt) point at two distinct acks:
+
+ 1. Product maturity — features that make it something worth subscribing to (document upload, integrations, streaming, analytics)
+ 2. Product viability — features that enable selling it (licensing, payments, multi-tenant)
+
+ The confluence-rag-multi-level project (cr2) has already proven out many retrieval-quality improvements. Several are directly portable.
+
+ ---
+ What Already Exists (don't re-build)
+
+ ┌──────────────────────────────────────┬──────────────────────────┬──────────────────────────────┐
+ │               Feature                │         Location         │            Status            │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Hybrid BM25 + cosine + RRF           │ src/vectorstore/store.js │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Confidence gate (no-hallucination)   │ src/rag/query.js         │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Query expansion (3 search angles)    │ src/rag/query.js         │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Jaccard dedup context compression    │ src/rag/query.js         │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Breadcrumb prefix in chunks          │ src/ingestion/cleaner.js │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Chunk Explorer + pinning UI          │ public/js/app.js         │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Session persistence                  │ src/api/server.js        │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Reconfigure / reingest API endpoints │ src/api/server.js        │ ✅ Exist but not wired to UI │
+ └──────────────────────────────────────┴──────────────────────────┴──────────────────────────────┘
+
+ ---
+ Top 5 Major Leap Enhancements
+
+ 🚀 Leap 1 — Streaming Responses
+
+ Biggest perceived-performance win. Every modern AI tool has this.
+
+ Current state: askOllama() in src/rag/query.js (line 120) uses stream: false. Full response buffered before client sees anything. Waits 15–90 seconds of silence.
+
+ What changes:
+ - src/rag/query.js → askOllama: set stream: true, read newline-delimited JSON stream from Ollama, yield tokens via async generator
+ - src/api/server.js /api/chat → switch from res.json() to text/event-stream, flush token SSE events, send final metadata (sources, debug) in the last event
+ - public/js/app.js → replace fetch + await json() with response.body.getReader() loop, append each token to the answer bubble as it arrives
+ - Claude provider: use stream: true in the Anthropic messages call
+
+ Effort: ~1 day. No new dependencies.
+
+ ---
+ 🚀 Leap 2 — Local Document Upload (PDF, DOCX, ZIP, MD)
+
+ Removes the crawling requirement entirely. Users drag-drop their own docs.
+
+ What it enables: Someone with a folder of API specs, runbooks, onboarding docs, or exported PDFs can index them in 30 seconds without configuring a portal URL. This is the "Notion AI for your own files" use case.
+
+ What changes:
+ - New "Upload Documents" section in the setup wizard OR a persistent "Add docs" button in the chat UI sidebar
+ - POST /api/docs/upload endpoint (multipart) — accepts PDF, DOCX, MD, TXT, ZIP
+ - PDF text extraction: pdf-parse npm (pure JS, no native build needed)
+ - DOCX extraction: mammoth npm (pure JS)
+ - ZIP: unzip with adm-zip (pure JS), process contained docs
+ - Files saved to docs/uploads/<filename>/ with a synthetic manifest entry
+ - Existing ingest.js pipeline picks them up — no changes to embedder/store
+ - UI shows upload progress and "indexed N chunks from filename.pdf"
+
+ Effort: ~2-3 days. Three pure-JS deps.
+
+ ---
+ 🚀 Leap 3 — Incremental Re-crawl (Change Detection)
+
+ Full rebuild from scratch on every run is the #1 operational pain point.
+
+ Current state: ingest.js re-processes every manifest entry on every run. crawl.js re-fetches every page. No checksums anywhere.
+
+ What changes:
+ - Crawl side (src/crawler/crawl.js): compute MD5(html) for each saved page. Add contentHash field to manifest entries. On re-crawl, skip fetch + save if hash matches data/crawl_hashes.json (URL → hash map). Write changed pages only.
+ - Ingest side (src/ingestion/ingest.js): read data/ingest_hashes.json (file → hash). Skip embedding if contentHash matches last run. Upsert only changed chunks.
+ - Result: Typical re-crawl on a large portal (500 pages, 5% changed) drops from 45 min → 3 min.
+ - New CLI: npm run crawl -- --incremental (default after first build; --full to force)
+
+ Effort: ~1-2 days. Uses built-in crypto.createHash('md5').
+
+ ---
+ 🚀 Leap 4 — Multi-Source Integration via OAuth (Confluence, Google Drive, Notion)
+
+ Removes the portal-URL + credentials requirement. Users connect apps they already use.
+
+ What it enables: A user clicks "Connect Confluence", OAuth flow runs in a browser window (no credentials stored), the app fetches pages directly from the Confluence REST API. Same for Google Drive and Notion.
+
+ Architecture:
+ - New integration wizard step: radio cards — "Web Portal (crawl)" | "Upload Files" | "Confluence" | "Google Drive" | "Notion"
+ - Per-integration adapter pattern: src/integrations/confluence.js, src/integrations/gdrive.js, etc.
+ - Each adapter implements fetchPages() → returns { title, url, html, metadata }[]
+ - OAuth flow via Playwright or Electron shell (open browser → get token → save to config)
+ - Confluence: uses Space Key + page tree via REST API (no crawling, structured data, faster)
+ - Google Drive: fetch Docs/Sheets as exported HTML; index folder recursively
+ - Confluence adapter is largely portable from cr2 — it already has the REST API logic
+
+ Effort: ~1 week per integration. Confluence first (most requested for enterprise).
+
+ ---
+ 🚀 Leap 5 — Evaluation Harness + Analytics Dashboard
+
+ The only way to know if the knowledge base is actually good. Enterprise buyers need this.
+
+ What it enables: After N queries, see: answer rate %, top unanswered questions (documentation gaps), which sections are referenced most, average confidence scores, latency trends.
+
+ What changes:
+ - src/rag/query.js: append each query result to data/eval.jsonl — { ts, question, topSemScore, latencyMs, blocked, sectionsUsed, chunkIds }
+ - src/rag/eval.js (port from cr2, already built there): CLI with --blocked (gap analysis), --summary, --tail N
+ - New "Analytics" tab in the chat UI (public/index.html):
+   - KPI row: answer rate, avg confidence, avg latency, total queries
+   - Top 10 unanswered questions (blocked queries)
+   - Most-referenced sections bar chart
+   - Last 20 queries with score badges
+ - The "blocked queries" list is the most valuable thing — it tells users exactly what documentation they're missing
+
+ Effort: ~2 days (eval.js exists in cr2; Analytics tab is new HTML/CSS/JS).
+
+ ---
+ Quick Wins (< 1 day each)
+
+ QW-1: Wire Unused APIs to UI
+
+ /api/setup/rebuild and /api/setup/reset exist but are unreachable from the UI.
+
+ - Add "Re-index" button in sidebar footer → calls /api/setup/rebuild → shows live SSE progress inline
+ - Add "Reset & Reconfigure" option in settings → calls /api/setup/reset then redirects to /setup
+ - Add "Re-index this section" context menu in section list → POST /api/setup/build with --section flag
+
+ Files: public/index.html, public/js/app.js, src/api/server.js (add section-scoped rebuild endpoint)
+
+ QW-2: Per-Section Vector Store Isolation
+
+ Port from cr2 (SpaceVectorStore pattern). Each section gets its own data/vectors_<section>.json.
+
+ - Prevents a single 500MB JSON parse on startup
+ - Enables per-section re-ingest without touching others
+ - Enables per-section deletion
+
+ Files: src/vectorstore/store.js, src/ingestion/ingest.js
+
+ QW-3: Smart "Not Found" Suggestions
+
+ Port from cr2 (recommendSpaces()). When the confidence gate fires, suggest other sections that might have the answer.
+
+ Files: src/rag/query.js, src/api/server.js, public/js/app.js
+
+ QW-4: vLLM / Llama.cpp Support
+
+ Add LLM_PROVIDER=vllm in src/rag/query.js. vLLM and Ollama share the same OpenAI-compatible API shape. Essentially adding one more if branch in askOllama.
+
+ Files: src/rag/query.js, src/config/config.js, public/js/setup.js (add radio card)
+
+ ---
+ Product Track (Licensing & Payments)
+
+ This is a separate workstream from feature development:
+
+ ┌──────────────────────┬───────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │       Feature        │                                             Approach                                              │
+ ├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ User accounts /      │ SQLite-based local user DB with license key validation. Keys generated server-side, validated     │
+ │ licensing            │ against a lightweight cloud endpoint.                                                             │
+ ├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Subscription /       │ Stripe Checkout embedded in Electron (hosted payment page). One-time "lifetime" and annual        │
+ │ payment              │ subscription tiers.                                                                               │
+ ├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Feature gating       │ Free tier: 1 knowledge base, 500 queries/month. Paid: unlimited bases, analytics, integrations.   │
+ ├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Multi-tenant         │ Separate data/ directories per user profile. Electron app.getPath('userData') already isolates by │
+ │                      │  OS user.                                                                                         │
+ └──────────────────────┴───────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+ Recommended first step: Build a simple license-key validation (no payment yet) so you can start a beta program and collect feedback before wiring payments.
+
+ ---
+ Recommended Sequence
+
+ Phase 1 (This sprint — highest impact per effort):
+   └─ QW-1: Wire unused APIs to UI       (~4h)
+   └─ Leap 1: Streaming responses        (~1 day)
+   └─ Leap 3: Incremental re-crawl       (~1.5 days)
+
+ Phase 2 (Next sprint — product differentiation):
+   └─ Leap 2: Document upload (PDF/DOCX) (~2.5 days)
+   └─ Leap 5: Eval harness + Analytics   (~2 days)
+   └─ QW-2: Per-section store isolation  (~1 day)
+
+ Phase 3 (Month 2 — integrations):
+   └─ Leap 4: Confluence OAuth adapter   (~1 week)
+   └─ QW-3: Smart "not found" suggestions (~0.5 day)
+   └─ QW-4: vLLM support                 (~0.5 day)
+
+ Phase 4 (Month 3 — product viability):
+   └─ License key system
+   └─ Stripe payment integration
+   └─ Beta program + landing page
+
+ ---
+ Files That Will Change Per Enhancement
+
+ ┌───────────────────┬────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │    Enhancement    │                                         Primary files                                          │
+ ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Streaming         │ src/rag/query.js, src/api/server.js, public/js/app.js                                          │
+ ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Doc upload        │ src/api/server.js (new endpoint), src/ingestion/ingest.js, public/index.html, public/js/app.js │         ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤     │ Incremental crawl │ src/crawler/crawl.js, src/ingestion/ingest.js                                                  │
+ ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Wire unused APIs  │ public/index.html, public/js/app.js                                                            │
+──────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Eval harness      │ src/rag/query.js (logging), new src/rag/eval.js, public/index.html (tab)                       │
+ ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Per-section store │ src/vectorstore/store.js, src/ingestion/ingest.js                                              │
+ ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ vLLM support      │ src/rag/query.js, src/config/config.js                                                         │
+ └───────────────────┴────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+ ---
+ Verification
+
+ Each enhancement can be verified standalone:
+ - Streaming: Open chat UI, ask a question — words should appear token-by-token within 1–2 seconds
+ - Doc upload: Upload a PDF → check chunk count increases → ask a question about its content
+ - Incremental crawl: Run crawl twice; second run should skip unchanged pages (log shows "N pages unchanged, M re-crawled")
+ - Eval harness: After 5 queries, run npm run eval -- --summary; run npm run eval -- --blocked to see gaps
+ - Wire APIs: Click "Re-index" in sidebar — SSE log panel appears inline showing progress
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+
+
+
+
+---
+QW-1: Wire unused APIs to UI — DONE
+- /api/setup/rebuild now runs the full crawl + ingest pipeline via SSE (same as build, using saved config)
+- rebuildIndex() in app.js shows a live inline log panel with phase progress, status, and an × to dismiss it
+- Stats and section list refresh automatically after a successful rebuild
+
+Leap 1: Streaming Responses — DONE
+- askOllamaStream() and askClaudeStream() in query.js read NDJSON/SSE streams and yield tokens via onToken callback
+- queryStream() function runs the full RAG pipeline with streaming and exports alongside the existing query()
+- New POST /api/chat/stream SSE endpoint in server.js — retrieval + streaming tokens + final done event with sources/debug/session metadata
+- sendMessage() in app.js now calls the streaming endpoint — the typing indicator is replaced by a live bubble as soon as the first token arrives; the blinking cursor (CSS ::after) shows while streaming is active; sources and debug line appear only after the stream completes
+
+Leap 3: Incremental Re-crawl — DONE
+- Crawler saves data/crawl_hashes.json (file → MD5). With --incremental, unchanged pages are logged as SKIP and their manifest entry gets status: 'unchanged'
+- Ingest saves data/ingest_hashes.json (file → MD5). With --incremental, pages whose content matches the saved hash are skipped entirely — no re-embedding
+- New npm scripts: npm run crawl:incremental, npm run ingest:incremental, npm run sync (does both incrementally)
+- If all pages are unchanged during incremental ingest, exits cleanly with "All pages unchanged — index is up to date"
+
+
+
+
+
+
+
+****************** Not understood what was build so explaination provided **************************
+
+
+ Ready to code?
+
+ Here is Claude's plan:
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ Phase 1 Enhancements — What Was Built, How to Validate, What to Fix
+
+ ▎ This document explains the 3 Phase 1 enhancements implemented in the last session,
+ ▎ how to see each one in action, and fixes a broken CLI script.
+                                                                                                                                  ---
+ The npm run sync Error — Root Cause & Fix                                                                                                                                                                                                                        Error: DOCS_BASE_URL is not set. Cannot start.
+
+ Why: npm run sync runs node src/crawler/crawl.js --incremental directly from the terminal.
+ The crawler reads config from environment variables (set in .env). But the Electron/wizard app                                 stores its config in data/app_config.json — not .env. When the server spawns the crawler, it
+ calls configToEnv(cfg) and passes those env vars to the child process. When you run npm run sync                                directly, that wiring doesn't happen — so DOCS_BASE_URL is never set.
+
+ Fix needed: Create scripts/sync.js — a thin wrapper that reads app_config.json, calls
+ configToEnv(), and spawns crawl + ingest with the right env vars. Update the sync npm script
+ to use it. This is the only code change needed from this session.
+
+ ---
+ Enhancement 1: Streaming Responses (Leap 1)
+
+ What changed
+
+ ┌────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │        File        │                                             What changed                                             │
+ ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │                    │ Added askOllamaStream(), askClaudeStream(), queryStream() — streaming variants of the LLM callers.   │
+ │ src/rag/query.js   │ Instead of waiting for the full response, they fire an onToken(text) callback for each word/token as │
+ │                    │  it arrives. Exported queryStream alongside existing query.                                          │
+ ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │                    │ Added POST /api/chat/stream — new SSE endpoint. Does retrieval first (fast), then streams tokens as  │
+ │ src/api/server.js  │ data: {"type":"token","message":"word"} events. Sends one final data:                                │
+ │                    │ {"type":"done","message":"{sources, debug, sessionId}"} event when complete. The old /api/chat still │
+ │                    │  exists unchanged.                                                                                   │
+ ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ public/js/app.js   │ sendMessage() now calls /api/chat/stream instead of /api/chat. Added appendAIMessageStreaming()      │
+ │                    │ (creates a live bubble), finalizeAIMessage() (attaches sources + debug line after stream ends).      │
+ ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ public/css/app.css │ Added .message.ai.streaming::after — the blinking ▋ cursor shown while streaming is active.          │
+ └────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+ How to validate
+
+ 1. Open the chat UI → ask any question
+ 2. You should see: typing dots → immediately replaced by a bubble with a blinking cursor ▋ → words appear progressively → cursor disappears → source chips appear below the answer
+ 3. The blinking cursor you already saw is confirmation streaming is working
+ 4. If the model is fast (qwen2.5:3b on GPU), words arrive so quickly it looks instant — that's expected
+ 5. Try a longer question to see token-by-token more clearly, or switch to a slower model temporarily
+
+ What it looks like vs before
+
+ ┌─────────────────────────────────┬───────────────────────────────────────────────┐
+ │             Before              │                     After                     │
+ ├─────────────────────────────────┼──────────────────────────────────────
+ │ Typing dots for 15–90 seconds   │ Typing dots for ~1–2 seconds (retrieval time) │
+ ├─────────────────────────────────┼───────────────────────────────────────────────┤
+ │ Full answer appears all at once │ Words appear one by one with blinking cursor  │
+ ├─────────────────────────────────┼───────────────────────────────────────────────┤
+ │ Sources appear with answer      │ Sources appear after stream ends              │
+ └─────────────────────────────────┴───────────────────────────────────────────────┘
+
+ ---
+ Enhancement 2: Wire Rebuild Index to UI (QW-1)
+
+ What changed
+
+ ┌────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │        File        │                                             What changed                                             │
+ ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │                    │ /api/setup/rebuild endpoint completely rewritten. Was: returns JSON with config. Now: SSE stream     │
+ │ src/api/server.js  │ that runs crawl → ingest → saves setupComplete: true, exactly like /api/setup/build. Removed the     │
+ │                    │ debug console.log('delay') garbage that was in the build endpoint. Added --force flag back to ingest │
+ │                    │  spawn.                                                                                              │
+ ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │                    │ rebuildIndex() function replaced. Was: fetch + alert. Now: calls /api/setup/cancel first, then opens │
+ │ public/js/app.js   │  an inline dark log panel above the messages area, streams SSE output into it, refreshes             │
+ │                    │ stats/sections when done.                                                                            │
+ ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ public/css/app.css │ Added .rebuild-panel, .rebuild-header, .rebuild-log-wrap, .rebuild-ok, .rebuild-err styles — a dark  │
+ │                    │ terminal-style panel matching the build wizard.                                                      │
+ └────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+ How to validate
+
+ 1. Open the chat UI
+ 2. In the sidebar footer, click 🔄 Rebuild Index
+ 3. Confirm the dialog
+ 4. You should see: a dark panel appears above the message area titled "Rebuilding knowledge base…" with live scrolling log output — exactly like the build wizard Step 5 log
+ 5. The panel shows crawl phase, then ingest phase, then "✅ Knowledge base rebuilt! N chunks indexed."
+ 6. Stats in the sidebar footer update automatically
+ 7. Click × on the panel to dismiss it
+
+ Before vs after
+
+ ┌──────────────────────────────────────────────────┬─────────────────────────────────────────────────────┐
+ │                      Before                      │                        After                        │
+ ├──────────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ Clicked rebuild → alert saying "Rebuild started" │ Clicked rebuild → live log panel with real progress │
+ ├──────────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ No way to know if it succeeded                   │ Clear ✅ / ❌ status at the bottom                  │
+ ├──────────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ Had to open a terminal to see what was happening │ Everything visible inline                           │
+ └──────────────────────────────────────────────────┴─────────────────────────────────────────────────────┘
+
+ ---
+ Enhancement 3: Incremental Re-crawl (Leap 3)
+
+ What changed
+
+ ┌─────────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │          File           │                                          What changed                                           │
+ ├─────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │                         │ Added --incremental flag. Loads data/crawl_hashes.json (URL → MD5 hash). For each page,         │
+ │ src/crawler/crawl.js    │ computes MD5 of the scraped HTML. If hash matches saved hash and the file exists on disk → skip │
+ │                         │  re-writing the file, set manifest status to 'unchanged'. Saves updated hashes after run.       │
+ ├─────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │                         │ Added --incremental flag. Removed the erroneous console.log(DATA_DIR, ...) debug line. Loads    │
+ │ src/ingestion/ingest.js │ data/ingest_hashes.json. For each HTML file, computes MD5. If hash matches saved hash → skip    │
+ │                         │ parsing + embedding. If all pages unchanged → exits early with a clean message. Saves updated   │
+ │                         │ hashes after run.                                                                               │
+ ├─────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ package.json            │ Added crawl:incremental, ingest:incremental, sync npm scripts.                                  │
+ └─────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+ How to validate (CLI only — not visible in the app UI)
+
+ # First run — full crawl (establishes baseline hashes)
+ npm run crawl
+
+ # Second run — incremental (most pages should show SKIP)
+ npm run crawl:incremental
+ # Log output will show:
+ # ⏭️  [section #5] Unchanged: 005_page-title.html
+ # ✅  [section #12] Saved: 012_changed-page.html  (only pages that actually changed)
+ # Total: 3 pages saved, 0 skipped, 47 unchanged
+
+ # Same for ingest
+ npm run ingest --incremental  # or: node src/ingestion/ingest.js --incremental
+ # Output:
+ # Mode      : incremental
+ # Skipped (unchanged): 47 pages
+ # New/updated chunks: 120   (only from the 3 changed pages)
+
+ The npm run sync fix (planned)
+
+ Once scripts/sync.js wrapper is built, npm run sync will:
+ 1. Read data/app_config.json
+ 2. Convert to env vars via configToEnv()
+ 3. Spawn crawler with --incremental and those env vars
+ 4. On success, spawn ingest with --incremental and those env vars
+ 5. Show combined output
+
+ ---
+ Fix Plan: scripts/sync.js Wrapper
+
+ New file: scripts/sync.js
+
+ 1. require('../src/config/config')  →  readConfig(), configToEnv()
+ 2. const childEnv = { ...process.env, ...configToEnv(readConfig()) }
+ 3. Validate that childEnv.DOCS_BASE_URL exists, exit with friendly error if not
+ 4. Spawn: node src/crawler/crawl.js --incremental  (with childEnv)
+    - Pipe stdout/stderr to process.stdout/stderr
+    - Wait for exit code
+ 5. If crawl succeeds: Spawn: node src/ingestion/ingest.js --incremental  (with childEnv)
+    - Pipe stdout/stderr
+    - Wait for exit code
+ 6. Print summary
+
+ Update package.json:
+ "sync": "node scripts/sync.js"
+
+ Files to change: scripts/sync.js (new), package.json (1-line change)
+
+ ---
+ Verification Checklist
+
+ ┌────────────────────┬───────────────────────────────────────────────┬─────────────────────────────────────────────────────┐
+ │      Feature       │                Where to see it                │                   Pass condition                    │
+ ├────────────────────┼───────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ Streaming cursor   │ Chat UI → ask a question                      │ Blinking ▋ cursor appears immediately, words arrive │
+ │                    │                                               │  progressively                                      │
+ ├────────────────────┼───────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ Stream sources     │ Chat UI → after answer completes              │ Source chips appear below the answer (not during    │
+ │                    │                                               │ streaming)                                          │
+ ├────────────────────┼───────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ Rebuild live log   │ Chat sidebar → 🔄 Rebuild Index               │ Dark log panel with live output, not an alert box   │
+ ├────────────────────┼───────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ Rebuild stats      │ After rebuild completes                       │ Chunk count in sidebar footer updates               │
+ │ refresh            │                                               │                                                     │
+ ├────────────────────┼───────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ Incremental crawl  │ Terminal: npm run crawl:incremental (after    │ Most pages show Unchanged, only changed pages show  │
+ │                    │ first crawl)                                  │ Saved                                               │
+ ├────────────────────┼───────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ Incremental ingest │ Terminal: npm run ingest:incremental          │ Sh
+ ├────────────────────┼───────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ npm run sync       │ After scripts/sync.js fix                     │ Runs crawl + ingest incrementally without           │
+ │                    │                                               │ DOCS_BASE_URL error                                 │
+ └────────────────────┴───────────────────────────────────────────────┴─────────────────────────────────────────────────────┘
+
+ ---
+ Plan: Knowledge Hub — Next Level Enhancement Roadmap
+
+ ▎ Status: Prototype complete (setup wizard, generic crawl, Electron .exe working).
+ ▎ Goal: Turn this into a product companies and individuals will pay for.
+
+ ---
+ Context
+
+ The working prototype can crawl any web-based doc portal, ingest it into a local vector store, and answer questions via a chat UI. The Electron .exe ships with a setup wizard. The user's ideas (from additional_enhancement.txt) point at two distinct tracks:
+
+ 1. Product maturity — features that make it something worth subscribing to (document upload, integrations, streaming, analytics)
+ 2. Product viability — features that enable selling it (licensing, payments, multi-tenant)
+
+ The confluence-rag-multi-level project (cr2) has already proven out many portable.
+
+ ---
+ What Already Exists (don't re-build)
+
+ ┌──────────────────────────────────────┬──────────────────────────┬──────────────────────────────┐
+ │               Feature                │         Location         │            Status            │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Hybrid BM25 + cosine + RRF           │ src/vectorstore/store.js │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Confidence gate (no-hallucination)   │ src/rag/query.js         │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Query expansion (3 search angles)    │ src/rag/query.js         │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Jaccard dedup context compression    │ src/rag/query.js         │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Breadcrumb prefix in chunks          │ src/ingestion/cleaner.js │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Chunk Explorer + pinning UI          │ public/js/app.js         │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Session persistence                  │ src/api/server.js        │ ✅ Done                      │
+ ├──────────────────────────────────────┼──────────────────────────┼──────────────────────────────┤
+ │ Reconfigure / reingest API endpoints │ src/api/server.js        │ ✅ Exist but not wired to UI │
+ └──────────────────────────────────────┴──────────────────────────┴──────────────────────────────┘
+
+ ---
+ Top 5 Major Leap Enhancements
+
+ 🚀 Leap 1 — Streaming Responses
+
+ Biggest perceived-performance win. Every modern AI tool has this.
+
+ Current state: askOllama() in src/rag/query.js (line 120) uses stream: false. Full response buffered before client sees anything. Waits 15–90 seconds of silence.
+
+ What changes:
+ - src/rag/query.js → askOllama: set stream: true, read newline-delimited JSON stream from Ollama, yield tokens via async generator
+ - src/api/server.js /api/chat → switch from res.json() to text/event-stream, flush token SSE events, send final metadata (sources, debug) in the last event
+ - public/js/app.js → replace fetch + await json() with response.body.getReader() loop, append each token to the answer bubble as it arrives
+ - Claude provider: use stream: true in the Anthropic messages call
+
+ Effort: ~1 day. No new dependencies.
+
+ ---
+ 🚀 Leap 2 — Local Document Upload (PDF, DOCX, ZIP, MD)
+
+ Removes the crawling requirement entirely. Users drag-drop their own docs.
+
+ What it enables: Someone with a folder of API specs, runbooks, onboarding docs, or exported PDFs can index them in 30 seconds without configuring a portal URL. This is the "Notion AI for your own files" use case.
+
+ What changes:
+ - New "Upload Documents" section in the setup wizard OR a persistent "Add docs" button in the chat UI sidebar
+ - POST /api/docs/upload endpoint (multipart) — accepts PDF, DOCX, MD, TXT, ZIP
+ - PDF text extraction: pdf-parse npm (pure JS, no native build needed)
+ - DOCX extraction: mammoth npm (pure JS)
+ - ZIP: unzip with adm-zip (pure JS), process contained docs
+ - Files saved to docs/uploads/<filename>/ with a synthetic manifest entry
+ - Existing ingest.js pipeline picks them up — no changes to embedder/store
+ - UI shows upload progress and "indexed N chunks from filename.pdf"
+
+ Effort: ~2-3 days. Three pure-JS deps.
+
+ ---
+ 🚀 Leap 3 — Incremental Re-crawl (Change Detection)
+
+ Full rebuild from scratch on every run is the #1 operational pain point.
+
+ Current state: ingest.js re-processes every manifest entry on every run. crawl.js re-fetches every page. No checksums anywhere.
+
+ What changes:
+ - Crawl side (src/crawler/crawl.js): compute MD5(html) for each saved page. Add contentHash field to manifest entries. On re-crawl, skip fetch + save if hash matches data/crawl_hashes.json (URL → hash map). Write changed pages only.
+ - Ingest side (src/ingestion/ingest.js): read data/ingest_hashes.json (file → hash). Skip embedding if contentHash matches last run. Upsert only changed chunks.
+ - Result: Typical re-crawl on a large portal (500 pages, 5% changed) drops from 45 min → 3 min.
+ - New CLI: npm run crawl -- --incremental (default after first build; --full to force)
+
+ Effort: ~1-2 days. Uses built-in crypto.createHash('md5').
+
+ ---
+ 🚀 Leap 4 — Multi-Source Integration via OAuth (Confluence, Google Drive, Notion)
+
+ Removes the portal-URL + credentials requirement. Users connect apps they already use.
+
+ What it enables: A user clicks "Connect Confluence", OAuth flow runs in a browser window (no credentials stored), the app fetches pages directly from the Confluence REST API. Same for Google Drive and Notion.
+
+ Architecture:
+ - New integration wizard step: radio cards — "Web Portal (crawl)" | "Upload Files" | "Confluence" | "Google Drive" | "Notion"
+ - Per-integration adapter pattern: src/integrations/confluence.js, src/integrations/gdrive.js, etc.
+ - Each adapter implements fetchPages() → returns { title, url, html, metadata }[]
+ - OAuth flow via Playwright or Electron shell (open browser → get token → save to config)
+ - Confluence: uses Space Key + page tree via REST API (no crawling, structured data, faster)
+ - Google Drive: fetch Docs/Sheets as exported HTML; index folder recursively
+ - Confluence adapter is largely portable from cr2 — it already has the REST API logic
+
+ Effort: ~1 week per integration. Confluence first (most requested for enterprise).
+
+ ---
+ 🚀 Leap 5 — Evaluation Harness + Analytics Dashboard
+
+ The only way to know if the knowledge base is actually good. Enterprise buyers need this.
+
+ What it enables: After N queries, see: answer rate %, top unanswered questions (documentation gaps), which sections are referenced most, average confidence scores, latency trends.
+
+ What changes:
+ - src/rag/query.js: append each query result to data/eval.jsonl — { ts, question, topSemScore, latencyMs, blocked, sectionsUsed, chunkIds }
+ - src/rag/eval.js (port from cr2, already built there): CLI with --blocked (gap analysis), --summary, --tail N
+ - New "Analytics" tab in the chat UI (public/index.html):
+   - KPI row: answer rate, avg confidence, avg latency, total queries
+   - Top 10 unanswered questions (blocked queries)
+   - Most-referenced sections bar chart
+   - Last 20 queries with score badges
+ - The "blocked queries" list is the most valuable thing — it tells users exactly what documentation they're missing
+
+ Effort: ~2 days (eval.js exists in cr2; Analytics tab is new HTML/CSS/JS).
+
+ ---
+ Quick Wins (< 1 day each)
+
+ QW-1: Wire Unused APIs to UI
+
+ /api/setup/rebuild and /api/setup/reset exist but are unreachable from the UI.
+
+ - Add "Re-index" button in sidebar footer → calls /api/setup/rebuild → shows live SSE progress inline
+ - Add "Reset & Reconfigure" option in settings → calls /api/setup/reset then redirects to /setup
+ - Add "Re-index this section" context menu in section list → POST /api/setup/build with --section flag
+
+ Files: public/index.html, public/js/app.js, src/api/server.js (add section-scoped rebuild endpoint)
+
+ QW-2: Per-Section Vector Store Isolation
+
+ Port from cr2 (SpaceVectorStore pattern). Each section gets its own data/vectors_<section>.json.
+
+ - Prevents a single 500MB JSON parse on startup
+ - Enables per-section re-ingest without touching others
+ - Enables per-section deletion
+
+ Files: src/vectorstore/store.js, src/ingestion/ingest.js
+
+ QW-3: Smart "Not Found" Suggestions
+
+ Port from cr2 (recommendSpaces()). When the confidence gate fires, suggest other sections that might have the answer.
+
+ Files: src/rag/query.js, src/api/server.js, public/js/app.js
+
+ QW-4: vLLM / Llama.cpp Support
+
+ Add LLM_PROVIDER=vllm in src/rag/query.js. vLLM and Ollama share the same OpenAI-compatible API shape. Essentially adding one more if branch in askOllama.
+
+ Files: src/rag/query.js, src/config/config.js, public/js/setup.js (add radio card)
+
+ ---
+ Product Track (Licensing & Payments)
+
+ This is a separate workstream from feature development:
+
+ ┌──────────────────────┬───────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │       Feature        │                                             Approach                                              │
+ ├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ User accounts /      │ SQLite-based local user DB with license key validation. Keys generated server-side, validated     │
+ │ licensing            │ against a lightweight cloud endpoint.                                                             │
+ ├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Subscription /       │ Stripe Checkout embedded in Electron (hosted payment page). One-time "lifetime" and annual        │
+ │ payment              │ subscription tiers.                                                                               │
+ ├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Feature gating       │ Free tier: 1 knowledge base, 500 queries/month. Paid: unlimited bases, analytics, integrations.   │
+ ├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Multi-tenant         │ Separate data/ directories per user profile. Electron app.getPath('userData') already isolates by │
+ │                      │  OS user.                                                                                         │
+ └──────────────────────┴───────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+ Recommended first step: Build a simple license-key validation (no payment yet) so you can start a beta program and collect feedback before wiring payments.
+
+ ---
+ Recommended Sequence
+
+ Phase 1 (This sprint — highest impact per effort):
+   └─ QW-1: Wire unused APIs to UI       (~4h)
+   └─ Leap 1: Streaming responses        (~1 day)
+   └─ Leap 3: Incremental re-crawl       (~1.5 days)
+
+ Phase 2 (Next sprint — product differentiation):
+   └─ Leap 2: Document upload (PDF/DOCX) (~2.5 days)
+   └─ Leap 5: Eval harness + Analytics   (~2 days)
+   └─ QW-2: Per-section store isolation  (~1 day)
+
+ Phase 3 (Month 2 — integrations):
+   └─ Leap 4: Confluence OAuth adapter   (~1 week)
+   └─ QW-3: Smart "not found" suggestions (~0.5 day)
+   └─ QW-4: vLLM support                 (~0.5 day)
+
+ Phase 4 (Month 3 — product viability):
+   └─ License key system
+   └─ Stripe payment integration
+   └─ Beta program + landing page
+
+ ---
+ Files That Will Change Per Enhancement
+
+ ┌───────────────────┬────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │    Enhancement    │                                         Primary files                                          │
+ ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Streaming         │ src/rag/query.js, src/api/server.js, public/js/app.js                                          │
+ ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Doc upload        │ src/api/server.js (new endpoint), src/ingestion/ingest.js, public/index.html, public/js/app.js │
+ ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤           │ Incremental crawl │ src/crawler/crawl.js, src/ingestion/ingest.js                                                  │
+ ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤            │ Wire unused APIs  │ public/index.html, public/js/app.js                                                            │         ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Eval harness      │ src/rag/query.js (logging), new src/rag/eval.js, public/index.html (tab)                       │
+ ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ Per-section store │ src/vectorstore/store.js, src/ingestion/ingest.js                                              │         ├───────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ vLLM support      │ src/rag/query.js, src/config/config.js                                                         │          └───────────────────┴────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+ ---
+ Verification
+
+ Each enhancement can be verified standalone:
+ - Streaming: Open chat UI, ask a question — words should appear token-by-token within 1–2 seconds                                - Doc upload: Upload a PDF → check chunk count increases → ask a question about its content
+ - Incremental crawl: Run crawl twice; second run should skip unchanged pages (log shows "N pages unchanged, M re-crawled")
+ - Eval harness: After 5 queries, run npm run eval -- --summary; run npm run eval -- --blocked to see gaps                        - Wire APIs: Click "Re-index" in sidebar — SSE log panel appears inline showing progress                                     ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+
+
+
+
+
+---
+What each enhancement does and where to see it
+
+1. Streaming responses — you already confirmed it works
+
+The blinking ▋ cursor you saw IS streaming. The flow is now: typing dots (~1–2 sec for retrieval) → cursor appears in a live bubble → words stream in → cursor gone → source chips appear. With qwen2.5:3b on a GPU it can look nearly instant — try asking for something that generates a long answer ("explain all the steps to...") to see the token-by-token effect clearly.
+
+2. Rebuild Index live log — visible in the app
+
+In the sidebar footer, click 🔄 Rebuild Index → confirm the dialog. A dark terminal panel appears above the chat messages with live scrolling output (instead of the old useless alert box). It shows crawl phase progress, then ingest phase, then ✅ Knowledge base rebuilt! N chunks indexed. with the stats refreshing automatically.
+
+3. Incremental re-crawl — CLI only, not visible in the app UI
+
+Run from terminal after you've done at least one full crawl:
+npm run crawl:incremental   # skips pages whose HTML hasn't changed
+npm run ingest:incremental  # skips pages whose file content hasn't changed
+Or both together with the now-fixed command:
+npm run sync                # incremental crawl + ingest using app_config.json
+npm run sync:force          # full rebuild (same as running the wizard again)
+
+The npm run sync error is fixed — scripts/sync.js now reads data/app_config.json, converts it to env vars, and passes them correctly to both child processes.
+
+
+**********************
+
+I asked: Ok. Before we move to next phases. Can we create .md files where you'll have all the information which we did so far, every single thing well strucutred and documented in .md files so we can start entire conversation in new context/session to reduce our context window size & for future reference also that would be better. So everytime we keep go ahead with conversation create .md file link it with main md file which will help anytime even we lost our session.

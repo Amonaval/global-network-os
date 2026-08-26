@@ -1,0 +1,630 @@
+<title>AI Company Operating System — A Field Guide</title>
+<style>
+@font-face {
+  font-family: 'Charter';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Georgia'), local('Times New Roman');
+}
+
+:root {
+  --bg:        #F7F4EF;
+  --surface:   #FFFFFF;
+  --surface2:  #F0EDE8;
+  --border:    #DDD9D1;
+  --text:      #14110D;
+  --sub:       #6B6459;
+  --dim:       #B0A99E;
+  --accent:    #0A6B66;
+  --accent-bg: rgba(10,107,102,.07);
+  --amber:     #C4681A;
+  --amber-bg:  rgba(196,104,26,.07);
+  --gold:      #8A6A00;
+  --gold-bg:   rgba(138,106,0,.08);
+  --rule:      #D4CEC5;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:#13110E;--surface:#1B1812;--surface2:#221F1A;--border:#332E28;
+    --text:#EDE8E0;--sub:#9C9589;--dim:#4A453E;--accent:#22B5AD;--accent-bg:rgba(34,181,173,.09);
+    --amber:#E8873A;--amber-bg:rgba(232,135,58,.09);--gold:#C8A830;--gold-bg:rgba(200,168,48,.09);
+    --rule:#2A2620;
+  }
+}
+:root[data-theme="dark"]{--bg:#13110E;--surface:#1B1812;--surface2:#221F1A;--border:#332E28;--text:#EDE8E0;--sub:#9C9589;--dim:#4A453E;--accent:#22B5AD;--accent-bg:rgba(34,181,173,.09);--amber:#E8873A;--amber-bg:rgba(232,135,58,.09);--gold:#C8A830;--gold-bg:rgba(200,168,48,.09);--rule:#2A2620;}
+:root[data-theme="light"]{--bg:#F7F4EF;--surface:#FFFFFF;--surface2:#F0EDE8;--border:#DDD9D1;--text:#14110D;--sub:#6B6459;--dim:#B0A99E;--accent:#0A6B66;--accent-bg:rgba(10,107,102,.07);--amber:#C4681A;--amber-bg:rgba(196,104,26,.07);--gold:#8A6A00;--gold-bg:rgba(138,106,0,.08);--rule:#D4CEC5;}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:17px;
+  line-height:1.78;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── LAYOUT ── */
+.page{max-width:1080px;margin:0 auto;padding:0 28px;}
+.prose{max-width:660px;}
+.wide{max-width:900px;}
+
+/* ── HERO ── */
+.hero{padding:72px 0 56px;border-bottom:1px solid var(--rule);}
+.hero .page{display:flex;flex-direction:column;gap:0;}
+.hero-eyebrow{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:20px;
+}
+.hero-title{
+  font-size:clamp(34px,5vw,58px);font-weight:400;letter-spacing:-.025em;
+  line-height:1.06;max-width:720px;text-wrap:balance;
+  color:var(--text);margin-bottom:20px;
+}
+.hero-title em{font-style:italic;color:var(--accent);}
+.hero-sub{
+  font-size:18px;color:var(--sub);line-height:1.7;max-width:520px;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  margin-bottom:32px;
+}
+.hero-meta{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:12px;color:var(--sub);
+}
+.hero-meta span{display:flex;align-items:center;gap:5px;}
+.hero-meta::before{content:"";display:none;}
+.dot-sep{color:var(--dim);}
+
+/* ── NAV STRIP ── */
+.nav-strip{
+  border-bottom:1px solid var(--rule);
+  background:var(--surface);
+  position:sticky;top:0;z-index:10;
+}
+.nav-inner{
+  max-width:1080px;margin:0 auto;padding:0 28px;
+  display:flex;align-items:center;gap:0;overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav-inner::-webkit-scrollbar{display:none;}
+.nav-inner a{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:12px;font-weight:500;color:var(--sub);
+  text-decoration:none;padding:12px 16px;
+  border-bottom:2px solid transparent;
+  white-space:nowrap;transition:color .15s,border-color .15s;
+  flex-shrink:0;
+}
+.nav-inner a:hover{color:var(--text);border-bottom-color:var(--accent);}
+
+/* ── SECTION BASE ── */
+.section{padding:60px 0;border-bottom:1px solid var(--rule);}
+.section:last-child{border-bottom:none;}
+.section-label{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:14px;
+}
+.section-title{
+  font-size:clamp(22px,3.5vw,30px);font-weight:400;letter-spacing:-.02em;
+  line-height:1.2;margin-bottom:16px;text-wrap:balance;
+}
+.section-intro{font-size:17px;color:var(--sub);line-height:1.75;margin-bottom:36px;max-width:580px;}
+
+/* ── RULE LINE ── */
+hr.rule{border:none;border-top:1px solid var(--rule);margin:36px 0;}
+
+/* ── BODY TEXT ── */
+.body-text p{margin-bottom:20px;font-size:17px;line-height:1.78;}
+.body-text p:last-child{margin-bottom:0;}
+.body-text strong{font-weight:700;color:var(--text);}
+
+/* ── INTRO DISTINCTION BLOCK ── */
+.not-block{
+  background:var(--surface2);border-radius:10px;
+  display:grid;grid-template-columns:1fr 1px 1fr;gap:0;
+  overflow:hidden;border:1px solid var(--border);margin:40px 0;
+}
+.not-col{padding:24px 28px;}
+.not-col h4{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.not-col.left h4{color:var(--sub);}
+.not-col.right h4{color:var(--accent);}
+.not-divider{background:var(--border);}
+.not-col ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.not-col li{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:13px;line-height:1.5;color:var(--sub);
+  padding-left:14px;position:relative;
+}
+.not-col li::before{content:"—";position:absolute;left:0;color:var(--dim);}
+.not-col.right li{color:var(--text);}
+.not-col.right li::before{color:var(--accent);}
+
+/* ── OS FILE MAP ── */
+.file-map{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:24px 28px;margin:36px 0;
+  font-family:ui-monospace,Menlo,'Courier New',monospace;
+  font-size:12.5px;line-height:1.7;overflow-x:auto;
+}
+.file-map .comment{color:var(--dim);font-style:italic;}
+.file-map .dir{color:var(--accent);font-weight:600;}
+.file-map .file{color:var(--text);}
+.file-map .file-note{color:var(--sub);}
+.file-map .indent{margin-left:20px;}
+.file-map .indent2{margin-left:40px;}
+.file-map .hier{color:var(--dim);}
+
+/* ── CONCEPT CARDS ── */
+.concepts{display:flex;flex-direction:column;gap:0;}
+.concept{
+  display:grid;grid-template-columns:80px 1fr;gap:0;
+  border-top:1px solid var(--rule);padding:40px 0;
+}
+.concept:first-child{border-top:none;padding-top:0;}
+.concept-num{
+  font-family:ui-monospace,Menlo,monospace;
+  font-size:40px;font-weight:700;color:var(--border);
+  letter-spacing:-.04em;line-height:1;padding-top:6px;
+  font-variant-numeric:tabular-nums;
+}
+.concept-body h3{
+  font-size:22px;font-weight:400;letter-spacing:-.015em;
+  margin-bottom:10px;line-height:1.2;
+}
+.concept-body h3 em{font-style:italic;color:var(--accent);}
+.concept-body p{font-size:16px;line-height:1.75;color:var(--sub);margin-bottom:14px;}
+.concept-body p strong{color:var(--text);}
+.concept-body p:last-child{margin-bottom:0;}
+
+/* ── INSIGHT BOX ── */
+.insight{
+  background:var(--accent-bg);border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;padding:14px 18px;margin:18px 0;
+}
+.insight p{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:14px;line-height:1.65;color:var(--text);margin:0;
+}
+.insight p em{color:var(--accent);font-style:italic;}
+
+/* ── TRY PROMPT ── */
+.try-block{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  overflow:hidden;margin:36px 0;
+}
+.try-block .try-label{
+  background:var(--surface2);padding:10px 18px;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);border-bottom:1px solid var(--border);
+}
+.try-list{display:flex;flex-direction:column;gap:0;}
+.try-item{border-bottom:1px solid var(--border);padding:16px 18px;display:flex;gap:14px;align-items:flex-start;}
+.try-item:last-child{border-bottom:none;}
+.try-n{
+  font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;
+  color:var(--dim);flex-shrink:0;padding-top:2px;font-variant-numeric:tabular-nums;
+}
+.try-content{}
+.try-prompt{
+  font-family:ui-monospace,Menlo,monospace;font-size:13px;
+  color:var(--text);margin-bottom:4px;line-height:1.5;
+}
+.try-why{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:12px;color:var(--sub);line-height:1.5;
+}
+
+/* ── ROLES ── */
+.roles-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;margin-top:8px;
+}
+.role-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:22px 22px 18px;transition:border-color .15s;
+}
+.role-card:hover{border-color:var(--accent);}
+.role-card h4{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:13px;font-weight:700;margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.role-icon{font-size:15px;}
+.role-card p{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:13px;line-height:1.6;color:var(--sub);
+}
+
+/* ── TEMPLATE ── */
+.template-steps{display:flex;flex-direction:column;gap:0;margin:32px 0;}
+.t-step{display:grid;grid-template-columns:44px 1fr;gap:0;border-top:1px solid var(--rule);padding:24px 0;}
+.t-step:first-child{border-top:none;padding-top:0;}
+.t-num{
+  font-family:ui-monospace,Menlo,monospace;font-size:24px;font-weight:700;
+  color:var(--amber);line-height:1;padding-top:4px;font-variant-numeric:tabular-nums;
+}
+.t-body h4{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:15px;font-weight:700;margin-bottom:6px;
+}
+.t-body p{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:14px;line-height:1.65;color:var(--sub);
+}
+.t-body code{
+  font-family:ui-monospace,Menlo,monospace;font-size:12.5px;
+  background:var(--surface2);padding:1px 6px;border-radius:3px;
+  color:var(--text);
+}
+
+.prompt-box{
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:16px 18px;margin-top:12px;
+  font-family:ui-monospace,Menlo,monospace;font-size:12.5px;
+  line-height:1.65;color:var(--sub);
+}
+.prompt-box strong{color:var(--accent);}
+
+/* ── FOOTER ── */
+.footer{padding:40px 0;border-top:1px solid var(--rule);}
+.footer-inner{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:28px;flex-wrap:wrap;
+}
+.footer-copy{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:13px;color:var(--sub);line-height:1.7;
+}
+.footer-copy strong{color:var(--text);}
+
+/* ── PULL QUOTE ── */
+.pull{
+  border-top:2px solid var(--text);border-bottom:1px solid var(--border);
+  padding:24px 0;margin:40px 0;
+}
+.pull p{
+  font-size:clamp(18px,2.5vw,24px);font-weight:400;letter-spacing:-.015em;
+  line-height:1.4;color:var(--text);font-style:italic;text-wrap:balance;
+}
+.pull cite{
+  display:block;margin-top:10px;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:12px;color:var(--sub);font-style:normal;letter-spacing:.05em;text-transform:uppercase;
+}
+
+@media(max-width:640px){
+  .not-block{grid-template-columns:1fr;grid-template-rows:auto auto;}
+  .not-divider{height:1px;width:auto;}
+  .concept{grid-template-columns:1fr;}
+  .concept-num{font-size:28px;padding-top:0;margin-bottom:4px;}
+  .section{padding:40px 0;}
+  .hero{padding:44px 0 36px;}
+  .hero-meta{gap:10px;}
+}
+</style>
+
+<!-- NAV STRIP -->
+<nav class="nav-strip">
+  <div class="nav-inner">
+    <a href="#what-is-it">What it is</a>
+    <a href="#five-ideas">Five ideas</a>
+    <a href="#try-it">Try it</a>
+    <a href="#by-role">By role</a>
+    <a href="#template">Get started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="page">
+    <div class="hero-eyebrow">AI Company Operating System</div>
+    <h1 class="hero-title">Stop prompting.<br><em>Start building infrastructure.</em></h1>
+    <p class="hero-sub">What happens when you formalize your best AI habits into a system that outlasts every session, every team member, and every context window.</p>
+    <div class="hero-meta">
+      <span>CRS Calculator</span>
+      <span class="dot-sep">·</span>
+      <span>Digital Shelf Auditor</span>
+      <span class="dot-sep">·</span>
+      <span>Syndigo Company OS</span>
+      <span class="dot-sep">·</span>
+      <span>Open template</span>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT IT IS -->
+<div class="section" id="what-is-it">
+  <div class="page">
+    <div class="prose">
+      <div class="section-label">The idea</div>
+      <h2 class="section-title">An operating system, not a prompt</h2>
+      <p class="section-intro">Every developer who uses Claude regularly has figured out that context matters. Some write CLAUDE.md files. Some engineer careful system prompts. Some structure their questions differently. The OS takes that instinct and formalizes it.</p>
+
+      <div class="body-text">
+        <p>The difference is the same as the difference between a good function and a well-architected codebase. A good function does its job well. A well-architected codebase encodes decisions, enforces consistency, and teaches new contributors how to think — not just what to do.</p>
+        <p>An AI Company OS is a set of markdown files that live in your project folder. When Claude Code opens that folder, it reads them — and suddenly Claude knows your product's history, your principles, your active mission, your permanent decisions, and exactly where you are in the build journey. You don't re-explain that every session. The OS does.</p>
+      </div>
+
+      <div class="not-block">
+        <div class="not-col left">
+          <h4>What it is not</h4>
+          <ul>
+            <li>A plugin or extension</li>
+            <li>A cloud service or API dependency</li>
+            <li>A replacement for documentation</li>
+            <li>Only useful for developers</li>
+            <li>Something you build once and maintain separately</li>
+          </ul>
+        </div>
+        <div class="not-divider"></div>
+        <div class="not-col right">
+          <h4>What it actually is</h4>
+          <ul>
+            <li>Plain markdown files in your project folder</li>
+            <li>Entirely local — nothing leaves your machine</li>
+            <li>A living record that updates as you build</li>
+            <li>Useful for any role on the team</li>
+            <li>Self-maintaining: the OS updates itself after every mission</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="body-text">
+        <p>The file structure follows a simple hierarchy: company principles at the top (these constrain everything), product vision and CEO dashboard in the middle (these set direction), engineering decisions and mission files at the bottom (these define the current work).</p>
+      </div>
+
+      <div class="file-map">
+        <span class="comment"># The 10-file structure — one folder, total context</span><br><br>
+        <span class="dir">your-product/</span><br>
+        <span class="indent hier">├── </span><span class="file">CLAUDE.md</span>  <span class="file-note">← loading order, conversation modes, principles</span><br>
+        <span class="indent hier">├── </span><span class="dir">.company/</span><br>
+        <span class="indent2 hier">├── </span><span class="file">00_COMPANY_CONSTITUTION.md</span>  <span class="file-note">← never-compromise principles</span><br>
+        <span class="indent2 hier">└── </span><span class="file">02_EXECUTIVE_COUNCIL.md</span>  <span class="file-note">← 4 perspectives Claude always considers</span><br>
+        <span class="indent hier">├── </span><span class="dir">.product/</span><br>
+        <span class="indent2 hier">├── </span><span class="file">00_PRODUCT_VISION.md</span>  <span class="file-note">← north star, evolution ladder</span><br>
+        <span class="indent2 hier">├── </span><span class="file">01_CEO_DASHBOARD.md</span>  <span class="file-note">← live health metrics, signals</span><br>
+        <span class="indent2 hier">├── </span><span class="file">04_NEXT_MISSION.md</span>  <span class="file-note">← active mission, blockers, success criteria</span><br>
+        <span class="indent2 hier">└── </span><span class="file">06_PROGRESS.md</span>  <span class="file-note">← completed missions + permanent lessons</span><br>
+        <span class="indent hier">└── </span><span class="dir">.engineering/</span><br>
+        <span class="indent2 hier">├── </span><span class="file">ARCHITECTURE.md</span>  <span class="file-note">← component map, patterns</span><br>
+        <span class="indent2 hier">└── </span><span class="file">DECISIONS.md</span>  <span class="file-note">← permanent decisions + what was rejected and why</span>
+      </div>
+
+      <div class="pull">
+        <p>"The conversation is disposable. The OS is not."</p>
+        <cite>The core principle</cite>
+      </div>
+
+      <div class="body-text">
+        <p>Long sessions accumulate noise. You end up prompting around your own history. The OS inverts this: at the end of a session, the important work — decisions made, lessons learned, next step determined — gets written into the files. Then close the session. Open fresh tomorrow. The OS survived. The noise didn't.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FIVE IDEAS -->
+<div class="section" id="five-ideas">
+  <div class="page">
+    <div class="section-label">Five ideas demonstrated live</div>
+    <h2 class="section-title">The concepts worth understanding</h2>
+    <p class="section-intro">Each of these is a distinct behavior that emerges from the OS architecture. They compound — each one reinforces the others.</p>
+
+    <div class="concepts wide">
+
+      <div class="concept">
+        <div class="concept-num">01</div>
+        <div class="concept-body">
+          <h3>Institutional memory — <em>decisions that never have to be re-debated</em></h3>
+          <p>Every engineering team has the same conversation twice. "Why don't we show competitor pricing?" "Why are we using this scoring formula?" "Why didn't we build a backend for this?" The answers get lost in Slack threads, retro notes, and the minds of whoever was in the room.</p>
+          <p><strong>DECISIONS.md changes this.</strong> Every architectural decision is recorded in a three-field format: the decision, the reason, and the constraint it operates under. Rejected ideas are recorded too — with the original rationale preserved. When a new stakeholder asks "why don't we show competitor prices?" Claude doesn't guess. It cites the decision, explains the reasoning, and proposes an alternative that achieves the underlying goal within the established constraints.</p>
+          <div class="insight">
+            <p>The first time you ask Claude to implement something it previously decided against — and watch it cite the rejection with full rationale and offer a better alternative — you stop thinking of it as a tool. <em>That's the executive partner moment.</em></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-num">02</div>
+        <div class="concept-body">
+          <h3>The mission loop — <em>development as a continuous improvement cycle</em></h3>
+          <p>Products don't get built in one session. They evolve — one mission at a time. The OS makes that evolution explicit and permanent.</p>
+          <p>Every mission has a status: complete, active, or planned. When you ask "what is the next mission?" Claude reads NEXT_MISSION.md and returns a full briefing — what's been built, what's blocked, what success looks like before shipping. Five words gets you the full state of your product.</p>
+          <p><strong>When a mission completes</strong>, a single standing rule in CLAUDE.md triggers three automatic steps: a user-facing feature doc is created, a permanent lesson is added to PROGRESS.md, and Claude evaluates whether the work is truly complete or can be enhanced — and states one specific improvement if it can. This is not a checklist you run. It's a behavior encoded into the OS.</p>
+          <div class="insight">
+            <p>The standing rule is a small thing that has a large effect: it turns "I finished a feature" into "I finished a feature, documented it, captured the lesson, and identified what's next." <em>Without being asked. Every time.</em></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-num">03</div>
+        <div class="concept-body">
+          <h3>The session restart — <em>one word, full context restored</em></h3>
+          <p>This is the one that surprises people who use Claude regularly. Close the session entirely. Not minimize — close. Open fresh. Navigate to the product folder. Type one word.</p>
+          <p>The word is <strong>start</strong>.</p>
+          <p>Claude reads the OS. It knows where you are. It knows what was built last session. It knows the rules you've added. It knows what to do next. Zero re-briefing. Zero copy-pasting from a notes file. Zero "as we discussed previously."</p>
+          <div class="insight">
+            <p>The instinct is to keep sessions alive as long as possible to preserve context. The OS inverts this. <em>Long sessions are a liability — they accumulate noise the OS eliminates.</em></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-num">04</div>
+        <div class="concept-body">
+          <h3>The strategic review — <em>when Claude finds what you missed</em></h3>
+          <p>This is the concept that most changes how people think about what the OS is for.</p>
+          <p>You can ask Claude to do a full strategic review at any point: read everything — the constitution, the CEO dashboard, the product vision, the mission history — and stress-test whether the current mission is the right one. Not validate it. <em>Stress-test it.</em></p>
+          <p><strong>What happens:</strong> Claude reads the full OS. It checks: does the current plan align with the constitution's principles? Does it address the weakest signals in the CEO dashboard? Does it compound the north star metric, or just keep you productive? Sometimes it finds something you didn't see. A dependency that creates a downstream problem. A metric in the red that the current mission makes worse at scale. A direction the backlog is drifting toward that contradicts a founding principle.</p>
+          <p>It isn't validating your plan. It's thinking about whether your plan is right. That's a different service.</p>
+          <div class="insight">
+            <p>The strategic review is most valuable when you're most confident. That's when the blind spots are hardest to see on your own — and <em>easiest for the OS to surface</em>, because it reads the dashboard while you're focused on the feature.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-num">05</div>
+        <div class="concept-body">
+          <h3>The compounding effect — <em>more useful the longer you use it</em></h3>
+          <p>Most tools have a fixed capability ceiling. The OS doesn't — because every session adds to it.</p>
+          <p>Every completed mission adds a lesson to PROGRESS.md. Every strategic review updates the CEO dashboard signals. Every decision you make adds to DECISIONS.md. The OS at month six reflects six months of real product history, real lessons learned, and real decisions defended. A developer who joins the team at month six gets a complete picture of how this product thinks — from one folder.</p>
+          <div class="insight">
+            <p>Ask Claude: <em>"I'm a new engineer joining this team. What do I need to know before writing my first line of code?"</em> — The OS answers with a briefing no documentation wiki could match, because it reflects how the product actually evolved, not how it was planned to evolve.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TRY IT -->
+<div class="section" id="try-it">
+  <div class="page">
+    <div class="prose">
+      <div class="section-label">Five prompts to try yourself</div>
+      <h2 class="section-title">Open the folder. Type these.</h2>
+      <p class="section-intro">Open either product folder in Claude Code. These prompts work against the OS without any additional context. Each one shows a different capability.</p>
+
+      <div class="try-block">
+        <div class="try-label">Copy-paste prompts — use in Claude Code with the product folder open</div>
+        <div class="try-list">
+          <div class="try-item">
+            <div class="try-n">01</div>
+            <div class="try-content">
+              <div class="try-prompt">What is the next mission?</div>
+              <div class="try-why">Five words. Returns a full mission briefing — status, what's built, what's blocked, success criteria. Shows the OS knows the product's current state without you explaining it.</div>
+            </div>
+          </div>
+          <div class="try-item">
+            <div class="try-n">02</div>
+            <div class="try-content">
+              <div class="try-prompt">A stakeholder wants us to add competitor pricing data — show how the product is priced versus the top 3 competitors on the same page. How do we implement this?</div>
+              <div class="try-why">Watch Claude cite a specific decision by number, give the original rationale, and propose an alternative that achieves the underlying user goal. This is the institutional memory moment.</div>
+            </div>
+          </div>
+          <div class="try-item">
+            <div class="try-n">03</div>
+            <div class="try-content">
+              <div class="try-prompt">Do a full strategic review. Check alignment with the company constitution, product vision, CEO dashboard, and mission history. Be critical — stress-test whether we're building the right things.</div>
+              <div class="try-why">The executive partner prompt. Claude reads everything and evaluates — not validates — the current direction. Pay attention to what it flags that you didn't ask about.</div>
+            </div>
+          </div>
+          <div class="try-item">
+            <div class="try-n">04</div>
+            <div class="try-content">
+              <div class="try-prompt">I'm a new engineer joining this team. What do I need to know before writing my first line of code?</div>
+              <div class="try-why">The onboarding moment. Claude synthesizes the full OS into a developer briefing — architecture decisions, active mission, what not to change and why. No wiki needed.</div>
+            </div>
+          </div>
+          <div class="try-item">
+            <div class="try-n">05</div>
+            <div class="try-content">
+              <div class="try-prompt">start</div>
+              <div class="try-why">Close the session first. Reopen. Navigate to the folder. Type this one word. The OS does the rest. This is the prompt that demonstrates continuity — full context restored from files, zero re-briefing required.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BY ROLE -->
+<div class="section" id="by-role">
+  <div class="page">
+    <div class="section-label">Who this is for</div>
+    <h2 class="section-title">The same OS, different value by role</h2>
+    <p class="section-intro">Every role on a product team interacts with the OS differently. The files are the same. What each person gets out of them is distinct.</p>
+
+    <div class="roles-grid wide">
+      <div class="role-card">
+        <h4><span class="role-icon">⚙️</span> Developers</h4>
+        <p>DECISIONS.md is the guardrail that stops re-debating settled questions. ARCHITECTURE.md is the map Claude uses before touching any component. The mission files mean you always know what you're building toward — not just what you're building now.</p>
+      </div>
+      <div class="role-card">
+        <h4><span class="role-icon">📊</span> Product managers</h4>
+        <p>NEXT_MISSION.md is the single source of truth that survives every sprint retro, every context switch, every new conversation. The strategic review is a standing capability — run it before any roadmap decision, and get an alignment check grounded in the full product history.</p>
+      </div>
+      <div class="role-card">
+        <h4><span class="role-icon">📈</span> Leadership</h4>
+        <p>The CEO Dashboard encodes the metrics that matter to you. Every strategic review reflects those signals back — which means every Claude session in this folder is oriented toward the objectives that drive business value, not just technical completeness.</p>
+      </div>
+      <div class="role-card">
+        <h4><span class="role-icon">🆕</span> New team members</h4>
+        <p>The OS is the onboarding document that stays current. It reflects how the product actually evolved — including the decisions that were made, the ideas that were rejected, and the lessons that were learned. Ask the "new engineer" prompt and get a complete briefing from a single source.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEMPLATE -->
+<div class="section" id="template">
+  <div class="page">
+    <div class="prose">
+      <div class="section-label">Get started</div>
+      <h2 class="section-title">Any product. Any company. 15 minutes.</h2>
+      <p class="section-intro">The OS template is a blank canvas — 28 files with placeholder conventions. One setup prompt populates them for any context. What you see in this demo was generated this way.</p>
+
+      <div class="template-steps">
+        <div class="t-step">
+          <div class="t-num">01</div>
+          <div class="t-body">
+            <h4>Copy the template folder</h4>
+            <p>The blank canvas is at <code>template/</code>. 28 files. Every company-specific statement is a <code>[PLACEHOLDER]</code> — nothing is generic filler, everything has a specific slot for real information.</p>
+          </div>
+        </div>
+        <div class="t-step">
+          <div class="t-num">02</div>
+          <div class="t-body">
+            <h4>Run the setup prompt in Claude Code</h4>
+            <p>Open the template folder in Claude Code. Copy and adapt this prompt — fill in the three inputs and Claude does the research, populates every file, and generates a complete OS in roughly 15 minutes:</p>
+            <div class="prompt-box">
+              <strong>I want to create an AI Company Operating System for [COMPANY_NAME].</strong><br><br>
+              STEP 1 — Research: Search [COMPANY_WEBSITE] and gather: what they do, who their customers are, competitive moat, technical architecture, and recent strategic direction.<br><br>
+              STEP 2 — Objectives: [PASTE YOUR OBJECTIVE SCORES, OKRS, OR GOALS HERE]<br><br>
+              STEP 3 — Using the template at [TEMPLATE_PATH], create a complete OS at [OUTPUT_PATH]. Replace every [PLACEHOLDER] with company-specific content. No generic filler — every sentence must be accurate to this company.
+            </div>
+          </div>
+        </div>
+        <div class="t-step">
+          <div class="t-num">03</div>
+          <div class="t-body">
+            <h4>Open the output folder and type: <code>start</code></h4>
+            <p>The OS is ready to use immediately. The first mission queue is populated. The constitution, CEO dashboard, and decision records are all specific to your product. From here, every session continues the work — and the OS compounds over time.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body-text">
+        <p>The Syndigo Company OS in this demo — 32 files, with BetterWork objectives embedded and architecture decisions populated from real engineering documentation — took 15 minutes with this prompt. The CRS Calculator OS and Digital Shelf Auditor OS took the same. The template removes the setup cost entirely. What remains is the work.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="page">
+    <div class="footer-inner">
+      <div class="footer-copy">
+        <strong>AI Company Operating System</strong><br>
+        Plain markdown. Model-agnostic. Entirely local.<br>
+        No installation. No accounts. No data leaves your machine.
+      </div>
+      <div class="footer-copy" style="text-align:right;">
+        Demonstrated using<br>
+        CRS Calculator · Digital Shelf Auditor · Syndigo OS
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,431 @@
+<title>KH RAG Strategy | Which Patterns Actually Apply</title>
+<style>
+/* ── TOKENS ─────────────────────────────────────── */
+:root {
+  --bg:        #F3F5F9;
+  --surface:   #FFFFFF;
+  --surface2:  #EBEEf7;
+  --border:    #DDE1F0;
+  --text:      #1A1C2E;
+  --text2:     #5C6080;
+  --text3:     #9298B8;
+  --accent:    #5B6AF0;
+  --accent-d:  #EEF0FF;
+  --green:     #059669;
+  --green-d:   #ECFDF5;
+  --amber:     #D97706;
+  --amber-d:   #FFFBEB;
+  --red:       #DC2626;
+  --red-d:     #FEF2F2;
+  --teal:      #0E9F8E;
+  --teal-d:    #F0FDFB;
+  --shadow:    0 1px 3px rgba(26,28,46,.07), 0 4px 14px rgba(26,28,46,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:       #0C0E1A;  --surface:  #131626;  --surface2: #1A1D30;
+    --border:   #252847;  --text:     #E0E4F4;  --text2:    #7880A4;
+    --text3:    #4B5278;  --accent:   #7B88F5;  --accent-d: #1A1E3A;
+    --green:    #34D399;  --green-d:  #052E1A;
+    --amber:    #FBBF24;  --amber-d:  #1C1305;
+    --red:      #F87171;  --red-d:    #2A0A0A;
+    --teal:     #2DD4BF;  --teal-d:   #021F1D;
+    --shadow:   0 1px 4px rgba(0,0,0,.3), 0 4px 20px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:       #0C0E1A;  --surface:  #131626;  --surface2: #1A1D30;
+  --border:   #252847;  --text:     #E0E4F4;  --text2:    #7880A4;
+  --text3:    #4B5278;  --accent:   #7B88F5;  --accent-d: #1A1E3A;
+  --green:    #34D399;  --green-d:  #052E1A;
+  --amber:    #FBBF24;  --amber-d:  #1C1305;
+  --red:      #F87171;  --red-d:    #2A0A0A;
+  --teal:     #2DD4BF;  --teal-d:   #021F1D;
+  --shadow:   0 1px 4px rgba(0,0,0,.3), 0 4px 20px rgba(0,0,0,.25);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI Variable','Segoe UI',system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);font-size:14px;line-height:1.65;
+  -webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+
+.wrap{max-width:960px;margin:0 auto;padding:2rem 1.5rem 4rem}
+
+/* ── HEADER ─ */
+.page-header{padding:2rem 0 1.5rem}
+.page-eyebrow{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;color:var(--accent);margin-bottom:.4rem}
+.page-title{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.025em;
+  color:var(--text);text-wrap:balance;line-height:1.15}
+.page-sub{margin-top:.5rem;color:var(--text2);font-size:.9rem;max-width:60ch}
+
+/* ── THE GOVERNING QUESTION ─ */
+.govq{background:var(--accent-d);border:1px solid var(--accent);border-radius:8px;
+  padding:1rem 1.3rem;margin:1.5rem 0;display:flex;gap:.75rem;align-items:flex-start}
+.govq-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.govq-text{font-size:.88rem;color:var(--text);line-height:1.6}
+.govq-text strong{color:var(--accent)}
+
+/* ── PERSONA GRID ─ */
+.section-title{font-size:1rem;font-weight:800;letter-spacing:-.015em;margin:2rem 0 .75rem;
+  color:var(--text)}
+.section-title span{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:var(--text3);margin-left:.5rem;vertical-align:middle}
+.persona-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:.75rem;margin-bottom:2rem}
+.persona{background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:.9rem 1rem;box-shadow:var(--shadow)}
+.persona-name{font-weight:700;font-size:.88rem;color:var(--text);margin-bottom:.15rem}
+.persona-role{font-size:.72rem;color:var(--accent);font-weight:600;margin-bottom:.4rem}
+.persona-docs{font-size:.78rem;color:var(--text2);line-height:1.45}
+.persona-tag{display:inline-block;margin-top:.5rem;font-size:.65rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;padding:.15em .5em;border-radius:3px;
+  background:var(--green-d);color:var(--green)}
+
+/* ── PATTERN CARDS ─ */
+.tiers{display:flex;flex-direction:column;gap:1.5rem;margin-bottom:2.5rem}
+.tier{border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+.tier-header{padding:.6rem 1.1rem;display:flex;align-items:center;gap:.6rem}
+.tier-header.t1{background:var(--green-d);border-bottom:1px solid var(--green)}
+.tier-header.t2{background:var(--amber-d);border-bottom:1px solid var(--amber)}
+.tier-header.t3{background:var(--teal-d);border-bottom:1px solid var(--teal)}
+.tier-header.tout{background:var(--red-d);border-bottom:1px solid var(--red)}
+.tier-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.t1 .tier-dot{background:var(--green)}
+.t2 .tier-dot{background:var(--amber)}
+.t3 .tier-dot{background:var(--teal)}
+.tout .tier-dot{background:var(--red)}
+.tier-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.t1 .tier-label{color:var(--green)}
+.t2 .tier-label{color:var(--amber)}
+.t3 .tier-label{color:var(--teal)}
+.tout .tier-label{color:var(--red)}
+.tier-desc{font-size:.78rem;color:var(--text2);margin-left:auto}
+.tier-body{background:var(--surface);padding:.75rem}
+.pattern-list{display:flex;flex-direction:column;gap:.5rem}
+.pattern{display:grid;grid-template-columns:auto 1fr auto;gap:.75rem;
+  align-items:start;padding:.65rem .8rem;border-radius:6px;background:var(--surface2);
+  border:1px solid var(--border)}
+.pattern-name{font-weight:700;font-size:.85rem;color:var(--text);white-space:nowrap}
+.pattern-why{font-size:.78rem;color:var(--text2);line-height:1.5;padding-top:.05rem}
+.pattern-why strong{color:var(--text);font-weight:600}
+.pill{font-size:.65rem;font-weight:700;letter-spacing:.04em;padding:.2em .55em;
+  border-radius:12px;white-space:nowrap;align-self:flex-start;margin-top:.1rem}
+.pill-green{background:var(--green-d);color:var(--green)}
+.pill-amber{background:var(--amber-d);color:var(--amber)}
+.pill-teal{background:var(--teal-d);color:var(--teal)}
+.pill-red{background:var(--red-d);color:var(--red)}
+.pill-gray{background:var(--surface2);color:var(--text3);border:1px solid var(--border)}
+
+/* ── STATUS TABLE ─ */
+.status-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:2rem}
+table{width:100%;border-collapse:collapse;font-size:.8rem;min-width:500px}
+thead{background:var(--surface2)}
+th{padding:.55rem .9rem;text-align:left;font-size:.65rem;letter-spacing:.07em;
+  text-transform:uppercase;font-weight:700;color:var(--text2);
+  white-space:nowrap;border-bottom:1px solid var(--border)}
+td{padding:.55rem .9rem;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--surface2)}
+.check{color:var(--green);font-weight:700}
+.cross{color:var(--red);font-weight:700}
+
+/* ── EVOLUTION PATH ─ */
+.evo{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;margin-bottom:2rem}
+.evo-row{display:grid;grid-template-columns:28px 1fr auto;gap:.75rem;
+  align-items:center;padding:.7rem 1rem;border-bottom:1px solid var(--border);
+  background:var(--surface);font-size:.82rem}
+.evo-row:last-child{border-bottom:none}
+.evo-row.current{background:var(--accent-d)}
+.evo-num{width:20px;height:20px;border-radius:50%;background:var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;font-weight:800;color:var(--text3);flex-shrink:0}
+.evo-row.current .evo-num{background:var(--accent);color:#fff}
+.evo-stage{font-weight:700;color:var(--text)}
+.evo-detail{font-size:.73rem;color:var(--text2);margin-top:.1rem}
+.evo-badge{white-space:nowrap}
+
+/* ── FOOTER ─ */
+.page-footer{padding-top:1.5rem;border-top:1px solid var(--border);display:flex;
+  justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.75rem;color:var(--text3)}
+.footer-mark{font-weight:700;color:var(--accent)}
+</style>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-eyebrow">Knowledge Hub · Engineering Reference</div>
+    <h1 class="page-title">RAG Strategy: Which Patterns Actually Apply to KH</h1>
+    <p class="page-sub">Not all 2026 RAG trends are relevant. This maps the landscape to our actual customers, their documents, and our architecture constraints.</p>
+  </div>
+
+  <!-- GOVERNING QUESTION -->
+  <div class="govq">
+    <div class="govq-icon">🧭</div>
+    <div class="govq-text">
+      <strong>The question that governs every RAG decision:</strong><br>
+      "Which paying customer persona does this improve, and what specific query does it make answerable that currently fails?" If the answer isn't immediate, it's not a current priority.
+    </div>
+  </div>
+
+  <!-- PERSONAS -->
+  <div class="section-title">Our Customers &amp; Their Documents <span>the real query surface</span></div>
+  <div class="persona-grid">
+    <div class="persona">
+      <div class="persona-name">Aarav</div>
+      <div class="persona-role">IT Consultant · Priority 1</div>
+      <div class="persona-docs">Architecture docs, integration specs, deliverables across NDA'd client engagements</div>
+      <div class="persona-tag">First customer</div>
+    </div>
+    <div class="persona">
+      <div class="persona-name">Anjali</div>
+      <div class="persona-role">CA / Doctor · Priority 2</div>
+      <div class="persona-docs">Tax filings, work papers, clinical notes, PDFs with tables and financial charts</div>
+      <div class="persona-tag">First customer</div>
+    </div>
+    <div class="persona">
+      <div class="persona-name">Marcus</div>
+      <div class="persona-role">Lawyer · Priority 3</div>
+      <div class="persona-docs">Case files, legal research memos, contracts with hierarchical clause structure</div>
+    </div>
+    <div class="persona">
+      <div class="persona-name">Sarah</div>
+      <div class="persona-role">Eng Lead · Priority 4</div>
+      <div class="persona-docs">ADRs, runbooks, post-mortems, Confluence pages — decision documents, not code</div>
+    </div>
+    <div class="persona">
+      <div class="persona-name">Dr. Priya</div>
+      <div class="persona-role">Researcher · Segment 1</div>
+      <div class="persona-docs">Papers, experiment logs, protocols — figures, tables, cross-references</div>
+    </div>
+  </div>
+
+  <!-- TIERS -->
+  <div class="section-title">RAG Pattern Relevance <span>mapped to KH personas</span></div>
+  <div class="tiers">
+
+    <!-- TIER 1 -->
+    <div class="tier">
+      <div class="tier-header t1">
+        <div class="tier-dot"></div>
+        <div class="tier-label">Tier 1 — Critical Now</div>
+        <div class="tier-desc">Adopt before or at first paying customer</div>
+      </div>
+      <div class="tier-body">
+        <div class="pattern-list">
+          <div class="pattern">
+            <div class="pattern-name">Contextual<br>Chunk Enrichment</div>
+            <div class="pattern-why">
+              Aarav's fragment <em>"it reduced latency by 40%"</em> is meaningless without knowing which client, which project. Anjali's note <em>"switched to this protocol"</em> without patient profile context fails retrieval.<br>
+              <strong>67% reduction in retrieval failures</strong> (Anthropic). Wraps existing system — no architecture change, no retraining. LLM prepends 1–2 sentences of document context to each chunk before embedding.
+            </div>
+            <div class="pill pill-green">D.12</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-name">RAGAS<br>Evaluation</div>
+            <div class="pattern-why">
+              The confidence gate is the right principle but currently unmeasured. RAGAS (Faithfulness, Context Precision, Context Recall) makes every future retrieval change measurable.<br>
+              <strong>Directly feeds IDS</strong> — retrieval quality scores belong in the Intelligence Density Score alongside query volume. Required before first paying customer.
+            </div>
+            <div class="pill pill-green">Next</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-name">Cross-Encoder<br>Reranking</div>
+            <div class="pattern-why">
+              After hybrid BM25+Dense+RRF retrieves 20–50 candidates, a cross-encoder re-scores them jointly with the query and selects top 5–10.<br>
+              For regulated professionals, <strong>+10–25% precision</strong> directly reduces the probability of a wrong answer surfacing with high confidence — a professional liability event. Self-hosted, ~5ms, zero infrastructure.
+            </div>
+            <div class="pill pill-green">D.13</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER 2 -->
+    <div class="tier">
+      <div class="tier-header t2">
+        <div class="tier-dot"></div>
+        <div class="tier-label">Tier 2 — High Value</div>
+        <div class="tier-desc">Stage 2 after Tier 1 is proven</div>
+      </div>
+      <div class="tier-body">
+        <div class="pattern-list">
+          <div class="pattern">
+            <div class="pattern-name">Document-Type<br>Chunking</div>
+            <div class="pattern-why">
+              Legal briefs (Marcus): hierarchical/parent-child to preserve clause hierarchy.<br>
+              Medical notes (Anjali): recursive split with high overlap to preserve diagnostic narrative.<br>
+              Research papers (Dr. Priya): semantic chunking to respect topic transitions.<br>
+              <strong>NOT AST-based</strong> code chunking — see Out of Scope.
+            </div>
+            <div class="pill pill-amber">D.14</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-name">Multimodal RAG<br>(PDF + Charts)</div>
+            <div class="pattern-why">
+              Anjali's financial statements have key data in tables and charts text-only RAG cannot see. Dr. Priya's papers have results in figures. Marcus's exhibits include PDF tables.<br>
+              <strong>Text-only RAG misses a significant failure mode</strong> for regulated professionals. Requires local multimodal embedding model — evaluate against zero-infrastructure constraint (D.1).
+            </div>
+            <div class="pill pill-amber">Stage 2</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-name">HyDE for<br>Vague Recall</div>
+            <div class="pattern-why">
+              When Aarav asks "what strategy did I use for clients like this?" — vague recall query where his vocabulary doesn't match his documents. Hypothetical answer bridges the gap.<br>
+              <strong>Must be a fallback only</strong> — apply when initial retrieval fails the confidence gate, never as default. The gate still evaluates actual retrieved content.
+            </div>
+            <div class="pill pill-amber">Conditional</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER 3 -->
+    <div class="tier">
+      <div class="tier-header t3">
+        <div class="tier-dot"></div>
+        <div class="tier-label">Tier 3 — Future Stages</div>
+        <div class="tier-desc">Validate earlier tiers first · incompatible with current constraints</div>
+      </div>
+      <div class="tier-body">
+        <div class="pattern-list">
+          <div class="pattern">
+            <div class="pattern-name">GraphRAG</div>
+            <div class="pattern-why">
+              Legal documents (cases, parties, judges, precedents) and medical records (conditions, drugs, outcomes) have dense entity graphs vector RAG cannot traverse. Enterprise law firms at scale will benefit.<br>
+              <strong>Not now</strong> — requires graph DB infrastructure, incompatible with zero-infrastructure constraint. Revisit at enterprise legal/medical self-hosted tier.
+            </div>
+            <div class="pill pill-teal">Stage 3+</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-name">Agentic /<br>Multi-Hop RAG</div>
+            <div class="pattern-why">
+              "What strategy worked for clients with this profile AND how did the 2022 regulation change affect it?" requires multi-hop — second retrieval depends on first result.<br>
+              <strong>Not now</strong> — adds latency and hallucination risk at each hop. Single-hop quality must be proven irreplaceable first.
+            </div>
+            <div class="pill pill-teal">Stage 3+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUT OF SCOPE -->
+    <div class="tier">
+      <div class="tier-header tout">
+        <div class="tier-dot"></div>
+        <div class="tier-label">Out of Scope — Do Not Pursue</div>
+        <div class="tier-desc">These are correct engineering patterns — for a different product</div>
+      </div>
+      <div class="tier-body">
+        <div class="pattern-list">
+          <div class="pattern">
+            <div class="pattern-name">AST-Based<br>Code Chunking</div>
+            <div class="pattern-why">
+              Tree-sitter splits at function/class boundaries for code repository traversal. <strong>KH indexes code files as documents — appropriate.</strong> Treating code as a traversable structural graph is Cursor/Copilot territory.<br>
+              Sarah's problem is "why did we build it this way?" — the answer is in an ADR PDF, not in the AST.
+            </div>
+            <div class="pill pill-red">D.15</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-name">Function Call<br>Graph Traversal</div>
+            <div class="pattern-why">
+              Extracting call graphs, class inheritance, import graphs for structural code navigation. <strong>Cursor, GitHub Copilot, Windsurf own this loop</strong> with hundreds of engineers and deep IDE integration. We do not compete here. GTM: "Engineering Intelligence Platform" label is explicitly dangerous territory.
+            </div>
+            <div class="pill pill-red">D.15</div>
+          </div>
+          <div class="pattern">
+            <div class="pattern-name">Code Generation<br>Quality Improvements</div>
+            <div class="pattern-why">
+              Improving code generation accuracy, multi-file context, terminal integration. <strong>Not our moat.</strong> The Founders Compass: "Not a better code generator. We do not compete here." Our code generation exists as a feature that leverages our intelligence layer — not as a standalone competing product.
+            </div>
+            <div class="pill pill-red">Out of scope</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS TABLE -->
+  <div class="section-title">Current Implementation Status</div>
+  <div class="status-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Status</th><th>Location</th><th>Decision</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Hybrid BM25 + Dense + RRF</strong></td><td><span class="check">✓ Live</span></td><td><code>src/rag/query.js</code></td><td>D.2</td></tr>
+        <tr><td><strong>Dual Confidence Gate</strong></td><td><span class="check">✓ Live</span></td><td><code>src/rag/query.js</code></td><td>D.4 · Never loosen</td></tr>
+        <tr><td><strong>Soft-block detection</strong></td><td><span class="check">✓ Live</span></td><td><code>DEFLECTION_PATTERNS</code></td><td>—</td></tr>
+        <tr><td><strong>Incremental ingestion</strong></td><td><span class="check">✓ Live</span></td><td>MD5 hashing</td><td>D.6</td></tr>
+        <tr><td><strong>Contextual chunk enrichment</strong></td><td><span class="cross">✗ Not yet</span></td><td>—</td><td>D.12 · Next priority</td></tr>
+        <tr><td><strong>RAGAS evaluation</strong></td><td><span class="cross">✗ Not yet</span></td><td>—</td><td>Before first paying customer</td></tr>
+        <tr><td><strong>Cross-encoder reranking</strong></td><td><span class="cross">✗ Not yet</span></td><td>—</td><td>D.13 · After contextual enrichment</td></tr>
+        <tr><td><strong>Document-type chunking</strong></td><td><span class="cross">✗ Not yet</span></td><td>—</td><td>D.14 · Stage 2</td></tr>
+        <tr><td><strong>Multimodal RAG</strong></td><td><span class="cross">✗ Not yet</span></td><td>—</td><td>Stage 2+</td></tr>
+        <tr><td><strong>GraphRAG</strong></td><td><span class="cross">✗ Not yet</span></td><td>—</td><td>Stage 3+ enterprise</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- EVOLUTION PATH -->
+  <div class="section-title">Evolution Path <span>each step earns the next</span></div>
+  <div class="evo">
+    <div class="evo-row current">
+      <div class="evo-num">0</div>
+      <div>
+        <div class="evo-stage">Current — Hybrid BM25 + Dense + RRF + Confidence Gate</div>
+        <div class="evo-detail">Working retrieval foundation. Correct principles. No measurement, no context enrichment yet.</div>
+      </div>
+      <span class="pill pill-green">Live</span>
+    </div>
+    <div class="evo-row">
+      <div class="evo-num">1</div>
+      <div>
+        <div class="evo-stage">Contextual Chunk Enrichment + RAGAS Evaluation</div>
+        <div class="evo-detail">67% retrieval failure reduction. Every subsequent change becomes measurable. Required before first paying customer.</div>
+      </div>
+      <span class="pill pill-amber">Next</span>
+    </div>
+    <div class="evo-row">
+      <div class="evo-num">2</div>
+      <div>
+        <div class="evo-stage">Cross-Encoder Reranking</div>
+        <div class="evo-detail">+10–25% precision. Tightens the confidence gate further. Critical for regulated professional trust.</div>
+      </div>
+      <span class="pill pill-gray">Stage 1</span>
+    </div>
+    <div class="evo-row">
+      <div class="evo-num">3</div>
+      <div>
+        <div class="evo-stage">Document-Type Chunking per Professional Segment</div>
+        <div class="evo-detail">Hierarchical for legal, semantic for research, overlap for medical. Improves precision for each regulated segment.</div>
+      </div>
+      <span class="pill pill-gray">Stage 2</span>
+    </div>
+    <div class="evo-row">
+      <div class="evo-num">4</div>
+      <div>
+        <div class="evo-stage">Multimodal RAG — PDF Charts, Medical Imaging, Financial Tables</div>
+        <div class="evo-detail">Unlocks Anjali's financial charts, Dr. Priya's figures, Marcus's PDF exhibits. Major moat expansion.</div>
+      </div>
+      <span class="pill pill-gray">Stage 2</span>
+    </div>
+    <div class="evo-row">
+      <div class="evo-num">5</div>
+      <div>
+        <div class="evo-stage">GraphRAG — Enterprise Legal and Medical</div>
+        <div class="evo-detail">Entity graph traversal for large law firms and hospitals. Self-hosted deployment model. Enterprise contracts.</div>
+      </div>
+      <span class="pill pill-teal">Stage 3+</span>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <span><span class="footer-mark">Knowledge Hub</span> · RAG Strategy Reference</span>
+    <span>Full detail: <code>.claude/.engineering/RAG_STRATEGY.md</code></span>
+    <span>Industry reference: <code>artifact/RAG_TRENDS_2025_2026.md</code></span>
+  </footer>
+
+</div>

@@ -1,0 +1,859 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eval &amp; Observability — Knowledge Hub</title>
+<style>
+/* ── Tokens ──────────────────────────────────────────────────────── */
+:root {
+  --bg:        #F8FAFC;
+  --bg-alt:    #F1F5F9;
+  --bg-card:   #FFFFFF;
+  --border:    #E2E8F0;
+  --border-2:  #CBD5E1;
+  --text:      #0F172A;
+  --text-2:    #475569;
+  --text-3:    #94A3B8;
+  --mono-bg:   #F1F5F9;
+  --teal:      #0D9488;
+  --teal-dim:  #CCFBF1;
+  --amber:     #D97706;
+  --amber-dim: #FEF3C7;
+  --red:       #DC2626;
+  --red-dim:   #FEE2E2;
+  --green:     #16A34A;
+  --green-dim: #DCFCE7;
+  --slate:     #64748B;
+  --part-num:  #CBD5E1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #0F172A;
+    --bg-alt:    #1E293B;
+    --bg-card:   #1E293B;
+    --border:    #334155;
+    --border-2:  #475569;
+    --text:      #F1F5F9;
+    --text-2:    #94A3B8;
+    --text-3:    #64748B;
+    --mono-bg:   #0F172A;
+    --teal:      #2DD4BF;
+    --teal-dim:  #0F2E2B;
+    --amber:     #FCD34D;
+    --amber-dim: #2D1F0A;
+    --red:       #F87171;
+    --red-dim:   #2D0A0A;
+    --green:     #4ADE80;
+    --green-dim: #052E16;
+    --slate:     #94A3B8;
+    --part-num:  #334155;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:        #0F172A;
+  --bg-alt:    #1E293B;
+  --bg-card:   #1E293B;
+  --border:    #334155;
+  --border-2:  #475569;
+  --text:      #F1F5F9;
+  --text-2:    #94A3B8;
+  --text-3:    #64748B;
+  --mono-bg:   #0F172A;
+  --teal:      #2DD4BF;
+  --teal-dim:  #0F2E2B;
+  --amber:     #FCD34D;
+  --amber-dim: #2D1F0A;
+  --red:       #F87171;
+  --red-dim:   #2D0A0A;
+  --green:     #4ADE80;
+  --green-dim: #052E16;
+  --slate:     #94A3B8;
+  --part-num:  #334155;
+}
+
+/* ── Reset & Base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: var(--teal); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; border-radius: 2px; }
+code, pre { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+
+/* ── Layout ───────────────────────────────────────────────────────── */
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+/* ── Header ───────────────────────────────────────────────────────── */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 0 1.5rem;
+  margin-bottom: 3rem;
+}
+.site-header .eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.5rem;
+}
+.site-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+  text-wrap: balance;
+}
+.site-header .subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-2);
+  max-width: 60ch;
+}
+.header-meta {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+.header-meta span {
+  font-size: 0.8rem;
+  color: var(--text-3);
+}
+.header-meta strong { color: var(--text-2); font-weight: 600; }
+
+/* ── Part dividers ────────────────────────────────────────────────── */
+.part {
+  margin-top: 3.5rem;
+}
+.part-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+}
+.part-num {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.part-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.part-desc {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  margin-top: 0.25rem;
+}
+
+/* ── Schema Card ──────────────────────────────────────────────────── */
+.schema-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.schema-row {
+  display: grid;
+  grid-template-columns: 200px 100px 1fr auto;
+  gap: 0;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+  align-items: start;
+}
+.schema-row:last-child { border-bottom: none; }
+.schema-row:nth-child(even) { background: var(--bg-alt); }
+.field-name {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--teal);
+  white-space: nowrap;
+  padding-top: 0.1rem;
+}
+.field-type {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding-top: 0.15rem;
+}
+.field-desc {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+.field-desc em {
+  font-style: normal;
+  color: var(--text-3);
+  font-size: 0.8rem;
+  display: block;
+  margin-top: 0.2rem;
+}
+.consumed-by {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: flex-end;
+}
+.tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.tag-teal  { background: var(--teal-dim);  color: var(--teal);  }
+.tag-amber { background: var(--amber-dim); color: var(--amber); }
+.tag-red   { background: var(--red-dim);   color: var(--red);   }
+.tag-slate { background: var(--bg-alt);    color: var(--slate); border: 1px solid var(--border); }
+
+/* ── Schema header row ────────────────────────────────────────────── */
+.schema-header {
+  display: grid;
+  grid-template-columns: 200px 100px 1fr auto;
+  gap: 0;
+  padding: 0.5rem 1rem;
+  background: var(--bg-alt);
+  border-bottom: 2px solid var(--border-2);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* ── KPI section ──────────────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.kpi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+.kpi-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.5rem;
+}
+.kpi-formula {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.78rem;
+  color: var(--text-2);
+  margin-bottom: 0.75rem;
+}
+.threshold-bar {
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--border);
+  margin-bottom: 0.6rem;
+  position: relative;
+}
+.threshold-track {
+  height: 100%;
+  border-radius: 3px;
+}
+.threshold-ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+}
+.threshold-tick {
+  font-size: 0.68rem;
+  color: var(--text-3);
+}
+.threshold-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+.threshold-level {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-green  { background: var(--green); }
+.dot-amber  { background: var(--amber); }
+.dot-red    { background: var(--red);   }
+.threshold-level span { color: var(--text-2); }
+
+/* ── CLI reference ─────────────────────────────────────────────────── */
+.cli-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.cli-table th {
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--border-2);
+}
+.cli-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--text-2);
+}
+.cli-table tr:last-child td { border-bottom: none; }
+.cli-table code {
+  font-size: 0.8rem;
+  background: var(--mono-bg);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  color: var(--teal);
+}
+.cli-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+
+/* ── RAGAS gap table ──────────────────────────────────────────────── */
+.ragas-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.ragas-table th {
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--border-2);
+}
+.ragas-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+.ragas-table tr:last-child td { border-bottom: none; }
+.ragas-table tr:nth-child(even) td { background: var(--bg-alt); }
+.ragas-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+.status-pill {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 99px;
+  text-transform: uppercase;
+}
+.pill-yes   { background: var(--green-dim); color: var(--green); }
+.pill-no    { background: var(--red-dim);   color: var(--red);   }
+.pill-part  { background: var(--amber-dim); color: var(--amber); }
+
+/* ── Path forward ─────────────────────────────────────────────────── */
+.step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.step {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+.step-n {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--teal-dim);
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.step-body {}
+.step-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+.step-detail {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  margin-top: 0.2rem;
+  line-height: 1.5;
+}
+.step-effort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-3);
+}
+
+/* ── Callout box ──────────────────────────────────────────────────── */
+.callout {
+  border-left: 3px solid var(--teal);
+  background: var(--teal-dim);
+  padding: 1rem 1.25rem;
+  border-radius: 0 6px 6px 0;
+  margin: 1.5rem 0;
+}
+.callout p { font-size: 0.9rem; color: var(--text); line-height: 1.6; }
+.callout strong { color: var(--teal); }
+
+/* ── Section intro text ───────────────────────────────────────────── */
+.intro {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  max-width: 72ch;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+.footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { font-size: 0.82rem; color: var(--text-3); }
+.footer-links a:hover { color: var(--teal); }
+.footer-stamp { font-size: 0.75rem; color: var(--text-3); }
+
+@media (max-width: 640px) {
+  .schema-row { grid-template-columns: 1fr 80px; gap: 0.25rem; }
+  .schema-row .field-desc, .schema-row .consumed-by { grid-column: 1 / -1; }
+  .schema-header { display: none; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .step { grid-template-columns: 1.75rem 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header class="site-header">
+    <p class="eyebrow">Knowledge Hub · Engineering</p>
+    <h1>Eval &amp; Observability</h1>
+    <p class="subtitle">The data contract, KPI surface, and path toward RAGAS-grade evaluation — everything you need to measure the retrieval pipeline before the first paying customer.</p>
+    <div class="header-meta">
+      <span><strong>Source:</strong> src/rag/eval.js · src/rag/query.js · src/api/server.js</span>
+      <span><strong>Log file:</strong> data/eval.jsonl</span>
+      <span><strong>CLI:</strong> npm run eval</span>
+    </div>
+  </header>
+
+  <!-- ── PART 1: DATA CONTRACT ─────────────────────────────────────── -->
+  <section class="part" id="data-contract">
+    <div class="part-label">
+      <div>
+        <div class="part-num">Part 1</div>
+        <div class="part-title">The Data Contract</div>
+        <div class="part-desc">Every field written to eval.jsonl by query.js, and which endpoints consume each field.</div>
+      </div>
+    </div>
+
+    <p class="intro">
+      Every query — answered or blocked — appends one JSON line to <code>data/eval.jsonl</code>.
+      The <code>/api/analytics</code> and <code>/api/gaps</code> endpoints aggregate this file on request.
+      The CLI reads it directly. The schema below is the complete authoritative contract.
+    </p>
+
+    <div class="schema-grid">
+      <div class="schema-header">
+        <span>Field</span>
+        <span>Type</span>
+        <span>Description</span>
+        <span>Consumed by</span>
+      </div>
+
+      <div class="schema-row">
+        <div class="field-name">ts</div>
+        <div class="field-type">ISO date</div>
+        <div class="field-desc">UTC timestamp when the query was logged.
+          <em>Written by logEval() in both query() and queryStream() paths.</em>
+        </div>
+        <div class="consumed-by"><span class="tag tag-slate">analytics</span></div>
+      </div>
+
+      <div class="schema-row">
+        <div class="field-name">question</div>
+        <div class="field-type">string</div>
+        <div class="field-desc">The raw user query text.
+          <em>Key for blocked-query deduplication and gap clustering.</em>
+        </div>
+        <div class="consumed-by"><span class="tag tag-teal">eval CLI</span><span class="tag tag-amber">gaps</span></div>
+      </div>
+
+      <div class="schema-row">
+        <div class="field-name">blocked</div>
+        <div class="field-type">boolean</div>
+        <div class="field-desc">True when the confidence gate fired (hard block) or when the answer was a deflection (soft block). Hard block: <code>topSemScore &lt; 0.15</code> AND <code>topRrfScore &lt; 0.014</code>. Soft block: LLM answer matched deflection phrases.
+          <em>The primary signal for answer rate and gap detection.</em>
+        </div>
+        <div class="consumed-by"><span class="tag tag-teal">eval CLI</span><span class="tag tag-amber">gaps</span><span class="tag tag-teal">analytics</span></div>
+      </div>
+
+      <div class="schema-row">
+        <div class="field-name">softBlocked</div>
+        <div class="field-type">boolean</div>
+        <div class="field-desc">True when the LLM generated an answer but it was detected as a deflection ("I don't have information about…"). Subset of <code>blocked</code>.
+          <em>Useful for distinguishing retrieval failures from LLM failures.</em>
+        </div>
+        <div class="consumed-by"><span class="tag tag-teal">analytics</span></div>
+      </div>
+
+      <div class="schema-row">
+        <div class="field-name">topSemScore</div>
+        <div class="field-type">float</div>
+        <div class="field-desc">Cosine similarity between the query embedding and the top-ranked chunk. Range: 0–1. Confidence gate baseline: 0.15 (env: <code>CONFIDENCE_GATE</code>).
+          <em>Core retrieval quality signal; used in the IDS answer quality component.</em>
+        </div>
+        <div class="consumed-by"><span class="tag tag-teal">eval CLI</span><span class="tag tag-teal">analytics</span></div>
+      </div>
+
+      <div class="schema-row">
+        <div class="field-name">latencyMs</div>
+        <div class="field-type">integer</div>
+        <div class="field-desc">End-to-end query latency in milliseconds, from embed start to logEval() call. Includes retrieval, context compression, and LLM generation.
+          <em>P95 latency is the operational SLA target.</em>
+        </div>
+        <div class="consumed-by"><span class="tag tag-teal">eval CLI</span><span class="tag tag-teal">analytics</span></div>
+      </div>
+
+      <div class="schema-row">
+        <div class="field-name">sectionsUsed</div>
+        <div class="field-type">string[]</div>
+        <div class="field-desc">Distinct section names from chunks that passed context compression and were sent to the LLM. Empty array when blocked before reaching the LLM.
+          <em>Drives the "most-used sections" bar chart in the eval CLI summary.</em>
+        </div>
+        <div class="consumed-by"><span class="tag tag-teal">eval CLI</span><span class="tag tag-teal">analytics</span></div>
+      </div>
+
+      <div class="schema-row">
+        <div class="field-name">nearMissSections</div>
+        <div class="field-type">string[]</div>
+        <div class="field-desc">When a hard block fires, the top 4 sections with closest partial matches. Used to suggest where documentation might exist but is insufficient.
+          <em>Written only on hard blocks; absent on answered queries.</em>
+        </div>
+        <div class="consumed-by"><span class="tag tag-amber">gaps</span></div>
+      </div>
+
+      <div class="schema-row">
+        <div class="field-name">usedChunks</div>
+        <div class="field-type">integer</div>
+        <div class="field-desc">Number of chunks included in the LLM context after compression. Range: 1 to <code>TOP_K</code> (default 6).
+          <em>Written only on answered queries.</em>
+        </div>
+        <div class="consumed-by"><span class="tag tag-slate">debug</span></div>
+      </div>
+
+      <div class="schema-row">
+        <div class="field-name">budgetUsed</div>
+        <div class="field-type">integer</div>
+        <div class="field-desc">Estimated token count of the context string sent to the LLM. Budget cap: 1800 tokens (env: <code>CTX_TOKEN_BUDGET</code>). Computed as <code>chars / 4</code>.
+          <em>Written only on answered queries.</em>
+        </div>
+        <div class="consumed-by"><span class="tag tag-slate">debug</span></div>
+      </div>
+
+      <div class="schema-row">
+        <div class="field-name">userId</div>
+        <div class="field-type">string</div>
+        <div class="field-desc">Identifier for the user or session that initiated the query. Used for per-user IDS breakdowns in <code>/api/team/ids</code>.
+          <em>May be undefined in CLI or anonymous contexts.</em>
+        </div>
+        <div class="consumed-by"><span class="tag tag-teal">analytics</span><span class="tag tag-slate">team/ids</span></div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:1.5rem">
+      <p><strong>Note on missing fields:</strong> There is no <code>answer</code>, <code>sources</code>, or <code>rrfScore</code> field in the logged record. The answer text is not persisted (privacy), sources are reconstructable from sectionsUsed, and rrfScore is not captured at log time. Adding <code>topRrfScore</code> to the log entry would enable richer retrieval analysis without storing PII.</p>
+    </div>
+  </section>
+
+
+  <!-- ── PART 2: OBSERVABILITY SURFACE ──────────────────────────────── -->
+  <section class="part" id="observability">
+    <div class="part-label">
+      <div>
+        <div class="part-num">Part 2</div>
+        <div class="part-title">The Observability Surface</div>
+        <div class="part-desc">What the current system can measure, the thresholds that matter, and the CLI commands that surface them.</div>
+      </div>
+    </div>
+
+    <p class="intro">
+      The <code>/api/analytics</code> endpoint aggregates eval.jsonl on every request. The <code>npm run eval</code> CLI reads the same file directly. Together they form the current observability layer.
+    </p>
+
+    <div class="kpi-grid">
+
+      <div class="kpi-card">
+        <div class="kpi-name">Answer Rate</div>
+        <div class="kpi-formula">1 − (blocked / total)</div>
+        <div class="threshold-bar">
+          <div class="threshold-track" style="width:100%;background:linear-gradient(to right,var(--red) 0%,var(--red) 20%,var(--amber) 20%,var(--amber) 40%,var(--green) 40%,var(--green) 100%)"></div>
+        </div>
+        <div class="threshold-ticks"><span>0%</span><span>40%</span><span>80%</span><span>100%</span></div>
+        <div class="threshold-rows">
+          <div class="threshold-level"><div class="dot dot-green"></div><span>&gt; 80% — healthy</span></div>
+          <div class="threshold-level"><div class="dot dot-amber"></div><span>60–80% — watch</span></div>
+          <div class="threshold-level"><div class="dot dot-red"></div><span>&lt; 60% — blocked alert</span></div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-name">Avg Semantic Score</div>
+        <div class="kpi-formula">mean(topSemScore) over window</div>
+        <div class="threshold-bar">
+          <div class="threshold-track" style="width:100%;background:linear-gradient(to right,var(--red) 0%,var(--red) 15%,var(--amber) 15%,var(--amber) 35%,var(--green) 35%,var(--green) 100%)"></div>
+        </div>
+        <div class="threshold-ticks"><span>0.00</span><span>0.15</span><span>0.35</span><span>1.00</span></div>
+        <div class="threshold-rows">
+          <div class="threshold-level"><div class="dot dot-green"></div><span>&gt; 0.35 — strong retrieval</span></div>
+          <div class="threshold-level"><div class="dot dot-amber"></div><span>0.15–0.35 — near gate</span></div>
+          <div class="threshold-level"><div class="dot dot-red"></div><span>&lt; 0.15 — gate blocks</span></div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-name">Avg Latency</div>
+        <div class="kpi-formula">mean(latencyMs)</div>
+        <div class="threshold-bar">
+          <div class="threshold-track" style="width:100%;background:linear-gradient(to right,var(--green) 0%,var(--green) 40%,var(--amber) 40%,var(--amber) 75%,var(--red) 75%,var(--red) 100%)"></div>
+        </div>
+        <div class="threshold-ticks"><span>0ms</span><span>2s</span><span>5s</span><span>10s+</span></div>
+        <div class="threshold-rows">
+          <div class="threshold-level"><div class="dot dot-green"></div><span>&lt; 2000ms — healthy</span></div>
+          <div class="threshold-level"><div class="dot dot-amber"></div><span>2–5s — acceptable</span></div>
+          <div class="threshold-level"><div class="dot dot-red"></div><span>&gt; 5s — UX degraded</span></div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-name">Blocked Rate</div>
+        <div class="kpi-formula">blocked / total</div>
+        <div class="threshold-bar">
+          <div class="threshold-track" style="width:100%;background:linear-gradient(to right,var(--green) 0%,var(--green) 20%,var(--amber) 20%,var(--amber) 40%,var(--red) 40%,var(--red) 100%)"></div>
+        </div>
+        <div class="threshold-ticks"><span>0%</span><span>20%</span><span>40%</span><span>100%</span></div>
+        <div class="threshold-rows">
+          <div class="threshold-level"><div class="dot dot-green"></div><span>&lt; 20% — healthy</span></div>
+          <div class="threshold-level"><div class="dot dot-amber"></div><span>20–40% — documentation gaps</span></div>
+          <div class="threshold-level"><div class="dot dot-red"></div><span>&gt; 40% — critical coverage gap</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="part-desc" style="margin-bottom:1rem;font-size:0.875rem;color:var(--text-2)">CLI commands (run from project root)</div>
+    <div class="cli-wrap">
+      <table class="cli-table">
+        <thead>
+          <tr><th>Command</th><th>Output</th><th>When to run</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>npm run eval -- --summary</code></td>
+            <td>Total / answered / blocked counts, avg score, avg latency, top sections bar chart</td>
+            <td>Weekly health check</td>
+          </tr>
+          <tr>
+            <td><code>npm run eval -- --blocked</code></td>
+            <td>All blocked queries deduplicated and sorted by frequency — your documentation gap list</td>
+            <td>Before writing new docs</td>
+          </tr>
+          <tr>
+            <td><code>npm run eval -- --tail 20</code></td>
+            <td>Last 20 queries with score, latency, status — spot-check after a deployment</td>
+            <td>After ingestion changes</td>
+          </tr>
+          <tr>
+            <td><code>npm run eval -- --section &lt;name&gt;</code></td>
+            <td>All answered queries that pulled from a specific section</td>
+            <td>Before deleting or archiving a section</td>
+          </tr>
+          <tr>
+            <td><code>node src/rag/diagnose.js "question"</code></td>
+            <td>6-step diagnostic: vector store health → BM25 hits → semantic hits → hybrid fusion → context compression → recommendations</td>
+            <td>Debugging a specific blocked query</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ── PART 3: PATH FORWARD ──────────────────────────────────────── -->
+  <section class="part" id="path-forward">
+    <div class="part-label">
+      <div>
+        <div class="part-num">Part 3</div>
+        <div class="part-title">The Path Forward</div>
+        <div class="part-desc">What RAGAS measures, what we have today, and the prioritised steps to close the gap before the first paying customer.</div>
+      </div>
+    </div>
+
+    <p class="intro">
+      RAGAS defines four evaluation dimensions that distinguish a credible retrieval system from one that merely returns text. The table below shows exactly where Knowledge Hub's current eval loop stands against each dimension.
+    </p>
+
+    <div class="ragas-wrap">
+      <table class="ragas-table">
+        <thead>
+          <tr>
+            <th>RAGAS Dimension</th>
+            <th>What it measures</th>
+            <th>KH today</th>
+            <th>Gap</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Context Precision</strong></td>
+            <td>Are the retrieved chunks actually relevant to the question? Fraction of retrieved context that matters.</td>
+            <td><span class="status-pill pill-part">Partial</span><br><small>topSemScore is a proxy — it measures similarity of the top chunk, not precision across all retrieved chunks.</small></td>
+            <td>Need per-chunk relevance scoring, not just top-1</td>
+          </tr>
+          <tr>
+            <td><strong>Context Recall</strong></td>
+            <td>Did we retrieve all the chunks needed to answer the question correctly?</td>
+            <td><span class="status-pill pill-no">Not measured</span><br><small>No ground-truth answer set exists to verify recall.</small></td>
+            <td>Requires synthetic Q&A dataset generated from indexed docs</td>
+          </tr>
+          <tr>
+            <td><strong>Faithfulness</strong></td>
+            <td>Is every claim in the answer grounded in the retrieved context?</td>
+            <td><span class="status-pill pill-part">Partial</span><br><small>Deflection detection (isDeflection()) catches obvious hallucinations but doesn't verify factual grounding.</small></td>
+            <td>Need an LLM-as-judge step that cross-checks each answer sentence against sources</td>
+          </tr>
+          <tr>
+            <td><strong>Answer Relevancy</strong></td>
+            <td>Does the answer directly address what was asked?</td>
+            <td><span class="status-pill pill-no">Not measured</span><br><small>No automated scoring of answer-to-question alignment exists.</small></td>
+            <td>Can be approximated by embedding the answer and measuring similarity back to the question</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 2.5rem;">
+      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:1.25rem;">Prioritised implementation steps</div>
+      <div class="step-list">
+
+        <div class="step">
+          <div class="step-n">1</div>
+          <div class="step-body">
+            <div class="step-title">Add topRrfScore to eval.jsonl</div>
+            <div class="step-detail">One-line change in logEval() calls in query.js — log the topRrfScore alongside topSemScore. Unlocks hybrid retrieval quality analysis without any architectural change.</div>
+            <div class="step-effort"><span class="tag tag-teal">1 hour</span> <span style="color:var(--text-3)">Write path only — no UI change</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-n">2</div>
+          <div class="step-body">
+            <div class="step-title">Generate synthetic test dataset from indexed docs</div>
+            <div class="step-detail">Use Claude Haiku to generate 50–100 (question, ground_truth_answer, source_chunks) triples from indexed content. Store in <code>data/eval_testset.jsonl</code>. This is the prerequisite for Context Recall and Answer Relevancy scoring.</div>
+            <div class="step-effort"><span class="tag tag-amber">Half day</span> <span style="color:var(--text-3)">One-time setup, re-run after major ingestion changes</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-n">3</div>
+          <div class="step-body">
+            <div class="step-title">Implement Context Precision scoring</div>
+            <div class="step-detail">After retrieval, embed each retrieved chunk and score its similarity to the query. Log <code>chunkScores[]</code> in eval.jsonl. Mean of non-zero scores = Context Precision proxy. No ground-truth required.</div>
+            <div class="step-effort"><span class="tag tag-amber">Half day</span> <span style="color:var(--text-3)">Extends query.js and logEval schema</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-n">4</div>
+          <div class="step-body">
+            <div class="step-title">Add answer-relevancy self-score</div>
+            <div class="step-detail">Embed the LLM answer and score its cosine similarity back to the query embedding (already computed). Log as <code>answerRelevancy</code>. Quick win — uses embeddings already in memory at query time.</div>
+            <div class="step-effort"><span class="tag tag-teal">2 hours</span> <span style="color:var(--text-3)">Add one embed call at answer time</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-n">5</div>
+          <div class="step-body">
+            <div class="step-title">Wire RAGAS scores into /api/analytics</div>
+            <div class="step-detail">Once steps 2–4 are complete, add the four RAGAS KPIs to the analytics endpoint response. Expose them in IntelligenceDashboard as a "Retrieval Quality" sub-panel. This is the state needed before any paying customer onboards.</div>
+            <div class="step-effort"><span class="tag tag-amber">1 day</span> <span style="color:var(--text-3)">Backend + frontend — feed into IDS formula for stronger signal</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="./rag-system-design.html">RAG System Design</a>
+      <a href="./rag-architect-deepdive.html">Architect Deep-Dive</a>
+      <a href="./rag-evolution-roadmap.html">Evolution Roadmap</a>
+    </div>
+    <div class="footer-stamp">Knowledge Hub · eval-observability.html</div>
+  </footer>
+
+</div>
+</body>
+</html>

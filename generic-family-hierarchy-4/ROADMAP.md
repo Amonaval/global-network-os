@@ -1578,6 +1578,72 @@ Reject designs that:
 - risks, rejected alternatives and phased implementation batches;
 - revised G9.1 mission only after the architecture review.
 
+## Network Effect & Ecosystem Activation — New Strategic Track
+
+Do **not** narrow the company thesis prematurely to one paid vertical. Organizational Intelligence remains the best near-term commercial wedge and Franchise remains a strong challenger, but the long-term thesis is broader: **trusted, permissioned, multi-network participation with selective cross-network value**.
+
+### NE-1 — Multi-Network Identity & Membership Experience
+- one account, many memberships;
+- clear active-network switching;
+- profile/context separation where needed;
+- explicit privacy boundaries;
+- reusable identity without accidental leakage.
+
+### NE-2 — Trusted Network-to-Network Linking
+- family → community;
+- alumni → chapters/associations;
+- business → trusted communities/ecosystems;
+- franchise → operator/region councils;
+- selective permissioned linking, never a global graph merge.
+
+### NE-3 — Cross-Network Discovery & Introductions
+Permission-aware use cases may include trusted job/referral requests, matrimonial/community discovery where consented, trusted service/provider requests, mentoring, professional introductions and local/community help. Every cross-network result must expose **why the connection is trusted** and respect visibility rules.
+
+### NE-4 — Community Umbrella Model
+Allow many independently governed networks to participate under a higher-level community/association umbrella without losing local autonomy. Example: **50 family networks → one trusted community umbrella**.
+
+### NE-5 — Mass Onboarding & Network Seeding
+Potentially the most important non-AI problem. Investigate RAG-assisted bootstrap, spreadsheets/import, invitation campaigns, distributed intake, admin/volunteer workflows, templates, organizer kits, self-serve setup, referral loops and migration from WhatsApp/contact lists/directories.
+
+### NE-6 — Organic Growth Engine
+Invitations, contribution requests, completion prompts, community linking, referral attribution, privacy-safe “people you trust are already here” signals, and member-to-network/network-to-network acquisition loops.
+
+### NE-7 — Product Storytelling / Market Education
+Later add demo videos, value-specific landing experiences, banners, guided tours, showcase networks, use-case explainers, ads/paid acquisition experiments and organizer kits.
+
+### Guardrails
+- no uncontrolled public social graph;
+- isolation is default;
+- cross-network discovery is permission/provenance aware;
+- avoid feed-first addiction as the core model;
+- optimize for outcomes and trusted context;
+- keep purposeful vertical UX.
+
+### Relationship with G9.1
+RAG × Network OS remains valuable because it may solve the largest scaling constraint: **how to build and maintain rich networks with minimal manual effort**. G9.1 should therefore evaluate whether the extracted ingestion/evidence engine can later become a generic **Network Bootstrap Engine**, while first proving itself in Organization.
+
+## NE-8 — Network Operations & Institutional Anchor Growth
+
+Create a dedicated non-engineering growth capability for network seeding.
+
+Scope:
+- organizer/community-head acquisition;
+- operator training;
+- onboarding playbooks;
+- minimal-data bootstrap;
+- volunteer/admin recruitment;
+- member claim/verification campaigns;
+- activation dashboards;
+- rewards tied to verified activation/outcomes;
+- adjacent-network referrals;
+- future Operator Console.
+
+Investigate whether semi-retired/senior community members, alumni volunteers and local coordinators can become trusted low-cost operators.
+
+The goal is not cheap labor. The goal is **trusted local activation with standardized tooling and measurable handoff**.
+
+
+
 ## G9.1-A — Evidence Foundation + Intelligence Adapter — IMPLEMENTED
 - Additive evidence/provenance contracts and persistence foundation.
 - Network-scoped Knowledge Intelligence adapter boundary.
@@ -1610,3 +1676,9 @@ Evidence-backed targeted extraction for expertise, ownership, dependencies and a
 - Supports expertise, ownership, dependency and decision/rationale questions.
 - G9 deterministic engine and all non-Organization vertical behavior remain unchanged.
 - Next strategic mission: G9.1-D Organizational Knowledge Risk Loop after manual G9.1-C runtime smoke.
+
+## G9.1-D — Organizational Knowledge Risk Loop — DONE (source-certified)
+Proactive Organization intelligence now combines verified graph structure, evidence freshness/conflict state and repeated weak-question signals. Current risk classes: ownership gaps, dependency criticality, key-person concentration, unanswered-question gaps, stale knowledge and conflicts. Next decision should be based on real Northstar/manual runtime feedback rather than automatically expanding to another vertical.
+
+### G9.1-B.1 + C.1 — Intelligence Quality Hardening — IMPLEMENTED
+Northstar-derived quality gate between initial G9.1-D implementation and further product expansion. Hardens explicit entity targeting, dependency direction, expertise ranking, extraction coverage diagnostics and answer readability. Re-run the existing Northstar corpus before further G9.1-D evaluation.

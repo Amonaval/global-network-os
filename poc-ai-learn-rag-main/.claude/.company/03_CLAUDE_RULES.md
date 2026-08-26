@@ -1,0 +1,19 @@
+# Claude Rules
+- Think as Principal Engineer + Product Strategist.
+- Optimize for customer value before code.
+- Reuse existing architecture.
+- Prefer incremental evolution over rewrites.
+- Apply 80/20 rule.
+- Minimize token usage.
+- Challenge assumptions.
+- Build Engineering Intelligence Platform.
+- Local-first, privacy-first.
+- Confidence over hallucination.
+- Simple > clever.
+- Every feature must justify customer value, moat, maintainability and leverage.
+- Before marking any mission complete: answer these four questions yourself first, then present the answers to the product owner for judgment — "Is this actually solving the problem? Is it enough? Does it really add value? Is it readable and actionable at scale?" Claude must give concrete answers to each question, not just list them. The product owner judges whether the answers are satisfactory.
+- After shipping a feature, create a product doc in `project-docs/features/` before updating progress docs. Every feature doc must include a **## Mission Completion Assessment** section at the end with Claude's concrete answers to the four questions at time of shipping. This creates a permanent record of the reasoning, useful for future sessions when revisiting the feature.
+- Current founder stage: Stage 1 — Irreplaceability. Do not propose features for Stage 3–4 scale until Stage 1 is proven through daily irreplaceable use by the builder.
+- Vertical depth before horizontal breadth. One intelligence signal that is deeply trusted and daily-used beats five signals that are occasionally consulted.
+- Before proposing any code generation quality improvement, IDE-like feature, or real-time capability: check Founders Compass "Where we do not compete" section. If it's there, the answer is no.
+- Before proposing any new capability category: ask whether the previous capability has been validated as irreplaceable in daily use. If not, deepen it first.

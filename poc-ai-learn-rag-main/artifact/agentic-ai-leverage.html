@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic AI Leverage — Knowledge Hub</title>
+<style>
+/* ── Tokens ────────────────────────────────────────────────────────── */
+:root {
+  --bg:         #FAF7F2;
+  --bg-alt:     #F2EDE6;
+  --bg-card:    #FFFFFF;
+  --border:     #DDD5C6;
+  --border-2:   #C9BFAF;
+  --text:       #1A0F2E;
+  --text-2:     #564A6A;
+  --text-3:     #9387A4;
+  --plum:       #2D1B4E;
+  --plum-dim:   #EDE8F5;
+  --copper:     #C4712A;
+  --copper-dim: #FBE8D5;
+  --steel:      #4A6FA5;
+  --steel-dim:  #DCE8F7;
+  --divider:    #DDD5C6;
+  --code-bg:    #F2EDE6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:         #120D1E;
+    --bg-alt:     #1A1330;
+    --bg-card:    #1A1330;
+    --border:     #2A2040;
+    --border-2:   #3A3055;
+    --text:       #F2EDE6;
+    --text-2:     #A898C0;
+    --text-3:     #6A5E80;
+    --plum:       #A08AFF;
+    --plum-dim:   #1A1035;
+    --copper:     #E8A060;
+    --copper-dim: #2A1505;
+    --steel:      #7FA8D8;
+    --steel-dim:  #0D1F35;
+    --divider:    #2A2040;
+    --code-bg:    #120D1E;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:         #120D1E;
+  --bg-alt:     #1A1330;
+  --bg-card:    #1A1330;
+  --border:     #2A2040;
+  --border-2:   #3A3055;
+  --text:       #F2EDE6;
+  --text-2:     #A898C0;
+  --text-3:     #6A5E80;
+  --plum:       #A08AFF;
+  --plum-dim:   #1A1035;
+  --copper:     #E8A060;
+  --copper-dim: #2A1505;
+  --steel:      #7FA8D8;
+  --steel-dim:  #0D1F35;
+  --divider:    #2A2040;
+  --code-bg:    #120D1E;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  min-height: 100vh;
+}
+a { color: var(--plum); }
+a:focus-visible { outline: 2px solid var(--plum); outline-offset: 2px; }
+code, pre { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+
+/* ── Page wrap ─────────────────────────────────────────────────────── */
+.page { max-width: 1060px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.site-header {
+  padding: 3.5rem 0 3rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+}
+.header-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 0.75rem;
+}
+.header-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.8rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text);
+  text-wrap: balance;
+  margin-bottom: 1.1rem;
+  letter-spacing: -0.01em;
+}
+.header-thesis {
+  font-size: 1rem;
+  color: var(--text-2);
+  max-width: 66ch;
+  line-height: 1.7;
+  margin-bottom: 1.75rem;
+}
+.header-meta-row {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.col-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.col-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot-product  { background: var(--plum); }
+.dot-build    { background: var(--copper); }
+.col-label span { font-size: 0.82rem; color: var(--text-2); }
+
+/* ── Diptych columns ──────────────────────────────────────────────── */
+.diptych {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  position: relative;
+  margin-bottom: 0;
+}
+/* The divider line between columns */
+.diptych::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    var(--border) 0%,
+    var(--border) 85%,
+    transparent 100%
+  );
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.col {
+  padding: 3rem 2.5rem 3rem 2rem;
+}
+.col-right {
+  padding-left: 2.5rem;
+  padding-right: 2rem;
+}
+
+/* Column headers */
+.col-head {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.col-role {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.role-product { color: var(--plum); }
+.role-build   { color: var(--copper); }
+.col-head-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  text-wrap: balance;
+  margin-bottom: 0.5rem;
+  line-height: 1.25;
+}
+.col-head-sub {
+  font-size: 0.85rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* Column segments */
+.segment { margin-bottom: 2rem; }
+.segment:last-child { margin-bottom: 0; }
+.seg-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.seg-n {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.2;
+}
+.seg-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.seg-body {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+.seg-body + .seg-body { margin-top: 0.6rem; }
+.seg-callout {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  font-style: italic;
+}
+.callout-product { background: var(--plum-dim); color: var(--plum); }
+.callout-build   { background: var(--copper-dim); color: var(--copper); }
+.seg-detail {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.detail-line {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.detail-line::before { content: '—'; color: var(--text-3); flex-shrink: 0; }
+code.inline {
+  background: var(--code-bg);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.8em;
+  color: var(--copper);
+}
+.persona-note {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.persona-note strong { color: var(--plum); font-size: 0.75rem; display: block; }
+.stage-chip {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: var(--steel-dim);
+  color: var(--steel);
+  margin-top: 0.5rem;
+}
+
+/* ── Convergence section ──────────────────────────────────────────── */
+.convergence {
+  background: var(--plum);
+  color: #F2EDE6;
+  padding: 3.5rem 0;
+  margin-top: 0;
+}
+.conv-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.conv-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(242,237,230,0.5);
+  margin-bottom: 0.75rem;
+}
+.conv-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: #F2EDE6;
+  margin-bottom: 1.25rem;
+  text-wrap: balance;
+}
+.conv-body {
+  font-size: 0.95rem;
+  color: rgba(242,237,230,0.8);
+  max-width: 68ch;
+  line-height: 1.75;
+  margin-bottom: 2rem;
+}
+.conv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+.conv-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+.conv-card-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(242,237,230,0.9);
+  margin-bottom: 0.5rem;
+}
+.conv-card-body {
+  font-size: 0.82rem;
+  color: rgba(242,237,230,0.6);
+  line-height: 1.6;
+}
+.conv-card-num {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--copper);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+.site-footer {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+.footer-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-links a { font-size: 0.82rem; color: var(--text-3); }
+.footer-links a:hover { color: var(--plum); text-decoration: underline; }
+.footer-stamp { font-size: 0.75rem; color: var(--text-3); }
+
+@media (max-width: 720px) {
+  .diptych { grid-template-columns: 1fr; }
+  .diptych::before { display: none; }
+  .col, .col-right { padding: 2rem 1rem; }
+  .col { border-bottom: 1px solid var(--border); }
+  .conv-grid { grid-template-columns: 1fr; }
+  .header-meta-row { flex-direction: column; gap: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="page">
+<header class="site-header">
+  <p class="header-eyebrow">Knowledge Hub · Strategy</p>
+  <h1 class="header-title">Agentic AI, Two Ways:<br>Product Capability &amp; Build Accelerator</h1>
+  <p class="header-thesis">Agentic AI is both a feature this platform will eventually offer and the method being used to construct it now. Understanding these two roles — and where they intersect — clarifies the architecture, the roadmap, and the competitive moat.</p>
+  <div class="header-meta-row">
+    <div class="col-label">
+      <div class="col-dot dot-product"></div>
+      <span>Left: Agentic AI as a product capability Knowledge Hub will build</span>
+    </div>
+    <div class="col-label">
+      <div class="col-dot dot-build"></div>
+      <span>Right: Agentic AI (Claude Code) as the build accelerator in use now</span>
+    </div>
+  </div>
+</header>
+</div>
+
+<!-- Diptych -->
+<div class="page">
+<div class="diptych">
+
+  <!-- LEFT: Agentic AI as product feature -->
+  <div class="col" id="product-col">
+    <div class="col-head">
+      <div class="col-role role-product">Product capability · Stage 3+</div>
+      <h2 class="col-head-title">Agentic Retrieval Inside Knowledge Hub</h2>
+      <p class="col-head-sub">What tool-using, iterative retrieval would look like inside the product — and why it belongs in Stage 3, not earlier.</p>
+    </div>
+
+    <!-- Segment 1 -->
+    <div class="segment">
+      <div class="seg-head">
+        <span class="seg-n">1</span>
+        <span class="seg-title">What "agentic" means in retrieval</span>
+      </div>
+      <p class="seg-body">Today's Knowledge Hub pipeline is a single-shot system: embed the query, retrieve, compress, generate. Agentic retrieval replaces that single shot with a reasoning loop. The model decomposes the question into sub-questions, retrieves evidence for each, grades the evidence quality, and re-retrieves if a sub-question is still unanswered.</p>
+      <p class="seg-body">This is not a complexity upgrade for its own sake. It solves a specific failure mode: multi-hop questions that require assembling evidence from disconnected documents before a coherent answer is possible.</p>
+      <div class="seg-callout callout-product">
+        "Does the dosing protocol in the 2022 Chen trial conflict with the patient profile I uploaded last month?" — this question requires retrieving from two sources, comparing their claims, and synthesizing a judgment. A single-shot system retrieves one chunk. An agentic system loops until both sources are in context.
+      </div>
+    </div>
+
+    <!-- Segment 2 -->
+    <div class="segment">
+      <div class="seg-head">
+        <span class="seg-n">2</span>
+        <span class="seg-title">Which personas unlock at Stage 3</span>
+      </div>
+      <div class="persona-note">
+        <div>
+          <strong>Marcus (Lawyer)</strong>
+          "Which cases in my library cite the same precedent as Smith v. Jones, and does any of them reach a conflicting conclusion?" — legal research requires traversing a citation graph across multiple indexed documents, not a single retrieval.
+        </div>
+      </div>
+      <div class="persona-note">
+        <div>
+          <strong>Dr. Priya (Researcher)</strong>
+          "Do any of my experiment logs contradict the hypothesis in the grant proposal I submitted?" — requires retrieving from experiment logs, the proposal, and potentially referenced papers — three source types, one compound judgment.
+        </div>
+      </div>
+      <p class="seg-body" style="margin-top:0.75rem">Neither of these queries fails today because of poor chunking or weak embedding. They fail because the answer requires holding evidence from multiple documents simultaneously — which a loop-based retrieval architecture enables and a single-shot architecture cannot.</p>
+    </div>
+
+    <!-- Segment 3 -->
+    <div class="segment">
+      <div class="seg-head">
+        <span class="seg-n">3</span>
+        <span class="seg-title">Why Stage 3, not now</span>
+      </div>
+      <p class="seg-body">Agentic retrieval is in <code class="inline">RAG_STRATEGY.md</code> as Tier 3 — not because it is unimportant, but because the prerequisites are not yet in place. The reasoning loop amplifies both good retrieval and bad retrieval. If the underlying chunk quality is poor (no contextual enrichment), the loop retrieves poor evidence more thoroughly. If there is no RAGAS evaluation layer, there is no way to know whether the loop improved anything.</p>
+      <div class="seg-detail">
+        <div class="detail-line">Contextual enrichment (Stage 1A) must be proven first — the loop needs high-quality chunks to work with</div>
+        <div class="detail-line">RAGAS evaluation (Stage 1C) must be in place to measure whether multi-hop actually increases faithfulness and recall</div>
+        <div class="detail-line">LangGraph orchestration is the right tool here — explicitly deferred to this stage</div>
+      </div>
+      <span class="stage-chip">Stage 3 · Enterprise Legal &amp; Medical</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: Agentic AI as build accelerator -->
+  <div class="col col-right" id="build-col">
+    <div class="col-head">
+      <div class="col-role role-build">Build accelerator · In use now</div>
+      <h2 class="col-head-title">Claude Code as the Engineering Partner</h2>
+      <p class="col-head-sub">How agentic AI is actively being used to construct the platform — and what this reveals about the product's own thesis.</p>
+    </div>
+
+    <!-- Segment 1 -->
+    <div class="segment">
+      <div class="seg-head">
+        <span class="seg-n">1</span>
+        <span class="seg-title">How the platform is being built</span>
+      </div>
+      <p class="seg-body">Knowledge Hub is being built with Claude Code — an agentic coding system that reads the codebase, plans changes, edits files, runs commands, and iterates based on results. The entire architecture visible in <code class="inline">rag-architect-deepdive.html</code> — 40+ endpoints, 5 RAG pipeline stages, 10 intelligence panels — was developed in an agentic loop with the codebase as its context.</p>
+      <p class="seg-body">Claude Code is itself a RAG system. It embeds the codebase structure (via file reads and grep), retrieves relevant context for each task, and generates targeted edits — exactly the pattern Knowledge Hub implements for professional documents.</p>
+      <div class="seg-callout callout-build">
+        The same retrieval pattern: index the knowledge corpus (codebase) → embed the task query → retrieve relevant context (function definitions, related modules) → generate a grounded, citation-level response (a diff with line numbers).
+      </div>
+    </div>
+
+    <!-- Segment 2 -->
+    <div class="segment">
+      <div class="seg-head">
+        <span class="seg-n">2</span>
+        <span class="seg-title">What this proves about the product</span>
+      </div>
+      <p class="seg-body">Building this product with an agentic AI partner is not just an engineering efficiency choice — it is a proof of the thesis. Every Claude Code session is an example of professional organizational memory being leveraged: the CLAUDE.md files, the company constitution, the decision log, the RAG strategy documents all load into context and shape what gets built next.</p>
+      <div class="seg-detail">
+        <div class="detail-line">The <code class="inline">CLAUDE.md</code> operating system functions as a persistent prompt that carries company strategy, product principles, and engineering decisions into every session</div>
+        <div class="detail-line">Context loading follows the exact same progressive strategy Knowledge Hub recommends to customers: load company → product → engineering, in order of precedence</div>
+        <div class="detail-line">The memory system at <code class="inline">.claude/projects/.../memory/</code> persists cross-session user preferences — the same compounding behavior IDS measures in customers</div>
+      </div>
+    </div>
+
+    <!-- Segment 3 -->
+    <div class="segment">
+      <div class="seg-head">
+        <span class="seg-n">3</span>
+        <span class="seg-title">The token ROI model</span>
+      </div>
+      <p class="seg-body">Each Claude Code session is not a one-time cost — it is an investment in accumulated codebase context. The <code class="inline">.claude/.engineering/SESSION_MEMORY.md</code>, <code class="inline">DECISIONS.md</code>, and <code class="inline">MODULE_INDEX.md</code> files are the amortized return on that investment. A fresh session that loads these files skips hours of re-derivation.</p>
+      <p class="seg-body">This is the same compounding behavior Knowledge Hub's IDS formula tracks for customers. Query volume × memory clusters × gap closure = organizational intelligence that grows faster than it costs to maintain.</p>
+      <div class="seg-detail">
+        <div class="detail-line">Prompt cache TTL means recent architectural discussions are retrieved instantly — same as KH's local vector store for hot documents</div>
+        <div class="detail-line">The <code class="inline">06_TOKEN_ROI.md</code> framework governs what gets built: every capability must have a clear answer to "which customer pays for this and when?"</div>
+        <div class="detail-line">As KH indexes its own build history, it can eventually answer "why was this decision made?" — the platform becomes self-documenting</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /diptych -->
+</div><!-- /page -->
+
+
+<!-- Convergence -->
+<section class="convergence">
+  <div class="conv-inner">
+    <p class="conv-eyebrow">The intersection</p>
+    <h2 class="conv-title">The Recursive Advantage:<br>Building an AI Product with AI</h2>
+    <p class="conv-body">The deepest insight from running both roles simultaneously: the product's thesis and the build method are the same claim tested twice. Using organizational memory to answer questions (the product) is identical to using accumulated codebase context to write code (the build method). If the claim holds under the scrutiny of daily engineering use, it holds for the customer too.</p>
+    <div class="conv-grid">
+      <div class="conv-card">
+        <div class="conv-card-num">→</div>
+        <div class="conv-card-title">Dog-fooding at architectural depth</div>
+        <div class="conv-card-body">Every Knowledge Hub feature was designed, reviewed, and iterated using the same intelligence-leverage pattern the product sells. The founders are not guessing that it works — they are the first users proving it.</div>
+      </div>
+      <div class="conv-card">
+        <div class="conv-card-num">→</div>
+        <div class="conv-card-title">The self-indexing path</div>
+        <div class="conv-card-body">When Knowledge Hub indexes its own engineering docs, decision log, and build history, the product begins to answer questions about itself. "What was the architectural decision behind the confidence gate?" becomes an answerable query — from the product's own knowledge hub.</div>
+      </div>
+      <div class="conv-card">
+        <div class="conv-card-num">→</div>
+        <div class="conv-card-title">The Stage 3 rehearsal</div>
+        <div class="conv-card-body">Claude Code's multi-file, multi-step, context-aware editing is a real-world example of agentic multi-hop retrieval. Watching it work across the codebase is a design rehearsal for Stage 3 — agentic retrieval across professional document corpora.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="./rag-evolution-roadmap.html">RAG Evolution Roadmap</a>
+      <a href="./ids-moat-explainer.html">IDS Moat Explainer</a>
+      <a href="./rag-architect-deepdive.html">Architect Deep-Dive</a>
+      <a href="./eval-observability.html">Eval &amp; Observability</a>
+    </div>
+    <div class="footer-stamp">agentic-ai-leverage.html · RAG_STRATEGY.md Tier 3 + PRODUCT_BRAIN.md</div>
+  </div>
+</footer>
+
+</body>
+</html>

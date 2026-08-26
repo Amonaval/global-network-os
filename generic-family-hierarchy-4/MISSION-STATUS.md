@@ -1169,6 +1169,34 @@ Primary commercial wedge: Organizational Intelligence focused on expertise, owne
 
 **Commercial focus:** Organizational Intelligence. Franchise remains challenger. G10 is blocked pending commercial evidence.
 
+## Strategic Update — Network Effect Thesis
+
+**Status:** ACTIVE THESIS — requires validation.
+
+> **The primary long-term moat may be the network effect of many trusted, independently governed networks connected through one privacy-preserving multi-network platform.**
+
+Current interpretation:
+- Organization remains the best near-term paid-pilot wedge.
+- Franchise remains the strongest challenger.
+- Family may be weak as a standalone subscription but strategically important as a trusted network/community primitive.
+- Community umbrellas can turn isolated Family networks into larger trusted ecosystems for jobs, matrimonial discovery, trusted services, introductions, events and support.
+- Multi-network membership can create a one-stop trusted network utility without becoming a noisy open social network.
+- The largest scaling problem may become onboarding/seeding networks, not adding features.
+
+G10 remains blocked pending commercial evidence, but the company thesis must no longer be judged only on single-vertical monetization.
+
+## Strategic Planning Update — Network Operations & Activation
+
+The network-effect thesis now includes a concrete distribution hypothesis:
+
+**institutional anchor + trained operator + seed data + volunteer admins + member claiming + first useful outcomes + adjacent-network referral.**
+
+This is now considered a first-class company capability alongside engineering.
+
+Next technical work remains the two-ZIP G9.1 RAG × Network OS architecture review, but future roadmap decisions must account for the possibility that **network acquisition/activation—not feature development—is the dominant constraint.**
+
+
+
 ## G9.1-A — Evidence Foundation + Intelligence Adapter
 Status: IMPLEMENTED / SOURCE-GATE VERIFIED
 
@@ -1202,3 +1230,14 @@ Delivered as additive bridge code. Existing G9 runtime behavior is preserved. Ev
 Status: IMPLEMENTED / SOURCE-GATE PASS
 
 Graph truth and authorized organizational evidence now combine through a decoupled Organization-only orchestrator. Directed ownership/dependency traversal, skill expertise matching, decision evidence, provenance/freshness and graph-only fallback are implemented. Existing G9 and G8 regression chain remains green. Manual live runtime verification may be performed by the founder before G9.1-D.
+
+## G9.1-D — Organizational Knowledge Risk Loop — IMPLEMENTED / SOURCE-CERTIFIED
+- Added deterministic Organization risk analysis for key-person concentration, ownership gaps, dependency criticality, repeated unanswered questions, stale evidence and conflicted assertions.
+- Added governed Organization query-outcome telemetry and admin-only risk summary RPC.
+- Added Organization-admin Risk Loop UI under G9.1-C Intelligence.
+- Preserved G9 deterministic engine and Knowledge Hub standalone behavior.
+- `npm run validate:g9.1d` passes the complete G9.1-D → G9 → G8 regression chain.
+- Live migration 053 / real-user runtime smoke remains for manual verification.
+
+## G9.1-B.1 + C.1 — Intelligence Quality Hardening
+Implemented after Northstar manual validation exposed explicit-target resolution and candidate-coverage defects. Exact named entities now win before fuzzy matching; dependency direction is question-aware; expertise ranking is strengthened; answer evidence is progressively disclosed; Knowledge Hub extraction uses focused structural/knowledge passes with diagnostics and de-duplication. No schema migration and no canonical G9 engine changes.

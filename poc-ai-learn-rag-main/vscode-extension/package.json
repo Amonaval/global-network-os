@@ -1,0 +1,86 @@
+{
+  "name": "knowledge-hub",
+  "displayName": "Knowledge Hub",
+  "description": "Ask questions about your team's documentation without leaving the editor. Powered by Knowledge Hub's intelligence layer.",
+  "version": "0.1.0",
+  "publisher": "knowledge-hub",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/knowledge-hub/vscode-extension"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other", "AI"],
+  "keywords": ["documentation", "knowledge base", "AI", "search", "Confluence"],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "knowledgehub",
+          "title": "Knowledge Hub",
+          "icon": "media/sidebar-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "knowledgehub": [
+        {
+          "type": "webview",
+          "id": "knowledgehub.chat",
+          "name": "Ask"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "knowledgehub.openChat",
+        "title": "Knowledge Hub: Open Chat"
+      },
+      {
+        "command": "knowledgehub.askSelection",
+        "title": "Knowledge Hub: Ask about selection"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "knowledgehub.askSelection",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Knowledge Hub",
+      "properties": {
+        "knowledgehub.serverUrl": {
+          "type": "string",
+          "default": "http://localhost:3000",
+          "description": "URL of your Knowledge Hub server instance."
+        },
+        "knowledgehub.defaultSection": {
+          "type": "string",
+          "default": "",
+          "description": "Filter responses to a specific documentation section (leave blank for all sections)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^2.22.0"
+  }
+}

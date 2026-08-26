@@ -1,0 +1,21 @@
+﻿From,To,Relationship Type,Purpose
+Rahul Verma,Arjun Desai,reports_to,Reporting line
+Priya Nair,Arjun Desai,reports_to,Reporting line
+Aman Shah,Arjun Desai,reports_to,Reporting line
+Arjun Desai,Kavita Rao,reports_to,Reporting line
+Ishita Sen,Kavita Rao,reports_to,Reporting line
+Vikram Joshi,Kavita Rao,reports_to,Reporting line
+Rohan Kulkarni,Kavita Rao,reports_to,Reporting line
+Neha Iyer,Kavita Rao,reports_to,Reporting line
+Karan Malhotra,Neha Iyer,reports_to,Reporting line
+Sana Khan,Karan Malhotra,reports_to,Reporting line
+Nikhil Bansal,Neha Iyer,reports_to,Reporting line
+Meera Rao,Kavita Rao,reports_to,Reporting line
+Dev Patel,Kavita Rao,reports_to,Reporting line
+Ananya Gupta,Neha Iyer,reports_to,Reporting line
+Rahul Verma,Priya Nair,works_with,Identity architecture pairing
+Rahul Verma,Ishita Sen,works_with,Authentication security reviews
+Vikram Joshi,Rohan Kulkarni,works_with,Reliability rotation
+Neha Iyer,Ananya Gupta,works_with,Project Phoenix leadership
+Sana Khan,Meera Rao,works_with,Checkout event integration
+Dev Patel,Meera Rao,works_with,Event Mesh architecture

@@ -69,3 +69,22 @@ Five-vertical product closure is complete. Alumni and the three business product
 ## Current milestone
 G9 Network Intelligence is technically certified. Commercial Reality Gate result: **proceed to a focused Organization pilot, not G10**. See `G9-INTELLIGENCE-HOW-IT-WORKS.md` and `G9-RUNTIME-CERTIFICATION-COMMERCIAL-REALITY-GATE.md`.
 
+## Current Strategic Direction — Intelligence + Network Effect
+
+After G9 runtime certification, two complementary hypotheses are active:
+
+1. **Outcome intelligence:** Organization is the first commercial wedge for expertise, ownership, dependency and knowledge-risk intelligence.
+2. **Network-effect platform:** long-term value may compound as users participate in multiple independently governed trusted networks that selectively connect through authorized communities, discovery and introductions.
+
+The next architecture session must preserve both. Do not collapse the product into a single vertical, and do not turn it into one giant public social graph.
+
+## Company Operating Hypothesis
+
+Near-term product development should be paired with a network-activation operating model.
+
+Engineering builds the reusable Network OS and intelligence/automation.
+Network Operations builds density, trust, organizer adoption and repeatable launch playbooks.
+Community/vertical champions eventually take over daily ownership.
+
+The platform succeeds when active networks become self-sustaining and generate adjacent networks organically.
+

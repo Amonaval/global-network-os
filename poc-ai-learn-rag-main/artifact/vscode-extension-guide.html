@@ -1,0 +1,1120 @@
+<title>Knowledge Hub VS Code Extension — Technical Guide</title>
+<style>
+  /* ── Tokens ── */
+  :root {
+    --bg:         #0d1117;
+    --surface:    #161b22;
+    --raised:     #21262d;
+    --border:     #30363d;
+    --border-sub: #21262d;
+    --text:       #e6edf3;
+    --muted:      #8b949e;
+    --subtle:     #484f58;
+    --accent:     #58a6ff;
+    --accent-dim: rgba(88,166,255,.12);
+    --green:      #7ee787;
+    --green-dim:  rgba(126,231,135,.1);
+    --yellow:     #e3b341;
+    --yellow-dim: rgba(227,179,65,.1);
+    --red:        #f85149;
+    --red-dim:    rgba(248,81,73,.1);
+    --code-bg:    #161b22;
+    --radius:     6px;
+    --mono:       "Cascadia Code","Fira Code","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:       -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg:         #ffffff;
+      --surface:    #f6f8fa;
+      --raised:     #eaeef2;
+      --border:     #d0d7de;
+      --border-sub: #eaeef2;
+      --text:       #1f2328;
+      --muted:      #656d76;
+      --subtle:     #9198a1;
+      --accent:     #0969da;
+      --accent-dim: rgba(9,105,218,.08);
+      --green:      #1a7f37;
+      --green-dim:  rgba(26,127,55,.08);
+      --yellow:     #9a6700;
+      --yellow-dim: rgba(154,103,0,.08);
+      --red:        #cf222e;
+      --red-dim:    rgba(207,34,46,.08);
+      --code-bg:    #f6f8fa;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0d1117;--surface:#161b22;--raised:#21262d;--border:#30363d;--border-sub:#21262d;
+    --text:#e6edf3;--muted:#8b949e;--subtle:#484f58;--accent:#58a6ff;--accent-dim:rgba(88,166,255,.12);
+    --green:#7ee787;--green-dim:rgba(126,231,135,.1);--yellow:#e3b341;--yellow-dim:rgba(227,179,65,.1);
+    --red:#f85149;--red-dim:rgba(248,81,73,.1);--code-bg:#161b22;
+  }
+  :root[data-theme="light"] {
+    --bg:#ffffff;--surface:#f6f8fa;--raised:#eaeef2;--border:#d0d7de;--border-sub:#eaeef2;
+    --text:#1f2328;--muted:#656d76;--subtle:#9198a1;--accent:#0969da;--accent-dim:rgba(9,105,218,.08);
+    --green:#1a7f37;--green-dim:rgba(26,127,55,.08);--yellow:#9a6700;--yellow-dim:rgba(154,103,0,.08);
+    --red:#cf222e;--red-dim:rgba(207,34,46,.08);--code-bg:#f6f8fa;
+  }
+
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ::selection { background: var(--accent-dim); }
+
+  /* ── Layout ── */
+  .page-wrap {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .page-header {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .nav-sidebar {
+    padding: 32px 0 32px 32px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+  }
+  .content {
+    padding: 40px 48px 80px;
+    min-width: 0;
+  }
+
+  /* ── Header ── */
+  .kh-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .header-title { font-weight: 700; font-size: 17px; }
+  .header-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .header-version {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 3px 10px;
+  }
+
+  /* ── Nav ── */
+  .nav-group { margin-bottom: 24px; }
+  .nav-group-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--subtle);
+    padding: 0 0 6px 10px;
+  }
+  .nav-link {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 5px 10px;
+    border-radius: var(--radius);
+    transition: color .1s, background .1s;
+    text-decoration: none;
+  }
+  .nav-link:hover { color: var(--text); background: var(--raised); text-decoration: none; }
+  .nav-link.active { color: var(--accent); background: var(--accent-dim); }
+
+  /* ── Sections ── */
+  section { margin-bottom: 64px; }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; text-wrap: balance; line-height: 1.25; margin-bottom: 12px; }
+  h2 { font-size: 22px; font-weight: 700; letter-spacing: -.015em; text-wrap: balance; margin-bottom: 14px; padding-top: 8px; }
+  h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; margin-top: 28px; }
+  p { margin-bottom: 14px; color: var(--text); }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── Lead ── */
+  .lead { font-size: 17px; color: var(--muted); line-height: 1.65; margin-bottom: 32px; }
+
+  /* ── Shipped chips ── */
+  .shipped-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .shipped-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .shipped-check {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    background: var(--green-dim);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+  .shipped-check svg { width: 10px; height: 10px; stroke: var(--green); stroke-width: 2.5; }
+  .shipped-title { font-weight: 600; font-size: 14px; }
+  .shipped-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  /* ── Code blocks ── */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.65;
+    margin: 14px 0;
+    tab-size: 2;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--raised);
+    border: 1px solid var(--border-sub);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  pre code { background: none; border: none; padding: 0; font-size: inherit; }
+  .kw  { color: #ff7b72; }
+  .str { color: #a5d6ff; }
+  .cmt { color: var(--muted); font-style: italic; }
+  .fn  { color: #d2a8ff; }
+  .num { color: #f8c555; }
+  .typ { color: #ffa657; }
+  .path{ color: var(--green); }
+
+  /* ── Code file header ── */
+  .code-file {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: 8px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 14px;
+  }
+  .code-file + pre {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-top: 0;
+  }
+
+  /* ── Callouts ── */
+  .callout {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    margin: 18px 0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .callout-icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+  .callout.tip    { background: var(--green-dim); border: 1px solid rgba(126,231,135,.25); }
+  .callout.note   { background: var(--accent-dim); border: 1px solid rgba(88,166,255,.25); }
+  .callout.warn   { background: var(--yellow-dim); border: 1px solid rgba(227,179,65,.25); }
+  .callout strong { color: var(--text); }
+
+  /* ── Step list ── */
+  .steps { display: flex; flex-direction: column; gap: 0; counter-reset: steps; margin: 20px 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 0 16px;
+    padding-bottom: 24px;
+    position: relative;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step::before {
+    content: '';
+    position: absolute;
+    left: 15px; top: 34px; bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .step:last-child::before { display: none; }
+  .step-num {
+    width: 32px; height: 32px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .step-body { padding-top: 4px; }
+  .step-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .step-desc { font-size: 14px; color: var(--muted); }
+
+  /* ── Architecture diagram ── */
+  .diagram-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+  .diagram-wrap svg { display: block; margin: 0 auto; }
+
+  /* ── Comparison table ── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 16px 0;
+  }
+  .compare-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 2px solid var(--border);
+  }
+  .compare-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-sub);
+    vertical-align: top;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table code { font-size: 12px; }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 100px;
+    padding: 2px 8px;
+    font-family: var(--mono);
+  }
+  .tag-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(126,231,135,.3); }
+  .tag-yellow { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(227,179,65,.3); }
+  .tag-blue { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(88,166,255,.3); }
+
+  /* ── Deployment cards ── */
+  .deploy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 20px 0; }
+  .deploy-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .deploy-card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .deploy-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .deploy-icon.solo { background: var(--accent-dim); }
+  .deploy-icon.team { background: var(--green-dim); }
+  .deploy-icon.ent  { background: var(--yellow-dim); }
+  .deploy-card h3 { font-size: 15px; font-weight: 600; margin: 0; }
+  .deploy-card p { font-size: 13px; color: var(--muted); margin-bottom: 0; }
+  .machine-list { list-style: none; font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+  .machine-list li { display: flex; align-items: flex-start; gap: 8px; }
+  .ml-dot { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 7px; }
+  .ml-dot.green { background: var(--green); }
+  .ml-dot.yellow { background: var(--yellow); }
+
+  /* ── File tree ── */
+  .file-tree {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .ft-dir { color: var(--accent); font-weight: 600; }
+  .ft-file { color: var(--muted); }
+  .ft-file.key { color: var(--text); }
+  .ft-cmt { color: var(--subtle); }
+  .ft-indent { display: inline-block; width: 20px; }
+
+  /* ── KV rows ── */
+  .kv-list { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+  .kv-row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 12px;
+    align-items: start;
+    font-size: 14px;
+  }
+  .kv-key {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-weight: 500;
+  }
+  .kv-val { color: var(--muted); padding-top: 3px; }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* ── Status bar ── */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 14px;
+    margin: 14px 0;
+  }
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 2px var(--green-dim);
+    flex-shrink: 0;
+  }
+  .status-dot.warn { background: var(--yellow); box-shadow: 0 0 0 2px var(--yellow-dim); }
+  .status-dot.off  { background: var(--subtle); box-shadow: none; }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .page-wrap { grid-template-columns: 1fr; }
+    .nav-sidebar { display: none; }
+    .content { padding: 24px 20px 60px; }
+    .page-header { padding: 16px 20px; }
+    .kv-row { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="page-wrap">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="kh-badge">K</div>
+    <div>
+      <div class="header-title">Knowledge Hub</div>
+      <div class="header-sub">VS Code Extension — Technical Guide &amp; Mission Summary</div>
+    </div>
+    <div class="header-version">v0.1.0 · 2026-08-05</div>
+  </header>
+
+  <!-- Sidebar nav -->
+  <nav class="nav-sidebar">
+    <div class="nav-group">
+      <div class="nav-group-label">Mission</div>
+      <a class="nav-link" href="#mission-summary">What Shipped</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">The Extension</div>
+      <a class="nav-link" href="#what-is-extension">What is a VS Code Extension</a>
+      <a class="nav-link" href="#mechanism">How It Wires Together</a>
+      <a class="nav-link" href="#what-published">What Gets Published</a>
+      <a class="nav-link" href="#architecture">Full Architecture</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Development</div>
+      <a class="nav-link" href="#local-testing">Test Locally (No Publish)</a>
+      <a class="nav-link" href="#publishing">Publishing to Marketplace</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Production</div>
+      <a class="nav-link" href="#hosting">Hosting & Infrastructure</a>
+      <a class="nav-link" href="#deployment-models">Deployment Models</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Consumer Guide</div>
+      <a class="nav-link" href="#consumer-install">Installing the Extension</a>
+      <a class="nav-link" href="#consumer-use">Using It Day-to-Day</a>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="content">
+
+    <!-- ── Mission Summary ── -->
+    <section id="mission-summary">
+      <div class="section-eyebrow">Mission — Distribution + VS Code Extension</div>
+      <h1>What Shipped This Session</h1>
+      <p class="lead">The intelligence layer is complete. This mission closes the distribution debt — a public pricing page and the first external discovery channel, the VS Code Marketplace.</p>
+
+      <div class="shipped-grid">
+        <div class="shipped-item">
+          <div class="shipped-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="1.5 6 4.5 9 10.5 3"></polyline></svg></div>
+          <div>
+            <div class="shipped-title">Pricing Page — <code>public/pricing.html</code></div>
+            <div class="shipped-desc">Three tiers: Individual $20/mo, Team $99/mo, Enterprise contact. IDS explanation, FAQ, linked from the app's Settings menu. Accessible at <code>/pricing.html</code> on any running Knowledge Hub server.</div>
+          </div>
+        </div>
+        <div class="shipped-item">
+          <div class="shipped-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="1.5 6 4.5 9 10.5 3"></polyline></svg></div>
+          <div>
+            <div class="shipped-title">VS Code Extension scaffold — <code>vscode-extension/</code></div>
+            <div class="shipped-desc">TypeScript extension: sidebar chat panel, "Ask about selection" right-click command, configurable server URL setting, error state with link to settings. Zero new backend work — routes through existing <code>/api/chat</code>. Ready to <code>vsce package</code> and publish.</div>
+          </div>
+        </div>
+        <div class="shipped-item">
+          <div class="shipped-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="1.5 6 4.5 9 10.5 3"></polyline></svg></div>
+          <div>
+            <div class="shipped-title">Settings menu link in app sidebar</div>
+            <div class="shipped-desc"><code>index.html</code> — "💳 Pricing" added to the Settings dropdown so existing users can discover the pricing page from within the app.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>What remains before full mission close</h3>
+      <div class="callout note"><div class="callout-icon">📋</div><div>
+        <strong>Three manual steps, not code steps:</strong><br>
+        1. Create a VS Code Marketplace publisher account → run <code>vsce publish</code><br>
+        2. Provision a cloud-hosted trial instance (manual server setup) for prospects who can't install locally<br>
+        3. First customer outreach — direct demo, hand-hold through onboarding
+      </div></div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── What Is Extension ── -->
+    <section id="what-is-extension">
+      <div class="section-eyebrow">Concept</div>
+      <h2>What is a VS Code Extension?</h2>
+      <p>VS Code is built on Electron — a desktop shell running Chromium + Node.js. Extensions are <strong>Node.js packages that run in a dedicated sub-process</strong> called the <em>Extension Host</em>, completely separate from the main VS Code renderer process. Think of it as a sandboxed Node server attached to the editor.</p>
+      <p>When you install an extension, VS Code unpacks a <code>.vsix</code> archive into <code>~/.vscode/extensions/</code> and starts loading it on next launch (or when an activation event fires). The Extension Host runs your compiled JavaScript, and you can do anything Node.js can do: read files, make HTTP requests, spawn child processes, manage state.</p>
+
+      <h3>The two worlds inside an extension</h3>
+      <div class="kv-list">
+        <div class="kv-row">
+          <div class="kv-key">Extension Host (Node.js)</div>
+          <div class="kv-val">Where <code>extension.ts</code> compiles to and runs. Full Node.js — can use <code>http</code>, <code>fs</code>, any npm package. Calls VS Code APIs (<code>vscode.*</code>) to register commands, create panels, read settings.</div>
+        </div>
+        <div class="kv-row">
+          <div class="kv-key">WebviewPanel (Chromium sandbox)</div>
+          <div class="kv-val">A sandboxed browser iframe. Runs your HTML/CSS/JS for the sidebar UI. No Node.js access, no direct internet access (CSP blocks external hosts). Communicates with the Extension Host only via <code>postMessage</code>.</div>
+        </div>
+      </div>
+
+      <div class="callout tip"><div class="callout-icon">💡</div><div>
+        <strong>Why this matters for us:</strong> The HTTP call to Knowledge Hub happens in the Extension Host (Node.js), not in the webview. That means no CORS issues — Node's <code>http</code> module makes a server-to-server call. The webview just shows the result.
+      </div></div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── Mechanism ── -->
+    <section id="mechanism">
+      <div class="section-eyebrow">Internals</div>
+      <h2>How the Extension Wires Together</h2>
+      <p>Trace a single question from keystroke to answer:</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">VS Code loads the extension</div>
+            <div class="step-desc">When the sidebar panel is opened, VS Code fires the activation event and calls <code>activate(context)</code> in <code>out/extension.js</code>. This registers the <code>KnowledgeHubViewProvider</code> against the view ID <code>knowledgehub.chat</code> declared in <code>package.json</code>.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">VS Code calls <code>resolveWebviewView()</code></div>
+            <div class="step-desc">The first time the sidebar panel becomes visible, VS Code calls this method on our provider. We set <code>enableScripts: true</code> and inject the sidebar HTML — the entire question/answer UI lives as a template string inside this method.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">User types a question and presses Enter</div>
+            <div class="step-desc">Inside the webview (sandbox), the JS calls <code>vscode.postMessage({ type: 'ask', question })</code>. This is the only way out of the sandbox. No HTTP, no Node, just a message bus.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Extension Host receives the message</div>
+            <div class="step-desc">The <code>onDidReceiveMessage</code> handler fires. We call <code>_handleAsk(question)</code>. First we post <code>{ type: 'thinking' }</code> back to the webview (shows the spinner), then we read the configured server URL from VS Code settings via <code>vscode.workspace.getConfiguration('knowledgehub')</code>.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-title">Node.js makes the HTTP POST</div>
+            <div class="step-desc"><code>_postChat()</code> uses Node's built-in <code>http</code> (or <code>https</code>) module — no npm dependency — to POST <code>{ question, sessionId }</code> to <code>http://localhost:3000/api/chat</code>. The session ID persists across the VS Code session so the conversation has memory, same as the web UI.</div>
+            <div class="code-file">Extension Host → Knowledge Hub Server</div>
+            <pre><code><span class="kw">POST</span> <span class="path">http://localhost:3000/api/chat</span>
+<span class="typ">Content-Type</span>: application/json
+
+{
+  <span class="str">"question"</span>: <span class="str">"How do I configure Confluence OAuth?"</span>,
+  <span class="str">"sessionId"</span>: <span class="str">"vscode-l9x4k2"</span>
+}
+
+<span class="cmt">// Response</span>
+{
+  <span class="str">"answer"</span>: <span class="str">"To configure Confluence OAuth, go to..."</span>,
+  <span class="str">"sources"</span>: [{ <span class="str">"section"</span>: <span class="str">"Confluence Setup"</span>, ... }],
+  <span class="str">"sessionId"</span>: <span class="str">"vscode-l9x4k2"</span>
+}</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <div class="step-title">Knowledge Hub processes the query</div>
+            <div class="step-desc">The Express server runs <code>query()</code> — hybrid BM25 + vector retrieval, confidence gate, context compression, then sends to Ollama. The answer returns as JSON. The query is also written to <code>eval.jsonl</code>, so every VS Code question enriches the IDS.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">7</div>
+          <div class="step-body">
+            <div class="step-title">Answer flows back to the webview</div>
+            <div class="step-desc">Extension Host posts <code>{ type: 'answer', question, answer }</code> to the webview. The webview's <code>window.addEventListener('message')</code> handler receives it, removes the spinner, and renders the answer. Done.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── What Gets Published ── -->
+    <section id="what-published">
+      <div class="section-eyebrow">Packaging</div>
+      <h2>What Gets Published to the Marketplace</h2>
+      <p>Running <code>vsce package</code> bundles the extension into a <code>.vsix</code> file (a renamed zip). Here's what's inside — and what isn't:</p>
+
+      <div class="file-tree">
+        <div><span class="ft-dir">knowledge-hub-0.1.0.vsix</span> <span class="ft-cmt">← the zip you upload/install</span></div>
+        <div><span class="ft-indent">├─</span> <span class="ft-file key">package.json</span> <span class="ft-cmt">← extension manifest (name, commands, settings, contributes)</span></div>
+        <div><span class="ft-indent">├─</span> <span class="ft-file key">README.md</span> <span class="ft-cmt">← shown on the Marketplace listing page</span></div>
+        <div><span class="ft-indent">├─</span> <span class="ft-dir">out/</span></div>
+        <div><span class="ft-indent">│  └─</span> <span class="ft-file key">extension.js</span> <span class="ft-cmt">← compiled TypeScript (the only code that runs)</span></div>
+        <div><span class="ft-indent">│  └─</span> <span class="ft-file">extension.js.map</span> <span class="ft-cmt">← source maps for debuggability</span></div>
+        <div><span class="ft-indent">├─</span> <span class="ft-dir">media/</span></div>
+        <div><span class="ft-indent">│  └─</span> <span class="ft-file key">sidebar-icon.svg</span> <span class="ft-cmt">← activity bar icon</span></div>
+        <div style="margin-top:12px; color: var(--subtle); font-size:12px;">NOT included (excluded by .vscodeignore):</div>
+        <div style="color:var(--subtle)"><span class="ft-indent">✗ </span><span>src/  (TypeScript source — stays on your machine)</span></div>
+        <div style="color:var(--subtle)"><span class="ft-indent">✗ </span><span>node_modules/  (devDependencies only — typescript, @types/vscode — not shipped)</span></div>
+        <div style="color:var(--subtle)"><span class="ft-indent">✗ </span><span>tsconfig.json, .vscodeignore</span></div>
+      </div>
+
+      <div class="callout note"><div class="callout-icon">📦</div><div>
+        <strong>Zero runtime npm dependencies.</strong> Our extension uses Node's built-in <code>http</code> module for the HTTP call. <code>node_modules/</code> contains only dev tools (TypeScript compiler, vsce itself) — none of it ships in the package. The <code>.vsix</code> is under 100 KB.
+      </div></div>
+
+      <h3>The <code>package.json</code> manifest — what each field does</h3>
+      <div class="kv-list">
+        <div class="kv-row"><div class="kv-key">contributes.viewsContainers</div><div class="kv-val">Registers a new icon in VS Code's Activity Bar (the left icon strip). Clicking it opens our sidebar panel group.</div></div>
+        <div class="kv-row"><div class="kv-key">contributes.views</div><div class="kv-val">Declares the <code>knowledgehub.chat</code> webview view inside our container. <code>type: "webview"</code> tells VS Code to call <code>resolveWebviewView</code> on our provider.</div></div>
+        <div class="kv-row"><div class="kv-key">contributes.commands</div><div class="kv-val">Registers <code>knowledgehub.openChat</code> and <code>knowledgehub.askSelection</code>. Commands are callable from Command Palette (<code>Ctrl/Cmd+Shift+P</code>) and the right-click context menu.</div></div>
+        <div class="kv-row"><div class="kv-key">contributes.menus</div><div class="kv-val">Wires <code>askSelection</code> into the editor right-click menu, shown only when there is a text selection (<code>when: "editorHasSelection"</code>).</div></div>
+        <div class="kv-row"><div class="kv-key">contributes.configuration</div><div class="kv-val">Declares the two settings: <code>knowledgehub.serverUrl</code> and <code>knowledgehub.defaultSection</code>. VS Code surfaces these in Settings UI automatically.</div></div>
+        <div class="kv-row"><div class="kv-key">activationEvents: []</div><div class="kv-val">Empty array = VS Code activates the extension lazily when the view is opened, rather than on every editor startup. Keeps startup fast.</div></div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── Architecture ── -->
+    <section id="architecture">
+      <div class="section-eyebrow">System Design</div>
+      <h2>Full Architecture — Individual Setup</h2>
+      <p>This is what runs on a single developer's machine when they use the VS Code extension against a local Knowledge Hub instance.</p>
+
+      <div class="diagram-wrap">
+        <svg width="680" height="420" viewBox="0 0 680 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="currentColor" opacity=".5"/>
+            </marker>
+          </defs>
+
+          <!-- Background regions -->
+          <rect x="8" y="8" width="660" height="404" rx="10" fill="none" stroke="currentColor" stroke-opacity=".08" stroke-width="1.5"/>
+
+          <!-- VS Code region -->
+          <rect x="24" y="28" width="280" height="200" rx="8" fill="currentColor" fill-opacity=".04" stroke="currentColor" stroke-opacity=".15" stroke-width="1.5"/>
+          <text x="164" y="48" text-anchor="middle" fill="currentColor" font-size="11" font-weight="600" opacity=".4" letter-spacing=".06em" font-family="system-ui, sans-serif">VS CODE PROCESS</text>
+
+          <!-- Extension Host box -->
+          <rect x="36" y="56" width="256" height="80" rx="6" fill="currentColor" fill-opacity=".06" stroke="currentColor" stroke-opacity=".2" stroke-width="1"/>
+          <text x="58" y="77" fill="currentColor" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif" opacity=".85">Extension Host (Node.js)</text>
+          <text x="58" y="95" fill="#58a6ff" font-size="11" font-family="monospace" opacity=".9">extension.js</text>
+          <text x="58" y="113" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">KnowledgeHubViewProvider</text>
+          <text x="58" y="127" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">Node http.request()</text>
+
+          <!-- Webview box -->
+          <rect x="36" y="152" width="256" height="64" rx="6" fill="currentColor" fill-opacity=".04" stroke="currentColor" stroke-opacity=".18" stroke-width="1"/>
+          <text x="58" y="171" fill="currentColor" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif" opacity=".85">WebviewPanel (Chromium sandbox)</text>
+          <text x="58" y="189" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">sidebar HTML + CSS + JS</text>
+          <text x="58" y="203" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">postMessage ↔ Extension Host</text>
+
+          <!-- Arrow: webview ↔ ext host -->
+          <line x1="164" y1="152" x2="164" y2="136" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <text x="170" y="146" fill="currentColor" font-size="9.5" font-family="monospace" opacity=".4">postMessage</text>
+
+          <!-- Knowledge Hub server region -->
+          <rect x="340" y="28" width="316" height="200" rx="8" fill="currentColor" fill-opacity=".04" stroke="currentColor" stroke-opacity=".15" stroke-width="1.5"/>
+          <text x="498" y="48" text-anchor="middle" fill="currentColor" font-size="11" font-weight="600" opacity=".4" letter-spacing=".06em" font-family="system-ui, sans-serif">KNOWLEDGE HUB SERVER :3000</text>
+
+          <!-- Express box -->
+          <rect x="352" y="56" width="292" height="50" rx="6" fill="currentColor" fill-opacity=".06" stroke="currentColor" stroke-opacity=".2" stroke-width="1"/>
+          <text x="370" y="77" fill="currentColor" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif" opacity=".85">Express API</text>
+          <text x="370" y="95" fill="#7ee787" font-size="11" font-family="monospace" opacity=".9">POST /api/chat  → query.js</text>
+
+          <!-- RAG box -->
+          <rect x="352" y="120" width="130" height="100" rx="6" fill="currentColor" fill-opacity=".04" stroke="currentColor" stroke-opacity=".18" stroke-width="1"/>
+          <text x="370" y="140" fill="currentColor" font-size="11" font-weight="600" font-family="system-ui, sans-serif" opacity=".85">RAG Pipeline</text>
+          <text x="370" y="158" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">BM25 + vectors</text>
+          <text x="370" y="173" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">RRF reranking</text>
+          <text x="370" y="188" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">confidence gate</text>
+          <text x="370" y="203" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">eval.jsonl write</text>
+
+          <!-- Vector store box -->
+          <rect x="498" y="120" width="146" height="46" rx="6" fill="currentColor" fill-opacity=".04" stroke="currentColor" stroke-opacity=".18" stroke-width="1"/>
+          <text x="514" y="140" fill="currentColor" font-size="11" font-weight="600" font-family="system-ui, sans-serif" opacity=".85">Vector Store</text>
+          <text x="514" y="157" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">LanceDB / local disk</text>
+
+          <!-- eval.jsonl box -->
+          <rect x="498" y="178" width="146" height="42" rx="6" fill="currentColor" fill-opacity=".04" stroke="currentColor" stroke-opacity=".18" stroke-width="1"/>
+          <text x="514" y="196" fill="currentColor" font-size="11" font-weight="600" font-family="system-ui, sans-serif" opacity=".85">eval.jsonl</text>
+          <text x="514" y="212" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">IDS enrichment store</text>
+
+          <!-- Arrow RAG → vector store -->
+          <line x1="484" y1="143" x2="496" y2="143" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5" marker-end="url(#arr)"/>
+          <!-- Arrow RAG → eval -->
+          <line x1="484" y1="200" x2="496" y2="200" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <!-- Ollama region -->
+          <rect x="340" y="246" width="316" height="70" rx="8" fill="currentColor" fill-opacity=".04" stroke="currentColor" stroke-opacity=".15" stroke-width="1.5"/>
+          <text x="498" y="265" text-anchor="middle" fill="currentColor" font-size="11" font-weight="600" opacity=".4" letter-spacing=".06em" font-family="system-ui, sans-serif">OLLAMA :11434</text>
+          <text x="498" y="293" text-anchor="middle" fill="currentColor" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif" opacity=".85">Local LLM (llama3, mistral, gemma…)</text>
+          <text x="498" y="308" text-anchor="middle" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">runs on GPU/CPU, fully offline</text>
+
+          <!-- Arrow Express → RAG -->
+          <line x1="418" y1="106" x2="418" y2="118" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5" marker-end="url(#arr)"/>
+          <!-- Arrow RAG → Ollama -->
+          <line x1="418" y1="222" x2="418" y2="244" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <!-- HTTP arrow: ext host → KH server -->
+          <line x1="294" y1="90" x2="350" y2="90" stroke="#58a6ff" stroke-opacity=".5" stroke-width="2" marker-end="url(#arr)"/>
+          <rect x="300" y="72" width="54" height="17" rx="3" fill="none"/>
+          <text x="327" y="84" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="monospace" opacity=".8">HTTP POST</text>
+
+          <!-- User region (bottom) -->
+          <rect x="24" y="248" width="280" height="70" rx="8" fill="currentColor" fill-opacity=".03" stroke="currentColor" stroke-opacity=".12" stroke-width="1.5"/>
+          <text x="164" y="268" text-anchor="middle" fill="currentColor" font-size="11" font-weight="600" opacity=".4" letter-spacing=".06em" font-family="system-ui, sans-serif">DEVELOPER</text>
+          <text x="164" y="293" text-anchor="middle" fill="currentColor" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif" opacity=".85">Types question in sidebar</text>
+          <text x="164" y="308" text-anchor="middle" fill="currentColor" font-size="10.5" font-family="monospace" opacity=".5">or selects code → right-click → Ask</text>
+
+          <!-- Arrow: user → webview -->
+          <line x1="164" y1="246" x2="164" y2="218" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <!-- Everything on one machine label -->
+          <text x="340" y="394" text-anchor="middle" fill="currentColor" font-size="11" font-family="system-ui, sans-serif" opacity=".35" letter-spacing=".04em">Everything above runs on one developer machine (Individual plan)</text>
+        </svg>
+      </div>
+
+      <h3>The data flows that matter</h3>
+      <div class="compare-table" style="overflow-x:auto">
+        <table class="compare-table">
+          <thead><tr><th>Flow</th><th>Path</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Question → Answer</strong></td><td><code>Webview → postMessage → Ext Host → HTTP → /api/chat → RAG → Ollama</code></td><td>~1–8s depending on model and doc corpus size</td></tr>
+            <tr><td><strong>IDS enrichment</strong></td><td><code>/api/chat → eval.jsonl append</code></td><td>Every VS Code query counts toward IDS, same as web UI</td></tr>
+            <tr><td><strong>Settings read</strong></td><td><code>vscode.workspace.getConfiguration('knowledgehub')</code></td><td>Live — no restart needed when user changes server URL</td></tr>
+            <tr><td><strong>Ask selection</strong></td><td><code>editor.document.getText(selection) → provider.sendQuestion()</code></td><td>Prefills the panel and fires immediately</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── Local Testing ── -->
+    <section id="local-testing">
+      <div class="section-eyebrow">Development</div>
+      <h2>Testing Locally — No Marketplace Required</h2>
+
+      <h3>Method 1 — F5 Extension Development Host (fastest, for active development)</h3>
+      <p>This is the standard VS Code extension dev loop. It opens a second VS Code window with your extension loaded.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Open the extension folder in VS Code</div>
+            <div class="step-desc">Open the <code>vscode-extension/</code> folder (not the project root) as a VS Code workspace.</div>
+            <pre><code>code D:\AI\AI_Learning_Projects\poc-ai-learn-rag\vscode-extension</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Install dev dependencies</div>
+            <div class="step-desc">These are only used at build time — TypeScript compiler and vsce. They don't ship in the extension.</div>
+            <pre><code>npm install</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Press F5 (or Run → Start Debugging)</div>
+            <div class="step-desc">VS Code compiles TypeScript, then opens a new <strong>Extension Development Host</strong> window. This is a full VS Code instance with your extension installed and active. Any changes you make to <code>src/extension.ts</code> → save → <code>Ctrl+Shift+F5</code> to restart the host.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">In the new window: click the book icon in the Activity Bar</div>
+            <div class="step-desc">The Knowledge Hub sidebar opens. Make sure your Knowledge Hub server is running on <code>http://localhost:3000</code> and ask a question.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Method 2 — Install the .vsix file (closest to real install, for QA)</h3>
+      <p>Build a <code>.vsix</code> package and install it directly in your main VS Code. This is exactly what a user does when they install from Marketplace — same code path, no development host.</p>
+
+      <pre><code><span class="cmt"># From vscode-extension/</span>
+npm install
+npm run compile
+
+<span class="cmt"># Build the .vsix</span>
+npx vsce package
+
+<span class="cmt"># Install it in VS Code</span>
+code --install-extension knowledge-hub-0.1.0.vsix
+
+<span class="cmt"># To uninstall when done testing</span>
+code --uninstall-extension knowledge-hub.knowledge-hub</code></pre>
+
+      <div class="callout warn"><div class="callout-icon">⚠️</div><div>
+        <strong>You need your Knowledge Hub server running</strong> when testing. The extension is a thin client — it has no logic of its own. Without <code>http://localhost:3000</code> responding, you'll get the error state in the panel. Start the server first: <code>node src/api/server.js</code> from the project root.
+      </div></div>
+
+      <div class="status-bar">
+        <div class="status-dot"></div>
+        <span>Knowledge Hub server running on port 3000</span>
+        <span style="margin-left:auto;opacity:.5">node src/api/server.js</span>
+      </div>
+      <div class="status-bar">
+        <div class="status-dot"></div>
+        <span>Ollama running on port 11434</span>
+        <span style="margin-left:auto;opacity:.5">ollama serve</span>
+      </div>
+      <div class="status-bar">
+        <div class="status-dot warn"></div>
+        <span>Extension connects but no chunks found</span>
+        <span style="margin-left:auto;opacity:.5">Run setup / upload docs first</span>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── Publishing ── -->
+    <section id="publishing">
+      <div class="section-eyebrow">Distribution</div>
+      <h2>Publishing to the Marketplace</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Create a publisher account</div>
+            <div class="step-desc">Go to <strong>marketplace.visualstudio.com/manage</strong>. Sign in with a Microsoft account. Create a publisher with ID matching <code>package.json → "publisher"</code> — we used <code>"knowledge-hub"</code>.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Create a Personal Access Token (PAT)</div>
+            <div class="step-desc">In Azure DevOps → User Settings → Personal Access Tokens. Scope: <strong>Marketplace → Manage</strong>. Copy the token — you only see it once.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Publish</div>
+            <pre><code><span class="cmt"># From vscode-extension/</span>
+npm run compile
+npx vsce publish <span class="cmt"># prompts for PAT on first run</span>
+
+<span class="cmt"># Or: build .vsix then upload manually in the Marketplace UI</span>
+npx vsce package
+<span class="cmt"># → uploads knowledge-hub-0.1.0.vsix at marketplace.visualstudio.com/manage</span></code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Extension goes live within ~5 minutes</div>
+            <div class="step-desc">Searchable at <strong>marketplace.visualstudio.com</strong> and installable from VS Code's Extensions panel. Every install that asks a question: enriches the user's IDS. That's the flywheel.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note"><div class="callout-icon">📌</div><div>
+        <strong>Add a 128×128 PNG icon before publishing.</strong> The manifest references <code>media/icon.png</code> — without it, <code>vsce package</code> warns and the listing looks generic. The SVG sidebar icon is separate (for the Activity Bar); the PNG is the Marketplace thumbnail.
+      </div></div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── Hosting ── -->
+    <section id="hosting">
+      <div class="section-eyebrow">Infrastructure</div>
+      <h2>What Needs to Keep Running in Production?</h2>
+      <p>The VS Code extension is a <strong>passive client</strong> — it has no server of its own, no cloud dependency, nothing to host. What needs to run is the Knowledge Hub stack the extension connects to. Here's the complete picture:</p>
+
+      <div class="kv-list">
+        <div class="kv-row">
+          <div class="kv-key">Knowledge Hub server</div>
+          <div class="kv-val">The Express app (<code>node src/api/server.js</code>). Needs to be reachable at the URL configured in <code>knowledgehub.serverUrl</code>. This is the only thing the extension actually talks to.</div>
+        </div>
+        <div class="kv-row">
+          <div class="kv-key">Ollama</div>
+          <div class="kv-val">The local LLM runtime (<code>ollama serve</code>). Listens on port 11434. Knowledge Hub calls it — the extension never does directly. Needs a pulled model: <code>ollama pull llama3</code>.</div>
+        </div>
+        <div class="kv-row">
+          <div class="kv-key">Vector store</div>
+          <div class="kv-val">LanceDB files on disk, read by the Knowledge Hub server. No separate process — it's just a directory. Needs to have been populated by running setup / ingestion first.</div>
+        </div>
+        <div class="kv-row">
+          <div class="kv-key">VS Code extension itself</div>
+          <div class="kv-val">Runs inside the user's VS Code. No hosting needed. Installed once from Marketplace (or .vsix), stays installed.</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── Deployment Models ── -->
+    <section id="deployment-models">
+      <div class="section-eyebrow">Infrastructure</div>
+      <h2>Deployment Models — Where Everything Lives</h2>
+
+      <div class="deploy-grid">
+        <div class="deploy-card">
+          <div class="deploy-card-head">
+            <div class="deploy-icon solo">💻</div>
+            <div>
+              <h3>Individual Plan — $20/mo</h3>
+              <p>Everything on one laptop</p>
+            </div>
+          </div>
+          <ul class="machine-list">
+            <li><div class="ml-dot"></div><strong>Your laptop:</strong> VS Code + Extension</li>
+            <li><div class="ml-dot"></div><strong>Your laptop:</strong> Knowledge Hub server (localhost:3000)</li>
+            <li><div class="ml-dot"></div><strong>Your laptop:</strong> Ollama (localhost:11434) + model</li>
+            <li><div class="ml-dot"></div><strong>Your laptop:</strong> Vector store (local disk, ~100MB–2GB)</li>
+          </ul>
+          <div class="callout tip" style="margin-top:14px; font-size:13px;">
+            <div class="callout-icon">✅</div>
+            <div>Fully offline. Zero infrastructure cost. Works on a plane.</div>
+          </div>
+        </div>
+
+        <div class="deploy-card">
+          <div class="deploy-card-head">
+            <div class="deploy-icon team">👥</div>
+            <div>
+              <h3>Team Plan — $99/mo</h3>
+              <p>Shared server, local VS Code</p>
+            </div>
+          </div>
+          <ul class="machine-list">
+            <li><div class="ml-dot green"></div><strong>Each dev's laptop:</strong> VS Code + Extension</li>
+            <li><div class="ml-dot green"></div><strong>Shared server (e.g. EC2/Hetzner):</strong> Knowledge Hub + Ollama + Vector store</li>
+            <li><div class="ml-dot green"></div>Extension setting: <code>knowledgehub.serverUrl = http://10.0.0.5:3000</code></li>
+          </ul>
+          <div class="callout note" style="margin-top:14px; font-size:13px;">
+            <div class="callout-icon">📡</div>
+            <div>All team queries hit the shared intelligence store → IDS compounds 3× faster. Needs a server with GPU for Ollama (or CPU if acceptable latency).</div>
+          </div>
+        </div>
+
+        <div class="deploy-card">
+          <div class="deploy-card-head">
+            <div class="deploy-icon ent">🏢</div>
+            <div>
+              <h3>Enterprise — Custom</h3>
+              <p>Air-gapped or cloud, your infra</p>
+            </div>
+          </div>
+          <ul class="machine-list">
+            <li><div class="ml-dot yellow"></div><strong>Each dev:</strong> VS Code + Extension (configured to internal URL)</li>
+            <li><div class="ml-dot yellow"></div><strong>Internal infra:</strong> KH server + Ollama (or Azure OpenAI endpoint)</li>
+            <li><div class="ml-dot yellow"></div><strong>No data leaves the building</strong> — all LLM calls are internal</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Minimum server spec for Team plan (rough guide)</h3>
+      <div class="compare-table" style="overflow-x:auto">
+        <table class="compare-table">
+          <thead><tr><th>Component</th><th>Minimum</th><th>Recommended</th></tr></thead>
+          <tbody>
+            <tr><td>CPU</td><td>4 cores</td><td>8+ cores</td></tr>
+            <tr><td>RAM</td><td>16 GB</td><td>32 GB</td></tr>
+            <tr><td>GPU</td><td>None (CPU inference — slow)</td><td>RTX 3090 / A10G for <3s responses</td></tr>
+            <tr><td>Disk</td><td>50 GB SSD</td><td>200 GB NVMe (vector store grows with corpus)</td></tr>
+            <tr><td>Network</td><td>Reachable on LAN or VPN</td><td>Private VPC, no public internet exposure</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── Consumer Install ── -->
+    <section id="consumer-install">
+      <div class="section-eyebrow">Consumer Guide</div>
+      <h2>Installing the Extension — For Someone Who Has Never Done This</h2>
+      <p>You do not need to know TypeScript, Node.js, or anything about how extensions are built. If you have VS Code and a running Knowledge Hub server, this takes 3 minutes.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Open the Extensions panel in VS Code</div>
+            <div class="step-desc">Press <code>Ctrl+Shift+X</code> (Windows/Linux) or <code>Cmd+Shift+X</code> (Mac). A panel opens on the left showing installed and searchable extensions.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Search for "Knowledge Hub"</div>
+            <div class="step-desc">Type <strong>Knowledge Hub</strong> in the search box. The extension published by <strong>knowledge-hub</strong> appears. Click the green <strong>Install</strong> button. VS Code downloads and installs it in seconds. No restart needed.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Set your server URL (if not using localhost)</div>
+            <div class="step-desc">Open Settings (<code>Ctrl/Cmd+,</code>), search for <strong>Knowledge Hub</strong>. Set <strong>Server URL</strong> to wherever your Knowledge Hub server is running. If it's on your laptop, leave it as <code>http://localhost:3000</code>. If it's on a team server, enter that IP/hostname.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Click the book icon in the Activity Bar</div>
+            <div class="step-desc">The Activity Bar is the icon strip on the far left of VS Code. A book icon appears — this is Knowledge Hub. Clicking it opens the sidebar panel. Type a question and press Enter.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── Consumer Use ── -->
+    <section id="consumer-use">
+      <div class="section-eyebrow">Consumer Guide</div>
+      <h2>Using It Day-to-Day</h2>
+
+      <h3>Asking questions in the sidebar</h3>
+      <p>Click the book icon → type your question → press <strong>Enter</strong>. The answer comes from your organization's documentation, processed through the same RAG pipeline as the web UI. The sidebar remembers conversation history within your VS Code session.</p>
+
+      <h3>Asking about selected code</h3>
+      <p>Select any text in the editor (a function, a class, an error message). Right-click → <strong>Knowledge Hub: Ask about selection</strong>. The selected text is sent directly as a question — useful for "explain what this does" or "does our docs cover this pattern?"</p>
+
+      <h3>Keyboard shortcut (optional setup)</h3>
+      <p>To open the chat panel quickly, open the Command Palette (<code>Ctrl/Cmd+Shift+P</code>), type <strong>Knowledge Hub: Open Chat</strong>. You can bind this to a key shortcut in VS Code Keybindings.</p>
+
+      <h3>Changing the server URL</h3>
+      <p>If the panel shows a "Could not reach Knowledge Hub" error: your server isn't running, or the URL is wrong. Click the <strong>Update server URL</strong> link in the error message — it takes you directly to the relevant setting. Check that <code>node src/api/server.js</code> is running in a terminal.</p>
+
+      <h3>What's happening behind the scenes (for the curious)</h3>
+      <p>Every question you ask through VS Code is logged to <code>eval.jsonl</code> on the Knowledge Hub server — the same store that powers the Intelligence Density Score. Meaning: using the extension actively makes the intelligence layer richer for everyone on your team. The more you use it, the better it gets.</p>
+
+      <div class="callout tip"><div class="callout-icon">🎯</div><div>
+        <strong>The IDS flywheel in practice:</strong> A team of 5 engineers each asking 10 questions/day through VS Code generates 350 questions/week. At that rate, Documentation Gaps surface within 2 weeks, Knowledge Risk is visible in 4 weeks, and IDS typically crosses 0.7 (the moat threshold) within 30–60 days of consistent use.
+      </div></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Active nav tracking on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.nav-link[href="#' + e.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>

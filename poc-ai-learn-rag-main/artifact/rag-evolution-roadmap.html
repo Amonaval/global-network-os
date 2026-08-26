@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG Evolution Roadmap — Knowledge Hub</title>
+<style>
+/* ── Tokens (light default — cartographic/editorial) ─────────────── */
+:root {
+  --navy:       #0D1B2A;
+  --parchment:  #F2E8D0;
+  --parch-2:    #E8DCC0;
+  --amber:      #B8651C;
+  --amber-dim:  #FBE8D5;
+  --sage:       #3D6B50;
+  --sage-dim:   #D6EAD8;
+  --slate:      #6B8FA8;
+  --slate-dim:  #DCE8F2;
+
+  --bg:         #F7F2E6;
+  --bg-card:    #FFFFFF;
+  --border:     #D5C9AE;
+  --text-on-light:  #1A1208;
+  --text2-on-light: #5A4F3A;
+  --text3-on-light: #8A7E65;
+  --text-on-dark:   #F2E8D0;
+  --text2-on-dark:  #9BAFC2;
+  --text3-on-dark:  #4A6880;
+
+  /* band alternation controlled per-band */
+  --band-light-bg:   #F2E8D0;
+  --band-dark-bg:    #0D1B2A;
+  --band-light-border: #C5B898;
+  --band-dark-border:  #1E3249;
+}
+/* No dark mode override — this artifact intentionally uses a fixed warm palette. */
+/* The alternating dark/navy bands provide the light/dark contrast intrinsically. */
+/* Body must still have explicit background for host frame neutrality: */
+body { background: var(--bg); }
+
+/* ── Reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; min-height: 100vh; }
+a { color: var(--amber); }
+a:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+code { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; font-size: 0.85em; }
+
+/* ── Site Header ───────────────────────────────────────────────────── */
+.site-header {
+  background: var(--navy);
+  color: var(--text-on-dark);
+  padding: 3.5rem 0 3rem;
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.header-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-bottom: 1rem;
+}
+.header-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--parchment);
+  text-wrap: balance;
+  margin-bottom: 1.25rem;
+}
+.header-lead {
+  font-size: 1rem;
+  color: var(--text2-on-dark);
+  max-width: 62ch;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+.header-thesis {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.thesis-item {
+  font-size: 0.8rem;
+  color: var(--text3-on-dark);
+}
+.thesis-arrow { color: var(--amber); font-size: 0.9rem; }
+.thesis-item.current {
+  color: var(--parchment);
+  font-weight: 700;
+  background: rgba(184,101,28,0.25);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+/* ── "Where we are today" marker ──────────────────────────────────── */
+.today-marker {
+  background: var(--amber);
+  color: #FFFFFF;
+  padding: 0.6rem 2rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.today-marker .line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.4);
+}
+
+/* ── Stage band base ───────────────────────────────────────────────── */
+.stage-band {
+  position: relative;
+}
+.stage-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  display: grid;
+  grid-template-columns: 180px 1fr 180px;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Light band */
+.band-light {
+  background: var(--band-light-bg);
+  border-bottom: 1px solid var(--band-light-border);
+}
+.band-light .stage-num     { color: var(--text3-on-light); }
+.band-light .stage-label   { color: var(--amber); }
+.band-light .stage-title   { color: var(--text-on-light); }
+.band-light .stage-body    { color: var(--text2-on-light); }
+.band-light .stat-box      { background: var(--parch-2); border-color: var(--band-light-border); }
+.band-light .stat-num      { color: var(--amber); }
+.band-light .stat-label    { color: var(--text3-on-light); }
+.band-light .detail-item   { border-color: var(--band-light-border); color: var(--text2-on-light); }
+.band-light .impl-badge    { background: var(--sage-dim); color: var(--sage); }
+.band-light .next-badge    { background: var(--amber-dim); color: var(--amber); }
+.band-light .future-badge  { background: var(--slate-dim); color: var(--slate); }
+.band-light .margin-head   { color: var(--text3-on-light); }
+.band-light .persona-tag   { background: var(--parch-2); border-color: var(--band-light-border); color: var(--text2-on-light); }
+.band-light .scope-in      { color: var(--sage); }
+.band-light .scope-out     { color: var(--text3-on-light); }
+.band-light code           { background: var(--parch-2); color: var(--amber); }
+
+/* Dark band */
+.band-dark {
+  background: var(--band-dark-bg);
+  border-bottom: 1px solid var(--band-dark-border);
+}
+.band-dark .stage-num     { color: var(--text3-on-dark); }
+.band-dark .stage-label   { color: var(--amber); }
+.band-dark .stage-title   { color: var(--parchment); }
+.band-dark .stage-body    { color: var(--text2-on-dark); }
+.band-dark .stat-box      { background: rgba(255,255,255,0.04); border-color: var(--band-dark-border); }
+.band-dark .stat-num      { color: var(--amber); }
+.band-dark .stat-label    { color: var(--text3-on-dark); }
+.band-dark .detail-item   { border-color: var(--band-dark-border); color: var(--text2-on-dark); }
+.band-dark .impl-badge    { background: rgba(61,107,80,0.3); color: #6DBF8B; }
+.band-dark .next-badge    { background: rgba(184,101,28,0.25); color: var(--amber); }
+.band-dark .future-badge  { background: rgba(107,143,168,0.2); color: var(--slate); }
+.band-dark .margin-head   { color: var(--text3-on-dark); }
+.band-dark .persona-tag   { background: rgba(255,255,255,0.05); border-color: var(--band-dark-border); color: var(--text2-on-dark); }
+.band-dark .scope-in      { color: #6DBF8B; }
+.band-dark .scope-out     { color: var(--text3-on-dark); }
+.band-dark code           { background: rgba(255,255,255,0.07); color: var(--amber); }
+
+/* ── Stage main content ─────────────────────────────────────────────── */
+.stage-main { }
+.stage-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.stage-num {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.35;
+  letter-spacing: -0.03em;
+}
+.stage-meta { }
+.stage-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+.stage-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.stage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 99px;
+  margin-bottom: 1rem;
+  align-self: flex-start;
+}
+.stage-body {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
+}
+.detail-list { display: flex; flex-direction: column; gap: 0; }
+.detail-item {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  display: flex;
+  gap: 0.6rem;
+}
+.detail-item:last-child { border-bottom: none; }
+.detail-icon { flex-shrink: 0; opacity: 0.6; }
+
+/* ── Stats in margin ─────────────────────────────────────────────────── */
+.stage-margin-left, .stage-margin-right {
+  padding-top: 0.25rem;
+}
+.margin-head {
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.stat-box {
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+  margin-bottom: 0.6rem;
+}
+.stat-num {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  display: block;
+}
+.stat-label {
+  font-size: 0.68rem;
+  line-height: 1.35;
+  margin-top: 0.2rem;
+  display: block;
+}
+.persona-tag {
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 0.45rem 0.6rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.persona-tag strong { display: block; font-size: 0.72rem; font-weight: 700; margin-bottom: 0.1rem; }
+.scope-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.scope-item {
+  font-size: 0.78rem;
+  line-height: 1.4;
+  display: flex;
+  gap: 0.4rem;
+}
+.scope-icon { flex-shrink: 0; font-size: 0.9rem; }
+
+/* ── Boundary section ───────────────────────────────────────────────── */
+.boundary-section {
+  background: var(--navy);
+  padding: 3rem 0;
+}
+.boundary-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.boundary-head {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--parchment);
+  margin-bottom: 0.5rem;
+}
+.boundary-sub {
+  font-size: 0.875rem;
+  color: var(--text2-on-dark);
+  margin-bottom: 2rem;
+  max-width: 60ch;
+}
+.boundary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+.no-build {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--band-dark-border);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  font-size: 0.82rem;
+  color: var(--text3-on-dark);
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.no-icon { flex-shrink: 0; }
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--navy);
+  border-top: 1px solid var(--band-dark-border);
+  padding: 1.5rem 2rem;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-links a { font-size: 0.82rem; color: var(--text3-on-dark); }
+.footer-links a:hover { color: var(--amber); text-decoration: underline; }
+.footer-stamp { font-size: 0.75rem; color: var(--text3-on-dark); }
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 800px) {
+  .stage-inner {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+  .stage-margin-left { order: -1; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .stage-margin-left .margin-head { display: none; }
+  .stage-margin-left .stat-box { flex: 1; min-width: 100px; margin-bottom: 0; }
+  .stage-margin-right { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .header-inner { padding: 0 1.25rem; }
+  .boundary-inner { padding: 0 1.25rem; }
+  .today-marker { padding: 0.6rem 1.25rem; }
+  .footer-inner { padding: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- Site Header -->
+<header class="site-header">
+  <div class="header-inner">
+    <p class="header-eyebrow">Knowledge Hub · RAG Strategy</p>
+    <h1 class="header-title">From Search to Reasoning:<br>The RAG Evolution Roadmap</h1>
+    <p class="header-lead">Every retrieval improvement in this roadmap is justified by a named customer persona and a specific failure mode it fixes. No stage is pursued speculatively — each is unlocked only when the prior stage is proven in daily use.</p>
+    <div class="header-thesis">
+      <span class="thesis-item">Hybrid Retrieval</span>
+      <span class="thesis-arrow">→</span>
+      <span class="thesis-item current">Contextual Enrichment</span>
+      <span class="thesis-arrow">→</span>
+      <span class="thesis-item">Reranking</span>
+      <span class="thesis-arrow">→</span>
+      <span class="thesis-item">RAGAS Eval</span>
+      <span class="thesis-arrow">→</span>
+      <span class="thesis-item">Multimodal</span>
+      <span class="thesis-arrow">→</span>
+      <span class="thesis-item">GraphRAG</span>
+      <span class="thesis-arrow">→</span>
+      <span class="thesis-item">Agentic</span>
+    </div>
+  </div>
+</header>
+
+<!-- Today marker -->
+<div class="today-marker">
+  <span class="line"></span>
+  ▲ Stage 0 implemented — Stage 1 is next
+  <span class="line"></span>
+</div>
+
+
+<!-- ── Stage 0 — Current: Hybrid Retrieval ──────────────────────────── -->
+<div class="stage-band band-light" id="stage-0">
+  <div class="stage-inner">
+
+    <div class="stage-margin-left">
+      <div class="margin-head">Stats</div>
+      <div class="stat-box">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Retrieval methods fused</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">✓</span>
+        <span class="stat-label">Implemented &amp; in daily use</span>
+      </div>
+    </div>
+
+    <div class="stage-main">
+      <div class="stage-header">
+        <div class="stage-num">0</div>
+        <div class="stage-meta">
+          <div class="stage-label">Foundation</div>
+          <div class="stage-title">Hybrid BM25 + Dense + RRF with Confidence Gate</div>
+        </div>
+      </div>
+      <span class="stage-badge impl-badge">✓ Implemented</span>
+      <p class="stage-body">The retrieval foundation combines BM25 keyword matching with dense vector similarity, fused via Reciprocal Rank Fusion (RRF). A dual confidence gate blocks queries with <code>topSemScore &lt; 0.15</code> AND <code>topRrfScore &lt; 0.014</code> — preventing hallucinated answers on out-of-scope questions. Context is compressed to 1800 tokens via trigram-based deduplication before reaching the LLM.</p>
+      <div class="detail-list">
+        <div class="detail-item"><span class="detail-icon">◦</span><span>BM25 catches exact terminology and filename queries that pure vector search misses — critical for Aarav querying a specific integration spec by name</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>Dense embeddings (nomic-embed-text, 768d) handle semantic paraphrase — Anjali asking about "switching treatment protocols" finds chunks about "changing medication plans"</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>The dual confidence gate is the professional liability safeguard — never answer confidently when both signals are weak</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>Priority multipliers in <code>applyPriorityMultipliers()</code> let sections be boosted or muted without re-ingestion</span></div>
+      </div>
+    </div>
+
+    <div class="stage-margin-right">
+      <div class="margin-head">Personas served</div>
+      <div class="persona-tag"><strong>All personas</strong>Basic document retrieval across all professional contexts</div>
+      <div style="margin-top:0.75rem" class="margin-head">Scope</div>
+      <div class="scope-list">
+        <div class="scope-item"><span class="scope-icon scope-in">✓</span><span class="scope-in">BM25 + Dense + RRF</span></div>
+        <div class="scope-item"><span class="scope-icon scope-in">✓</span><span class="scope-in">Confidence gate</span></div>
+        <div class="scope-item"><span class="scope-icon scope-in">✓</span><span class="scope-in">Context compression</span></div>
+        <div class="scope-item"><span class="scope-icon scope-in">✓</span><span class="scope-in">Section priority</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── Stage 1A — Contextual Chunk Enrichment ───────────────────────── -->
+<div class="stage-band band-dark" id="stage-1a">
+  <div class="stage-inner">
+
+    <div class="stage-margin-left">
+      <div class="margin-head">Impact</div>
+      <div class="stat-box">
+        <span class="stat-num">67%</span>
+        <span class="stat-label">Retrieval failure reduction (Anthropic, Sept 2024)</span>
+      </div>
+    </div>
+
+    <div class="stage-main">
+      <div class="stage-header">
+        <div class="stage-num">1A</div>
+        <div class="stage-meta">
+          <div class="stage-label">Next milestone</div>
+          <div class="stage-title">Contextual Chunk Enrichment</div>
+        </div>
+      </div>
+      <span class="stage-badge next-badge">→ Next high-value improvement</span>
+      <p class="stage-body">Before embedding, each chunk is prepended with an LLM-generated sentence describing where it sits within the full document — the project, the client, the decision context. This single change is the most impactful retrieval improvement available without architectural change.</p>
+      <div class="detail-list">
+        <div class="detail-item"><span class="detail-icon">◦</span><span>Fixes the most common KH failure: fragments like "it reduced latency by 40%" are meaningless without knowing which client engagement and which architecture choice</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>Implementation: one fast LLM call per chunk at ingest time (Claude Haiku or Ollama local model) — zero change to query path</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>Cost: ~0.5–2ms per chunk at ingest, zero latency at query time</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>Decision D.12 in <code>.claude/.engineering/DECISIONS.md</code></span></div>
+      </div>
+    </div>
+
+    <div class="stage-margin-right">
+      <div class="margin-head">Personas</div>
+      <div class="persona-tag"><strong>Aarav (IT Consultant)</strong>"it reduced latency by 40%" → needs client + project context to be retrievable</div>
+      <div class="persona-tag"><strong>Anjali (CA / Doctor)</strong>"switched to this protocol" → needs patient profile context to make sense</div>
+      <div style="margin-top:0.75rem" class="margin-head">Scope</div>
+      <div class="scope-list">
+        <div class="scope-item"><span class="scope-icon scope-in">✓</span><span class="scope-in">Wraps existing chunker</span></div>
+        <div class="scope-item"><span class="scope-icon scope-out">✗</span><span class="scope-out">No query path change</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── Stage 1B — Cross-Encoder Reranking ───────────────────────────── -->
+<div class="stage-band band-light" id="stage-1b">
+  <div class="stage-inner">
+
+    <div class="stage-margin-left">
+      <div class="margin-head">Impact</div>
+      <div class="stat-box">
+        <span class="stat-num">+25%</span>
+        <span class="stat-label">Additional precision gain over hybrid baseline</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">~5ms</span>
+        <span class="stat-label">Added latency (self-hosted)</span>
+      </div>
+    </div>
+
+    <div class="stage-main">
+      <div class="stage-header">
+        <div class="stage-num">1B</div>
+        <div class="stage-meta">
+          <div class="stage-label">Stage 1 milestone</div>
+          <div class="stage-title">Cross-Encoder Reranking</div>
+        </div>
+      </div>
+      <span class="stage-badge next-badge">→ After contextual enrichment</span>
+      <p class="stage-body">After hybrid retrieval returns 20–50 candidates, a cross-encoder re-scores each chunk jointly with the query, selecting only the top 5–10 for the LLM. Unlike embedding similarity (which scores each chunk independently), a cross-encoder reads the query and the chunk together — catching relevance relationships that independent encoders miss.</p>
+      <div class="detail-list">
+        <div class="detail-item"><span class="detail-icon">◦</span><span>Model: <code>cross-encoder/ms-marco-MiniLM-L-6-v2</code> — self-hosted, free, ~80MB, ~5ms inference</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>Directly strengthens the KH precision-over-recall mandate (D.4) — professional liability risk decreases when the top-5 context is tighter</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>10–25% additional precision gain on top of the hybrid + contextual enrichment stack</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>Decision D.13 in <code>.claude/.engineering/DECISIONS.md</code></span></div>
+      </div>
+    </div>
+
+    <div class="stage-margin-right">
+      <div class="margin-head">Personas</div>
+      <div class="persona-tag"><strong>Marcus (Lawyer)</strong>Cross-encoder correctly distinguishes "clause 14.2 of this contract" from "clause 14.2 in another client's contract" — similar text, different relevance</div>
+      <div class="persona-tag"><strong>Dr. Priya (Researcher)</strong>Re-scores "conflicting results" chunks by which ones are actually conflicting with the current query</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── Stage 1C — RAGAS Evaluation ──────────────────────────────────── -->
+<div class="stage-band band-dark" id="stage-1c">
+  <div class="stage-inner">
+
+    <div class="stage-margin-left">
+      <div class="margin-head">Dimensions</div>
+      <div class="stat-box">
+        <span class="stat-num">4</span>
+        <span class="stat-label">RAGAS evaluation dimensions</span>
+      </div>
+    </div>
+
+    <div class="stage-main">
+      <div class="stage-header">
+        <div class="stage-num">1C</div>
+        <div class="stage-meta">
+          <div class="stage-label">Before first paying customer</div>
+          <div class="stage-title">RAGAS Evaluation Pipeline</div>
+        </div>
+      </div>
+      <span class="stage-badge next-badge">→ Required before customer onboarding</span>
+      <p class="stage-body">RAGAS measures what the current eval loop cannot: whether retrieved chunks were actually relevant (Context Precision), whether we retrieved everything needed (Context Recall), whether every claim in the answer is grounded in context (Faithfulness), and whether the answer directly addressed the question (Answer Relevancy). These four dimensions are the difference between "it seems to work" and "we can prove it works."</p>
+      <div class="detail-list">
+        <div class="detail-item"><span class="detail-icon">◦</span><span><strong style="color:var(--parchment)">Context Precision</strong> — fraction of retrieved context that was actually used in the answer</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span><strong style="color:var(--parchment)">Context Recall</strong> — did we retrieve all the evidence needed? Requires a synthetic test set from indexed docs</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span><strong style="color:var(--parchment)">Faithfulness</strong> — is every claim in the answer grounded in the retrieved context, not in LLM world knowledge?</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span><strong style="color:var(--parchment)">Answer Relevancy</strong> — does the answer address the question, not a tangentially related topic?</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>These scores feed directly into the IDS formula — a stronger observability layer means a more credible IDS number for customer conversations</span></div>
+      </div>
+    </div>
+
+    <div class="stage-margin-right">
+      <div class="margin-head">All personas</div>
+      <div class="persona-tag"><strong>Regulated professionals</strong>Faithfulness is the critical dimension for CAs, lawyers, and doctors — a hallucinated citation in a client document is a professional liability event</div>
+      <div style="margin-top:0.75rem" class="margin-head">Reference</div>
+      <div class="scope-list">
+        <div class="scope-item"><span class="scope-icon scope-in">→</span><span class="scope-in">eval-observability.html</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── Stage 2 — Document-Type Chunking + Multimodal ────────────────── -->
+<div class="stage-band band-light" id="stage-2">
+  <div class="stage-inner">
+
+    <div class="stage-margin-left">
+      <div class="margin-head">Timeline</div>
+      <div class="stat-box">
+        <span class="stat-num">Stage 2</span>
+        <span class="stat-label">Next major stage after Stage 1 validation</span>
+      </div>
+    </div>
+
+    <div class="stage-main">
+      <div class="stage-header">
+        <div class="stage-num">2</div>
+        <div class="stage-meta">
+          <div class="stage-label">Next major stage</div>
+          <div class="stage-title">Document-Type Chunking &amp; Multimodal RAG</div>
+        </div>
+      </div>
+      <span class="stage-badge future-badge">◌ Future — after Stage 1 validation</span>
+      <p class="stage-body">Different document types have fundamentally different semantic structures. Legal contracts have hierarchical clause trees. Medical records have structured note formats. Financial filings have table-heavy layouts. Stage 2 introduces chunkers that respect these structures, plus multimodal embeddings that can handle charts, tables, and scanned figures.</p>
+      <div class="detail-list">
+        <div class="detail-item"><span class="detail-icon">◦</span><span><strong>Document-type chunking:</strong> hierarchical parent-child chunking for contracts (retrieve the clause, return the section); semantic paragraph boundaries for medical notes</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span><strong>Multimodal:</strong> Cohere embed-v4 or Voyage-multimodal-3.5 for PDF charts and scanned figures — Dr. Priya's experiment logs contain graphs that pure text chunking completely ignores</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>Prerequisite: RAGAS evaluation from Stage 1C must be in place so we can measure the delta from these changes</span></div>
+      </div>
+    </div>
+
+    <div class="stage-margin-right">
+      <div class="margin-head">New personas unlocked</div>
+      <div class="persona-tag"><strong>Marcus (Lawyer)</strong>Clause-level retrieval for contracts — finds the exact provision, not a 400-char chunk that straddles two clauses</div>
+      <div class="persona-tag"><strong>Dr. Priya (Researcher)</strong>Multimodal: retrieve from figures and charts in PDFs, not just the caption text</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── Stage 3 — GraphRAG + Agentic ─────────────────────────────────── -->
+<div class="stage-band band-dark" id="stage-3">
+  <div class="stage-inner">
+
+    <div class="stage-margin-left">
+      <div class="margin-head">Prerequisites</div>
+      <div class="stat-box">
+        <span class="stat-num">Stage 1+2</span>
+        <span class="stat-label">Must be validated before Stage 3 begins</span>
+      </div>
+    </div>
+
+    <div class="stage-main">
+      <div class="stage-header">
+        <div class="stage-num">3</div>
+        <div class="stage-meta">
+          <div class="stage-label">Enterprise expansion</div>
+          <div class="stage-title">GraphRAG (Legal &amp; Medical) + Agentic Multi-Hop</div>
+        </div>
+      </div>
+      <span class="stage-badge future-badge">◌ Stage 3+ — enterprise vertical expansion</span>
+      <p class="stage-body">GraphRAG represents a structural shift: relationships between entities (parties in a case, drugs in a protocol, precedents cited) are stored as a knowledge graph, enabling queries that traverse entity relationships across documents. Agentic multi-hop adds iterative retrieval loops — the system decomposes complex queries, retrieves and grades intermediate results, and re-queries if evidence is insufficient.</p>
+      <div class="detail-list">
+        <div class="detail-item"><span class="detail-icon">◦</span><span><strong>GraphRAG:</strong> Microsoft's pattern (Neo4j + Qdrant) maps entity relationships — Marcus can ask "which cases cite the same precedent as Smith v. Jones" and get a graph traversal, not just a keyword match</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span><strong>LightRAG</strong> as a cost-efficient alternative — reported 10x lower cost than Microsoft's implementation with comparable quality for smaller knowledge graphs</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span><strong>Agentic multi-hop:</strong> Dr. Priya can ask "do any of my experiments conflict with the 2023 Chen paper I indexed?" — triggers multi-hop retrieval across experiment logs and paper excerpts</span></div>
+        <div class="detail-item"><span class="detail-icon">◦</span><span>LangGraph orchestration considered only here — the complexity is justified at this stage; it is explicitly out of scope for Stages 0–2</span></div>
+      </div>
+    </div>
+
+    <div class="stage-margin-right">
+      <div class="margin-head">Personas</div>
+      <div class="persona-tag"><strong>Marcus (Lawyer)</strong>Entity graph: parties, precedents, contracts, judges — cross-document relationship queries</div>
+      <div class="persona-tag"><strong>Dr. Priya (Researcher)</strong>Multi-hop: cross-reference between papers, experiment logs, and protocols</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── Permanent Boundary ──────────────────────────────────────────── -->
+<div class="boundary-section">
+  <div class="boundary-inner">
+    <h2 class="boundary-head">What we deliberately do not build</h2>
+    <p class="boundary-sub">Every item below is a valid technology. None of them serve a named persona in Knowledge Hub's customer set. Pursuing them would dilute the vertical depth that is our only defensible moat.</p>
+    <div class="boundary-grid">
+      <div class="no-build"><span class="no-icon">✗</span><span>AST-based code chunking — no customer queries a codebase as a structural graph</span></div>
+      <div class="no-build"><span class="no-icon">✗</span><span>Function call graph traversal and class inheritance indexing — code architecture navigation</span></div>
+      <div class="no-build"><span class="no-icon">✗</span><span>Code generation quality improvements — we are not competing with GitHub Copilot</span></div>
+      <div class="no-build"><span class="no-icon">✗</span><span>LangGraph agent orchestration at Stage 1 or 2 — complexity without validated need</span></div>
+      <div class="no-build"><span class="no-icon">✗</span><span>"Engineering Intelligence Platform" positioning — Forrester category conflict, misaligns with regulated professional focus</span></div>
+      <div class="no-build"><span class="no-icon">✗</span><span>General-purpose web search RAG — private organizational memory only</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Site Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="./rag-system-design.html">RAG System Design</a>
+      <a href="./rag-architect-deepdive.html">Architect Deep-Dive</a>
+      <a href="./eval-observability.html">Eval &amp; Observability</a>
+      <a href="./ids-moat-explainer.html">IDS Moat Explainer</a>
+    </div>
+    <div class="footer-stamp">rag-evolution-roadmap.html · .claude/.engineering/RAG_STRATEGY.md</div>
+  </div>
+</footer>
+
+</body>
+</html>

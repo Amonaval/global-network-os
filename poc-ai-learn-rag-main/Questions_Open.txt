@@ -1,0 +1,41 @@
+1) How can we leverage Agentic AI in our application (as a agentic AI driven product & as a consumer for developing our product itself)
+2) Whatever we have build so far. What kind of artifacts can be created out of it. Like
+   a) As a user using the system.
+   b) For architects to understand in depth of RAG behavoiur (RAG, UI, DB, LLM, backend)
+   c) System design of our entire RAG flow.
+
+List all the most important artifacts list which are necessary for us to build for the app so far build & future focused (roadmap).
+
+3) What kind of RAG we are using. Naïve (Standard) RAG, Advanced RAG, Hybrid RAG, GraphRAG, Corrective RAG (CRAG), Self-RAG, and Agentic RAG. With detail tech stack used.
+
+   What is the most desired RAG approach for customers/user we are targeting. What is out their in the industries.
+
+4) Can we make our RAG versatile to work on  multiple architectures based on consumers.
+
+5) Is it ready? What are the top 3 things transformational to make it go live in next 1 week you'll have to do. If 3 things not sufficient, list all that needs to get done before our go live next week for broader customer.
+
+6) What are the strategies to get customers, scale it, without deploying large amount of funds on sales, marketing which we can adopt.
+
+7) What are the latest trend/update/development/usage in RAG Based AI system till july 2026? Detail documentation on RAG latest trends, summary, links and advance RAG systems their example. What tech stack is used for POC, what is used for production, how & ask 10's of various question yourself, find answers once you get it document in artifact folder & update the knowledge in .md file somewhere, entry of that .md file in claude.md whenever you need it to refer.
+
+8) Imagine you are develooper with no knowledge & this is your entrepreneur journey. What would you have done. Detail guidance step by step from developer who is building this today to successfully building the meaningful company of this with at least 100 million dollar in revenue. 
+ 
+   a) If any doubt on that, today is the time to go back, to drop, to diverge, to explore, to navigate in correct path. May be this entire module which we developed or developing can become subset of something bigger. 
+   b) Goal is atleast millions of dollar in revenue not soon but eventually. As I am building using claude/AI (timelines can't be measure in years as if I aggressively use it, that can be achieved even in weeks if I use less may be months).
+
+9) Can you explore is anyone has already built what we are building or anything in alpha/beta phase on the idea we have.
+
+10) Be critic. Tell which direction to head or drop and pick what is the better way.
+
+
+
+*************** Asked 8-10 questions in the session & asked to create artifact of it ****
+
+
+ Create a very detailed artifact of all this in html only don't publish to claude copy it in D:\AI\AI_Learning_Projects\poc-ai-learn-rag\artifact folder. And create the .md file of this which will help us in future. May it can be marketing/sales/outreach whatever
+
+
+
+
+
+What are the latest trend/update/development/usage in RAG Based AI system till july 2026? Detail documentation on RAG latest trends, summary, links and advance RAG systems their example. What tech stack is used for POC, what is used for production, how & ask 10's of various question yourself, find answers once you get it document in artifact folder & update the knowledge in .md file somewhere, entry of that .md file in claude.md whenever you need it to refer.

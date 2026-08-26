@@ -123,3 +123,58 @@ Be critical. If inspection shows the integration creates complexity without a st
 - G10 remains blocked.
 - We want commercial evidence, not more architecture for its own sake.
 - The goal is a multi-million-dollar product, but continuation must be earned by real buyer value.
+
+## IMPORTANT NEW STRATEGIC CONTEXT — NETWORK EFFECT THESIS
+
+In addition to the RAG × Network OS integration hypothesis, evaluate the platform as a **trusted multi-network ecosystem**.
+
+Founder thesis: users may belong to many independently governed networks (family, community, alumni, business, franchise, organization and future types) under one account. The long-term moat may come from trusted network effects, not only single-vertical subscription value.
+
+Example: 50 Maheshwari family networks can remain independent but selectively participate in a Maheshwari community umbrella. With consent and permissions, that ecosystem can support trusted requests for jobs, matrimonial introductions, professionals/services, mentoring, events, business discovery and community help.
+
+Principles:
+- NEVER merge everything into one public social graph.
+- Network isolation/privacy remains default.
+- Cross-network discovery must be permission-aware and provenance-aware.
+- A person may have multiple memberships/profiles/contexts.
+- The product should reduce noisy fragmented group/app usage and emphasize purposeful value over passive scrolling.
+- The biggest strategic problem may be mass onboarding/seeding of hundreds/thousands of networks.
+- RAG integration may later help become a reusable Network Bootstrap Engine, but Organization remains the first proof.
+
+During the two-ZIP review, explicitly analyze:
+1. whether current tenancy/identity contracts support multi-network membership cleanly;
+2. how community umbrellas/network-to-network links should be modeled without breaking isolation;
+3. what data must remain strictly local to one network;
+4. whether cross-network introductions can reuse G9 path/provenance engines;
+5. how autonomous ingestion could reduce network onboarding cost;
+6. what organic invite/referral loops already exist and what is missing;
+7. whether this broader network-effect thesis makes the platform more defensible—or merely more complex.
+
+Be critical: distinguish a true network-effect model from an attractive but unvalidated “super app” narrative.
+
+## ADDITIONAL COMPANY STRATEGY TO PRESERVE
+
+The founder clarified that multi-network does NOT mean one mixed super-app experience.
+
+Each active network remains isolated and purpose-specific:
+- Family/Community → matrimonial/community/family use cases;
+- Business Trust → business use cases;
+- Franchise → operational use cases;
+- Alumni → alumni use cases;
+- Organization → organizational intelligence.
+
+One user can belong to many networks, but each network has its own surfaces, permissions and terminology.
+
+Also evaluate a **Network Operations** distribution model:
+- acquire trusted institutional/community anchors;
+- use trained operators to bootstrap approved data;
+- recruit volunteer admins/champions;
+- run claim/verification/contribution campaigns;
+- launch first useful workflows;
+- hand off ownership;
+- reward activation/outcomes rather than registrations;
+- measure cost per activated network and adjacent-network organic growth.
+
+The company may need many trained operators during network seeding, potentially including senior/semi-retired community volunteers, while keeping the engineering team comparatively lean.
+
+Challenge this model for scalability, privacy, incentives, community politics and long-term unit economics.

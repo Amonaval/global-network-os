@@ -1,0 +1,286 @@
+<title>Knowledge Hub — Architect Deep-Dive</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg:        #e9eef3;
+    --surface:   #ffffff;
+    --surface-2: #f3f6f9;
+    --ink:       #15212e;
+    --muted:     #566573;
+    --line:      #d2dbe4;
+    --line-soft: #e4ebf1;
+    --accent:    #17618f;
+    --accent-bg: #e6f0f7;
+    --ui:        #6d3fb0;   --ui-bg:   #efe8f9;
+    --api:       #0f766e;   --api-bg:  #e2f2f0;
+    --rag:       #17618f;   --rag-bg:  #e6f0f7;
+    --db:        #a65c07;   --db-bg:   #fbf1e3;
+    --llm:       #b23a6b;   --llm-bg:  #f9e7ef;
+    --danger:    #b23a2c;   --danger-bg:#f8e7e4;
+    --shadow:    0 1px 2px rgba(20,40,60,.06), 0 8px 24px rgba(20,40,60,.06);
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0d1520; --surface:#14202d; --surface-2:#1a2836; --ink:#e5edf4; --muted:#93a4b4;
+      --line:#2a3a4a; --line-soft:#21303f; --accent:#59a6e0; --accent-bg:#132535;
+      --ui:#b28ee6;  --ui-bg:#221a33;
+      --api:#4bbfae; --api-bg:#0f2523;
+      --rag:#59a6e0; --rag-bg:#132535;
+      --db:#e0a44a;  --db-bg:#2a2113;
+      --llm:#e07aa4; --llm-bg:#2c1622;
+      --danger:#e2705f; --danger-bg:#2c1815;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0d1520; --surface:#14202d; --surface-2:#1a2836; --ink:#e5edf4; --muted:#93a4b4;
+    --line:#2a3a4a; --line-soft:#21303f; --accent:#59a6e0; --accent-bg:#132535;
+    --ui:#b28ee6;  --ui-bg:#221a33;
+    --api:#4bbfae; --api-bg:#0f2523;
+    --rag:#59a6e0; --rag-bg:#132535;
+    --db:#e0a44a;  --db-bg:#2a2113;
+    --llm:#e07aa4; --llm-bg:#2c1622;
+    --danger:#e2705f; --danger-bg:#2c1815;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1000px; margin:0 auto; padding:0 24px 96px; }
+
+  header.mast { padding:56px 0 28px; border-bottom:1px solid var(--line); margin-bottom:8px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin:0 0 16px; }
+  h1 { font-size:clamp(30px,5vw,46px); line-height:1.08; letter-spacing:-.02em; margin:0 0 14px; text-wrap:balance; font-weight:680; }
+  .lede { font-size:clamp(16px,2vw,19px); color:var(--muted); max-width:64ch; margin:0 0 28px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { font-family:var(--mono); font-size:12.5px; padding:6px 11px; border-radius:7px; border:1px solid var(--line); background:var(--surface); }
+  .chip b { color:var(--accent); font-weight:600; }
+
+  /* sticky layer nav */
+  nav.layers { position:sticky; top:0; z-index:5; background:var(--bg); border-bottom:1px solid var(--line); padding:12px 0; margin-bottom:40px; display:flex; flex-wrap:wrap; gap:8px; }
+  nav.layers a { font-family:var(--mono); font-size:12.5px; text-decoration:none; padding:6px 12px; border-radius:999px; border:1px solid var(--line); color:var(--ink); background:var(--surface); }
+  nav.layers a:hover { border-color:var(--accent); color:var(--accent); }
+
+  section { margin:0 0 60px; scroll-margin-top:64px; }
+  .layerhead { display:flex; align-items:center; gap:14px; margin:0 0 8px; }
+  .layerhead .dot { width:14px; height:14px; border-radius:4px; flex:none; }
+  h2 { font-size:clamp(21px,3vw,28px); letter-spacing:-.01em; margin:0; font-weight:640; }
+  .layerhead .tag { margin-left:auto; font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.05em; }
+  .sub { color:var(--muted); margin:0 0 22px; max-width:70ch; }
+
+  figure { margin:0 0 24px; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px; box-shadow:var(--shadow); }
+  .scroll { overflow-x:auto; }
+  figure svg { display:block; max-width:100%; height:auto; margin:0 auto; }
+  figcaption { font-size:13.5px; color:var(--muted); margin-top:16px; padding-top:14px; border-top:1px solid var(--line-soft); text-wrap:pretty; }
+  figcaption b { color:var(--ink); font-weight:600; }
+
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px; }
+  .card h3 { margin:0 0 8px; font-size:15px; font-weight:620; }
+  .card p { margin:0; font-size:13.5px; color:var(--muted); }
+  code, .ic { font-family:var(--mono); font-size:12.5px; background:var(--surface-2); border:1px solid var(--line-soft); padding:1px 6px; border-radius:5px; color:var(--ink); }
+  .card code { font-size:12px; }
+
+  .tablewrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); }
+  table { border-collapse:collapse; width:100%; font-size:13.5px; min-width:640px; background:var(--surface); }
+  th, td { text-align:left; padding:11px 16px; border-bottom:1px solid var(--line-soft); vertical-align:top; }
+  thead th { font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); background:var(--surface-2); }
+  tbody tr:last-child td { border-bottom:none; }
+  td b { font-weight:600; }
+  td .file { font-family:var(--mono); font-size:12px; color:var(--muted); }
+  td.center { text-align:center; font-variant-numeric:tabular-nums; }
+
+  pre { margin:0; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 18px; overflow-x:auto; font-family:var(--mono); font-size:12.5px; line-height:1.7; box-shadow:var(--shadow); }
+  pre .c { color:var(--muted); } pre .k { color:var(--accent); }
+
+  .callout { display:grid; grid-template-columns:auto 1fr; gap:14px; padding:18px 20px; background:var(--danger-bg); border:1px solid var(--danger); border-radius:12px; font-size:14px; margin-top:20px; }
+  .callout .mark { font-family:var(--mono); font-weight:700; color:var(--danger); font-size:15px; }
+  .callout h3 { margin:0 0 6px; font-size:15px; } .callout p { margin:0; }
+  .callout code { background:var(--surface); }
+
+  .pill { display:inline-block; font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid var(--line); color:var(--muted); }
+
+  footer { border-top:1px solid var(--line); padding-top:24px; font-size:13px; color:var(--muted); }
+  a { color:var(--accent); }
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <p class="eyebrow">Knowledge Hub · Architect Deep-Dive</p>
+    <h1>The system, one layer at a time</h1>
+    <p class="lede">Five layers, five decisions. This is the "why it's built this way" companion to the system-design map — how the UI, the backend, the RAG engine, the vector store, and the LLM providers each work, and where the seams are.</p>
+    <div class="chips">
+      <span class="chip"><b>Stack:</b> Electron + Express + React 19</span>
+      <span class="chip"><b>No</b> LangChain / LlamaIndex</span>
+      <span class="chip"><b>~40</b> API endpoints</span>
+      <span class="chip"><b>15</b> UI panels</span>
+      <span class="chip"><b>3×3</b> provider matrix</span>
+    </div>
+  </header>
+
+  <nav class="layers" aria-label="Layers">
+    <a href="#overview">Overview</a>
+    <a href="#ui">1 · UI</a>
+    <a href="#backend">2 · Backend</a>
+    <a href="#rag">3 · RAG</a>
+    <a href="#db">4 · Vector store</a>
+    <a href="#llm">5 · LLM</a>
+  </nav>
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <div class="layerhead"><span class="dot" style="background:var(--accent)"></span><h2>The stack, end to end</h2></div>
+    <p class="sub">A request enters at the top and falls through four layers to two shared foundations. Everything above the RAG engine is transport; the intelligence lives in the engine and its two dependencies.</p>
+    <figure>
+      <div class="scroll">
+        <svg viewBox="0 0 760 470" role="img" aria-label="Layered architecture: React UI over an Express API over the RAG engine, which reads the sharded JSON vector store and calls one of three LLM providers" style="color:var(--ink)">
+          <defs>
+            <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:currentColor"/></marker>
+          </defs>
+          <g style="font-family:var(--sans)" text-anchor="middle">
+            <!-- UI -->
+            <rect x="80" y="16" width="600" height="78" rx="12" style="fill:var(--ui-bg); stroke:var(--ui); stroke-width:2"/>
+            <text x="380" y="44" font-size="15" font-weight="700" style="fill:var(--ink)">React 19 UI</text>
+            <text x="380" y="65" font-size="11.5" style="fill:var(--muted); font-family:var(--mono)">Zustand · React Query · 2 entry points · 15 panels</text>
+            <text x="380" y="82" font-size="11" style="fill:var(--muted)">main app (chat + intelligence) · setup wizard</text>
+            <!-- API -->
+            <rect x="80" y="134" width="600" height="72" rx="12" style="fill:var(--api-bg); stroke:var(--api); stroke-width:2"/>
+            <text x="380" y="162" font-size="15" font-weight="700" style="fill:var(--ink)">Express API</text>
+            <text x="380" y="183" font-size="11.5" style="fill:var(--muted); font-family:var(--mono)">~40 routes · SSE streaming · child-process build pipeline</text>
+            <!-- RAG -->
+            <rect x="80" y="246" width="600" height="72" rx="12" style="fill:var(--rag-bg); stroke:var(--rag); stroke-width:2.5"/>
+            <text x="380" y="274" font-size="15" font-weight="700" style="fill:var(--ink)">RAG engine</text>
+            <text x="380" y="295" font-size="11.5" style="fill:var(--muted); font-family:var(--mono)">embed · hybrid retrieve · RRF · gate · compress</text>
+            <!-- foundations -->
+            <rect x="80" y="366" width="285" height="86" rx="12" style="fill:var(--db-bg); stroke:var(--db); stroke-width:2"/>
+            <text x="222" y="398" font-size="14" font-weight="700" style="fill:var(--ink)">Vector store</text>
+            <text x="222" y="418" font-size="11" style="fill:var(--muted); font-family:var(--mono)">sharded JSON · Pinecone*</text>
+            <text x="222" y="435" font-size="11" style="fill:var(--muted)">BM25 + cosine live here</text>
+            <rect x="395" y="366" width="285" height="86" rx="12" style="fill:var(--llm-bg); stroke:var(--llm); stroke-width:2"/>
+            <text x="537" y="398" font-size="14" font-weight="700" style="fill:var(--ink)">LLM providers</text>
+            <text x="537" y="418" font-size="11" style="fill:var(--muted); font-family:var(--mono)">ollama · claude · vllm</text>
+            <text x="537" y="435" font-size="11" style="fill:var(--muted)">local-first, cloud optional</text>
+          </g>
+          <g style="stroke:currentColor; stroke-width:1.6" fill="none">
+            <line x1="380" y1="94"  x2="380" y2="130" marker-end="url(#a)"/>
+            <line x1="380" y1="206" x2="380" y2="242" marker-end="url(#a)"/>
+            <line x1="300" y1="318" x2="240" y2="362" marker-end="url(#a)"/>
+            <line x1="460" y1="318" x2="520" y2="362" marker-end="url(#a)"/>
+          </g>
+          <g font-size="10.5" style="fill:var(--muted); font-family:var(--mono)">
+            <text x="396" y="118" text-anchor="start">fetch · SSE</text>
+            <text x="396" y="230" text-anchor="start">query() / queryStream()</text>
+            <text x="250" y="345" text-anchor="end">search()</text>
+            <text x="512" y="345" text-anchor="start">generate</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption><b>*Pinecone</b> is lazy-required and not in <code>package.json</code> — effectively aspirational. Today every request resolves against the local JSON store, which keeps the whole product runnable offline. The engine is the only layer that talks to both foundations.</figcaption>
+    </figure>
+  </section>
+
+  <!-- UI -->
+  <section id="ui">
+    <div class="layerhead"><span class="dot" style="background:var(--ui)"></span><h2>1 · UI layer</h2><span class="tag">frontend/src</span></div>
+    <p class="sub">React 19 + TypeScript, built by Vite as a two-page app. State is split deliberately: <b>Zustand</b> owns client/UI state, <b>React Query</b> owns everything that comes from the server — so caching, refetch, and loading states are never hand-rolled.</p>
+    <div class="cards">
+      <div class="card"><h3>Two entry points</h3><p><code>index.html</code> → the assistant (chat + 15 panels); <code>setup.html</code> → the 5-step wizard. No router — navigation is the two pages plus an <code>activePanel</code> switch.</p></div>
+      <div class="card"><h3>State split</h3><p><code>appStore.ts</code> (session, sections, pinned chunks, theme) and <code>wizardStore.ts</code> for the form. Server data flows through <code>useApi.ts</code> hooks over React Query.</p></div>
+      <div class="card"><h3>Streaming</h3><p><code>useStream.ts</code>'s <code>readStream</code> parses SSE <code>token / phase / log / done / error</code> events — reused by both chat and the setup build.</p></div>
+      <div class="card"><h3>Legacy shadow</h3><p><code>public/*.html + js/</code> is the pre-React vanilla build of the same screens. Superseded, but its CSS is still shared. A cleanup candidate.</p></div>
+    </div>
+  </section>
+
+  <!-- BACKEND -->
+  <section id="backend">
+    <div class="layerhead"><span class="dot" style="background:var(--api)"></span><h2>2 · Backend / API layer</h2><span class="tag">src/api/server.js</span></div>
+    <p class="sub">One ~2,800-line Express server, port 3000, doubling as the SPA host (catch-all <code>GET *</code>). Endpoints group into six concerns. Long-running work (crawl, build, pre-login) is spawned as child <code>node</code> processes and streamed back over SSE so the UI shows live phase + log output.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Concern</th><th>Representative endpoints</th><th>Mode</th></tr></thead>
+        <tbody>
+          <tr><td><b>Chat / retrieval</b></td><td><code>/api/chat</code> · <code>/api/chat/stream</code> · <code>/api/chunks/search</code> · <code>/api/code/generate</code></td><td>SSE</td></tr>
+          <tr><td><b>Setup / build</b></td><td><code>/api/setup/build</code> · <code>/rebuild</code> · <code>/prelogin</code> · <code>/reset</code> · <code>/test-*</code></td><td>SSE + child proc</td></tr>
+          <tr><td><b>Confluence</b></td><td><code>/api/confluence/test</code> · <code>/spaces</code> · <code>/oauth/*</code></td><td>REST</td></tr>
+          <tr><td><b>Uploads</b></td><td><code>/api/docs/upload</code> (multer, 20 files/50MB) · <code>/uploads</code></td><td>REST</td></tr>
+          <tr><td><b>Intelligence</b></td><td><code>/api/analytics</code> · <code>/gaps</code> · <code>/knowledge/*</code> · <code>/decisions</code> · <code>/health</code> · <code>/onboard</code> · <code>/insights</code> · <code>/team/ids</code></td><td>REST (some LLM)</td></tr>
+          <tr><td><b>Licensing</b></td><td><code>/api/license</code> · <code>/api/stripe/webhook</code></td><td>REST</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- RAG -->
+  <section id="rag">
+    <div class="layerhead"><span class="dot" style="background:var(--rag)"></span><h2>3 · RAG layer</h2><span class="tag">src/rag</span></div>
+    <p class="sub">The classification matters: this is <b>Hybrid Retrieval RAG</b> — not naïve single-vector RAG, and not (yet) agentic tool-using RAG. Two retrievers, one fusion, one gate, one compressor. The LLM-augmented endpoints (summaries, outlines, onboarding) are single-shot calls, not tool loops.</p>
+    <div class="cards">
+      <div class="card"><h3>Reciprocal Rank Fusion</h3><p>score = Σ 1/(<b>k</b>+rank), <code>k=60</code>. Combines BM25 and cosine ranks so keyword-exact and semantic hits both surface. <code>HYBRID_WEIGHT=0.5</code> selects the blend.</p></div>
+      <div class="card"><h3>BM25 parameters</h3><p>In-store implementation, <code>k1=1.5</code>, <code>b=0.75</code> — the standard Okapi defaults. Query text is passed transiently via <code>setQuery()</code> before <code>search()</code>.</p></div>
+      <div class="card"><h3>Two-signal gate</h3><p>Passes on <code>semScore ≥ gate</code> <em>or</em> a strong RRF rank (<code>≥0.014</code> ≈ top-3 BM25) — so filename queries aren't blocked. Plus post-hoc <code>DEFLECTION_PATTERNS</code>.</p></div>
+      <div class="card"><h3>Compression</h3><p>Score filter → trigram-Jaccard dedup (&gt;0.60) → greedy fill to <code>~1800</code> tokens → <code>[n]</code> tagging matching inline citations. ~30–40% fewer tokens per query.</p></div>
+      <div class="card"><h3>Codegen (level 2)</h3><p><code>codegen.js</code> retrieves with much larger budgets (<code>TOP_K=105</code>, <code>CTX=30k</code>) and builds a <b>file inventory</b> so the model only references files that exist.</p></div>
+      <div class="card"><h3>Diagnose</h3><p><code>diagnose.js</code> prints a 6-step retrieval trace — store stats, dim-match check, raw BM25/semantic top-5, final hybrid result — the fastest way to debug a bad answer.</p></div>
+    </div>
+  </section>
+
+  <!-- DB -->
+  <section id="db">
+    <div class="layerhead"><span class="dot" style="background:var(--db)"></span><h2>4 · Vector store / DB layer</h2><span class="tag">src/vectorstore/store.js</span></div>
+    <p class="sub">A deliberately simple default: JSON on disk, <b>sharded per section</b>, loaded into an in-memory array. No external database to install — the price of local-first. Both retrieval math (cosine + BM25) lives inside the store, so swapping the store means re-implementing retrieval, which is why Pinecone stayed semantic-only.</p>
+    <pre><span class="c">// one shard per section → vectors_&lt;section&gt;.json</span>
+_data: [ { id, text, meta, embedding[768] }, … ]
+
+search(queryVec, topK, filter) {
+  cosine(queryVec, rec.embedding)   <span class="c">// semantic rank</span>
+  BM25(this._query).score(rec.text) <span class="c">// keyword rank</span>
+  return rrf(semRank, bm25Rank, <span class="k">k=60</span>)
+}</pre>
+    <div class="cards" style="margin-top:16px">
+      <div class="card"><h3>Dimension safety</h3><p>Ingest auto-detects a provider/dimension mismatch (768 / 1536 / 2048) against stored vectors and forces a full re-index — you can't accidentally mix embedding spaces.</p></div>
+      <div class="card"><h3>Section as key</h3><p>The <code>section</code> is the shard filename, the retrieval filter, and the citation group — one field, three jobs. Migration from a legacy monolithic <code>vectors.json</code> is one-time and automatic.</p></div>
+    </div>
+  </section>
+
+  <!-- LLM -->
+  <section id="llm">
+    <div class="layerhead"><span class="dot" style="background:var(--llm)"></span><h2>5 · LLM layer</h2><span class="tag">query.js · llm.js · codegen.js</span></div>
+    <p class="sub">Provider-agnostic by design: three interchangeable providers, each with streaming and non-streaming callers, selected by <code>LLM_PROVIDER</code>. Local-first (<b>Ollama</b>) is the default so the product runs with zero API keys and no data leaving the machine; <b>Claude</b> and <b>vLLM</b> are opt-in.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Provider</th><th>Endpoint</th><th>Default model</th><th>Streaming</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ollama</b> <span class="pill">default</span></td><td class="file">localhost:11434/api/chat</td><td><code>qwen2.5:3b</code></td><td class="center">✓</td></tr>
+          <tr><td><b>Claude</b></td><td class="file">api.anthropic.com/v1/messages</td><td><code>claude-sonnet-4</code> / <code>haiku-4-5</code></td><td class="center">✓ (SSE)</td></tr>
+          <tr><td><b>vLLM</b></td><td class="file">localhost:8000/v1/chat/completions</td><td><code>(configured)</code></td><td class="center">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:16px">The provider fan-out is duplicated across three files — <code>query.js</code> (chat), <code>llm.js</code> (<code>askLlm()</code> for the intelligence endpoints), and <code>codegen.js</code> (code generation). Consolidating these into one caller module is the highest-value refactor in this layer.</p>
+
+    <div class="callout">
+      <div class="mark">!</div>
+      <div>
+        <h3>Model default inconsistency</h3>
+        <p>The Claude default is <b>not the same everywhere</b>: <code>query.js</code> defaults to <code>claude-sonnet-4-20250514</code>, while <code>llm.js</code> and <code>codegen.js</code> default to <code>claude-haiku-4-5-20251001</code>. Chat and the intelligence features can therefore run on different tiers unless <code>CLAUDE_MODEL</code> is explicitly set. Pick one default per use-case intentionally, or centralize it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOUSEKEEPING -->
+  <section>
+    <div class="layerhead"><span class="dot" style="background:var(--danger)"></span><h2>Seams to tidy</h2></div>
+    <p class="sub">Surfaced while mapping the layers — none are bugs, all are coherence debt worth a cleanup pass.</p>
+    <div class="cards">
+      <div class="card"><h3>Three architecture docs</h3><p>Root <code>ARCHITECTURE.md</code>, <code>project-docs/ARCHITECTURE.md</code>, and a 165-byte <code>.engineering/</code> stub overlap. Pick one canonical file.</p></div>
+      <div class="card"><h3>Dead duplicates</h3><p><code>src/rag/oldcodegen/codegen_old.js</code> and <code>src/ingestion/cleaner - Copy.js</code> are stale copies safe to delete.</p></div>
+      <div class="card"><h3>Config vs code default</h3><p>Confidence gate is <code>0.22</code> in config but <code>0.15</code> as the in-code fallback — align to one source of truth.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Second of three system artifacts. Companion to the <b>System Design</b> map (the request lifecycle) — next: the <b>End-User Product Tour</b>. Sourced from <code class="ic">src/api/server.js</code>, <code class="ic">src/rag/*</code>, <code class="ic">src/vectorstore/store.js</code>, and <code class="ic">frontend/src/*</code>.</p>
+  </footer>
+</div>

@@ -1,0 +1,509 @@
+<title>Knowledge Hub — RAG System Design</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg:        #e9eef3;
+    --surface:   #ffffff;
+    --surface-2: #f3f6f9;
+    --ink:       #15212e;
+    --muted:     #566573;
+    --line:      #d2dbe4;
+    --line-soft: #e4ebf1;
+    --write:     #a65c07;
+    --write-bg:  #fbf1e3;
+    --read:      #17618f;
+    --read-bg:   #e6f0f7;
+    --danger:    #b23a2c;
+    --danger-bg: #f8e7e4;
+    --ok:        #2f7d54;
+    --shadow:    0 1px 2px rgba(20,40,60,.06), 0 8px 24px rgba(20,40,60,.06);
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #0d1520;
+      --surface:   #14202d;
+      --surface-2: #1a2836;
+      --ink:       #e5edf4;
+      --muted:     #93a4b4;
+      --line:      #2a3a4a;
+      --line-soft: #21303f;
+      --write:     #e0a44a;
+      --write-bg:  #2a2113;
+      --read:      #59a6e0;
+      --read-bg:   #132535;
+      --danger:    #e2705f;
+      --danger-bg: #2c1815;
+      --ok:        #5cbd84;
+      --shadow:    0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:        #0d1520;
+    --surface:   #14202d;
+    --surface-2: #1a2836;
+    --ink:       #e5edf4;
+    --muted:     #93a4b4;
+    --line:      #2a3a4a;
+    --line-soft: #21303f;
+    --write:     #e0a44a;
+    --write-bg:  #2a2113;
+    --read:      #59a6e0;
+    --read-bg:   #132535;
+    --danger:    #e2705f;
+    --danger-bg: #2c1815;
+    --ok:        #5cbd84;
+    --shadow:    0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* ── Masthead ── */
+  header.mast {
+    padding: 56px 0 32px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--read);
+    margin: 0 0 16px;
+  }
+  h1 {
+    font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -.02em;
+    margin: 0 0 14px;
+    text-wrap: balance;
+    font-weight: 680;
+  }
+  .lede {
+    font-size: clamp(16px, 2vw, 19px);
+    color: var(--muted);
+    max-width: 62ch;
+    margin: 0 0 28px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    padding: 6px 11px;
+    border-radius: 7px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .chip b { color: var(--read); font-weight: 600; }
+
+  section { margin: 0 0 56px; }
+  h2 {
+    font-size: clamp(21px, 3vw, 27px);
+    letter-spacing: -.01em;
+    margin: 0 0 6px;
+    font-weight: 640;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  h2 .num {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .sub { color: var(--muted); margin: 0 0 24px; max-width: 68ch; }
+
+  figure {
+    margin: 0 0 24px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+  }
+  .scroll { overflow-x: auto; }
+  figure svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+  figcaption {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-soft);
+    text-wrap: pretty;
+  }
+  figcaption b { color: var(--ink); font-weight: 600; }
+
+  .lane-key { display: flex; flex-wrap: wrap; gap: 16px; margin: 0 0 20px; font-size: 13px; }
+  .lane-key span { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); }
+  .swatch { width: 22px; height: 4px; border-radius: 2px; display: inline-block; }
+
+  /* ── Stage cards ── */
+  .stages { display: grid; gap: 12px; }
+  .stage {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 14px;
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left-width: 3px;
+    border-radius: 10px;
+  }
+  .stage.w { border-left-color: var(--write); }
+  .stage.r { border-left-color: var(--read); }
+  .stage .idx {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--muted);
+    padding-top: 1px;
+  }
+  .stage h3 { margin: 0 0 4px; font-size: 15.5px; font-weight: 620; }
+  .stage p { margin: 0; font-size: 14px; color: var(--muted); }
+  .stage code, .inline-code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface-2);
+    border: 1px solid var(--line-soft);
+    padding: 1px 6px;
+    border-radius: 5px;
+    color: var(--ink);
+  }
+
+  /* ── Legend table ── */
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 720px; background: var(--surface); }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  thead th {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--surface-2);
+    position: sticky; top: 0;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.stage-name { font-weight: 600; white-space: nowrap; }
+  td code, th code { font-family: var(--mono); font-size: 12.5px; color: var(--read); }
+  td .file { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .knob { font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .knob b { color: var(--ink); }
+
+  /* ── Code blocks ── */
+  pre {
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    box-shadow: var(--shadow);
+  }
+  pre .c { color: var(--muted); }
+  pre .k { color: var(--read); }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .grid2 h3 { font-size: 14px; margin: 0 0 10px; font-family: var(--mono); color: var(--muted); font-weight: 500; letter-spacing: .04em; }
+
+  /* ── Callout ── */
+  .callout {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--danger-bg);
+    border: 1px solid var(--danger);
+    border-radius: 12px;
+    font-size: 14px;
+  }
+  .callout .mark { font-family: var(--mono); font-weight: 700; color: var(--danger); font-size: 15px; }
+  .callout h3 { margin: 0 0 6px; font-size: 15px; }
+  .callout p { margin: 0; color: var(--ink); }
+  .callout code { font-family: var(--mono); font-size: 12.5px; background: var(--surface); padding: 1px 5px; border-radius: 4px; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  a { color: var(--read); }
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <p class="eyebrow">Knowledge Hub · System Design</p>
+    <h1>How a question travels through the RAG engine</h1>
+    <p class="lede">A stage-by-stage map of the retrieval pipeline as it is actually built — a hand-rolled hybrid RAG in plain Node.js, no LangChain or LlamaIndex. Follow the two paths: documents flowing <b>in</b>, a question flowing <b>out</b> as a cited answer.</p>
+    <div class="chips">
+      <span class="chip"><b>Type:</b> Hybrid Retrieval RAG</span>
+      <span class="chip"><b>Retrieval:</b> BM25 + Cosine → RRF</span>
+      <span class="chip"><b>Store:</b> sharded JSON</span>
+      <span class="chip"><b>LLM:</b> Ollama · Claude · vLLM</span>
+      <span class="chip"><b>Embed:</b> Nomic · TF-IDF · OpenAI</span>
+    </div>
+  </header>
+
+  <!-- ─────────────── WRITE PATH ─────────────── -->
+  <section>
+    <h2><span class="num">01</span> The write path — ingestion</h2>
+    <p class="sub">Runs once per crawl or upload (<code class="inline-code">npm run ingest</code>). Raw sources become clean, self-locating, embedded chunks sitting in the vector store, partitioned by section.</p>
+
+    <figure>
+      <div class="scroll">
+        <svg viewBox="0 0 940 250" role="img" aria-label="Ingestion flow: source fetch to clean and extract to chunk to embed to sharded JSON vector store" style="color: var(--ink)">
+          <defs>
+            <marker id="aw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" style="fill: var(--write)"/>
+            </marker>
+          </defs>
+          <!-- baseline y = 90, boxes 150w x 66h -->
+          <!-- node template -->
+          <g style="font-family: var(--sans)">
+            <!-- 1 Source -->
+            <rect x="8"  y="58" width="150" height="66" rx="10" style="fill: var(--write-bg); stroke: var(--write); stroke-width:1.5"/>
+            <text x="83" y="86"  text-anchor="middle" font-size="14" font-weight="600" style="fill: var(--ink)">Source fetch</text>
+            <text x="83" y="105" text-anchor="middle" font-size="11.5" style="fill: var(--muted)">portal · confluence · url</text>
+            <!-- 2 Clean -->
+            <rect x="203" y="58" width="150" height="66" rx="10" style="fill: var(--surface-2); stroke: var(--line); stroke-width:1.5"/>
+            <text x="278" y="86"  text-anchor="middle" font-size="14" font-weight="600" style="fill: var(--ink)">Clean &amp; extract</text>
+            <text x="278" y="105" text-anchor="middle" font-size="11.5" style="fill: var(--muted)">cheerio · tables→md</text>
+            <!-- 3 Chunk -->
+            <rect x="398" y="58" width="150" height="66" rx="10" style="fill: var(--surface-2); stroke: var(--line); stroke-width:1.5"/>
+            <text x="473" y="86"  text-anchor="middle" font-size="14" font-weight="600" style="fill: var(--ink)">Chunk</text>
+            <text x="473" y="105" text-anchor="middle" font-size="11.5" style="fill: var(--muted)">token-based + overlap</text>
+            <!-- 4 Embed -->
+            <rect x="593" y="58" width="150" height="66" rx="10" style="fill: var(--surface-2); stroke: var(--line); stroke-width:1.5"/>
+            <text x="668" y="86"  text-anchor="middle" font-size="14" font-weight="600" style="fill: var(--ink)">Embed</text>
+            <text x="668" y="105" text-anchor="middle" font-size="11.5" style="fill: var(--muted)">768-dim vector</text>
+            <!-- 5 Store -->
+            <rect x="788" y="52" width="144" height="78" rx="10" style="fill: var(--write-bg); stroke: var(--write); stroke-width:2"/>
+            <text x="860" y="82"  text-anchor="middle" font-size="14" font-weight="700" style="fill: var(--ink)">Vector store</text>
+            <text x="860" y="101" text-anchor="middle" font-size="11.5" style="fill: var(--muted)">vectors_&lt;section&gt;.json</text>
+          </g>
+          <!-- arrows -->
+          <g style="stroke: var(--write); stroke-width: 1.6">
+            <line x1="158" y1="91" x2="199" y2="91" marker-end="url(#aw)"/>
+            <line x1="353" y1="91" x2="394" y2="91" marker-end="url(#aw)"/>
+            <line x1="548" y1="91" x2="589" y2="91" marker-end="url(#aw)"/>
+            <line x1="743" y1="91" x2="784" y2="91" marker-end="url(#aw)"/>
+          </g>
+          <!-- arrow labels -->
+          <g text-anchor="middle" font-size="10.5" style="fill: var(--muted); font-family: var(--mono)">
+            <text x="178" y="80">HTML</text>
+            <text x="373" y="80">text</text>
+            <text x="568" y="80">chunks</text>
+            <text x="763" y="80">upsert</text>
+          </g>
+          <!-- record shape callout under store -->
+          <text x="860" y="152" text-anchor="middle" font-size="10.5" style="fill: var(--muted); font-family: var(--mono)">{ id, text, meta, embedding }</text>
+        </svg>
+      </div>
+      <figcaption>The ingest write path (<b>src/ingestion/ingest.js</b>). Tables are converted to markdown <em>before</em> chunking so rows never split mid-cell, and every chunk is prefixed with a breadcrumb (<span class="inline-code">Space › Page</span>) so it stays self-locating once retrieved. The store shards one JSON file <b>per section</b> — the section is also the retrieval filter key.</figcaption>
+    </figure>
+
+    <div class="stages">
+      <div class="stage w"><div class="idx">1</div><div><h3>Source fetch</h3><p>Three source types selected at setup: a crawled web <b>portal</b> (Playwright), <b>Confluence</b> (API token or OAuth), or a list of <b>URLs</b>. Uploaded files (PDF/DOCX/TXT/MD/HTML/ZIP) enter the same pipeline via <code>/api/docs/upload</code>.</p></div></div>
+      <div class="stage w"><div class="idx">2</div><div><h3>Clean &amp; extract</h3><p><code>extractText()</code> in <code>cleaner.js</code> strips nav/footer/TOC noise with cheerio and converts <code>&lt;table&gt;</code> to markdown via <code>tableToMarkdown()</code>. File-type extractors live in <code>src/ingestion/extractors/</code>.</p></div></div>
+      <div class="stage w"><div class="idx">3</div><div><h3>Chunk</h3><p><code>chunkText()</code> estimates tokens (chars ÷ 4), splits on blank lines, merges table blocks so they never break, then greedily fills to <code>chunkSize</code> with <code>chunkOverlap</code>. Each chunk gets a breadcrumb prefix and <code>nearHeading</code> metadata.</p></div></div>
+      <div class="stage w"><div class="idx">4</div><div><h3>Embed</h3><p><code>getEmbedder()</code> factory: <b>Nomic</b> (nomic-embed-text, 768-dim, batches of 32) by default, <b>TF-IDF</b> (2048-dim hashed, pure-JS fallback), or <b>OpenAI</b> (text-embedding-3-small, 1536-dim).</p></div></div>
+      <div class="stage w"><div class="idx">5</div><div><h3>Vector store upsert</h3><p><code>getVectorStore()</code> writes records <code>{ id, text, meta, embedding }</code> into <code>vectors_&lt;section&gt;.json</code>. The <code>id</code> is a sanitized <code>section__title__chunkIndex</code> — used for dedup on re-ingest and for chunk pinning. A dimension mismatch (768/1536/2048) forces a full re-index.</p></div></div>
+    </div>
+  </section>
+
+  <!-- ─────────────── READ PATH ─────────────── -->
+  <section>
+    <h2><span class="num">02</span> The read path — query</h2>
+    <p class="sub">Runs on every chat message (<code>query()</code> / <code>queryStream()</code> in <code>src/rag/query.js</code>). A question is embedded, matched two ways, gated for confidence, compressed to a token budget, then answered with inline <code>[n]</code> citations that map 1:1 to the returned sources.</p>
+
+    <div class="lane-key">
+      <span><i class="swatch" style="background:var(--read)"></i> retrieval &amp; generation</span>
+      <span><i class="swatch" style="background:var(--danger)"></i> confidence gate (blocks out-of-scope)</span>
+    </div>
+
+    <figure>
+      <div class="scroll">
+        <svg viewBox="0 0 620 830" role="img" aria-label="Query flow: question embedded, matched by cosine and BM25 in parallel, fused with RRF, priority-adjusted, then a confidence gate either blocks or passes to context compression, the LLM, and a cited answer" style="color: var(--ink)">
+          <defs>
+            <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" style="fill: var(--read)"/>
+            </marker>
+            <marker id="ad" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" style="fill: var(--danger)"/>
+            </marker>
+          </defs>
+          <g style="font-family: var(--sans)" text-anchor="middle">
+            <!-- Question -->
+            <rect x="220" y="14" width="180" height="52" rx="10" style="fill: var(--read-bg); stroke: var(--read); stroke-width:2"/>
+            <text x="310" y="45" font-size="14.5" font-weight="700" style="fill: var(--ink)">Question</text>
+            <!-- Embed query -->
+            <rect x="220" y="106" width="180" height="58" rx="10" style="fill: var(--surface-2); stroke: var(--line); stroke-width:1.5"/>
+            <text x="310" y="131" font-size="13.5" font-weight="600" style="fill: var(--ink)">Embed query</text>
+            <text x="310" y="149" font-size="11" style="fill: var(--muted); font-family: var(--mono)">embedder.embedOne()</text>
+            <!-- split: Cosine + BM25 -->
+            <rect x="60" y="206" width="200" height="64" rx="10" style="fill: var(--surface-2); stroke: var(--line); stroke-width:1.5"/>
+            <text x="160" y="231" font-size="13.5" font-weight="600" style="fill: var(--ink)">Cosine similarity</text>
+            <text x="160" y="250" font-size="11" style="fill: var(--muted); font-family: var(--mono)">semantic · vector</text>
+            <rect x="360" y="206" width="200" height="64" rx="10" style="fill: var(--surface-2); stroke: var(--line); stroke-width:1.5"/>
+            <text x="460" y="231" font-size="13.5" font-weight="600" style="fill: var(--ink)">BM25</text>
+            <text x="460" y="250" font-size="11" style="fill: var(--muted); font-family: var(--mono)">keyword · k1=1.5 b=0.75</text>
+            <!-- RRF -->
+            <rect x="200" y="312" width="220" height="60" rx="10" style="fill: var(--read-bg); stroke: var(--read); stroke-width:2"/>
+            <text x="310" y="337" font-size="13.5" font-weight="700" style="fill: var(--ink)">RRF fusion</text>
+            <text x="310" y="356" font-size="11" style="fill: var(--muted); font-family: var(--mono)">k = 60 · HYBRID_WEIGHT</text>
+            <!-- Priority -->
+            <rect x="200" y="414" width="220" height="58" rx="10" style="fill: var(--surface-2); stroke: var(--line); stroke-width:1.5"/>
+            <text x="310" y="439" font-size="13.5" font-weight="600" style="fill: var(--ink)">Priority multipliers</text>
+            <text x="310" y="457" font-size="11" style="fill: var(--muted); font-family: var(--mono)">boost ×1.3 · ignore ×0.4</text>
+            <!-- Gate (diamond) -->
+            <polygon points="310,510 400,560 310,610 220,560" style="fill: var(--danger-bg); stroke: var(--danger); stroke-width:2"/>
+            <text x="310" y="556" font-size="13.5" font-weight="700" style="fill: var(--ink)">Confidence</text>
+            <text x="310" y="573" font-size="13.5" font-weight="700" style="fill: var(--ink)">gate</text>
+            <!-- fail branch -->
+            <rect x="436" y="532" width="166" height="56" rx="10" style="fill: var(--danger-bg); stroke: var(--danger); stroke-width:1.5"/>
+            <text x="519" y="554" font-size="12" font-weight="600" style="fill: var(--ink)">"I couldn't find</text>
+            <text x="519" y="571" font-size="12" font-weight="600" style="fill: var(--ink)">this in the docs"</text>
+            <!-- Compress -->
+            <rect x="200" y="648" width="220" height="60" rx="10" style="fill: var(--surface-2); stroke: var(--line); stroke-width:1.5"/>
+            <text x="310" y="673" font-size="13.5" font-weight="600" style="fill: var(--ink)">Compress context</text>
+            <text x="310" y="692" font-size="11" style="fill: var(--muted); font-family: var(--mono)">dedup&gt;0.60 · budget 1800 tok</text>
+            <!-- LLM -->
+            <rect x="200" y="732" width="220" height="52" rx="10" style="fill: var(--surface-2); stroke: var(--line); stroke-width:1.5"/>
+            <text x="310" y="757" font-size="13.5" font-weight="600" style="fill: var(--ink)">LLM generate</text>
+            <text x="310" y="774" font-size="10.5" style="fill: var(--muted); font-family: var(--mono)">ollama · claude · vllm</text>
+            <!-- Answer -->
+            <rect x="0" y="732" width="150" height="52" rx="10" style="fill: var(--read-bg); stroke: var(--read); stroke-width:2"/>
+            <text x="75" y="753" font-size="13" font-weight="700" style="fill: var(--ink)">Answer</text>
+            <text x="75" y="771" font-size="10.5" style="fill: var(--muted); font-family: var(--mono)">+ [n] sources</text>
+          </g>
+          <!-- arrows read -->
+          <g style="stroke: var(--read); stroke-width: 1.6" fill="none">
+            <line x1="310" y1="66"  x2="310" y2="102" marker-end="url(#ar)"/>
+            <!-- to cosine / bm25 -->
+            <path d="M310,164 L310,186 L160,186 L160,202" marker-end="url(#ar)"/>
+            <path d="M310,164 L310,186 L460,186 L460,202" marker-end="url(#ar)"/>
+            <!-- to RRF -->
+            <path d="M160,270 L160,292 L310,292 L310,308" marker-end="url(#ar)"/>
+            <path d="M460,270 L460,292 L310,292 L310,308" marker-end="url(#ar)"/>
+            <line x1="310" y1="372" x2="310" y2="410" marker-end="url(#ar)"/>
+            <line x1="310" y1="472" x2="310" y2="506" marker-end="url(#ar)"/>
+            <!-- pass -->
+            <line x1="310" y1="610" x2="310" y2="644" marker-end="url(#ar)"/>
+            <line x1="310" y1="708" x2="310" y2="728" marker-end="url(#ar)"/>
+            <line x1="200" y1="758" x2="154" y2="758" marker-end="url(#ar)"/>
+          </g>
+          <!-- fail arrow -->
+          <g style="stroke: var(--danger); stroke-width: 1.6" fill="none">
+            <line x1="400" y1="560" x2="432" y2="560" marker-end="url(#ad)"/>
+          </g>
+          <!-- edge labels -->
+          <g font-size="10.5" style="fill: var(--muted); font-family: var(--mono)">
+            <text x="326" y="636">pass</text>
+            <text x="410" y="551" style="fill: var(--danger)">fail</text>
+            <text x="185" y="300" text-anchor="middle">rank</text>
+            <text x="435" y="300" text-anchor="middle">rank</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption>The query read path. The two retrievers run over the <b>same</b> candidate set and are combined by <b>Reciprocal Rank Fusion</b> (score = Σ 1/(60+rank)), so a strong keyword hit and a strong semantic hit both surface. The gate uses <b>both</b> scores — <code class="inline-code">semScore ≥ gate</code> OR a strong RRF rank — so exact filename queries aren't unfairly blocked. <b>Pinned chunks bypass the gate entirely</b> and are forced to score 1.0.</figcaption>
+    </figure>
+
+    <div class="stages">
+      <div class="stage r"><div class="idx">1</div><div><h3>Embed &amp; retrieve</h3><p>The question is embedded once, then <code>store.search()</code> scores every candidate by cosine similarity and by BM25 (the raw question text is passed via <code>setQuery()</code>). An optional <code>sections[]</code> filter scopes retrieval to chosen partitions.</p></div></div>
+      <div class="stage r"><div class="idx">2</div><div><h3>RRF fusion + priority</h3><p><code>rrf()</code> (k=60) fuses the two ranked lists; <code>HYBRID_WEIGHT</code> selects pure-semantic (0), pure-BM25 (1), or RRF (between). <code>applyPriorityMultipliers()</code> then boosts (×1.3) or de-prioritizes (×0.4) sections per <code>data/section_config.json</code>.</p></div></div>
+      <div class="stage r"><div class="idx">3</div><div><h3>Confidence gate</h3><p>Blocks out-of-scope questions <em>before</em> spending an LLM call: passes if <code>topSemScore ≥ CONFIDENCE_GATE</code> or (<code>topRrfScore ≥ 0.014</code> and <code>topSemScore ≥ 0.05</code>). On block, it returns near-miss section suggestions. Pinned chunks skip this step.</p></div></div>
+      <div class="stage r"><div class="idx">4</div><div><h3>Context compression</h3><p><code>compressContext()</code>: drop chunks below <code>MIN_SCORE</code>, dedup pairs sharing &gt;60% of trigrams (Jaccard), greedily fill a <code>~1800</code>-token budget, and tag each kept chunk <code>[1]…[n]</code> — the same numbers the model is told to cite.</p></div></div>
+      <div class="stage r"><div class="idx">5</div><div><h3>Generate &amp; stream</h3><p>Provider fan-out (Ollama / Claude / vLLM), temperature <code>0.15</code>, streamed token-by-token over SSE. A <code>DEFLECTION_PATTERNS</code> check flags "soft-blocked" answers post-hoc. Returned <code>sources[]</code> line up 1:1 with the <code>[n]</code> citations, and every query appends a row to <code>data/eval.jsonl</code>.</p></div></div>
+    </div>
+  </section>
+
+  <!-- ─────────────── LEGEND ─────────────── -->
+  <section>
+    <h2><span class="num">03</span> Stage → file → knob</h2>
+    <p class="sub">The live legend: which module owns each stage, and the configuration knob that tunes it (defaults from <code>src/config/config.js</code>, projected to env by <code>configToEnv()</code>).</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Stage</th><th>Owner (file · fn)</th><th>Knob</th><th>Default</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="stage-name">Clean / extract</td><td><span class="file">cleaner.js · extractText()</span></td><td><code>contentSelector</code></td><td class="knob">#main-content</td></tr>
+          <tr><td class="stage-name">Chunk</td><td><span class="file">cleaner.js · chunkText()</span></td><td><code>chunkSize / chunkOverlap</code></td><td class="knob"><b>400 / 50</b> <span style="color:var(--muted)">(ingest 600/80)</span></td></tr>
+          <tr><td class="stage-name">Embed</td><td><span class="file">embedder.js · getEmbedder()</span></td><td><code>EMBEDDING_PROVIDER</code></td><td class="knob">nomic · 768-dim</td></tr>
+          <tr><td class="stage-name">Store</td><td><span class="file">vectorstore/store.js</span></td><td><code>VECTOR_STORE_PROVIDER</code></td><td class="knob">json (sharded)</td></tr>
+          <tr><td class="stage-name">Retrieve</td><td><span class="file">store.js · search()</span></td><td><code>topK</code></td><td class="knob"><b>6</b></td></tr>
+          <tr><td class="stage-name">Fuse</td><td><span class="file">store.js · rrf() / BM25</span></td><td><code>hybridWeight</code> · RRF k · k1/b</td><td class="knob"><b>0.5</b> · 60 · 1.5/0.75</td></tr>
+          <tr><td class="stage-name">Gate</td><td><span class="file">query.js · query()</span></td><td><code>confidenceGate</code></td><td class="knob"><b>0.22</b> <span style="color:var(--muted)">(code 0.15)</span></td></tr>
+          <tr><td class="stage-name">Compress</td><td><span class="file">query.js · compressContext()</span></td><td><code>CTX_TOKEN_BUDGET</code> · MIN_SCORE · dedup</td><td class="knob"><b>1800</b> · 0.10 · 0.60</td></tr>
+          <tr><td class="stage-name">Generate</td><td><span class="file">query.js · askOllama/Claude/Vllm</span></td><td><code>LLM_PROVIDER</code> · temp</td><td class="knob">ollama · 0.15</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ─────────────── DATA STRUCTURES ─────────────── -->
+  <section>
+    <h2><span class="num">04</span> The data that moves</h2>
+    <p class="sub">Three shapes carry the whole system. The <code>section</code> field is the primary partition key — it is the JSON shard filename, the retrieval filter, and the citation grouping all at once.</p>
+    <div class="grid2">
+      <div>
+        <h3>// chunk record — in the store</h3>
+        <pre><span class="c">// id = section__title__chunkIndex (sanitized)</span>
+{
+  id: <span class="k">"api__auth__3"</span>,
+  text: <span class="k">"**Space:** API › **Page:** Auth\n..."</span>,
+  meta: {
+    title, url, section, breadcrumb,
+    spaceKey, pageId, chunkIndex, nearHeading
+  },
+  embedding: [<span class="k">0.021, -0.118, …</span>] <span class="c">// 768</span>
+}</pre>
+      </div>
+      <div>
+        <h3>// source — returned to the UI</h3>
+        <pre><span class="c">// sources[n-1] ⟷ inline citation [n]</span>
+{ section, title, url, score }
+
+<span class="c">// eval.jsonl — one row per query</span>
+{
+  ts, question, topSemScore, latencyMs,
+  blocked, softBlocked, sectionsUsed,
+  usedChunks, budgetUsed, userId
+}</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── CALLOUT ─────────────── -->
+  <section>
+    <div class="callout">
+      <div class="mark">!</div>
+      <div>
+        <h3>One divergence worth reconciling</h3>
+        <p>The confidence-gate default differs by source: <code>config.js</code> ships <code>0.22</code> (and <code>configToEnv()</code> projects it to the <code>CONFIDENCE_GATE</code> env var), while <code>query.js</code>'s in-code fallback is <code>0.15</code>. In practice the configured <code>0.22</code> wins because the env var is always set — but the two literals should be aligned to a single source of truth to avoid confusion during tuning.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Generated from the codebase at <code class="inline-code">src/rag/query.js</code>, <code class="inline-code">src/vectorstore/store.js</code>, <code class="inline-code">src/ingestion/*</code>, and <code class="inline-code">src/config/config.js</code>. Defaults reflect <code class="inline-code">DEFAULT_CONFIG</code> at time of writing. This is the first of three system artifacts — next: the architect layer-by-layer deep-dive, then the end-user product tour.</p>
+  </footer>
+</div>

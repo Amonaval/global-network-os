@@ -1,0 +1,12 @@
+﻿Support,Question,Expected
+Strong today,Who owns Identity Gateway?,Rahul Verma after accepting ownership candidate.
+Strong today,Who knows OAuth 2.0 and OIDC?,Priya Nair and Rahul Verma should rank strongly after expertise verification.
+Strong today,What depends on Identity Gateway?,"Checkout API, Billing Service, Customer Profile Service, API Edge depending on accepted candidates."
+Strong today,"Which systems depend on Identity Gateway, and what does Identity Gateway itself depend on?",Downstream + Authentication Platform / Redis Session Cache.
+Strong today,Why did we choose Redis for authentication sessions?,"Latency, TTL, database offload, existing Redis operations."
+Partial today,Who is the best backup for Identity Gateway ownership?,Priya should surface; formal backup scoring is not yet implemented.
+Partial today,Who should be involved in a high-risk OAuth change?,Rahul/Priya/Ishita evidence exists; full multi-role orchestration is limited.
+Partial today,Why is Redis a risk to authentication even though we chose it intentionally?,ADR + incident tell the story; cross-doc synthesis may be limited.
+G9.1-D target,What becomes risky if Rahul Verma leaves tomorrow?,Bus factor + dependency + backup coverage.
+G9.1-D target,Which critical platform has one dominant expert but many downstream dependencies?,Formal risk scoring.
+Conflict test,The draft says Aman will own Identity Gateway next month. Who owns it today and should the graph change now?,Rahul remains current owner; draft should not overwrite current truth.

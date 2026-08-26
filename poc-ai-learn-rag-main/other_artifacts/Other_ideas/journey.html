@@ -1,0 +1,394 @@
+<title>How a POC Became a Platform</title>
+<style>
+  :root {
+    --ground: #EDEBE3;
+    --ink: #18160F;
+    --forest: #1B5C42;
+    --amber: #7A5C1E;
+    --muted: #7D7A72;
+    --rule: #D4D0C6;
+    --surface: #E6E3DA;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #141210;
+      --ink: #E8E4DA;
+      --forest: #2E8A61;
+      --amber: #B8892D;
+      --muted: #7A776F;
+      --rule: #2E2B26;
+      --surface: #1E1C18;
+    }
+  }
+
+  :root[data-theme="light"] {
+    --ground: #EDEBE3;
+    --ink: #18160F;
+    --forest: #1B5C42;
+    --amber: #7A5C1E;
+    --muted: #7D7A72;
+    --rule: #D4D0C6;
+    --surface: #E6E3DA;
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #141210;
+    --ink: #E8E4DA;
+    --forest: #2E8A61;
+    --amber: #B8892D;
+    --muted: #7A776F;
+    --rule: #2E2B26;
+    --surface: #1E1C18;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 18px; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    line-height: 1.75;
+    padding: 4rem 1.5rem 8rem;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .container {
+    max-width: 660px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 5rem;
+  }
+
+  .header-eyebrow {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--forest);
+    margin-bottom: 1.4rem;
+  }
+
+  .header-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: normal;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 1.8rem;
+    text-wrap: balance;
+  }
+
+  .header-title em {
+    font-style: italic;
+    color: var(--forest);
+  }
+
+  .header-intro {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.8;
+    border-left: 2px solid var(--forest);
+    padding-left: 1.2rem;
+  }
+
+  /* Moments */
+  .moments {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .moment {
+    padding: 3.5rem 0;
+    border-top: 1px solid var(--rule);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .moment.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .moment {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  .moment-number {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--amber);
+    margin-bottom: 0.9rem;
+    display: block;
+  }
+
+  .moment-title {
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    font-weight: normal;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+    text-wrap: balance;
+  }
+
+  .moment-body {
+    font-size: 0.98rem;
+    color: var(--ink);
+    line-height: 1.85;
+    max-width: 580px;
+  }
+
+  .moment-body p + p {
+    margin-top: 1rem;
+  }
+
+  .moment-signal {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    background: var(--surface);
+    padding: 0.35rem 0.75rem;
+    border-radius: 2px;
+  }
+
+  /* The revelation */
+  .moment.revelation .moment-title {
+    color: var(--forest);
+  }
+
+  /* Epilogue */
+  .epilogue {
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 2px solid var(--ink);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s;
+  }
+
+  .epilogue.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .epilogue { opacity: 1; transform: none; transition: none; }
+  }
+
+  .epilogue-label {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.2rem;
+  }
+
+  .epilogue-quote {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    text-wrap: balance;
+  }
+
+  .epilogue-body {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.85;
+    max-width: 560px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 5rem;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    border-top: 1px solid var(--rule);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>
+
+<div class="container">
+
+  <header class="header">
+    <div class="header-eyebrow">Origin Story</div>
+    <h1 class="header-title">How a POC Became <em>a Platform</em></h1>
+    <p class="header-intro">
+      This wasn't designed from the top down. It was found by following a problem until it got interesting. Eight moments where the scope changed — usually because something broke, or because one question led somewhere unexpected.
+    </p>
+  </header>
+
+  <div class="moments">
+
+    <article class="moment" data-index="0">
+      <span class="moment-number">01 ——</span>
+      <h2 class="moment-title">"I'll just try it."</h2>
+      <div class="moment-body">
+        <p>
+          It started as a retrieval-augmented generation experiment. A document search that could answer questions from a knowledge base. Small, self-contained, no particular vision — just a proof of concept to learn how the pieces fit together.
+        </p>
+        <p>
+          It worked. Which made it tempting to keep adding things.
+        </p>
+      </div>
+      <span class="moment-signal">rag · document search · poc</span>
+    </article>
+
+    <article class="moment" data-index="1">
+      <span class="moment-number">02 ——</span>
+      <h2 class="moment-title">"This is getting messy."</h2>
+      <div class="moment-body">
+        <p>
+          Features accumulated. Each new capability made sense individually, but the whole thing stopped having a direction. More importantly: Claude kept losing context. Every session started from scratch. Every conversation had to re-establish what the project was, what had been decided, what patterns to follow.
+        </p>
+        <p>
+          The problem wasn't the features. The problem was that there was no persistent memory of what the product was supposed to be.
+        </p>
+      </div>
+      <span class="moment-signal">feature bloat · context loss · no north star</span>
+    </article>
+
+    <article class="moment" data-index="2">
+      <span class="moment-number">03 ——</span>
+      <h2 class="moment-title">"What if Claude knew the product?"</h2>
+      <div class="moment-body">
+        <p>
+          The first structural insight: context is just a file. If you write down the product vision, the north star metric, the active mission — and put it somewhere Claude loads automatically — every session begins informed.
+        </p>
+        <p>
+          A small <code>.product/</code> folder. A dashboard file. A missions file. Suddenly Claude's first response in any session reflected the actual state of the product, not a generic assistant guess at what it might be.
+        </p>
+      </div>
+      <span class="moment-signal">.product/ · persistent context · session coherence</span>
+    </article>
+
+    <article class="moment" data-index="3">
+      <span class="moment-number">04 ——</span>
+      <h2 class="moment-title">"What if Claude knew the company?"</h2>
+      <div class="moment-body">
+        <p>
+          The second insight, larger than the first. Product context is useful. But if Claude also knows the principles — what the company stands for, what has been decided and why, what trade-offs have already been made — it stops suggesting things you've already rejected. It starts reasoning from the same place you reason from.
+        </p>
+        <p>
+          A <code>.company/</code> layer. A constitution. A decisions file. An executive council with standing questions. The context chain now ran from principles down through product down through current work.
+        </p>
+      </div>
+      <span class="moment-signal">.company/ · constitution · decision records · guardrails</span>
+    </article>
+
+    <article class="moment" data-index="4">
+      <span class="moment-number">05 ——</span>
+      <h2 class="moment-title">"Anyone could do this."</h2>
+      <div class="moment-body">
+        <p>
+          The structure was solid enough to generalize. A template with placeholders. A setup prompt that could take three inputs — company name, website, objectives — and produce a working OS in fifteen minutes. The pattern was the product, not the specific configuration.
+        </p>
+        <p>
+          The realization: the value isn't the Markdown files. It's the habit of writing decisions down before they're needed and updating the context after every meaningful change.
+        </p>
+      </div>
+      <span class="moment-signal">template · setup prompt · [placeholder] convention · generalization</span>
+    </article>
+
+    <article class="moment" data-index="5">
+      <span class="moment-number">06 ——</span>
+      <h2 class="moment-title">"Let's make it real."</h2>
+      <div class="moment-body">
+        <p>
+          Hypothetical templates are easy. The harder test: pre-populate one for a real company, with real decisions, real architecture, real objectives. No placeholders.
+        </p>
+        <p>
+          The Syndigo OS: BetterWork scores with actual targets. The MACH architecture with all six services named. Eight company decisions with rejection rationale. The Target accuracy gap called out explicitly as the biggest opportunity. An active mission with success criteria.
+        </p>
+        <p>
+          When you read it cold, it tells you where the company is and what matters right now. That's the bar.
+        </p>
+      </div>
+      <span class="moment-signal">syndigo os · 28 files · mach · betterwork · pre-populated</span>
+    </article>
+
+    <article class="moment" data-index="6">
+      <span class="moment-number">07 ——</span>
+      <h2 class="moment-title">"I need to show someone."</h2>
+      <div class="moment-body">
+        <p>
+          A coffee chat. A casual audience that works in this space. The OS structure is interesting but abstract — better to show it on something tangible. Two small product demos built with their own OS files before a single line of code was written. A CRS Calculator. A Digital Shelf Auditor.
+        </p>
+        <p>
+          The demo moment that landed hardest: propose a feature that was already rejected, watch Claude cite the exact decision record and explain why. Not compliance — judgment.
+        </p>
+      </div>
+      <span class="moment-signal">demo prep · defense test · decision guardrails · coffee chat</span>
+    </article>
+
+    <article class="moment revelation" data-index="7">
+      <span class="moment-number">08 ——</span>
+      <h2 class="moment-title">"Wait — 1,000 people work here."</h2>
+      <div class="moment-body">
+        <p>
+          The question that changed what this was: how does everyone use this? Not just one person with their own OS. Engineers, product managers, marketers, sales — all in different departments, different domains, different roles. All using AI tools, all starting from scratch every session.
+        </p>
+        <p>
+          A four-level hierarchy. Company OS. Division OS. Team OS. Personal OS. Each layer loads the one above it automatically. A developer session inherits the full company constitution without thinking about it. A new hire briefs themselves from the OS on day one.
+        </p>
+        <p>
+          That's a different thing than a clever context trick. That's organizational memory — persistent, shared, compounding with every session across every team.
+        </p>
+      </div>
+      <span class="moment-signal">enterprise architecture · four levels · chain loading · organizational memory</span>
+    </article>
+
+  </div>
+
+  <div class="epilogue">
+    <div class="epilogue-label">The Insight</div>
+    <blockquote class="epilogue-quote">
+      "Right now AI makes individuals more productive. The Intelligence OS makes the organization more intelligent. That's a different order of magnitude."
+    </blockquote>
+    <p class="epilogue-body">
+      Individual AI sessions are disposable. Institutional context is not. The OS is the difference between a company where every AI session starts from zero and one where every session starts from everything the company has ever learned. That gap compounds — slowly, then significantly.
+    </p>
+  </div>
+
+  <footer class="footer">
+    <span>Intelligence OS — Origin Record</span>
+    <span>Session: 2026-08-05</span>
+  </footer>
+
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.moment, .epilogue').forEach(el => observer.observe(el));
+</script>

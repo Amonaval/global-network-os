@@ -1,0 +1,23 @@
+Expected high-value verified graph after review:
+
+Rahul Verma -> owns -> Identity Gateway
+Identity Gateway -> depends_on -> Authentication Platform
+Identity Gateway -> depends_on -> Redis Session Cache
+API Edge -> depends_on -> Identity Gateway
+Checkout API -> depends_on -> Identity Gateway
+Checkout API -> depends_on -> Event Mesh
+Billing Service -> depends_on -> Identity Gateway
+Billing Service -> depends_on -> Event Mesh
+Order Orchestrator -> depends_on -> Checkout API
+Order Orchestrator -> depends_on -> Event Mesh
+Customer Profile Service -> depends_on -> Identity Gateway
+
+Key expertise:
+Priya Nair: OAuth 2.0, OIDC, SSO, Security Architecture
+Rahul Verma: OAuth 2.0, OIDC, JWT, Redis, Incident Response
+Meera Rao: Kafka, Event Streaming, Schema Registry
+Rohan Kulkarni: SRE, Redis, Incident Response
+Ishita Sen: Application Security, OAuth 2.0, Threat Modeling
+
+Key decision:
+Redis chosen for short-lived auth sessions because of latency, TTLs, DB offload and existing operational experience.

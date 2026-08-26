@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intelligence Density Score — Knowledge Hub</title>
+<style>
+/* ── Tokens (dark-first instrument panel) ────────────────────────── */
+:root {
+  --bg:        #F4F6FA;
+  --bg-alt:    #E8EDF5;
+  --bg-card:   #FFFFFF;
+  --bg-panel:  #EEF2F9;
+  --border:    #D1D9E6;
+  --text:      #0A0F1E;
+  --text-2:    #4A5568;
+  --text-3:    #8896AA;
+  --indigo:    #3B4EFF;
+  --indigo-dim:#EEF0FF;
+  --green:     #0FA968;
+  --green-dim: #D6F5E8;
+  --amber:     #D97706;
+  --amber-dim: #FEF3C7;
+  --orange:    #EA580C;
+  --red-dim:   #FEE2E2;
+  --gray:      #6B7280;
+  --gauge-track: #D1D9E6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #0A0F1E;
+    --bg-alt:    #111827;
+    --bg-card:   #111827;
+    --bg-panel:  #0D1424;
+    --border:    #1F2A3F;
+    --text:      #F4F6FA;
+    --text-2:    #8896AA;
+    --text-3:    #4A5568;
+    --indigo:    #7B8FFF;
+    --indigo-dim:#0D1035;
+    --green:     #22C77A;
+    --green-dim: #052915;
+    --amber:     #FCD34D;
+    --amber-dim: #1F1500;
+    --orange:    #FB923C;
+    --red-dim:   #1F0505;
+    --gray:      #4A5568;
+    --gauge-track: #1F2A3F;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:        #0A0F1E;
+  --bg-alt:    #111827;
+  --bg-card:   #111827;
+  --bg-panel:  #0D1424;
+  --border:    #1F2A3F;
+  --text:      #F4F6FA;
+  --text-2:    #8896AA;
+  --text-3:    #4A5568;
+  --indigo:    #7B8FFF;
+  --indigo-dim:#0D1035;
+  --green:     #22C77A;
+  --green-dim: #052915;
+  --amber:     #FCD34D;
+  --amber-dim: #1F1500;
+  --orange:    #FB923C;
+  --red-dim:   #1F0505;
+  --gray:      #4A5568;
+  --gauge-track: #1F2A3F;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+code, pre { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+a { color: var(--indigo); }
+a:focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; }
+
+/* ── Page layout ───────────────────────────────────────────────────── */
+.page { max-width: 880px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+
+/* ── Hero ───────────────────────────────────────────────────────────── */
+.hero {
+  padding: 3.5rem 0 3rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3.5rem;
+}
+.hero-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--indigo);
+  margin-bottom: 0.75rem;
+}
+.hero-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.hero-title em {
+  font-style: normal;
+  color: var(--indigo);
+}
+.hero-lead {
+  font-size: 1.05rem;
+  color: var(--text-2);
+  max-width: 58ch;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+
+/* ── IDS Gauge ──────────────────────────────────────────────────────── */
+.gauge-wrap {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1rem;
+}
+.gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+.gauge-label {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.75rem;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.gauge-bar {
+  height: 12px;
+  border-radius: 6px;
+  background: var(--gauge-track);
+  position: relative;
+  overflow: visible;
+  margin-bottom: 1.25rem;
+}
+.gauge-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(to right,
+    #4A5568 0%,
+    #4A5568 20%,
+    #EA580C 20%,
+    #EA580C 40%,
+    #D97706 40%,
+    #D97706 60%,
+    #84cc16 60%,
+    #84cc16 70%,
+    #22C77A 70%,
+    #22C77A 100%
+  );
+  width: 100%;
+}
+.gauge-marker {
+  position: absolute;
+  top: -6px;
+  width: 2px;
+  height: 24px;
+  background: var(--text);
+  border-radius: 1px;
+  left: 70%;
+  transform: translateX(-50%);
+}
+.gauge-marker-label {
+  position: absolute;
+  top: -28px;
+  left: 70%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: 0.04em;
+}
+.gauge-thresholds {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+}
+.threshold-chip {
+  padding: 0.35rem 0.5rem;
+  border-radius: 5px;
+  text-align: center;
+}
+.threshold-chip .val {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  display: block;
+  margin-bottom: 0.1rem;
+}
+.threshold-chip .lbl {
+  font-size: 0.68rem;
+  line-height: 1.3;
+  display: block;
+}
+.t1 { background: color-mix(in srgb, #4A5568 10%, var(--bg-panel)); color: var(--text-3); }
+.t2 { background: color-mix(in srgb, #EA580C 10%, var(--bg-panel)); color: var(--orange); }
+.t3 { background: color-mix(in srgb, #D97706 10%, var(--bg-panel)); color: var(--amber); }
+.t4 { background: color-mix(in srgb, #84cc16 10%, var(--bg-panel)); color: #84cc16; }
+.t5 { background: color-mix(in srgb, #22C77A 10%, var(--bg-panel)); color: var(--green); }
+
+/* ── Section headers ───────────────────────────────────────────────── */
+.section { margin-bottom: 3.5rem; }
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.section-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.section-intro {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 1.75rem;
+  max-width: 68ch;
+}
+
+/* ── Formula grid ──────────────────────────────────────────────────── */
+.formula-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.875rem;
+}
+.formula-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.fc-weight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.weight-badge {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--indigo);
+  font-variant-numeric: tabular-nums;
+  min-width: 3.5rem;
+}
+.weight-bar-wrap {
+  flex: 1;
+  height: 4px;
+  background: var(--gauge-track);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.weight-bar { height: 100%; background: var(--indigo); border-radius: 2px; }
+.fc-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.fc-formula {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.75rem;
+  color: var(--text-3);
+}
+.fc-what {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+.fc-improve {
+  font-size: 0.78rem;
+  color: var(--green);
+  margin-top: 0.1rem;
+}
+.fc-flat {
+  border-left: 2px solid var(--indigo);
+  padding-left: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-3);
+  font-style: italic;
+}
+
+/* ── Moat loop diagram ─────────────────────────────────────────────── */
+.loop-diagram {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 1.5rem;
+}
+.loop-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+}
+.loop-node {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.65rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  min-width: 130px;
+  flex-shrink: 0;
+}
+.loop-node.accent {
+  border-color: var(--indigo);
+  color: var(--indigo);
+}
+.loop-node.highlight {
+  border-color: var(--green);
+  color: var(--green);
+  font-weight: 800;
+}
+.loop-node .sub {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--text-3);
+  margin-top: 0.1rem;
+}
+.loop-arrow {
+  color: var(--text-3);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.loop-v-arrow {
+  color: var(--text-3);
+  font-size: 1rem;
+  text-align: center;
+  padding: 0.2rem 0;
+  width: 100%;
+}
+.loop-label {
+  font-size: 0.72rem;
+  color: var(--text-3);
+  margin-top: 1.5rem;
+  text-align: center;
+  font-style: italic;
+}
+
+/* ── Moat math ─────────────────────────────────────────────────────── */
+.moat-math {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.moat-math h3 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 1rem;
+}
+.math-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+.math-row:last-child { border-bottom: none; }
+.math-label { color: var(--text-2); }
+.math-val {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.math-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0 0;
+  margin-top: 0.25rem;
+  border-top: 2px solid var(--border);
+}
+.math-total .label { font-weight: 700; color: var(--text); font-size: 0.95rem; }
+.math-total .val {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── 90-day window ─────────────────────────────────────────────────── */
+.window-callout {
+  background: var(--indigo-dim);
+  border: 1px solid color-mix(in srgb, var(--indigo) 30%, var(--border));
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+.window-callout h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--indigo);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+.window-callout p {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+.window-callout p + p { margin-top: 0.75rem; }
+
+/* ── Risk factors ──────────────────────────────────────────────────── */
+.risk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.875rem;
+}
+.risk-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.1rem;
+}
+.risk-card .risk-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.risk-card .risk-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+.risk-card .risk-effect {
+  font-size: 0.8rem;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+.risk-card .risk-fix {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  margin-top: 0.4rem;
+  font-style: italic;
+}
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+.footer {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer a { font-size: 0.82rem; color: var(--text-3); }
+.footer a:hover { color: var(--indigo); text-decoration: underline; }
+.footer-stamp { font-size: 0.75rem; color: var(--text-3); }
+
+@media (max-width: 640px) {
+  .formula-grid { grid-template-columns: 1fr; }
+  .gauge-thresholds { grid-template-columns: 1fr 1fr; gap: 0.35rem; }
+  .risk-grid { grid-template-columns: 1fr; }
+  .loop-row { flex-direction: column; }
+  .loop-arrow { transform: rotate(90deg); }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Hero -->
+  <header class="hero">
+    <p class="hero-eyebrow">Knowledge Hub · Product Intelligence</p>
+    <h1 class="hero-title">The number that makes a<br><em>customer irreplaceable.</em></h1>
+    <p class="hero-lead">Intelligence Density Score is a single 0–1 value computed from five retrieval signals. When an organization crosses 0.70, the switching cost of leaving exceeds the perceived benefit of any alternative. This document shows why — and how the math compounds.</p>
+
+    <!-- Gauge -->
+    <div class="gauge-wrap">
+      <div class="gauge-labels">
+        <span class="gauge-label">0.00</span>
+        <span class="gauge-label">0.25</span>
+        <span class="gauge-label">0.50</span>
+        <span class="gauge-label">0.75</span>
+        <span class="gauge-label">1.00</span>
+      </div>
+      <div class="gauge-bar">
+        <div class="gauge-fill"></div>
+        <div class="gauge-marker-label">Moat begins here</div>
+        <div class="gauge-marker"></div>
+      </div>
+      <div class="gauge-thresholds">
+        <div class="threshold-chip t1">
+          <span class="val">&lt; 0.20</span>
+          <span class="lbl">Just starting</span>
+        </div>
+        <div class="threshold-chip t2">
+          <span class="val">0.20</span>
+          <span class="lbl">Momentum building</span>
+        </div>
+        <div class="threshold-chip t3">
+          <span class="val">0.40</span>
+          <span class="lbl">Intelligence compounding</span>
+        </div>
+        <div class="threshold-chip t4">
+          <span class="val">0.60</span>
+          <span class="lbl">Approaching moat</span>
+        </div>
+        <div class="threshold-chip t5">
+          <span class="val">≥ 0.70</span>
+          <span class="lbl">Moat achieved</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ── Formula ─────────────────────────────────────────────────────── -->
+  <section class="section" id="formula">
+    <div class="section-head">
+      <span class="section-eyebrow">The formula</span>
+      <span class="section-title">Five signals. One score.</span>
+    </div>
+    <p class="section-intro">
+      IDS is computed in <code>computeIDS()</code> at <code>frontend/src/components/chat/IntelligenceDashboard.tsx:15</code>. Each signal is capped at 1.0 before weighting. The weights sum to exactly 1.0.
+    </p>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="fc-weight">
+          <span class="weight-badge">×0.30</span>
+          <div class="weight-bar-wrap"><div class="weight-bar" style="width:30%"></div></div>
+        </div>
+        <div class="fc-name">Answer Quality</div>
+        <div class="fc-formula">overallSuccessRate × 0.30</div>
+        <div class="fc-what">Fraction of queries answered (not blocked) over the current window. The single highest-weight signal — a system that can't answer questions provides no value.</div>
+        <div class="fc-improve">↑ Add documentation for top blocked topics from <code>npm run eval -- --blocked</code></div>
+      </div>
+
+      <div class="formula-card">
+        <div class="fc-weight">
+          <span class="weight-badge">×0.20</span>
+          <div class="weight-bar-wrap"><div class="weight-bar" style="width:20%"></div></div>
+        </div>
+        <div class="fc-name">Memory Breadth</div>
+        <div class="fc-formula">min(clusters / 8, 1) × 0.20</div>
+        <div class="fc-what">Number of recurring question clusters in <code>/api/memory</code>, capped at 8. Each cluster is a topic this org revisits repeatedly — evidence that the knowledge is being used, not just indexed.</div>
+        <div class="fc-improve">↑ Grows naturally as teams ask questions over weeks — cannot be gamed by bulk indexing</div>
+      </div>
+
+      <div class="formula-card">
+        <div class="fc-weight">
+          <span class="weight-badge">×0.15</span>
+          <div class="weight-bar-wrap"><div class="weight-bar" style="width:15%"></div></div>
+        </div>
+        <div class="fc-name">Query Volume</div>
+        <div class="fc-formula">min(totalQueries / 50, 1) × 0.15</div>
+        <div class="fc-what">Raw usage signal, normalized against a threshold of 50 queries. Proves the hub is in daily workflow, not just installed. Caps at 1.0 so volume alone cannot inflate IDS.</div>
+        <div class="fc-improve">↑ Onboard additional team members; add the VS Code extension to surface the hub in context</div>
+      </div>
+
+      <div class="formula-card">
+        <div class="fc-weight">
+          <span class="weight-badge">×0.15</span>
+          <div class="weight-bar-wrap"><div class="weight-bar" style="width:15%"></div></div>
+        </div>
+        <div class="fc-name">Gap Pressure</div>
+        <div class="fc-formula">(1 − gapRatio) × 0.15</div>
+        <div class="fc-what">Inverse of the blocked-query ratio. An org with no blocked questions scores full marks here. High gap pressure (<code>gapRatio &gt; 0.4</code>) strongly depresses IDS and surfaces documentation debt.</div>
+        <div class="fc-improve">↑ Use <code>/api/gaps/outline</code> to generate docs for the top blocked topics</div>
+      </div>
+
+      <div class="formula-card" style="grid-column: 1 / -1;">
+        <div class="fc-weight">
+          <span class="weight-badge" style="font-size:0.9rem;color:var(--text-3)">+0.10</span>
+          <div class="weight-bar-wrap"><div class="weight-bar" style="width:10%;background:var(--text-3)"></div></div>
+        </div>
+        <div class="fc-name">Risk Baseline &amp; Section Health</div>
+        <div class="fc-formula">riskData ? +0.10 : 0 &nbsp;&nbsp;+&nbsp;&nbsp; (avgHealth / 100) × 0.10</div>
+        <div class="fc-what">Two smaller signals: a flat +0.10 bonus for having risk data at all (proving the knowledge map has been analyzed), plus 10% weighted by average section health score. Together these reward organizational maintenance discipline, not just usage volume.</div>
+        <div class="fc-flat">The risk baseline is a step function — it adds 0.10 the moment <code>/api/knowledge/risk</code> has been run, regardless of the results. Run it once before any customer review.</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── Why 0.70 ─────────────────────────────────────────────────────── -->
+  <section class="section" id="threshold">
+    <div class="section-head">
+      <span class="section-eyebrow">The threshold</span>
+      <span class="section-title">What 0.70 looks like in practice</span>
+    </div>
+    <p class="section-intro">
+      Crossing 0.70 requires a specific combination of signals — it cannot be gamed by inflating one number. The math below shows the minimum realistic profile needed.
+    </p>
+
+    <div class="moat-math">
+      <h3>A representative 0.72 IDS profile</h3>
+      <div class="math-row">
+        <span class="math-label">Answer quality: 90% success rate &nbsp;(0.90 × 0.30)</span>
+        <span class="math-val" style="color:var(--indigo)">0.27</span>
+      </div>
+      <div class="math-row">
+        <span class="math-label">Memory breadth: 6 clusters &nbsp;(6/8 × 0.20)</span>
+        <span class="math-val" style="color:var(--indigo)">0.15</span>
+      </div>
+      <div class="math-row">
+        <span class="math-label">Query volume: 50+ queries &nbsp;(1.0 × 0.15)</span>
+        <span class="math-val" style="color:var(--indigo)">0.15</span>
+      </div>
+      <div class="math-row">
+        <span class="math-label">Gap pressure: 5% blocked rate &nbsp;(0.95 × 0.15)</span>
+        <span class="math-val" style="color:var(--indigo)">0.14</span>
+      </div>
+      <div class="math-row">
+        <span class="math-label">Risk baseline: established &nbsp;(+0.10)</span>
+        <span class="math-val" style="color:var(--indigo)">0.10</span>
+      </div>
+      <div class="math-row">
+        <span class="math-label">Section health: 75% average &nbsp;(0.75 × 0.10)</span>
+        <span class="math-val" style="color:var(--indigo)">0.075</span>
+      </div>
+      <div class="math-total">
+        <span class="label">Total IDS</span>
+        <span class="val">0.715</span>
+      </div>
+    </div>
+    <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6">To reach 0.715, this org needed at least 50 queries, 6 distinct recurring topics, 90%+ answer success, and active maintenance (risk baseline + section health). These are signals of an org that has been running the hub in real workflows for 30–60 days — not a new install.</p>
+  </section>
+
+
+  <!-- ── Compound moat ─────────────────────────────────────────────────── -->
+  <section class="section" id="moat">
+    <div class="section-head">
+      <span class="section-eyebrow">The compound loop</span>
+      <span class="section-title">Why IDS is self-reinforcing above 0.70</span>
+    </div>
+    <p class="section-intro">
+      Each IDS component feeds the next. The loop below shows how a team that crosses 0.70 naturally continues compounding — without active effort. This is the switching cost moat.
+    </p>
+
+    <div class="loop-diagram">
+      <div class="loop-row">
+        <div class="loop-node accent">Queries asked<span class="sub">real workflow usage</span></div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-node">eval.jsonl grows<span class="sub">answered + blocked logged</span></div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-node">Memory clusters form<span class="sub">recurring topics identified</span></div>
+      </div>
+      <div class="loop-v-arrow">↓</div>
+      <div class="loop-row" style="flex-direction:row-reverse">
+        <div class="loop-node accent">Trust builds<span class="sub">more team members onboard</span></div>
+        <div class="loop-arrow">←</div>
+        <div class="loop-node highlight">IDS crosses 0.70<span class="sub">moat threshold reached</span></div>
+        <div class="loop-arrow">←</div>
+        <div class="loop-node">IDS rises<span class="sub">all 5 signals strengthen</span></div>
+      </div>
+      <div class="loop-v-arrow">↓</div>
+      <div class="loop-row">
+        <div class="loop-node">Gaps filled<span class="sub">blocked queries trigger docs</span></div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-node">Answer rate rises<span class="sub">highest-weight signal improves</span></div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-node accent">More queries asked<span class="sub">volume signal compounds</span></div>
+      </div>
+      <p class="loop-label">Customer data is always theirs. The intelligence generated from it — the clusters, gaps, decisions, memory — is irreproducible without months of real usage.</p>
+    </div>
+  </section>
+
+
+  <!-- ── 90-day window ──────────────────────────────────────────────────── -->
+  <section class="section" id="window">
+    <div class="section-head">
+      <span class="section-eyebrow">The window</span>
+      <span class="section-title">Why 90 days matters</span>
+    </div>
+
+    <div class="window-callout">
+      <h3>The 90-day accumulation window</h3>
+      <p>A competitor could copy every feature in the product in 90 days. They cannot copy 90 days of an organization's actual query history, gap patterns, memory clusters, and retrieval decisions. Those signals are derived from real work — they require time and real usage to form.</p>
+      <p>The moat is not the software. The moat is the intelligence layer that grows from using it. At IDS ≥ 0.70, leaving would mean starting that accumulation over from zero — and losing 90 days of organizational memory that is not stored anywhere else.</p>
+    </div>
+    <p style="font-size:0.875rem;color:var(--text-2);line-height:1.7">The <code>/api/intelligence/history</code> endpoint tracks IDS week-over-week. The delta between snapshots shows whether the moat is strengthening, stable, or eroding. Any downward trend before 0.70 is a churn signal worth acting on within the same week.</p>
+  </section>
+
+
+  <!-- ── Risk factors ───────────────────────────────────────────────────── -->
+  <section class="section" id="risks">
+    <div class="section-head">
+      <span class="section-eyebrow">What drags IDS down</span>
+      <span class="section-title">The three IDS killers</span>
+    </div>
+
+    <div class="risk-grid">
+      <div class="risk-card">
+        <span class="risk-icon">🚫</span>
+        <div class="risk-name">High blocked rate</div>
+        <div class="risk-effect">A blocked rate above 40% means the answer quality signal (×0.30) and gap pressure signal (×0.15) are both depressed simultaneously. IDS is structurally capped well below 0.70.</div>
+        <div class="risk-fix">Fix: identify the top 5 blocked topics from eval.jsonl and create documentation for each before the next review cycle.</div>
+      </div>
+      <div class="risk-card">
+        <span class="risk-icon">💀</span>
+        <div class="risk-name">Dead sections</div>
+        <div class="risk-effect">Sections with no answered queries in 30+ days are flagged as dead by <code>/api/knowledge/risk</code>. They reduce average section health, eroding the health signal. They also pull down answer rate if queries are directed at them.</div>
+        <div class="risk-fix">Fix: <code>PATCH /api/health/section/:name</code> with <code>"priority": "ignore"</code> to exclude dead sections from retrieval while rebuilding their docs.</div>
+      </div>
+      <div class="risk-card">
+        <span class="risk-icon">👤</span>
+        <div class="risk-name">Single-user pattern</div>
+        <div class="risk-effect">If only one person is asking questions, the query volume signal hits its ceiling but the memory clusters never diversify. IDS is bounded because the system only knows one person's knowledge gaps — not the organization's.</div>
+        <div class="risk-fix">Fix: onboard a second team member in the first two weeks. Even 5 queries from a different perspective creates new memory clusters.</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
+      <a href="./eval-observability.html">Eval &amp; Observability</a>
+      <a href="./rag-evolution-roadmap.html">RAG Evolution Roadmap</a>
+      <a href="./rag-system-design.html">RAG System Design</a>
+    </div>
+    <div class="footer-stamp">ids-moat-explainer.html · IntelligenceDashboard.tsx:15</div>
+  </footer>
+
+</div>
+</body>
+</html>

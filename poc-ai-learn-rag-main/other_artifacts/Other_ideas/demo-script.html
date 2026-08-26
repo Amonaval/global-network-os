@@ -1,0 +1,853 @@
+<title>AI Company OS — Demo Script</title>
+<style>
+:root {
+  --bg:         #070C14;
+  --surface:    #0E1620;
+  --surface2:   #131D2B;
+  --border:     #1A2840;
+  --text:       #C8DBE8;
+  --sub:        #7A9AB5;
+  --dim:        #2C3E52;
+  --accent:     #00D4C8;
+  --accent2:    #FF6B35;
+  --wow:        #F0C040;
+  --wow-bg:     rgba(240,192,64,0.07);
+  --green:      #34D399;
+  --green-bg:   rgba(52,211,153,0.07);
+  --blue:       #60A5FA;
+  --blue-bg:    rgba(96,165,250,0.07);
+  --amber:      #FB923C;
+  --amber-bg:   rgba(251,146,60,0.07);
+  --tc-ghost:   #0A1420;
+  --r:          9px;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg:#F0F5FA;--surface:#FFFFFF;--surface2:#EAF0F7;--border:#CDDAE6;
+    --text:#091829;--sub:#4A6880;--dim:#B8CDD9;--accent:#007A74;--accent2:#D44A17;
+    --wow:#A07000;--wow-bg:rgba(160,112,0,0.06);--green:#047857;--green-bg:rgba(4,120,87,0.06);
+    --blue:#1E4DB8;--blue-bg:rgba(30,77,184,0.06);--amber:#C2580C;--amber-bg:rgba(194,88,12,0.06);
+    --tc-ghost:#E2EDF5;
+  }
+}
+:root[data-theme="dark"]{--bg:#070C14;--surface:#0E1620;--surface2:#131D2B;--border:#1A2840;--text:#C8DBE8;--sub:#7A9AB5;--dim:#2C3E52;--accent:#00D4C8;--accent2:#FF6B35;--wow:#F0C040;--wow-bg:rgba(240,192,64,0.07);--green:#34D399;--green-bg:rgba(52,211,153,0.07);--blue:#60A5FA;--blue-bg:rgba(96,165,250,0.07);--amber:#FB923C;--amber-bg:rgba(251,146,60,0.07);--tc-ghost:#0A1420;}
+:root[data-theme="light"]{--bg:#F0F5FA;--surface:#FFFFFF;--surface2:#EAF0F7;--border:#CDDAE6;--text:#091829;--sub:#4A6880;--dim:#B8CDD9;--accent:#007A74;--accent2:#D44A17;--wow:#A07000;--wow-bg:rgba(160,112,0,0.06);--green:#047857;--green-bg:rgba(4,120,87,0.06);--blue:#1E4DB8;--blue-bg:rgba(30,77,184,0.06);--amber:#C2580C;--amber-bg:rgba(194,88,12,0.06);--tc-ghost:#E2EDF5;}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+
+/* ── LAYOUT ── */
+.shell{display:grid;grid-template-columns:220px 1fr;min-height:100vh;}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid var(--border);padding:24px 0;background:var(--surface);}
+.main{padding:0 0 80px;}
+
+/* sidebar nav */
+.sb-brand{padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.sb-logo{font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+.sb-title{font-size:13px;font-weight:700;color:var(--text);}
+.sb-meta{font-size:11px;color:var(--sub);margin-top:2px;}
+.sb-nav{list-style:none;padding:0 10px;}
+.sb-nav li a{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;font-size:12px;color:var(--sub);text-decoration:none;transition:all .15s;}
+.sb-nav li a:hover{background:var(--surface2);color:var(--text);}
+.sb-nav .tc{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--dim);margin-left:auto;flex-shrink:0;}
+.sb-section{padding:8px 20px 4px;font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-top:8px;}
+.sb-pill{background:var(--accent);color:var(--bg);font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;}
+
+/* page header */
+.page-header{padding:40px 52px 32px;border-bottom:1px solid var(--border);}
+.ph-eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.ph-title{font-size:32px;font-weight:800;letter-spacing:-.04em;line-height:1.1;text-wrap:balance;color:var(--text);}
+.ph-sub{font-size:15px;color:var(--sub);margin-top:8px;max-width:520px;line-height:1.6;}
+.ph-meta{display:flex;align-items:center;gap:12px;margin-top:20px;flex-wrap:wrap;}
+.ph-chip{font-family:ui-monospace,Menlo,monospace;font-size:11px;padding:4px 12px;border-radius:14px;border:1px solid var(--border);color:var(--sub);}
+.ph-chip.accent{border-color:var(--accent);color:var(--accent);background:rgba(0,212,200,.07);}
+.ph-chip.orange{border-color:var(--accent2);color:var(--accent2);background:rgba(255,107,53,.07);}
+
+/* arc diagram */
+.arc{padding:28px 52px;border-bottom:1px solid var(--border);}
+.arc h3{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--sub);margin-bottom:18px;}
+.arc-track{display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:4px;}
+.arc-node{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;}
+.arc-dot{width:10px;height:10px;border-radius:50%;background:var(--dim);}
+.arc-dot.lit{background:var(--accent);}
+.arc-dot.wow{background:var(--wow);}
+.arc-dot.peak{background:var(--accent2);}
+.arc-label{font-size:10px;color:var(--sub);text-align:center;max-width:72px;line-height:1.3;}
+.arc-label.lit{color:var(--accent);}
+.arc-label.wow{color:var(--wow);}
+.arc-label.peak{color:var(--accent2);}
+.arc-line{flex:1;height:1px;background:var(--border);min-width:24px;flex-shrink:0;margin-top:-28px;}
+.arc-line.lit{background:var(--accent);opacity:.4;}
+
+/* pre-show */
+.preshow{margin:28px 52px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:var(--r);padding:18px 22px;}
+.preshow h3{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;}
+.preshow ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.preshow li{display:flex;gap:10px;font-size:13px;color:var(--sub);}
+.preshow li::before{content:"→";color:var(--dim);flex-shrink:0;}
+.preshow code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--bg);padding:1px 5px;border-radius:3px;}
+
+/* note box */
+.note-box{margin:28px 52px 0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;display:flex;gap:16px;}
+.note-icon{font-size:18px;flex-shrink:0;margin-top:2px;}
+.note-body h4{font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.note-body p{font-size:13px;color:var(--sub);line-height:1.65;}
+.note-body strong{color:var(--text);}
+
+/* ── ACT SECTIONS ── */
+.act{padding:40px 52px 0;border-bottom:1px solid var(--border);margin-bottom:4px;}
+.act:last-of-type{border-bottom:none;}
+
+.act-head{display:flex;align-items:flex-start;gap:20px;margin-bottom:28px;position:relative;}
+.act-tc{font-family:ui-monospace,Menlo,monospace;font-size:80px;font-weight:900;color:var(--tc-ghost);line-height:.9;letter-spacing:-.03em;flex-shrink:0;user-select:none;margin-top:-8px;font-variant-numeric:tabular-nums;}
+.act-meta{flex:1;}
+.act-eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.act-title{font-size:24px;font-weight:800;letter-spacing:-.03em;text-wrap:balance;line-height:1.15;}
+.act-desc{font-size:12px;color:var(--sub);margin-top:5px;font-style:italic;}
+.act-dur{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--dim);flex-shrink:0;padding-top:4px;}
+
+/* AUDIENCE STATE */
+.aud-state{display:flex;align-items:flex-start;gap:10px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:20px;}
+.aud-icon{font-size:13px;flex-shrink:0;margin-top:2px;}
+.aud-label{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--sub);margin-bottom:3px;}
+.aud-text{font-size:12px;color:var(--sub);line-height:1.55;}
+
+/* content blocks */
+.blocks{display:flex;flex-direction:column;gap:14px;padding-bottom:36px;}
+
+.say{padding:14px 20px;border-left:2px solid var(--border);font-size:15px;line-height:1.8;}
+.say p+p{margin-top:10px;}
+.say em{color:var(--sub);font-style:italic;}
+.say strong{font-weight:700;color:var(--text);}
+.say .em-line{display:inline;font-weight:700;color:var(--accent);}
+
+.screen{background:var(--blue-bg);border:1px solid color-mix(in srgb,var(--blue) 22%,transparent);border-radius:var(--r);padding:12px 16px;display:flex;align-items:flex-start;gap:12px;}
+.screen-ico{font-size:14px;flex-shrink:0;margin-top:1px;}
+.screen-lbl{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:3px;}
+.screen-txt{font-size:13px;color:var(--text);line-height:1.55;}
+.screen-txt code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--bg);padding:1px 5px;border-radius:3px;}
+
+.type-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.type-head{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--green-bg);border-bottom:1px solid var(--border);}
+.type-lbl{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:6px;}
+.type-lbl::before{content:"▶";font-size:8px;}
+.type-note{font-size:11px;color:var(--sub);}
+.type-prompt{padding:14px 16px;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap;word-break:break-word;}
+.type-watch{padding:10px 14px;background:var(--surface2);border-top:1px solid var(--border);font-size:12px;color:var(--sub);line-height:1.5;}
+.type-watch strong{color:var(--green);}
+
+.narrate{background:var(--amber-bg);border:1px solid color-mix(in srgb,var(--amber) 22%,transparent);border-radius:var(--r);padding:12px 16px;}
+.narrate-lbl{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:5px;}
+.narrate-txt{font-size:13px;color:var(--text);line-height:1.6;}
+
+.pause-mark{display:flex;align-items:center;gap:12px;padding:6px 0;}
+.pause-mark::before,.pause-mark::after{content:"";flex:1;height:1px;background:var(--amber);opacity:.25;}
+.pause-txt{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);flex-shrink:0;}
+
+/* WOW block */
+.wow-block{background:var(--wow-bg);border:1px solid color-mix(in srgb,var(--wow) 30%,transparent);border-radius:var(--r);overflow:hidden;}
+.wow-head{display:flex;align-items:center;gap:10px;padding:10px 16px;background:color-mix(in srgb,var(--wow) 10%,transparent);border-bottom:1px solid color-mix(in srgb,var(--wow) 20%,transparent);}
+.wow-star{font-size:14px;}
+.wow-lbl{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--wow);font-weight:700;}
+.wow-body{padding:14px 16px;font-size:13px;color:var(--text);line-height:1.65;}
+.wow-body strong{color:var(--wow);}
+
+.callout{background:color-mix(in srgb,var(--accent) 7%,transparent);border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);border-radius:var(--r);padding:12px 16px;}
+.callout-lbl{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+.callout-txt{font-size:13px;color:var(--text);line-height:1.6;}
+
+/* ── HIGHLIGHTS ── */
+.section-break{padding:40px 52px 0;}
+.section-break h2{font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--sub);padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:22px;}
+
+.hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:680px){.hl-grid{grid-template-columns:1fr;}}
+.hl-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 18px 16px;display:flex;align-items:flex-start;gap:14px;transition:border-color .15s;}
+.hl-card:hover{border-color:var(--accent);}
+.hl-n{font-family:ui-monospace,Menlo,monospace;font-size:26px;font-weight:900;color:var(--accent);opacity:.45;line-height:1;flex-shrink:0;font-variant-numeric:tabular-nums;}
+.hl-n.wow-n{color:var(--wow);}
+.hl-copy strong{display:block;font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:-.01em;}
+.hl-copy span{font-size:12px;color:var(--sub);line-height:1.5;}
+
+/* ── TEMPLATE CALLOUT ── */
+.template-block{margin:0 52px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.template-head{background:color-mix(in srgb,var(--accent2) 10%,transparent);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:10px;}
+.template-head-label{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent2);font-weight:700;}
+.template-body{padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:680px){.template-body{grid-template-columns:1fr;}}
+.template-col h4{font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.template-col ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.template-col li{font-size:12px;color:var(--sub);display:flex;gap:8px;line-height:1.4;}
+.template-col li::before{content:"·";color:var(--dim);flex-shrink:0;}
+.template-prompt{grid-column:1/-1;background:var(--bg);border-radius:6px;padding:14px 16px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.6;color:var(--sub);}
+.template-prompt strong{color:var(--accent);}
+
+/* ── Q&A ── */
+.qa-wrap{margin:0 52px;}
+.qa-intro{font-size:13px;color:var(--sub);margin-bottom:16px;line-height:1.6;}
+.qa-table-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--border);}
+.qa-table{width:100%;border-collapse:collapse;font-size:13px;}
+.qa-table th{font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--sub);padding:10px 16px;text-align:left;background:var(--surface2);border-bottom:1px solid var(--border);}
+.qa-table td{padding:11px 16px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+.qa-table tr:last-child td{border-bottom:none;}
+.qa-table td:first-child{color:var(--sub);font-style:italic;width:36%;}
+.qa-table td:last-child{color:var(--text);font-weight:500;}
+.qa-table td .real-q{font-size:11px;color:var(--dim);margin-top:3px;}
+
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .act-tc{font-size:52px;}
+  .act,.arc,.preshow,.note-box,.section-break,.template-block,.qa-wrap{padding-left:24px;padding-right:24px;}
+  .page-header{padding:28px 24px;}
+  .arc{padding:20px 24px;}
+  .template-block,.qa-wrap{margin-left:24px;margin-right:24px;}
+}
+</style>
+
+<div class="shell">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">Demo Script</div>
+    <div class="sb-title">AI Company OS</div>
+    <div class="sb-meta">45–50 min · Expert audience</div>
+  </div>
+  <ul class="sb-nav">
+    <li class="sb-section">Pre-show</li>
+    <li><a href="#setup">Setup <span class="tc">—</span></a></li>
+    <li class="sb-section">Acts</li>
+    <li><a href="#act0">Expert Acknowledgment <span class="tc">00</span></a></li>
+    <li><a href="#act1">Start with a Bang <span class="tc">02</span></a></li>
+    <li><a href="#act2">The OS Structure <span class="tc">08</span></a></li>
+    <li><a href="#act3">Mission Loop <span class="tc">13</span></a></li>
+    <li><a href="#act4">The Restart <span class="tc">25</span></a></li>
+    <li><a href="#act5">Strategic Twist <span class="tc">30</span></a></li>
+    <li><a href="#act6">From Product to Company <span class="tc">41</span></a></li>
+    <li><a href="#act7">The Transformation <span class="tc">46</span></a></li>
+    <li class="sb-section">Reference</li>
+    <li><a href="#highlights">7 Highlights <span class="sb-pill">WOW</span></a></li>
+    <li><a href="#template">Template Guide</a></li>
+    <li><a href="#qa">Q&A Deflections</a></li>
+  </ul>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+<!-- Header -->
+<div class="page-header" id="top">
+  <div class="ph-eyebrow">Production Script · Internal</div>
+  <div class="ph-title">AI Company Operating System</div>
+  <div class="ph-sub">Not a tool demo. A framework demo. For an audience that already knows what Claude can do — show them what they haven't seen yet.</div>
+  <div class="ph-meta">
+    <span class="ph-chip accent">45–50 min</span>
+    <span class="ph-chip">CRS Calculator</span>
+    <span class="ph-chip">Digital Shelf Auditor</span>
+    <span class="ph-chip">Syndigo OS</span>
+    <span class="ph-chip orange">Expert audience</span>
+  </div>
+</div>
+
+<!-- Audience arc -->
+<div class="arc">
+  <h3>Audience journey</h3>
+  <div class="arc-track">
+    <div class="arc-node"><div class="arc-dot lit"></div><div class="arc-label lit">Expert skeptic</div></div>
+    <div class="arc-line lit"></div>
+    <div class="arc-node"><div class="arc-dot lit"></div><div class="arc-label lit">Acknowledged</div></div>
+    <div class="arc-line lit"></div>
+    <div class="arc-node"><div class="arc-dot wow"></div><div class="arc-label wow">First wow — defense</div></div>
+    <div class="arc-line"></div>
+    <div class="arc-node"><div class="arc-dot"></div><div class="arc-label">Context clicks</div></div>
+    <div class="arc-line"></div>
+    <div class="arc-node"><div class="arc-dot wow"></div><div class="arc-label wow">Restart magic</div></div>
+    <div class="arc-line"></div>
+    <div class="arc-node"><div class="arc-dot peak"></div><div class="arc-label peak">Strategic twist</div></div>
+    <div class="arc-line"></div>
+    <div class="arc-node"><div class="arc-dot"></div><div class="arc-label">Template reveal</div></div>
+    <div class="arc-line"></div>
+    <div class="arc-node"><div class="arc-dot lit"></div><div class="arc-label lit">"I want this"</div></div>
+  </div>
+</div>
+
+<!-- Pre-show setup -->
+<div class="preshow" id="setup">
+  <h3>Pre-show — before anyone joins</h3>
+  <ul>
+    <li>Claude Code open, <code>crs-calculator/</code> as working directory, font size 16+</li>
+    <li>Browser tab with <code>app/index.html</code> loaded — have it ready to switch to</li>
+    <li>5 TYPE prompts in a notepad, ready to copy-paste without retyping live</li>
+    <li>Folders pre-navigated: <code>digital-shelf-auditor/</code>, <code>pim-company/</code>, <code>template/</code></li>
+    <li>One terminal tab open — for showing the folder tree if needed</li>
+  </ul>
+</div>
+
+<div class="note-box" id="presenter-note">
+  <div class="note-icon">🎯</div>
+  <div class="note-body">
+    <h4>Presenter mindset</h4>
+    <p>This room has <strong>power users</strong>. Skip the "here's why Claude is useful" entirely. They know. Move at the pace of an expert talking to experts. The goal is not to teach — it's to show something they haven't seen. The moments that land are the ones they couldn't have predicted. Engineer those moments, then get out of the way and let the silence work.</p>
+  </div>
+</div>
+
+<!-- ════ ACT 0 ════ -->
+<div class="act" id="act0">
+  <div class="act-head">
+    <div class="act-tc">00</div>
+    <div class="act-meta">
+      <div class="act-eyebrow">0:00 — 2:00 · Opening</div>
+      <div class="act-title">Acknowledge the Experts First</div>
+      <div class="act-desc">Don't teach the room. Earn their attention by seeing them accurately.</div>
+    </div>
+    <div class="act-dur">2 min</div>
+  </div>
+  <div class="aud-state">
+    <div class="aud-icon">🤔</div>
+    <div>
+      <div class="aud-label">Audience state entering</div>
+      <div class="aud-text">"I've used Claude every day. I've seen a lot of demos. Let's see if this is actually different." Many are already composing their first skeptical question.</div>
+    </div>
+  </div>
+  <div class="blocks">
+    <div class="say">
+      <p>"Before I start — I want to acknowledge the room. Quick show of hands: who here writes <code>CLAUDE.md</code> files? Custom system prompts? Carefully structured context before starting a session?"</p>
+    </div>
+    <div class="pause-mark"><span class="pause-txt">Hands go up — more than expected</span></div>
+    <div class="say">
+      <p>"I expected that. You're an unusually good audience for this. Because I'm <em>not</em> here to show you how to use Claude better. You've figured that out. What I'm going to show you is what happens when that instinct — that 'let me give Claude proper context' instinct you already have — gets <strong>formalized into a system</strong>."</p>
+      <p>"Not better prompting. Infrastructure. The difference between a good function and a good codebase."</p>
+    </div>
+    <div class="callout">
+      <div class="callout-lbl">Transition line</div>
+      <div class="callout-txt">"I want to show you the most interesting part first — before I explain how it works. Let me ask Claude to do something it should refuse."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ACT 1 ════ -->
+<div class="act" id="act1">
+  <div class="act-head">
+    <div class="act-tc">02</div>
+    <div class="act-meta">
+      <div class="act-eyebrow">2:00 — 8:00 · First Impression</div>
+      <div class="act-title">Start with a Bang — The Defense Test</div>
+      <div class="act-desc">Show the punchline before the setup. Claude exercising judgment, not just executing.</div>
+    </div>
+    <div class="act-dur">6 min</div>
+  </div>
+  <div class="aud-state">
+    <div class="aud-icon">👀</div>
+    <div>
+      <div class="aud-label">Audience state entering</div>
+      <div class="aud-text">Curious but still holding judgment. "Okay, show me something I haven't seen."</div>
+    </div>
+  </div>
+  <div class="blocks">
+    <div class="say">
+      <p>"I'm opening a product — the CRS Calculator. A tool that scores product content quality. Three missions complete, one active. I've been building this for a few weeks. Now — without any setup — I'm going to ask for a feature."</p>
+    </div>
+
+    <div class="type-block">
+      <div class="type-head">
+        <div class="type-lbl">Type in Claude Code</div>
+        <div class="type-note">prompt 1 of 5</div>
+      </div>
+      <div class="type-prompt">A stakeholder wants us to add competitor pricing data — show how the product is priced versus the top 3 competitors on the same page. How do we implement this?</div>
+      <div class="type-watch"><strong>Watch for:</strong> Claude cites Decision 5. Explains the ToS/legal risk. Then proposes an alternative: competitor <em>content quality</em> comparison, not pricing. Full rationale, not just a refusal.</div>
+    </div>
+
+    <div class="pause-mark"><span class="pause-txt">Let the response arrive completely</span></div>
+
+    <div class="wow-block">
+      <div class="wow-head"><span class="wow-star">★</span><div class="wow-lbl">First Wow — Point this out explicitly</div></div>
+      <div class="wow-body">
+        <p>"Notice what didn't happen. It didn't build it. It didn't ask 'are you sure?' It cited a specific architectural decision by number. Gave the original business rationale — ToS risk, legal exposure. Then proposed an alternative that achieves the underlying user goal <strong>within the constraints we set weeks ago</strong>."</p>
+        <p style="margin-top:10px">"Most of you have seen Claude say 'great idea, here's how.' What you just saw is Claude say 'here's why we decided not to, here's what we decided instead, and here's the alternative that actually serves the user.' <strong>That's judgment. Not autocomplete.</strong>"</p>
+      </div>
+    </div>
+
+    <div class="say">
+      <p>"Let me show you where that judgment came from."</p>
+    </div>
+
+    <div class="screen">
+      <div class="screen-ico">📄</div>
+      <div>
+        <div class="screen-lbl">Show</div>
+        <div class="screen-txt">Open <code>.engineering/DECISIONS.md</code>. Point to Decision 5 — rejected competitor pricing. The three-field format: Decision, Why, Constraint.</div>
+      </div>
+    </div>
+
+    <div class="say">
+      <p>"One file. Permanent. Every Claude session that opens this folder reads it. The decision was made once. It's never re-debated."</p>
+      <p>"But DECISIONS.md is one file. The OS is ten. Let me show you the whole architecture — now that you've seen what it produces."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ACT 2 ════ -->
+<div class="act" id="act2">
+  <div class="act-head">
+    <div class="act-tc">08</div>
+    <div class="act-meta">
+      <div class="act-eyebrow">8:00 — 13:00 · Foundation</div>
+      <div class="act-title">The OS Structure — Explained by What It Just Did</div>
+      <div class="act-desc">Now they want to understand it. Don't front-load; explain after the demo earns the curiosity.</div>
+    </div>
+    <div class="act-dur">5 min</div>
+  </div>
+  <div class="blocks">
+    <div class="screen">
+      <div class="screen-ico">🗂</div>
+      <div>
+        <div class="screen-lbl">Show</div>
+        <div class="screen-txt">Walk the folder tree. Name each file. Go slow — they're building a mental model.</div>
+      </div>
+    </div>
+    <div class="say">
+      <p>"Ten files. Hierarchy matters. The company constitution sits at the top — it constrains everything below it. Product vision and CEO dashboard set direction. The mission files — NEXT_MISSION, PROGRESS, FEATURE_BACKLOG — define where you are in the journey. Engineering files are the guardrails."</p>
+      <p>"When Claude opens this folder in Claude Code, it loads all of this in stage order before you type a word. The conversation you have isn't context — the OS is the context. The conversation is just work."</p>
+    </div>
+    <div class="callout">
+      <div class="callout-lbl">For the experts — the distinction that matters</div>
+      <div class="callout-txt">The difference between a CLAUDE.md file and this OS is the same difference between a comment and an architecture. A single md file tells Claude how to respond. The OS tells Claude how to <em>think</em> — with hierarchy, guardrails, history, and direction all encoded into a coherent structure.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ACT 3 ════ -->
+<div class="act" id="act3">
+  <div class="act-head">
+    <div class="act-tc">13</div>
+    <div class="act-meta">
+      <div class="act-eyebrow">13:00 — 25:00 · The Build Loop</div>
+      <div class="act-title">Mission Execution + Live Rule Injection</div>
+      <div class="act-desc">Show the mission cadence. Inject the doc rule mid-session. Show self-evaluation appear.</div>
+    </div>
+    <div class="act-dur">12 min</div>
+  </div>
+  <div class="aud-state">
+    <div class="aud-icon">🔍</div>
+    <div>
+      <div class="aud-label">Audience state entering</div>
+      <div class="aud-text">"I see the structure. Now show me the workflow — how do you actually use this day to day?"</div>
+    </div>
+  </div>
+  <div class="blocks">
+    <div class="say">
+      <p>"First thing every session — before anything else:"</p>
+    </div>
+
+    <div class="type-block">
+      <div class="type-head">
+        <div class="type-lbl">Type in Claude Code</div>
+        <div class="type-note">prompt 2 of 5</div>
+      </div>
+      <div class="type-prompt">What is the next mission?</div>
+      <div class="type-watch"><strong>Watch for:</strong> Claude returns a structured mission briefing — status, what's built, what's blocked (CSV export), the exact next step, success criteria. It didn't look at any code. It read the OS.</div>
+    </div>
+
+    <div class="narrate">
+      <div class="narrate-lbl">While pointing at the response</div>
+      <div class="narrate-txt">"Five words. What came back: the full state of Mission 4. What's built, what's blocked, what success looks like before shipping. I didn't write any of that in this session. The OS knows the product's history."</div>
+    </div>
+
+    <div class="type-block">
+      <div class="type-head">
+        <div class="type-lbl">Type in Claude Code</div>
+        <div class="type-note">prompt 3 of 5</div>
+      </div>
+      <div class="type-prompt">Execute. Complete the CSV export. Follow all architecture decisions.</div>
+      <div class="type-watch"><strong>Watch for:</strong> It references DECISIONS.md before writing code. Rules-as-data principle applied. Clean Blob export, no hardcoded values.</div>
+    </div>
+
+    <div class="narrate">
+      <div class="narrate-lbl">Narrate as it builds</div>
+      <div class="narrate-txt">"Notice the order. It's checking the architecture decisions before writing a line. Is this consistent with the rules-as-data principle? Does the Blob export fit the existing component structure? It's not guessing — it's informed by the OS."</div>
+    </div>
+
+    <div class="pause-mark"><span class="pause-txt">After feature ships — pause here</span></div>
+
+    <div class="say">
+      <p>"Feature shipped. But notice — no documentation. No changelog. No self-evaluation. That's a gap. Watch what one instruction does."</p>
+    </div>
+
+    <div class="type-block">
+      <div class="type-head">
+        <div class="type-lbl">Type in Claude Code</div>
+        <div class="type-note">live rule injection</div>
+      </div>
+      <div class="type-prompt">New standing rule — add to CLAUDE.md: after every mission completion, automatically (1) create a user-facing feature doc in docs/features/, (2) add a permanent lesson to PROGRESS.md, (3) ask yourself: is this complete, or can it be enhanced? State one specific enhancement. This applies to all future sessions.</div>
+      <div class="type-watch"><strong>Watch for:</strong> CLAUDE.md updated. Feature doc created. Lesson added to PROGRESS.md. Self-evaluation appears — it flags the enhancement it found.</div>
+    </div>
+
+    <div class="wow-block">
+      <div class="wow-head"><span class="wow-star">★</span><div class="wow-lbl">Point out the self-evaluation section</div></div>
+      <div class="wow-body">
+        <p>"Look at this. It evaluated its own output. Found an enhancement — 'no summary row, no error handling for malformed CSVs.' I didn't ask it to find gaps. The rule told it to think this way."</p>
+        <p style="margin-top:10px">"<strong>That's not a feature. That's a behavior you just encoded into the OS.</strong> Every future session in this folder will now self-evaluate after every mission. Permanently."</p>
+      </div>
+    </div>
+
+    <div class="say">
+      <p>"Now let's see the rule work immediately:"</p>
+    </div>
+
+    <div class="screen">
+      <div class="screen-ico">▶</div>
+      <div>
+        <div class="screen-lbl">Type</div>
+        <div class="screen-txt"><code>Build the enhancement you identified.</code> — Claude references its own evaluation, builds it, auto-generates the docs, self-evaluates again. The loop runs itself.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ACT 4 ════ -->
+<div class="act" id="act4">
+  <div class="act-head">
+    <div class="act-tc">25</div>
+    <div class="act-meta">
+      <div class="act-eyebrow">25:00 — 31:00 · The Pivot</div>
+      <div class="act-title">Close Everything. One Word. It Knows.</div>
+      <div class="act-desc">The restart magic. Engineer silence after "start" lands. This is the moment people screenshot.</div>
+    </div>
+    <div class="act-dur">6 min</div>
+  </div>
+  <div class="aud-state">
+    <div class="aud-icon">💡</div>
+    <div>
+      <div class="aud-label">Audience state entering</div>
+      <div class="aud-text">"I get the workflow. Okay — but what happens when you close and come back? That's the real test." They're already forming this question.</div>
+    </div>
+  </div>
+  <div class="blocks">
+    <div class="say">
+      <p>"Here's something counterintuitive. I'm going to close this session completely. Not minimize. Close."</p>
+      <p>"The reason: long sessions accumulate noise. You end up prompting around your own history. The OS inverts this — the important knowledge lives in files, not in the conversation. The conversation is disposable. <strong>The OS is not.</strong>"</p>
+    </div>
+
+    <div class="screen">
+      <div class="screen-ico">✕</div>
+      <div>
+        <div class="screen-lbl">Action — be deliberate, let the audience see it</div>
+        <div class="screen-txt">Close Claude Code. Be visible about it. Brief silence. Then reopen, navigate to <code>crs-calculator/</code>.</div>
+      </div>
+    </div>
+
+    <div class="say">
+      <p>"Fresh model. No history. Zero context from the previous session."</p>
+      <p>"I'm going to type the word that best represents how much I need to explain."</p>
+    </div>
+
+    <div class="type-block">
+      <div class="type-head">
+        <div class="type-lbl">Type in Claude Code</div>
+        <div class="type-note">prompt 4 of 5 · the magic moment</div>
+      </div>
+      <div class="type-prompt">start</div>
+      <div class="type-watch"><strong>Watch for:</strong> Full mission briefing. Knows what was built. Knows the rule we added. Knows what to do next. One word triggered all of it.</div>
+    </div>
+
+    <div class="pause-mark"><span class="pause-txt">10 seconds — say nothing — let the response land</span></div>
+
+    <div class="wow-block">
+      <div class="wow-head"><span class="wow-star">★</span><div class="wow-lbl">The moment — stay quiet, point slowly</div></div>
+      <div class="wow-body">
+        <p>"It knows where we are. It knows what we built. It knows the rule we added twenty minutes ago. It knows what to do next."</p>
+        <p style="margin-top:10px">"One word. Zero re-briefing. <strong>This is what this is about.</strong> Not any specific feature. The continuity. The fact that you can walk away, come back tomorrow, type anything, and you're continuing — not starting over."</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ACT 5 ════ -->
+<div class="act" id="act5">
+  <div class="act-head">
+    <div class="act-tc">31</div>
+    <div class="act-meta">
+      <div class="act-eyebrow">31:00 — 41:00 · The Unexpected</div>
+      <div class="act-title">The Strategic Review — It Finds What You Missed</div>
+      <div class="act-desc">The OS as executive partner. It challenges. It finds the gap. This is the "chief of staff" moment.</div>
+    </div>
+    <div class="act-dur">10 min</div>
+  </div>
+  <div class="aud-state">
+    <div class="aud-icon">🎯</div>
+    <div>
+      <div class="aud-label">Audience state entering</div>
+      <div class="aud-text">The restart landed. Executives in the room are starting to think "what would this look like at company scale?" — lean into that.</div>
+    </div>
+  </div>
+  <div class="blocks">
+    <div class="say">
+      <p>"Now for the one that surprised me the most. I've been confident about Mission 4 — CSV batch upload. It feels right. Let me ask Claude to stress-test that confidence."</p>
+    </div>
+
+    <div class="type-block">
+      <div class="type-head">
+        <div class="type-lbl">Type in Claude Code</div>
+        <div class="type-note">prompt 5 of 5 · the strategic review</div>
+      </div>
+      <div class="type-prompt">Validate and review everything we have built. Check alignment with the company constitution, product vision, CEO dashboard, and mission history. Be critical — stress-test whether the current mission is the right one, or if there's a more valuable direction we're missing. Identify any feature bloat. Our goal is the most valuable addon for PIM/MDM products — not just useful, but irreplaceable.</div>
+      <div class="type-watch"><strong>Watch for:</strong> It reads the constitution, CEO dashboard accuracy metrics, mission history. It should flag: Target scoring is 82% accurate — the weakest metric. Batch CSV scoring at scale amplifies inaccurate Target scores. This is a strategic risk the current mission plan misses.</div>
+    </div>
+
+    <div class="narrate">
+      <div class="narrate-lbl">As Claude works through the OS</div>
+      <div class="narrate-txt">"It's reading the constitution — what we said we'd never compromise on. Score accuracy first. Then the CEO dashboard — where the red flags are. Then the mission history — what the actual trajectory of this product is. It's not validating our plan. It's testing it."</div>
+    </div>
+
+    <div class="pause-mark"><span class="pause-txt">When Claude flags the Target accuracy risk</span></div>
+
+    <div class="wow-block">
+      <div class="wow-head"><span class="wow-star">★</span><div class="wow-lbl">Point to the unexpected finding</div></div>
+      <div class="wow-body">
+        <p>"Look at this. Target scoring accuracy is 82% — our weakest metric, in the CEO dashboard. Mission 4 is CSV batch scoring. Claude is saying: running batch scoring at scale will expose more products to inaccurate Target scores at once, amplifying the trust risk at exactly the moment we're trying to expand usage."</p>
+        <p style="margin-top:10px">"I was focused on shipping the feature. <strong>Claude was watching the OS.</strong> It saw a contradiction I didn't. That's not execution intelligence. That's strategic intelligence."</p>
+        <p style="margin-top:10px">"And notice: it updated the OS with this finding. Next session, this concern is permanent context."</p>
+      </div>
+    </div>
+
+    <div class="say">
+      <p>"This is what it means to have a partner instead of a tool. It's not executing your instructions — it's thinking about whether your instructions are right. That's not a prompt trick. That's architecture."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ACT 6 ════ -->
+<div class="act" id="act6">
+  <div class="act-head">
+    <div class="act-tc">41</div>
+    <div class="act-meta">
+      <div class="act-eyebrow">41:00 — 46:00 · The Scale</div>
+      <div class="act-title">From Product to Company</div>
+      <div class="act-desc">The moment the audience realizes this isn't a developer tool — it's company infrastructure. Show the hierarchy.</div>
+    </div>
+    <div class="act-dur">5 min</div>
+  </div>
+  <div class="aud-state">
+    <div class="aud-icon">💡</div>
+    <div>
+      <div class="aud-label">Audience state entering</div>
+      <div class="aud-text">The restart landed. Executives and PMs are thinking "what would this look like at our scale?" Engineers are thinking "how does this work for multiple teams?" Answer both now.</div>
+    </div>
+  </div>
+  <div class="blocks">
+    <div class="say">
+      <p>"Before you ask how I built this — let me show you something bigger. Everything I've shown so far has been one product, one team. Let me show you what this looks like at Syndigo scale."</p>
+    </div>
+
+    <div class="screen">
+      <div class="screen-ico">🏗</div>
+      <div>
+        <div class="screen-lbl">Open intelligence-os/syndigo/</div>
+        <div class="screen-txt">Show the full folder: <code>.company/</code> at the top, <code>.product/</code> and <code>.engineering/</code> in the middle, <code>teams/</code> with four subfolders at the bottom — engineering, product, marketing, sales.</div>
+      </div>
+    </div>
+
+    <div class="wow-block">
+      <div class="wow-head"><span class="wow-star">★</span><div class="wow-lbl">The architecture insight — say this slowly</div></div>
+      <div class="wow-body">
+        <p>"This isn't one folder per person. It's <strong>one folder per company</strong> — and teams layer on top of it."</p>
+        <p style="margin-top:10px">"The <code>.company/</code> files are shared across every team. Constitution, decisions, executive council. Every engineering session, every product session, every marketing session starts from the same company foundation. What changes is the team-specific context stacked on top."</p>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="screen-ico">📄</div>
+      <div>
+        <div class="screen-lbl">Open teams/engineering/TEAM_CLAUDE.md</div>
+        <div class="screen-txt">Show the first line: "Load Company OS first." Then the engineering-specific modes, standing rules, prompts. Same pattern for product/, marketing/, sales/.</div>
+      </div>
+    </div>
+
+    <div class="narrate">
+      <div class="narrate-lbl">The hierarchy in plain language</div>
+      <div class="narrate-txt">"Company OS loads first. Team context loads on top. A developer gets: Syndigo principles → architecture decisions → their team's current mission. A marketer gets: Syndigo principles → product vision → their team's messaging decisions. Same foundation. Different layer. Automatically."</div>
+    </div>
+
+    <div class="type-block">
+      <div class="type-head">
+        <div class="type-lbl">Open Syndigo OS in Claude Code — Type this</div>
+        <div class="type-note">the 1000-person moment</div>
+      </div>
+      <div class="type-prompt">I just joined Syndigo. I'm starting on the analytics team next week. Read the full OS and give me a briefing: company mission, product direction, architecture decisions I need to know, and what the team is currently working on.</div>
+      <div class="type-watch"><strong>Watch for:</strong> Claude returns company principles (from constitution), BetterWork objectives (from CEO dashboard), MACH architecture decisions, active mission. Full institutional context. No human onboarding required.</div>
+    </div>
+
+    <div class="pause-mark"><span class="pause-txt">After the briefing appears</span></div>
+
+    <div class="say">
+      <p>"That briefing just read six months of Syndigo's institutional history. A new hire, any role, any team — same OS, same foundation."</p>
+      <p>"At Syndigo that's 1000 people. <strong>Same company OS. Different questions. Relevant answers for every role.</strong>"</p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-lbl">Before you ask — the template</div>
+      <div class="callout-txt">Open <code>intelligence-os/template/</code>. 28 files, all placeholders. Open <code>SETUP_PROMPT.md</code>. Three inputs: company name, website URL, paste your objectives. Claude researches, populates, generates the full OS. The Syndigo version took 15 minutes. Any team's version takes 15 minutes. Tonight if you want.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ACT 7 ════ -->
+<div class="act" id="act7">
+  <div class="act-head">
+    <div class="act-tc">46</div>
+    <div class="act-meta">
+      <div class="act-eyebrow">46:00 — 50:00 · The Close</div>
+      <div class="act-title">The Transformation</div>
+      <div class="act-desc">Not a feature. Not a tool. A different order of magnitude. Land this and stop.</div>
+    </div>
+    <div class="act-dur">4 min</div>
+  </div>
+  <div class="blocks">
+    <div class="say">
+      <p>"For <strong>developers:</strong> DECISIONS.md is the guardrail that stops re-debating settled architecture — in every future session, by every future engineer, permanently."</p>
+      <p>"For <strong>product managers:</strong> one prompt before any planning meeting gives you a synthesized briefing from the full product history. Walk in already knowing."</p>
+      <p>"For <strong>sales and marketing:</strong> every session starts from the same product vision and competitive positioning. The senior SE's depth isn't a personal asset anymore — it's infrastructure."</p>
+      <p>"For <strong>executives:</strong> the strategic review runs against the same signals that define your objectives. Alignment isn't a meeting — it's the baseline of every session."</p>
+      <p>"For <strong>the person who just joined last week:</strong> they open the OS and ask 'what do I need to know?' They get six months of institutional history in thirty seconds."</p>
+    </div>
+
+    <div class="pause-mark"><span class="pause-txt">Final pause — then the transformation line</span></div>
+
+    <div class="wow-block">
+      <div class="wow-head"><span class="wow-star">★</span><div class="wow-lbl">The close — deliver this cleanly, then stop talking</div></div>
+      <div class="wow-body">
+        <p>"Right now, AI makes individuals more productive. The Intelligence OS makes the <strong>organization more intelligent</strong>. That's a different order of magnitude."</p>
+        <p style="margin-top:10px">"The session restart was the magic trick. The enterprise layer is the transformation. One word. One company. Everyone knows."</p>
+        <p style="margin-top:10px">"The Syndigo OS is built. The template is open. Any team can have this in 15 minutes — starting today."</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="height:1px;background:var(--border);margin:40px 52px;"></div>
+
+<!-- HIGHLIGHTS -->
+<div class="section-break" id="highlights">
+  <h2>Seven moments that land</h2>
+  <div class="hl-grid">
+    <div class="hl-card">
+      <div class="hl-n wow-n">01</div>
+      <div class="hl-copy"><strong>The defense test</strong><span>Claude cites a specific decision, gives the rationale, proposes an alternative. Judgment, not execution.</span></div>
+    </div>
+    <div class="hl-card">
+      <div class="hl-n wow-n">02</div>
+      <div class="hl-copy"><strong>One word restart</strong><span>Close. Reopen. Type "start." Full context restored. Zero re-briefing. The silence after it lands is the moment.</span></div>
+    </div>
+    <div class="hl-card">
+      <div class="hl-n">03</div>
+      <div class="hl-copy"><strong>Self-evaluation by rule</strong><span>One instruction encodes a permanent quality behavior. Every future session evaluates its own output without being asked.</span></div>
+    </div>
+    <div class="hl-card">
+      <div class="hl-n">04</div>
+      <div class="hl-copy"><strong>Strategic review finds a flaw</strong><span>Claude spots the Target accuracy risk that the mission plan misses. It wasn't asked to find it.</span></div>
+    </div>
+    <div class="hl-card">
+      <div class="hl-n">05</div>
+      <div class="hl-copy"><strong>The OS compounds</strong><span>Every mission adds a lesson. Every review updates direction. Claude gets more useful the longer you use this way.</span></div>
+    </div>
+    <div class="hl-card">
+      <div class="hl-n">06</div>
+      <div class="hl-copy"><strong>Any role, same files</strong><span>Developer, PM, new hire, executive — different questions, same OS, completely different answers.</span></div>
+    </div>
+    <div class="hl-card">
+      <div class="hl-n">07</div>
+      <div class="hl-copy"><strong>15 minutes, any company</strong><span>Blank template + one prompt. The Syndigo OS took 15 minutes. Tonight if you want.</span></div>
+    </div>
+  </div>
+</div>
+
+<div style="height:1px;background:var(--border);margin:40px 52px;"></div>
+
+<!-- TEMPLATE -->
+<div class="section-break" id="template">
+  <h2>Template — how to create the OS for any product or company</h2>
+</div>
+<div class="template-block">
+  <div class="template-head">
+    <div>🗂</div>
+    <div class="template-head-label">Setup in 3 steps — 15 minutes for any context</div>
+  </div>
+  <div class="template-body">
+    <div class="template-col">
+      <h4>What you provide</h4>
+      <ul>
+        <li>Company or product name</li>
+        <li>Public website / docs URL</li>
+        <li>Objective scores (BetterWork, OKRs, whatever you track)</li>
+        <li>Any internal docs you have (optional — upgrades accuracy)</li>
+      </ul>
+    </div>
+    <div class="template-col">
+      <h4>What gets generated</h4>
+      <ul>
+        <li>Company constitution (principles that never change)</li>
+        <li>CEO dashboard with your actual objectives</li>
+        <li>Product vision + north star metric</li>
+        <li>Engineering architecture + decision records</li>
+        <li>First mission queue ready to execute</li>
+      </ul>
+    </div>
+    <div class="template-prompt">
+      <strong>The setup prompt (copy SETUP_PROMPT.md):</strong><br><br>
+      I want to create an AI Company Operating System for [COMPANY_NAME].<br><br>
+      STEP 1 — Research: Search [COMPANY_WEBSITE] and gather: what they do, who their customers are, competitive moat, technical architecture, recent strategic moves.<br><br>
+      STEP 2 — Objectives: [PASTE YOUR OBJECTIVE SCORES HERE]<br><br>
+      STEP 3 — Using the template at [TEMPLATE_PATH], create a complete OS at [OUTPUT_PATH]. Replace every [PLACEHOLDER]. Every sentence must be company-specific — no generic filler.
+    </div>
+  </div>
+</div>
+
+<div style="height:1px;background:var(--border);margin:40px 52px;"></div>
+
+<!-- Q&A -->
+<div class="section-break" id="qa">
+  <h2>Chat deflections — one-liners for live questions</h2>
+</div>
+<div class="qa-wrap">
+  <p class="qa-intro">Expert audiences ask good questions at the wrong moment. Drop these in chat to keep momentum. Most questions resolve themselves as the demo continues — let them.</p>
+  <div class="qa-table-wrap">
+    <table class="qa-table">
+      <thead><tr><th>They ask…</th><th>Say this (one line)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>"What about confidential data?"<div class="real-q">Real question: is this safe to use at work?</div></td>
+          <td>All files are local — a folder in your repo under your git control. Nothing is transmitted anywhere.</td>
+        </tr>
+        <tr>
+          <td>"How is this different from a CLAUDE.md?"<div class="real-q">Real question: I already do this, what's new?</div></td>
+          <td>A CLAUDE.md tells Claude how to respond. The OS tells Claude how to think — with hierarchy, history, and strategic memory across every session.</td>
+        </tr>
+        <tr>
+          <td>"How do you keep it updated?"<div class="real-q">Real question: this sounds like more maintenance.</div></td>
+          <td>The mission completion rule updates it. The strategic review updates it. It's the output of the workflow, not extra work on top of it.</td>
+        </tr>
+        <tr>
+          <td>"We already use Confluence / Notion."<div class="real-q">Real question: why wouldn't we just fix our docs?</div></td>
+          <td>This doesn't replace those. It bridges them — permanent decisions distilled into what Claude actually reads. Confluence is the archive. This is the active brain.</td>
+        </tr>
+        <tr>
+          <td>"Can other AI tools use this?"<div class="real-q">Real question: are we locked in?</div></td>
+          <td>Plain markdown — model-agnostic. Claude Code is the best environment for it today. Any future AI that reads files works the same way.</td>
+        </tr>
+        <tr>
+          <td>"Isn't this just good prompting?"<div class="real-q">Real question: I could already do this.</div></td>
+          <td>Prompting is a conversation that ends. This is infrastructure that compounds. Same difference as a good comment vs a good codebase.</td>
+        </tr>
+        <tr>
+          <td>"How do we do this for Syndigo?"<div class="real-q">Real question: I want this now.</div></td>
+          <td>I already did — it's in the demo. Template + 15-minute setup prompt. Let's connect after and I'll walk your team through it.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- end main -->
+</div><!-- end shell -->

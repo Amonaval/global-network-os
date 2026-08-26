@@ -1,0 +1,1412 @@
+<title>RAG Trends 2025–2026 | Knowledge Hub Intelligence Brief</title>
+<style>
+/* ── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --bg:          #F4F6FB;
+  --surface:     #FFFFFF;
+  --surface2:    #EEF1FA;
+  --border:      #DDE1F0;
+  --text:        #1A1C2E;
+  --text2:       #5C6080;
+  --text3:       #8B91B0;
+  --accent:      #5B6AF0;
+  --accent-dim:  #EEF0FF;
+  --teal:        #0EADA0;
+  --amber:       #D97706;
+  --amber-dim:   #FFFBEB;
+  --coral:       #E34D3A;
+  --code-bg:     #EBEEf7;
+  --tag-bg:      #E8EBFD;
+  --tag-text:    #3D4DCC;
+  --shadow:      0 1px 4px rgba(30,40,90,0.08), 0 4px 16px rgba(30,40,90,0.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:          #0C0E1A;
+    --surface:     #131626;
+    --surface2:    #1A1D30;
+    --border:      #252847;
+    --text:        #E0E4F4;
+    --text2:       #7880A4;
+    --text3:       #4B5278;
+    --accent:      #7B88F5;
+    --accent-dim:  #1A1E3A;
+    --teal:        #2DD4BF;
+    --amber:       #FBBF24;
+    --amber-dim:   #1C1805;
+    --coral:       #F87171;
+    --code-bg:     #090B17;
+    --tag-bg:      #1E2245;
+    --tag-text:    #8FA0FF;
+    --shadow:      0 1px 4px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.25);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:          #0C0E1A;
+  --surface:     #131626;
+  --surface2:    #1A1D30;
+  --border:      #252847;
+  --text:        #E0E4F4;
+  --text2:       #7880A4;
+  --text3:       #4B5278;
+  --accent:      #7B88F5;
+  --accent-dim:  #1A1E3A;
+  --teal:        #2DD4BF;
+  --amber:       #FBBF24;
+  --amber-dim:   #1C1805;
+  --coral:       #F87171;
+  --code-bg:     #090B17;
+  --tag-bg:      #1E2245;
+  --tag-text:    #8FA0FF;
+  --shadow:      0 1px 4px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.25);
+}
+
+/* ── RESET & BASE ────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ── LAYOUT ──────────────────────────────────────────────── */
+.page-wrap {
+  display: flex;
+  align-items: flex-start;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  gap: 2.5rem;
+}
+.main-content {
+  flex: 1;
+  min-width: 0;
+  max-width: 800px;
+}
+
+/* ── SIDEBAR NAV ─────────────────────────────────────────── */
+.sidebar {
+  width: 210px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  padding: 1rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.sidebar-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text3);
+  margin-bottom: 0.6rem;
+  padding: 0 0.25rem;
+}
+.sidebar-nav { list-style: none; }
+.sidebar-nav li { line-height: 1; }
+.sidebar-nav a {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text2);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+  border-left: 2px solid transparent;
+}
+.sidebar-nav a:hover {
+  background: var(--surface2);
+  color: var(--text);
+  text-decoration: none;
+  border-left-color: var(--accent);
+}
+.sidebar-nav a.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+@media (max-width: 960px) { .sidebar { display: none; } }
+
+/* ── HERO ─────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  margin: 2rem 0 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem 2.5rem 2rem;
+}
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+.hero-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-wrap: balance;
+  position: relative;
+  color: var(--text);
+}
+.hero-sub {
+  margin-top: 0.6rem;
+  color: var(--text2);
+  font-size: 0.95rem;
+  max-width: 540px;
+  position: relative;
+}
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+  position: relative;
+}
+.meta-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.2em 0.7em;
+  border-radius: 20px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+}
+
+/* ── STATS ROW ───────────────────────────────────────────── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1.5rem 0 2.5rem;
+}
+.stat {
+  background: var(--surface);
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.stat-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.stat-label { font-size: 0.72rem; color: var(--text2); line-height: 1.3; }
+@media (max-width: 600px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+
+/* ── SECTION ─────────────────────────────────────────────── */
+.section {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.section:last-child { border-bottom: none; }
+.section-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.section h2 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+  margin-bottom: 1rem;
+  scroll-margin-top: 1.5rem;
+}
+.section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 1.5rem 0 0.4rem;
+  letter-spacing: -0.01em;
+}
+.section p {
+  color: var(--text);
+  margin-bottom: 0.8rem;
+  max-width: 70ch;
+}
+.section p:last-child { margin-bottom: 0; }
+.section ul, .section ol {
+  padding-left: 1.3rem;
+  margin-bottom: 0.8rem;
+  max-width: 68ch;
+}
+.section li { margin-bottom: 0.3rem; color: var(--text); }
+
+/* ── CALLOUT ─────────────────────────────────────────────── */
+.callout {
+  background: var(--amber-dim);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 6px 6px 0;
+  padding: 0.9rem 1.1rem;
+  margin: 1.2rem 0;
+  font-size: 0.9rem;
+  color: var(--text);
+  max-width: 68ch;
+}
+.callout strong { color: var(--amber); }
+.callout-accent {
+  background: var(--accent-dim);
+  border-left-color: var(--accent);
+}
+.callout-accent strong { color: var(--accent); }
+
+/* ── TABLES ──────────────────────────────────────────────── */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 8px; border: 1px solid var(--border); }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+  font-variant-numeric: tabular-nums;
+  min-width: 480px;
+}
+thead { background: var(--surface2); }
+th {
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text2);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--surface2); }
+.badge {
+  display: inline-block;
+  padding: 0.1em 0.5em;
+  border-radius: 3px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+}
+.badge-green { background: #DCFCE7; color: #166534; }
+.badge-amber { background: #FEF3C7; color: #92400E; }
+.badge-teal { background: #CCFBF1; color: #0D5E56; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .badge-green { background: #052E16; color: #4ADE80; }
+  :root:not([data-theme="light"]) .badge-amber { background: #1C1005; color: #FBD248; }
+  :root:not([data-theme="light"]) .badge-teal { background: #021F1D; color: #2DD4BF; }
+}
+:root[data-theme="dark"] .badge-green { background: #052E16; color: #4ADE80; }
+:root[data-theme="dark"] .badge-amber { background: #1C1005; color: #FBD248; }
+:root[data-theme="dark"] .badge-teal { background: #021F1D; color: #2DD4BF; }
+
+/* ── CODE / PRE ──────────────────────────────────────────── */
+.code-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.code-block pre {
+  font-family: 'Cascadia Code', 'Consolas', 'Fira Code', monospace;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--teal);
+  padding: 1.1rem 1.3rem;
+  white-space: pre;
+  min-width: max-content;
+}
+code {
+  font-family: 'Cascadia Code', 'Consolas', monospace;
+  font-size: 0.82em;
+  background: var(--code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  color: var(--teal);
+}
+
+/* ── LINK ROW ────────────────────────────────────────────── */
+.links { list-style: none; padding: 0; margin-top: 1rem; }
+.links li {
+  font-size: 0.83rem;
+  padding: 0.2rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  color: var(--text2);
+}
+.links li::before { content: "↗"; color: var(--accent); flex-shrink: 0; }
+
+/* ── ARCH DIAGRAM ────────────────────────────────────────── */
+.arch-diagram {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.arch-pipe {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.arch-pipe-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 0.4rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+.arch-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.arch-step {
+  display: flex;
+  align-items: center;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.8rem;
+  color: var(--text);
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+}
+.arch-step:last-child { border-right: none; }
+.arch-step span {
+  font-size: 0.68rem;
+  color: var(--text2);
+  margin-left: 0.35rem;
+}
+.arch-arrow {
+  color: var(--text3);
+  font-size: 0.8rem;
+  padding: 0.55rem 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0.55rem 0.5rem;
+}
+
+/* ── TREND CARDS ─────────────────────────────────────────── */
+.trend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.2rem 0;
+}
+.trend-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  box-shadow: var(--shadow);
+}
+.trend-card-num {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.trend-card-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+.trend-card-desc { font-size: 0.8rem; color: var(--text2); line-height: 1.5; }
+
+/* ── PAPER TABLE ─────────────────────────────────────────── */
+.paper-list { list-style: none; padding: 0; }
+.paper-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.83rem;
+}
+.paper-item:last-child { border-bottom: none; }
+.paper-id {
+  font-family: 'Cascadia Code', 'Consolas', monospace;
+  font-size: 0.75rem;
+  color: var(--teal);
+  white-space: nowrap;
+  padding-top: 0.1rem;
+}
+.paper-title { color: var(--text); line-height: 1.4; }
+.paper-tag {
+  font-size: 0.68rem;
+  padding: 0.15em 0.5em;
+  border-radius: 3px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  white-space: nowrap;
+}
+
+/* ── KH RELEVANCE ────────────────────────────────────────── */
+.evolution-track {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.2rem 0;
+}
+.evo-item {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  gap: 0.8rem;
+  align-items: start;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.84rem;
+}
+.evo-item:last-child { border-bottom: none; }
+.evo-item.current { background: var(--accent-dim); }
+.evo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+  margin-top: 0.3rem;
+  flex-shrink: 0;
+}
+.evo-item.current .evo-dot { background: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+.evo-stage { font-weight: 700; color: var(--text); }
+.evo-rag { font-size: 0.75rem; color: var(--text2); margin-top: 0.1rem; line-height: 1.4; }
+.evo-badge { align-self: center; }
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+.brief-footer {
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: var(--text3);
+}
+.footer-mark { font-weight: 700; color: var(--accent); letter-spacing: -0.01em; }
+</style>
+
+<!-- ═══════════════════════════════════════════════════════ SIDEBAR + CONTENT -->
+<div class="page-wrap">
+
+  <nav class="sidebar" aria-label="Section navigation">
+    <div class="sidebar-label">Contents</div>
+    <ul class="sidebar-nav">
+      <li><a href="#shift">1. The Defining Shift</a></li>
+      <li><a href="#agentic">2. Agentic RAG</a></li>
+      <li><a href="#graphrag">3. GraphRAG</a></li>
+      <li><a href="#vectordb">4. Vector Databases</a></li>
+      <li><a href="#rerank">5. Reranking</a></li>
+      <li><a href="#crag">6. CRAG &amp; Self-RAG</a></li>
+      <li><a href="#multimodal">7. Multimodal RAG</a></li>
+      <li><a href="#chunking">8. Chunking</a></li>
+      <li><a href="#eval">9. Evaluation</a></li>
+      <li><a href="#hyde">10. HyDE &amp; HyPE</a></li>
+      <li><a href="#longctx">11. Long-Context vs RAG</a></li>
+      <li><a href="#stacks">12. Tech Stacks</a></li>
+      <li><a href="#contextual">13. Contextual RAG</a></li>
+      <li><a href="#security">14. Security</a></li>
+      <li><a href="#embeddings">15. Embeddings</a></li>
+      <li><a href="#coderag">16. Code / Eng RAG</a></li>
+      <li><a href="#multihop">17. Multi-Hop RAG</a></li>
+      <li><a href="#pocprod">18. POC vs Production</a></li>
+      <li><a href="#frameworks">19. OSS Frameworks</a></li>
+      <li><a href="#refstack">20. Reference Stack</a></li>
+      <li><a href="#papers">Papers</a></li>
+      <li><a href="#kh">Knowledge Hub</a></li>
+    </ul>
+  </nav>
+
+  <main class="main-content">
+
+    <!-- HERO -->
+    <div class="hero">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-eyebrow">Knowledge Hub · Intelligence Brief</div>
+      <h1 class="hero-title">RAG in 2025–2026</h1>
+      <p class="hero-sub">The complete landscape: architectural shifts, production stacks, evaluation frameworks, and what they mean for an engineering intelligence platform.</p>
+      <div class="hero-meta">
+        <span class="meta-tag">20 Topics</span>
+        <span class="meta-tag">Through July 2026</span>
+        <span class="meta-tag">Agentic RAG</span>
+        <span class="meta-tag">GraphRAG</span>
+        <span class="meta-tag">Multimodal</span>
+        <span class="meta-tag">Code RAG</span>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-num">67%</span>
+        <span class="stat-label">Retrieval failure reduction with Contextual RAG (Anthropic)</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">45%</span>
+        <span class="stat-label">Enterprise AI implementations now use RAG (up from 15% in 2023)</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">1,250×</span>
+        <span class="stat-label">Cost advantage of tuned RAG vs brute-force 1M-token context stuffing</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">63%</span>
+        <span class="stat-label">Ticket resolution time improvement at LinkedIn with graph-augmented RAG</span>
+      </div>
+    </div>
+
+    <!-- ── 1. DEFINING SHIFT ── -->
+    <section class="section" id="shift">
+      <div class="section-eyebrow">Section 01</div>
+      <h2>The Defining Shift: Static Pipelines → Reasoning Loops</h2>
+      <p>Three transitions define the 2025–2026 era. Teams that built naive RAG in 2023–2024 are finding those systems fail on real-world queries that require synthesis, comparison, or multi-source answers.</p>
+
+      <div class="trend-grid">
+        <div class="trend-card">
+          <div class="trend-card-num">Shift 01</div>
+          <div class="trend-card-title">Hybrid Retrieval Default</div>
+          <div class="trend-card-desc">BM25 sparse + dense vector search fused via Reciprocal Rank Fusion (RRF) consistently outperforms either alone. Pure vector is no longer the obvious default.</div>
+        </div>
+        <div class="trend-card">
+          <div class="trend-card-num">Shift 02</div>
+          <div class="trend-card-title">Modular RAG</div>
+          <div class="trend-card-desc">Chunker, embedder, retriever, reranker, generator are independently replaceable modules. Upgrade one stage without breaking others.</div>
+        </div>
+        <div class="trend-card">
+          <div class="trend-card-num">Shift 03</div>
+          <div class="trend-card-title">Agentic Absorption</div>
+          <div class="trend-card-desc">Naive RAG (retrieve-once-then-generate) is now considered insufficient. Production systems in 2026 embed retrieval inside a reasoning loop.</div>
+        </div>
+      </div>
+
+      <ul class="links">
+        <li><a href="https://futureagi.com/blog/rag-architecture-llm-2025/">RAG Architecture 2026 — FutureAGI</a></li>
+        <li><a href="https://arxiv.org/pdf/2506.10408">Reasoning Agentic RAG Industry Survey — arxiv 2506.10408</a></li>
+      </ul>
+    </section>
+
+    <!-- ── 2. AGENTIC RAG ── -->
+    <section class="section" id="agentic">
+      <div class="section-eyebrow">Section 02</div>
+      <h2>Agentic RAG vs Naive RAG</h2>
+
+      <div class="callout callout-accent">
+        <strong>Naive RAG:</strong> User query → embed → retrieve top-k → stuff into prompt → generate. One retrieval call, no feedback.
+      </div>
+
+      <p><strong>Agentic RAG</strong> treats retrieval as a tool the LLM calls — not a fixed pipeline step. The agent decides <em>when</em> to retrieve, <em>what</em> to retrieve, <em>whether the retrieved content is sufficient</em>, and whether to retry.</p>
+
+      <h3>Key Agentic Behaviors</h3>
+      <ul>
+        <li><strong>Iterative retrieval</strong> — retrieve, read, decide if sufficient, re-retrieve with refined queries</li>
+        <li><strong>Tool-augmented search</strong> — web search, database lookup, code execution alongside vector search</li>
+        <li><strong>Self-grading</strong> — evaluate retrieved context quality before generating</li>
+        <li><strong>Stateful memory</strong> — retrieval results persist across conversation turns</li>
+      </ul>
+
+      <div class="callout">
+        <strong>Real example:</strong> A support agent answering "Why was my order delayed AND what's the refund policy?" — naive RAG retrieves one answer; agentic RAG issues two sub-queries, retrieves from two knowledge sources, synthesizes.
+      </div>
+
+      <ul class="links">
+        <li><a href="https://arxiv.org/abs/2501.09136">Agentic RAG Survey — arxiv 2501.09136</a></li>
+      </ul>
+    </section>
+
+    <!-- ── 3. GRAPHRAG ── -->
+    <section class="section" id="graphrag">
+      <div class="section-eyebrow">Section 03</div>
+      <h2>GraphRAG &amp; Knowledge Graph Hybrid</h2>
+      <p>Microsoft Research's GraphRAG (open-sourced July 2024) converts unstructured text into a knowledge graph before querying. Standard vector RAG fails at holistic questions like "What are the main themes across all 500 research papers?" — no single chunk contains that global view.</p>
+
+      <h3>How It Works</h3>
+      <ol style="padding-left:1.3rem;margin-bottom:0.8rem;max-width:68ch">
+        <li>GPT-4 extracts entities and relationships from every document</li>
+        <li>Leiden algorithm detects communities and generates hierarchical summaries</li>
+        <li>Local queries → entity-level; global queries → traverse community summaries</li>
+      </ol>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>System</th><th>Token Cost</th><th>Best For</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Microsoft GraphRAG</strong></td><td>High</td><td>Thematic global queries</td><td><span class="badge">Production</span></td></tr>
+            <tr><td><strong>LightRAG</strong></td><td>10× lower</td><td>Entity + relationship dual retrieval</td><td><span class="badge badge-green">Preferred</span></td></tr>
+            <tr><td><strong>Neo4j LLM Graph Builder</strong></td><td>Medium</td><td>Enterprise knowledge graphs</td><td><span class="badge">Production</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="links">
+        <li><a href="https://www.microsoft.com/en-us/research/project/graphrag/">Microsoft GraphRAG Project</a></li>
+        <li><a href="https://arxiv.org/pdf/2502.06864">Knowledge Graph-Guided RAG — arxiv 2502.06864</a></li>
+      </ul>
+    </section>
+
+    <!-- ── 4. VECTOR DBs ── -->
+    <section class="section" id="vectordb">
+      <div class="section-eyebrow">Section 04</div>
+      <h2>Vector Database Landscape in 2026</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Database</th><th>Scale</th><th>Latency</th><th>Best For</th><th>2026 Status</th></tr></thead>
+          <tbody>
+            <tr><td><strong>pgvector</strong></td><td>&lt; 5M</td><td>Good</td><td>PostgreSQL-native teams</td><td><span class="badge badge-green">Production-grade w/ HNSW</span></td></tr>
+            <tr><td><strong>Qdrant</strong></td><td>5M–500M</td><td>5–30ms p99</td><td>Performance-critical self-hosted</td><td><span class="badge badge-green">3–10× cheaper than managed</span></td></tr>
+            <tr><td><strong>Pinecone</strong></td><td>Any</td><td>Managed</td><td>Zero-ops cloud</td><td><span class="badge">Added BYOC + built-in inference</span></td></tr>
+            <tr><td><strong>Weaviate</strong></td><td>10M–1B</td><td>Good</td><td>Hybrid search + modular embeddings</td><td><span class="badge">OSS + cloud</span></td></tr>
+            <tr><td><strong>Milvus</strong></td><td>1B+</td><td>High perf</td><td>Largest scale self-hosted</td><td><span class="badge">OSS</span></td></tr>
+            <tr><td><strong>Chroma</strong></td><td>&lt; 1M</td><td>Fast local</td><td>Dev / POC</td><td><span class="badge badge-amber">POC only</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:0.82rem;color:var(--text2)">All major databases now support hybrid (dense + sparse) search natively as of 2025.</p>
+    </section>
+
+    <!-- ── 5. RERANKING ── -->
+    <section class="section" id="rerank">
+      <div class="section-eyebrow">Section 05</div>
+      <h2>Reranking: The Underappreciated Precision Layer</h2>
+      <p>Initial vector retrieval casts a wide net (top 20–100 chunks). Reranking uses a more accurate model to re-score those candidates and select the best 5–10. Typically delivers <strong>10–25% additional precision</strong> and measurably reduces hallucinations.</p>
+
+      <div class="callout callout-accent">
+        <strong>Best practice:</strong> Retrieve 20–50 → rerank → select 5–10 → feed to LLM. A cross-encoder that jointly processes query + document catches semantic nuances that bi-encoders miss.
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Option</th><th>Cost</th><th>Latency</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td><code>ms-marco-MiniLM-L-6-v2</code></td><td>Free / self-hosted</td><td>~5ms</td><td>Default self-hosted</td></tr>
+            <tr><td>Cohere Rerank API</td><td>~$2 / 1K requests</td><td>Managed</td><td>100+ languages, strong out-of-box quality</td></tr>
+            <tr><td>LLM-as-reranker</td><td>High</td><td>Slow</td><td>Highest accuracy, research scenarios</td></tr>
+            <tr><td>FlashRank</td><td>Free / self-hosted</td><td>Ultra-fast</td><td>Latency-sensitive production</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── 6. CRAG ── -->
+    <section class="section" id="crag">
+      <div class="section-eyebrow">Section 06</div>
+      <h2>Corrective RAG (CRAG) &amp; Self-RAG</h2>
+      <p><strong>Self-RAG</strong> fine-tunes the generator to output critic tokens — but requires training data. <strong>CRAG</strong> adds a lightweight retrieval evaluator that wraps any existing system without retraining the generator.</p>
+
+      <div class="arch-diagram">
+        <div class="arch-pipe">
+          <div class="arch-pipe-title">CRAG Decision Flow</div>
+          <div class="arch-steps">
+            <div class="arch-step">Retrieve docs</div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">Grade quality</div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step"><strong>Correct</strong> <span>use context</span></div>
+            <div class="arch-arrow">|</div>
+            <div class="arch-step"><strong>Ambiguous</strong> <span>context + web search</span></div>
+            <div class="arch-arrow">|</div>
+            <div class="arch-step"><strong>Incorrect</strong> <span>web search only</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-accent">
+        <strong>Key advantage:</strong> CRAG does NOT require training the generator. It outperforms Self-RAG on several benchmarks without the training cost. Now integrated natively into LangGraph.
+      </div>
+
+      <ul class="links">
+        <li><a href="https://www.datacamp.com/tutorial/corrective-rag-crag">Corrective RAG with LangGraph — DataCamp</a></li>
+        <li><a href="https://arxiv.org/pdf/2604.00865">Doctor-RAG: Failure-Aware Repair — arxiv 2604.00865</a></li>
+      </ul>
+    </section>
+
+    <!-- ── 7. MULTIMODAL ── -->
+    <section class="section" id="multimodal">
+      <div class="section-eyebrow">Section 07</div>
+      <h2>Multimodal RAG: Text + Images + Video</h2>
+      <p>No longer experimental. Production-grade multimodal RAG is achievable with current tooling. Images, chart screenshots, video frames, and PDF pages are embedded alongside text using multimodal models.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th>Released</th><th>Modalities</th><th>Context</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Cohere Embed v4</strong></td><td>Apr 2025</td><td>Text + images + raw PDF pages</td><td>128K</td></tr>
+            <tr><td><strong>Voyage-multimodal-3.5</strong></td><td>Jan 2026</td><td>Text + images + video frames</td><td>Matryoshka dims</td></tr>
+            <tr><td><strong>Google Gemini Embedding 001</strong></td><td>2025</td><td>Text + images + video + audio + PDF</td><td>3,072-dim</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Production Use Cases</h3>
+      <ul>
+        <li>Technical manuals with circuit diagrams and annotated photos</li>
+        <li>Financial reports where key insight is in charts, not text</li>
+        <li>E-commerce catalogs where product appearance drives retrieval</li>
+        <li>Video tutorials: 1Hz frame sampling indexed as image sequences</li>
+      </ul>
+    </section>
+
+    <!-- ── 8. CHUNKING ── -->
+    <section class="section" id="chunking">
+      <div class="section-eyebrow">Section 08</div>
+      <h2>Chunking Strategies: 2026 Best Practices</h2>
+      <p>Chunking has outsized impact on retrieval quality that is often underappreciated. A 2025 NAACL study found that semantic chunking's 9% recall improvement over fixed-size is not consistently justified by compute cost.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Strategy</th><th>Description</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Recursive character split</strong></td><td>400–512 tokens, 10–20% overlap at paragraph/sentence boundaries</td><td>General-purpose default</td></tr>
+            <tr><td><strong>Semantic chunking</strong></td><td>Split where embedding similarity drops sharply between sentences</td><td>Documents with clear topic shifts</td></tr>
+            <tr><td><strong>Hierarchical / parent-child</strong></td><td>Small chunks for retrieval precision; fetch parent chunk for context</td><td>Long documents</td></tr>
+            <tr><td><strong>Late chunking</strong> (Jina AI)</td><td>Embed full document first, THEN split token embeddings</td><td>Cross-references, "as mentioned in section 3"</td></tr>
+            <tr><td><strong>AST-aware</strong></td><td>Split at function/class boundaries via Tree-sitter</td><td>Code corpora</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-accent">
+        <strong>Late chunking</strong> is the most innovative recent approach — by computing embeddings in full-document context, cross-references are preserved in the vector representation.
+      </div>
+    </section>
+
+    <!-- ── 9. EVALUATION ── -->
+    <section class="section" id="eval">
+      <div class="section-eyebrow">Section 09</div>
+      <h2>RAG Evaluation Frameworks</h2>
+      <p>BLEU/ROUGE score surface-level word overlap, not factual grounding. RAG needs specialized evaluation.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>RAGAS Metric</th><th>What It Measures</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Faithfulness</strong></td><td>Is the answer supported by retrieved context? (anti-hallucination)</td></tr>
+            <tr><td><strong>Answer Relevancy</strong></td><td>Is the answer relevant to the question?</td></tr>
+            <tr><td><strong>Context Precision</strong></td><td>Are retrieved chunks actually relevant to the question?</td></tr>
+            <tr><td><strong>Context Recall</strong></td><td>Did retrieval surface all the necessary information?</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Other Frameworks</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Framework</th><th>Key Strength</th></tr></thead>
+          <tbody>
+            <tr><td><strong>TruLens</strong></td><td>Observability + evaluation in production</td></tr>
+            <tr><td><strong>DeepEval</strong></td><td>G-Eval, hallucination scoring, broader LLM testing</td></tr>
+            <tr><td><strong>LangSmith</strong></td><td>Tracing + evaluation tightly integrated with LangGraph</td></tr>
+            <tr><td><strong>Arize Phoenix</strong></td><td>Open-source ML observability with RAG tracing</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="links">
+        <li><a href="https://www.ragas.io/">RAGAS Official Site</a></li>
+        <li><a href="https://arxiv.org/pdf/2507.18910">Systematic Review of RAG Systems — arxiv 2507.18910</a></li>
+      </ul>
+    </section>
+
+    <!-- ── 10. HYDE ── -->
+    <section class="section" id="hyde">
+      <div class="section-eyebrow">Section 10</div>
+      <h2>HyDE &amp; HyPE: Query Expansion</h2>
+      <p><strong>HyDE</strong> (Hypothetical Document Embeddings): use an LLM to generate a hypothetical answer document, then embed that for retrieval. The hypothesis is semantically closer to real answer documents than a terse query.</p>
+      <p><strong>HyPE</strong> (2025): Inverts the approach — generate hypothetical <em>questions</em> per document at index time, then match query to pre-generated questions. Avoids per-query hallucination risk.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>HyDE</th><th>HyPE (2025)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>When it runs</strong></td><td>Query time</td><td>Index time</td></tr>
+            <tr><td><strong>Hallucination risk</strong></td><td>Per-query</td><td>Contained at index time</td></tr>
+            <tr><td><strong>Latency overhead</strong></td><td>25–60% increase</td><td>None at query time</td></tr>
+            <tr><td><strong>Best for</strong></td><td>Vague queries, vocabulary mismatch</td><td>Factual corpora, latency-sensitive</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── 11. LONG CONTEXT ── -->
+    <section class="section" id="longctx">
+      <div class="section-eyebrow">Section 11</div>
+      <h2>Long-Context LLMs vs RAG — The Hybrid Answer</h2>
+
+      <div class="callout">
+        <strong>Context rot:</strong> A July 2025 study (Chroma) tested 18 frontier models and found performance degrading 30–50% long before the documented context limit. At 1M tokens, multi-fact recall hovers around 60%.
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Approach</th><th>Cost</th><th>Latency</th><th>Failure Mode</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Pure RAG</strong></td><td>Low</td><td>Fast</td><td>Misses in-document reasoning</td></tr>
+            <tr><td><strong>Pure long-context (1M+)</strong></td><td>1,250× higher</td><td>45+ seconds</td><td>Context rot on large corpora</td></tr>
+            <tr><td><strong>Hybrid (recommended)</strong></td><td>Low–medium</td><td>Moderate</td><td>Best of both</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-accent">
+        <strong>2026 standard pattern:</strong> Retrieve 50K–200K tokens of targeted content with RAG, then reason over that retrieved set with a long-context model (Claude Sonnet 1M, Gemini 2.5 Pro 2M).
+      </div>
+    </section>
+
+    <!-- ── 12. STACKS ── -->
+    <section class="section" id="stacks">
+      <div class="section-eyebrow">Section 12</div>
+      <h2>Production RAG Tech Stacks</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Framework</th><th>Stars</th><th>Core Strength</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td><strong>LangChain / LangGraph</strong></td><td>119K+</td><td>Agent workflows, stateful reasoning</td><td>Complex agentic pipelines</td></tr>
+            <tr><td><strong>LlamaIndex</strong></td><td>44K+</td><td>Retrieval optimization, document indexing</td><td>Document-heavy RAG</td></tr>
+            <tr><td><strong>DSPy</strong> (Stanford)</td><td>~20K</td><td>Programmatic prompt optimization</td><td>Self-optimizing RAG</td></tr>
+            <tr><td><strong>Haystack</strong></td><td>~20K</td><td>Modular, production-grade pipelines</td><td>Reliability-first enterprise</td></tr>
+            <tr><td><strong>Custom</strong></td><td>—</td><td>Maximum control, minimum overhead</td><td>High-scale latency-sensitive</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-accent">
+        <strong>Winning pattern in 2026:</strong> LlamaIndex handles indexing and retrieval. LangGraph handles the agent orchestration loop that calls LlamaIndex retrieval as a tool.
+      </div>
+    </section>
+
+    <!-- ── 13. CONTEXTUAL RAG ── -->
+    <section class="section" id="contextual">
+      <div class="section-eyebrow">Section 13</div>
+      <h2>Contextual RAG from Anthropic</h2>
+      <p>Announced September 2024; widely adopted through 2025. Before embedding each chunk, Claude prepends LLM-generated context summarizing where this chunk sits in the broader document.</p>
+
+      <div class="code-block"><pre>Standard chunk:  "it increased by 12%"  ← meaningless alone
+
+Contextualized:  "This chunk is from Section 3 of a Q3 financial report,
+                  discussing regional revenue breakdown — [original chunk text]"</pre></div>
+
+      <h3>Full Technique Stack</h3>
+      <ol style="padding-left:1.3rem;max-width:68ch;margin-bottom:0.8rem">
+        <li>Contextual chunk enrichment (LLM prepends context to each chunk)</li>
+        <li>Hybrid search (BM25 + dense embeddings)</li>
+        <li>Reranking (Cohere or cross-encoder)</li>
+        <li>Increased k (more chunks fed to LLM)</li>
+      </ol>
+
+      <div class="callout callout-accent">
+        <strong>Result:</strong> Anthropic reported a 67% reduction in retrieval failures vs standard RAG.
+      </div>
+
+      <ul class="links">
+        <li><a href="https://platform.claude.ai/cookbook/capabilities-contextual-embeddings-guide">Enhancing RAG with Contextual Retrieval — Claude Cookbook</a></li>
+      </ul>
+    </section>
+
+    <!-- ── 14. SECURITY ── -->
+    <section class="section" id="security">
+      <div class="section-eyebrow">Section 14</div>
+      <h2>Security &amp; Privacy in Enterprise RAG</h2>
+
+      <h3>Top Threat Vectors</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Threat</th><th>Description</th><th>Mitigation</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Indirect Prompt Injection</strong></td>
+              <td>"EchoLeak" (2025) — attacker embeds instructions in documents; LLM exfiltrates data when that chunk is retrieved</td>
+              <td>Prompt injection detection layer before LLM call</td>
+            </tr>
+            <tr>
+              <td><strong>ACL Bypass</strong></td>
+              <td>If vector store lacks per-document ACLs, users retrieve unauthorized documents via semantic queries</td>
+              <td>ACLs enforced inside retrieval layer, not just application layer</td>
+            </tr>
+            <tr>
+              <td><strong>Embedding Inversion</strong></td>
+              <td>Stored embeddings can be partially inverted to reconstruct original text</td>
+              <td>Differential privacy on embeddings; BYOC deployment</td>
+            </tr>
+            <tr>
+              <td><strong>Data Residency</strong></td>
+              <td>Sending documents to cloud LLM APIs may violate GDPR/HIPAA/SOC2</td>
+              <td>Self-hosted models (Llama 3, Mistral) + self-hosted vector DBs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── 15. EMBEDDINGS ── -->
+    <section class="section" id="embeddings">
+      <div class="section-eyebrow">Section 15</div>
+      <h2>Leading Embedding Models in 2026</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th>MTEB</th><th>Dims</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Google Gemini Embedding 001</strong></td><td>67.71</td><td>3,072</td><td>Multimodal — text + image + video + audio</td></tr>
+            <tr><td><strong>Cohere embed-v4</strong></td><td>65.2</td><td>1,024</td><td>Multimodal, 100+ languages, 128K context</td></tr>
+            <tr><td><strong>OpenAI text-embedding-3-large</strong></td><td>64.6</td><td>3,072</td><td>Strong English default, well-supported</td></tr>
+            <tr><td><strong>Voyage 3 Large</strong></td><td>~64</td><td>1,024</td><td>Best pure retrieval quality</td></tr>
+            <tr><td><strong>BGE-M3</strong></td><td>63.0</td><td>1,024</td><td>OSS, multilingual, MIT license</td></tr>
+            <tr><td><strong>Nomic Embed</strong></td><td>~60</td><td>768</td><td>Fully auditable, Apache 2.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Selection Guide</h3>
+      <ul>
+        <li><strong>Default English production:</strong> OpenAI text-embedding-3-large</li>
+        <li><strong>Maximum retrieval quality:</strong> Voyage 3 Large</li>
+        <li><strong>Cost-efficient pipeline:</strong> Cohere embed-v4 + Cohere Rerank (same provider)</li>
+        <li><strong>Self-hosted / open-source:</strong> BGE-M3 (multilingual) or Nomic (auditable)</li>
+        <li><strong>Multimodal corpus:</strong> Cohere embed-v4 or Gemini Embedding 001</li>
+      </ul>
+    </section>
+
+    <!-- ── 16. CODE RAG ── -->
+    <section class="section" id="coderag">
+      <div class="section-eyebrow">Section 16</div>
+      <h2>RAG for Code &amp; Engineering Intelligence</h2>
+      <p>Code has structure that prose does not — function signatures, import graphs, class hierarchies, call chains. Naive text chunking ignores this structure.</p>
+
+      <h3>Key Production Patterns</h3>
+      <ul>
+        <li><strong>AST-based chunking:</strong> Tree-sitter splits at function/class boundaries for Python, TypeScript, Go, Rust</li>
+        <li><strong>Code graph augmentation:</strong> Function call graphs + class inheritance supplement vector similarity with structural navigation</li>
+        <li><strong>Three-layer index:</strong> Graph (dependency traversal) + Vector (semantic) + SQL (metadata: date, author, PR status)</li>
+      </ul>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tool</th><th>RAG Approach</th></tr></thead>
+          <tbody>
+            <tr><td><strong>GitHub Copilot</strong></td><td>HNSW vector index over local codebase + workspace context; embedding cache invalidation</td></tr>
+            <tr><td><strong>Cursor</strong></td><td>Codebase index + "Shadow Workspace" that predicts next edit</td></tr>
+            <tr><td><strong>Claude Code</strong></td><td>RAG over project files for context-aware code generation</td></tr>
+            <tr><td><strong>RagCode MCP</strong></td><td>Privacy-first deep AST support; 100% local (Ollama + Qdrant)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="links">
+        <li><a href="https://arxiv.org/pdf/2510.04905">Retrieval-Augmented Code Generation Survey — arxiv 2510.04905</a></li>
+      </ul>
+    </section>
+
+    <!-- ── 17. MULTI-HOP ── -->
+    <section class="section" id="multihop">
+      <div class="section-eyebrow">Section 17</div>
+      <h2>Multi-Hop RAG</h2>
+      <p>Chaining multiple retrieval steps where each depends on the result of the previous one. Required when questions need synthesis across documents, temporal reasoning, or entity disambiguation.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Approach</th><th>Key Innovation</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ReD-RAG</strong></td><td>Decomposes questions into sub-questions with explicit rewriting markers</td></tr>
+            <tr><td><strong>CoRAG</strong></td><td>Trains iterative retrieval via reformulated sub-queries; 10+ point EM gains on MuSiQue</td></tr>
+            <tr><td><strong>GDP-RAG</strong></td><td>Act-Review-Update: retrieve, cross-verify, commit verified result to Trajectory Memory</td></tr>
+            <tr><td><strong>Only Ask What You Don't Know</strong></td><td>Grounded delta planning — tracks known facts, retrieves only for genuine gaps</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <strong>Key challenge:</strong> Each hop multiplies hallucination risk. Best practice: CRAG-style verification at each hop before committing the retrieved fact to the reasoning chain.
+      </div>
+
+      <ul class="links">
+        <li><a href="https://arxiv.org/pdf/2606.22681">Only Ask What You Don't Know — arxiv 2606.22681</a></li>
+      </ul>
+    </section>
+
+    <!-- ── 18. POC VS PROD ── -->
+    <section class="section" id="pocprod">
+      <div class="section-eyebrow">Section 18</div>
+      <h2>POC vs Production: What Changes</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Dimension</th><th>POC</th><th>Production</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Architecture</strong></td><td>Monolithic</td><td>Separated offline indexing + online serving pipelines</td></tr>
+            <tr><td><strong>Vector DB</strong></td><td>Chroma / FAISS in-process</td><td>Qdrant, Pinecone, or Weaviate — deployed, scaled, monitored</td></tr>
+            <tr><td><strong>Retrieval</strong></td><td>Dense-only, top-k = 3–5</td><td>Hybrid BM25 + dense, top-k = 20–50 with reranking to 5–10</td></tr>
+            <tr><td><strong>Evaluation</strong></td><td>Vibes / manual spot-check</td><td>RAGAS metrics, automated regression test suite</td></tr>
+            <tr><td><strong>Caching</strong></td><td>None</td><td>Semantic query cache (Redis/Upstash) — 40–60% API cost reduction</td></tr>
+            <tr><td><strong>Security</strong></td><td>Open access</td><td>Per-document ACLs enforced at retrieval time</td></tr>
+            <tr><td><strong>Observability</strong></td><td>None</td><td>Full distributed tracing (LangSmith, Arize Phoenix)</td></tr>
+            <tr><td><strong>Updates</strong></td><td>Batch re-index manually</td><td>Streaming incremental index updates</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── 19. FRAMEWORKS ── -->
+    <section class="section" id="frameworks">
+      <div class="section-eyebrow">Section 19</div>
+      <h2>Notable Open-Source RAG Frameworks (2025–2026)</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Framework</th><th>Stars</th><th>Focus</th><th>Notable 2025–2026 Update</th></tr></thead>
+          <tbody>
+            <tr><td><strong>LangChain / LangGraph</strong></td><td>119K+</td><td>Orchestration + agent loops</td><td>LangGraph persistent checkpointing for human-in-the-loop</td></tr>
+            <tr><td><strong>LlamaIndex</strong></td><td>44K+</td><td>Retrieval optimization</td><td>Added multimodal + agent support</td></tr>
+            <tr><td><strong>DSPy</strong> (Stanford)</td><td>~20K</td><td>Programmatic prompt optimization</td><td>Agentic signatures + MIPROv2 optimizer</td></tr>
+            <tr><td><strong>Haystack</strong></td><td>~20K</td><td>Modular production pipelines</td><td>Stable enterprise choice</td></tr>
+            <tr><td><strong>R2R v3</strong></td><td>Growing</td><td>Full agentic RAG as an API</td><td>Hybrid search + knowledge graph + agents in one API</td></tr>
+            <tr><td><strong>RAGFlow</strong></td><td>Fast-growing</td><td>Document intelligence + RAG</td><td>Deep document parsing: charts, tables, formulas, OCR</td></tr>
+            <tr><td><strong>Flowise</strong></td><td>~36K</td><td>No-code/low-code RAG builder</td><td>Rapid prototyping</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── 20. REFERENCE STACK ── -->
+    <section class="section" id="refstack">
+      <div class="section-eyebrow">Section 20</div>
+      <h2>The 2026 Reference Production Stack</h2>
+
+      <div class="arch-diagram">
+        <div class="arch-pipe">
+          <div class="arch-pipe-title">INDEXING PIPELINE — offline</div>
+          <div class="arch-steps">
+            <div class="arch-step">Raw docs</div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">Contextual enrichment <span>Claude 3 Haiku</span></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">Domain-tuned chunking <span>AST for code / semantic for prose</span></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">Embed <span>text-embedding-3-large or BGE-M3</span></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">Store <span>Qdrant + BM25 + Neo4j (optional graph)</span></div>
+          </div>
+        </div>
+        <div class="arch-pipe">
+          <div class="arch-pipe-title">QUERY PIPELINE — online</div>
+          <div class="arch-steps">
+            <div class="arch-step">User query</div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">Query expansion <span>HyDE if domain suits</span></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">Hybrid retrieval <span>dense + BM25, RRF</span></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">Rerank <span>select top 5–10</span></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">CRAG grading</div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">Agentic loop <span>LangGraph</span></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">LLM generation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Layer</th><th>Choice</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Orchestration</strong></td><td>LangGraph</td><td>Stateful agent loop, checkpoint/resume, human-in-the-loop</td></tr>
+            <tr><td><strong>Retrieval</strong></td><td>LlamaIndex</td><td>Best document indexing, called as a tool by LangGraph</td></tr>
+            <tr><td><strong>Offline eval</strong></td><td>RAGAS</td><td>Faithfulness + context precision + recall metrics</td></tr>
+            <tr><td><strong>Production monitoring</strong></td><td>TruLens</td><td>Per-query observability in production</td></tr>
+            <tr><td><strong>Caching</strong></td><td>Redis / Upstash</td><td>Semantic cache — 40–60% API cost reduction</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── PAPERS ── -->
+    <section class="section" id="papers">
+      <div class="section-eyebrow">Key Papers</div>
+      <h2>arxiv Reference List</h2>
+
+      <ul class="paper-list">
+        <li class="paper-item">
+          <span class="paper-id">2501.09136</span>
+          <span class="paper-title">Agentic RAG: A Survey</span>
+          <span class="paper-tag">Agentic</span>
+        </li>
+        <li class="paper-item">
+          <span class="paper-id">2506.10408</span>
+          <span class="paper-title">Reasoning Agentic RAG Industry Survey</span>
+          <span class="paper-tag">Agentic</span>
+        </li>
+        <li class="paper-item">
+          <span class="paper-id">2601.05264</span>
+          <span class="paper-title">Engineering the RAG Stack</span>
+          <span class="paper-tag">Architecture</span>
+        </li>
+        <li class="paper-item">
+          <span class="paper-id">2507.18910</span>
+          <span class="paper-title">Systematic Review of RAG Systems</span>
+          <span class="paper-tag">Survey</span>
+        </li>
+        <li class="paper-item">
+          <span class="paper-id">2504.07104</span>
+          <span class="paper-title">Multi-Criteria Reranking (Relevance Isn't All You Need)</span>
+          <span class="paper-tag">Reranking</span>
+        </li>
+        <li class="paper-item">
+          <span class="paper-id">2401.15884</span>
+          <span class="paper-title">Corrective RAG (CRAG)</span>
+          <span class="paper-tag">CRAG</span>
+        </li>
+        <li class="paper-item">
+          <span class="paper-id">2606.22681</span>
+          <span class="paper-title">Only Ask What You Don't Know — Grounded Delta Planning</span>
+          <span class="paper-tag">Multi-hop</span>
+        </li>
+        <li class="paper-item">
+          <span class="paper-id">2510.04905</span>
+          <span class="paper-title">Retrieval-Augmented Code Generation Survey</span>
+          <span class="paper-tag">Code RAG</span>
+        </li>
+        <li class="paper-item">
+          <span class="paper-id">2502.06864</span>
+          <span class="paper-title">Knowledge Graph-Guided RAG</span>
+          <span class="paper-tag">GraphRAG</span>
+        </li>
+        <li class="paper-item">
+          <span class="paper-id">2503.06474</span>
+          <span class="paper-title">ROGRAG — Robustly Optimized GraphRAG</span>
+          <span class="paper-tag">GraphRAG</span>
+        </li>
+        <li class="paper-item">
+          <span class="paper-id">2510.20356</span>
+          <span class="paper-title">FreeChunker: Cross-Granularity Chunking</span>
+          <span class="paper-tag">Chunking</span>
+        </li>
+        <li class="paper-item">
+          <span class="paper-id">2604.00865</span>
+          <span class="paper-title">Doctor-RAG: Failure-Aware Repair</span>
+          <span class="paper-tag">CRAG</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ── KNOWLEDGE HUB ── -->
+    <section class="section" id="kh">
+      <div class="section-eyebrow">Strategic Context</div>
+      <h2>Relevance to Knowledge Hub</h2>
+      <p>The shift from naive RAG to Agentic RAG mirrors Knowledge Hub's own evolution roadmap.</p>
+
+      <div class="evolution-track">
+        <div class="evo-item current">
+          <div class="evo-dot"></div>
+          <div>
+            <div class="evo-stage">Documentation Search</div>
+            <div class="evo-rag">Single-shot vector retrieval answers factual questions from uploaded docs</div>
+          </div>
+          <div class="evo-badge"><span class="badge">Current</span></div>
+        </div>
+        <div class="evo-item">
+          <div class="evo-dot"></div>
+          <div>
+            <div class="evo-stage">Knowledge Platform</div>
+            <div class="evo-rag">Multi-hop + GraphRAG connects knowledge across documents and sessions</div>
+          </div>
+          <div class="evo-badge"><span class="badge badge-amber">Next</span></div>
+        </div>
+        <div class="evo-item">
+          <div class="evo-dot"></div>
+          <div>
+            <div class="evo-stage">Engineering Intelligence</div>
+            <div class="evo-rag">Code-aware RAG: AST chunking + call graph + semantic serves engineering queries</div>
+          </div>
+          <div class="evo-badge"><span class="badge badge-teal">Roadmap</span></div>
+        </div>
+        <div class="evo-item">
+          <div class="evo-dot"></div>
+          <div>
+            <div class="evo-stage">AI Company OS</div>
+            <div class="evo-rag">Contextual RAG enrichment + IDS evaluation metrics compound with usage — intelligence becomes irreplaceable</div>
+          </div>
+          <div class="evo-badge"><span class="badge">Vision</span></div>
+        </div>
+      </div>
+
+      <h3>Highest-ROI RAG Investments for Knowledge Hub</h3>
+      <ol style="padding-left:1.3rem;max-width:68ch">
+        <li><strong>Contextual chunk enrichment</strong> — 67% retrieval failure reduction, wraps existing system, no retraining</li>
+        <li><strong>RAGAS evaluation pipeline</strong> — makes every future change measurable; compounding value</li>
+        <li><strong>Hybrid retrieval</strong> (BM25 + dense) replacing pure vector search</li>
+        <li><strong>Reranking layer</strong> before LLM context construction</li>
+      </ol>
+    </section>
+
+    <footer class="brief-footer">
+      <span><span class="footer-mark">Knowledge Hub</span> — RAG Intelligence Brief</span>
+      <span>Full reference: <code>artifact/RAG_TRENDS_2025_2026.md</code></span>
+      <span>August 2026 · 20 topics covered</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+// ── CANVAS CONSTELLATION ─────────────────────────────────
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes, animId;
+  const NODE_COUNT = 42;
+  const MAX_DIST = 120;
+  const SPEED = 0.22;
+
+  function getAccent() {
+    const style = getComputedStyle(document.documentElement);
+    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const themeAttr = document.documentElement.getAttribute('data-theme');
+    const isDark = themeAttr === 'dark' || (!themeAttr && dark);
+    return isDark ? 'rgba(123,136,245,' : 'rgba(91,106,240,';
+  }
+
+  function init() {
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    nodes = Array.from({length: NODE_COUNT}, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * SPEED,
+      vy: (Math.random() - 0.5) * SPEED,
+      r: 1.5 + Math.random() * 2
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const A = getAccent();
+
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+      n.x = Math.max(0, Math.min(W, n.x));
+      n.y = Math.max(0, Math.min(H, n.y));
+
+      for (let j = i + 1; j < nodes.length; j++) {
+        const m = nodes[j];
+        const dx = n.x - m.x, dy = n.y - m.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < MAX_DIST) {
+          const alpha = (1 - dist / MAX_DIST) * 0.35;
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(m.x, m.y);
+          ctx.strokeStyle = A + alpha + ')';
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = A + '0.55)';
+      ctx.fill();
+    }
+    animId = requestAnimationFrame(draw);
+  }
+
+  function start() {
+    if (animId) cancelAnimationFrame(animId);
+    init();
+    draw();
+  }
+
+  start();
+  window.addEventListener('resize', start);
+})();
+
+// ── SIDEBAR ACTIVE LINK ──────────────────────────────────
+(function() {
+  const links = document.querySelectorAll('.sidebar-nav a');
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+
+  function updateActive() {
+    let current = '';
+    for (const s of sections) {
+      if (s.getBoundingClientRect().top <= 80) current = s.id;
+    }
+    links.forEach(l => {
+      const href = l.getAttribute('href').slice(1);
+      l.classList.toggle('active', href === current);
+    });
+  }
+
+  window.addEventListener('scroll', updateActive, {passive: true});
+  updateActive();
+})();
+</script>

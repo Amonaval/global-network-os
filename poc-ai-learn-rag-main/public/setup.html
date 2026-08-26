@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knowledge Hub — Setup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/setup.css">
+</head>
+<body>
+  <div class="wizard-shell">
+
+    <!-- Step indicator -->
+    <div class="step-indicator" id="stepIndicator">
+      <div class="step-item active" data-step="1">
+        <div class="step-dot">1</div>
+        <div class="step-label">Welcome</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-item" data-step="2">
+        <div class="step-dot">2</div>
+        <div class="step-label">Portal</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-item" data-step="3">
+        <div class="step-dot">3</div>
+        <div class="step-label">Auth</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-item" data-step="4">
+        <div class="step-dot">4</div>
+        <div class="step-label">AI</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-item" data-step="5">
+        <div class="step-dot">5</div>
+        <div class="step-label">Build</div>
+      </div>
+    </div>
+
+    <!-- ── Step 1: Welcome ───────────────────────────────────────────── -->
+    <div class="wizard-card" id="step-1">
+      <div class="welcome-hero">
+        <div class="hero-icon">📚</div>
+        <h1>Set up your Knowledge Hub</h1>
+        <p class="hero-sub">Connect to your documentation portal, choose your AI model, and we'll build a private, searchable knowledge base for your team — everything runs locally on your machine.</p>
+        <div class="hero-steps">
+          <div class="hero-step"><span class="hs-num">1</span><span>Point to your docs portal</span></div>
+          <div class="hero-step"><span class="hs-num">2</span><span>Add your AI credentials</span></div>
+          <div class="hero-step"><span class="hs-num">3</span><span>We crawl, index &amp; launch</span></div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div></div>
+        <button class="btn-primary" onclick="wizard.next()">Get Started →</button>
+      </div>
+    </div>
+
+    <!-- ── Step 2: Source ────────────────────────────────────────────── -->
+    <div class="wizard-card hidden" id="step-2">
+      <div class="card-header">
+        <h2>Knowledge Source</h2>
+        <p>Where does your documentation live?</p>
+      </div>
+
+      <div class="form-group">
+        <label for="appName">Knowledge Hub Name <span class="required">*</span></label>
+        <input type="text" id="appName" placeholder="e.g. Acme Docs AI" value="Knowledge Hub">
+        <span class="field-hint">Used as the app title in the chat interface.</span>
+      </div>
+
+      <div class="form-group">
+        <label>Source type</label>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="sourceType" value="portal" checked onchange="wizard.onSourceTypeChange()">
+            <div class="radio-card">
+              <strong>Web Portal (crawl)</strong>
+              <span>Crawl any web-based documentation portal automatically.</span>
+            </div>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="sourceType" value="confluence" onchange="wizard.onSourceTypeChange()">
+            <div class="radio-card">
+              <strong>Confluence</strong>
+              <span>Connect to Confluence Cloud via API token or OAuth 2.0.</span>
+            </div>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="sourceType" value="url" onchange="wizard.onSourceTypeChange()">
+            <div class="radio-card">
+              <strong>🌐 Web Page / URL</strong>
+              <span>Fetch any public pages — AWS docs, blogs, wikis, any URL. No crawling.</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- ── Web Portal fields ── -->
+      <div id="portalFields">
+        <div class="form-group">
+          <label for="portalUrl">Portal Base URL <span class="required" title="Optional if using upload-only mode">*</span></label>
+          <div class="input-row">
+            <input type="url" id="portalUrl" placeholder="https://docs.example.com/docs">
+            <button class="btn-secondary btn-sm" onclick="wizard.testUrl()">Test</button>
+          </div>
+          <span class="field-hint" id="urlTestResult">The URL prefix your documentation sections live under.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="sectionsInput">Sections to Crawl <span class="required">*</span></label>
+          <textarea id="sectionsInput" rows="4" placeholder="getting-started&#10;api-reference&#10;tutorials&#10;changelog"></textarea>
+          <span class="field-hint">One section path per line. These are appended to the base URL. E.g. for <em>https://docs.example.com/docs/api</em>, enter <code>api</code>.</span>
+        </div>
+
+        <details class="advanced-section">
+          <summary>Advanced: Page selectors</summary>
+          <div class="advanced-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="contentSelector">Content CSS selector</label>
+                <input type="text" id="contentSelector" value="#main-content">
+                <span class="field-hint">The element containing the page content.</span>
+              </div>
+              <div class="form-group">
+                <label for="nextBtnSelector">Next-page button selector</label>
+                <input type="text" id="nextBtnSelector" value=".article-next">
+                <span class="field-hint">The "next article" navigation button.</span>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div><!-- /#portalFields -->
+
+      <!-- ── Confluence fields ── -->
+      <div id="confluenceFields" class="hidden">
+        <div class="form-group">
+          <label for="confluenceUrl">Confluence URL <span class="required">*</span></label>
+          <div class="input-row">
+            <input type="url" id="confluenceUrl" placeholder="https://yourcompany.atlassian.net">
+            <button class="btn-secondary btn-sm" onclick="wizard.testConfluence()">Test</button>
+          </div>
+          <span class="field-hint" id="confluenceTestResult">Your Atlassian instance URL (without /wiki).</span>
+        </div>
+
+        <div class="form-group">
+          <label for="confluenceSpaces">Space Keys to Index</label>
+          <textarea id="confluenceSpaces" rows="3" placeholder="ENG&#10;DOCS&#10;API"></textarea>
+          <span class="field-hint">One Confluence Space Key per line. Leave blank to index all accessible spaces (max 50).</span>
+        </div>
+
+        <div class="form-group">
+          <label>Authentication method</label>
+          <div class="radio-group">
+            <label class="radio-item">
+              <input type="radio" name="confluenceAuth" value="apitoken" checked onchange="wizard.onConfluenceAuthChange()">
+              <div class="radio-card">
+                <strong>API Token</strong>
+                <span>Email + API token from id.atlassian.net/manage-profile/security/api-tokens. Simple and secure.</span>
+              </div>
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="confluenceAuth" value="oauth" onchange="wizard.onConfluenceAuthChange()">
+              <div class="radio-card">
+                <strong>OAuth 2.0</strong>
+                <span>Authorize via browser. Requires registering an app at developer.atlassian.com. No credentials stored.</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- API Token credentials -->
+        <div id="confluenceApiTokenFields">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="confluenceEmail">Atlassian email <span class="required">*</span></label>
+              <input type="email" id="confluenceEmail" placeholder="you@company.com" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label for="confluenceToken">API Token <span class="required">*</span></label>
+              <input type="password" id="confluenceToken" placeholder="••••••••••••••••" autocomplete="new-password">
+              <span class="field-hint">Generate at: id.atlassian.net → Security → API tokens</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- OAuth 2.0 credentials -->
+        <div id="confluenceOauthFields" class="hidden">
+          <div class="info-box" style="margin-bottom:12px">
+            <strong>📌 One-time setup:</strong> Register an OAuth 2.0 (3LO) app at
+            <code>developer.atlassian.com</code> → Your Apps → Create app → OAuth 2.0.
+            Add callback URL: <code id="oauthCallbackHint">http://localhost:3000/api/confluence/oauth/callback</code>.
+            Scopes needed: <code>read:confluence-content.all</code>, <code>read:confluence-space.summary</code>.
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="confluenceClientId">Client ID <span class="required">*</span></label>
+              <input type="text" id="confluenceClientId" placeholder="abc123..." autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label for="confluenceClientSecret">Client Secret <span class="required">*</span></label>
+              <input type="password" id="confluenceClientSecret" placeholder="••••••••••••••••" autocomplete="new-password">
+            </div>
+          </div>
+          <button class="btn-secondary" id="oauthConnectBtn" onclick="wizard.startConfluenceOAuth()">🔗 Connect with Atlassian</button>
+          <div id="oauthStatus" class="hidden" style="margin-top:10px; font-size:13px; font-weight:600;"></div>
+        </div>
+      </div><!-- /#confluenceFields -->
+
+      <!-- ── Web Page / URL fields ── -->
+      <div id="urlFields" class="hidden">
+        <div class="form-group">
+          <label for="urlList">Page URLs <span class="required">*</span></label>
+          <textarea id="urlList" rows="5" placeholder="https://aws.amazon.com/what-is/large-language-model/&#10;https://en.wikipedia.org/wiki/Large_language_model&#10;https://docs.example.com/api"></textarea>
+          <span class="field-hint">One URL per line. Each page is fetched once — no crawling or pagination.</span>
+        </div>
+        <div class="form-group">
+          <label for="urlSelector">Content selector <small>(optional)</small></label>
+          <input type="text" id="urlSelector" placeholder="e.g. article  or  .content  — leave blank to auto-detect">
+          <span class="field-hint">Leave blank to automatically detect the main content area.</span>
+        </div>
+      </div><!-- /#urlFields -->
+
+      <div class="card-footer">
+        <button class="btn-ghost" onclick="wizard.prev()">← Back</button>
+        <button class="btn-primary" onclick="wizard.next()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ── Step 3: Authentication ────────────────────────────────────── -->
+    <div class="wizard-card hidden" id="step-3">
+      <div class="card-header">
+        <h2>Authentication</h2>
+        <p>Does your portal require login?</p>
+      </div>
+
+      <div class="form-group">
+        <label>Authentication type</label>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="authType" value="none" checked onchange="wizard.onAuthTypeChange()">
+            <div class="radio-card">
+              <strong>None</strong>
+              <span>Portal is publicly accessible</span>
+            </div>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="authType" value="form" onchange="wizard.onAuthTypeChange()">
+            <div class="radio-card">
+              <strong>Username + Password</strong>
+              <span>Standard login form</span>
+            </div>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="authType" value="microsoft" onchange="wizard.onAuthTypeChange()">
+            <div class="radio-card">
+              <strong>Microsoft 365</strong>
+              <span>Azure AD / Microsoft login — enter credentials, browser opens for MFA.</span>
+            </div>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="authType" value="browser" onchange="wizard.onAuthTypeChange()">
+            <div class="radio-card">
+              <strong>Open Browser (manual login)</strong>
+              <span>A browser window opens — you log in yourself. Handles any auth method (SSO, MFA, etc.). No credentials stored.</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div id="authCredentials" class="hidden">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="authEmail">Email / Username <span class="required">*</span></label>
+            <input type="email" id="authEmail" placeholder="you@company.com" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="authPassword">Password <span class="required">*</span></label>
+            <input type="password" id="authPassword" placeholder="••••••••" autocomplete="new-password">
+          </div>
+        </div>
+        <div class="info-box">
+          <strong>📌 Privacy note:</strong> Credentials are stored only in your local config file (<code>app_config.json</code>) and are never sent to any external service. They are used solely by the local browser crawler.
+        </div>
+      </div>
+
+      <div id="browserPrelogin" class="hidden">
+        <p class="field-hint" style="margin-bottom:12px;">Click below to open a browser window. Log in to your portal (complete any MFA or OTP prompts), then return here — the wizard detects your session automatically and the window closes.</p>
+        <button class="btn-secondary" id="preloginBtn" onclick="wizard.startPrelogin()">🌐 Launch Login Browser</button>
+        <div id="preloginLog" class="log-panel hidden" style="margin-top:12px; max-height:160px;">
+          <pre id="preloginOutput"></pre>
+        </div>
+        <div id="preloginDone" class="hidden" style="color:var(--green);font-size:13px;font-weight:600;margin-top:10px;">✓ Login session saved — you can continue.</div>
+      </div>
+
+      <div class="card-footer">
+        <button class="btn-ghost" onclick="wizard.prev()">← Back</button>
+        <button class="btn-primary" onclick="wizard.next()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ── Step 4: AI Settings ───────────────────────────────────────── -->
+    <div class="wizard-card hidden" id="step-4">
+      <div class="card-header">
+        <h2>AI Settings</h2>
+        <p>Choose your language model and embedding engine.</p>
+      </div>
+
+      <div class="form-group">
+        <label>Language Model (LLM)</label>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="llmProvider" value="ollama" checked onchange="wizard.onLlmChange()">
+            <div class="radio-card">
+              <strong>Ollama — Local</strong>
+              <span>Runs entirely on your machine. Free, private, no internet needed.</span>
+            </div>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="llmProvider" value="claude" onchange="wizard.onLlmChange()">
+            <div class="radio-card">
+              <strong>Claude API</strong>
+              <span>Best quality answers. Requires an Anthropic API key.</span>
+            </div>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="llmProvider" value="vllm" onchange="wizard.onLlmChange()">
+            <div class="radio-card">
+              <strong>vLLM / Llama.cpp</strong>
+              <span>Local GPU server with OpenAI-compatible API (vLLM, llama.cpp server, LM Studio, etc.).</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div id="ollamaSettings">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ollamaUrl">Ollama URL</label>
+            <div class="input-row">
+              <input type="url" id="ollamaUrl" value="http://localhost:11434">
+              <button class="btn-secondary btn-sm" onclick="wizard.testOllama()">Test</button>
+            </div>
+            <span class="field-hint" id="ollamaTestResult">Default is localhost:11434</span>
+          </div>
+          <div class="form-group">
+            <label for="ollamaModel">Model name</label>
+            <input type="text" id="ollamaModel" value="qwen2.5:3b" placeholder="qwen2.5:3b">
+            <span class="field-hint">Run <code>ollama pull qwen2.5:3b</code> first.</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="claudeSettings" class="hidden">
+        <div class="form-group">
+          <label for="anthropicKey">Anthropic API Key <span class="required">*</span></label>
+          <input type="password" id="anthropicKey" placeholder="sk-ant-..." autocomplete="new-password">
+          <span class="field-hint">Get your key at console.anthropic.com</span>
+        </div>
+      </div>
+
+      <div id="vllmSettings" class="hidden">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vllmUrl">vLLM / Server URL</label>
+            <div class="input-row">
+              <input type="url" id="vllmUrl" value="http://localhost:8000">
+              <button class="btn-secondary btn-sm" onclick="wizard.testVllm()">Test</button>
+            </div>
+            <span class="field-hint" id="vllmTestResult">The base URL of your OpenAI-compatible server.</span>
+          </div>
+          <div class="form-group">
+            <label for="vllmModel">Model name</label>
+            <input type="text" id="vllmModel" value="" placeholder="e.g. mistral-7b-instruct">
+            <span class="field-hint">Leave blank to use the server's default model.</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="form-group">
+        <label>Embeddings (for search)</label>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="embProvider" value="nomic" checked onchange="wizard.onEmbChange()">
+            <div class="radio-card">
+              <strong>Nomic — Local (recommended)</strong>
+              <span>768-dim semantic vectors via Ollama. Run: <code>ollama pull nomic-embed-text</code></span>
+            </div>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="embProvider" value="tfidf" onchange="wizard.onEmbChange()">
+            <div class="radio-card">
+              <strong>TF-IDF — No setup</strong>
+              <span>Keyword-based search. No extra install, but less precise than semantic search.</span>
+            </div>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="embProvider" value="openai" onchange="wizard.onEmbChange()">
+            <div class="radio-card">
+              <strong>OpenAI Embeddings</strong>
+              <span>High-quality cloud embeddings. Requires an OpenAI API key.</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div id="openaiSettings" class="hidden">
+        <div class="form-group">
+          <label for="openaiKey">OpenAI API Key <span class="required">*</span></label>
+          <input type="password" id="openaiKey" placeholder="sk-..." autocomplete="new-password">
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <button class="btn-ghost" onclick="wizard.prev()">← Back</button>
+        <button class="btn-primary" onclick="wizard.next()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ── Step 5: Build ─────────────────────────────────────────────── -->
+    <div class="wizard-card hidden" id="step-5">
+      <div class="card-header">
+        <h2>Build Knowledge Base</h2>
+        <p>Review your settings and start the build process.</p>
+      </div>
+
+      <div class="summary-grid" id="summaryGrid"><!-- filled by JS --></div>
+
+      <div id="buildSection">
+        <button class="btn-primary btn-large" id="buildBtn" onclick="wizard.startBuild()">
+          🚀 Start Building
+        </button>
+      </div>
+
+      <div id="buildProgress" class="hidden">
+        <div class="build-status">
+          <div class="build-phase" id="buildPhase">Initialising…</div>
+          <div class="build-spinner"></div>
+        </div>
+        <div class="log-panel" id="logPanel">
+          <pre id="logOutput"></pre>
+        </div>
+      </div>
+
+      <div id="buildDone" class="hidden">
+        <div class="success-banner">
+          <span class="success-icon">✅</span>
+          <div>
+            <strong id="successTitle">Knowledge base is ready!</strong>
+            <div id="successDetail"></div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div></div>
+          <button class="btn-primary btn-large" onclick="window.location='/'">
+            Launch Assistant →
+          </button>
+        </div>
+      </div>
+
+      <div id="buildError" class="hidden">
+        <div class="error-banner">
+          <span>❌</span>
+          <div>
+            <strong>Build failed</strong>
+            <div id="errorDetail"></div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn-ghost" onclick="wizard.prev()">← Back</button>
+          <button class="btn-primary" onclick="wizard.retryBuild()">Retry</button>
+        </div>
+      </div>
+
+      <div id="backFromBuild" class="card-footer">
+        <button class="btn-ghost" onclick="wizard.prev()">← Back</button>
+        <div></div>
+      </div>
+    </div>
+
+  </div><!-- /.wizard-shell -->
+
+  <script src="/js/setup.js"></script>
+</body>
+</html>

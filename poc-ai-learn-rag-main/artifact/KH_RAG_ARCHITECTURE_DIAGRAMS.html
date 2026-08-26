@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KH RAG Architecture — LLM Engine & Use Case Diagrams</title>
+<style>
+/* ─── Design tokens ─────────────────────────────────────────── */
+:root {
+  --bg:        #F7F6F3;
+  --bg-card:   #FFFFFF;
+  --bg-inset:  #EFEDE8;
+  --border:    #D8D4CC;
+  --text:      #1A1916;
+  --text-2:    #5C5850;
+  --text-3:    #8C8880;
+
+  --green:     #1D7A4A;
+  --green-d:   #E8F5ED;
+  --amber:     #A05C00;
+  --amber-d:   #FDF3E3;
+  --red:       #B02020;
+  --red-d:     #FDEAEA;
+  --blue:      #1A4E8C;
+  --blue-d:    #E8EFF9;
+  --teal:      #177070;
+  --teal-d:    #E6F4F4;
+  --gray:      #5C5850;
+  --gray-d:    #F0EFEC;
+
+  --accent:    #C45A00;   /* burnt sienna — warm, distinct from green/red */
+  --accent-d:  #FEF0E6;
+
+  --node-fill:    #FFFFFF;
+  --node-stroke:  #AAAAAA;
+  --node-text:    #1A1916;
+  --arrow:        #888884;
+  --lane-a:       #F0EDE8;
+  --lane-b:       #E8EDF5;
+  --lane-c:       #E8F4F0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #141412;
+    --bg-card:   #1E1D1A;
+    --bg-inset:  #252420;
+    --border:    #333028;
+    --text:      #ECEAE4;
+    --text-2:    #A09C90;
+    --text-3:    #68645C;
+
+    --green:     #3FBB74;
+    --green-d:   #0D2B1A;
+    --amber:     #E08030;
+    --amber-d:   #2A1C06;
+    --red:       #E06060;
+    --red-d:     #2A0F0F;
+    --blue:      #5B93E0;
+    --blue-d:    #0D1E38;
+    --teal:      #40AAAA;
+    --teal-d:    #0D2828;
+    --gray:      #9A968E;
+    --gray-d:    #252420;
+
+    --accent:    #E07030;
+    --accent-d:  #2A1608;
+
+    --node-fill:    #252420;
+    --node-stroke:  #555048;
+    --node-text:    #ECEAE4;
+    --arrow:        #6A6660;
+    --lane-a:       #1E1D1A;
+    --lane-b:       #181E26;
+    --lane-c:       #141E1C;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:        #141412;
+  --bg-card:   #1E1D1A;
+  --bg-inset:  #252420;
+  --border:    #333028;
+  --text:      #ECEAE4;
+  --text-2:    #A09C90;
+  --text-3:    #68645C;
+
+  --green:     #3FBB74;
+  --green-d:   #0D2B1A;
+  --amber:     #E08030;
+  --amber-d:   #2A1C06;
+  --red:       #E06060;
+  --red-d:     #2A0F0F;
+  --blue:      #5B93E0;
+  --blue-d:    #0D1E38;
+  --teal:      #40AAAA;
+  --teal-d:    #0D2828;
+  --gray:      #9A968E;
+  --gray-d:    #252420;
+
+  --accent:    #E07030;
+  --accent-d:  #2A1608;
+
+  --node-fill:    #252420;
+  --node-stroke:  #555048;
+  --node-text:    #ECEAE4;
+  --arrow:        #6A6660;
+  --lane-a:       #1E1D1A;
+  --lane-b:       #181E26;
+  --lane-c:       #141E1C;
+}
+
+/* ─── Reset & base ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Layout ─────────────────────────────────────────────────── */
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+section { padding: 2.5rem 0; border-top: 1px solid var(--border); }
+section:first-of-type { border-top: none; }
+
+/* ─── Header ─────────────────────────────────────────────────── */
+.page-header {
+  padding: 3rem 0 2rem;
+}
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+.page-header h1 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: balance;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.page-header p {
+  max-width: 60ch;
+  color: var(--text-2);
+  font-size: 0.975rem;
+}
+
+/* dark-mode toggle */
+.theme-toggle {
+  position: fixed;
+  top: 1rem; right: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  z-index: 10;
+}
+.theme-toggle:hover { color: var(--text); border-color: var(--text-3); }
+
+/* ─── Section heading ─────────────────────────────────────────── */
+.sec-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.4rem;
+}
+.sec-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  text-wrap: balance;
+}
+.sec-sub {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  max-width: 64ch;
+  margin-bottom: 1.5rem;
+}
+
+/* ─── Insight banner ─────────────────────────────────────────── */
+.insight {
+  background: var(--accent-d);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 0.9rem 1.2rem;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.insight strong { color: var(--accent); }
+
+/* ─── Diagram 1: LLM Tier Matrix ─────────────────────────────── */
+.tier-matrix { overflow-x: auto; }
+.tier-matrix table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+  font-variant-numeric: tabular-nums;
+}
+.tier-matrix th, .tier-matrix td {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+.tier-matrix thead th {
+  background: var(--bg-inset);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+.tier-matrix thead th:first-child { width: 30%; }
+.tier-matrix tbody tr:nth-child(even) td { background: var(--bg-inset); }
+.tier-matrix tbody td:first-child { font-weight: 600; color: var(--text); }
+.tier-matrix tbody td:not(:first-child) { color: var(--text-2); }
+
+.cell-green  { background: var(--green-d) !important; color: var(--green) !important; font-weight: 600; }
+.cell-amber  { background: var(--amber-d) !important; color: var(--amber) !important; font-weight: 600; }
+.cell-red    { background: var(--red-d)   !important; color: var(--red)   !important; font-weight: 600; }
+.cell-gray   { background: var(--gray-d)  !important; color: var(--gray)  !important; font-weight: 500; font-style: italic; }
+
+.tier-note {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.9rem;
+  font-size: 0.78rem;
+  color: var(--text-2);
+}
+.tier-note span { display: flex; align-items: center; gap: 0.35rem; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.dot-green { background: var(--green); }
+.dot-amber { background: var(--amber); }
+.dot-red   { background: var(--red); }
+.dot-gray  { background: var(--gray); }
+
+/* ─── Architecture tab strip ─────────────────────────────────── */
+.arch-tabs {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+.arch-tab {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  background: var(--bg-inset);
+  color: var(--text-2);
+  border: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.15s, color 0.15s;
+}
+.arch-tab:last-child { border-right: none; }
+.arch-tab.active {
+  background: var(--bg-card);
+  color: var(--text);
+  border-bottom: 2px solid var(--accent);
+}
+.arch-panel {
+  display: none;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  background: var(--bg-card);
+  padding: 1.5rem;
+}
+.arch-panel.active { display: block; }
+
+/* ─── SVG diagrams ───────────────────────────────────────────── */
+.diagram-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 0.5rem;
+}
+.diagram-wrap svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* SVG component tokens */
+svg .node-rect  { fill: var(--node-fill); stroke: var(--node-stroke); stroke-width: 1.5; }
+svg .node-text  { fill: var(--node-text); font-family: 'Segoe UI Variable', system-ui, sans-serif; }
+svg .edge       { stroke: var(--arrow);   stroke-width: 1.5; fill: none; }
+svg .edge-label { fill: var(--text-3);    font-family: 'Segoe UI Variable', system-ui, sans-serif; font-size: 10px; }
+svg .arrow-head { fill: var(--arrow); }
+
+svg .node-green  { fill: var(--green-d); stroke: var(--green); }
+svg .node-amber  { fill: var(--amber-d); stroke: var(--amber); }
+svg .node-red    { fill: var(--red-d);   stroke: var(--red); }
+svg .node-blue   { fill: var(--blue-d);  stroke: var(--blue); }
+svg .node-teal   { fill: var(--teal-d);  stroke: var(--teal); }
+svg .node-gray   { fill: var(--gray-d);  stroke: var(--gray); }
+svg .node-accent { fill: var(--accent-d); stroke: var(--accent); }
+
+svg .text-green  { fill: var(--green); }
+svg .text-amber  { fill: var(--amber); }
+svg .text-red    { fill: var(--red); }
+svg .text-blue   { fill: var(--blue); }
+svg .text-teal   { fill: var(--teal); }
+svg .text-gray   { fill: var(--gray); }
+svg .text-accent { fill: var(--accent); }
+
+svg .lane-bg-a { fill: var(--lane-a); }
+svg .lane-bg-b { fill: var(--lane-b); }
+svg .lane-bg-c { fill: var(--lane-c); }
+svg .lane-label { fill: var(--text-3); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'Segoe UI Variable', system-ui, sans-serif; }
+svg .border-line { stroke: var(--border); stroke-width: 1; fill: none; }
+
+/* ─── Arch annotation ─────────────────────────────────────────── */
+.arch-annotation {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.ann-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.ann-green { background: var(--green-d); color: var(--green); }
+.ann-amber { background: var(--amber-d); color: var(--amber); }
+.ann-red   { background: var(--red-d);   color: var(--red); }
+.ann-gray  { background: var(--gray-d);  color: var(--gray); }
+.ann-teal  { background: var(--teal-d);  color: var(--teal); }
+
+/* ─── Use-case section ───────────────────────────────────────── */
+.usecase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+.usecase-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.usecase-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.usecase-card .persona-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+/* ─── Decision tree ───────────────────────────────────────────── */
+.dtree-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+/* ─── Engine rec box ─────────────────────────────────────────── */
+.engine-rec {
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  color: var(--text-2);
+}
+.engine-rec strong { color: var(--text); display: block; margin-bottom: 0.3rem; font-size: 0.85rem; }
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+.page-footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 0 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-brand { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+.footer-brand span { color: var(--accent); }
+.footer-refs { display: flex; flex-direction: column; gap: 0.3rem; }
+.footer-refs a {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  text-decoration: none;
+  font-family: 'Consolas', 'Cascadia Code', monospace;
+}
+.footer-refs a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()">Toggle theme</button>
+
+<div class="wrap">
+
+<!-- ── Header ───────────────────────────────────────────────── -->
+<header class="page-header">
+  <p class="eyebrow">Knowledge Hub · Engineering Reference</p>
+  <h1>RAG Architecture: LLM Engine Choice &amp; Use Case Diagrams</h1>
+  <p>Does swapping Ollama for Claude Sonnet change your retrieval strategy? How is an individual professional's RAG pipeline different from an organization's? Seven diagrams answer both questions with concrete architecture maps — current state, future state, and per-persona flows.</p>
+</header>
+
+<!-- ── Governing insight ─────────────────────────────────────── -->
+<section>
+  <div class="insight">
+    <strong>Core finding:</strong> Engine change matters <em>selectively</em>. Upgrading the LLM improves generation quality and unlocks agentic patterns — but retrieval quality is governed by your <strong>embedding model + BM25 + reranking pipeline</strong>, which is LLM-independent. Upgrading from <code>nomic-embed-text</code> to <code>BGE-M3</code> will improve retrieval results more than swapping Ollama for GPT-4o. The two axes are orthogonal.
+  </div>
+</section>
+
+<!-- ── Diagram 1: LLM Tier Matrix ───────────────────────────── -->
+<section>
+  <p class="sec-label">Diagram 1</p>
+  <h2 class="sec-title">LLM Tier × RAG Pattern: What Works Where</h2>
+  <p class="sec-sub">Each RAG pattern has a different LLM dependency. Green = works well at this tier. Amber = works with caveats. Red = not viable. Gray = not LLM-dependent.</p>
+
+  <div class="tier-matrix">
+    <table>
+      <thead>
+        <tr>
+          <th>RAG Pattern</th>
+          <th>Tier A — Cheap/Fast<br><small style="font-weight:400;color:var(--text-3)">Ollama local · Haiku · GPT-3.5</small></th>
+          <th>Tier B — Mid-range<br><small style="font-weight:400;color:var(--text-3)">Claude Sonnet · GPT-4o-mini</small></th>
+          <th>Tier C — Frontier<br><small style="font-weight:400;color:var(--text-3)">Claude Opus · GPT-4o · Gemini Ultra</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Contextual Chunk Enrichment<br><small style="color:var(--text-3)">1–2 sentence context prepended at ingestion</small></td>
+          <td class="cell-green">Best choice — cost scales with corpus; cheap model is ideal here</td>
+          <td class="cell-amber">Overkill — 3–5× the cost with marginal quality gain</td>
+          <td class="cell-amber">Never use — unnecessary cost at ingestion scale</td>
+        </tr>
+        <tr>
+          <td>Hybrid Retrieval (BM25 + Dense + RRF)<br><small style="color:var(--text-3)">Retrieval foundation</small></td>
+          <td class="cell-gray">Not LLM-dependent — embedding model choice governs this</td>
+          <td class="cell-gray">Not LLM-dependent — embedding model choice governs this</td>
+          <td class="cell-gray">Not LLM-dependent — embedding model choice governs this</td>
+        </tr>
+        <tr>
+          <td>Cross-Encoder Reranking<br><small style="color:var(--text-3)">Self-hosted reranker model</small></td>
+          <td class="cell-gray">Not LLM-dependent — uses a dedicated reranker, not the generation LLM</td>
+          <td class="cell-gray">Not LLM-dependent — uses a dedicated reranker, not the generation LLM</td>
+          <td class="cell-gray">Not LLM-dependent — uses a dedicated reranker, not the generation LLM</td>
+        </tr>
+        <tr>
+          <td>HyDE — Hypothetical Document Embeddings<br><small style="color:var(--text-3)">Fallback for vague recall queries</small></td>
+          <td class="cell-red">High risk — hallucinated hypotheses poison the embedding space</td>
+          <td class="cell-green">Recommended — strong enough to generate plausible professional prose</td>
+          <td class="cell-green">Reliable but adds 25–60% query latency cost</td>
+        </tr>
+        <tr>
+          <td>RAGAS Evaluation (judge model)<br><small style="color:var(--text-3)">Faithfulness, Context Precision scoring</small></td>
+          <td class="cell-amber">Coarse metrics only — judge quality limits evaluation reliability</td>
+          <td class="cell-green">Production-grade monitoring at reasonable cost</td>
+          <td class="cell-green">Highest evaluation accuracy — use for high-stakes audits</td>
+        </tr>
+        <tr>
+          <td>Agentic / Multi-Hop RAG<br><small style="color:var(--text-3)">Iterative retrieval with self-grading</small></td>
+          <td class="cell-red">Not viable — loop reliability requires strong instruction-following</td>
+          <td class="cell-amber">Possible with tight confidence gates at each hop</td>
+          <td class="cell-green">Full support — iterative retrieval, self-grading, query reformulation</td>
+        </tr>
+        <tr>
+          <td>GraphRAG (entity + relationship extraction)<br><small style="color:var(--text-3)">Requires LLM to extract graph from each document</small></td>
+          <td class="cell-red">Not viable — extraction quality degrades badly below Sonnet class</td>
+          <td class="cell-amber">Borderline — LightRAG reduces cost; watch extraction error rate</td>
+          <td class="cell-green">Required tier — Microsoft's original implementation demanded GPT-4</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tier-note">
+    <span><span class="dot dot-green"></span>Works well at this tier</span>
+    <span><span class="dot dot-amber"></span>Works with caveats</span>
+    <span><span class="dot dot-red"></span>Not viable at this tier</span>
+    <span><span class="dot dot-gray"></span>LLM-independent</span>
+  </div>
+</section>
+
+<!-- ── Diagrams 2–4: Architecture Evolution ──────────────────── -->
+<section>
+  <p class="sec-label">Diagrams 2 · 3 · 4</p>
+  <h2 class="sec-title">Architecture Evolution: Now → Mid-term → Enterprise</h2>
+  <p class="sec-sub">Three snapshots of KH's RAG pipeline. Click a tab to see how the architecture changes as the LLM engine tier and deployment model evolve.</p>
+
+  <div class="arch-tabs">
+    <button class="arch-tab active" onclick="showTab('now')">Now — Ollama Local</button>
+    <button class="arch-tab" onclick="showTab('mid')">Mid-term — Sonnet-class</button>
+    <button class="arch-tab" onclick="showTab('future')">Enterprise — Frontier + Graph</button>
+  </div>
+
+  <!-- NOW -->
+  <div class="arch-panel active" id="tab-now">
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 860 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+            <polygon class="arrow-head" points="0 0, 8 3, 0 6"/>
+          </marker>
+        </defs>
+
+        <!-- Nodes left-to-right -->
+        <!-- User Query -->
+        <rect x="10" y="120" width="100" height="44" rx="6" class="node-rect node-blue"/>
+        <text x="60" y="138" text-anchor="middle" font-size="11" font-weight="700" class="node-text text-blue">User Query</text>
+        <text x="60" y="154" text-anchor="middle" font-size="9" class="node-text text-blue">chat or search</text>
+
+        <!-- Confidence Gate -->
+        <rect x="140" y="110" width="110" height="64" rx="6" class="node-rect node-green"/>
+        <text x="195" y="130" text-anchor="middle" font-size="11" font-weight="700" class="node-text text-green">Confidence</text>
+        <text x="195" y="145" text-anchor="middle" font-size="11" font-weight="700" class="node-text text-green">Gate</text>
+        <text x="195" y="162" text-anchor="middle" font-size="9" class="node-text text-green">D.4 · dual-threshold</text>
+
+        <!-- Hybrid Retrieval -->
+        <rect x="280" y="100" width="120" height="84" rx="6" class="node-rect node-green"/>
+        <text x="340" y="122" text-anchor="middle" font-size="11" font-weight="700" class="node-text text-green">Hybrid Retrieval</text>
+        <text x="340" y="137" text-anchor="middle" font-size="9" class="node-text text-green">BM25 + Dense</text>
+        <text x="340" y="150" text-anchor="middle" font-size="9" class="node-text text-green">+ RRF fusion</text>
+        <text x="340" y="168" text-anchor="middle" font-size="8" class="node-text" style="fill:var(--text-3)">src/rag/query.js</text>
+
+        <!-- Soft-block -->
+        <rect x="430" y="120" width="100" height="44" rx="6" class="node-rect node-green"/>
+        <text x="480" y="138" text-anchor="middle" font-size="11" font-weight="700" class="node-text text-green">Soft-Block</text>
+        <text x="480" y="153" text-anchor="middle" font-size="9" class="node-text text-green">Detection</text>
+
+        <!-- Reranking -->
+        <rect x="560" y="120" width="100" height="44" rx="6" class="node-rect node-teal"/>
+        <text x="610" y="138" text-anchor="middle" font-size="11" font-weight="700" class="node-text text-teal">Cross-Encoder</text>
+        <text x="610" y="153" text-anchor="middle" font-size="9" class="node-text text-teal">Reranking</text>
+
+        <!-- LLM Gen -->
+        <rect x="690" y="106" width="110" height="72" rx="6" class="node-rect node-amber"/>
+        <text x="745" y="126" text-anchor="middle" font-size="11" font-weight="700" class="node-text text-amber">LLM Generation</text>
+        <text x="745" y="141" text-anchor="middle" font-size="9" class="node-text text-amber">Ollama local</text>
+        <text x="745" y="155" text-anchor="middle" font-size="8" class="text-amber" style="fill:var(--amber)">⚠ quality ceiling</text>
+        <text x="745" y="168" text-anchor="middle" font-size="8" style="fill:var(--amber)">on complex queries</text>
+
+        <!-- "Not yet" node -->
+        <rect x="280" y="220" width="120" height="44" rx="6" class="node-rect node-gray"/>
+        <text x="340" y="238" text-anchor="middle" font-size="10" font-weight="600" class="node-text text-gray">Contextual Chunk</text>
+        <text x="340" y="252" text-anchor="middle" font-size="9" class="node-text text-gray">Enrichment — not yet</text>
+
+        <!-- Response node -->
+        <rect x="820" y="120" width="30" height="44" rx="6" class="node-rect node-blue"/>
+        <text x="835" y="146" text-anchor="middle" font-size="8" font-weight="700" class="node-text text-blue" transform="rotate(-90,835,146)">Response</text>
+
+        <!-- Edges -->
+        <line x1="110" y1="142" x2="138" y2="142" class="edge" marker-end="url(#arr)"/>
+        <line x1="250" y1="142" x2="278" y2="142" class="edge" marker-end="url(#arr)"/>
+        <line x1="400" y1="142" x2="428" y2="142" class="edge" marker-end="url(#arr)"/>
+        <line x1="530" y1="142" x2="558" y2="142" class="edge" marker-end="url(#arr)"/>
+        <line x1="660" y1="142" x2="688" y2="142" class="edge" marker-end="url(#arr)"/>
+        <line x1="800" y1="142" x2="818" y2="142" class="edge" marker-end="url(#arr)"/>
+
+        <!-- Gray dashed arrow from "not yet" up to retrieval -->
+        <line x1="340" y1="220" x2="340" y2="186" stroke="var(--gray)" stroke-width="1.5" stroke-dasharray="4 3" fill="none" marker-end="url(#arr-gray)"/>
+        <text x="348" y="210" font-size="9" style="fill:var(--gray)">missing</text>
+      </svg>
+    </div>
+    <div class="arch-annotation">
+      <span class="ann-pill ann-green">Live: Hybrid Retrieval (BM25 + Dense + RRF)</span>
+      <span class="ann-pill ann-green">Live: Confidence Gate + Soft-Block</span>
+      <span class="ann-pill ann-green">Live: Cross-Encoder Reranking</span>
+      <span class="ann-pill ann-amber">Bottleneck: Ollama generation quality on complex queries</span>
+      <span class="ann-pill ann-gray">Missing: Contextual Chunk Enrichment not yet wired</span>
+    </div>
+  </div>
+
+  <!-- MID-TERM -->
+  <div class="arch-panel" id="tab-mid">
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr2" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+            <polygon class="arrow-head" points="0 0, 8 3, 0 6"/>
+          </marker>
+        </defs>
+
+        <!-- Ingestion track (top) -->
+        <rect x="10" y="20" width="860" height="100" rx="8" style="fill:var(--bg-inset); stroke:var(--border); stroke-width:1;"/>
+        <text x="20" y="38" font-size="9" font-weight="700" class="lane-label">INGESTION-TIME  (runs once per document)</text>
+
+        <rect x="30" y="50" width="110" height="44" rx="6" class="node-rect node-gray"/>
+        <text x="85" y="68" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-gray">Document</text>
+        <text x="85" y="82" text-anchor="middle" font-size="9" class="node-text text-gray">Ingestion</text>
+
+        <rect x="170" y="50" width="130" height="50" rx="6" class="node-rect node-green"/>
+        <text x="235" y="70" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-green">Contextual Chunk</text>
+        <text x="235" y="83" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-green">Enrichment</text>
+        <text x="235" y="96" text-anchor="middle" font-size="8" class="node-text text-green">Haiku-class · cheap model</text>
+
+        <rect x="330" y="50" width="110" height="44" rx="6" class="node-rect node-teal"/>
+        <text x="385" y="68" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-teal">Embed + Index</text>
+        <text x="385" y="82" text-anchor="middle" font-size="8" class="node-text text-teal">BGE-M3 recommended</text>
+
+        <line x1="140" y1="72" x2="168" y2="72" class="edge" marker-end="url(#arr2)"/>
+        <line x1="300" y1="72" x2="328" y2="72" class="edge" marker-end="url(#arr2)"/>
+
+        <!-- Query track (bottom) -->
+        <text x="20" y="158" font-size="9" font-weight="700" class="lane-label">QUERY-TIME  (every user query)</text>
+
+        <rect x="10" y="170" width="100" height="44" rx="6" class="node-rect node-blue"/>
+        <text x="60" y="188" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-blue">User Query</text>
+        <text x="60" y="202" text-anchor="middle" font-size="8" class="node-text text-blue">+ confidence pre-check</text>
+
+        <rect x="140" y="170" width="100" height="44" rx="6" class="node-rect node-green"/>
+        <text x="190" y="190" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-green">Hybrid</text>
+        <text x="190" y="204" text-anchor="middle" font-size="9" class="node-text text-green">Retrieval</text>
+
+        <!-- HyDE branch -->
+        <rect x="140" y="250" width="100" height="44" rx="6" class="node-rect node-amber"/>
+        <text x="190" y="268" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-amber">HyDE Fallback</text>
+        <text x="190" y="282" text-anchor="middle" font-size="8" class="node-text text-amber">if confidence &lt; threshold</text>
+
+        <rect x="270" y="170" width="100" height="44" rx="6" class="node-rect node-teal"/>
+        <text x="320" y="190" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-teal">Reranking</text>
+        <text x="320" y="204" text-anchor="middle" font-size="8" class="node-text text-teal">cross-encoder</text>
+
+        <rect x="400" y="163" width="115" height="58" rx="6" class="node-rect node-green"/>
+        <text x="457" y="183" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-green">LLM Generation</text>
+        <text x="457" y="197" text-anchor="middle" font-size="9" class="node-text text-green">Claude Sonnet /</text>
+        <text x="457" y="210" text-anchor="middle" font-size="9" class="node-text text-green">GPT-4o-mini</text>
+
+        <!-- RAGAS loop -->
+        <rect x="545" y="250" width="110" height="44" rx="6" class="node-rect node-gray"/>
+        <text x="600" y="268" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-gray">RAGAS Eval</text>
+        <text x="600" y="282" text-anchor="middle" font-size="8" class="node-text text-gray">offline monitoring</text>
+
+        <rect x="545" y="170" width="100" height="44" rx="6" class="node-rect node-blue"/>
+        <text x="595" y="188" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-blue">Response +</text>
+        <text x="595" y="202" text-anchor="middle" font-size="9" class="node-text text-blue">Citations</text>
+
+        <!-- Edges query track -->
+        <line x1="110" y1="192" x2="138" y2="192" class="edge" marker-end="url(#arr2)"/>
+        <line x1="240" y1="192" x2="268" y2="192" class="edge" marker-end="url(#arr2)"/>
+        <line x1="370" y1="192" x2="398" y2="192" class="edge" marker-end="url(#arr2)"/>
+        <line x1="515" y1="192" x2="543" y2="192" class="edge" marker-end="url(#arr2)"/>
+
+        <!-- HyDE fallback arrows -->
+        <path d="M 190 214 L 190 248" class="edge" stroke-dasharray="4 3" marker-end="url(#arr2)"/>
+        <path d="M 240 272 L 268 192" class="edge" stroke-dasharray="4 3" marker-end="url(#arr2)"/>
+        <text x="250" y="242" font-size="8" style="fill:var(--amber)">retry with HyDE</text>
+
+        <!-- RAGAS feedback arrow -->
+        <path d="M 595 214 L 595 248" class="edge" stroke-dasharray="4 3" marker-end="url(#arr2)"/>
+
+        <!-- Two-model callout -->
+        <rect x="660" y="150" width="220" height="90" rx="6" style="fill:var(--accent-d); stroke:var(--accent); stroke-width:1.5;"/>
+        <text x="770" y="170" text-anchor="middle" font-size="9" font-weight="700" style="fill:var(--accent)">Two-model split</text>
+        <text x="770" y="186" text-anchor="middle" font-size="8" style="fill:var(--text-2)">Haiku → enrichment (ingestion)</text>
+        <text x="770" y="200" text-anchor="middle" font-size="8" style="fill:var(--text-2)">Sonnet → generation (query)</text>
+        <text x="770" y="216" text-anchor="middle" font-size="8" style="fill:var(--text-2)">= 2026 best-practice architecture</text>
+        <text x="770" y="230" text-anchor="middle" font-size="8" font-weight="600" style="fill:var(--accent)">Cost-quality optimized</text>
+      </svg>
+    </div>
+    <div class="arch-annotation">
+      <span class="ann-pill ann-green">New: Contextual Chunk Enrichment at ingestion</span>
+      <span class="ann-pill ann-amber">New: HyDE fallback on low-confidence queries</span>
+      <span class="ann-pill ann-green">New: Claude Sonnet / GPT-4o-mini generation</span>
+      <span class="ann-pill ann-gray">New: RAGAS offline evaluation loop</span>
+      <span class="ann-pill ann-teal">Upgrade: BGE-M3 embedding model</span>
+    </div>
+  </div>
+
+  <!-- ENTERPRISE -->
+  <div class="arch-panel" id="tab-future">
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr3" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+            <polygon class="arrow-head" points="0 0, 8 3, 0 6"/>
+          </marker>
+        </defs>
+
+        <!-- Label -->
+        <text x="10" y="22" font-size="9" font-weight="700" class="lane-label">ENTERPRISE DEPLOYMENT MODEL REQUIRED — not for individual professionals</text>
+
+        <!-- Cache layer -->
+        <rect x="10" y="40" width="105" height="44" rx="6" class="node-rect node-gray"/>
+        <text x="62" y="58" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-gray">Semantic Cache</text>
+        <text x="62" y="72" text-anchor="middle" font-size="8" class="node-text text-gray">Redis / Upstash</text>
+
+        <!-- User queries -->
+        <rect x="150" y="40" width="105" height="44" rx="6" class="node-rect node-blue"/>
+        <text x="202" y="58" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-blue">Multi-user</text>
+        <text x="202" y="72" text-anchor="middle" font-size="9" class="node-text text-blue">Query Router</text>
+
+        <!-- ACL gate -->
+        <rect x="290" y="40" width="105" height="44" rx="6" class="node-rect node-red"/>
+        <text x="342" y="58" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-red">ACL Gate</text>
+        <text x="342" y="72" text-anchor="middle" font-size="8" class="node-text text-red">per-doc auth at retrieval</text>
+
+        <!-- Hybrid Retrieval -->
+        <rect x="430" y="40" width="105" height="44" rx="6" class="node-rect node-green"/>
+        <text x="482" y="58" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-green">Hybrid</text>
+        <text x="482" y="72" text-anchor="middle" font-size="9" class="node-text text-green">Retrieval</text>
+
+        <!-- Graph DB -->
+        <rect x="430" y="120" width="105" height="50" rx="6" class="node-rect node-teal"/>
+        <text x="482" y="140" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-teal">GraphRAG</text>
+        <text x="482" y="154" text-anchor="middle" font-size="8" class="node-text text-teal">Neo4j · entity/relation</text>
+        <text x="482" y="166" text-anchor="middle" font-size="7" class="node-text text-teal">extraction at ingestion</text>
+
+        <!-- Agentic loop -->
+        <rect x="570" y="40" width="120" height="60" rx="6" class="node-rect node-amber"/>
+        <text x="630" y="60" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-amber">Agentic</text>
+        <text x="630" y="74" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-amber">Multi-Hop Loop</text>
+        <text x="630" y="88" text-anchor="middle" font-size="8" class="node-text text-amber">retrieve → grade → retry</text>
+
+        <!-- Frontier LLM -->
+        <rect x="725" y="30" width="120" height="72" rx="6" class="node-rect node-accent"/>
+        <text x="785" y="52" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-accent">Frontier LLM</text>
+        <text x="785" y="66" text-anchor="middle" font-size="9" class="node-text text-accent">Claude Opus / GPT-4o</text>
+        <text x="785" y="80" text-anchor="middle" font-size="8" class="node-text text-accent">reasoning + synthesis</text>
+        <text x="785" y="92" text-anchor="middle" font-size="8" class="node-text text-accent">+ GraphRAG extraction</text>
+
+        <!-- Response -->
+        <rect x="725" y="130" width="120" height="44" rx="6" class="node-rect node-blue"/>
+        <text x="785" y="150" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-blue">Synthesized</text>
+        <text x="785" y="164" text-anchor="middle" font-size="9" class="node-text text-blue">Response + Citations</text>
+
+        <!-- Edges main -->
+        <line x1="115" y1="62" x2="148" y2="62" class="edge" marker-end="url(#arr3)"/>
+        <line x1="255" y1="62" x2="288" y2="62" class="edge" marker-end="url(#arr3)"/>
+        <line x1="395" y1="62" x2="428" y2="62" class="edge" marker-end="url(#arr3)"/>
+        <line x1="535" y1="62" x2="568" y2="62" class="edge" marker-end="url(#arr3)"/>
+        <line x1="690" y1="68" x2="723" y2="68" class="edge" marker-end="url(#arr3)"/>
+        <line x1="785" y1="102" x2="785" y2="128" class="edge" marker-end="url(#arr3)"/>
+
+        <!-- Graph → agentic loop -->
+        <path d="M 482 120 L 482 100 L 568 70" class="edge" stroke-dasharray="4 3" marker-end="url(#arr3)"/>
+
+        <!-- Agentic retry loop -->
+        <path d="M 690 60 L 700 60 L 700 160 L 570 160 L 570 102" class="edge" stroke-dasharray="3 3" stroke-width="1" marker-end="url(#arr3)"/>
+        <text x="635" y="175" text-anchor="middle" font-size="8" style="fill:var(--amber)">retry if insufficient context</text>
+
+        <!-- Cache hit bypass -->
+        <path d="M 62 84 L 62 200 L 785 200 L 785 176" class="edge" stroke-dasharray="5 3" stroke-width="1" marker-end="url(#arr3)"/>
+        <text x="420" y="196" text-anchor="middle" font-size="8" style="fill:var(--gray)">cache hit → skip retrieval (40–60% queries)</text>
+
+        <!-- Security note -->
+        <rect x="30" y="230" width="840" height="100" rx="6" style="fill:var(--red-d); stroke:var(--red); stroke-width:1;"/>
+        <text x="50" y="252" font-size="9" font-weight="700" style="fill:var(--red)">Enterprise Security Surface (not present in individual deployment)</text>
+        <text x="50" y="270" font-size="8.5" style="fill:var(--text-2)">• Indirect prompt injection via crafted documents (EchoLeak / MS365 Copilot class attack)</text>
+        <text x="50" y="286" font-size="8.5" style="fill:var(--text-2)">• Embedding inversion attacks on stored vectors</text>
+        <text x="50" y="302" font-size="8.5" style="fill:var(--text-2)">• Retrieval-layer ACL bypass (user A reads user B's documents)</text>
+        <text x="50" y="318" font-size="8.5" style="fill:var(--text-2)">• GDPR / HIPAA / SOC2 compliance for cloud LLM API calls</text>
+      </svg>
+    </div>
+    <div class="arch-annotation">
+      <span class="ann-pill ann-teal">New: GraphRAG — entity + relationship graph (Neo4j)</span>
+      <span class="ann-pill ann-amber">New: Agentic multi-hop retrieval loop</span>
+      <span class="ann-pill ann-gray">New: Semantic caching (Redis) — 40–60% API cost reduction</span>
+      <span class="ann-pill ann-red">New: Per-document ACL enforcement at retrieval layer</span>
+      <span class="ann-pill ann-red">Security: prompt injection, embedding inversion, compliance</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Diagrams 5 & 6: Use Case Flows ────────────────────────── -->
+<section>
+  <p class="sec-label">Diagrams 5 · 6</p>
+  <h2 class="sec-title">Use Case Flows: Individual Professional vs. Organization</h2>
+  <p class="sec-sub">The same retrieval foundation, but radically different query patterns, infrastructure needs, and LLM tier requirements.</p>
+
+  <div class="usecase-grid">
+
+    <!-- Individual -->
+    <div class="usecase-card">
+      <h3>Individual Professional</h3>
+      <p class="persona-tag">Aarav · Anjali · Marcus · Dr. Priya</p>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 340 440" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr4" markerWidth="7" markerHeight="5" refX="5" refY="2.5" orient="auto">
+              <polygon class="arrow-head" points="0 0, 7 2.5, 0 5"/>
+            </marker>
+          </defs>
+          <!-- Lane A: User -->
+          <rect x="0" y="0" width="130" height="440" rx="0" class="lane-bg-a" opacity="0.5"/>
+          <!-- Lane B: KH RAG -->
+          <rect x="130" y="0" width="210" height="440" rx="0" class="lane-bg-b" opacity="0.4"/>
+
+          <text x="65" y="20" text-anchor="middle" font-size="9" font-weight="700" class="lane-label">USER</text>
+          <text x="235" y="20" text-anchor="middle" font-size="9" font-weight="700" class="lane-label">KH RAG SYSTEM</text>
+          <line x1="130" y1="0" x2="130" y2="440" class="border-line"/>
+
+          <!-- User nodes -->
+          <rect x="15" y="35" width="100" height="36" rx="5" class="node-rect node-blue"/>
+          <text x="65" y="50" text-anchor="middle" font-size="9" font-weight="700" class="node-text text-blue">Vague recall query</text>
+          <text x="65" y="63" text-anchor="middle" font-size="8" class="node-text text-blue">"what did I use for..."</text>
+
+          <rect x="15" y="195" width="100" height="36" rx="5" class="node-rect node-blue"/>
+          <text x="65" y="210" text-anchor="middle" font-size="9" font-weight="700" class="node-text text-blue">Precise lookup</text>
+          <text x="65" y="223" text-anchor="middle" font-size="8" class="node-text text-blue">"Q3 client X tax rate"</text>
+
+          <rect x="15" y="360" width="100" height="36" rx="5" class="node-rect node-green"/>
+          <text x="65" y="375" text-anchor="middle" font-size="9" font-weight="700" class="node-text text-green">Answer + source</text>
+          <text x="65" y="388" text-anchor="middle" font-size="8" class="node-text text-green">citation returned</text>
+
+          <!-- RAG nodes -->
+          <rect x="145" y="35" width="180" height="36" rx="5" class="node-rect node-green"/>
+          <text x="235" y="50" text-anchor="middle" font-size="9" font-weight="700" class="node-text text-green">Confidence pre-check</text>
+          <text x="235" y="63" text-anchor="middle" font-size="8" class="node-text text-green">low conf → HyDE fallback</text>
+
+          <rect x="145" y="105" width="180" height="36" rx="5" class="node-rect node-amber"/>
+          <text x="235" y="120" text-anchor="middle" font-size="9" font-weight="700" class="node-text text-amber">HyDE expansion</text>
+          <text x="235" y="133" text-anchor="middle" font-size="8" class="node-text text-amber">Sonnet generates hypothesis</text>
+
+          <rect x="145" y="155" width="180" height="36" rx="5" class="node-rect node-teal"/>
+          <text x="235" y="170" text-anchor="middle" font-size="9" font-weight="700" class="node-text text-teal">Hybrid Retrieval</text>
+          <text x="235" y="183" text-anchor="middle" font-size="8" class="node-text text-teal">enriched chunks ranked</text>
+
+          <rect x="145" y="210" width="180" height="36" rx="5" class="node-rect node-teal"/>
+          <text x="235" y="225" text-anchor="middle" font-size="9" font-weight="700" class="node-text text-teal">Reranking + Confidence</text>
+          <text x="235" y="238" text-anchor="middle" font-size="8" class="node-text text-teal">gate (precision mandate)</text>
+
+          <!-- Confidence fail -->
+          <rect x="145" y="270" width="180" height="36" rx="5" class="node-rect node-red"/>
+          <text x="235" y="285" text-anchor="middle" font-size="9" font-weight="700" class="node-text text-red">Low confidence → decline</text>
+          <text x="235" y="298" text-anchor="middle" font-size="8" class="node-text text-red">professional liability guard</text>
+
+          <rect x="145" y="325" width="180" height="36" rx="5" class="node-rect node-green"/>
+          <text x="235" y="340" text-anchor="middle" font-size="9" font-weight="700" class="node-text text-green">Sonnet generation</text>
+          <text x="235" y="353" text-anchor="middle" font-size="8" class="node-text text-green">+ source citations</text>
+
+          <!-- Edges -->
+          <line x1="65" y1="71" x2="65" y2="193" class="edge" stroke-dasharray="3 3" stroke-width="1" marker-end="url(#arr4)"/>
+          <line x1="115" y1="53" x2="143" y2="53" class="edge" marker-end="url(#arr4)"/>
+          <line x1="235" y1="71" x2="235" y2="103" class="edge" marker-end="url(#arr4)"/>
+          <line x1="235" y1="141" x2="235" y2="153" class="edge" marker-end="url(#arr4)"/>
+          <line x1="235" y1="191" x2="235" y2="208" class="edge" marker-end="url(#arr4)"/>
+          <line x1="115" y1="213" x2="143" y2="228" class="edge" marker-end="url(#arr4)"/>
+          <line x1="235" y1="246" x2="235" y2="268" class="edge" marker-end="url(#arr4)"/>
+          <!-- Success path -->
+          <path d="M 235 268 L 265 268 L 265 323" class="edge" stroke-dasharray="4 3" marker-end="url(#arr4)"/>
+          <text x="268" y="300" font-size="8" style="fill:var(--green)">high conf</text>
+          <line x1="235" y1="361" x2="145" y2="378" class="edge" marker-end="url(#arr4)"/>
+        </svg>
+      </div>
+      <div class="engine-rec">
+        <strong>Engine recommendation for individual</strong>
+        Cheap model (Haiku/Ollama) for chunk enrichment at ingestion. Mid-tier model (Sonnet) for HyDE + generation at query time. No graph DB. No shared infrastructure. Zero-infra constraint is non-negotiable — these users cannot manage Neo4j.
+      </div>
+    </div>
+
+    <!-- Organization -->
+    <div class="usecase-card">
+      <h3>Organization / Team</h3>
+      <p class="persona-tag">Future Stage 3 · Multi-user deployment</p>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 340 440" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr5" markerWidth="7" markerHeight="5" refX="5" refY="2.5" orient="auto">
+              <polygon class="arrow-head" points="0 0, 7 2.5, 0 5"/>
+            </marker>
+          </defs>
+          <!-- 3 lanes -->
+          <rect x="0"   y="0" width="100" height="440" class="lane-bg-a" opacity="0.5"/>
+          <rect x="100" y="0" width="100" height="440" class="lane-bg-b" opacity="0.4"/>
+          <rect x="200" y="0" width="140" height="440" class="lane-bg-c" opacity="0.4"/>
+          <line x1="100" y1="0" x2="100" y2="440" class="border-line"/>
+          <line x1="200" y1="0" x2="200" y2="440" class="border-line"/>
+
+          <text x="50"  y="18" text-anchor="middle" font-size="8" font-weight="700" class="lane-label">USER A</text>
+          <text x="150" y="18" text-anchor="middle" font-size="8" font-weight="700" class="lane-label">USER B</text>
+          <text x="270" y="18" text-anchor="middle" font-size="8" font-weight="700" class="lane-label">KH RAG SYSTEM</text>
+
+          <!-- User A query -->
+          <rect x="8" y="35" width="84" height="34" rx="4" class="node-rect node-blue"/>
+          <text x="50" y="49" text-anchor="middle" font-size="8" font-weight="700" class="node-text text-blue">Multi-hop query</text>
+          <text x="50" y="61" text-anchor="middle" font-size="7" class="node-text text-blue">"all cases with X + Y"</text>
+
+          <!-- User B query -->
+          <rect x="108" y="35" width="84" height="34" rx="4" class="node-rect node-blue"/>
+          <text x="150" y="49" text-anchor="middle" font-size="8" font-weight="700" class="node-text text-blue">Concurrent query</text>
+          <text x="150" y="61" text-anchor="middle" font-size="7" class="node-text text-blue">different documents</text>
+
+          <!-- Semantic cache -->
+          <rect x="210" y="35" width="120" height="34" rx="4" class="node-rect node-gray"/>
+          <text x="270" y="49" text-anchor="middle" font-size="8" font-weight="700" class="node-text text-gray">Semantic Cache</text>
+          <text x="270" y="61" text-anchor="middle" font-size="7" class="node-text text-gray">Redis · 40–60% hit rate</text>
+
+          <!-- ACL gate -->
+          <rect x="210" y="95" width="120" height="34" rx="4" class="node-rect node-red"/>
+          <text x="270" y="109" text-anchor="middle" font-size="8" font-weight="700" class="node-text text-red">ACL Gate</text>
+          <text x="270" y="121" text-anchor="middle" font-size="7" class="node-text text-red">per-doc auth at retrieval</text>
+
+          <!-- Graph retrieval -->
+          <rect x="210" y="155" width="120" height="40" rx="4" class="node-rect node-teal"/>
+          <text x="270" y="171" text-anchor="middle" font-size="8" font-weight="700" class="node-text text-teal">GraphRAG</text>
+          <text x="270" y="183" text-anchor="middle" font-size="7" class="node-text text-teal">entity + relation traversal</text>
+          <text x="270" y="193" text-anchor="middle" font-size="7" class="node-text text-teal">Neo4j</text>
+
+          <!-- Hybrid retrieval -->
+          <rect x="210" y="220" width="120" height="34" rx="4" class="node-rect node-green"/>
+          <text x="270" y="234" text-anchor="middle" font-size="8" font-weight="700" class="node-text text-green">Hybrid Retrieval</text>
+          <text x="270" y="246" text-anchor="middle" font-size="7" class="node-text text-green">+ reranking</text>
+
+          <!-- Agentic loop -->
+          <rect x="210" y="278" width="120" height="40" rx="4" class="node-rect node-amber"/>
+          <text x="270" y="294" text-anchor="middle" font-size="8" font-weight="700" class="node-text text-amber">Agentic Loop</text>
+          <text x="270" y="306" text-anchor="middle" font-size="7" class="node-text text-amber">retrieve → grade → retry</text>
+          <text x="270" y="316" text-anchor="middle" font-size="7" class="node-text text-amber">frontier model required</text>
+
+          <!-- Synthesis -->
+          <rect x="210" y="342" width="120" height="34" rx="4" class="node-rect node-accent"/>
+          <text x="270" y="356" text-anchor="middle" font-size="8" font-weight="700" class="node-text text-accent">Synthesis</text>
+          <text x="270" y="368" text-anchor="middle" font-size="7" class="node-text text-accent">Opus / GPT-4o reasoning</text>
+
+          <!-- Response -->
+          <rect x="8" y="395" width="84" height="34" rx="4" class="node-rect node-green"/>
+          <text x="50" y="409" text-anchor="middle" font-size="8" font-weight="700" class="node-text text-green">Synthesized</text>
+          <text x="50" y="421" text-anchor="middle" font-size="7" class="node-text text-green">multi-doc answer</text>
+
+          <rect x="108" y="395" width="84" height="34" rx="4" class="node-rect node-green"/>
+          <text x="150" y="409" text-anchor="middle" font-size="8" font-weight="700" class="node-text text-green">Scoped answer</text>
+          <text x="150" y="421" text-anchor="middle" font-size="7" class="node-text text-green">ACL-filtered results</text>
+
+          <!-- Edges -->
+          <line x1="92"  y1="52" x2="208" y2="52" class="edge" marker-end="url(#arr5)"/>
+          <line x1="192" y1="52" x2="208" y2="52" class="edge" marker-end="url(#arr5)"/>
+          <line x1="270" y1="69"  x2="270" y2="93"  class="edge" marker-end="url(#arr5)"/>
+          <line x1="270" y1="129" x2="270" y2="153" class="edge" marker-end="url(#arr5)"/>
+          <line x1="270" y1="195" x2="270" y2="218" class="edge" marker-end="url(#arr5)"/>
+          <line x1="270" y1="254" x2="270" y2="276" class="edge" marker-end="url(#arr5)"/>
+          <line x1="270" y1="318" x2="270" y2="340" class="edge" marker-end="url(#arr5)"/>
+          <line x1="210" y1="358" x2="92"  y2="412" class="edge" marker-end="url(#arr5)"/>
+          <line x1="210" y1="364" x2="192" y2="412" class="edge" marker-end="url(#arr5)"/>
+        </svg>
+      </div>
+      <div class="engine-rec">
+        <strong>Engine requirement for organization</strong>
+        Frontier model required — GraphRAG entity extraction quality breaks below Sonnet/Opus class. Agentic loop reliability requires strong instruction-following. Infrastructure overhead (Neo4j, Redis, ACL layer) is only justified at team-scale query volume.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Diagram 7: Engine Decision Guide ──────────────────────── -->
+<section>
+  <p class="sec-label">Diagram 7</p>
+  <h2 class="sec-title">Should You Change Your LLM Engine?</h2>
+  <p class="sec-sub">Answer three questions. The tree routes you to the right upgrade path.</p>
+
+  <div class="dtree-wrap">
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 860 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr6" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+            <polygon class="arrow-head" points="0 0, 8 3, 0 6"/>
+          </marker>
+        </defs>
+
+        <!-- Q1 -->
+        <rect x="300" y="20" width="200" height="50" rx="6" class="node-rect node-blue"/>
+        <text x="400" y="40" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-blue">Corpus &gt; 10,000 docs?</text>
+        <text x="400" y="58" text-anchor="middle" font-size="8" class="node-text text-blue">+ multi-hop relationship queries?</text>
+
+        <!-- Q1 No -->
+        <rect x="60" y="120" width="190" height="50" rx="6" class="node-rect node-blue"/>
+        <text x="155" y="140" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-blue">Retrieval quality or</text>
+        <text x="155" y="155" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-blue">generation quality?</text>
+
+        <!-- Q1 Yes -->
+        <rect x="580" y="120" width="220" height="50" rx="6" class="node-rect node-teal"/>
+        <text x="690" y="140" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-teal">Enterprise path</text>
+        <text x="690" y="155" text-anchor="middle" font-size="8" class="node-text text-teal">GraphRAG + Agentic RAG required</text>
+
+        <!-- Q2a: Retrieval -->
+        <rect x="10" y="240" width="190" height="60" rx="6" class="node-rect node-green"/>
+        <text x="105" y="260" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-green">Upgrade embedding</text>
+        <text x="105" y="274" text-anchor="middle" font-size="9" class="node-text text-green">model first</text>
+        <text x="105" y="288" text-anchor="middle" font-size="8" class="node-text text-green">nomic → BGE-M3 or text-emb-3-large</text>
+
+        <!-- Q2b: Generation -->
+        <rect x="220" y="240" width="190" height="60" rx="6" class="node-rect node-amber"/>
+        <text x="315" y="260" text-anchor="middle" font-size="10" font-weight="700" class="node-text text-amber">Upgrade generation LLM</text>
+        <text x="315" y="274" text-anchor="middle" font-size="9" class="node-text text-amber">Ollama → Sonnet</text>
+        <text x="315" y="288" text-anchor="middle" font-size="8" class="node-text text-amber">also enables HyDE fallback</text>
+
+        <!-- Enterprise sub-nodes -->
+        <rect x="480" y="240" width="150" height="60" rx="6" class="node-rect node-teal"/>
+        <text x="555" y="260" text-anchor="middle" font-size="9" font-weight="700" class="node-text text-teal">Frontier LLM needed</text>
+        <text x="555" y="274" text-anchor="middle" font-size="8" class="node-text text-teal">Opus / GPT-4o for</text>
+        <text x="555" y="288" text-anchor="middle" font-size="8" class="node-text text-teal">GraphRAG extraction</text>
+
+        <rect x="650" y="240" width="150" height="60" rx="6" class="node-rect node-red"/>
+        <text x="725" y="260" text-anchor="middle" font-size="9" font-weight="700" class="node-text text-red">Infrastructure also</text>
+        <text x="725" y="274" text-anchor="middle" font-size="8" class="node-text text-red">required: Neo4j, Redis,</text>
+        <text x="725" y="288" text-anchor="middle" font-size="8" class="node-text text-red">ACL layer — not just LLM</text>
+
+        <!-- Core truth box -->
+        <rect x="100" y="345" width="620" height="40" rx="6" style="fill:var(--accent-d); stroke:var(--accent); stroke-width:1.5;"/>
+        <text x="410" y="361" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--accent)">Core truth: LLM engine governs generation quality + agentic patterns.</text>
+        <text x="410" y="377" text-anchor="middle" font-size="9" style="fill:var(--text-2)">Retrieval quality is governed by embedding model + BM25 + reranker — orthogonal axes.</text>
+
+        <!-- Edges -->
+        <line x1="300" y1="45" x2="250" y2="45" class="edge"/>
+        <line x1="250" y1="45" x2="155" y2="120" class="edge" marker-end="url(#arr6)"/>
+        <text x="200" y="90" font-size="9" style="fill:var(--text-2)">No</text>
+
+        <line x1="500" y1="45" x2="600" y2="45" class="edge"/>
+        <line x1="600" y1="45" x2="690" y2="118" class="edge" marker-end="url(#arr6)"/>
+        <text x="560" y="85" font-size="9" style="fill:var(--text-2)">Yes</text>
+
+        <line x1="105" y1="170" x2="105" y2="238" class="edge" marker-end="url(#arr6)"/>
+        <text x="68"  y="208" font-size="9" style="fill:var(--green)">Retrieval</text>
+
+        <line x1="205" y1="145" x2="315" y2="238" class="edge" marker-end="url(#arr6)"/>
+        <text x="270" y="200" font-size="9" style="fill:var(--amber)">Generation</text>
+
+        <line x1="620" y1="170" x2="555" y2="238" class="edge" marker-end="url(#arr6)"/>
+        <line x1="760" y1="170" x2="725" y2="238" class="edge" marker-end="url(#arr6)"/>
+
+        <line x1="315" y1="300" x2="315" y2="343" class="edge" marker-end="url(#arr6)"/>
+        <line x1="105" y1="300" x2="210" y2="360" class="edge" marker-end="url(#arr6)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer class="page-footer">
+  <div>
+    <div class="footer-brand">Knowledge <span>Hub</span></div>
+    <div style="font-size:0.75rem; color:var(--text-3); margin-top:0.2rem;">Engineering Reference · RAG Architecture Diagrams</div>
+  </div>
+  <div class="footer-refs">
+    <a href="KH_RAG_STRATEGY_VISUAL.html">→ KH_RAG_STRATEGY_VISUAL.html — Pattern relevance map</a>
+    <a href="#">→ .claude/.engineering/RAG_STRATEGY.md — Authoritative KH RAG decisions</a>
+    <a href="#">→ artifact/RAG_TRENDS_2025_2026.md — Industry reference</a>
+  </div>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.arch-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.arch-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  const idx = {now:0, mid:1, future:2}[id];
+  document.querySelectorAll('.arch-tab')[idx].classList.add('active');
+}
+
+function toggleTheme() {
+  const root = document.documentElement;
+  const current = root.getAttribute('data-theme');
+  if (!current) {
+    const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    root.setAttribute('data-theme', sysDark ? 'light' : 'dark');
+  } else {
+    root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  }
+}
+</script>
+</body>
+</html>

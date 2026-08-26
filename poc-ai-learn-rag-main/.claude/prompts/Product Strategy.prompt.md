@@ -1,0 +1,1 @@
+Analyze roadmap using 80/20. Maximize moat. Minimize complexity.

@@ -1,0 +1,475 @@
+Issues 
+
+1) URL should not be mandatory as we have self hosted document provision.
+
+2) planProMonthly, planProAnnual & planLifetime. Many such buttons of functionality is missing.
+
+3) Many UI buttons or navigation on left pane bottom are creating clutter. Some rethinking on UI is needed here. You are UI/UX innovative & pro designer.
+   Lets work on that before adding new features & some solid changes there.
+
+4) More issues find yourself and debug and fix.
+   
+
+
+
+Queries on next plan -
+
+4) Stripe actual integration, when are we planning. Actual payment gateway.
+
+5) Signup, login & other features.
+
+6) Testing strategy & test suite integration for all code
+
+7) SPA in react or some good tech & re-structuring for long term feature building, performance, scalability before its too big to change. Some solid groundwork & restructure-rebuild like pro architect.
+
+   Make it easier for any new developer to understand and enhance the application easier. Make it modular & also add testcase & self review md files to review against your own code in unbiased way. Some pre-commit hooks which will run tests, review changes & self launch in chrome & run everything all scenarios & identify all the potential issues for every new development.
+
+
+Finally Brainstorming on some new Ideas list for me to think and analyze - What next is the best enhancement 20% which matter & has impact 80%.
+
+
+Once you articulate this well. Log it to our session
+
+
+
+********************
+
+
+ Here is Claude's plan:
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ Next_action.txt — Fix + Redesign + Planning
+
+ Context
+
+ User raised 4 immediate issues from Next_action.txt and asked for planning answers on 4 future topics, plus a 20/80 brainstorm. All immediate fixes go into this session; planning answers get logged to session-log.md.
+
+ ---
+ Immediate Fixes
+
+ Fix 1 — Portal URL Not Mandatory (public/js/setup.js)
+
+ Problem: Portal URL is marked required (*) even when the user only wants to upload documents locally.
+ Fix: In validate(step === 2) for source === 'portal', change logic: if both URL AND sections are empty → valid (upload-only mode, show an info hint). If sections are non-empty but URL is empty → still require URL (can't crawl without it). Remove the * from the label in setup.html.
+
+ Fix 2 — Plan Cards Always Visible (public/js/app.js)
+
+ Problem: planProMonthly, planProAnnual, planLifetime cards are hidden when Stripe URLs aren't configured, so buttons appear broken/missing.
+ Fix: Always render all 3 plan cards. When URL not configured: button reads "Request Access" and onclick opens a mailto: or shows a "Contact us to purchase" tooltip. When URL IS configured: button opens Stripe link. This way the pricing is always visible and communicates value even pre-launch.
+
+ Fix 3 — Sidebar Footer UI Redesign (index.html, app.css, app.js)
+
+ Problem: 7 items stacked vertically in the sidebar footer creates clutter and poor hierarchy.
+
+ New design (3 distinct zones):
+
+ ┌─────────────────────────────────┐
+ │  1,234 chunks · qwen2.5:3b      │  ← single compact stat line
+ │  📊 nomic · ⚡ hybrid           │  ← smaller inline badges
+ ├─────────────────────────────────┤
+ │  [📎 Upload] [📊 Analytics]     │
+ │  [⚙ Settings ▾]                │
+ │     ↳ ⚙ Reconfigure            │
+ │     ↳ 🔄 Rebuild Index         │
+ │     ↳ 🗑 Reset Knowledge Base  │
+ ├─────────────────────────────────┤
+ │  ◉ Free tier  [✦ Upgrade Pro]   │
+ └─────────────────────────────────┘
+
+ HTML changes (index.html sidebar-footer):
+ - Replace all .settings-link buttons + badge row with new structure:
+   - .sidebar-stats-line — one text line: "N chunks · model"
+   - .sidebar-badges — tiny inline nomic/hybrid tags
+   - .sidebar-actions — 3 buttons: Upload, Analytics, Settings (gear)
+   - .sidebar-settings-menu — hidden dropdown with Reconfigure / Rebuild / Reset (shown on gear click)
+   - .license-footer — unchanged
+
+ CSS changes (app.css):
+ - Replace .stats-card, .badge-row, .
+ - Update loadStats() to fill .sidebar-stats-line (currently fills #statChunks, #statModel)
+ - Keep existing #statChunks, #statModel IDs so loadStats() works unchanged (just move the elements)
+
+ Fix 4 — Self-Reviewed Bugs
+
+ 1. server.js upload gate race: After gate check, multer has already written files to disk before we return 402. Need to clean up uploaded temp files on gate rejection. Fix: after returning 402, delete uploaded files from disk.
+ 2. setup.js vLLM validation missing: validate(step === 4) checks Claude and OpenAI keys but not vLLM URL. When vLLM is selected, should verify URL is not empty.
+ 3. oauthPending memory leak (server.js): OAuth state objects accumulate forever. Fix: add a 10-minute TTL cleanup — set setTimeout to delete the state after 10 min when creating it.
+ 4. license.js reads eval.jsonl on every query: checkQueryGate() scans the entire file on every /api/chat/stream call. Fix: cache the count with a 60-second TTL (simple { count, ts } variable).
+ 5. confluence-fetch.js pagination cursor bug: _nextPath() in confluence.js extracts the path assuming /wiki/api/v2 prefix. If Confluence returns a full absolute URL in _links.next, this breaks. Fix: check if _links.next starts with http and use new URL() to extract just the path, otherwise use the existing regex.
+
+ ---
+ Planning Answers (to log, not implement now)
+
+ Q4 — Stripe actual integration timeline
+
+ When: After beta validation. Recomme
+   - Emails the key to the customer via Resend/SendGrid
+ 2. Set LICENSE_API_URL to that function's /validate endpoint
+ 3. Paste Stripe Payment Link URLs into .env
+ 4. The app-side code is already fully built (server.js, license.js, modal UI)
+
+ Q5 — Signup / Login
+
+ Approach (progressive):
+ - Phase A (local): Optional user profiles — multiple data/ dirs per named profile, switchable in Electron. Zero auth overhead.
+ - Phase B (cloud sync): Supabase Auth (free tier) — email/password, Google OAuth. Each user gets their own S3/R2 bucket or Supabase storage for vectors. JWT stored locally in Electron keychain.
+ - Not recommended: building auth from scratch. Supabase handles it in ~1 day of integration.
+
+ Q6 — Testing strategy
+
+ Recommended stack:
+ - Unit: Vitest (fast, zero-config, ESM) for license.js, store.js, cleaner.js, query.js logic
+ - Integration: Supertest against server.js for all API endpoints
+ - E2E: Playwright (already in deps) for wizard flow + chat flow
+ - Pre-commit hook: Husky + lint-staged — runs vitest --run on changed files, blocks commit on failure
+ - Self-review: A REVIEW.md checklist Claude reads at session start to verify against known patterns
+ - CI: GitHub Actions — npm test on every PR
+
+ Q7 — React SPA restructure
+
+ Assessment: The current vanilla JS works but will hit limits around:
+ - 800+ lines in app.js (already ~870 lines)
+ - State management gets messy (global vars, DOM manipulation)
+ - Component reuse is manual copy-paste
+
+ Recommendation — Vite + React (not a full rewrite):
+ - Keep Express backend unchanged (it's already good)
+ - Replace public/ with a client/ Vite app
+ - Use React Query for server state, Zustand for local state
+ - Incrementally migrate: start with the license modal and analytics panel as isolated React components, mount them into the existing page, then expand
+ - Pre-commit: ESLint + TypeScript strict + Vitest + Playwright
+
+ Timeline estimate: 1 sprint (2 weeks) to migrate UI with no feature regressions.
+
+ ---
+ 20% Features → 80% Impact (Brainstorm)
+
+ Ranked by impact × effort ratio:
+
+ ┌─────┬────────────────────────────────────────────────────────┬────────┬────────┬─────────────────────────────────────────┐
+ │  #  │                        Feature                         │ Impact │ Effort │             Why it matters              │
+ ├─────┼────────────────────────────────────────────────────────┼────────┼────────┼─────────────────────────────────────────┤
+ │     │ Semantic search improvements — re-rank with a          │        │        │ Single biggest answer quality jump;     │
+ │ 1   │ cross-encoder (e.g. ms-marco-MiniLM via Ollama or      │ ★★★★★  │ Medium │ users immediately notice better answers │
+ - Integration: Supertest against server.js for all API endpoints
+ - E2E: Playwright (already in deps) for wizard flow + chat flow
+ - Pre-commit hook: Husky + lint-staged — runs vitest --run on changed files, blocks commit on failure
+ - Self-review: A REVIEW.md checklist Claude reads at session start to verify against known patterns
+ - CI: GitHub Actions — npm test on every PR
+
+ Q7 — React SPA restructure
+
+ Assessment: The current vanilla JS works but will hit limits around:
+ - 800+ lines in app.js (already ~870 lines)
+ - State management gets messy (global vars, DOM manipulation)
+ - Component reuse is manual copy-paste
+
+ Recommendation — Vite + React (not a full rewrite):
+ - Keep Express backend unchanged (it's already good)
+ - Replace public/ with a client/ Vite app
+ - Use React Query for server state, Zustand for local state
+ - Incrementally migrate: start with the license modal and analytics panel as isolated React components, mount them into the existing page, then expand
+ - Pre-commit: ESLint + TypeScript strict + Vitest + Playwright
+
+ Timeline estimate: 1 sprint (2 weeks) to migrate UI with no feature regressions.
+
+ ---
+ 20% Features → 80% Impact (Brainstorm)
+
+ Ranked by impact × effort ratio:
+
+ ┌─────┬────────────────────────────────────────────────────────┬────────┬────────┬─────────────────────────────────────────┐
+ │  #  │                        Feature                         │ Impact │ Effort │             Why it matters              │
+ ├─────┼────────────────────────────────────────────────────────┼────────┼────────┼─────────────────────────────────────────┤
+ │     │ Semantic search improvements — re-rank with a          │        │        │ Single biggest answer quality jump;     │
+ │ 1   │ cross-encoder (e.g. ms-marco-MiniLM via Ollama or      │ ★★★★★  │ Medium │ users immediately notice better answers │
+ │     │ transformers.js)                                       │        │        │                                         │
+ ├─────┼────────────────────────────────────────────────────────┼────────┼────────┼─────────────────────────────────────────┤
+ │     │ Streaming already built — expose "thinking" steps      │        │        │ Power users + enterprise buyers need    │
+ │ 2   │ (which chunks were used, why) as collapsible debug     │ ★★★★   │ Low    │ explainability; already have the data   │
+ │     │ panel                                                  │        │        │                                         │
+ ├─────┼────────────────────────────────────────────────────────┼────────┼────────┼─────────────────────────────────────────┤
+ │ 3   │ Smart document sync — watch docs/ folder for changes,  │ ★★★★   │ Low    │ Removes the manual "rebuild" step;      │
+ │     │ auto-ingest on file drop (chokidar watcher)            │        │        │ feels like a live system                │
+ ├─────┼────────────────────────────────────────────────────────┼────────┼────────┼─────────────────────────────────────────┤
+ │ 4   │ Answer citations inline — [1], [2] footnotes linked to │ ★★★★   │ Medium │ Builds trust; enterprise requirement;   │
+ │     │  source URLs inside the answer text                    │        │        │ differentiates from generic chatbots    │
+ ├─────┼────────────────────────────────────────────────────────┼────────┼────────┼─────────────────────────────────────────┤
+ │ 5   │ Conversation export — download chat as PDF or Markdown │ ★★★    │ Low    │ High-value for enterprise; users share  │
+ │     │                                                        │        │        │ answers with colleagues                 │
+ ├─────┼────────────────────────────────────────────────────────┼────────┼────────┼─────────────────────────────────────────┤
+ │ 6   │ Multi-KB switching — support multiple named knowledge  │ ★★★★   │ Medium │ Unlocks "team" use case (one person,    │
+ │     │ bases, switch in sidebar                               │        │        │ multiple projects/clients)              │
+ ├─────┼────────────────────────────────────────────────────────┼────────┼────────┼─────────────────────────────────────────┤
+ │ 7   │ Suggested questions on first load — LLM generates 5    │ ★★★    │ Low    │ Reduces blank-page anxiety; increases   │
+ │     │ "things you can ask me" based on indexed content       │        │        │ engagement and stickiness               │
+ ├─────┼────────────────────────────────────────────────────────┼────────┼────────┼─────────────────────────────────────────┤
+ │ 8   │ Notification when re-index completes — OS desktop      │ ★★★    │ Low    │ Removes the "did it finish?"            │
+ │     │ notification via Electron                              │        │        │ uncertainty during long crawls          │
+ ├─────┼────────────────────────────────────────────────────────┼────────┼────────┼─────────────────────────────────────────┤
+ │ 9   │ Answer feedback (👍/👎) — logged to eval.jsonl,        │ ★★★    │ Low    │ Data flywheel; helps identify bad       │     │     │ surface in analytics as "satisfaction rate"            │        │        │ answers systematically                  │
+ ├─────┼────────────────────────────────────────────────────────┼────────┼────────┼─────────────────────────────────────────┤
+ │ 10  │ "Ask about this page" — browser extension or           │ ★★★    │ Medium │ Viral acquisition; users share the tool │
+ │     │ bookmarklet that sends the current URL to the chat     │        │        │  when they use it on external docs      │
+ └─────┴────────────────────────────────────────────────────────┴────────┴────────┴─────────────────────────────────────────┘
+
+ Top 3 to do next (highest 20/80):
+ 1. Answer citations inline — trust + enterprise requirement, medium effort
+ 2. Smart document sync (file watcher) — removes biggest operational pain, low effort
+ 3. Answer feedback (👍/👎) — data flywheel for improving quality, very low effort
+
+ ---
+ Files Changed in This Session
+
+ ┌────────────────────────────────┬───────────────────────────────────────────────────────────────────────┐
+ │              File              │                                Change                                 │
+ ├────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ public/js/setup.js             │ Fix 1: URL optional, Fix 2 (vLLM validation)                          │
+ ├────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ public/setup.html              │ Fix 1: remove * from URL label                                        │
+ ├────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ public/js/app.js               │ Fix 2: plan cards always visible, Fix 3: settings toggle, Fix 4 cache │
+ ├────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ public/index.html              │ Fix 3: new sidebar footer HTML                                        │
+ ├────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤                       │ public/css/app.css             │ Fix 3: new sidebar footer styles                                      │
+ ├────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ src/api/server.js              │ Fix 4: OAuth TTL, upload cleanup                                      │
+ ├────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ src/license/license.js         │ Fix 4: query count cache                                              │
+ ├────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ src/integrations/confluence.js │ Fix 4: pagination cursor                                              │                     └────────────────────────────────┴───────────────────────────────────────────────────────────────────────┘
+
+
+
+
+ Ready to code?
+
+ Here is Claude's plan:
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ Knowledge Hub — Ideal Long-Term Tech Stack
+
+ Context
+
+ The current app works well at its current scale but carries structural debt that will hurt in Phase 2:
+ a 1100-line vanilla JS file, O(n) vector JSON scanning, no type safety, zero tests, and a Stripe stub that has never been wired. This plan gives a concrete, opinionated migration path — no big-bang rewrites, incremental per-area.
+
+ Three hard constraints that shape every decision:
+ 1. Windows-first desktop — no node-gyp / C++ native builds (killed better-sqlite3 and tiktoken)
+ 2. Privacy guarantee — all data on-machine by default, cloud optional
+ 3. Single developer — toolchain complexity has a real cost
+
+ ---
+ Complete Tech Stack — Recommended Suite
+
+─────────────────┬────────────────────────┬──────────────────────────────────────────────────────┬──────────────────────┐
+ │      Layer       │        Current         │                     Recommended                      │         When         │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ Language         │ CommonJS JS            │ TypeScript (incremental via allowJs:true)            │ Now → Phase 2        │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ Frontend         │ Vanilla JS SPA         │ Vite + React 19 + Zustand + TanStack Query           │ Phase 2 (setup       │
+ │                  │                        │                                                      │ wizard first)        │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ API layer        │ Express REST (untyped) │ Express + Zod schemas (typed req/res, shared types)  │ Now (Zod)            │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+Vector store     │ Custom JSON + BM25 +   │ LanceDB (embedded, prebuilt Windows binaries)        │ Phase 2 (>20k        │
+ │                  │ RRF                    │                                                      │ chunks)              │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ App data         │ JSON files +           │ sql.js for analytics; keep JSON for config/sessions  │ Phase 2              │
+ │                  │ eval.jsonl scan        │                                                      │                      │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ Desktop shell    │ Electron (localhost    │ Keep Electron — IPC + custom protocol improvements   │ Phase 2              │
+ │                  │ Express)               │                                                      │                      │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ LLM              │ Custom ask*Stream      │ Keep custom (optionally add Vercel ai SDK for types) │ Phase 2              │
+ │ orchestration    │ functions              │                                                      │                      │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+Testing          │ Zero tests             │ Vitest (unit) + Supertest (API) + Playwright (E2E,   │ Now                  │
+ │                  │                        │ already in deps)                                     │                      │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ Package manager  │ npm                    │ pnpm (drop-in, faster, strict node_modules)          │ Now                  │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ Linting/Format   │ None                   │ ESLint (flat config) + Prettier                      │ Now                  │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ CI/CD            │ None                   │ GitHub Actions (lint + test + build .exe on tag)     │ Phase 2              │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ Payments         │ Stripe stub            │ Lemon Squeezy (Merchant of Record — handles VAT,     │ Phase 2              │
+ │                  │ (unfinished)           │ license keys, dunning)                               │                      │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ License          │ Offline only           │ Vercel Edge Function for LICENSE_API_URL             │ Phase 2              │
+ │ validation       │                        │                                                      │                      │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ Auth             │ N/A                    │ Clerk (React components, Electron-compatible, 10k    │ Phase 3              │
+ │ (multi-user)     │                        │ MAU free)                                            │                      │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ Cloud DB         │ N/A                    │ Supabase (PostgreSQL + pgvector) for                 │ Phase 3              │
+ │                  │                        │ cloud/multi-tenant                                   │                      │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ Deployment       │ Electron .exe only     │ Docker + Railway for server-mode; same Express       │ Phase 2              │
+ │                  │                        │ server                                               │                      │
+ ├──────────────────┼────────────────────────┼──────────────────────────────────────────────────────┼──────────────────────┤
+ │ Monorepo         │ Single package         │ Turborepo only when packages/desktop ≠               │ Phase 3+             │
+ │                  │                        │ packages/server                                      │                      │
+ └──────────────────┴────────────────────────┴──────────────────────────────────────────────────────┴──────────────────────┘
+
+ ---
+ Key Decisions — Rationale
+
+ TypeScript: incremental, not a sprint
+
+ Add tsconfig.json with allowJs: true, checkJs: false and install tsx — zero code changes, full TypeScript toolchain available.Define types for Chunk, Session, AppConfig, LicenseRecord in src/types/. New files in TypeScript; existing files converted on meaningful touch. The factory patterns (getVectorStore(), getEmbedder()) map perfectly to TypeScript interface definitions.
+
+ Vite + React — not Next.js
+
+ Next.js is SSR-first and creates a second server alongside Express. The selling points of Next.js (SEO, SSR) are irrelevant for a desktop auth-gated chat UI. Vite builds a dist/ static output that Express serves identically to the current public/ — zero server architecture change. Migration order: setup wizard first (most complex, benefits most from components), then chat UI, then analytics dashboard (build green-field in React with no migration cost).
+
+ State: Zustand for UI state (session ID, section filter, streaming status) + TanStack Query for server state (session list,stats, analytics). Not Redux.
+
+ LanceDB — not Qdrant, not Chroma
+
+ - Chroma: Uses hnswlib-node (C++ native, node-gyp — same constraint that killed better-sqlite3)
+ - Qdrant: No embedded JS mode — requires a separate Docker/binary process
+ - LanceDB: Ships prebuilt Node.js binaries for Windows x64/macOS/Linux, embedded like SQLite, ANN indexing (IVF-PQ), stays under 20ms at 1M vectors
+
+ Migration: add LanceDBVectorStore class alongside JSONVectorStore in src/vectorstore/store.js — same interface, factory selects it. The custom BM25 + RRF logic stays unchanged on top of LanceDB's semantic results.
+
+ Keep custom LLM orchestration — not LangChain.js
+
+ The confidence gate, clean Q&A history, query expansion, trigram dedup, and hybrid RRF are five deliberate algorithmic choices. LangChain's RetrievalQAChain: calls LLM unconditionally (bypasses gate), re-injects context blobs (violates D-10), uses semantic-only retrieval (bypasses BM25+RRF). Don't adopt it.
+
+ Optionally: add Vercel ai SDK to replace the three ~50-line buffer-parsing ask*Stream functions with typed streamText() calls. Zero native dependencies.
+
+ Lemon Squeezy — not Stripe
+
+ Stripe requires you to build: webhook verification, license key generation, EU VAT compliance, customer portal, dunning emails. Lemon Squeezy is a Merchant of Record — provides all of this out of the box. The license_key_created webhook returns exactly{key, tier, expiry} — the fields activateLicense() already expects. Replace STRIPE_*_URL env vars with Lemon Squeezy checkout links. Replace the Stripe webhook stub with a Lemon Squeezy handler (~20 lines).
+
+ Keep Electron — not Tauri
+
+ Playwright (the Auth0 crawler) does not work inside Tauri. The crawler is a core product differentiator. Additionally, themainWindow.loadURL('http://localhost:3000') architecture means the same Express server runs in Docker for server-mode — Tauri would break this. The 150MB → 10MB bundle size win does not justify a Rust rewrite.
+
+ sql.js — not better-sqlite3
+
+ sql.js is SQLite compiled to WebAssembly — pure JavaScript, no native build, no node-gyp. Replace eval.jsonl line scanning (currently O(n) cached for 60s) with a sql.js database. Monthly query count becomes a single SQL query. Keep app_config.jsonand sessions.json as JSON — they are small and behave correctly as-is.
+
+ API layer: Zod, not tRPC
+
+ tRPC requires sharing a router definition between frontend and backend. With Express + future Vite/React, tRPC runs as middleware and loses its main benefit. Zod schemas in src/schemas/ serve three purposes: runtime validation in Express, TypeScript types via z.infer<>, and frontend form validation — all without any code generation step.
+
+ ---
+ What NOT to Change
+
+ These decisions are correct. Lock them in, never migrate away:
+
+ - Custom BM25 + RRF — k1=1.5, b=0.75, RRF k=60 is a competitive differentiator
+ - Confidence gate before LLM — prevents hallucination; no framework replicates this
+ - Clean Q&A history — no context blobs re-injected; LangChain breaks this
+ - getVectorStore() / getEmbedder() factory pattern — all migrations slot in here
+ - Playwright with persistent context — only viable approach for Auth0 + MFA crawling
+ - Per-section file sharding — LanceDB should mirror this with partition-aware upserts
+
+ ---
+ Migration Sequence
+
+ Do Now (zero risk, immediate value)
+
+ 1. pnpm — drop-in npm replacement, regenerate lock file
+ 2. tsconfig.json with allowJs: true + install tsx — zero code changes, TS toolchain available
+ 3. Vitest — start with compressContext() and BM25.scores() (pure functions, no mocking needed)
+ 4. Zod AppConfigSchema — replaces unvalidated deepMerge(DEFAULT_CONFIG, raw) in config.js
+ 5. ESLint + Prettier — catch real bugs before TS migration amplifies them
+
+ Phase 2 (foundation for selling)
+
+ 6. Lemon Squeezy + Vercel Edge Function for LICENSE_API_URL — enables first paying customer
+ 7. sql.js for eval.jsonl — prerequisite for analytics dashboard UI
+ 8. TypeScript interfaces in src/types/ (Chunk, Session, LicenseRecord)
+ 9. Vite + React setup wizard — sets React patterns for the rest of the migration
+ 10. LanceDB — when any installation approaches 20k chunks
+ 11. GitHub Actions — lint + test + build .exe on release tag
+
+ Phase 3+ (scale, multi-user)
+
+ 12. Docker + Railway for server-mode deployment
+ 13. Clerk auth for first multi-user customer
+ 14. Supabase + pgvector for cloud/multi-tenant
+ 15. Turborepo monorepo only when desktop and server packages genuinely diverge
+
+ ---
+ Critical Files for Phase 1 Implementation
+
+ ┌──────────────────────────┬─────────────────────────────────────────────────────────────────────────┐
+ │           File           │                                 Change                                  │
+ ├──────────────────────────┼─────────────────────────────────────────────────────────────────────────┤
+ │ package.json             │ Add devDeps: tsx, typescript, vitest, @vitest/ui, eslint, prettier, zod │
+ ├──────────────────────────┼─────────────────────────────────────────────────────────────────────────┤
+ │ tsconfig.json            │ New — allowJs:true, checkJs:false, strict:false, module:commonjs        │
+ ├──────────────────────────┼─────────────────────────────────────────────────────────────────────────┤
+ │ src/types/index.ts       │ New — Chunk, Session, AppConfig, LicenseRecord interfaces               │
+ ├──────────────────────────┼─────────────────────────────────────────────────────────────────────────┤
+ │ src/config/config.js     │ Add Zod AppConfigSchema for runtime validation on load                  │
+ ├──────────────────────────┼─────────────────────────────────────────────────────────────────────────┤
+ │ src/rag/query.js         │ First Vitest test: compressContext() pure function                      │
+ ├──────────────────────────┼─────────────────────────────────────────────────────────────────────────┤
+ │ src/vectorstore/store.js │ Second Vitest test: BM25.prototype.scores()                             │
+ ├──────────────────────────┼─────────────────────────────────────────────────────────────────────────┤
+ │ src/ingestion/cleaner.js │ Third Vitest test: chunkText() — most regression-prone function         │
+ └──────────────────────────┴─────────────────────────────────────────────────────────────────────────┘
+
+ ---
+ Verification
+
+ ┌────────────┬────────────────────────────────────────────────────────────────────────────────────┐
+ │   Change   │                                   How to verify                                    │
+ ├────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+ │ pnpm       │ pnpm install completes; pnpm run server starts normally                            │
+───────────┼────────────────────────────────────────────────────────────────────────────────────┤
+ │ TypeScript │ npx tsc --noEmit runs clean after adding tsconfig.json                             │
+ ├────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+ │ Vitest     │ pnpm run test — compressContext and BM25.scores tests pass                         │
+ ├────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+ │ Zod config │ Start server with malformed app_config.json — readable error, not silent undefined │
+ ├────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+ │ ESLint     │ pnpm run lint src/ — all reported issues fixed before merge                        │
+ └────────────┴────────────────────────────────────────────────────────────────────────────────────┘
+
+
+ Documentation Rewrite (same session as Phase 1 implementation)
+
+Top-level .md files are out of date — they document the original 4-section RAG from Session 1. Eight sessions of development have added: Electron + setup wizard, streaming, document upload, incremental crawl, per-section sharding, analytics, Confluence, licensing. All docs need to reflect current reality.
+
+Files to rewrite
+
+┌─────────────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────────┐
+│            File             │                                          What changes                                           │
+├─────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                             │ Full rewrite — update stack table, file layout (add all new files), add Electron/wizard         │
+│ CLAUDE.md                   │ sections, update all 8 sections, current architecture. This is the "always read first" file —   │
+│                             │ it must be accurate.                                                                            │
+├─────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ ARCHITECTURE.md             │ Update component diagram, streaming SSE flow, upload pipeline, incremental crawl, per-section   │
+│                             │ store, analytics, licensing system                                                              │
+├─────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                             │ Add all Phase 1–4 decisions: per-section sharding (QW-2), SSE streaming, incremental crawl,     │
+│ DECISIONS.md                │ document upload, Confluence OAuth, licensing offline mode, sidebar footer redesign, URL         │
+│                             │ optional mode                                                                                   │
+├─────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ KNOWN_ISSUES.md             │ Mark all fixed issues as FIXED; add new known limitations (no Stripe webhook backend yet,       │
+│                             │ Analytics UI built but no cross-encoder re-ranking); remove resolved items                      │
+├─────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ README.md                   │ Update feature list, quickstart commands, and stack description to reflect current capabilities │
+├─────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ project-docs/session-log.md │ Add Session 10 entry: "Ideal Long-Term Tech Stack Plan" with full details                       │
+└─────────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Files to keep unchanged
+
+- CONVERSATION_HISTORY.md — early scratch building history, kept for historical reference
+- CLAUDE_CODE_GUIDE.md — Claude Code documentation, relevant as-is
+- how-electron-works-peppy-dawn.md — plan file that landed in project root; leave it (it's a reference artifact)
+
+CLAUDE.md rewrite priorities
+
+CLAUDE.md is the most important file — future Claude sessions and new developers read it first. Key sections to fully update:
+1. Section 2 — Repository layout: add src/integrations/, src/license/, scripts/, public/setup.html, public/js/setup.js
+2. Section 3 — Quick-start commands: add npm run sync, npm run crawl:incremental, npm run confluence:fetch
+3. Section 14 — What's done vs next: move all completed Phase 1–4 items to Done ✅; update Not done with current roadmap (Lemon Squeezy, LanceDB, Vite+React, Vitest, etc.)
+4. Add Section 15 — Long-term tech stack: summary from this plan (TypeScript, LanceDB, Vite+React, Lemon Squeezy, Clerk, Railway)
+5. Add Section 16 — Session continuity note: always read project-docs/session-log.md at session start

@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product Feature Map — Knowledge Hub</title>
+<style>
+/* ── Tokens ────────────────────────────────────────────────────────── */
+:root {
+  --bg:         #F5F0EA;
+  --bg-card:    #FFFFFF;
+  --bg-alt:     #EDE6DC;
+  --header-bg:  #0E3528;
+  --border:     #D8CFBF;
+  --border-2:   #C5BAA8;
+  --text:       #1A1410;
+  --text-2:     #5A5048;
+  --text-3:     #9A9088;
+  --jade:       #1A6E4A;
+  --jade-dim:   #E0F0E8;
+  --emerald:    #15803D;
+  --amber:      #A16207;
+  --amber-dim:  #FEF9C3;
+  --slate:      #4A6680;
+  --slate-dim:  #DDE8F0;
+  --red-dim:    #FEE2E2;
+  --red:        #B91C1C;
+  --on-dark:    #C8E6D8;
+  --on-dark-2:  #6B9E84;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:         #111810;
+    --bg-card:    #1A2018;
+    --bg-alt:     #0E1A0C;
+    --header-bg:  #050F08;
+    --border:     #253020;
+    --border-2:   #354530;
+    --text:       #E8F0E0;
+    --text-2:     #8FAE88;
+    --text-3:     #506048;
+    --jade:       #4ADE80;
+    --jade-dim:   #052E15;
+    --emerald:    #22C55E;
+    --amber:      #FCD34D;
+    --amber-dim:  #1C1400;
+    --slate:      #7FA8CC;
+    --slate-dim:  #0C1E2E;
+    --red-dim:    #2D0808;
+    --red:        #F87171;
+    --on-dark:    #C8E6D8;
+    --on-dark-2:  #6B9E84;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:         #111810;
+  --bg-card:    #1A2018;
+  --bg-alt:     #0E1A0C;
+  --header-bg:  #050F08;
+  --border:     #253020;
+  --border-2:   #354530;
+  --text:       #E8F0E0;
+  --text-2:     #8FAE88;
+  --text-3:     #506048;
+  --jade:       #4ADE80;
+  --jade-dim:   #052E15;
+  --emerald:    #22C55E;
+  --amber:      #FCD34D;
+  --amber-dim:  #1C1400;
+  --slate:      #7FA8CC;
+  --slate-dim:  #0C1E2E;
+  --red-dim:    #2D0808;
+  --red:        #F87171;
+  --on-dark:    #C8E6D8;
+  --on-dark-2:  #6B9E84;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: var(--jade); }
+a:focus-visible { outline: 2px solid var(--jade); outline-offset: 2px; }
+code { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; font-size: 0.85em; }
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.site-header {
+  background: var(--header-bg);
+  color: var(--on-dark);
+  padding: 3rem 2rem 2.5rem;
+}
+.header-inner { max-width: 1080px; margin: 0 auto; }
+.header-kicker {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--on-dark-2);
+  margin-bottom: 0.75rem;
+}
+.header-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: #E8F5EE;
+  text-wrap: balance;
+  margin-bottom: 0.9rem;
+  line-height: 1.15;
+}
+.header-tagline {
+  font-size: 1rem;
+  color: var(--on-dark-2);
+  max-width: 64ch;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+.header-kpis {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.kpi {
+  text-align: left;
+}
+.kpi-val {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #E8F5EE;
+  line-height: 1;
+}
+.kpi-label {
+  font-size: 0.72rem;
+  color: var(--on-dark-2);
+  margin-top: 0.2rem;
+}
+
+/* ── Page body ─────────────────────────────────────────────────────── */
+.page { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+/* ── Section ───────────────────────────────────────────────────────── */
+.section { margin-top: 3rem; }
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.section-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.section-kicker {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.section-intro {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  max-width: 72ch;
+}
+
+/* ── Ingestion path cards ──────────────────────────────────────────── */
+.ingest-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.ingest-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.ingest-icon { font-size: 1.5rem; margin-bottom: 0.5rem; display: block; }
+.ingest-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+.ingest-desc {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.55;
+  margin-bottom: 0.75rem;
+}
+.ingest-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.ingest-item {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  display: flex;
+  gap: 0.4rem;
+}
+.ingest-item code {
+  color: var(--jade);
+  background: var(--jade-dim);
+  padding: 0.05rem 0.3rem;
+  border-radius: 3px;
+}
+
+/* ── Chat / query section ──────────────────────────────────────────── */
+.chat-flow {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.flow-col-head {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+.flow-step {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  align-items: flex-start;
+}
+.flow-step:last-child { border-bottom: none; }
+.flow-step-n {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-3);
+  min-width: 1rem;
+  padding-top: 0.1rem;
+}
+.flow-step-text { color: var(--text-2); line-height: 1.5; }
+.flow-step-text strong { color: var(--text); }
+
+/* ── Intelligence panel grid ───────────────────────────────────────── */
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
+.panel-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.panel-header {
+  padding: 1rem 1.1rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.panel-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  background: var(--jade-dim);
+}
+.panel-meta { flex: 1; }
+.panel-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 0.1rem;
+}
+.panel-file {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.72rem;
+  color: var(--text-3);
+}
+.panel-body { padding: 0.9rem 1.1rem; }
+.panel-question {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--jade);
+  margin-bottom: 0.65rem;
+  line-height: 1.5;
+}
+.panel-what {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+.panel-footer {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.ptag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+.ptag-api   { background: var(--jade-dim); color: var(--jade); }
+.ptag-data  { background: var(--slate-dim); color: var(--slate); }
+.ptag-llm   { background: var(--amber-dim); color: var(--amber); }
+
+/* ── Distribution section ──────────────────────────────────────────── */
+.dist-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.dist-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.dist-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.dist-status {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+}
+.st-live    { background: var(--jade-dim); color: var(--jade); }
+.st-built   { background: var(--amber-dim); color: var(--amber); }
+.st-planned { background: var(--bg-alt); color: var(--text-3); border: 1px solid var(--border); }
+.dist-desc {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.dist-detail {
+  margin-top: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+
+/* ── Roadmap state ─────────────────────────────────────────────────── */
+.roadmap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.roadmap-row {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  gap: 0.75rem;
+  padding: 0.75rem 1.1rem;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+  font-size: 0.875rem;
+}
+.roadmap-row:last-child { border-bottom: none; }
+.roadmap-row:nth-child(even) { background: var(--bg-alt); }
+.roadmap-row.current { background: var(--jade-dim); }
+.roadmap-check { font-size: 1rem; }
+.roadmap-name { color: var(--text-2); }
+.roadmap-name.done { color: var(--text-3); text-decoration: line-through; }
+.roadmap-name.active { color: var(--text); font-weight: 700; }
+.roadmap-name.upcoming { color: var(--text-2); }
+.roadmap-phase {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.rp-done    { background: var(--jade-dim); color: var(--jade); }
+.rp-active  { background: var(--amber-dim); color: var(--amber); }
+.rp-next    { background: var(--slate-dim); color: var(--slate); }
+
+/* ── LLM provider table ────────────────────────────────────────────── */
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+.provider-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+.provider-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.provider-model {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.73rem;
+  color: var(--jade);
+  background: var(--jade-dim);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 0.4rem;
+}
+.provider-notes {
+  font-size: 0.78rem;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--header-bg);
+  padding: 1.5rem 2rem;
+  margin-top: 3rem;
+}
+.footer-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-links a { font-size: 0.82rem; color: var(--on-dark-2); text-decoration: none; }
+.footer-links a:hover { color: var(--on-dark); }
+.footer-stamp { font-size: 0.75rem; color: var(--on-dark-2); }
+
+@media (max-width: 680px) {
+  .ingest-grid { grid-template-columns: 1fr; }
+  .panel-grid { grid-template-columns: 1fr; }
+  .dist-grid { grid-template-columns: 1fr; }
+  .provider-grid { grid-template-columns: 1fr; }
+  .chat-flow { grid-template-columns: 1fr; }
+  .site-header { padding: 2rem 1.25rem 2rem; }
+  .header-kpis { gap: 1.25rem; }
+  .page { padding: 0 1rem 3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="header-inner">
+    <p class="header-kicker">Knowledge Hub · Product Reference</p>
+    <h1 class="header-title">Product Feature Map</h1>
+    <p class="header-tagline">A complete reference to every feature in the platform — ingestion paths, the chat interface, all 10 intelligence panels, distribution options, and the product roadmap state.</p>
+    <div class="header-kpis">
+      <div class="kpi"><div class="kpi-val">10</div><div class="kpi-label">Intelligence panels</div></div>
+      <div class="kpi"><div class="kpi-val">3</div><div class="kpi-label">Ingestion sources</div></div>
+      <div class="kpi"><div class="kpi-val">40+</div><div class="kpi-label">API endpoints</div></div>
+      <div class="kpi"><div class="kpi-val">3</div><div class="kpi-label">LLM providers</div></div>
+      <div class="kpi"><div class="kpi-val">0.7</div><div class="kpi-label">IDS moat threshold</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- ── 1. Ingestion ─────────────────────────────────────────────────── -->
+  <section class="section" id="ingestion">
+    <div class="section-head">
+      <span class="section-kicker">How content gets in</span>
+      <span class="section-title">Ingestion Sources</span>
+    </div>
+    <p class="section-intro">Knowledge Hub pulls content from three independent sources. All three paths converge on the same chunker → embedder → vector store pipeline. Incremental sync detects content changes via MD5 hashing and re-ingests only changed files.</p>
+    <div class="ingest-grid">
+      <div class="ingest-card">
+        <span class="ingest-icon">🌐</span>
+        <div class="ingest-name">Web Crawler</div>
+        <div class="ingest-desc">Crawls a base URL to a configurable depth, following internal links. Uses Playwright for JavaScript-rendered pages. Respects robots.txt and rate limits.</div>
+        <div class="ingest-meta">
+          <div class="ingest-item"><span>Script:</span><code>npm run crawl</code></div>
+          <div class="ingest-item"><span>Incremental:</span><code>npm run crawl:incremental</code></div>
+          <div class="ingest-item"><span>Hash store:</span><code>data/crawl_hashes.json</code></div>
+          <div class="ingest-item"><span>Config: portal URL, depth, URL groups in setup wizard</span></div>
+        </div>
+      </div>
+      <div class="ingest-card">
+        <span class="ingest-icon">📄</span>
+        <div class="ingest-name">File Upload</div>
+        <div class="ingest-desc">Drag-and-drop upload from the UI. Extracts text from PDF, DOCX, Markdown, and plain text. Each file is assigned to a named knowledge section.</div>
+        <div class="ingest-meta">
+          <div class="ingest-item"><span>Endpoint:</span><code>POST /api/docs/upload</code></div>
+          <div class="ingest-item"><span>Formats:</span><code>PDF, DOCX, MD, TXT</code></div>
+          <div class="ingest-item"><span>Index:</span><code>data/upload_index.json</code></div>
+          <div class="ingest-item"><span>Extractors in <code>src/ingestion/extractors/</code></span></div>
+        </div>
+      </div>
+      <div class="ingest-card">
+        <span class="ingest-icon">🏢</span>
+        <div class="ingest-name">Confluence Integration</div>
+        <div class="ingest-desc">Fetches pages from Confluence Cloud or Server via API token or OAuth. Supports space-level selection and incremental sync. Pages are cleaned and chunked like any other document.</div>
+        <div class="ingest-meta">
+          <div class="ingest-item"><span>Script:</span><code>npm run confluence:fetch</code></div>
+          <div class="ingest-item"><span>Auth:</span><code>API token or OAuth 2.0</code></div>
+          <div class="ingest-item"><span>OAuth:</span><code>POST /api/confluence/oauth/start</code></div>
+          <div class="ingest-item"><span>Config in setup wizard Step 2 / Step 3</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-intro" style="margin-top:1rem;margin-bottom:0.5rem">After ingestion, each document is split into chunks (default 400 chars, 50 overlap), embedded using the configured embedding model, and stored as per-section JSON shards in <code>data/vectors_&lt;section&gt;.json</code>.</div>
+  </section>
+
+
+  <!-- ── 2. Chat & Query ─────────────────────────────────────────────── -->
+  <section class="section" id="chat">
+    <div class="section-head">
+      <span class="section-kicker">How you ask questions</span>
+      <span class="section-title">Chat Interface &amp; RAG Pipeline</span>
+    </div>
+    <p class="section-intro">The chat interface is the primary interaction surface. Every question runs through the full RAG pipeline before reaching the LLM. Results include cited sources and are logged to <code>data/eval.jsonl</code> for intelligence analysis.</p>
+    <div class="chat-flow">
+      <div>
+        <div class="flow-col-head">Query pipeline (per question)</div>
+        <div class="flow-step"><span class="flow-step-n">1</span><span class="flow-step-text"><strong>Embed</strong> — query is converted to a 768d vector using the configured embedding model</span></div>
+        <div class="flow-step"><span class="flow-step-n">2</span><span class="flow-step-text"><strong>Hybrid retrieval</strong> — BM25 keyword + cosine similarity, fused by RRF (weight 0.5/0.5)</span></div>
+        <div class="flow-step"><span class="flow-step-n">3</span><span class="flow-step-text"><strong>Priority multipliers</strong> — boosted sections ×1.3, ignored sections ×0.4</span></div>
+        <div class="flow-step"><span class="flow-step-n">4</span><span class="flow-step-text"><strong>Confidence gate</strong> — blocks if topSemScore &lt; 0.15 AND topRrfScore &lt; 0.014</span></div>
+        <div class="flow-step"><span class="flow-step-n">5</span><span class="flow-step-text"><strong>Context compression</strong> — deduplicate chunks by trigram Jaccard similarity; fit to 1800 token budget</span></div>
+        <div class="flow-step"><span class="flow-step-n">6</span><span class="flow-step-text"><strong>LLM generation</strong> — system prompt + history (last 8 turns) + compressed context → answer</span></div>
+        <div class="flow-step"><span class="flow-step-n">7</span><span class="flow-step-text"><strong>Log</strong> — question, score, latency, sections, blocked status written to eval.jsonl</span></div>
+      </div>
+      <div>
+        <div class="flow-col-head">UI features</div>
+        <div class="flow-step"><span class="flow-step-n">◦</span><span class="flow-step-text"><strong>Streaming answers</strong> via SSE — tokens appear as they generate</span></div>
+        <div class="flow-step"><span class="flow-step-n">◦</span><span class="flow-step-text"><strong>Source citations</strong> — [1], [2] in the answer map to named documents with section + URL</span></div>
+        <div class="flow-step"><span class="flow-step-n">◦</span><span class="flow-step-text"><strong>Session continuity</strong> — up to 8 prior turns sent as context; sessions persist in <code>data/sessions.json</code></span></div>
+        <div class="flow-step"><span class="flow-step-n">◦</span><span class="flow-step-text"><strong>Section filter</strong> — restrict retrieval to one or more sections from the sidebar</span></div>
+        <div class="flow-step"><span class="flow-step-n">◦</span><span class="flow-step-text"><strong>Chunk Explorer</strong> — inspect raw retrieval results for any query without LLM generation</span></div>
+        <div class="flow-step"><span class="flow-step-n">◦</span><span class="flow-step-text"><strong>Code generation</strong> — separate pipeline via <code>POST /api/code/generate</code> with 30K token context budget</span></div>
+        <div class="flow-step"><span class="flow-step-n">◦</span><span class="flow-step-text"><strong>Sidebar navigation</strong> — switch between chat, intelligence panels, and settings without losing context</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 3. Intelligence Panels ──────────────────────────────────────── -->
+  <section class="section" id="intelligence">
+    <div class="section-head">
+      <span class="section-kicker">The intelligence layer</span>
+      <span class="section-title">10 Intelligence Panels</span>
+    </div>
+    <p class="section-intro">Every panel reads from <code>data/eval.jsonl</code> (the query log) or the vector store, and surfaces a different dimension of organizational intelligence. All panels are accessible from the left sidebar.</p>
+
+    <div class="panel-grid">
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-icon">📊</div>
+          <div class="panel-meta">
+            <div class="panel-name">Intelligence Dashboard</div>
+            <div class="panel-file">IntelligenceDashboard.tsx</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-question">"Is this knowledge hub making our team smarter over time?"</div>
+          <div class="panel-what">The single-number summary of platform health. Displays the IDS score (0–1) with a moat threshold at 0.70, a trend sparkline (week-over-week), KPI tiles (answer rate, latency, query volume, gap count, risk signals), team IDS breakdown by user, and a filter bar for time/section/user slices.</div>
+          <div class="panel-footer">
+            <span class="ptag ptag-api">GET /api/insights</span>
+            <span class="ptag ptag-api">GET /api/team/ids</span>
+            <span class="ptag ptag-api">GET /api/intelligence/history</span>
+            <span class="ptag ptag-data">eval.jsonl</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-icon">🔍</div>
+          <div class="panel-meta">
+            <div class="panel-name">Gaps Panel</div>
+            <div class="panel-file">GapsPanel.tsx</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-question">"What are people trying to learn that we haven't documented?"</div>
+          <div class="panel-what">Clusters blocked queries into documentation gap topics. The enriched view adds LLM-generated priority, trending status, and action recommendations. For each gap, an AI-generated doc outline shows exactly what to write to close it.</div>
+          <div class="panel-footer">
+            <span class="ptag ptag-api">GET /api/gaps</span>
+            <span class="ptag ptag-api">GET /api/gaps/intelligence</span>
+            <span class="ptag ptag-api">POST /api/gaps/outline</span>
+            <span class="ptag ptag-data">eval.jsonl</span>
+            <span class="ptag ptag-llm">LLM (enrichment)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-icon">💚</div>
+          <div class="panel-meta">
+            <div class="panel-name">Health Panel</div>
+            <div class="panel-file">HealthPanel.tsx</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-question">"Which sections of our knowledge base are working well, and which are degrading?"</div>
+          <div class="panel-what">Per-section health score (0–100) based on answer rate, chunk freshness, and query volume. Each section can be set to boost / normal / ignore priority. The AI reviewer generates specific improvement suggestions for low-health sections.</div>
+          <div class="panel-footer">
+            <span class="ptag ptag-api">GET /api/health</span>
+            <span class="ptag ptag-api">PATCH /api/health/section/:name</span>
+            <span class="ptag ptag-api">POST /api/health/review/:name</span>
+            <span class="ptag ptag-data">eval.jsonl + vectors</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-icon">🧠</div>
+          <div class="panel-meta">
+            <div class="panel-name">Memory Panel</div>
+            <div class="panel-file">MemoryPanel.tsx</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-question">"What topics does this team revisit again and again?"</div>
+          <div class="panel-what">Groups recurring answered questions into topic clusters — the organizational memory. Each cluster shows how many times the topic was queried, example questions, and which section answered it. This is the memory breadth component (×0.20) in the IDS formula.</div>
+          <div class="panel-footer">
+            <span class="ptag ptag-api">GET /api/memory</span>
+            <span class="ptag ptag-data">eval.jsonl</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-icon">🏛️</div>
+          <div class="panel-meta">
+            <div class="panel-name">Decisions Panel</div>
+            <div class="panel-file">DecisionsPanel.tsx</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-question">"Why was this built the way it was? What alternatives were considered?"</div>
+          <div class="panel-what">Extracts architectural decisions from indexed documents using an LLM. Each decision captures context, decision, alternatives, and consequences. Filterable by section and searchable. Results persist in <code>data/decisions.json</code>.</div>
+          <div class="panel-footer">
+            <span class="ptag ptag-api">GET /api/decisions</span>
+            <span class="ptag ptag-api">POST /api/decisions/extract</span>
+            <span class="ptag ptag-data">decisions.json</span>
+            <span class="ptag ptag-llm">LLM (extraction)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-icon">⚠️</div>
+          <div class="panel-meta">
+            <div class="panel-name">Knowledge Risk Panel</div>
+            <div class="panel-file">KnowledgeRiskPanel.tsx</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-question">"What knowledge are we at risk of losing if someone leaves or a section goes stale?"</div>
+          <div class="panel-what">Flags sections with three risk signals: <em>dead_section</em> (no recent answered queries), <em>single_expert</em> (one user accounts for all queries to this section), and <em>single_point_of_failure</em> (high query volume with zero alternatives). Outputs a risk level per section (critical / high / medium / low).</div>
+          <div class="panel-footer">
+            <span class="ptag ptag-api">GET /api/knowledge/risk</span>
+            <span class="ptag ptag-data">eval.jsonl + vectors</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-icon">📈</div>
+          <div class="panel-meta">
+            <div class="panel-name">Insights Panel</div>
+            <div class="panel-file">InsightsPanel.tsx</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-question">"How is the knowledge hub performing across the four dimensions that matter?"</div>
+          <div class="panel-what">A filterable dashboard (time window, section, user, status, keyword) showing overall success rate, latency distribution, top sections by usage, and a recent query list. The filter bar is shared with the Intelligence Dashboard via <code>FilterBar.tsx</code>.</div>
+          <div class="panel-footer">
+            <span class="ptag ptag-api">GET /api/insights</span>
+            <span class="ptag ptag-data">eval.jsonl</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-icon">🔧</div>
+          <div class="panel-meta">
+            <div class="panel-name">Maintenance Panel</div>
+            <div class="panel-file">MaintenancePanel.tsx</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-question">"Which documents have changed on disk since they were last indexed?"</div>
+          <div class="panel-what">Compares MD5 hashes of currently indexed files against their current state on disk. Surfaces stale files (changed but not re-ingested) and missing files (deleted since indexing). For each stale doc, an LLM can generate specific rewrite suggestions based on what queries are blocked in that section.</div>
+          <div class="panel-footer">
+            <span class="ptag ptag-api">GET /api/maintenance/staleness</span>
+            <span class="ptag ptag-api">POST /api/maintenance/suggest</span>
+            <span class="ptag ptag-data">ingest_hashes.json</span>
+            <span class="ptag ptag-llm">LLM (suggestions)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-icon">📉</div>
+          <div class="panel-meta">
+            <div class="panel-name">Analytics Panel</div>
+            <div class="panel-file">AnalyticsPanel.tsx</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-question">"What are the raw usage numbers — total queries, answer rate, top sections, top blocked questions?"</div>
+          <div class="panel-what">Aggregated KPI view from eval.jsonl: total queries, answered count, blocked count, average semantic score, average latency, top 6 sections by usage with bar charts, and the top blocked questions deduplicated by frequency.</div>
+          <div class="panel-footer">
+            <span class="ptag ptag-api">GET /api/analytics</span>
+            <span class="ptag ptag-data">eval.jsonl</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-icon">🗺️</div>
+          <div class="panel-meta">
+            <div class="panel-name">Knowledge Map Panel</div>
+            <div class="panel-file">KnowledgeMapPanel.tsx</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-question">"How does this topic appear across all of our knowledge sources simultaneously?"</div>
+          <div class="panel-what">Cross-source synthesis for a topic query — retrieves relevant chunks from all indexed sections simultaneously and synthesizes an LLM-generated summary of how the topic appears across sources. Useful for understanding where knowledge is concentrated vs. scattered.</div>
+          <div class="panel-footer">
+            <span class="ptag ptag-api">GET /api/knowledge/map</span>
+            <span class="ptag ptag-api">POST /api/knowledge/summary</span>
+            <span class="ptag ptag-llm">LLM (synthesis)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── 4. LLM Providers ─────────────────────────────────────────────── -->
+  <section class="section" id="llm">
+    <div class="section-head">
+      <span class="section-kicker">AI configuration</span>
+      <span class="section-title">LLM &amp; Embedding Providers</span>
+    </div>
+    <p class="section-intro">The LLM is a plug-in. Swapping providers requires only a config change — the intelligence layer is not tied to any model. Embeddings are similarly swappable but require a full re-ingest when changed (vectors are stored with the model name for compatibility detection).</p>
+    <div class="provider-grid">
+      <div class="provider-card">
+        <div class="provider-name">Ollama <span style="font-size:0.68rem;color:var(--jade);font-family:system-ui">Default</span></div>
+        <div class="provider-model">qwen2.5:3b</div>
+        <div class="provider-notes">Fully local. No API key. Best for privacy-sensitive environments. Requires Ollama running at the configured base URL. Codegen uses the same model. Chat and code generation use separate streams.</div>
+      </div>
+      <div class="provider-card">
+        <div class="provider-name">Claude (Anthropic)</div>
+        <div class="provider-model">claude-sonnet-4-20250514</div>
+        <div class="provider-notes">Cloud. Requires <code>CLAUDE_API_KEY</code> in <code>.env</code>. Highest answer quality. Note: <code>llm.js</code> defaults to Haiku for non-chat calls; <code>query.js</code> and <code>config.js</code> default to Sonnet for chat. Model is configurable per environment.</div>
+      </div>
+      <div class="provider-card">
+        <div class="provider-name">vLLM / OpenAI-compatible</div>
+        <div class="provider-model">configurable</div>
+        <div class="provider-notes">Self-hosted OpenAI-compatible server. Useful for enterprise deployments with custom models. Configure the base URL and model name in app config. Supports both streaming and non-streaming endpoints.</div>
+      </div>
+    </div>
+    <div style="margin-top:1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem">
+      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:0.5rem">Embedding (default)</div>
+      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6"><strong style="color:var(--text)">nomic-embed-text</strong> via Ollama — 768-dimensional vectors, fully local, no API key required. Changing the embedding model requires wiping <code>data/vectors_*.json</code> and re-ingesting all documents. The stored vectors include the model name; a dimension mismatch triggers a diagnostic warning in <code>npm run diagnose</code>.</p>
+    </div>
+  </section>
+
+
+  <!-- ── 5. Distribution ─────────────────────────────────────────────── -->
+  <section class="section" id="distribution">
+    <div class="section-head">
+      <span class="section-kicker">How it runs</span>
+      <span class="section-title">Distribution &amp; Deployment</span>
+    </div>
+    <div class="dist-grid">
+      <div class="dist-card">
+        <div class="dist-name">Electron Desktop <span class="dist-status st-live">Primary</span></div>
+        <div class="dist-desc">A packaged Windows .exe (and macOS .dmg) that bundles the Express server and React frontend into a single installable application. Zero dependencies for the end user — no Node.js, no npm, no server setup.</div>
+        <div class="dist-detail">Build: <code>npm run dist</code> · Run: <code>npm run electron</code> · Builder: electron-builder</div>
+      </div>
+      <div class="dist-card">
+        <div class="dist-name">VS Code Extension <span class="dist-status st-built">Built, not published</span></div>
+        <div class="dist-desc">A sidebar extension that surfaces the chat interface inside VS Code. Connects to the running Express server on the configured port. Built and functional; Marketplace publish deferred until Stage 1 validation is complete.</div>
+        <div class="dist-detail">Source: <code>vscode-extension/src/extension.ts</code> · Guide: <code>artifact/vscode-extension-guide.html</code></div>
+      </div>
+      <div class="dist-card">
+        <div class="dist-name">npm Server <span class="dist-status st-live">Development</span></div>
+        <div class="dist-desc">The Express server runs standalone via <code>npm run server</code>. The React frontend is served from the Vite dev server in development (<code>npm run dev:all</code>) or from the built <code>dist/</code> folder in production.</div>
+        <div class="dist-detail">Dev: <code>npm run dev:all</code> · Prod: <code>npm run build:ui && npm run server</code></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 6. Roadmap ──────────────────────────────────────────────────── -->
+  <section class="section" id="roadmap">
+    <div class="section-head">
+      <span class="section-kicker">Where the product is</span>
+      <span class="section-title">Roadmap State</span>
+    </div>
+    <div class="roadmap-list">
+      <div class="roadmap-row"><span class="roadmap-check">✓</span><span class="roadmap-name done">RAG Foundation — Hybrid BM25 + Dense + RRF + Confidence Gate</span><span class="roadmap-phase rp-done">Done</span></div>
+      <div class="roadmap-row"><span class="roadmap-check">✓</span><span class="roadmap-name done">Knowledge Intelligence Layer — Gaps, Memory, Decisions, Health, Risk, Insights</span><span class="roadmap-phase rp-done">Done</span></div>
+      <div class="roadmap-row"><span class="roadmap-check">✓</span><span class="roadmap-name done">Intelligence Consolidation — one dashboard, IDS score, sparkline, KPI tiles</span><span class="roadmap-phase rp-done">Done</span></div>
+      <div class="roadmap-row"><span class="roadmap-check">✓</span><span class="roadmap-name done">Self-Serve Onboarding — 5-step wizard, first value in &lt; 3 minutes</span><span class="roadmap-phase rp-done">Done</span></div>
+      <div class="roadmap-row"><span class="roadmap-check">✓</span><span class="roadmap-name done">Intelligence Persistence — weekly snapshots, week-over-week delta, sparkline trend</span><span class="roadmap-phase rp-done">Done</span></div>
+      <div class="roadmap-row"><span class="roadmap-check">✓</span><span class="roadmap-name done">Multi-user / Team Mode — shared hub, per-user IDS breakdown in team view</span><span class="roadmap-phase rp-done">Done</span></div>
+      <div class="roadmap-row"><span class="roadmap-check">✓</span><span class="roadmap-name done">VS Code Extension — built and functional, Marketplace publish deferred</span><span class="roadmap-phase rp-done">Done</span></div>
+      <div class="roadmap-row"><span class="roadmap-check">✓</span><span class="roadmap-name done">Autonomous Documentation Maintenance — staleness detection + LLM suggestions</span><span class="roadmap-phase rp-done">Done</span></div>
+      <div class="roadmap-row current"><span class="roadmap-check">→</span><span class="roadmap-name active">Engineering Copilot Phase 1 — Implementation Plan Generator (plan before code)</span><span class="roadmap-phase rp-active">Active</span></div>
+      <div class="roadmap-row"><span class="roadmap-check">○</span><span class="roadmap-name upcoming">Contextual Chunk Enrichment — 67% retrieval failure reduction (Stage 1A RAG)</span><span class="roadmap-phase rp-next">Next</span></div>
+      <div class="roadmap-row"><span class="roadmap-check">○</span><span class="roadmap-name upcoming">Cross-Encoder Reranking — additional 10–25% precision gain (Stage 1B RAG)</span><span class="roadmap-phase rp-next">Next</span></div>
+      <div class="roadmap-row"><span class="roadmap-check">○</span><span class="roadmap-name upcoming">Code Intelligence Engine — symbol index, import graph, architecture classification</span><span class="roadmap-phase rp-next">Later</span></div>
+    </div>
+  </section>
+
+</div><!-- /page -->
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="./rag-system-design.html">RAG System Design</a>
+      <a href="./api-reference.html">API Reference</a>
+      <a href="./ids-moat-explainer.html">IDS Explainer</a>
+      <a href="./rag-evolution-roadmap.html">RAG Roadmap</a>
+      <a href="./developer-guide.html">Developer Guide</a>
+    </div>
+    <div class="footer-stamp">product-feature-map.html · v0.9 · 2026-08-08</div>
+  </div>
+</footer>
+
+</body>
+</html>

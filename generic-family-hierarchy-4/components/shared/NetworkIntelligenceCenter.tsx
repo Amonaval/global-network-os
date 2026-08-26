@@ -20,7 +20,7 @@ export default function NetworkIntelligenceCenter({kind,entities,relationships,a
  const health=useMemo(()=>analyzeHealth(dataset,dimensionKeys),[dataset,dimensionKeys]);
  const insights=useMemo(()=>buildInsights(kind,dataset,dimensionKeys),[kind,dataset,dimensionKeys]);
  const questions=useMemo(()=>suggestedQuestions(kind),[kind]);
- const [question,setQuestion]=useState(questions[0]||""),[answer,setAnswer]=useState(()=>askNetwork(kind,dataset,questions[0]||"",dimensionKeys));
+ const [question,setQuestion]=useState<string>(questions[0]||""),[answer,setAnswer]=useState(()=>askNetwork(kind,dataset,questions[0]||"",dimensionKeys));
  const run=(q=question)=>{const next=q.trim();if(!next)return;setQuestion(next);setAnswer(askNetwork(kind,dataset,next,dimensionKeys));};
  const entity=(id?:string)=>id?entities.find(e=>e.entity.id===id):undefined;
  return <div className="network-intelligence-center">

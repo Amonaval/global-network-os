@@ -1,0 +1,90 @@
+{
+  "name": "knowledge-hub-rag",
+  "version": "2.0.0",
+  "description": "Generic self-hosted RAG knowledge hub — configure any documentation portal via the setup wizard",
+  "main": "electron.js",
+  "type": "commonjs",
+  "scripts": {
+    "crawl": "node src/crawler/crawl.js",
+    "crawl:incremental": "node src/crawler/crawl.js --incremental",
+    "ingest": "node src/ingestion/ingest.js",
+    "ingest:incremental": "node src/ingestion/ingest.js --incremental",
+    "sync": "node scripts/sync.js",
+    "sync:force": "node scripts/sync.js --force",
+    "confluence:fetch": "node src/integrations/confluence-fetch.js",
+    "confluence:fetch:incremental": "node src/integrations/confluence-fetch.js --incremental",
+    "query": "node src/rag/query.js",
+    "server": "node src/api/server.js",
+    "setup": "node scripts/setup.js",
+    "full-pipeline": "npm run ingest && npm run server",
+    "diagnose": "node src/rag/diagnose.js",
+    "validate:decisions": "node scripts/validate-decisions.js",
+    "eval": "node src/rag/eval.js",
+    "electron": "electron .",
+    "dist": "electron-builder",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/ public/js/ frontend/src/",
+    "format": "prettier --write src/ public/js/ frontend/src/ *.json",
+    "dev": "vite",
+    "dev:all": "concurrently -n \"server,vite\" -c \"blue,green\" \"npm run server\" \"vite\"",
+    "build:ui": "vite build",
+    "preview:ui": "vite preview"
+  },
+  "build": {
+    "appId": "com.knowledgehub.rag",
+    "productName": "Knowledge Hub",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron.js",
+      "src/**/*",
+      "public/**/*",
+      "scripts/**/*",
+      "package.json",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.56.0",
+    "adm-zip": "^0.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "lowdb": "^1.0.0",
+    "mammoth": "^1.12.0",
+    "multer": "^2.2.0",
+    "node-fetch": "^2.7.0",
+    "pdf-parse": "^2.4.5",
+    "playwright": "^1.44.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "uuid": "^9.0.0",
+    "zod": "^3.23.8",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.3.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "@vitest/ui": "^1.6.0",
+    "concurrently": "^10.0.4",
+    "electron": "^43.2.0",
+    "electron-builder": "^26.15.3",
+    "eslint": "^9.3.0",
+    "prettier": "^3.3.0",
+    "supertest": "^7.0.0",
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.5",
+    "vite": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

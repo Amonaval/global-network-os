@@ -1,0 +1,22 @@
+import type {OrganizationRiskInput,OrganizationRiskReport,OrganizationRiskSignal,KnowledgeRiskSeverity} from "./contracts";
+const clamp=(n:number)=>Math.max(0,Math.min(100,Math.round(n)));
+const name=(input:OrganizationRiskInput,id:string)=>input.dataset.entities.find(e=>e.entity.id===id)?.entity.label||id;
+const primaryKinds=new Set(["product","project","team","organization"]);
+function severity(score:number):KnowledgeRiskSeverity{return score>=70?"attention":score>=40?"watch":"healthy"}
+export function buildOrganizationKnowledgeRiskReport(input:OrganizationRiskInput):OrganizationRiskReport{
+ const {dataset,backend}=input,signals:OrganizationRiskSignal[]=[];
+ const owns=dataset.relationships.filter(r=>r.relationshipType==="owns"),deps=dataset.relationships.filter(r=>r.relationshipType==="depends_on");
+ const owned=new Set(owns.map(r=>r.toEntityId));
+ for(const e of dataset.entities.filter(e=>primaryKinds.has(e.entity.kind))){
+  const inbound=deps.filter(r=>r.toEntityId===e.entity.id).length;
+  if(!owned.has(e.entity.id)&&inbound>0){const score=clamp(45+inbound*10);signals.push({id:`ownership-${e.entity.id}`,kind:"ownership_gap",severity:severity(score),title:`${e.entity.label} has no verified owner`,summary:`${inbound} verified dependenc${inbound===1?"y":"ies"} point to this entity, but no owns relationship is verified.`,score,entityIds:[e.entity.id],evidence:[`${inbound} inbound dependencies`,`0 verified owners`],action:"Assign or verify an owner"})}
+  if(inbound>=2){const score=clamp(35+inbound*12+(owned.has(e.entity.id)?0:15));signals.push({id:`critical-${e.entity.id}`,kind:"dependency_criticality",severity:severity(score),title:`${e.entity.label} is dependency-critical`,summary:`${inbound} verified systems/entities depend on it${owned.has(e.entity.id)?".":" and ownership is missing."}`,score,entityIds:[e.entity.id],evidence:[`${inbound} inbound depends_on relationships`],action:"Review resilience and backup expertise"})}
+ }
+ const ownerLoads=new Map<string,string[]>();for(const r of owns){const list=ownerLoads.get(r.fromEntityId)||[];list.push(r.toEntityId);ownerLoads.set(r.fromEntityId,list)}
+ for(const [owner,targets] of ownerLoads){if(targets.length<2)continue;const downstream=targets.reduce((n,t)=>n+deps.filter(r=>r.toEntityId===t).length,0),score=clamp(45+targets.length*10+downstream*5);signals.push({id:`person-${owner}`,kind:"key_person",severity:severity(score),title:`Knowledge/ownership concentrates on ${name(input,owner)}`,summary:`Verified ownership spans ${targets.length} entities with ${downstream} downstream dependency links.`,score,entityIds:[owner,...targets],evidence:[`Owns: ${targets.map(x=>name(input,x)).join(", ")}`,`${downstream} downstream dependencies`],action:"Verify backups and distribute operational knowledge"})}
+ for(const q of backend.unansweredQuestions.slice(0,5)){const score=clamp(35+q.count*12);signals.push({id:`question-${q.question}`,kind:"question_gap",severity:severity(score),title:`Repeated unanswered question`,summary:`“${q.question}” was asked ${q.count} time${q.count===1?"":"s"} without a strong evidence-backed answer.`,score,entityIds:[],evidence:[`Intent: ${q.intent}`,`Last asked: ${q.lastAskedAt}`],action:"Route this gap to a likely expert/owner"})}
+ if(backend.staleEvidenceCount>0){const score=clamp(30+backend.staleEvidenceCount*5);signals.push({id:"stale",kind:"stale_knowledge",severity:severity(score),title:"Stale organizational evidence needs review",summary:`${backend.staleEvidenceCount} network-visible evidence record${backend.staleEvidenceCount===1?" is":"s are"} older than the freshness threshold.`,score,entityIds:[],evidence:[`${backend.staleEvidenceCount} stale evidence records`],action:"Refresh or supersede stale evidence"})}
+ if(backend.conflictedAssertionCount>0){const score=clamp(60+backend.conflictedAssertionCount*8);signals.push({id:"conflict",kind:"conflict",severity:severity(score),title:"Conflicting organizational facts detected",summary:`${backend.conflictedAssertionCount} candidate assertion${backend.conflictedAssertionCount===1?" is":"s are"} awaiting conflict resolution.`,score,entityIds:[],evidence:[`${backend.conflictedAssertionCount} conflicted assertions`],action:"Review conflicting evidence before changing graph truth"})}
+ signals.sort((a,b)=>b.score-a.score);const overall=signals.length?clamp(signals.slice(0,6).reduce((n,s)=>n+s.score,0)/Math.min(6,signals.length)):10;
+ return {score:overall,status:severity(overall),signals,backend};
+}
