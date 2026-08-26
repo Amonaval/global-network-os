@@ -1168,3 +1168,8 @@ Primary commercial wedge: Organizational Intelligence focused on expertise, owne
 **Next action:** inspect both codebases deeply, compare actual contracts/runtime/deployment assumptions, and design the smallest high-value bridge. No implementation should begin from memory or conceptual assumptions alone.
 
 **Commercial focus:** Organizational Intelligence. Franchise remains challenger. G10 is blocked pending commercial evidence.
+
+## G9.1-A — Evidence Foundation + Intelligence Adapter
+Status: IMPLEMENTED / SOURCE-GATE VERIFIED
+
+Delivered as additive bridge code. Existing G9 runtime behavior is preserved. Evidence, source, candidate-assertion and decision contracts are isolated from canonical graph truth. The Knowledge Hub bridge is network/corpus scoped and does not alter its existing Electron/API/query paths.

@@ -1577,3 +1577,11 @@ Reject designs that:
 - migration plan that preserves both working products;
 - risks, rejected alternatives and phased implementation batches;
 - revised G9.1 mission only after the architecture review.
+
+## G9.1-A — Evidence Foundation + Intelligence Adapter — IMPLEMENTED
+- Additive evidence/provenance contracts and persistence foundation.
+- Network-scoped Knowledge Intelligence adapter boundary.
+- Candidate assertions remain separate from canonical graph truth.
+- Existing G9 deterministic intelligence and all vertical runtimes remain unchanged.
+- Knowledge Hub integration follows strict decoupling: bridge-first, standalone behavior preserved.
+- Next gate: G9.1-B Organization Knowledge Bootstrap only after runtime/database verification of G9.1-A.
