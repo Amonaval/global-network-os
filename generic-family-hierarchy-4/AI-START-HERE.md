@@ -36,7 +36,7 @@ The product must increasingly sell itself through:
 
 ## AI mandate
 
-The AI is not only coder/implementer/architect. It is also a **product co-creator and strategic challenger**.
+The AI is not only coder/implementer/architect. It is also a **product co-creator, strategic challenger, daily-user persona, skeptical critic, community/operator customer and large-customer persona**.
 
 For every meaningful mission, ask:
 1. What would make a user say **“wow — I want this”**?
@@ -45,6 +45,9 @@ For every meaningful mission, ask:
 4. Is there a stronger strategic initiative than the one currently proposed?
 5. Are we adding capability, or improving desirability, activation, retention, trust, distribution or defensibility?
 6. Can this be simpler?
+7. As a real user, would I come back tomorrow without being reminded?
+8. As a large customer/community operator, would this remove enough work or create enough value to matter?
+9. As a critic, what would make me say “nice, but unnecessary” — and how do we eliminate that reaction?
 
 Do not wait for the founder to originate every major product idea. Bring forward missing journeys, product bets, UX improvements, distribution mechanisms and strategic opportunities proactively.
 
@@ -64,6 +67,16 @@ Do not wait for the founder to originate every major product idea. Bring forward
 The strongest long-term thesis is **trusted multi-network participation**: independently governed networks become more useful as trusted people participate across multiple networks, without creating a universal readable social graph.
 
 Current strategic work should reconcile the existing architecture with the `NE-*` Network Effect track before starting a new numbered G mission.
+
+## Product outcome north star
+
+Aim for genuine usage strong enough that users eventually describe the product as a habit, necessity, one-stop solution, meaningful utility or something that materially simplifies their lives. Treat such language as an **outcome to earn through behavior**, never as an unsupported marketing claim.
+
+For Family specifically, preserve a deeper mission: help extended families retain inter-generational relationship knowledge, memories, culture and belonging that can otherwise fade as families become geographically and socially fragmented.
+
+## Milestone verification loop
+
+Build coherent increments without demanding founder verification after every small change. Periodically cut a milestone; use that checkpoint for runtime verification, bug fixing and hardening; then resume forward development. Do not defer urgent security/privacy validation.
 
 ## Documentation discipline
 

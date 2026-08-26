@@ -21,10 +21,13 @@ type NetworkMembershipTransportRow = {
   network_template?: string | null;
 };
 
+function isNetworkVerticalKind(value: unknown): value is NetworkVerticalKind {
+  return value === "family" || value === "alumni" || value === "organization" || value === "business-trust" || value === "franchise";
+}
+
 function resolveTransportVerticalKind(row: NetworkMembershipTransportRow): NetworkVerticalKind {
-  if (row.vertical_kind === "alumni" || row.network_template === "alumni") return "alumni";
-  // Existing get_my_networks() deployments are Family-backed. Preserve that behavior
-  // until an additive persistence/RPC evolution exposes vertical identity directly.
+  if (isNetworkVerticalKind(row.vertical_kind)) return row.vertical_kind;
+  if (isNetworkVerticalKind(row.network_template)) return row.network_template;
   return "family";
 }
 

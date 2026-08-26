@@ -66,3 +66,11 @@ For meaningful missions use the existing lifecycle:
 **IMPLEMENT → VALIDATE → GUIDE → PLAYGROUND (where useful) → LAUNCH CONTROL → WHAT'S NEW → ROADMAP/STATUS → CLOSE**
 
 Deliver affected/new files only where practical and preserve repository hierarchy.
+
+## NX-1 — current implementation
+- `My Networks` is now a first-class cross-vertical experience.
+- The signed-in account acts as the minimum trusted-person anchor; no global profile merge is introduced.
+- Network-local profiles/entities remain vertical-owned and privacy-isolated.
+- Family shell now uses the neutral cross-vertical switcher.
+- My Networks includes a five-vertical Playground entry and explicit identity/privacy explanation.
+- Neutral membership projection now preserves all five registered `vertical_kind` values.

@@ -380,3 +380,15 @@ Use the suggested prompts to request expertise, ownership, verification, a warm 
 
 ## G8.6-C — What to do when you open a network
 The Home page now highlights useful paths, reusable knowledge/evidence, active communities, missing context and a recommended next action. Use the Return Loop cards to see what changed and where participation can make the network more useful. Platform owners can open Launch Control directly from Alumni and the business verticals; ordinary network admins cannot change platform rollout state.
+
+## My Networks — one trusted home, separate private contexts
+
+`My Networks` is the cross-network home for a signed-in person who belongs to more than one Network OS space.
+
+- Open **My Networks** from the network switcher/top bar.
+- Choose a Family, Alumni, Organization, Business Trust or Franchise network to enter that network's own context.
+- Use **Add or join network** to create or join another supported network.
+- Use the **Playground** cards to experience another vertical without changing real network data.
+
+### Privacy model
+Your sign-in is the trusted anchor, but each network keeps its own profile/entity data and relationships. Joining two networks does **not** merge their graphs or reveal one network's members to the other. Future cross-network portability/discovery must be explicit and permission-aware.

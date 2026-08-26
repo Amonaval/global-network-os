@@ -1683,8 +1683,9 @@ Proactive Organization intelligence now combines verified graph structure, evide
 ### G9.1-B.1 + C.1 — Intelligence Quality Hardening — IMPLEMENTED
 Northstar-derived quality gate between initial G9.1-D implementation and further product expansion. Hardens explicit entity targeting, dependency direction, expertise ranking, extraction coverage diagnostics and answer readability. Re-run the existing Northstar corpus before further G9.1-D evaluation.
 
-## 2026-08-26 — Product Remarkability / Founder-Effort Doctrine
-
-Strategic priority update: public availability may continue, but heavy founder-led outreach is not the default while the product still needs explanation or persuasion. Prioritize self-demonstrating value, first-use magic, polished UX/mobile, guidance, showcase/storytelling, trust, return loops and network-effect value before expensive manual selling. “Wow” means desirability and meaningful outcome, not feature count.
-
-Active AI/session context is now intentionally lean. Use `AI-START-HERE.md`, `PRODUCT-CONSTITUTION.md`, `CURRENT-STATE.md` and `AIDLC-OPERATING-RULE.md` first; treat large roadmap/status/history documents as targeted reference rather than mandatory session reading.
+## NX-1 — My Networks & Trusted Identity Experience (implemented; runtime verification pending)
+- Makes one-account/many-network participation visible through a first-class My Networks home.
+- Uses an account-scoped trusted-person anchor while preserving network-local profiles and graphs.
+- Corrects neutral five-vertical membership classification and exposes multi-vertical Playground switching.
+- This is the first Network Effect execution mission after the post-G9.1 strategic shift.
+- Next roadmap decision waits for NX-1 milestone verification; do not automatically proceed to cross-network discovery.

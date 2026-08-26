@@ -84,7 +84,8 @@ import TimelineView from "./TimelineView";
 import UpcomingWidget, { UpcomingMilestone } from "./UpcomingWidget";
 import ParticipationCenter from "./ParticipationCenter";
 import FamilyHome from "./FamilyHome";
-import FamilySwitcher from "./FamilySwitcher";
+import MyNetworksHome from "./MyNetworksHome";
+import NetworkSwitcher from "./shared/NetworkSwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
 import FamilyIntakeAdmin from "./FamilyIntakeAdmin";
 import QuickFamilyStart from "./QuickFamilyStart";
@@ -98,6 +99,9 @@ import {getVerticalDefinition} from "../app-shell/vertical-registry";
 // CR2.2 compatibility marker: "Preview detailed family guide" is superseded by the first-class Explore & Guide portal.
 // S1-D compatibility marker for historical help-modal regression gate: event.target===event.currentTarget&&setShowGuide(false)
 import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail, setActiveNetwork, addMyselfToFamily, fetchPlaygroundFeatures, enterFamilyLobby, leaveCurrentFamily, fetchMyNetworks, NetworkMembership } from "../lib/remote";
+import {buildTrustedPersonIdentity} from "../capabilities/trusted-identity/runtime";
+import type {TrustedPersonIdentity} from "../core/identity/trusted-person";
+import type {NetworkMembership as NeutralNetworkMembership} from "../core/network/contracts";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import {createAlumniNetwork,fetchClaimableAlumniProfiles,claimAlumniProfile,acceptAlumniInvitation,type ClaimableAlumniProfile} from "../verticals/alumni/data/remote";
 import {createTemplateNetwork,joinProductizedNetworkByCode} from "../capabilities/template-product/remote";
@@ -141,6 +145,8 @@ export default function NetworkApp() {
     [claimableProfiles,setClaimableProfiles]=useState<ClaimableFamilyProfile[]>([]),
     [claimableAlumniProfiles,setClaimableAlumniProfiles]=useState<ClaimableAlumniProfile[]>([]),
     [myFamilies,setMyFamilies]=useState<NetworkMembership[]>([]),
+    [trustedIdentity,setTrustedIdentity]=useState<TrustedPersonIdentity|null>(null),
+    [showMyNetworks,setShowMyNetworks]=useState(false),
     [alumniDemo,setAlumniDemo]=useState(false),
     [productizedDemo,setProductizedDemo]=useState<ProductizedVerticalKind|null>(null),
     [pendingAlumniInvite,setPendingAlumniInvite]=useState<string>(""),
@@ -212,6 +218,7 @@ export default function NetworkApp() {
   };
   const hydrate = async (u: any) => {
     setAuth(u);
+    if(repository.mode === "shared" && u){try{setTrustedIdentity(await buildTrustedPersonIdentity(u))}catch{setTrustedIdentity(null)}}else setTrustedIdentity(null);
     if(repository.mode === "shared") {
       try {
         const demoRows=await fetchPlaygroundFeatures();
@@ -1071,14 +1078,30 @@ export default function NetworkApp() {
         )}
       </div>
     );
+  const openMyNetworksHome=async()=>{
+    if(!auth){setSetupNeeded(true);return;}
+    try{const identity=await buildTrustedPersonIdentity(await getAuthUser());setTrustedIdentity(identity);setShowMyNetworks(true);setSetupNeeded(false);}catch(e:any){notify(e.message||"Could not load your networks.")}
+  };
+  const openMembershipFromHome=async(membership:NeutralNetworkMembership)=>{
+    if(!membership.isActive)await setActiveNetwork(membership.network.id);
+    setShowMyNetworks(false);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);
+    await hydrate(await getAuthUser());setView("home");
+  };
+  const openNetworkPlayground=(kind:any)=>{
+    setShowMyNetworks(false);setSetupNeeded(false);setDemoPreview(false);
+    if(kind==="family"){enterSetupPlayground();return;}
+    if(kind==="alumni"){const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setProductizedDemo(null);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:"Read-only sample alumni community",entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);return;}
+    if(isProductizedVerticalKind(kind)){const def=getVerticalDefinition(kind);const pc=PRODUCTIZED_NETWORK_CONFIGS[kind];setProductizedDemo(kind);setAlumniDemo(false);setNetwork({id:`${kind}-playground`,name:pc.sampleName,description:pc.sampleDescription,entity_label:def.legacyNetworkLabels.entityLabel,entity_label_plural:def.legacyNetworkLabels.entityLabelPlural,level_label:def.legacyNetworkLabels.levelLabel,level_label_plural:def.legacyNetworkLabels.levelLabelPlural,parent_label:def.legacyNetworkLabels.parentLabel,child_label:def.legacyNetworkLabels.childLabel,peer_label:def.legacyNetworkLabels.peerLabel,network_template:kind,vertical_kind:kind,membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);}
+  };
   const canAdmin = !demoPreview && (!isSupabaseConfigured || network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.role === "admin");
   const isPlatformOwner = !isSupabaseConfigured || !!auth?.platform_owner;
+  if(showMyNetworks && trustedIdentity) return <MyNetworksHome identity={trustedIdentity} onOpenNetwork={openMembershipFromHome} onAddNetwork={()=>{setShowMyNetworks(false);setNetwork(null);setSetupNeeded(true)}} onExploreDemo={openNetworkPlayground}/>;
   // Vertical handoff must happen before any Family-only feature evaluation.
   // G5 bugfix: evaluating Alumni surface keys through lib/features (the Family compatibility facade)
   // throws by design. Alumni owns its own feature catalog/runtime and UI workspace.
-  if(network && activeVerticalKind==="alumni" && !setupNeeded) return <AlumniNetworkApp network={network} auth={auth} demo={alumniDemo} onNetworkChanged={async()=>{setAlumniDemo(false);await hydrate(await getAuthUser());setView("home")}} onOpenNetworkLobby={async()=>{setAlumniDemo(false);setNetwork(null);setSetupNeeded(true);setMembers([]);setRelationships([])}} onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setSetupNeeded(true)}}/>;
+  if(network && activeVerticalKind==="alumni" && !setupNeeded) return <AlumniNetworkApp network={network} auth={auth} demo={alumniDemo} onNetworkChanged={async()=>{setAlumniDemo(false);await hydrate(await getAuthUser());setView("home")}} onOpenNetworkLobby={openMyNetworksHome} onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setSetupNeeded(true)}}/>;
   // G8: productized verticals hand off before Family-only feature evaluation, exactly like Alumni.
-  if(network && isProductizedVerticalKind(activeVerticalKind) && !setupNeeded) return <TemplateNetworkApp network={network} auth={auth} kind={activeVerticalKind} demo={productizedDemo===activeVerticalKind} onNetworkChanged={async()=>{setProductizedDemo(null);await hydrate(await getAuthUser());setView("home")}} onOpenNetworkLobby={async()=>{setProductizedDemo(null);setNetwork(null);setSetupNeeded(true);setMembers([]);setRelationships([]);setSubmissions([])}} onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setSetupNeeded(true)}}/>;
+  if(network && isProductizedVerticalKind(activeVerticalKind) && !setupNeeded) return <TemplateNetworkApp network={network} auth={auth} kind={activeVerticalKind} demo={productizedDemo===activeVerticalKind} onNetworkChanged={async()=>{setProductizedDemo(null);await hydrate(await getAuthUser());setView("home")}} onOpenNetworkLobby={openMyNetworksHome} onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setSetupNeeded(true)}}/>;
   const experience:ExperienceLevel = demoPreview ? "explorer" : (experiencePreview || (!isSupabaseConfigured ? "explorer" : (auth?.experience_level || "simple")));
   // Defensive guard for transient setup/switch states: Family feature runtime never receives another vertical's key.
   const hasFeature=(key:FeatureKey)=>activeVerticalKind==="family"&&isFeatureAvailable(key,demoPreview?playgroundFeatures:platformFeatures,experience,canAdmin);
@@ -1212,7 +1235,7 @@ export default function NetworkApp() {
         badges={canAdmin?[{label:isSupabaseConfigured?t("sharedFamily"):t("localFamily"),tone:isSupabaseConfigured?"shared":"demo",icon:isSupabaseConfigured?<Database size={12}/>:undefined}]:[]}
         middle={demoPreview?<div className="demo-preview-banner"><Sparkles size={14}/><span>Playground · you are {members.find(m=>m.id===demoViewerId)?.full_name.split(/\s+/)[0] || "a sample family member"} for this visit · nothing is saved</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setDemoViewerId(undefined);setFocusId(undefined);setLineageOnly(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>Join or create mine</button></div>:undefined}
         actions={<div className={experience==="simple"&&!canAdmin?"simple-top-actions":""}>
-          {isSupabaseConfigured && !demoPreview && auth && <FamilySwitcher onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>setSetupNeeded(true)} onLobby={async()=>{await enterFamilyLobby();await hydrate(await getAuthUser());setView("home");}} onLeave={async()=>{const action=await leaveCurrentFamily();await hydrate(await getAuthUser());setView("home");notify(action==="archived"?"Family archived. You can now create or join another family.":"You left the family. You can now create or join another family.");}} />}
+          {isSupabaseConfigured && !demoPreview && auth && <><NetworkSwitcher label="My Networks" onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>{setNetwork(null);setSetupNeeded(true)}}/><button className="btn small" onClick={()=>void openMyNetworksHome()}><UsersRound size={15}/> My Networks</button></>}
           <LanguageSwitcher compact />
           {isSupabaseConfigured && canAdmin && <span className="person-meta">{auth?.email} · {network?.membership_role || auth?.family_role || "member"}{isPlatformOwner ? " · Platform owner" : ""}</span>}
           {canAdmin && <select className="select" aria-label="Preview profile privacy as" value={visibility} onChange={(e) => setVisibility(e.target.value as Visibility)}><option value="public">Public visitor preview</option><option value="member">Family member preview</option><option value="admin">Family admin preview</option></select>}

@@ -52,6 +52,8 @@ Otherwise prefer product-led evidence: public access, analytics, guided trials, 
 ## AI product leadership mandate
 
 The AI must:
+- continuously operate as four additional personas: **daily user, skeptical critic, community/operator customer, and large strategic customer**;
+- reject work that is technically impressive but weak from those personas' lived-value lens;
 - originate strategic product initiatives, not merely implement requested ones;
 - challenge weak roadmap items and unnecessary complexity;
 - find missing user journeys and “why would I care?” gaps;
@@ -62,6 +64,25 @@ The AI must:
 - protect stable behavior and architecture while improving the experience.
 
 The human founder retains final direction, irreversible decisions, privacy/security risk acceptance and production approval.
+
+## Desired adoption outcome
+
+The north star is not downloads or feature count. We are building toward users naturally saying things like:
+
+- “I use this almost every day.”
+- “This has become a necessity for me.”
+- “I would not want to uninstall this.”
+- “This is my one-stop place for my network/family.”
+- “This genuinely made my life easier.”
+- “This is meaningful, not just more content to consume.”
+
+These are **aspirational product outcomes**, not marketing claims to make before usage proves them.
+
+## Family preservation thesis
+
+Family Network has a deeper value beyond a tree or directory: modern nuclear/isolated living can weaken awareness of extended relationships, stories, traditions and inter-generational connection. The product should help families **preserve relationship context, generations, memories, culture and belonging over time**, so descendants do not gradually lose knowledge of relatives and family history that would otherwise disappear.
+
+This can become a powerful product story, but communicate it responsibly: the platform can **help preserve and strengthen** these connections; it should not claim to single-handedly prevent cultural or family decline.
 
 ## Network-effect thesis
 
