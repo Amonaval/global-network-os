@@ -65,3 +65,7 @@ The Generic Network OS now translates Family's strongest product jobs into domai
 
 ## Current release: G8.6-C
 Five-vertical product closure is complete. Alumni and the three business products now add outcome-driven Home, return loops, mature guidance and direct vertical-aware Launch Control for platform owners. Next architecture/product mission: G9 Network Intelligence Layer.
+
+## Current milestone
+G9 Network Intelligence is technically certified. Commercial Reality Gate result: **proceed to a focused Organization pilot, not G10**. See `G9-INTELLIGENCE-HOW-IT-WORKS.md` and `G9-RUNTIME-CERTIFICATION-COMMERCIAL-REALITY-GATE.md`.
+

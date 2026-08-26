@@ -237,3 +237,13 @@ Near-term commercial priority is intentionally unequal:
 No sixth vertical should be built before at least one existing vertical produces credible commercial evidence.
 
 See `STRATEGIC-PRODUCT-REVIEW.md` and `FAMILY-TO-NETWORK-EXPERIENCE-MAP.md`.
+
+## Post-G9 Integration Hypothesis — Evidence-Backed Living Organization
+
+The next differentiation hypothesis is **evidence-backed autonomous network construction**.
+
+The Network OS remains the system for structured entities, affiliations, verified typed relationships, projections, deterministic paths and governed network actions. The Knowledge Hub/RAG capability is a candidate source for unstructured ingestion, retrieval, evidence discovery, question telemetry and optional local-model synthesis.
+
+The desired combined product is not "a graph plus a chatbot." It should continuously transform fragmented organizational knowledge into reviewable evidence and a living graph, then turn that graph back into better retrieval, risk detection and action.
+
+A successful integration should make organizational onboarding dramatically easier and make answers materially better than either generic enterprise search or a static organizational directory.

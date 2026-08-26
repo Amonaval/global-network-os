@@ -168,3 +168,19 @@ Unacceptable answers are “I lose a nice graph”, “I lose a dashboard”, �
 - No G10 commercial-platform expansion before a real buyer gives a concrete pilot/data/LOI/paid-trial signal.
 - Data-entry burden is a strategic risk. B2B value eventually requires imports/connectors from systems where source truth already exists.
 - If the next experience + intelligence proof still cannot create an unqualified “yes, I would pay for this” from at least one target buyer, freeze or narrow the product rather than continuing feature accumulation.
+
+## G9.1 Founder Gate — RAG × Network OS
+
+Before further scale work, test this founder-level proposition:
+
+> **Would a real organization connect its existing knowledge sources because the product can automatically reveal expertise, ownership, dependencies, knowledge concentration and action paths with inspectable evidence?**
+
+The integration is valuable only if it reduces manual network maintenance **and** changes real decisions. A technically impressive RAG/graph bridge that does not improve onboarding, answer quality, risk detection or actionability is a failure.
+
+### Non-negotiable decision rules
+- Inspect both real codebases before choosing the bridge architecture.
+- Prefer extraction of reusable engines over coupling two application shells.
+- Preserve provenance and human/authoritative verification.
+- Deterministic graph truth outranks generative prose.
+- No sixth vertical and no G10 scale program before pilot evidence.
+- Be willing to reject the integration if the two codebases do not produce a compelling combined advantage after inspection.

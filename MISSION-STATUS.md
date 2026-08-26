@@ -1153,3 +1153,18 @@ A founder-level go/no-go review was performed after G8.5-C.
 ## G8.6-C — CLOSED
 Status: DONE / source-certified.
 Outcome Home, Guide, Launch Control and Return Loop are now part of the five-vertical product proof. G9 is the next mission.
+
+## G9 Runtime Certification + Commercial Reality Gate
+**Status: COMPLETE — technical PASS / commercial CONDITIONAL PASS TO PILOT.**
+
+Primary commercial wedge: Organizational Intelligence focused on expertise, ownership and dependency-risk decisions. Franchise is the challenger. G10 is blocked until real buyer/pilot evidence exists. Next recommended mission: G9.1 Organization Paid-Pilot Readiness.
+
+## G9.1 — Two-Codebase Integration Design Gate
+
+**Decision:** PAUSE the earlier standalone G9.1 implementation plan until a two-codebase review is complete.
+
+**Next session input required from founder:** authoritative ZIP of Generic Network OS + authoritative ZIP of RAG Knowledge Hub.
+
+**Next action:** inspect both codebases deeply, compare actual contracts/runtime/deployment assumptions, and design the smallest high-value bridge. No implementation should begin from memory or conceptual assumptions alone.
+
+**Commercial focus:** Organizational Intelligence. Franchise remains challenger. G10 is blocked pending commercial evidence.

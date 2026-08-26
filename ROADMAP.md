@@ -1485,3 +1485,95 @@ The product job is translated rather than copied from Family. Family memories/ki
 
 ### Next: G9 — Network Intelligence Layer
 G9 must build decision advantage on top of the completed Find → Understand → Connect → Act → Capture → Improve loop. No new vertical before commercial evidence.
+
+## Commercial Reality Gate after G9
+G9 technical certification is complete. Do not proceed directly to G10.
+
+**Next: G9.1 Organization Paid-Pilot Readiness** — viewer-anchored paths, weighted expertise/ownership evidence, dependency blast radius, provenance/recency, pilot import, executive value metrics and privacy hardening.
+
+Franchise remains the challenger vertical. Business Trust remains deferred until trust provenance/seeding is strong enough. G10 stays evidence-gated behind a real data pilot and willingness-to-pay signal.
+
+## G9.1 — Autonomous Organizational Intelligence Bridge (Design Gate)
+
+**Status:** Strategic design queued. Do not implement until both authoritative ZIPs are inspected in the next session.
+
+G9 runtime certification established the deterministic Network Intelligence Layer. Before implementing the previously planned Organization paid-pilot work, perform a two-codebase architecture review of:
+
+1. the current Generic Network OS / G9 runtime-certified baseline; and
+2. the current RAG Knowledge Hub / local Ollama intelligence product.
+
+### Product thesis
+
+Do **not** sell or build "RAG connected to a graph" as the outcome. The target is:
+
+> **Continuously turn knowledge the organization already produces into an evidence-backed living organizational graph, then use graph reasoning + knowledge evidence to answer who knows, who owns, what depends, what is fragile, who can help, and what should happen next.**
+
+The integration should attack two commercial blockers at once:
+
+- **cold-start / maintenance cost:** organizations should not manually populate hundreds of people, systems, skills, ownerships and dependencies;
+- **decision value:** answers should combine verified structure with documentary evidence rather than behave like an org chart or generic chatbot.
+
+### Candidate G9.1 architecture — validate against both codebases before accepting
+
+**A. Knowledge ingestion capability**
+- Reuse/extract the valuable parts of Knowledge Hub ingestion, parsing, crawling, chunking, embeddings, hybrid retrieval and local Ollama orchestration.
+- Start with the sources already proven in the RAG product (for example uploaded documents and its existing authenticated/document sources). Do not add a broad connector program before validating the pilot.
+
+**B. Knowledge → Network evidence extraction**
+- Detect candidate people, teams, systems, projects, skills, ownership, dependencies, decisions, incidents, lessons and expertise signals.
+- Every extracted fact must carry provenance, extraction method, confidence and verification state.
+- AI-generated/extracted facts are **candidates**, not verified graph truth.
+- Provide review/accept/reject/edit flows; later allow narrowly defined authoritative sources to auto-promote facts.
+
+**C. Graph + RAG query orchestration**
+- Structured relationship/path questions → deterministic Network OS graph engine.
+- Document/knowledge questions → retrieval engine.
+- Mixed questions → authorized graph subgraph + relevant document retrieval + evidence merge + deterministic checks + optional Ollama synthesis.
+- LLM explains evidence; it does not manufacture relationships.
+
+**D. Question-derived intelligence**
+Repeated unanswered or weakly answered questions become signals for:
+- ownership gaps;
+- documentation gaps;
+- missing expertise;
+- knowledge concentration;
+- stale/conflicting decisions;
+- missing network relationships;
+- requests for network contribution.
+
+Close the loop:
+**Ask → Retrieve/Reason → Detect uncertainty → Create gap → Ask network for help → Capture evidence → Improve graph/knowledge → Better future answer.**
+
+### Hard architecture constraints
+
+Reject designs that:
+- bolt the Electron application directly into the Network OS UI;
+- replace graph traversal/structured reasoning with vector similarity;
+- send an unrestricted tenant graph to Ollama/LLMs;
+- allow RAG extraction to directly mutate verified graph truth;
+- duplicate two separate ingestion/reasoning stacks when a reusable engine/service can be extracted;
+- expand this integration across all five verticals before Organization proves value.
+
+### Commercial sequencing
+
+1. **Organization is the primary integration/pilot vertical.**
+2. **Franchise is the strongest challenger** once the Organization pattern works (SOPs, incidents, training guides, store learnings → reusable operating intelligence).
+3. Business Trust waits for stronger provenance, verification, recency and anti-gaming foundations.
+4. Alumni/Family consume only clearly valuable reusable pieces; do not force enterprise RAG into them.
+5. **G10 remains blocked until real commercial evidence exists.**
+
+### Required outputs from the next-session two-ZIP review
+
+- codebase/component map of both products;
+- reusable-vs-rewrite-vs-retire matrix;
+- integration boundary recommendation (shared package vs service vs staged hybrid);
+- canonical evidence/provenance contracts;
+- ingestion-to-candidate-graph pipeline;
+- query orchestration design;
+- permission/tenant/security boundary;
+- Ollama/embedding deployment and cost model;
+- data freshness/reconciliation strategy;
+- pilot UX and review workflow;
+- migration plan that preserves both working products;
+- risks, rejected alternatives and phased implementation batches;
+- revised G9.1 mission only after the architecture review.

@@ -789,3 +789,10 @@ Productized configuration now owns domain-native outcome language rather than ge
 
 ## G8.6-C codebase update
 Added shared `NetworkOutcomeHome` and `NetworkMatureGuide`. Productized business verticals and Alumni now expose outcome-oriented Home/return experiences and platform-owner Launch Control. `FounderLaunchConsole` accepts `initialVertical` so embedded launch access opens on the active product. No persistence migration was required.
+
+## G9 runtime certification additions
+- `scripts/g9-intelligence-runtime-smoke.mjs` executes the real transpiled deterministic engine against representative Organization, Franchise and Business Trust datasets.
+- `npm run validate:g9-runtime` is now part of `npm run validate:g9`.
+- `core/intelligence/engine.ts` now handles single-target introduction questions by surfacing known typed relationships into the target or explicitly reporting that no verified warm path exists.
+- See `G9-INTELLIGENCE-HOW-IT-WORKS.md` and `G9-RUNTIME-CERTIFICATION-COMMERCIAL-REALITY-GATE.md`.
+

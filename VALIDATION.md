@@ -513,3 +513,11 @@ Historical source gates D1 through G8 passed in this workspace. After archive-li
 - Complete historical source chain D1 → V1 → CR1/CR2 → S1/S2/S3 → G1/G2/G3/G4/G5/G6/G7 → G8 → G8.5 → G8.6 → G9: **PASS**.
 - G9 deterministic engine standalone strict TypeScript check: **PASS**.
 - `npm ci` in the artifact workspace did not complete within the execution window; therefore production `npm run build` remains a local/CI runtime check and is not claimed as passed here.
+
+## G9 runtime certification + Commercial Reality Gate — 2026-08-26
+- Full historical source chain D1 → G9: PASS.
+- `npm run validate:g9`: PASS.
+- New executable `npm run validate:g9-runtime`: PASS 7/7 after correcting single-target warm-introduction reasoning.
+- Dependency-installed Next build remains external/local/CI because `npm ci` did not complete in the sandbox window.
+- Commercial gate: CONDITIONAL PASS TO PILOT; G10 remains blocked pending buyer/data/paid-pilot evidence.
+
