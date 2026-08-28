@@ -1,6 +1,6 @@
 # Generic Network OS — Current State
 
-**Updated:** 2026-08-26  
+**Updated:** 2026-08-27  
 **Purpose:** compact operational truth. Keep this short; move history to roadmap/status/archive.
 
 ## Product
@@ -30,11 +30,13 @@ G9/G9.1 demonstrated Network Intelligence plus a decoupled Network OS ↔ Knowle
 
 ## Strategic focus now
 
-1. Raise the product from capable to **remarkable/self-explanatory**.
-2. Reconcile existing identity/membership architecture with the complete Network Effect track (`NE-1`…`NE-8`).
-3. Build network-effect foundations without weakening isolated vertical experiences.
-4. Keep Family/public usage moving; do not require heavy founder outreach yet.
-5. Prefer product-led learning and polished demonstrations before expensive manual selling.
+1. Raise the product from capable to **remarkable/self-explanatory**, exposing substantially less UI.
+2. Preserve the Family signature direction (**My Family, Through Me** + **One Family Moment**) without allowing Family to consume the entire roadmap.
+3. Evaluate globally relevant commercial verticals, beginning with **Professional Expertise & Referral** and **Industry / Trade Ecosystem** concepts; treat Healthcare Provider Collaboration as high-potential/higher-regulation.
+4. Treat complete internationalization, mobile-first/native portability and accessibility as product-quality gates.
+5. Evolve hierarchy into a broader typed graph platform only when validated use cases require it; never create a universal readable graph.
+6. Prefer institutional-anchor distribution and measurable paid outcomes over expensive founder-by-founder persuasion.
+7. Reconcile the Network Effect track with this broader portfolio before selecting the next implementation mission.
 
 ## NE track snapshot
 

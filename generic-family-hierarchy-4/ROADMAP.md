@@ -1689,3 +1689,41 @@ Northstar-derived quality gate between initial G9.1-D implementation and further
 - Corrects neutral five-vertical membership classification and exposes multi-vertical Playground switching.
 - This is the first Network Effect execution mission after the post-G9.1 strategic shift.
 - Next roadmap decision waits for NX-1 milestone verification; do not automatically proceed to cross-network discovery.
+
+## 2026-08-27 — Global Portfolio & Platform Realignment
+
+**Status: STRATEGIC PLANNING / NOT YET AN IMPLEMENTATION MISSION**
+
+The roadmap is no longer Family-sequential. Preserve the Family signature-experience direction, but evaluate work across four parallel strategic tracks:
+
+### P1 — Signature Product Quality
+- Family: My Family, Through Me + One Family Moment + deeper Time Machine.
+- Reduce primary UX rather than add surfaces.
+- Full mobile/tablet/locale quality gates.
+
+### P2 — Global Vertical Discovery
+Research/design two low-to-medium regulatory commercial candidates first:
+1. Professional Expertise & Referral Network.
+2. Industry / Trade Ecosystem Network.
+
+Healthcare-provider collaboration remains a high-value challenger after stronger compliance/security preparation.
+
+### P3 — Graph Platform Evolution
+Preserve tree/hierarchy behavior while introducing typed many-to-many graph capability only when a validated vertical needs it. No universal readable graph.
+
+### P4 — Distribution & Monetization
+Prioritize institutional-anchor opportunities, design partners and measurable paid outcomes. Keep direct SaaS, channel/reseller, OEM/white-label and embedded/API licensing as commercial options; do not build speculative billing/reseller machinery before evidence.
+
+### Quality tracks — always-on, not “extra features”
+- Internationalization completeness.
+- Mobile/native portability.
+- Accessibility/responsive behavior.
+- Periodic technical-evolution/debt review.
+
+### Next sequencing decision
+Before coding the next mission, compare:
+- Family Signature Experience blueprint;
+- one commercial vertical concept blueprint;
+- global/mobile/i18n quality closure needs.
+
+Select the next coherent mission based on product leverage, not historical numbering.

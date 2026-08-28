@@ -1274,3 +1274,19 @@ Delivered relationship-aware reconnect, explainable connection paths and derived
 Recomposed accumulated Family value into **Today · People · Legacy**, consolidated account actions across vertical shells, simplified profiles into focused tabs, and reduced My Networks/onboarding disclosure. No new schema/RLS or cross-network data path. NX-1→NX-5 and shared identity/membership source gates remain green. Runtime milestone should judge clarity, navigation, mobile quality and whether the product feels materially simpler—not re-test every historical feature.
 
 - NX-6 visual hardening: runtime screenshot issues fixed for NetworkSwitcher row layout/menu height and ProfileDrawer content viewport/guide/header/action proportions. No feature or data-model changes.
+
+## 2026-08-27 — Global Portfolio Brainstorm Recorded
+
+**Type:** strategy capture only; no implementation started.
+
+Recorded decisions/hypotheses:
+- Family must not monopolize roadmap attention.
+- Preserve post-NX Family signature direction: My Family, Through Me; One Family Moment; deeper Time Machine; less visible complexity.
+- Global relevance is now explicit: regional/vertical capability profiles, complete localization and mobile-first/native-portable architecture.
+- New candidate verticals include Professional Expertise & Referral, Industry/Trade Ecosystem, Healthcare Provider Collaboration, Education/Research, Public/Civic, Nonprofit and Built Environment.
+- Platform should evolve from hierarchy-only assumptions toward governed typed graph relationships while preserving trees as valid projections.
+- Institutional anchors and one-to-many distribution are preferred over founder-by-founder selling.
+- Direct SaaS, partner/reseller, OEM/white-label, embedded/API and strategic investment/acquisition remain options; core IP retention is the default posture.
+- Added a periodic technical-evolution/debt register.
+
+No new mission number has been assigned.

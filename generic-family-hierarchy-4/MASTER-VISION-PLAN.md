@@ -378,3 +378,25 @@ The platform can become:
 > **The trusted operating system for real-world networks.**
 
 Not because it contains every feature, but because it lets any real-world network become structured, alive, useful, trustworthy and selectively connected without surrendering its autonomy or privacy.
+
+## 20. Global portfolio expansion — 2026-08-27
+
+Generic Network OS is not a Family-only product and should not assume Indian-only social structures. Family remains one vertical and product-quality laboratory. Long-term product strategy must support globally relevant consumer, professional, institutional and commercial networks.
+
+### Portfolio model
+- **Consumer/community:** Family + community/heritage/belonging.
+- **Professional:** expertise, referrals, associations and trusted collaboration.
+- **Institutional:** organization, healthcare-provider groups, education, public service and nonprofits.
+- **Commercial ecosystems:** franchise, trade, supply ecosystems, builders/manufacturers and business trust.
+
+### New strategic candidate verticals
+Prioritize research/design around Professional Expertise & Referral Networks and Industry/Trade Ecosystem Networks. Healthcare-provider collaboration is high-potential but higher regulatory risk. Education, research, civic/public-service, nonprofit and built-environment ecosystems remain important candidates.
+
+### Global quality doctrine
+Internationalization, localization, accessibility and mobile portability are quality requirements. The product should use universal primitives plus regional/vertical capability profiles rather than country-specific forks.
+
+### Graph evolution
+Hierarchy/tree remains a supported projection, not the limit of the platform. Future architecture should support typed entities + typed edges + hierarchy projections + trust/provenance + evidence + network-scoped permissions.
+
+### Commercial leverage
+Prefer institutional anchors where one agreement can activate a real network. Preserve optional direct SaaS, channel, reseller, OEM/white-label, embedded/API and strategic investment/acquisition paths while retaining core IP by default.

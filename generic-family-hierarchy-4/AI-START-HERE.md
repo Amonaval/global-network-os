@@ -17,6 +17,11 @@
 - `MISSION-STATUS.md` — recovery/status questions; prefer recent entries.
 - `FOUNDER-COMPASS.md`, `PROJECT-VISION.md`, `MASTER-VISION-PLAN.md` — deeper strategic history only.
 - old release docs / handoffs — only to recover rationale or regressions.
+- `GLOBAL-VERTICAL-OPPORTUNITY-STRATEGY.md` — new vertical/global market decisions.
+- `GLOBALIZATION-MOBILE-QUALITY-STRATEGY.md` — i18n/mobile quality and portability.
+- `GRAPH-NETWORK-PLATFORM-ARCHITECTURE.md` — graph evolution and architecture diagrams.
+- `COMMERCIALIZATION-DISTRIBUTION-LICENSING-STRATEGY.md` — anchor sales, licensing/OEM/channel strategy.
+- `TECHNICAL-EVOLUTION-REGISTER.md` — periodic technical debt/future architecture checkpoints.
 
 ## Current mission doctrine
 
