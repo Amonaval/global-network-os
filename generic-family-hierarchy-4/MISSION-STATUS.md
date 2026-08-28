@@ -1262,3 +1262,8 @@ Delivered an evidence-bound Family Time Machine, preservation-priority experienc
 ## NX-4 — Family Growth Relay
 Status: IMPLEMENTED / SOURCE-VALIDATED / RUNTIME MILESTONE VERIFICATION PENDING.
 Purpose: distribute family preservation and growth across ordinary relatives instead of concentrating upkeep on one organizer.
+
+## NX-5 — Family Connection & Belonging
+**Status:** IMPLEMENTED / SOURCE-VALIDATED / RUNTIME MILESTONE VERIFICATION PENDING
+
+Delivered relationship-aware reconnect, explainable connection paths and derived private Family Circles using existing Family graph/context only. No schema/RLS change, public group model, contact exposure or engagement ranking.

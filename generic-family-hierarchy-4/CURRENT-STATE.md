@@ -83,3 +83,6 @@ Family Home now includes Family Time Machine & Generational Legacy: evidence-bou
 
 ## NX-4 current product state
 Family Participation now starts with a Family Growth Relay: one prioritized useful gap, relationship-aware context, privacy-safe “ask someone” hand-off, and a direct admin seam into secure invitations. Existing governed contribution/claiming permissions remain authoritative; no schema or cross-network change. Runtime milestone verification pending.
+
+## NX-5 current product state
+Family Home now includes Family Connection & Belonging: a relationship-aware wider-family spotlight, plain-language kinship, a clickable `You → … → relative` path, and derived Family Circles for generation/place/close-family context. It reuses current Family graph data only; no new persistence, contact exposure or social-feed mechanics. Runtime milestone verification pending.

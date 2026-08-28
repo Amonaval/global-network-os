@@ -48,7 +48,8 @@
     "validate:g9.1b": "node scripts/g9-1b-organization-knowledge-bootstrap-gate.mjs && npm run validate:g9.1a:verify",
     "validate:g9.1c": "node scripts/g9-1c-graph-aware-rag-gate.mjs && npm run validate:g9.1b",
     "validate:g9.1d": "node scripts/g9-1d-organization-knowledge-risk-gate.mjs && npm run validate:g9.1c",
-    "validate:g9.1-quality": "node scripts/g9-1-b1-c1-intelligence-quality-hardening-gate.mjs && npm run validate:g9.1d"
+    "validate:g9.1-quality": "node scripts/g9-1-b1-c1-intelligence-quality-hardening-gate.mjs && npm run validate:g9.1d",
+    "validate:nx5": "node scripts/nx-5-source-gate.mjs && node scripts/nx-4-source-gate.mjs && node scripts/nx-3-source-gate.mjs && node scripts/nx-2-source-gate.mjs && node scripts/g1-3-network-membership-gate.mjs && node scripts/g2-shared-identity-participation-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

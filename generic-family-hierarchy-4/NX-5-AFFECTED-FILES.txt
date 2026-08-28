@@ -1,0 +1,11 @@
+components/FamilyBelonging.tsx
+components/FamilyHome.tsx
+app/globals.css
+lib/user-guide-content.ts
+scripts/nx-5-source-gate.mjs
+package.json
+CURRENT-STATE.md
+MISSION-STATUS.md
+NX-5-FAMILY-CONNECTION-BELONGING.md
+NX-5-RUNTIME-VERIFICATION-CHECKLIST.md
+NX-5-AFFECTED-FILES.txt
