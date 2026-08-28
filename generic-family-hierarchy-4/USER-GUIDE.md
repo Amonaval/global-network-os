@@ -429,3 +429,7 @@ Owners/Admins also see an aggregate learning snapshot for networks they administ
 
 ## Pilot Evidence Review — Owner/Admin
 After collecting pilot feedback, open **My Networks → Pilot Evidence Review**. Each experience moment shows its feedback count, helpful rate, top friction and a suggested disposition. `INVEST` means deepen proven value; `FIX` means remove repeated friction before expanding; `HOLD` means keep scope stable while gathering evidence; `STOP` is an explicit human choice to stop further investment. Add a rationale before saving. Saving a decision records the evidence and reasoning only—it does not change product features or permissions.
+
+## Controlling M6/M7 advanced capabilities
+Platform Owners can open Launch Control, select a network vertical, and manage the **Advanced network effect**, **Advanced showcase**, and **Advanced pilot operations** groups. Use Hidden for unavailable, Test for platform-owner verification, Pilot for selected networks, and Released only when the capability is ready for all eligible networks of that vertical. Multi-hop trusted paths are controlled separately from direct bridges/discovery.
+

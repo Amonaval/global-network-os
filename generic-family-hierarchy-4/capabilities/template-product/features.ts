@@ -1,7 +1,8 @@
 import type {FeatureCatalog,FeatureDefinition} from "../../core/features/contracts";
 import type {ProductizedVerticalKind} from "../../templates/productized/config";
+import {createAdvancedNetworkFeatures,type AdvancedNetworkFeatureBundle} from "../../core/features/advanced-network";
 export type ProductizedExperienceLevel="member"|"connected"|"admin";
-export type ProductizedFeatureBundle="core"|"intelligence"|"discover"|"community"|"connect"|"contribute"|"admin";
+export type ProductizedFeatureBundle="core"|"intelligence"|"discover"|"community"|"connect"|"contribute"|"admin"|AdvancedNetworkFeatureBundle;
 export function productizedFeatureKey(kind:ProductizedVerticalKind,suffix:string){return `${kind}.${suffix}` as const}
 export function createProductizedFeatureCatalog(kind:ProductizedVerticalKind,label:string):FeatureCatalog<string,ProductizedFeatureBundle,ProductizedExperienceLevel>{
  const features:FeatureDefinition<string,ProductizedFeatureBundle,ProductizedExperienceLevel>[]=[
@@ -15,6 +16,7 @@ export function createProductizedFeatureCatalog(kind:ProductizedVerticalKind,lab
   {key:`${kind}.shared.contribute`,bundle:"contribute",label:"Contributions",description:"Help keep network information current through governed suggestions.",minimumExperience:"member",defaultLaunch:"released"},
   {key:`${kind}.admin.manage`,bundle:"admin",label:`${label} admin`,description:"Manage entities, relationships, invitations and network structure.",minimumExperience:"admin",defaultLaunch:"released"},
   {key:`${kind}.admin.import`,bundle:"admin",label:"Import",description:"Preview and import structured network data from Excel or CSV.",minimumExperience:"admin",defaultLaunch:"released"},
+  ...createAdvancedNetworkFeatures(kind,"member","connected"),
  ];
  return {catalogId:kind,features,experienceRank:{member:1,connected:2,admin:3},experienceLabels:{member:{label:"Member",description:"Core discovery and network participation."},connected:{label:"Connected",description:"Relationships and trusted network context."},admin:{label:"Admin",description:"Network administration and growth."}}};
 }

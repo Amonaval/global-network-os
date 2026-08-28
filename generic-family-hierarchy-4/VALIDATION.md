@@ -599,3 +599,7 @@ Run `npm run validate:m7e`, then `npm run check:types` and `npm run build`. Runt
 
 ## M7-F validation
 Run `npm run validate:m7f`. The command executes the M7-F source gate and then the entire cumulative validation chain through M7-E and earlier missions. Runtime closure additionally requires applying migration 067 and executing `MISSION-7F-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+## LC-1 validation
+Run `npm run validate:lc1`. It verifies all six vertical registrations, all M6/M7 feature keys, safe TEST defaults, My Networks runtime gating, independent M6-E gating, and then executes the cumulative M7-F → M2/STABILITY validation chain.
+

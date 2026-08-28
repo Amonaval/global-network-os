@@ -1386,3 +1386,7 @@ Status: SOURCE IMPLEMENTED / RUNTIME CERTIFICATION PENDING. Closes the planned M
 - Human Owner/Admin can explicitly record INVEST / FIX / HOLD / STOP, rationale and next action.
 - Evidence snapshot stored with each decision; no automatic roadmap/feature mutation.
 - Final planned Mission 7 closure: `SHOW → GUIDE → OPERATE → LEARN → CERTIFY → DECIDE`.
+
+### LC-1 — M6/M7 Launch Control Governance Hardening — COMPLETE
+Restored the permanent rule that deployment never equals release. All M6-A..M6-E and M7-A..M7-F surfaces are controlled per vertical through the existing Launch Control.
+

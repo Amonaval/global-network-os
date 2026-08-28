@@ -1820,3 +1820,7 @@ Closure mission for the M6/M7 trusted-network track: live demo preflight, privac
 
 ## Mission 7 closure gate — M7-F complete
 M7-F closes the Real-World Activation & Showcase program. No automatic M7-G is planned. The next major mission must be justified by either (a) recorded pilot evidence producing a credible INVEST/FIX decision and next action, or (b) a deliberately chosen business/market objective with written rationale. HOLD is the default when evidence is thin or mixed.
+
+## Launch Governance Invariant — LC-1 complete
+All advanced M6/M7 capabilities are now launch-controlled per vertical. Future missions must include catalog registration + persisted launch row + runtime gate before closure. Advanced capabilities remain TEST by default until deliberate Pilot/Release promotion.
+

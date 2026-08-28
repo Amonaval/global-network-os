@@ -147,3 +147,7 @@ Mission 7 is now complete at source level: M7-B SHOW → M7-A GUIDE → M7-C OPE
 
 ### M7-F product-decision checkpoint
 Mission 7 ends at M7-F. Before proposing more trusted-network/showcase capability, inspect pilot evidence and recorded product decisions. Prefer fixing repeated friction or investing in demonstrated value; HOLD when evidence is insufficient. Never infer that a recorded database decision authorizes automatic code, permission, feature-flag or roadmap mutation.
+
+### Permanent launch-control rule (LC-1)
+Never close a user-facing mission unless its capability is registered in the owning vertical feature catalog, persisted in Founder Launch Control, and runtime-gated. Deployment is not release. M6/M7 advanced capabilities are the reference implementation.
+

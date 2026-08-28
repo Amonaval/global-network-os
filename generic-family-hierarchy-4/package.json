@@ -68,7 +68,8 @@
     "validate:m7c": "node scripts/m7c-guided-pilot-console-gate.mjs && npm run validate:m7a",
     "validate:m7d": "node scripts/m7d-pilot-feedback-learning-gate.mjs && npm run validate:m7c",
     "validate:m7e": "node scripts/m7e-showcase-runtime-certification-gate.mjs && npm run validate:m7d",
-    "validate:m7f": "node scripts/m7f-pilot-evidence-decision-gate.mjs && npm run validate:m7e"
+    "validate:m7f": "node scripts/m7f-pilot-evidence-decision-gate.mjs && npm run validate:m7e",
+    "validate:lc1": "node scripts/lc1-m6-m7-launch-control-gate.mjs && npm run validate:m7f"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

@@ -6,9 +6,9 @@ ok('reach runtime reuses NX-1 identity and neutral memberships',runtime.includes
 ok('reach RPC aggregates only networks the actor belongs to',migration.includes("nm.user_id=auth.uid()")&&migration.includes("nm.status='active'")&&migration.includes('count(distinct user_id)'));
 ok('claimed contexts reuse existing Family Alumni and productized bindings',migration.includes('own.member_id is not null')&&migration.includes('ap.claimed_by=auth.uid()')&&migration.includes('e.owner_user_id=auth.uid()'));
 ok('no global profile or graph merge table introduced',!migration.includes('create table')&&migration.includes('does not expose or merge'));
-ok('My Networks renders the Network Reach experience',ui.includes('m6-reach-card')&&ui.includes('identity.reach.uniqueMemberAccounts')&&ui.includes('identity.reach.claimedContexts'));
+ok('My Networks renders the Network Reach experience under Launch Control',ui.includes('m6-reach-card')&&ui.includes('enabled("identity_reach")')&&ui.includes('advancedReach.activeNetworks'));
 ok('UI explicitly preserves aggregate-only privacy boundary',ui.includes('AggregateOnlyTxt')&&ui.includes('M6ReachPrivacyDescTxt'));
 ok('reach UI is responsive and theme-compatible',css.includes('M6-A — Trusted Network Reach')&&css.includes('@media(max-width:800px)'));
 ok('mission documentation rule requires DOCX',rules.includes('.docx')&&rules.includes('every major mission'));
-ok('CI preserves the M6-A regression chain through the latest mission',/validate:m7[a-d]|validate:m6[a-e]/.test(ci)&&ci.includes('check:types')&&ci.includes('npm run build'));
+ok('CI preserves the M6-A regression chain through the latest mission',/validate:lc1|validate:m7[a-f]|validate:m6[a-e]/.test(ci)&&ci.includes('check:types')&&ci.includes('npm run build'));
 for(const [n,p] of checks)console.log(`${p?'PASS':'FAIL'} ${n}`);const failed=checks.filter(x=>!x[1]);console.log(`MISSION-6A source gate: ${checks.length-failed.length}/${checks.length}`);if(failed.length)process.exit(1);

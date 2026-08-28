@@ -83,3 +83,7 @@ Added a small first-party `pilot_feedback` store with governed submission/contex
 
 ## M7-F — Evidence-governed product decisions
 Added `pilot_product_decisions` as a small governed decision ledger above M7-D feedback. The system computes transparent advisory recommendations from aggregate pilot outcomes; a human Owner/Admin records the disposition. This is intentionally not an automated product-management agent: no database decision can toggle features, change permissions, edit roadmap artifacts or open engineering scope by itself.
+
+### LC-1 — Advanced capability rollout governance
+Reused the existing vertical-aware `platform_feature_flags` architecture rather than introducing a parallel flag service. Added catalog/runtime registration for M6/M7 and restored fail-closed rendering semantics on My Networks.
+

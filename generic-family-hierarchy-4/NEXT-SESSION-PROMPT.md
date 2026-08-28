@@ -63,3 +63,6 @@ M7-E is the planned closure mission for M6/M7. Apply migration 066 and run runti
 
 ## Latest closure: M7-F
 Mission 7 is now source-complete through M7-F. Do not invent M7-G by default. Use the M7-F Pilot Evidence Review & Product Decision Gate as the product-development checkpoint: next work should follow recorded INVEST/FIX evidence or an explicit new business/market objective. Preserve the rule that product decisions are advisory/recorded and never automatically mutate feature flags, permissions, roadmap files or code.
+
+LC-1 is complete: M6/M7 advanced capabilities are now controlled per vertical through Founder Launch Control and default TEST-only. Preserve this invariant for every future user-facing mission.
+

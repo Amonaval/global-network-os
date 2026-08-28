@@ -1,7 +1,8 @@
 import type { FeatureCatalog, FeatureDefinition } from "../../../core/features/contracts";
+import {createAdvancedNetworkFeatures,type AdvancedNetworkFeatureBundle} from "../../../core/features/advanced-network";
 
 export type FamilyExperienceLevel = "simple" | "connected" | "explorer";
-export type FamilyFeatureBundle = "core" | "intelligence" | "remember" | "celebrate" | "connect" | "contribute" | "share" | "admin";
+export type FamilyFeatureBundle = "core" | "intelligence" | "remember" | "celebrate" | "connect" | "contribute" | "share" | "admin" | AdvancedNetworkFeatureBundle;
 
 export const FAMILY_FEATURES = [
   {key:"core.home",bundle:"core",label:"Family home",description:"A calm return screen for the family.",minimumExperience:"simple",defaultLaunch:"released"},
@@ -28,6 +29,7 @@ export const FAMILY_FEATURES = [
   {key:"admin.center",bundle:"admin",label:"Manage family",description:"Family settings and day-to-day administration.",minimumExperience:"admin",defaultLaunch:"released"},
   {key:"admin.import",bundle:"admin",label:"Import family",description:"Guided bulk family import and validation.",minimumExperience:"admin",defaultLaunch:"released"},
   {key:"admin.governance",bundle:"admin",label:"Approvals & history",description:"Governed approvals, audit history and diagnostics.",minimumExperience:"admin",defaultLaunch:"released"},
+  ...createAdvancedNetworkFeatures("family","simple","explorer"),
 ] as const satisfies readonly FeatureDefinition<string, FamilyFeatureBundle, FamilyExperienceLevel>[];
 
 export type FamilyFeatureKey = typeof FAMILY_FEATURES[number]["key"];
