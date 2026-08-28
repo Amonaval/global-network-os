@@ -211,3 +211,9 @@ Mission 4 succeeds if Network OS gains a reusable server/application boundary **
 The approved direction is now source implemented with a deliberately small command surface. `/api/v1` owns five representative commands while direct RLS-protected browser queries remain supported. The server authenticates with the caller's Supabase JWT and anon key rather than a service-role key, preserving RLS as the final security boundary.
 
 The implemented server is modular but remains one deployable Next.js application. This is intentional: it creates future extraction seams without introducing microservice operational cost.
+
+
+## Mission 5 production-runtime layer — 2026-08-28
+Mission 5 standardizes every current `/api/v1` write behind a shared command runtime. It adds bounded request parsing, command burst protection, durable authenticated idempotency for network creation and institutional bootstrap, health/readiness probes, centralized runtime config, stronger structured logs and a future background-job contract.
+
+The burst guard is deliberately instance-local; it is not global rate limiting. The background dispatcher deliberately refuses durable work because no queue/worker exists yet. These are honest seams rather than simulated production infrastructure. Add shared limiting or managed workers only when traffic, integrations or processing duration prove the need.

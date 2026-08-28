@@ -166,7 +166,7 @@ export async function fetchFamilyAdminSummary():Promise<FamilyAdminSummary|null>
 export async function fetchFamilyMemberships():Promise<FamilyMembershipRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_family_memberships");if(error)throw error;return (data||[]) as FamilyMembershipRow[];}
 export async function setFamilyMemberRole(userId:string,role:"admin"|"member"){if(!supabase)return;const {error}=await supabase.rpc("set_family_member_role",{p_user_id:userId,p_role:role});if(error)throw error;}
 export async function addMyselfToFamily(fullName:string,gender?:"Male"|"Female"|"Other"){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("add_myself_to_family",{p_full_name:fullName,p_gender:gender||null});if(error)throw error;return data as string;}
-export async function createFamily(name:string,slug?:string,description=""){const data=await postCommand<CreateNetworkResult>("/api/v1/networks/create",{kind:"family",name,slug,description});return data.networkId;}
+export async function createFamily(name:string,slug?:string,description=""){const data=await postCommand<CreateNetworkResult>("/api/v1/networks/create",{kind:"family",name,slug,description},{idempotent:true});return data.networkId;}
 export async function fetchNetworkSettings(): Promise<NetworkSettings | null> {
   if (!supabase) return null;
   const { data, error } = await supabase

@@ -47,3 +47,7 @@ Promote based on design-partner/customer needs rather than enterprise theater.
 
 ## T11 — AI/RAG runtime
 Keep intelligence decoupled. Reintroduce deeper RAG only when real professional/institutional/network knowledge creates enough evidence and usage to justify it.
+
+
+## T12 — Mission 5 operational runtime — IMPLEMENTED BASELINE
+The application backend now has a shared command execution runtime, bounded request parsing, per-instance burst protection, durable Postgres idempotency for selected duplicate-sensitive commands, health/readiness probes, centralized runtime config, structured logs, stronger CI and a background-job abstraction that intentionally refuses non-durable async execution. This is the production baseline; shared rate limiting, managed queues/workers and external observability remain evidence-triggered.

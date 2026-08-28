@@ -1331,3 +1331,9 @@ See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNT
 
 ## 2026-08-27 — Mission 4 Application & Runtime Foundation
 **SOURCE IMPLEMENTED — RUNTIME VERIFY.** Added a modular `server/` command boundary and versioned `/api/v1` routes for five representative high-value commands: create network, join network, create graph relationship, institutional bootstrap/import and identity claim. Shared contracts are UI-independent for future mobile reuse. Authentication is caller JWT + Supabase anon key; RLS/RPC policies remain authoritative and no service-role secret is exposed or required. Existing UI transport APIs were preserved as compatibility facades. Added structured request/actor/network/command/outcome/duration logging and GitHub Actions CI. Source gates: M4 11/11, STABILITY-1 14/14, M2 19/19, M3 11/11, visible-literal i18n audit 0. Production build and authenticated runtime command checks remain pending due unavailable dependencies in the execution environment.
+
+
+## Mission 5 — Production & Operational Runtime
+**Status:** SOURCE IMPLEMENTED / RUNTIME-DEPLOYMENT VERIFICATION PENDING
+
+Hardened the Mission 4 application boundary without expanding infrastructure: shared command runtime, bounded payload handling, lightweight actor-command burst guard, durable authenticated idempotency for duplicate-sensitive create/bootstrap commands, health/readiness endpoints, runtime config ownership, structured operational metadata, background-job seam and stronger CI/type/build gates. Migration 056 is required before deploying M5 code.

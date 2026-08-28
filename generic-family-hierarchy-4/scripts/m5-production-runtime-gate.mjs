@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');const checks=[];const ok=(n,v)=>checks.push([n,!!v]);
+const runtime=read('server/shared/command-runtime.ts'),safety=read('server/shared/request-safety.ts'),rate=read('server/shared/rate-limit.ts'),idem=read('server/shared/idempotency.ts'),config=read('server/shared/runtime-config.ts'),response=read('server/shared/response.ts'),client=read('lib/api-client.ts'),jobs=read('server/jobs/dispatcher.ts'),migration=read('supabase/migrations/056_m5_production_operational_runtime.sql'),health=read('app/api/health/route.ts'),ready=read('app/api/ready/route.ts'),ci=read('.github/workflows/ci.yml');
+const routes=['app/api/v1/networks/create/route.ts','app/api/v1/networks/join/route.ts','app/api/v1/graph/relationships/route.ts','app/api/v1/institutional/bootstrap/route.ts','app/api/v1/identities/claim/route.ts'].map(read).join('\n');
+ok('all five command routes use shared runtime wrapper',(routes.match(/executeCommand/g)||[]).length>=10);
+ok('request safety enforces JSON and bounded payloads',safety.includes('UNSUPPORTED_MEDIA_TYPE')&&safety.includes('PAYLOAD_TOO_LARGE')&&safety.includes('getReader'));
+ok('authenticated burst guard exists and is explicitly lightweight',rate.includes('__networkOsBurstGuard')&&rate.includes('RATE_LIMITED'));
+ok('durable idempotency is backed by Supabase RPCs',idem.includes('begin_api_command_idempotency')&&idem.includes('complete_api_command_idempotency')&&migration.includes('api_command_idempotency'));
+ok('idempotency protects create + institutional bootstrap',routes.includes('idempotency:"required"')&&(routes.match(/idempotency:"required"/g)||[]).length===2);
+ok('client preserves idempotency key across bounded transient retry',client.includes('idempotencyKey')&&client.includes('[502,503,504]')&&client.includes('attempts=options.idempotent'));
+ok('runtime config ownership is centralized',config.includes('NEXT_PUBLIC_SUPABASE_URL')&&config.includes('NEXT_PUBLIC_SUPABASE_ANON_KEY'));
+ok('health and dependency readiness endpoints exist',health.includes('status:"healthy"')&&ready.includes('/auth/v1/health')&&ready.includes('status:"ready"'));
+ok('structured operational logging retains command metadata',response.includes('network_os_command')&&response.includes('errorCode')&&response.includes('timestamp'));
+ok('background job seam refuses fake durable serverless work',jobs.includes('BACKGROUND_RUNTIME_NOT_CONFIGURED')&&jobs.includes('runBoundedInlineJob'));
+ok('database idempotency remains authenticated and no service role introduced',migration.includes('auth.uid()')&&!migration.includes('service_role')&&!runtime.includes('SERVICE_ROLE'));
+ok('CI includes M5 gate, typecheck and production build',ci.includes('validate:m5')&&ci.includes('check:types')&&ci.includes('npm run build'));
+for(const [n,p] of checks)console.log(`${p?'PASS':'FAIL'} ${n}`);const failed=checks.filter(x=>!x[1]);console.log(`MISSION-5 source gate: ${checks.length-failed.length}/${checks.length}`);if(failed.length)process.exit(1);

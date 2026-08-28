@@ -112,3 +112,6 @@ Implemented architecture:
 Source gates passed locally without installed project dependencies: Mission 4 11/11, STABILITY-1 14/14, Mission 2 19/19, Mission 3 11/11, i18n visible-literal audit 0.
 
 Production `next build` could not be executed in the extracted working copy because dependencies were not available and `npm ci` could not complete in the execution environment. Treat build + authenticated live command verification as the remaining runtime gate.
+
+## Runtime acceptance — 2026-08-28
+Mission 4 was manually accepted after approximately 30 minutes of navigation across Family and other vertical applications with core Family Tree behavior working well. Three minor/legacy regression findings were logged separately and explicitly deferred; they do not block the Mission 4 architecture objective. Mission 5 now builds on Mission 4 as the accepted application-runtime baseline.

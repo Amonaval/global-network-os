@@ -1,11 +1,11 @@
 import {createClient, type SupabaseClient, type User} from "@supabase/supabase-js";
 import {CommandError} from "./errors";
+import {getRuntimeConfig} from "./runtime-config";
 export type RequestContext={requestId:string;user:User;supabase:SupabaseClient;activeNetworkId?:string;startedAt:number};
 export async function createRequestContext(request:Request):Promise<RequestContext>{
  const requestId=request.headers.get("x-request-id")||crypto.randomUUID();
  const token=request.headers.get("authorization")?.replace(/^Bearer\s+/i,"");
- const url=process.env.NEXT_PUBLIC_SUPABASE_URL,anon=process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
- if(!url||!anon)throw new CommandError("SERVER_NOT_CONFIGURED","Shared Supabase mode is not configured.",503);
+ const {supabaseUrl:url,supabaseAnonKey:anon}=getRuntimeConfig();
  if(!token)throw new CommandError("UNAUTHENTICATED","Please sign in to continue.",401);
  const supabase=createClient(url,anon,{global:{headers:{Authorization:`Bearer ${token}`}},auth:{persistSession:false,autoRefreshToken:false}});
  const {data:{user},error}=await supabase.auth.getUser(token);

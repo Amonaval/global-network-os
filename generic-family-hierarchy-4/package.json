@@ -55,7 +55,9 @@
     "validate:m2": "node scripts/m2-professional-i18n-gate.mjs && npm run validate:stability1",
     "audit:i18n": "node scripts/i18n-extraction-audit.mjs",
     "validate:m3": "node scripts/m3-governed-graph-bootstrap-gate.mjs && npm run validate:m2 && npm run audit:i18n",
-    "validate:m4": "node scripts/m4-application-runtime-gate.mjs && npm run validate:m3"
+    "validate:m4": "node scripts/m4-application-runtime-gate.mjs && npm run validate:m3",
+    "check:types": "tsc --noEmit",
+    "validate:m5": "node scripts/m5-production-runtime-gate.mjs && npm run validate:m4"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

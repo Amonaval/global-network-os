@@ -121,3 +121,7 @@ See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNT
 
 ## Mission 4 — Application & Runtime Foundation
 Source implemented on 2026-08-27. Network OS now has an additive application-owned command boundary using Node-runtime Next.js Route Handlers, modular TypeScript server services, shared API contracts and user-JWT Supabase access. Five commands are extracted: network create, network join, graph relationship create, institutional bootstrap/import and identity claim. Existing screens and compatibility transport signatures are preserved; safe RLS-backed reads remain direct. CI baseline is added. Runtime/build verification remains open because project dependencies were unavailable in the execution environment.
+
+
+## Mission 5 — Production & Operational Runtime
+Source implemented on 2026-08-28. The Mission 4 command boundary now runs through a shared production runtime wrapper with bounded JSON parsing, payload limits, authenticated burst protection, normalized command logging, durable Supabase-backed idempotency for network creation/institutional bootstrap, health/readiness endpoints, centralized runtime config, and an honest background-job seam. CI now includes M5 regression, TypeScript and production build gates. No microservices/Redis/Kafka/service-role runtime was introduced. Runtime/deployment verification remains open.
