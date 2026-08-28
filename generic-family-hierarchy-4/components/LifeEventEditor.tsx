@@ -1,5 +1,5 @@
-import {useLanguage} from "../lib/i18n";
 'use client';
+import {useLanguage} from "../lib/i18n";
 import { useEffect, useState } from 'react';
 import { LifeEvent, Member, ProfileVisibility } from '../lib/types';
 import { X } from 'lucide-react';

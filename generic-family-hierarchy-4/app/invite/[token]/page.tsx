@@ -1,5 +1,5 @@
-import {useLanguage} from "../../../lib/i18n";
 'use client';
+import {useLanguage} from "../../../lib/i18n";
 import {useEffect,useState} from 'react';
 import {useParams,useRouter} from 'next/navigation';
 import {ArrowLeft,ArrowRight,CheckCircle2,Heart,ShieldCheck,TreePine,UserRound} from 'lucide-react';

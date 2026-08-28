@@ -594,24 +594,3 @@ A person can belong to all of these, but experiences appear only within the rele
 
 This resolves a major “super-app clutter” risk: **shared account and platform, separate network contexts.**
 
-## 2026-08-27 — Post-NX Product Reduction Decision Preserved
-
-The post-NX review concluded that architecture/capability quality is materially ahead of visible product clarity. Preserve these product decisions:
-
-- Do **not** continue Family by adding more primary surfaces.
-- Build capability underneath; expose dramatically less.
-- Preferred Family signature direction: **My Family, Through Me** — relationship-first exploration centered on “Who is this person to me?” and a clear relationship path.
-- Consolidate NX return mechanics into **One Family Moment** rather than many independent Home modules.
-- Keep **Family Time Machine / generational preservation** as a deep emotional secondary experience.
-- Move Growth Relay, operational completion metrics and secondary intelligence deeper/on-demand.
-- Do not automatically continue NX-7 or NE-2.
-
-### Portfolio correction
-
-Family remains an important consumer/global UX laboratory, but it must no longer consume the full roadmap. The platform should now seek a balanced portfolio of:
-1. consumer/community value;
-2. monetizable B2B verticals;
-3. institutional-anchor distribution;
-4. reusable graph/network platform leverage.
-
-See `GLOBAL-VERTICAL-OPPORTUNITY-STRATEGY.md`, `COMMERCIALIZATION-DISTRIBUTION-LICENSING-STRATEGY.md`, `GLOBALIZATION-MOBILE-QUALITY-STRATEGY.md` and `GRAPH-NETWORK-PLATFORM-ARCHITECTURE.md`.

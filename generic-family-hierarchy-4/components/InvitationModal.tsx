@@ -1,5 +1,5 @@
-import {useLanguage} from "../lib/i18n";
 'use client';
+import {useLanguage} from "../lib/i18n";
 import { useEffect,useState } from 'react';
 import { Copy,KeyRound,RefreshCw,Share2 } from 'lucide-react';
 import { Member } from '../lib/types';

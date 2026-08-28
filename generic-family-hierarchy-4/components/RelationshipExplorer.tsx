@@ -1,5 +1,5 @@
-import {useLanguage} from "../lib/i18n";
 'use client';
+import {useLanguage} from "../lib/i18n";
 import { useMemo, useState } from 'react';
 import { ArrowRight, GitBranch, X } from 'lucide-react';
 import { Member, Relationship } from '../lib/types';

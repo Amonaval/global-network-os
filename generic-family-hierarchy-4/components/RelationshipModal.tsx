@@ -1,5 +1,5 @@
-import {useLanguage} from "../lib/i18n";
 'use client';
+import {useLanguage} from "../lib/i18n";
 import {useMemo,useState} from 'react';
 import {Member,Relationship,RelationshipType} from '../lib/types';
 import {getNetworkConfig,NetworkSettings} from '../lib/network';
