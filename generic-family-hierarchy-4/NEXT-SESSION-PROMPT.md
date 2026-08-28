@@ -54,3 +54,6 @@ M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe l
 
 ## Latest state — M7-C Guided Pilot & Admin Launch Console
 M7-C is source implemented. Apply migration `063_m7c_guided_pilot_admin_console.sql`, run `npm run validate:m7c`, typecheck/build and the M7-C runtime checklist. The console is aggregate/admin-scoped and must not evolve into a cross-network directory. Next recommended mission is **M7-D — Pilot Feedback & Product Learning Loop — MEDIUM**, using real pilot friction/drop-off and lightweight feedback rather than inventing additional platform machinery.
+
+## Post-M7-D handoff
+M7-D Pilot Feedback & Product Learning Loop is source implemented. Apply migration 064 and run `npm run validate:m7d`, typecheck, build and the M7-D runtime checklist. Mission 7 is now complete as SHOW → GUIDE → OPERATE → LEARN. The next major mission should be chosen from concrete pilot evidence or a deliberately requested strategic track; do not automatically continue infrastructure or graph complexity.

@@ -13,6 +13,6 @@ const checks=[
  ['responsive showcase css',read('app/globals.css').includes('.m7b-showcase')&&read('app/globals.css').includes('@media(max-width:600px)')],
  ['M7 program durable',fs.existsSync('MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md')&&read('MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md').includes('M7-B — WOW Showcase Universe')],
  ['mission docs',fs.existsSync('MISSION-7B-WOW-SHOWCASE-UNIVERSE.md')&&fs.existsSync('MISSION-7B-RELEASE-MANIFEST.md')&&fs.existsSync('MISSION-7B-RUNTIME-VERIFICATION-CHECKLIST.md')],
- ['ci advanced',/validate:m7(?:a|b|c)/.test(read('.github/workflows/ci.yml'))]
+ ['ci advanced',/validate:m7(?:a|b|c|d)/.test(read('.github/workflows/ci.yml'))]
 ];
 for(const[n,ok]of checks)console.log(`${ok?'PASS':'FAIL'} ${n}`);if(checks.some(x=>!x[1]))process.exit(1);console.log(`M7-B source gate: ${checks.length}/${checks.length} PASS`);

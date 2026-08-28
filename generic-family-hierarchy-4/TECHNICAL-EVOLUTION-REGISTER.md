@@ -77,3 +77,6 @@ Source implemented. My Networks now includes a read-only synthetic Scenario Thea
 
 ## M7-C — Pilot portfolio operating layer
 Added an admin-scoped aggregate pilot console above M7-A. Reuses existing membership/claim/bridge/M6-D event data; no new analytics vendor or parallel admin subsystem. Migration 063 returns counts and timestamps only. Reconsider richer operational analytics only after real pilot evidence demonstrates a need.
+
+## M7-D — First-party pilot learning seam
+Added a small first-party `pilot_feedback` store with governed submission/context/admin-summary RPCs. This intentionally avoids a third-party analytics/survey dependency. Revisit external product analytics only if real pilot volume, cohort analysis or experimentation needs exceed the bounded Postgres model.

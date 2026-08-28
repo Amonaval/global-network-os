@@ -117,3 +117,10 @@ M7-A is now source implemented. My Networks includes a Launch Activation guide f
 
 ## M7-C implementation update — Guided Pilot & Admin Launch Console V1
 M7-C is now source implemented as a portfolio operating layer above M7-A. My Networks aggregates every network the signed-in user owns/administers into Starting, Progressing, Needs attention or Value proven states. It surfaces seeded entities, active participants, claimed identities, accepted bridges and 30-day discovery/introduction activity, then deterministically identifies the highest-leverage missing constraint. Migration 063 is counts/timestamps only and preserves all M6 privacy boundaries. M7-A remains the per-network action guide; M7-C only prioritizes where an organizer should intervene.
+
+## M7-D — Pilot Feedback & Product Learning Loop — SOURCE IMPLEMENTED
+M7-D closes the Mission 7 learning loop with lightweight contextual feedback rather than long surveys. Members can record whether a meaningful step helped, partly helped or blocked them, choose a bounded friction category, and optionally add a short non-sensitive note. Owners/Admins see aggregate helpful/blocked rates, top friction, per-network learning and recent de-identified notes. M7-D deliberately does not join feedback to M6 search text, candidate identities or contact data. Migration: `064_m7d_pilot_feedback_product_learning.sql`.
+
+### Mission 7 completion model
+`M7-B SHOW → M7-A GUIDE → M7-C OPERATE → M7-D LEARN`.
+Future missions should now be selected from repeated pilot friction, successful outcomes and real adoption evidence rather than capability accumulation alone.

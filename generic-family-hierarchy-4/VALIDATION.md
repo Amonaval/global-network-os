@@ -588,3 +588,8 @@ M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe l
 
 ## M7-C validation
 `npm run validate:m7c` runs the M7-C source gate and then the complete M7-A → M7-B → M6-E → prior regression chain. Final runtime closure additionally requires typecheck/build and `MISSION-7C-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+## M7-D — Pilot Feedback & Product Learning Loop
+- `npm run validate:m7d`
+- M7-D source gate validates contextual feedback, membership/admin scope, bounded friction taxonomy, privacy separation, spam guard and cumulative M7-C chain.
+- Runtime checklist: `MISSION-7D-RUNTIME-VERIFICATION-CHECKLIST.md`.

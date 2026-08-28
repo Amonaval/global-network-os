@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');let passed=0;const ok=(n,c)=>{if(!c){console.error(`FAIL: ${n}`);process.exitCode=1}else{passed++;console.log(`PASS: ${n}`)}};
+const ui=read('components/PilotFeedbackLearningLoop.tsx'),home=read('components/MyNetworksHome.tsx'),sql=read('supabase/migrations/064_m7d_pilot_feedback_product_learning.sql'),remote=read('capabilities/pilot-learning/remote.ts'),docs=read('MISSION-7D-PILOT-FEEDBACK-PRODUCT-LEARNING.md'),pkg=JSON.parse(read('package.json'));
+ok('Feedback loop is present in My Networks',home.includes('<PilotFeedbackLearningLoop identity={identity}/>')&&ui.includes('pilot-feedback-learning-loop'));
+ok('Feedback is contextual and lightweight',ui.includes('M7DHelpfulTxt')&&ui.includes('M7DPartialTxt')&&ui.includes('M7DBlockedTxt'));
+ok('Privacy hint is explicit',ui.includes('M7DPrivacyHintTxt')&&sql.includes('never joined to discovery candidates/search text'));
+ok('Feedback requires active membership',sql.includes('not public.is_network_member(p_network_id)'));
+ok('Admin learning is owner/admin scoped',sql.includes("nm.role in('owner','admin')")&&sql.includes('get_my_pilot_learning_summary'));
+ok('Learning summary does not expose feedback author',sql.includes("'recentNotes'")&&!sql.includes("'userId'"));
+ok('Friction taxonomy is bounded',sql.includes("'next_step','setup','data','permission','discovery','consent','technical','other'"));
+ok('Daily feedback spam guard exists',sql.includes("interval '1 day'")&&sql.includes('>=20'));
+ok('Remote adapter uses dedicated M7-D RPCs',remote.includes('submit_pilot_feedback')&&remote.includes('get_my_pilot_learning_summary'));
+ok('Mission documentation exists',docs.includes('Pilot Feedback')&&docs.includes('repeated friction'));
+ok('Validation command chains into M7-C',pkg.scripts?.['validate:m7d']?.includes('m7d-pilot-feedback-learning-gate.mjs')&&pkg.scripts?.['validate:m7d']?.includes('validate:m7c'));
+console.log(`M7-D source gate: ${passed}/11 passed`);if(process.exitCode)process.exit(process.exitCode);

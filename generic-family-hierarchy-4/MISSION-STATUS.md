@@ -1371,3 +1371,8 @@ M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe l
 ## M7-C — Guided Pilot & Admin Launch Console
 **Status:** SOURCE IMPLEMENTED / SOURCE-GATED / RUNTIME VERIFICATION PENDING.
 M7-C adds an admin-scoped pilot portfolio to My Networks. It classifies administered networks as Starting, Progressing, Needs attention or Value proven, shows 30-day activation signals and identifies the highest-leverage missing step. Migration 063 returns aggregate counts/timestamps only. Existing M7-A actions and M6 trust/privacy workflows remain authoritative.
+
+## M7-D — Pilot Feedback & Product Learning Loop
+**Status:** SOURCE IMPLEMENTED / SOURCE-GATED / RUNTIME VERIFICATION PENDING
+
+Members can provide lightweight contextual feedback on launch, participation, claiming, bridges, discovery, introductions and outcomes. Owners/Admins receive aggregate learning signals and de-identified notes. Mission 7 is now functionally complete as SHOW → GUIDE → OPERATE → LEARN. Runtime certification remains in the fully installed project.

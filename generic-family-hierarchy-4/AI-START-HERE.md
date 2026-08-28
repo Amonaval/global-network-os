@@ -141,3 +141,6 @@ M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe l
 
 ## M7-C handoff
 M7-C Guided Pilot & Admin Launch Console is source implemented. Treat M7-A as the per-network activation guide and M7-C as the portfolio prioritization layer. Preserve the admin-only aggregate RPC and M6 privacy boundaries. Next strategic product-learning step is M7-D.
+
+### Latest mission: M7-D Pilot Feedback & Product Learning Loop
+Mission 7 is now complete at source level: M7-B SHOW → M7-A GUIDE → M7-C OPERATE → M7-D LEARN. Preserve the privacy separation between pilot feedback and M6 search/candidate data. Future mission selection should use repeated pilot friction and proven outcomes as primary evidence rather than extending graph/platform complexity by default.

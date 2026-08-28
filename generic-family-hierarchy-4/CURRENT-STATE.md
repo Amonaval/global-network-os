@@ -156,3 +156,6 @@ M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe l
 
 ## M7-C current state
 Guided Pilot & Admin Launch Console is source implemented. My Networks now provides a privacy-safe portfolio view across networks the caller administers, including readiness, health, 30-day discovery/outcome signals and a deterministic highest-leverage intervention. Apply migration 063 and complete runtime verification before closing.
+
+## M7-D checkpoint
+Mission 7 now includes a closed product-learning loop. `PilotFeedbackLearningLoop` captures bounded contextual feedback from active members and provides Owners/Admins with aggregate 30-day learning across administered networks. Feedback remains separate from M6 discovery candidate/search data. Migration 064 is required. The next major mission should be evidence-led from real pilot friction and demonstrated repeat value.

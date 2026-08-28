@@ -1811,3 +1811,6 @@ M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe l
 
 ## M7-C — Guided Pilot & Admin Launch Console — SOURCE IMPLEMENTED
 Portfolio operating layer for Owners/Admins running real pilots. Reuses M7-A activation state and M6-D events to prioritize networks by intervention need. Runtime certification remains. Next: M7-D Pilot Feedback & Product Learning Loop; do not add more admin metrics until real pilot behavior shows they are necessary.
+
+## M7-D — Pilot Feedback & Product Learning Loop — SOURCE IMPLEMENTED
+Closes Mission 7 with contextual micro-feedback and admin-scoped learning. Measure whether key experiences actually helped, classify repeated friction, and review de-identified notes without exposing M6 search/candidate data. Migration 064. After M7-D, select the next major product mission from real pilot evidence; avoid adding speculative platform complexity without a demonstrated problem.

@@ -421,3 +421,8 @@ M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe l
 
 ## Guided Pilot & Admin Launch Console (M7-C)
 If you own or administer more than one network, open **My Networks** and use **Guided Pilot & Admin Launch Console** to see which pilot needs attention first. The console summarizes launch readiness, claimed identities, bridges and recent discovery/introduction outcomes. Use **Act now** or select a network row to open the existing network and complete the suggested missing step. The console is for prioritization only; it does not expose members from other networks.
+
+## Pilot Feedback & Product Learning
+In **My Networks**, members can share one quick signal about a meaningful network step: whether it helped, partly helped, or blocked them. If something got in the way, choose the closest friction category and optionally add a short note. Do not include names, contact details, health information or other private network data in the note.
+
+Owners/Admins also see an aggregate learning snapshot for networks they administer. Use repeated friction as a reason to simplify the product or pilot process before asking people to adopt more features.
