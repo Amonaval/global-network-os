@@ -64,7 +64,8 @@
     "validate:m6d": "node scripts/m6d-network-effect-activation-gate.mjs && npm run validate:m6c",
     "validate:m6e": "node scripts/m6e-governed-multihop-paths-gate.mjs && npm run validate:m6d",
     "validate:m7b": "node scripts/m7b-wow-showcase-gate.mjs && npm run validate:m6e",
-    "validate:m7a": "node scripts/m7a-zero-friction-launch-gate.mjs && npm run validate:m7b"
+    "validate:m7a": "node scripts/m7a-zero-friction-launch-gate.mjs && npm run validate:m7b",
+    "validate:m7c": "node scripts/m7c-guided-pilot-console-gate.mjs && npm run validate:m7a"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

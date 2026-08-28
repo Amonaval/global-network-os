@@ -1808,3 +1808,6 @@ Source implemented. My Networks now includes a read-only synthetic Scenario Thea
 
 ## M7-A — Zero-Friction Network Launch & Activation
 M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe launch-readiness path: seed meaningful people/entities → bring in participants → claim/link identities → establish trusted reach when appropriate → complete a first consented outcome. Migration 062 returns aggregate counts only for networks the caller administers. Existing import/invite/claim/admin experiences are reused rather than duplicated. Validate with `npm run validate:m7a`; runtime/type/build certification is pending in the normal installed workspace. After M7-A, proceed to M7-C Guided Pilot/Admin Activation and then M7-D Pilot Feedback & Learning, using M7-B/M7-A friction as evidence.
+
+## M7-C — Guided Pilot & Admin Launch Console — SOURCE IMPLEMENTED
+Portfolio operating layer for Owners/Admins running real pilots. Reuses M7-A activation state and M6-D events to prioritize networks by intervention need. Runtime certification remains. Next: M7-D Pilot Feedback & Product Learning Loop; do not add more admin metrics until real pilot behavior shows they are necessary.

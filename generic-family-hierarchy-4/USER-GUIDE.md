@@ -418,3 +418,6 @@ From **My Networks**, open **Experience the Network Effect** to explore seven sy
 
 ## M7-A — Zero-Friction Network Launch & Activation
 M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe launch-readiness path: seed meaningful people/entities → bring in participants → claim/link identities → establish trusted reach when appropriate → complete a first consented outcome. Migration 062 returns aggregate counts only for networks the caller administers. Existing import/invite/claim/admin experiences are reused rather than duplicated. Validate with `npm run validate:m7a`; runtime/type/build certification is pending in the normal installed workspace. After M7-A, proceed to M7-C Guided Pilot/Admin Activation and then M7-D Pilot Feedback & Learning, using M7-B/M7-A friction as evidence.
+
+## Guided Pilot & Admin Launch Console (M7-C)
+If you own or administer more than one network, open **My Networks** and use **Guided Pilot & Admin Launch Console** to see which pilot needs attention first. The console summarizes launch readiness, claimed identities, bridges and recent discovery/introduction outcomes. Use **Act now** or select a network row to open the existing network and complete the suggested missing step. The console is for prioritization only; it does not expose members from other networks.

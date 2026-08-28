@@ -13,5 +13,5 @@ ok('health and dependency readiness endpoints exist',health.includes('status:"he
 ok('structured operational logging retains command metadata',response.includes('network_os_command')&&response.includes('errorCode')&&response.includes('timestamp'));
 ok('background job seam refuses fake durable serverless work',jobs.includes('BACKGROUND_RUNTIME_NOT_CONFIGURED')&&jobs.includes('runBoundedInlineJob'));
 ok('database idempotency remains authenticated and no service role introduced',migration.includes('auth.uid()')&&!migration.includes('service_role')&&!runtime.includes('SERVICE_ROLE'));
-ok('CI includes the latest regression chain, typecheck and production build',/validate:m7[ab]|validate:m6[a-e]|validate:m5/.test(ci)&&ci.includes('check:types')&&ci.includes('npm run build'));
+ok('CI includes the latest regression chain, typecheck and production build',/validate:m7[a-c]|validate:m6[a-e]|validate:m5/.test(ci)&&ci.includes('check:types')&&ci.includes('npm run build'));
 for(const [n,p] of checks)console.log(`${p?'PASS':'FAIL'} ${n}`);const failed=checks.filter(x=>!x[1]);console.log(`MISSION-5 source gate: ${checks.length-failed.length}/${checks.length}`);if(failed.length)process.exit(1);

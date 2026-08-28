@@ -74,3 +74,6 @@ Decision: define M7 as Real-World Activation, Showcase & Pilot Readiness and imp
 
 ## M7-B — WOW Showcase Universe & Guided Scenario Theater
 Source implemented. My Networks now includes a read-only synthetic Scenario Theater backed by a deterministic 720-person / six-network showcase universe and seven authored stories. It demonstrates direct and governed two-hop trusted reach while preserving M6 anonymous discovery and target consent. M7-B also re-ships `CrossNetworkDiscovery.tsx` to repair the observed sequential-package missing-module regression. No database migration is required. Runtime/type/build certification remains pending in the fully installed project workspace.
+
+## M7-C — Pilot portfolio operating layer
+Added an admin-scoped aggregate pilot console above M7-A. Reuses existing membership/claim/bridge/M6-D event data; no new analytics vendor or parallel admin subsystem. Migration 063 returns counts and timestamps only. Reconsider richer operational analytics only after real pilot evidence demonstrates a need.

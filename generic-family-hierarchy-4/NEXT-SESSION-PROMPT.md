@@ -51,3 +51,6 @@ M7-B is source implemented. Apply the M7-B affected-files package as a self-cont
 
 ## M7-A — Zero-Friction Network Launch & Activation
 M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe launch-readiness path: seed meaningful people/entities → bring in participants → claim/link identities → establish trusted reach when appropriate → complete a first consented outcome. Migration 062 returns aggregate counts only for networks the caller administers. Existing import/invite/claim/admin experiences are reused rather than duplicated. Validate with `npm run validate:m7a`; runtime/type/build certification is pending in the normal installed workspace. After M7-A, proceed to M7-C Guided Pilot/Admin Activation and then M7-D Pilot Feedback & Learning, using M7-B/M7-A friction as evidence.
+
+## Latest state — M7-C Guided Pilot & Admin Launch Console
+M7-C is source implemented. Apply migration `063_m7c_guided_pilot_admin_console.sql`, run `npm run validate:m7c`, typecheck/build and the M7-C runtime checklist. The console is aggregate/admin-scoped and must not evolve into a cross-network directory. Next recommended mission is **M7-D — Pilot Feedback & Product Learning Loop — MEDIUM**, using real pilot friction/drop-off and lightweight feedback rather than inventing additional platform machinery.

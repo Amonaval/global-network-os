@@ -114,3 +114,6 @@ M7-B should now be used as a product-design test harness before M7-A: any confus
 
 ## M7-A implementation update — Zero-Friction Launch V1
 M7-A is now source implemented. My Networks includes a Launch Activation guide for networks the signed-in person owns/administers. It measures five progressive signals — seeded people/entities, active participants, claimed identities, accepted bridges and accepted introductions — and gives one deterministic best next action. Migration 062 provides counts-only admin-scoped snapshots. Existing import, invite, claim and network admin screens remain authoritative; M7-A orchestrates them instead of replacing them.
+
+## M7-C implementation update — Guided Pilot & Admin Launch Console V1
+M7-C is now source implemented as a portfolio operating layer above M7-A. My Networks aggregates every network the signed-in user owns/administers into Starting, Progressing, Needs attention or Value proven states. It surfaces seeded entities, active participants, claimed identities, accepted bridges and 30-day discovery/introduction activity, then deterministically identifies the highest-leverage missing constraint. Migration 063 is counts/timestamps only and preserves all M6 privacy boundaries. M7-A remains the per-network action guide; M7-C only prioritizes where an organizer should intervene.
