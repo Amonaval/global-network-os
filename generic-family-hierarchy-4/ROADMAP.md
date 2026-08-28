@@ -1824,3 +1824,311 @@ M7-F closes the Real-World Activation & Showcase program. No automatic M7-G is p
 ## Launch Governance Invariant — LC-1 complete
 All advanced M6/M7 capabilities are now launch-controlled per vertical. Future missions must include catalog registration + persisted launch row + runtime gate before closure. Advanced capabilities remain TEST by default until deliberate Pilot/Release promotion.
 
+
+# 2026-08-28 — Second Network Dimension: Federation / Affiliation
+
+## Strategic finding
+The Network OS now has two independent but complementary structural dimensions. This is a major product-model clarification and should be used in future architecture, demos, product education and roadmap decisions.
+
+### Dimension A — horizontal trusted reach
+`Person → many governed memberships` plus `Network ↔ Network` trusted peer bridges.
+
+Purpose:
+- preserve independent network governance;
+- allow privacy-safe cross-network discovery;
+- enable consented introductions;
+- support bounded multi-hop trusted paths;
+- avoid merging member directories or graphs.
+
+Conceptual shape:
+
+```text
+Family A ───── trusted bridge ───── Alumni B ───── trusted bridge ───── Professional C
+   │                                      │                                      │
+people / local profiles              people / local profiles              people / local profiles
+```
+
+### Dimension B — vertical network federation
+`Person → Network → Community / Umbrella → Federation`.
+
+Purpose:
+- allow many small/private networks to participate in a larger ecosystem;
+- keep each child network's internal graph private;
+- expose a deliberate federated/public network profile upward;
+- support affiliation, chapter, association, franchise and federation semantics;
+- enable umbrella-level applications without flattening the underlying networks.
+
+Conceptual shape:
+
+```text
+                         Wider Federation
+                               │
+                        Community / Umbrella
+                  ┌────────────┼────────────┐
+                  │            │            │
+              Family A      Family B      Family C
+                  │
+               Members
+```
+
+Equivalent non-Family shapes include:
+- business → trade association;
+- outlet/dealer → regional franchise → national franchise;
+- alumni chapter → university alumni federation;
+- local organization → district/state/national federation;
+- professional group → umbrella association.
+
+## Product model — the cross
+
+```text
+                         NETWORK FEDERATION
+                               ↑
+                               │
+              Network → Community → Federation
+                               │
+                               │
+HORIZONTAL TRUST  Network A ← NETWORK OS → Network B  HORIZONTAL TRUST
+                               │
+                               │
+                    Person → many networks
+                               ↓
+                         TRUSTED IDENTITY
+```
+
+The product should therefore no longer be explained as only a hierarchy/tree or only a multi-network identity system. It is a governed **network-of-networks operating system** with both peer trust and hierarchical/federated affiliation.
+
+## Critical architecture contract — Private Graph vs Federated Profile
+Affiliation must never imply inheritance of the child network's private graph.
+
+A future federated/public network profile may expose policy-controlled fields such as:
+- network/community name;
+- verified affiliation status;
+- origin / broad geography;
+- broad size or household/entity count;
+- opted-in public/federated participants;
+- expertise/capability summaries;
+- coordinators/representatives;
+- approved public history/description;
+- application-specific opt-in attributes.
+
+It must not automatically expose:
+- exact Family kinship graph;
+- private profile/contact data;
+- memories/private media;
+- internal Organization/Business relationships;
+- private events/discussions;
+- unclaimed people;
+- hidden or network-local attributes.
+
+## New strategic track — NF: Network Federation & Community Ecosystem
+Mission 7 remains closed. Federation is a separate strategic track, not M7-G.
+
+### NF-0 — Federation Architecture & Privacy Contract
+Define neutral relationship semantics, authorization, visibility inheritance rules, provenance and public/federated-profile boundaries. Distinguish peer trust bridges from affiliation/containment relationships.
+
+### NF-1 — Network Federated/Public Profile
+Give each network an explicit policy-controlled outward profile. Reuse existing network identity, launch control and visibility primitives where semantically valid.
+
+### NF-2 — Network → Umbrella Affiliation
+Request/approve/revoke affiliation between a child network and umbrella network. Initial relationship types should include affiliation, chapter, association, franchise and federation without forcing them into M6 peer-bridge semantics.
+
+### NF-3 — Umbrella Network Runtime
+Allow the umbrella to treat networks—not only people/entities—as governed participants. Provide network-member directory, affiliation status, aggregate health and permitted public profile views.
+
+### NF-4 — Federated Directory & Discovery
+Search/discover participating networks and opted-in participants across the umbrella while preserving source-network provenance and privacy.
+
+### NF-5 — Community Applications Framework
+Create reusable application scopes on top of federation, e.g. matrimony, jobs/referrals, expertise, business discovery, mentorship, relocation help, events, emergency/community support.
+
+### NF-6 — Trusted Matrimony Vertical V1
+Potential high-value application: claimed person → family provenance → verified community affiliation → explicit matrimony opt-in → privacy-safe discovery → mutual introduction/reveal. Treat this as a vertical/application product, not a relaxation of default profile privacy.
+
+### NF-7 — Federation Pilot / Launch Control / Certification
+All federation and umbrella capabilities must use the existing Launch Control invariant (`hidden → test → pilot → released`) per vertical and, where applicable, per network/pilot cohort.
+
+## Recommended sequencing
+Do not implement the entire NF track in one batch. The first architecture/product batch should be **NF-0 + NF-1 + NF-2**. It creates the second dimension without prematurely building a community super-app or matrimony marketplace.
+
+A strong real-world pilot candidate is multiple actual Family networks affiliating into one wider community umbrella while each Family retains its private governance and data boundary.
+
+# 2026-08-28 — Product Storytelling & Documentation System
+
+## Working public name
+**TrustWeave — Trusted Network OS** is the current working public name because it communicates governed trust plus networks woven into larger ecosystems. It is provisional; trademark/domain availability has not been evaluated.
+
+Alternative naming directions retained for later brand review:
+- NexWeave — Network Ecosystem OS;
+- Relara — Relationship Network OS;
+- TrustNexus — Governed Network Platform;
+- KinMesh — Community Trust Network (more Family/community weighted).
+
+## Working public description
+> TrustWeave is a governed Network OS for families, alumni, professional groups, businesses, franchises and communities. People can belong to many private networks, networks can establish trusted peer bridges, and networks can affiliate into larger communities/federations while exposing only deliberately shared profiles. Applications such as trusted introductions, expertise discovery, jobs, business discovery, community services and matrimony can reuse the same identity, trust, privacy and consent foundation.
+
+## Two durable public/story artifacts created now
+1. `TRUSTWEAVE-PUBLIC-PRODUCT-PROFILE.html` — public-facing interactive product explainer: product thesis, two-dimensional architecture, applications, privacy boundary, major capabilities and working-name exploration.
+2. `TRUSTWEAVE-PRODUCT-EVOLUTION-JOURNEY.html` — interactive organic product history from the personal Family hierarchy POC through Family product, architecture hardening, vertical expansion, intelligence, network effect, M6/M7 governance and the new Federation dimension.
+
+These pages are intended to preserve product comprehension. The platform has crossed the point where a new stakeholder—or even the founder after a gap—can infer the whole product from the UI or codebase alone.
+
+## Future artifact/page catalog — capture now, build later
+Do not create all of these immediately. Add them only as needed, preferably as polished interactive HTML for demo/public storytelling and Markdown/DOCX for durable engineering/governance records.
+
+### A. Public / market-facing
+- Public Product Profile / landing explainer;
+- Product Evolution Journey;
+- 2-minute visual “What is TrustWeave?” story;
+- use-case gallery by outcome;
+- vertical gallery: Family, Alumni, Professional, Organization, Business Trust, Franchise, Community/Federation;
+- interactive “two dimensions” Network OS explainer;
+- trust/privacy explainer for non-technical users;
+- interactive trusted-matrimony concept page;
+- community/federation concept page;
+- buyer/organizer story pages;
+- public FAQ;
+- product principles / why-not-a-social-network page;
+- showcase universe/story theater companion page.
+
+### B. Product comprehension
+- complete Feature Encyclopedia — one interactive HTML covering every feature, purpose, role eligibility, launch state, data boundary and related missions;
+- How to Start — organizer/admin onboarding from empty network to first useful outcome;
+- How to Use — member journey;
+- Network lifecycle map: create → seed → invite → claim → activate → bridge → federate → applications;
+- persona architecture: member, claimed person, network admin, platform owner, community coordinator, pilot operator, external invitee;
+- persona-specific application maps;
+- capability dependency map;
+- application catalog and “what foundation does this app reuse?” map;
+- launch-state matrix by vertical;
+- glossary / conceptual model page;
+- current-state dashboard summarizing what is real, pilot, experimental or future.
+
+### C. User-level architecture
+- “Architecture without code” interactive page;
+- Person → Membership → Local Profile diagram;
+- Network ↔ Network trust diagram;
+- Network → Umbrella federation diagram;
+- private graph vs federated profile diagram;
+- identity reveal / introduction consent sequence;
+- feature Launch Control decision flow;
+- permission/visibility matrix explained with personas;
+- cross-vertical capability tree;
+- application-layer map (matrimony/jobs/business/expertise/etc.);
+- Network OS cross-shaped architecture master diagram.
+
+### D. Technical architecture / engineering
+- system architecture overview;
+- frontend/application shell architecture;
+- Supabase data/RLS architecture;
+- `/api/v1` command/runtime boundary;
+- capability tree and vertical composition map;
+- entity/edge/event contracts;
+- membership vs profile/identity-link contracts;
+- network trust bridge contracts;
+- federation/affiliation contracts once NF exists;
+- launch-control runtime architecture;
+- intelligence/RAG bridge architecture;
+- ingestion/evidence/provenance architecture;
+- deployment/runtime topology;
+- security threat model;
+- privacy data-flow diagrams;
+- audit/event model;
+- observability/readiness architecture;
+- ADR index + major architecture decisions;
+- migration map / schema evolution journey;
+- API catalog;
+- validation-gate dependency graph;
+- code ownership / module map;
+- technical debt/evolution dashboard.
+
+### E. Vertical-specific product/architecture packs
+For each active vertical: Family, Alumni, Organization, Business Trust, Franchise, Professional, and future Community/Federation:
+- vertical purpose;
+- target personas;
+- domain model;
+- unique relationships;
+- reused capabilities;
+- non-reused/domain-specific capabilities;
+- feature map;
+- workflows;
+- permissions;
+- launch bundles;
+- Playground story;
+- pilot checklist;
+- buyer/value hypothesis.
+
+### F. Use cases / application packs
+- trusted introductions;
+- expert discovery;
+- jobs/referrals;
+- mentorship;
+- business/provider discovery;
+- relocation/local help;
+- community events;
+- emergency/help network;
+- institutional knowledge/organization intelligence;
+- franchise operations;
+- trusted matrimony;
+- future community services.
+
+Each pack should explain persona, trigger, trust path, data exposed, consent point, outcome and which platform primitives it reuses.
+
+### G. Governance, security & privacy
+- Launch Control handbook;
+- feature rollout matrix;
+- RLS/authorization model;
+- privacy model;
+- consent/reveal model;
+- federation publication policy;
+- admin vs platform-owner authority;
+- auditability model;
+- pilot evidence/decision-gate handbook;
+- data retention/export/deletion policies when productized;
+- abuse/safety model for cross-network applications;
+- application-specific safety policies (especially future matrimony/health/community use cases).
+
+### H. Operations / adoption
+- network bootstrap playbook;
+- mass onboarding/operator playbook;
+- volunteer/community coordinator kit;
+- pilot launch checklist;
+- runtime certification dashboard;
+- demo operator guide;
+- troubleshooting / known-state diagnostics;
+- import/data quality playbook;
+- migration/deployment runbook;
+- network health/activation handbook.
+
+### I. Commercial / partner
+- ICP and buyer map by vertical;
+- problem/value matrix;
+- competitive positioning;
+- pilot proposal templates;
+- ROI/value evidence page;
+- packaging/pricing hypothesis;
+- institution/community partnership kit;
+- white-label/embed/API story when evidence justifies it;
+- case-study template;
+- investor/acquirer narrative;
+- moat/network-effect thesis;
+- commercialization decision register.
+
+### J. Evidence / history / continuity
+- Product Evolution Journey (created);
+- release/mission timeline;
+- major product decisions and reversals;
+- “why this exists” decision archive;
+- architecture evolution timeline;
+- pilot evidence timeline;
+- feature origin map (which real problem caused each capability);
+- future founder/session handoff dashboard.
+
+## Documentation design standard
+Future public/demo HTML artifacts should favor:
+- strong visual hierarchy and consistent color themes;
+- interactive diagrams instead of dense prose where possible;
+- persona/use-case explanations beside technical architecture;
+- privacy boundaries shown explicitly;
+- current vs future capabilities visibly differentiated;
+- links between public product story and deeper technical evidence;
+- self-contained HTML where feasible for durable offline demos.

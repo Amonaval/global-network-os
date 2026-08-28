@@ -66,3 +66,29 @@ Mission 7 is now source-complete through M7-F. Do not invent M7-G by default. Us
 
 LC-1 is complete: M6/M7 advanced capabilities are now controlled per vertical through Founder Launch Control and default TEST-only. Preserve this invariant for every future user-facing mission.
 
+
+## 2026-08-28 — New strategic handoff: Network Federation + Product Story System
+Mission 7 remains closed and LC-1 launch governance remains binding.
+
+A second Network OS dimension has now been identified and recorded in `ROADMAP.md`:
+- **horizontal:** person-many-network identity + Network ↔ Network trusted bridges;
+- **vertical:** Network → Community/Umbrella → Federation using an explicit federated/public network profile rather than graph merging.
+
+Treat this as a new **NF — Network Federation & Community Ecosystem** track, not M7-G. Recommended first implementation batch is **NF-0 Federation Architecture & Privacy Contract + NF-1 Network Federated/Public Profile + NF-2 Network→Umbrella Affiliation**. Do not build the full application ecosystem yet.
+
+Preserve the distinction:
+- M6 trusted bridge = peer trust/reach;
+- NF affiliation = membership/containment/federation semantics.
+
+High-value future application example: trusted-community matrimony using claimed-person provenance + verified Family/community affiliation + explicit application opt-in + mutual consent. Matrimony is one application over the trust/federation foundation, not the foundational data model.
+
+### Product storytelling state
+Working public name: **TrustWeave — Trusted Network OS** (provisional; not trademark/domain checked).
+
+Two interactive HTML artifacts now exist:
+- `TRUSTWEAVE-PUBLIC-PRODUCT-PROFILE.html`
+- `TRUSTWEAVE-PRODUCT-EVOLUTION-JOURNEY.html`
+
+The roadmap also contains a detailed future artifact/page catalog covering public storytelling, product comprehension, user-level architecture, technical architecture, vertical packs, use-case packs, governance/privacy, operations, commercial material and historical/evidence continuity.
+
+In the next session, begin by reading the new Federation + Documentation sections at the bottom of `ROADMAP.md` and these two HTML artifacts. Keep adding clear diagrams and human explanations because the product has crossed the complexity threshold where code/release documents alone are insufficient for comprehension.
