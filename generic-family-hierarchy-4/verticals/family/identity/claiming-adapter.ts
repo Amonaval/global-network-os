@@ -7,6 +7,8 @@ import type {
   VerticalIdentityRef,
 } from "../../../core/identity/contracts";
 import { supabase } from "../../../lib/supabase";
+import {postCommand} from "../../../lib/api-client";
+import type {ClaimIdentityResult} from "../../../core/api/contracts";
 
 export const FAMILY_IDENTITY_SUBJECT_TYPE = "family_person" as const;
 
@@ -30,10 +32,8 @@ export async function fetchMyClaimableProfiles(): Promise<ClaimableFamilyProfile
 }
 
 export async function claimProfileByVerifiedEmail(memberId: string): Promise<string> {
-  if (!supabase) throw new Error("Shared mode is required.");
-  const {data, error} = await supabase.rpc("claim_profile_by_verified_email", {p_member_id: memberId});
-  if (error) throw error;
-  return data as string;
+  const data=await postCommand<ClaimIdentityResult>("/api/v1/identities/claim",{kind:"family",subjectId:memberId});
+  return data.networkId;
 }
 
 function getFamilyClaimEligibility(request: IdentityClaimRequest): IdentityClaimEligibility {

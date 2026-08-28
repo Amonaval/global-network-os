@@ -84,3 +84,31 @@ Prefer new files under `server/`, `app/api/v1/`, tests/scripts and documentation
 ## Closure rule
 
 Do not convert Mission 4 into an infrastructure program. Close it once the architectural boundary is proven and documented. Scale infrastructure only when production evidence demands it.
+
+## Implementation checkpoint — 2026-08-27
+
+**Status:** SOURCE IMPLEMENTED — RUNTIME/DEPLOYMENT VERIFY
+
+Mission 4 now proves the application-owned boundary with five commands while preserving existing UI contracts:
+
+1. `createNetwork` — Family and productized vertical creation.
+2. `joinNetwork` — Family and productized join-code flows.
+3. `createGraphRelationship` — governed productized relationship creation.
+4. `bootstrapInstitution` — existing productized bulk entity import behind an authenticated server command.
+5. `claimIdentity` — Family, Alumni and productized verified-email claiming.
+
+Implemented architecture:
+- UI-independent command/response contracts in `core/api/contracts.ts`.
+- Browser command client in `lib/api-client.ts` that forwards the signed-in user's access token.
+- Node-runtime `/api/v1` Route Handlers.
+- Modular `server/` services for network, graph, institutional and identity commands.
+- Server request context derives the authenticated actor and active network from Supabase; the browser is not trusted to assert actor/network scope.
+- The server uses the public anon key plus the user's JWT, so Supabase RLS/RPC authorization remains authoritative. No service-role credential was introduced.
+- Structured command logging captures request ID, actor, active/result network where available, command, outcome and duration.
+- Existing browser transport functions remain compatibility facades; only the selected commands were rerouted.
+- Safe reads and low-risk existing direct Supabase flows remain unchanged.
+- GitHub Actions baseline now runs install, Mission 4 + existing source gates, and production build.
+
+Source gates passed locally without installed project dependencies: Mission 4 11/11, STABILITY-1 14/14, Mission 2 19/19, Mission 3 11/11, i18n visible-literal audit 0.
+
+Production `next build` could not be executed in the extracted working copy because dependencies were not available and `npm ci` could not complete in the execution environment. Treat build + authenticated live command verification as the remaining runtime gate.

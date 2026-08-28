@@ -541,3 +541,14 @@ The current Next.js + Supabase + Vercel architecture is considered a valid manag
 Do not add microservices, Kubernetes, Kafka, Redis, a dedicated graph database, native mobile, or RAG expansion as part of Mission 4. Extract only 3–5 high-value multi-step/privileged commands and preserve safe direct RLS-protected queries.
 
 See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNTIME-FOUNDATION.md`.
+
+## Mission 4 validation
+Run:
+- `node scripts/m4-application-runtime-gate.mjs`
+- `node scripts/stability-1-source-gate.mjs`
+- `node scripts/m2-professional-i18n-gate.mjs`
+- `node scripts/m3-governed-graph-bootstrap-gate.mjs`
+- `node scripts/i18n-extraction-audit.mjs`
+- `npm run build` once dependencies are installed.
+
+Runtime verification must confirm authenticated create/join/relationship/bootstrap/claim commands work through `/api/v1`, unauthorized calls return normalized 401/403 responses, and direct Supabase access still remains constrained by existing RLS.

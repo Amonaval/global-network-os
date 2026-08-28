@@ -205,3 +205,9 @@ Benchmark Postgres recursive queries/indexing/materialized graph projections bef
 ## Definition of success
 
 Mission 4 succeeds if Network OS gains a reusable server/application boundary **without destabilizing existing verticals**, and at least 3–5 important commands demonstrate the pattern end-to-end. It does not succeed by maximizing backend code or infrastructure count.
+
+## Mission 4 implementation status — 2026-08-27
+
+The approved direction is now source implemented with a deliberately small command surface. `/api/v1` owns five representative commands while direct RLS-protected browser queries remain supported. The server authenticates with the caller's Supabase JWT and anon key rather than a service-role key, preserving RLS as the final security boundary.
+
+The implemented server is modular but remains one deployable Next.js application. This is intentional: it creates future extraction seams without introducing microservice operational cost.

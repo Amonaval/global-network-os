@@ -1328,3 +1328,6 @@ The current Next.js + Supabase + Vercel architecture is considered a valid manag
 Do not add microservices, Kubernetes, Kafka, Redis, a dedicated graph database, native mobile, or RAG expansion as part of Mission 4. Extract only 3–5 high-value multi-step/privileged commands and preserve safe direct RLS-protected queries.
 
 See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNTIME-FOUNDATION.md`.
+
+## 2026-08-27 — Mission 4 Application & Runtime Foundation
+**SOURCE IMPLEMENTED — RUNTIME VERIFY.** Added a modular `server/` command boundary and versioned `/api/v1` routes for five representative high-value commands: create network, join network, create graph relationship, institutional bootstrap/import and identity claim. Shared contracts are UI-independent for future mobile reuse. Authentication is caller JWT + Supabase anon key; RLS/RPC policies remain authoritative and no service-role secret is exposed or required. Existing UI transport APIs were preserved as compatibility facades. Added structured request/actor/network/command/outcome/duration logging and GitHub Actions CI. Source gates: M4 11/11, STABILITY-1 14/14, M2 19/19, M3 11/11, visible-literal i18n audit 0. Production build and authenticated runtime command checks remain pending due unavailable dependencies in the execution environment.

@@ -118,3 +118,6 @@ The current Next.js + Supabase + Vercel architecture is considered a valid manag
 Do not add microservices, Kubernetes, Kafka, Redis, a dedicated graph database, native mobile, or RAG expansion as part of Mission 4. Extract only 3–5 high-value multi-step/privileged commands and preserve safe direct RLS-protected queries.
 
 See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNTIME-FOUNDATION.md`.
+
+## Mission 4 — Application & Runtime Foundation
+Source implemented on 2026-08-27. Network OS now has an additive application-owned command boundary using Node-runtime Next.js Route Handlers, modular TypeScript server services, shared API contracts and user-JWT Supabase access. Five commands are extracted: network create, network join, graph relationship create, institutional bootstrap/import and identity claim. Existing screens and compatibility transport signatures are preserved; safe RLS-backed reads remain direct. CI baseline is added. Runtime/build verification remains open because project dependencies were unavailable in the execution environment.

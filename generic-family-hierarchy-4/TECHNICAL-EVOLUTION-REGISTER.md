@@ -5,7 +5,7 @@
 ## Promotion rule
 A technical item becomes an implementation mission only when it blocks one or more of: validated user value, security/privacy, mobile portability, institutional scale, a commercial vertical, operational reliability, or development velocity.
 
-## T1 — Application-owned backend boundary — NEXT / Mission 4
+## T1 — Application-owned backend boundary — SOURCE IMPLEMENTED / RUNTIME VERIFY
 - Introduce modular server-side domain services and versioned command APIs.
 - Preserve Supabase as primary managed backend infrastructure.
 - Extract only high-value multi-step/privileged commands.
