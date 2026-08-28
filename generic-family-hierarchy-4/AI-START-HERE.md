@@ -144,3 +144,6 @@ M7-C Guided Pilot & Admin Launch Console is source implemented. Treat M7-A as th
 
 ### Latest mission: M7-D Pilot Feedback & Product Learning Loop
 Mission 7 is now complete at source level: M7-B SHOW → M7-A GUIDE → M7-C OPERATE → M7-D LEARN. Preserve the privacy separation between pilot feedback and M6 search/candidate data. Future mission selection should use repeated pilot friction and proven outcomes as primary evidence rather than extending graph/platform complexity by default.
+
+### M7-F product-decision checkpoint
+Mission 7 ends at M7-F. Before proposing more trusted-network/showcase capability, inspect pilot evidence and recorded product decisions. Prefer fixing repeated friction or investing in demonstrated value; HOLD when evidence is insufficient. Never infer that a recorded database decision authorizes automatic code, permission, feature-flag or roadmap mutation.

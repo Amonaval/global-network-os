@@ -162,3 +162,6 @@ Mission 7 now includes a closed product-learning loop. `PilotFeedbackLearningLoo
 
 ## M7-E current state
 Showcase runtime now has aggregate preflight certification and discovery zero-result diagnostics. The synthetic M7-B theater remains separate/read-only.
+
+## M7-F — Pilot Evidence Review & Product Decision Gate
+Implemented as the final planned Mission 7 closure gate. Owner/Admin users can review M7-D feedback by product moment, see an understandable evidence-derived INVEST/FIX/HOLD recommendation, and explicitly record INVEST/FIX/HOLD/STOP with rationale, next action and a bounded evidence snapshot. Recommendations never mutate roadmap, feature flags, permissions or runtime behavior automatically. Mission 7 is now closed as SHOW → GUIDE → OPERATE → LEARN → CERTIFY → DECIDE.

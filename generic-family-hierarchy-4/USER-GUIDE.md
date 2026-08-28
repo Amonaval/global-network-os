@@ -426,3 +426,6 @@ If you own or administer more than one network, open **My Networks** and use **G
 In **My Networks**, members can share one quick signal about a meaningful network step: whether it helped, partly helped, or blocked them. If something got in the way, choose the closest friction category and optionally add a short note. Do not include names, contact details, health information or other private network data in the note.
 
 Owners/Admins also see an aggregate learning snapshot for networks they administer. Use repeated friction as a reason to simplify the product or pilot process before asking people to adopt more features.
+
+## Pilot Evidence Review — Owner/Admin
+After collecting pilot feedback, open **My Networks → Pilot Evidence Review**. Each experience moment shows its feedback count, helpful rate, top friction and a suggested disposition. `INVEST` means deepen proven value; `FIX` means remove repeated friction before expanding; `HOLD` means keep scope stable while gathering evidence; `STOP` is an explicit human choice to stop further investment. Add a rationale before saving. Saving a decision records the evidence and reasoning only—it does not change product features or permissions.

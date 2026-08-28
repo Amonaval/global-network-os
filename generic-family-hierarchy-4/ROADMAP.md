@@ -1817,3 +1817,6 @@ Closes Mission 7 with contextual micro-feedback and admin-scoped learning. Measu
 
 ## M7-E — Showcase Runtime Hardening & Demo Certification — IMPLEMENTED
 Closure mission for the M6/M7 trusted-network track: live demo preflight, privacy-safe zero-result diagnostics, runtime certification and hardening. Further work in this track should be pilot-evidence driven.
+
+## Mission 7 closure gate — M7-F complete
+M7-F closes the Real-World Activation & Showcase program. No automatic M7-G is planned. The next major mission must be justified by either (a) recorded pilot evidence producing a credible INVEST/FIX decision and next action, or (b) a deliberately chosen business/market objective with written rationale. HOLD is the default when evidence is thin or mixed.

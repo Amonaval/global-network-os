@@ -60,3 +60,6 @@ M7-D Pilot Feedback & Product Learning Loop is source implemented. Apply migrati
 
 ## M7-E handoff
 M7-E is the planned closure mission for M6/M7. Apply migration 066 and run runtime certification. Do not add deeper graph/showcase scope unless pilot evidence demands it.
+
+## Latest closure: M7-F
+Mission 7 is now source-complete through M7-F. Do not invent M7-G by default. Use the M7-F Pilot Evidence Review & Product Decision Gate as the product-development checkpoint: next work should follow recorded INVEST/FIX evidence or an explicit new business/market objective. Preserve the rule that product decisions are advisory/recorded and never automatically mutate feature flags, permissions, roadmap files or code.

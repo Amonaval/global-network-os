@@ -124,3 +124,6 @@ M7-D closes the Mission 7 learning loop with lightweight contextual feedback rat
 ### Mission 7 completion model
 `M7-B SHOW → M7-A GUIDE → M7-C OPERATE → M7-D LEARN`.
 Future missions should now be selected from repeated pilot friction, successful outcomes and real adoption evidence rather than capability accumulation alone.
+
+## M7-F closure — Pilot Evidence Review & Product Decision Gate
+Mission 7 is complete with M7-F. The final operating loop is `SHOW → GUIDE → OPERATE → LEARN → CERTIFY → DECIDE`. Future trusted-network work should be opened because M7-F evidence supports INVEST/FIX or because an explicit business goal overrides the current evidence—not because the capability backlog is interesting.

@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');let passed=0;const ok=(n,c)=>{if(!c){console.error(`FAIL: ${n}`);process.exitCode=1}else{passed++;console.log(`PASS: ${n}`)}};
+const ui=read('components/PilotEvidenceDecisionGate.tsx'),sql=read('supabase/migrations/067_m7f_pilot_evidence_product_decision_gate.sql'),remote=read('capabilities/pilot-decision/remote.ts'),home=read('components/MyNetworksHome.tsx'),doc=read('MISSION-7F-PILOT-EVIDENCE-REVIEW-PRODUCT-DECISION-GATE.md'),pkg=JSON.parse(read('package.json'));
+ok('Decision gate is surfaced in My Networks',home.includes('<PilotEvidenceDecisionGate identity={identity}/>'));
+ok('Evidence uses M7-D pilot feedback',sql.includes('public.pilot_feedback')&&sql.includes('get_my_pilot_product_decision_gate'));
+ok('Four explicit dispositions exist',sql.includes("'invest','fix','hold','stop'")&&ui.includes("['invest','fix','hold','stop']"));
+ok('Recommendation is advisory not automatic roadmap mutation',sql.includes('never mutate roadmap')||sql.includes('never mutate roadmap or features automatically'));
+ok('Human rationale is required',sql.includes('A short rationale is required')&&ui.includes('M7FRationaleTxt'));
+ok('Evidence snapshot is persisted',sql.includes('evidence_snapshot')&&sql.includes("'topFriction'"));
+ok('Owner/Admin authorization enforced',sql.includes("nm.role in('owner','admin')"));
+ok('Remote adapter uses dedicated RPCs',remote.includes('get_my_pilot_product_decision_gate')&&remote.includes('record_pilot_product_decision'));
+ok('Mission documentation exists',doc.includes('INVEST')&&doc.includes('FIX')&&doc.includes('HOLD')&&doc.includes('STOP'));
+ok('Validation command exists',pkg.scripts?.['validate:m7f']?.includes('m7f-pilot-evidence-decision-gate.mjs'));
+console.log(`M7-F source gate: ${passed}/10 passed`);if(process.exitCode)process.exit(process.exitCode);

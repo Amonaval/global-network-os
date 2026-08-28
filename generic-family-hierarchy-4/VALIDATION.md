@@ -596,3 +596,6 @@ M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe l
 
 ## M7-E validation
 Run `npm run validate:m7e`, then `npm run check:types` and `npm run build`. Runtime verification is defined in `MISSION-7E-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+## M7-F validation
+Run `npm run validate:m7f`. The command executes the M7-F source gate and then the entire cumulative validation chain through M7-E and earlier missions. Runtime closure additionally requires applying migration 067 and executing `MISSION-7F-RUNTIME-VERIFICATION-CHECKLIST.md`.

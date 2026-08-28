@@ -80,3 +80,6 @@ Added an admin-scoped aggregate pilot console above M7-A. Reuses existing member
 
 ## M7-D — First-party pilot learning seam
 Added a small first-party `pilot_feedback` store with governed submission/context/admin-summary RPCs. This intentionally avoids a third-party analytics/survey dependency. Revisit external product analytics only if real pilot volume, cohort analysis or experimentation needs exceed the bounded Postgres model.
+
+## M7-F — Evidence-governed product decisions
+Added `pilot_product_decisions` as a small governed decision ledger above M7-D feedback. The system computes transparent advisory recommendations from aggregate pilot outcomes; a human Owner/Admin records the disposition. This is intentionally not an automated product-management agent: no database decision can toggle features, change permissions, edit roadmap artifacts or open engineering scope by itself.

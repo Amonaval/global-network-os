@@ -1379,3 +1379,10 @@ Members can provide lightweight contextual feedback on launch, participation, cl
 
 ### M7-E — Showcase Runtime Hardening & Demo Certification
 Status: SOURCE IMPLEMENTED / RUNTIME CERTIFICATION PENDING. Closes the planned M6/M7 trusted-network showcase track after local runtime verification.
+
+### M7-F — Pilot Evidence Review & Product Decision Gate — SOURCE COMPLETE
+- Evidence review by launch/participation/claim/bridge/discovery/introduction/outcome/general moment.
+- Advisory INVEST / FIX / HOLD recommendations with bounded confidence.
+- Human Owner/Admin can explicitly record INVEST / FIX / HOLD / STOP, rationale and next action.
+- Evidence snapshot stored with each decision; no automatic roadmap/feature mutation.
+- Final planned Mission 7 closure: `SHOW → GUIDE → OPERATE → LEARN → CERTIFY → DECIDE`.
