@@ -1272,3 +1272,5 @@ Delivered relationship-aware reconnect, explainable connection paths and derived
 **Status:** IMPLEMENTED / SOURCE-VALIDATED / MILESTONE RUNTIME VERIFICATION PENDING
 
 Recomposed accumulated Family value into **Today · People · Legacy**, consolidated account actions across vertical shells, simplified profiles into focused tabs, and reduced My Networks/onboarding disclosure. No new schema/RLS or cross-network data path. NX-1→NX-5 and shared identity/membership source gates remain green. Runtime milestone should judge clarity, navigation, mobile quality and whether the product feels materially simpler—not re-test every historical feature.
+
+- NX-6 visual hardening: runtime screenshot issues fixed for NetworkSwitcher row layout/menu height and ProfileDrawer content viewport/guide/header/action proportions. No feature or data-model changes.

@@ -859,3 +859,69 @@ html[data-theme="dark"] .nx6-family-hero{background:radial-gradient(circle at 85
 @media(max-width:900px){.nx6-family-hero{grid-template-columns:1fr}.nx6-family-proof{display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:8px}.nx6-family-proof .nx6-face-stack{grid-row:1/3;margin:0 5px 0 0}.nx6-family-proof>small{grid-column:2/-1;margin:0}.nx6-family-stats{grid-template-columns:repeat(2,1fr)}.nx6-family-stats>button:nth-child(2){border-right:0}.nx6-family-stats>button:nth-child(-n+2){border-bottom:1px solid var(--line)}.nx6-now-grid{grid-template-columns:1fr}.nx6-networks-hero{grid-template-columns:1fr}.nx6-identity-card{max-width:420px}.onboarding-wrap-entry .alpha-entry-options{grid-template-columns:repeat(2,minmax(0,1fr))!important}.onboarding-wrap-entry .productized-create-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:800px){.nx6-top-actions .nx6-privacy-preview{display:none}.network-account-copy{display:none}.network-account-trigger{grid-template-columns:auto auto;padding-right:7px}.network-account-popover{position:fixed;right:10px;top:68px}.family-experience-head{display:block;padding:16px}.family-experience-head h2{font-size:21px}.family-experience-tabs{width:100%;margin-top:12px}.family-experience-tabs button{flex:1;justify-content:center}.family-experience-stage{padding:13px}.profile-overlay{padding:0!important;align-items:flex-end!important}.profile-overlay .drawer{width:100%!important;height:min(92vh,900px)!important;max-height:92vh!important;border-radius:24px 24px 0 0!important;border-bottom:0}.nx6-profile-body{padding:14px 16px 6px}.nx6-profile-actions{display:grid!important;grid-template-columns:1fr 1fr!important}.nx6-profile-actions .btn{justify-content:center}.nx6-profile-actions .btn.primary{grid-column:1/-1;margin:0}.nx6-networks-grid{grid-template-columns:1fr}.nx6-demo-strip{grid-template-columns:1fr 1fr}.onboarding-wrap-entry{padding:14px!important}.onboarding-wrap-entry .alpha-entry-options,.onboarding-wrap-entry .productized-create-grid{grid-template-columns:1fr!important}.onboarding-wrap-entry .playground-gallery-grid{grid-template-columns:1fr 1fr!important}}
 @media(max-width:540px){.nx6-family-hero{padding:23px 18px;border-radius:22px}.nx6-family-hero h1{font-size:34px}.nx6-family-proof{display:none}.nx6-hero-actions{display:grid;grid-template-columns:1fr}.nx6-hero-actions .btn{justify-content:center}.nx6-family-stats>button{padding:10px}.nx6-family-stats b{font-size:13px}.nx6-family-stats small{font-size:7px}.family-experience-tabs button{padding:7px 5px}.family-experience-tabs button span{font-size:9px}.nx6-section-head{display:block}.nx6-section-head p{margin-top:3px}.nx6-now-card{padding:11px}.nx6-networks-hero{padding:22px 17px;border-radius:22px}.nx6-networks-copy h1{font-size:36px}.nx6-networks-actions{display:grid}.nx6-networks-actions .btn{justify-content:center}.nx6-trust-strip{grid-template-columns:auto 1fr}.nx6-private-pill{grid-column:2}.nx6-demo-strip{grid-template-columns:1fr}.onboarding-wrap-entry .playground-gallery-grid{grid-template-columns:1fr!important}.network-account-popover{left:10px;right:10px;width:auto}.profile-overlay .profile-hero{padding:16px}.nx6-profile-tabs{padding-inline:8px}.nx6-profile-actions{grid-template-columns:1fr!important}.nx6-profile-actions .btn.primary{grid-column:auto}}
+
+/* NX-6 visual hardening: compact switcher + usable profile viewport */
+.network-switcher-menu{
+  width:min(390px,calc(100vw - 28px))!important;
+  padding:8px!important;
+  border-radius:16px!important;
+  max-height:min(68vh,520px);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  background:var(--surface-raised)!important;
+}
+.network-switcher-menu-head{display:flex;align-items:center;justify-content:space-between;padding:7px 9px 8px;border-bottom:1px solid var(--line);flex:none}
+.network-switcher-menu-head span{display:flex!important;flex-direction:column!important;gap:1px}
+.network-switcher-menu-head b{font-size:11px!important;color:var(--text)!important}
+.network-switcher-menu-head small{font-size:8px!important;color:var(--muted)!important;text-transform:none!important}
+.network-switcher-list{overflow:auto;overscroll-behavior:contain;padding:4px 0;min-height:0}
+.network-switcher-menu .network-switcher-list>button{min-height:54px;padding:7px 8px!important;gap:8px;border-radius:11px!important}
+.network-switcher-menu .network-switcher-list>button+button{margin-top:2px}
+.network-switcher-menu .network-switcher-row{display:flex!important;flex-direction:row!important;align-items:center!important;gap:9px!important;min-width:0;flex:1}
+.network-switcher-menu .network-switcher-copy{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:2px!important;min-width:0;flex:1}
+.network-switcher-menu .network-switcher-copy b{width:100%;font-size:11px!important;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.network-switcher-menu .network-switcher-copy small{width:100%;font-size:8px!important;line-height:1.25;text-transform:none!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.network-switcher-menu .network-kind-icon{width:34px;height:34px;border-radius:10px;flex:0 0 34px}
+.network-current-pill{flex:none!important;padding:4px 7px;border-radius:999px;background:var(--brand-soft);font-size:8px!important;line-height:1;color:var(--brand)!important}
+.network-switcher-menu .family-switcher-create{flex:none;min-height:42px!important;margin-top:4px!important;padding:8px 9px!important;border-radius:10px!important}
+
+.profile-overlay .drawer{
+  width:min(820px,calc(100vw - 48px))!important;
+  height:auto!important;
+  min-height:min(560px,86vh);
+  max-height:min(88vh,820px)!important;
+}
+.profile-overlay .drawer-head{min-height:52px;padding:8px 12px!important;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.drawer-head-actions{display:flex;align-items:center;gap:6px}
+.profile-overlay .drawer-head .icon-only{width:36px;height:36px;padding:0;display:grid;place-items:center;border-radius:11px}
+.profile-overlay .profile-hero{padding:14px 18px 12px!important;display:flex;align-items:center;gap:16px;min-height:112px}
+.profile-overlay .profile-hero h2{font-size:clamp(20px,2vw,27px)!important;line-height:1.08;margin-bottom:4px!important}
+.nx6-profile-relationship-summary{max-width:620px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.45}
+.nx6-profile-tabs{padding:5px 10px!important;min-height:48px}
+.nx6-profile-tabs button{min-height:36px!important;font-size:10px!important}
+.nx6-profile-body{min-height:0;flex:1 1 420px!important;padding:14px 18px 12px!important;overflow:auto!important;overscroll-behavior:contain;scrollbar-gutter:stable}
+.nx6-profile-body .detail-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0 0 10px!important}
+.nx6-profile-body .detail{padding:11px 12px!important;min-height:76px}
+.nx6-profile-actions{padding:9px 12px 11px!important;gap:7px!important;min-height:58px;overflow-x:auto;flex-wrap:nowrap!important}
+.nx6-profile-actions .btn{min-height:38px;white-space:nowrap}
+.nx6-profile-actions .btn.primary{margin-right:auto!important}
+
+@media(max-width:800px){
+  .network-switcher-menu{position:fixed!important;left:12px!important;right:12px!important;top:70px!important;width:auto!important;max-height:min(72vh,540px)!important}
+  .profile-overlay .drawer{width:100%!important;min-height:0!important;height:min(90vh,760px)!important;max-height:90vh!important}
+  .profile-overlay .profile-hero{min-height:96px;padding:12px 14px!important}
+  .nx6-profile-body{flex-basis:auto!important;padding:12px 14px!important}
+  .nx6-profile-actions{display:flex!important;grid-template-columns:none!important;overflow-x:auto}
+  .nx6-profile-actions .btn.primary{grid-column:auto!important;margin-right:0!important}
+}
+@media(max-width:540px){
+  .network-switcher-menu .network-switcher-list>button{min-height:50px}
+  .profile-overlay .drawer{height:92vh!important;max-height:92vh!important}
+  .profile-overlay .drawer-head{min-height:48px}
+  .profile-overlay .profile-hero{gap:11px;min-height:88px;padding:10px 12px!important}
+  .nx6-profile-relationship-summary{-webkit-line-clamp:1}
+  .nx6-profile-tabs{min-height:44px;padding:4px 7px!important}
+  .nx6-profile-body .detail-grid{grid-template-columns:1fr}
+  .nx6-profile-actions{padding-bottom:max(10px,env(safe-area-inset-bottom))!important}
+}

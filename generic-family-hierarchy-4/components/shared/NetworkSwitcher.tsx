@@ -17,7 +17,8 @@ export default function NetworkSwitcher({onSwitched,onCreate,label="Network"}:{o
  return <div className="family-switcher network-switcher">
   <button className="family-switcher-trigger" onClick={()=>setOpen(v=>!v)} disabled={busy}>{kindIcon(kind,16)}<span><small>{label}</small><b>{active.network.name}</b></span><ChevronDown size={15}/></button>
   {open&&<div className="family-switcher-menu network-switcher-menu">
-   {networks.map(n=><button key={n.network.id} className={n.isActive?"active":""} onClick={()=>switchTo(n.network.id)}><span className="network-switcher-row"><i className={`network-kind-icon ${n.network.verticalKind}`}>{kindIcon(n.network.verticalKind)}</i><span><b>{n.network.name}</b><small>{getVerticalDefinition(n.network.verticalKind).displayName} · {n.role}</small></span></span>{n.isActive&&<b>Current</b>}</button>)}
+   <div className="network-switcher-menu-head"><span><b>Your networks</b><small>{networks.length} available</small></span></div>
+   <div className="network-switcher-list">{networks.map(n=><button key={n.network.id} className={n.isActive?"active":""} onClick={()=>switchTo(n.network.id)}><span className="network-switcher-row"><i className={`network-kind-icon ${n.network.verticalKind}`}>{kindIcon(n.network.verticalKind)}</i><span className="network-switcher-copy"><b>{n.network.name}</b><small>{getVerticalDefinition(n.network.verticalKind).displayName} · {n.role}</small></span></span>{n.isActive&&<b className="network-current-pill">Current</b>}</button>)}</div>
    {onCreate&&<button className="family-switcher-create" onClick={()=>{setOpen(false);onCreate()}}><Plus size={15}/> Add or join a network</button>}
   </div>}
  </div>;

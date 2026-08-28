@@ -10,15 +10,13 @@ import {
   ArrowRight,
   ArrowLeft,
   AlertCircle,
-  Link2, ExternalLink,
+  Link2, ExternalLink, BookOpen,
 } from "lucide-react";
 import {IdentityAvatar,safeExternalUrl} from "../lib/identity";
 import { LifeEvent, Member, Relationship, Memory } from "../lib/types";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
 import { describeRelationshipToViewer, relationshipLabelToViewer } from "../lib/relationship-intelligence";
 import { useLanguage } from "../lib/i18n";
-import FeatureGuide from "./FeatureGuide";
-import {GUIDE_ENTRIES} from "../lib/user-guide-content";
 
 function initials(name: string) {
   return name
@@ -132,18 +130,18 @@ export default function ProfileDrawer({
               ? t("familyProfile")
               : `${cfg.entity_label} Profile`}
           </strong></div>
-        <button className="btn small" aria-label="Close profile" onClick={onClose}>
-            <X size={16} />
-          </button>
+          <div className="drawer-head-actions">
+            {onOpenGuide&&<button className="btn small icon-only profile-guide-button" aria-label="Open profile guide" title="Profile guide" onClick={()=>onOpenGuide("profiles")}><BookOpen size={16}/></button>}
+            <button className="btn small icon-only" aria-label="Close profile" onClick={onClose}><X size={16} /></button>
+          </div>
         </div>
-        <FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key==="profiles")} onOpenGuide={onOpenGuide} rememberKey="drawer-profile"/>
         <div className="profile-hero">
 <IdentityAvatar member={member} size="lg" />
           <div>
             <h2 style={{ margin: "0 0 5px", fontSize: 22 }}>
               {member.full_name}
             </h2>
-            <div className="person-meta">
+            <div className="person-meta nx6-profile-relationship-summary">
               {relationshipToViewer || (simple && cfg.network_template === "family" ? "Family member" : `${cfg.level_label} ${member.generation_level}`)}
             </div>
             {relationshipLabel && <div className={`profile-relationship-badge ${relationshipLabel === "You" ? "you" : ""}`}>{relationshipLabel === "You" ? "This is you" : `Your ${relationshipLabel.toLowerCase()}`}</div>}
