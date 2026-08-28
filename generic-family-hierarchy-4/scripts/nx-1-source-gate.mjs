@@ -4,7 +4,7 @@ const exists=file=>{if(!fs.existsSync(file))throw new Error(`Missing ${file}`)};
 try{
  ["components/MyNetworksHome.tsx","core/identity/trusted-person.ts","capabilities/trusted-identity/runtime.ts","NX-1-MY-NETWORKS-TRUSTED-IDENTITY.md"].forEach(exists);
  need("components/NetworkApp.tsx","<MyNetworksHome");
- need("components/NetworkApp.tsx","<NetworkSwitcher label=\"My Networks\"");
+ need("components/NetworkApp.tsx","<NetworkSwitcher label=\"Switch network\"");
  need("capabilities/network-context/remote.ts",'value === "organization"');
  need("capabilities/network-context/remote.ts",'value === "business-trust"');
  need("capabilities/network-context/remote.ts",'value === "franchise"');

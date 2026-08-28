@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 const checks=[
  ['components/FamilyTimeMachine.tsx',['Family Time Machine','What could be forgotten?','preservationNeeds','No']],
- ['components/FamilyHome.tsx',['FamilyTimeMachine','<FamilyTimeMachine']],
+ ['components/FamilyExperienceHub.tsx',['FamilyTimeMachine','<FamilyTimeMachine']],
  ['lib/user-guide-content.ts',['family-time-machine','Family Time Machine & Generational Legacy']],
  ['app/globals.css',['family-time-machine','time-machine-shell','legacy-risk-grid']],
  ['NX-3-FAMILY-TIME-MACHINE.md',['No AI-generated family narrative','No cross-network data']],

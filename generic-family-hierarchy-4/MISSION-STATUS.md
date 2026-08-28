@@ -1267,3 +1267,8 @@ Purpose: distribute family preservation and growth across ordinary relatives ins
 **Status:** IMPLEMENTED / SOURCE-VALIDATED / RUNTIME MILESTONE VERIFICATION PENDING
 
 Delivered relationship-aware reconnect, explainable connection paths and derived private Family Circles using existing Family graph/context only. No schema/RLS change, public group model, contact exposure or engagement ranking.
+
+## NX-6 — WOW Experience & Product Unification
+**Status:** IMPLEMENTED / SOURCE-VALIDATED / MILESTONE RUNTIME VERIFICATION PENDING
+
+Recomposed accumulated Family value into **Today · People · Legacy**, consolidated account actions across vertical shells, simplified profiles into focused tabs, and reduced My Networks/onboarding disclosure. No new schema/RLS or cross-network data path. NX-1→NX-5 and shared identity/membership source gates remain green. Runtime milestone should judge clarity, navigation, mobile quality and whether the product feels materially simpler—not re-test every historical feature.

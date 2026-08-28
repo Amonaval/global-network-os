@@ -1,5 +1,6 @@
 "use client";
 
+import {useState} from "react";
 import {
   X,
   MapPin,
@@ -81,6 +82,7 @@ export default function ProfileDrawer({
   onOpenGuide?: (key:string) => void;
 }) {
   const { t, language } = useLanguage();
+  const [tab,setTab]=useState<"overview"|"story"|"family">("overview");
   const copy = language === "hi" ? { phone:"फ़ोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोड़ें", noMilestones:"अभी कोई जीवन घटना साझा नहीं की गई।", noMemories:"अभी कोई याद साझा नहीं की गई।", noRelations:"अभी कोई रिश्ता दर्ज नहीं है।", member:"सदस्य", undated:"तारीख नहीं", edit:"बदलें" } : language === "mr" ? { phone:"फोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोडा", noMilestones:"अजून कोणतीही जीवन घटना सामायिक केलेली नाही.", noMemories:"अजून कोणतीही आठवण सामायिक केलेली नाही.", noRelations:"अजून कोणतेही नाते नोंदवलेले नाही.", member:"सदस्य", undated:"तारीख नाही", edit:"बदला" } : { phone:"Phone", email:"Email", about:"About", addEvent:"Add event", noMilestones:"No milestones have been shared yet.", noMemories:"No memories have been shared yet.", noRelations:"No relationships recorded.", member:"Member", undated:"Undated", edit:"Edit" };
   const cfg = getNetworkConfig(network ?? null);
   const visibilityRank = { public: 0, member: 1, admin: 2 } as const;
@@ -147,6 +149,13 @@ export default function ProfileDrawer({
             {relationshipLabel && <div className={`profile-relationship-badge ${relationshipLabel === "You" ? "you" : ""}`}>{relationshipLabel === "You" ? "This is you" : `Your ${relationshipLabel.toLowerCase()}`}</div>}
           </div>
         </div>
+        <div className="nx6-profile-tabs" role="tablist" aria-label="Profile sections">
+          <button role="tab" aria-selected={tab==="overview"} className={tab==="overview"?"active":""} onClick={()=>setTab("overview")}>Overview</button>
+          <button role="tab" aria-selected={tab==="story"} className={tab==="story"?"active":""} onClick={()=>setTab("story")}>Story <span>{visibleEvents.length+visibleMemories.length}</span></button>
+          <button role="tab" aria-selected={tab==="family"} className={tab==="family"?"active":""} onClick={()=>setTab("family")}>Family <span>{related.length}</span></button>
+        </div>
+        <div className="nx6-profile-body">
+        {tab==="overview"&&<>
         {showProfileDetails && <div className="detail-grid">
           <div className="detail">
             <div className="detail-label">
@@ -216,11 +225,11 @@ export default function ProfileDrawer({
         {showProfileDetails && member.bio && (
           <>
             <h3 style={{ fontSize: 14 }}>{copy.about}</h3>
-            <p style={{ fontSize: 13, lineHeight: 1.6, color: "#596579" }}>
-              {member.bio}
-            </p>
+            <p className="nx6-profile-about">{member.bio}</p>
           </>
         )}
+        </>}
+        {tab==="story"&&<>
         <div className="profile-section-head">
           <h3 style={{ fontSize: 14, marginTop: 20, marginBottom: 0 }}>
             {t("lifeJourney")}
@@ -279,7 +288,9 @@ export default function ProfileDrawer({
             </div>
           ))}
         </div>
-        <h3 style={{ fontSize: 14, marginTop: 20 }}>{t("familyConnections")}</h3>
+        </>}
+        {tab==="family"&&<>
+        <h3 style={{ fontSize: 14, marginTop: 4 }}>{t("familyConnections")}</h3>
         <div className="rel-list">
           {related.length === 0 && (
             <div className="empty">{copy.noRelations}</div>
@@ -301,7 +312,9 @@ export default function ProfileDrawer({
           ))}
         </div>
         {!canEdit && viewerMemberId && <div className="profile-correction-note"><AlertCircle size={16}/><span><b>Something looks wrong?</b> Tell the family owner what needs correcting. Members cannot directly change foundational family structure.</span>{onReportCorrection&&<button className="btn small" onClick={onReportCorrection}>Report correction</button>}</div>}
-        <div className="form-actions">
+        </>}
+        </div>
+        <div className="form-actions nx6-profile-actions">
           <button className="btn primary" onClick={() => onFocus(member)}>
             <GitBranch size={15} /> {t("viewInTree")}
           </button>

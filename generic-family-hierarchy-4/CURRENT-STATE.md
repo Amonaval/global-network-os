@@ -49,15 +49,9 @@ G9/G9.1 demonstrated Network Intelligence plus a decoupled Network OS ↔ Knowle
 
 The sequence is **not automatically accepted**. Before implementation, compare it with current code/contracts and challenge dependencies, privacy boundaries and product value.
 
-## Immediate next decision
+## Current product consolidation
 
-Before coding the next strategic mission, produce:
-- current multi-network/identity capability assessment;
-- complete NE-1…NE-8 review;
-- overlap/gap analysis versus existing architecture and earlier tentative G10–G15 ideas;
-- recommended identity → membership → profile/entity → network → cross-network trust model;
-- privacy boundary model;
-- the single highest-value next coherent mission.
+NX-1 through NX-5 established the first Network OS home plus Family return, preservation, participation and belonging loops. **NX-6 is the current consolidation milestone:** reduce feature-stack UX, unify navigation/account controls, simplify profiles and make My Networks + Family Home explain themselves through experience. Runtime verification is still milestone-based. No new schema/RLS/cross-network exposure is introduced by NX-6.
 
 ## Validation / release discipline
 
@@ -86,3 +80,6 @@ Family Participation now starts with a Family Growth Relay: one prioritized usef
 
 ## NX-5 current product state
 Family Home now includes Family Connection & Belonging: a relationship-aware wider-family spotlight, plain-language kinship, a clickable `You → … → relative` path, and derived Family Circles for generation/place/close-family context. It reuses current Family graph data only; no new persistence, contact exposure or social-feed mechanics. Runtime milestone verification pending.
+
+## NX-6 current product state
+Family is recomposed around **Today · People · Legacy** rather than a long stack of mission surfaces. Global account actions now share one menu across Family, Alumni and productized verticals; profiles use focused Overview · Story · Family tabs; My Networks hides secondary Playground/privacy detail until requested. NX-6 is a presentation/composition milestone, not a new data capability. Source/regression gates pass; runtime WOW verification remains pending.

@@ -44,6 +44,7 @@ import SetupScreen from "./SetupScreen";
 import AlumniNetworkApp from "./AlumniNetworkApp";
 import TemplateNetworkApp from "./TemplateNetworkApp";
 import NetworkTopbar from "./shared/NetworkTopbar";
+import NetworkAccountMenu from "./shared/NetworkAccountMenu";
 import NetworkIntelligenceCenter from "./shared/NetworkIntelligenceCenter";
 import type {NetworkAffiliatedEntity,NetworkActivity} from "../core/network-os/contracts";
 import type {NetworkEntityRelationship} from "../capabilities/template-product/remote";
@@ -1234,14 +1235,16 @@ export default function NetworkApp() {
         title={network?.name || "Our Family"}
         badges={canAdmin?[{label:isSupabaseConfigured?t("sharedFamily"):t("localFamily"),tone:isSupabaseConfigured?"shared":"demo",icon:isSupabaseConfigured?<Database size={12}/>:undefined}]:[]}
         middle={demoPreview?<div className="demo-preview-banner"><Sparkles size={14}/><span>Playground · you are {members.find(m=>m.id===demoViewerId)?.full_name.split(/\s+/)[0] || "a sample family member"} for this visit · nothing is saved</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setDemoViewerId(undefined);setFocusId(undefined);setLineageOnly(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>Join or create mine</button></div>:undefined}
-        actions={<div className={experience==="simple"&&!canAdmin?"simple-top-actions":""}>
-          {isSupabaseConfigured && !demoPreview && auth && <><NetworkSwitcher label="My Networks" onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>{setNetwork(null);setSetupNeeded(true)}}/><button className="btn small" onClick={()=>void openMyNetworksHome()}><UsersRound size={15}/> My Networks</button></>}
+        actions={<div className={`nx6-top-actions ${experience==="simple"&&!canAdmin?"simple-top-actions":""}`}>
+          {isSupabaseConfigured && !demoPreview && auth && <NetworkSwitcher label="Switch network" onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>{setNetwork(null);setSetupNeeded(true)}}/>}
           <LanguageSwitcher compact />
-          {isSupabaseConfigured && canAdmin && <span className="person-meta">{auth?.email} · {network?.membership_role || auth?.family_role || "member"}{isPlatformOwner ? " · Platform owner" : ""}</span>}
-          {canAdmin && <select className="select" aria-label="Preview profile privacy as" value={visibility} onChange={(e) => setVisibility(e.target.value as Visibility)}><option value="public">Public visitor preview</option><option value="member">Family member preview</option><option value="admin">Family admin preview</option></select>}
-          <button className="btn small" onClick={() => { setGuideKey(""); setView("guide"); }}><BookOpen size={15} /> Explore & Guide</button>
-          {isSupabaseConfigured && auth && <button className="btn small" onClick={() => {signOut();setAuth(null);}}><LogOut size={15} /> {t("signOut")}</button>}
-          {(canAdmin || experience!=="simple") && <button className="btn small" onClick={openMyProfile}><UserRoundPen size={15} /> {t("myProfile")}</button>}
+          {canAdmin && <select className="select nx6-privacy-preview" aria-label="Preview profile privacy as" value={visibility} onChange={(e) => setVisibility(e.target.value as Visibility)}><option value="public">Public preview</option><option value="member">Member preview</option><option value="admin">Admin preview</option></select>}
+          <NetworkAccountMenu label={demoPreview?"Explore":auth?.email?.split("@")[0]||"Me"} subtitle={demoPreview?"Playground":network?.membership_role||auth?.family_role||"Family member"} items={[
+            ...((canAdmin || experience!=="simple")?[{key:"profile",label:t("myProfile"),icon:<UserRoundPen size={16}/>,onClick:openMyProfile,hint:"Your family profile"}]:[]),
+            ...(isSupabaseConfigured&&!demoPreview&&auth?[{key:"networks",label:"My Networks",icon:<UsersRound size={16}/>,onClick:()=>void openMyNetworksHome(),hint:"All your private network contexts"}]:[]),
+            {key:"guide",label:"Explore & Guide",icon:<BookOpen size={16}/>,onClick:()=>{setGuideKey("");setView("guide")},hint:"Learn what this network can do"},
+            ...(isSupabaseConfigured&&auth?[{key:"signout",label:t("signOut"),icon:<LogOut size={16}/>,onClick:()=>{signOut();setAuth(null)},danger:true}]:[]),
+          ]}/>
         </div>}
       />
       <div className="layout">
