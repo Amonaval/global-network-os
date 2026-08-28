@@ -1,6 +1,6 @@
 # Generic Network OS — Next Session Bootstrap
 
-Use the latest repository as canonical baseline. Ignore `.git` and do not inspect every file blindly.
+Use the latest repository as canonical baseline. Ignore `.git`.
 
 ## Read first
 
@@ -8,44 +8,50 @@ Use the latest repository as canonical baseline. Ignore `.git` and do not inspec
 2. `PRODUCT-CONSTITUTION.md`
 3. `CURRENT-STATE.md`
 4. `AIDLC-OPERATING-RULE.md`
+5. `MISSION-1-SIGNATURE-PRODUCT-EXPERIENCE.md`
+6. `MISSION-1-RUNTIME-VERIFICATION-CHECKLIST.md`
 
-Then load only the code/docs required by the requested mission.
+Then inspect only files relevant to observed runtime issues.
 
-## Current strategic task
+## Current exact task
 
-Do **not** immediately implement a new G10.
+**Mission 1 — Signature Product Experience & Quality Gate is source-implemented but not yet runtime-verified.**
 
-First reconcile the existing multi-network identity/membership architecture with the complete `NE-1`…`NE-8` Network Effect track in `ROADMAP.md`.
+Do not start Mission 2 until the Mission 1 runtime gate is resolved.
 
-Deliver before coding:
+### Current source state
 
-**A. Current State** — what already exists for account identity, membership, claiming, network-scoped entity/profile identity, active-network switching, invitations, permissions/RLS, typed relationships, network creation/templates, trusted introductions and Business Trust concepts.
+- Family Home now uses **My Family, Through Me** rather than the NX `Today / People / Legacy` stack.
+- Primary Family navigation is intentionally lean; advanced destinations are progressively disclosed.
+- Signature selection lives in `lib/family-signature.ts`, independent of React/DOM/browser storage.
+- The critical Family English/Hindi/Marathi journey has a source-level quality gate.
+- `npm run validate:mission1` passes 11/11 + 9/9 + 8/8 source checks in the implementation workspace.
+- A production build was not completed there because dependency installation timed out and `next` remained unavailable.
 
-**B. NE Review** — summarize NE-1…NE-8 and their real dependencies.
+## Next execution
 
-**C. Reconciliation** — identify what should remain, merge, move, rename, defer or be added versus the existing architecture and historical tentative G10–G15 direction.
+1. Run a clean install/build in the normal developer environment.
+2. Execute `MISSION-1-RUNTIME-VERIFICATION-CHECKLIST.md`.
+3. Record screenshots/issues for desktop, tablet and mobile plus English/Hindi/Marathi critical Family flows.
+4. Fix all issues as one Mission 1 hardening window.
+5. Re-run source/build/runtime gates.
+6. Update status/docs and mark Mission 1 VERIFIED/RELEASED only after the runtime gate passes.
 
-**D. Architecture Model** — simple identity → membership → network profile/entity → network → cross-network trust/linking model.
+## After Mission 1 closes
 
-**E. Privacy Model** — what may and may never cross network boundaries; where explicit consent is required.
+Proceed to **Mission 2 — Trusted Expertise & Professional Network** as the first deliberate commercial/global vertical proof. Do not resume Family feature expansion, NE-2 or RAG hardening by default.
 
-**F. Next Mission** — recommend one highest-value coherent batch. Challenge the roadmap rather than accepting it mechanically.
+## Invariants
 
-## Current product stance
-
-The product may be public, but heavy founder-led outreach is intentionally deferred while the experience/story still requires persuasion. Product work should increasingly make the value self-evident: remarkable UX, strong mobile experience, Playground/showcase, guidance, storytelling, trust, return loops and network effects.
-
-G9/G9.1 intelligence foundations remain preserved but further quality hardening is parked pending real data and usage.
-
-## Implementation invariants
-
-- privacy/network isolation first;
+- network isolation first;
 - identity != membership != network profile/entity;
 - preserve vertical semantics;
-- prefer additive/decoupled changes;
-- do not weaken Family or existing vertical behavior;
-- avoid speculative enterprise infrastructure and speculative AI;
-- follow the established mission closure lifecycle;
-- deliver affected/new files only where practical.
+- less visible UI, stronger primary journey;
+- no speculative schema/AI/platform refactor;
+- future-native portability without premature native duplication;
+- affected/new-files ZIP only where practical.
 
-The archived prior detailed handoff is available at `docs/history/NEXT-SESSION-PROMPT-pre-wow-doctrine-2026-08-26.md` if rationale recovery is needed; it is **not** default session context.
+## Mission 1 runtime closure status
+
+Mission 1 source/static hardening is green. The only remaining closure gate is a real dependency-enabled `npm ci` + `npm run build` + browser verification using `MISSION-1-RUNTIME-VERIFICATION-CHECKLIST.md`. If that pass is clean, mark Mission 1 VERIFIED and proceed to Mission 2. If issues appear, fix them as the Mission 1 hardening window first.
+

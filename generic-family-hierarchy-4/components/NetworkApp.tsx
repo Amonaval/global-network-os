@@ -30,6 +30,7 @@ import {
   Settings2,
   ArrowRight,
   Menu,
+  ChevronDown,
   Home,
   Rocket,
   Sparkles,
@@ -1180,8 +1181,13 @@ export default function NetworkApp() {
   const mobileBottomSurfaces=appComposition.mobileBottomViewIds.map(id=>appComposition.primaryNavigation.find(surface=>surface.viewId===id)).filter(Boolean) as typeof appComposition.primaryNavigation[number][];
   const mobileMoreSurfaces=appComposition.mobileMoreNavigation.filter(surface=>{
     if(surface.adminOnly&&!canAdmin)return false;
-    return !surface.featureKey||hasFeature(surface.featureKey as FeatureKey);
+    if(surface.featureKey&&!hasFeature(surface.featureKey as FeatureKey))return false;
+    const minimum=surface.minimumExperience as ExperienceLevel|undefined;
+    if(minimum&&!surface.adminOnly&&EXPERIENCE_RANK[experience]<EXPERIENCE_RANK[minimum])return false;
+    return true;
   });
+  const desktopMoreSurfaces=mobileMoreSurfaces.filter(surface=>!surface.adminOnly);
+  const desktopMoreActive=desktopMoreSurfaces.some(surface=>surface.viewId===view)||view==="guide";
   const canSetupFamily = !isSupabaseConfigured || !!auth;
   if (setupNeeded)
     return (
@@ -1255,8 +1261,13 @@ export default function NetworkApp() {
             className={`nav-btn ${view === navView ? "active" : ""}`}
             onClick={() => navView === "tree" ? openFamilyView() : setView(navView)}
           >{icon} {label}</button>)}
-          {(!demoPreview || !!auth) && hasFeature("core.profile") && <button className={`nav-btn ${selected?.id===auth?.member_id ? "active" : ""}`} onClick={openMyProfile}><UserRoundPen size={17}/> {language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</button>}
-          {hasFeature("core.guide")&&<button className={`nav-btn guide-nav ${view === "guide" ? "active" : ""}`} onClick={() => {setGuideKey("");setView("guide")}}><BookOpen size={17}/> Explore & Guide</button>}
+          {(desktopMoreSurfaces.length>0||hasFeature("core.guide"))&&<details className={`desktop-more-nav ${desktopMoreActive?"active":""}`}>
+            <summary><Menu size={17}/>{moreLabel}<ChevronDown size={14}/></summary>
+            <div className="desktop-more-nav-items">
+              {desktopMoreSurfaces.map(surface=><button key={surface.viewId} className={`nav-btn ${view===surface.viewId?"active":""}`} onClick={()=>setView(surface.viewId as View)}>{surfaceIcon(surface.iconToken)}{localizedSurfaceLabel(surface,appLocale)}</button>)}
+              {hasFeature("core.guide")&&<button className={`nav-btn guide-nav ${view==="guide"?"active":""}`} onClick={()=>{setGuideKey("");setView("guide")}}><BookOpen size={17}/>{language==="hi"?"जानें और सहायता":language==="mr"?"जाणून घ्या आणि मदत":"Explore & Guide"}</button>}
+            </div>
+          </details>}
           {canAdmin && hasFeature("admin.center") && <div className="admin-nav-separator">
             <div className="sidebar-section-label">{language === "hi" ? "परिवार प्रबंधन" : language === "mr" ? "कुटुंब व्यवस्थापन" : "Family management"}</div>
             <button className={`nav-btn admin-nav ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><ShieldCheck size={17}/> {language === "hi" ? "परिवार संभालें" : language === "mr" ? "कुटुंब सांभाळा" : "Manage family"}</button>
@@ -1282,7 +1293,7 @@ export default function NetworkApp() {
         <main className="main">
           {view!=="guide" && view!=="founder" && <FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key===guideByView[view])} onOpenGuide={openGuide} onOpenFeature={openGuideFeature} onTryPlayground={tryGuideInPlayground} rememberKey={`view-${view}`}/>}
           {familyReady && view==="home" && <div className="family-ready-celebration"><div className="family-ready-icon"><Sparkles size={22}/></div><div><span className="warm-kicker">Your family is ready</span><h2>{familyReady}</h2><p>Start with yourself and the people closest to you. You can import a list or enrich everything gradually.</p></div><div className="family-ready-actions">{hasFeature("contribute.branch_intake")&&<button className="btn primary small" onClick={()=>{setFamilyReady(null);setShowFamilyIntake(true)}}>Build together · Recommended</button>}<button className="btn small" onClick={()=>{setFamilyReady(null);if(!viewerMemberId)window.scrollTo({top:0,behavior:"smooth"})}}>Add myself / close family</button><button className="btn small" onClick={()=>{setFamilyReady(null);setShowImport(true)}}>Import Excel / CSV</button><button className="icon-button" aria-label="Dismiss" onClick={()=>setFamilyReady(null)}><X size={16}/></button></div></div>}
-          {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">{appComposition.whatsNew.kicker}</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||appComposition.whatsNew.fallbackTitle}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||appComposition.whatsNew.fallbackDescription}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
+          {activeAnnouncement && view!=="founder" && view!=="home" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">{appComposition.whatsNew.kicker}</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||appComposition.whatsNew.fallbackTitle}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||appComposition.whatsNew.fallbackDescription}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
           {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={openMember} />}
           {view === "home" && canAdmin && !demoPreview && !quickStartDismissed && members.length < 5 && <QuickFamilyStart viewer={viewerMemberId?members.find(m=>m.id===viewerMemberId):undefined} suggestedName={auth?.email?.split("@")[0]||""} onAddMyself={addMyselfFirst} onAddRelative={addCloseRelative} onImport={()=>setShowImport(true)} onBuildTogether={hasFeature("contribute.branch_intake")?()=>setShowFamilyIntake(true):undefined} onDismiss={()=>setQuickStartDismissed(true)}/>}
           {view === "intelligence" && <NetworkIntelligenceCenter kind="family" entities={familyIntelligenceEntities} relationships={familyIntelligenceRelationships} activities={familyIntelligenceActivities} dimensionKeys={["generation","city","country","profession"]} onGo={target=>{if(target==="connections")setView("tree");else if(target==="contribute")setView("participation");else if(target==="community")setView("community");else if(target==="directory")setView("directory");else if(target==="explorer")setView("tree");}} onEntityOpen={entity=>{const member=members.find(m=>m.id===entity.entity.id);if(member)openMember(member)}}/>}
@@ -1978,7 +1989,7 @@ export default function NetworkApp() {
         {isPlatformOwner && isSupabaseConfigured && <button className="mobile-more-action" onClick={() => { setView("founder"); setShowMobileMenu(false); }}><span><Rocket />Launch Control</span><ArrowRight /></button>}
         {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={() => { setSetupNeeded(true); setShowMobileMenu(false); }}><span><UsersRound />Create, join or switch family</span><ArrowRight /></button>}
         {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={async()=>{if(!window.confirm(`Leave ${network?.name||"this family"}? If you are its only account, the empty family will be archived.`))return;try{const action=await leaveCurrentFamily();setShowMobileMenu(false);await hydrate(await getAuthUser());notify(action==="archived"?"Family archived. You can create or join another family.":"You left the family.")}catch(e:any){notify(e.message||"Could not leave this family.")}}}><span><LogOut />Leave this family</span><ArrowRight /></button>}
-        <button className="mobile-more-action" onClick={() => { setGuideKey(""); setView("guide"); setShowMobileMenu(false); }}><span><BookOpen />Explore & Guide</span><ArrowRight /></button>
+        <button className="mobile-more-action" onClick={() => { setGuideKey(""); setView("guide"); setShowMobileMenu(false); }}><span><BookOpen />{language==="hi"?"जानें और सहायता":language==="mr"?"जाणून घ्या आणि मदत":"Explore & Guide"}</span><ArrowRight /></button>
         <button className="mobile-more-action" onClick={toggleLargeText}><span><BookOpen />{largeText ? (language==='hi'?'सामान्य टेक्स्ट':language==='mr'?'सामान्य मजकूर':'Normal text size') : (language==='hi'?'बड़ा टेक्स्ट':language==='mr'?'मोठा मजकूर':'Larger text')}</span><ArrowRight /></button>
         <div className="mobile-more-setting"><LanguageSwitcher /></div>
         {!canAdmin&&<label className="mobile-more-setting friendly-experience-setting"><span>{language==='hi'?'ऐप में कितना दिखे?':language==='mr'?'अॅपमध्ये किती दाखवायचे?':'How much would you like to see?'}</span><select className="select" value={experience} onChange={e=>changeMyExperience(e.target.value as ExperienceLevel)}><option value="simple">{language==='hi'?'सरल — बस जरूरी चीजें':language==='mr'?'सोपे — फक्त महत्त्वाचे':'Simple — just the essentials'}</option><option value="connected">{language==='hi'?'और परिवार — यादें और खास दिन':language==='mr'?'अधिक कुटुंब — आठवणी आणि खास दिवस':'More family — memories & moments'}</option><option value="explorer">{language==='hi'?'सब देखें — सभी सदस्य सुविधाएँ':language==='mr'?'सगळे पहा — सर्व सदस्य सुविधा':'Everything — all member features'}</option></select><small>{language==='hi'?'इसे कभी भी बदल सकते हैं।':language==='mr'?'हे कधीही बदलू शकता.':'You can change this anytime.'}</small></label>}

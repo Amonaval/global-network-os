@@ -107,3 +107,14 @@ A meaningful mission is not experience-complete until checked for:
 - long translated strings;
 - empty/loading/error states;
 - future-native portability hazards.
+## 9. Mission 1 implementation checkpoint — 2026-08-27
+
+Mission 1 establishes the first enforceable quality slice:
+
+- central i18n catalog keys are type-complete across English/Hindi/Marathi;
+- relationship presentation is localized independently of graph/domain labels;
+- the Family critical journey (auth/recovery, setup/join/import, signature Home, Tree, Profile, Memories, shell and appearance controls) has an automated source gate;
+- untranslated English-only contextual Excel guide content is suppressed in Hindi/Marathi rather than leaked into the localized flow;
+- the signature selection model is React/DOM/browser-independent for later native reuse.
+
+This is **not** a claim that every deep Explorer/Admin surface or every non-Family vertical is fully localized. Those remain subject to the same completeness rule before they are marketed as fully supported locales.

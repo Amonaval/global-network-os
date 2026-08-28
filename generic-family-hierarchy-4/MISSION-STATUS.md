@@ -1290,3 +1290,20 @@ Recorded decisions/hypotheses:
 - Added a periodic technical-evolution/debt register.
 
 No new mission number has been assigned.
+
+## 2026-08-27 — Mission 1: Signature Product Experience & Quality Gate — IMPLEMENTED / VERIFY
+
+- Replaced Family Home's NX feature-stack composition with **My Family, Through Me**.
+- Added viewer-relative spotlight/path, closest-family context and exactly one Family Moment.
+- Reduced primary Family navigation; advanced surfaces now use progressive disclosure.
+- Added pure mobile-portable Family signature model and localized relationship presentation.
+- Hardened critical Family English/Hindi/Marathi path across auth, setup/join/import, Home, Tree, Profile, Memories, shell and appearance controls.
+- Added `validate:mission1`: 11/11 signature + 9/9 Family i18n + 8/8 NX-6 compatibility PASS.
+- Production build/runtime verification remains open because dependency installation could not complete in the implementation workspace.
+- No schema/RLS/cross-network data change.
+- Next action: execute `MISSION-1-RUNTIME-VERIFICATION-CHECKLIST.md`, harden any observed issues, then close before Mission 2.
+
+## 2026-08-27 — Mission 1 runtime hardening milestone
+
+Mission 1 now passes source/static hardening: 11/11 signature checks, 9/9 critical Family EN/HI/MR checks, 8/8 NX-6 compatibility, the full NX-5→NX-2/G1.3/G2 source regression chain, 170-file TS/TSX syntax-transpile, 483 relative-import integrity checks and a pure-domain Family signature smoke. Live Next.js build/browser certification remains open only because the execution environment could not restore dependencies (`EAI_AGAIN`; no local `next`). Do not call Mission 1 runtime VERIFIED until `npm ci`, `npm run build` and the manual viewport/language checklist pass in a normal environment.
+

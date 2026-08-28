@@ -2,54 +2,42 @@
 import { useEffect,useState } from "react";
 import { ArrowLeft,ArrowRight,Eye,EyeOff,Heart,KeyRound,Mail,ShieldCheck } from "lucide-react";
 import { requestPasswordReset,resendSignupConfirmation,signIn,signUp,updatePassword } from "../lib/auth";
+import {useLanguage} from "../lib/i18n";
 
 type AuthMode="signin"|"signup"|"forgot"|"reset";
 export default function AuthPanel({ onDone, initialMode="signin", onResetDone }: { onDone: () => void; initialMode?:AuthMode; onResetDone?:()=>void }) {
+  const {language}=useLanguage();
+  const c=language==="hi"?{
+    welcome:"फिर से स्वागत है",join:"अपने परिवार से जुड़ें",help:"खाता सहायता",choose:"नया पासवर्ड चुनें",continue:"अपने परिवार में जाएँ",create:"अपना परिवार खाता बनाएँ",forgot:"पासवर्ड भूल गए?",reset:"पासवर्ड रीसेट करें",signinHelp:"अपने निमंत्रण या परिवार प्रोफ़ाइल से जुड़ा ईमेल इस्तेमाल करें।",signupHelp:"खाता बनाएँ, फिर अपनी मौजूदा परिवार प्रोफ़ाइल खोजकर जोड़ें।",forgotHelp:"ईमेल दर्ज करें; हम निजी पासवर्ड-रीसेट लिंक भेजेंगे।",resetHelp:"अपने Family Network खाते के लिए नया पासवर्ड बनाएँ।",name:"आपका नाम",fullName:"पूरा नाम",email:"ईमेल पता",newPassword:"नया पासवर्ड",password:"पासवर्ड",atLeast:"कम से कम 8 अक्षर",confirm:"नया पासवर्ड फिर से लिखें",again:"दोबारा लिखें",private:"आपकी निजी परिवार जानकारी सुरक्षित रहती है।",waiting:"कृपया प्रतीक्षा करें…",signin:"साइन इन",createAccount:"खाता बनाएँ",sendReset:"रीसेट ईमेल भेजें",save:"नया पासवर्ड सहेजें",forgotLink:"पासवर्ड भूल गए?",newHere:"नए हैं? अपना खाता बनाएँ",already:"पहले से खाता है? साइन इन करें",resend:"पुष्टि ईमेल फिर भेजें",back:"साइन इन पर वापस जाएँ",hide:"पासवर्ड छिपाएँ",show:"पासवर्ड दिखाएँ",confirmReady:"आपका खाता तैयार है। ईमेल में पुष्टि लिंक खोलें, फिर यहाँ लौटकर साइन इन करें।",resetSent:"पासवर्ड रीसेट ईमेल भेज दिया गया है। इस डिवाइस पर ईमेल का लिंक खोलें और नया पासवर्ड चुनें।",min8:"नए पासवर्ड में कम से कम 8 अक्षर रखें।",mismatch:"दोनों पासवर्ड समान नहीं हैं।",changed:"पासवर्ड बदल दिया गया है। अब आप अपने परिवार में जा सकते हैं।",invalid:"ईमेल और पासवर्ड मेल नहीं खाते। फिर प्रयास करें या पासवर्ड रीसेट करें।",notConfirmed:"पहले ईमेल की पुष्टि करें। अपने इनबॉक्स में Family Network का संदेश देखें।",generic:"अनुरोध पूरा नहीं हो सका। फिर प्रयास करें।",resent:"पुष्टि ईमेल फिर भेज दिया गया है। इनबॉक्स और स्पैम फ़ोल्डर देखें।",resendFail:"पुष्टि ईमेल फिर नहीं भेज सके।"
+  }:language==="mr"?{
+    welcome:"पुन्हा स्वागत",join:"आपल्या कुटुंबात सामील व्हा",help:"खाते मदत",choose:"नवा पासवर्ड निवडा",continue:"आपल्या कुटुंबात जा",create:"कुटुंब खाते तयार करा",forgot:"पासवर्ड विसरलात?",reset:"पासवर्ड रीसेट करा",signinHelp:"आपल्या निमंत्रणाशी किंवा कुटुंब प्रोफाइलशी जोडलेला ईमेल वापरा.",signupHelp:"खाते तयार करा, मग आपले विद्यमान कुटुंब प्रोफाइल शोधून जोडा.",forgotHelp:"ईमेल द्या; आम्ही खाजगी पासवर्ड-रीसेट लिंक पाठवू.",resetHelp:"Family Network खात्यासाठी नवा पासवर्ड तयार करा.",name:"आपले नाव",fullName:"पूर्ण नाव",email:"ईमेल पत्ता",newPassword:"नवा पासवर्ड",password:"पासवर्ड",atLeast:"किमान 8 अक्षरे",confirm:"नवा पासवर्ड पुन्हा लिहा",again:"पुन्हा लिहा",private:"आपली खाजगी कुटुंब माहिती सुरक्षित राहते.",waiting:"कृपया थांबा…",signin:"साइन इन",createAccount:"खाते तयार करा",sendReset:"रीसेट ईमेल पाठवा",save:"नवा पासवर्ड जतन करा",forgotLink:"पासवर्ड विसरलात?",newHere:"नवीन आहात? खाते तयार करा",already:"आधीच खाते आहे? साइन इन करा",resend:"पुष्टी ईमेल पुन्हा पाठवा",back:"साइन इनकडे परत",hide:"पासवर्ड लपवा",show:"पासवर्ड दाखवा",confirmReady:"आपले खाते तयार आहे. ईमेलमधील पुष्टी लिंक उघडा आणि मग येथे परत येऊन साइन इन करा.",resetSent:"पासवर्ड रीसेट ईमेल पाठवला आहे. या डिव्हाइसवर ईमेलमधील लिंक उघडा आणि नवा पासवर्ड निवडा.",min8:"नव्या पासवर्डमध्ये किमान 8 अक्षरे वापरा.",mismatch:"दोन्ही पासवर्ड जुळत नाहीत.",changed:"पासवर्ड बदलला आहे. आता कुटुंबात पुढे जाऊ शकता.",invalid:"ईमेल आणि पासवर्ड जुळले नाहीत. पुन्हा प्रयत्न करा किंवा पासवर्ड रीसेट करा.",notConfirmed:"आधी ईमेलची पुष्टी करा. इनबॉक्समध्ये Family Network चा संदेश पहा.",generic:"विनंती पूर्ण करता आली नाही. पुन्हा प्रयत्न करा.",resent:"पुष्टी ईमेल पुन्हा पाठवला आहे. इनबॉक्स आणि स्पॅम फोल्डर पहा.",resendFail:"पुष्टी ईमेल पुन्हा पाठवता आला नाही."
+  }:{
+    welcome:"Welcome back",join:"Join your family",help:"Account help",choose:"Choose a new password",continue:"Continue to your family",create:"Create your family account",forgot:"Forgot your password?",reset:"Reset your password",signinHelp:"Use the email address connected to your invitation or family profile.",signupHelp:"Create your account, then find and connect your existing family profile.",forgotHelp:"Enter your email and we’ll send a private password-reset link.",resetHelp:"Create a new password for your Family Network account.",name:"Your name",fullName:"Full name",email:"Email address",newPassword:"New password",password:"Password",atLeast:"At least 8 characters",confirm:"Confirm new password",again:"Type it again",private:"Your private family information remains protected.",waiting:"Please wait…",signin:"Sign in",createAccount:"Create account",sendReset:"Send reset email",save:"Save new password",forgotLink:"Forgot password?",newHere:"New here? Create your account",already:"Already have an account? Sign in",resend:"Resend confirmation email",back:"Back to sign in",hide:"Hide password",show:"Show password",confirmReady:"Your account is ready. Check your email and tap the confirmation link, then return here to sign in.",resetSent:"Password reset email sent. Open the link in that email on this device, then choose your new password here.",min8:"Use at least 8 characters for your new password.",mismatch:"The two passwords do not match.",changed:"Your password has been changed. You can continue to your family now.",invalid:"That email and password did not match. Try again or reset your password.",notConfirmed:"Please confirm your email first. Check your inbox for the Family Network confirmation message.",generic:"We could not complete that request. Please try again.",resent:"Confirmation email sent again. Please check your inbox and spam folder.",resendFail:"Could not resend the confirmation email."
+  };
   const [mode,setMode]=useState<AuthMode>(initialMode),[email,setEmail]=useState(""),[password,setPassword]=useState(""),[confirmPassword,setConfirmPassword]=useState(""),[name,setName]=useState(""),[message,setMessage]=useState(""),[error,setError]=useState(""),[busy,setBusy]=useState(false),[showPassword,setShowPassword]=useState(false),[confirmationPending,setConfirmationPending]=useState(false);
   useEffect(()=>setMode(initialMode),[initialMode]);
   const clear=()=>{setError("");setMessage("")};
-  const submit=async(event:React.FormEvent)=>{
-    event.preventDefault();clear();setBusy(true);
-    try{
-      if(mode==="signin"){
-        await signIn(email,password);onDone();
-      }else if(mode==="signup"){
-        const result=await signUp(email,password,name);
-        if(!result.session){setConfirmationPending(true);setMessage("Your account is ready. Check your email and tap the confirmation link, then return here to sign in.");return;}
-        onDone();
-      }else if(mode==="forgot"){
-        await requestPasswordReset(email);
-        setMessage("Password reset email sent. Open the link in that email on this device, then choose your new password here.");
-      }else{
-        if(password.length<8)throw new Error("Use at least 8 characters for your new password.");
-        if(password!==confirmPassword)throw new Error("The two passwords do not match.");
-        await updatePassword(password);
-        setMessage("Your password has been changed. You can continue to your family now.");
-        onResetDone?.();
-      }
-    }catch(exception:any){
-      const raw=String(exception?.message||"");
-      if(/invalid login credentials/i.test(raw))setError("That email and password did not match. Try again or reset your password.");
-      else if(/email not confirmed/i.test(raw))setError("Please confirm your email first. Check your inbox for the Family Network confirmation message.");
-      else setError(raw||"We could not complete that request. Please try again.");
-    }finally{setBusy(false)}
-  };
-  const resend=async()=>{clear();setBusy(true);try{await resendSignupConfirmation(email);setMessage("Confirmation email sent again. Please check your inbox and spam folder.");}catch(e:any){setError(e.message||"Could not resend the confirmation email.");}finally{setBusy(false)}};
+  const submit=async(event:React.FormEvent)=>{event.preventDefault();clear();setBusy(true);try{
+    if(mode==="signin"){await signIn(email,password);onDone();}
+    else if(mode==="signup"){const result=await signUp(email,password,name);if(!result.session){setConfirmationPending(true);setMessage(c.confirmReady);return;}onDone();}
+    else if(mode==="forgot"){await requestPasswordReset(email);setMessage(c.resetSent);}
+    else{if(password.length<8)throw new Error(c.min8);if(password!==confirmPassword)throw new Error(c.mismatch);await updatePassword(password);setMessage(c.changed);onResetDone?.();}
+  }catch(exception:any){const raw=String(exception?.message||"");if(/invalid login credentials/i.test(raw))setError(c.invalid);else if(/email not confirmed/i.test(raw))setError(c.notConfirmed);else setError(raw||c.generic);}finally{setBusy(false)}};
+  const resend=async()=>{clear();setBusy(true);try{await resendSignupConfirmation(email);setMessage(c.resent);}catch(e:any){setError(e.message||c.resendFail);}finally{setBusy(false)}};
   const resetTitle=mode==="reset";
   return <div className="modal-overlay"><form className="modal auth-modal family-auth" role="dialog" aria-modal="true" aria-labelledby="auth-title" onSubmit={submit}>
-    <span className="warm-kicker"><Heart size={13} fill="currentColor" /> {mode==="signin"?"Welcome back":mode==="signup"?"Join your family":mode==="forgot"?"Account help":"Choose a new password"}</span>
-    <h2 id="auth-title">{mode==="signin"?"Continue to your family":mode==="signup"?"Create your family account":mode==="forgot"?"Forgot your password?":"Reset your password"}</h2>
-    <p className="page-subtitle">{mode==="signin"?"Use the email address connected to your invitation or family profile.":mode==="signup"?"Create your account, then find and connect your existing family profile.":mode==="forgot"?"Enter your email and we’ll send a private password-reset link.":"Create a new password for your Family Network account."}</p>
-    {mode==="signup"&&<div className="field"><label htmlFor="auth-name">Your name</label><input id="auth-name" className="text-input" value={name} onChange={e=>setName(e.target.value)} placeholder="Full name" required /></div>}
-    {mode!=="reset"&&<div className="field"><label htmlFor="auth-email">Email address</label><input id="auth-email" className="text-input" type="email" autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com" required /></div>}
-    {(mode==="signin"||mode==="signup"||mode==="reset")&&<div className="field"><label htmlFor="auth-password">{resetTitle?"New password":"Password"}</label><div className="password-field"><input id="auth-password" className="text-input" type={showPassword?"text":"password"} autoComplete={resetTitle?"new-password":mode==="signin"?"current-password":"new-password"} minLength={8} value={password} onChange={e=>setPassword(e.target.value)} placeholder="At least 8 characters" required /><button type="button" className="password-toggle" aria-label={showPassword?"Hide password":"Show password"} onClick={()=>setShowPassword(v=>!v)}>{showPassword?<EyeOff size={17}/>:<Eye size={17}/>}</button></div></div>}
-    {mode==="reset"&&<div className="field"><label htmlFor="auth-confirm-password">Confirm new password</label><input id="auth-confirm-password" className="text-input" type={showPassword?"text":"password"} autoComplete="new-password" minLength={8} value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} placeholder="Type it again" required /></div>}
-    {mode!=="forgot"&&<div className="auth-assurance"><ShieldCheck size={16}/> Your private family information remains protected.</div>}
-    {error&&<div className="notice error-notice">{error}</div>}
-    {message&&<div className="notice success-notice">{message}</div>}
-    <button className="btn primary auth-submit" disabled={busy}>{busy?"Please wait…":<>{mode==="signin"?"Sign in":mode==="signup"?"Create account":mode==="forgot"?"Send reset email":"Save new password"}{mode==="forgot"?<Mail size={16}/>:mode==="reset"?<KeyRound size={16}/>:<ArrowRight size={16}/>}</>}</button>
-    {mode==="signin"&&<><button type="button" className="auth-link" onClick={()=>{clear();setMode("forgot")}}>Forgot password?</button><button type="button" className="auth-switch" onClick={()=>{clear();setMode("signup")}}>New here? Create your account</button></>}
-    {mode==="signup"&&<><button type="button" className="auth-switch" onClick={()=>{clear();setMode("signin")}}>Already have an account? Sign in</button>{confirmationPending&&<button type="button" className="auth-link" disabled={busy} onClick={resend}>Resend confirmation email</button>}</>}
-    {mode==="forgot"&&<button type="button" className="auth-switch" onClick={()=>{clear();setMode("signin")}}><ArrowLeft size={14}/> Back to sign in</button>}
+    <span className="warm-kicker"><Heart size={13} fill="currentColor" /> {mode==="signin"?c.welcome:mode==="signup"?c.join:mode==="forgot"?c.help:c.choose}</span>
+    <h2 id="auth-title">{mode==="signin"?c.continue:mode==="signup"?c.create:mode==="forgot"?c.forgot:c.reset}</h2>
+    <p className="page-subtitle">{mode==="signin"?c.signinHelp:mode==="signup"?c.signupHelp:mode==="forgot"?c.forgotHelp:c.resetHelp}</p>
+    {mode==="signup"&&<div className="field"><label htmlFor="auth-name">{c.name}</label><input id="auth-name" className="text-input" value={name} onChange={e=>setName(e.target.value)} placeholder={c.fullName} required /></div>}
+    {mode!=="reset"&&<div className="field"><label htmlFor="auth-email">{c.email}</label><input id="auth-email" className="text-input" type="email" autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com" required /></div>}
+    {(mode==="signin"||mode==="signup"||mode==="reset")&&<div className="field"><label htmlFor="auth-password">{resetTitle?c.newPassword:c.password}</label><div className="password-field"><input id="auth-password" className="text-input" type={showPassword?"text":"password"} autoComplete={resetTitle?"new-password":mode==="signin"?"current-password":"new-password"} minLength={8} value={password} onChange={e=>setPassword(e.target.value)} placeholder={c.atLeast} required /><button type="button" className="password-toggle" aria-label={showPassword?c.hide:c.show} onClick={()=>setShowPassword(v=>!v)}>{showPassword?<EyeOff size={17}/>:<Eye size={17}/>}</button></div></div>}
+    {mode==="reset"&&<div className="field"><label htmlFor="auth-confirm-password">{c.confirm}</label><input id="auth-confirm-password" className="text-input" type={showPassword?"text":"password"} autoComplete="new-password" minLength={8} value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} placeholder={c.again} required /></div>}
+    {mode!=="forgot"&&<div className="auth-assurance"><ShieldCheck size={16}/> {c.private}</div>}
+    {error&&<div className="notice error-notice">{error}</div>}{message&&<div className="notice success-notice">{message}</div>}
+    <button className="btn primary auth-submit" disabled={busy}>{busy?c.waiting:<>{mode==="signin"?c.signin:mode==="signup"?c.createAccount:mode==="forgot"?c.sendReset:c.save}{mode==="forgot"?<Mail size={16}/>:mode==="reset"?<KeyRound size={16}/>:<ArrowRight size={16}/>}</>}</button>
+    {mode==="signin"&&<><button type="button" className="auth-link" onClick={()=>{clear();setMode("forgot")}}>{c.forgotLink}</button><button type="button" className="auth-switch" onClick={()=>{clear();setMode("signup")}}>{c.newHere}</button></>}
+    {mode==="signup"&&<><button type="button" className="auth-switch" onClick={()=>{clear();setMode("signin")}}>{c.already}</button>{confirmationPending&&<button type="button" className="auth-link" disabled={busy} onClick={resend}>{c.resend}</button>}</>}
+    {mode==="forgot"&&<button type="button" className="auth-switch" onClick={()=>{clear();setMode("signin")}}><ArrowLeft size={14}/> {c.back}</button>}
   </form></div>;
 }

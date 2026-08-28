@@ -15,7 +15,8 @@ import {
 import {IdentityAvatar,safeExternalUrl} from "../lib/identity";
 import { LifeEvent, Member, Relationship, Memory } from "../lib/types";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
-import { describeRelationshipToViewer, relationshipLabelToViewer } from "../lib/relationship-intelligence";
+import { relationshipLabelToViewer } from "../lib/relationship-intelligence";
+import {localizeRelationshipLabel, relationBadge, relationshipSentence} from "../lib/family-relationship-copy";
 import { useLanguage } from "../lib/i18n";
 
 function initials(name: string) {
@@ -81,7 +82,7 @@ export default function ProfileDrawer({
 }) {
   const { t, language } = useLanguage();
   const [tab,setTab]=useState<"overview"|"story"|"family">("overview");
-  const copy = language === "hi" ? { phone:"फ़ोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोड़ें", noMilestones:"अभी कोई जीवन घटना साझा नहीं की गई।", noMemories:"अभी कोई याद साझा नहीं की गई।", noRelations:"अभी कोई रिश्ता दर्ज नहीं है।", member:"सदस्य", undated:"तारीख नहीं", edit:"बदलें" } : language === "mr" ? { phone:"फोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोडा", noMilestones:"अजून कोणतीही जीवन घटना सामायिक केलेली नाही.", noMemories:"अजून कोणतीही आठवण सामायिक केलेली नाही.", noRelations:"अजून कोणतेही नाते नोंदवलेले नाही.", member:"सदस्य", undated:"तारीख नाही", edit:"बदला" } : { phone:"Phone", email:"Email", about:"About", addEvent:"Add event", noMilestones:"No milestones have been shared yet.", noMemories:"No memories have been shared yet.", noRelations:"No relationships recorded.", member:"Member", undated:"Undated", edit:"Edit" };
+  const copy = language === "hi" ? { phone:"फ़ोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोड़ें", noMilestones:"अभी कोई जीवन घटना साझा नहीं की गई।", noMemories:"अभी कोई याद साझा नहीं की गई।", noRelations:"अभी कोई रिश्ता दर्ज नहीं है।", member:"सदस्य", undated:"तारीख नहीं", edit:"बदलें", back:"पिछली प्रोफ़ाइल", overview:"परिचय", story:"कहानी", family:"परिवार", sections:"प्रोफ़ाइल अनुभाग", correctionTitle:"कुछ गलत दिख रहा है?", correctionBody:"परिवार के मालिक को बताएं कि क्या सुधारना है। सदस्य परिवार की मूल संरचना सीधे नहीं बदल सकते।", correction:"सुधार बताएँ", privacyAdmin:"इस सदस्य ने संपर्क जानकारी केवल प्रबंधकों को दिखाने का विकल्प चुना है।", privacyLimited:"इस प्रोफ़ाइल में कुछ और जानकारी है जो इस दृश्य में दिखाई नहीं जा सकती।", social:"सोशल लिंक", external:"बाहरी लिंक सदस्य द्वारा दिए गए हैं; ये पहचान सत्यापन नहीं हैं।", view:"देखें", openGuide:"प्रोफ़ाइल सहायता खोलें", guideTitle:"प्रोफ़ाइल सहायता", close:"प्रोफ़ाइल बंद करें", generation:"पीढ़ी" } : language === "mr" ? { phone:"फोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोडा", noMilestones:"अजून कोणतीही जीवन घटना सामायिक केलेली नाही.", noMemories:"अजून कोणतीही आठवण सामायिक केलेली नाही.", noRelations:"अजून कोणतेही नाते नोंदवलेले नाही.", member:"सदस्य", undated:"तारीख नाही", edit:"बदला", back:"मागील प्रोफाइल", overview:"परिचय", story:"कथा", family:"कुटुंब", sections:"प्रोफाइल विभाग", correctionTitle:"काही चुकीचे दिसते आहे?", correctionBody:"कुटुंब मालकाला काय दुरुस्त करायचे ते सांगा. सदस्य मूलभूत कौटुंबिक रचना थेट बदलू शकत नाहीत.", correction:"दुरुस्ती कळवा", privacyAdmin:"या सदस्याने संपर्क माहिती फक्त व्यवस्थापकांना दिसावी असे निवडले आहे.", privacyLimited:"या प्रोफाइलमध्ये अधिक माहिती आहे जी या दृश्यात दाखवता येत नाही.", social:"सोशल लिंक", external:"बाह्य लिंक सदस्याने दिलेल्या आहेत; त्या ओळख पडताळणी नाहीत.", view:"पहा", openGuide:"प्रोफाइल मदत उघडा", guideTitle:"प्रोफाइल मदत", close:"प्रोफाइल बंद करा", generation:"पिढी" } : { phone:"Phone", email:"Email", about:"About", addEvent:"Add event", noMilestones:"No milestones have been shared yet.", noMemories:"No memories have been shared yet.", noRelations:"No relationships recorded.", member:"Member", undated:"Undated", edit:"Edit", back:"Back to previous profile", overview:"Overview", story:"Story", family:"Family", sections:"Profile sections", correctionTitle:"Something looks wrong?", correctionBody:"Tell the family owner what needs correcting. Members cannot directly change foundational family structure.", correction:"Report correction", privacyAdmin:"This member has chosen to keep contact details visible only to administrators.", privacyLimited:"This profile has more details than this preview is allowed to show.", social:"Social links", external:"External links are user-provided and are not identity verification.", view:"View", openGuide:"Open profile guide", guideTitle:"Profile guide", close:"Close profile", generation:"Generation" };
   const cfg = getNetworkConfig(network ?? null);
   const visibilityRank = { public: 0, member: 1, admin: 2 } as const;
   const previewRank = visibilityRank[visibility];
@@ -90,8 +91,8 @@ export default function ProfileDrawer({
   const showContactDetails = canViewPrivateContact && visibleAtPreview(member.contact_visibility || "admin");
   const visibleEvents = (events || []).filter(e => visibleAtPreview(e.visibility || "member"));
   const visibleMemories = (memories || []).filter(m => visibleAtPreview(m.visibility || "member"));
-  const relationshipToViewer = viewerMemberId ? describeRelationshipToViewer(members, relationships, viewerMemberId, member.id) : null;
   const relationshipLabel = viewerMemberId ? relationshipLabelToViewer(members, relationships, viewerMemberId, member.id) : null;
+  const relationshipToViewer = viewerMemberId && relationshipLabel ? relationshipSentence(member.full_name, relationshipLabel, language) : null;
   const related = relationships
     .filter(
       (r) => r.person_id === member.id || r.related_person_id === member.id,
@@ -124,15 +125,15 @@ export default function ProfileDrawer({
     >
       <aside className="drawer" role="dialog" aria-modal="true" aria-label={member.full_name}>
         <div className="drawer-head">
-          <div className="drawer-head-title">{onBack && <button className="btn small profile-back" aria-label="Back to previous profile" onClick={onBack}><ArrowLeft size={16}/> Back</button>}
+          <div className="drawer-head-title">{onBack && <button className="btn small profile-back" aria-label={copy.back} onClick={onBack}><ArrowLeft size={16}/> {copy.back}</button>}
           <strong>
             {cfg.network_template === "family"
               ? t("familyProfile")
               : `${cfg.entity_label} Profile`}
           </strong></div>
           <div className="drawer-head-actions">
-            {onOpenGuide&&<button className="btn small icon-only profile-guide-button" aria-label="Open profile guide" title="Profile guide" onClick={()=>onOpenGuide("profiles")}><BookOpen size={16}/></button>}
-            <button className="btn small icon-only" aria-label="Close profile" onClick={onClose}><X size={16} /></button>
+            {onOpenGuide&&<button className="btn small icon-only profile-guide-button" aria-label={copy.openGuide} title={copy.guideTitle} onClick={()=>onOpenGuide("profiles")}><BookOpen size={16}/></button>}
+            <button className="btn small icon-only" aria-label={copy.close} onClick={onClose}><X size={16} /></button>
           </div>
         </div>
         <div className="profile-hero">
@@ -142,15 +143,15 @@ export default function ProfileDrawer({
               {member.full_name}
             </h2>
             <div className="person-meta nx6-profile-relationship-summary">
-              {relationshipToViewer || (simple && cfg.network_template === "family" ? "Family member" : `${cfg.level_label} ${member.generation_level}`)}
+              {relationshipToViewer || (simple && cfg.network_template === "family" ? copy.member : cfg.network_template === "family" ? `${copy.generation} ${member.generation_level}` : `${cfg.level_label} ${member.generation_level}`)}
             </div>
-            {relationshipLabel && <div className={`profile-relationship-badge ${relationshipLabel === "You" ? "you" : ""}`}>{relationshipLabel === "You" ? "This is you" : `Your ${relationshipLabel.toLowerCase()}`}</div>}
+            {relationshipLabel && <div className={`profile-relationship-badge ${relationshipLabel === "You" ? "you" : ""}`}>{relationBadge(relationshipLabel, language)}</div>}
           </div>
         </div>
-        <div className="nx6-profile-tabs" role="tablist" aria-label="Profile sections">
-          <button role="tab" aria-selected={tab==="overview"} className={tab==="overview"?"active":""} onClick={()=>setTab("overview")}>Overview</button>
-          <button role="tab" aria-selected={tab==="story"} className={tab==="story"?"active":""} onClick={()=>setTab("story")}>Story <span>{visibleEvents.length+visibleMemories.length}</span></button>
-          <button role="tab" aria-selected={tab==="family"} className={tab==="family"?"active":""} onClick={()=>setTab("family")}>Family <span>{related.length}</span></button>
+        <div className="nx6-profile-tabs" role="tablist" aria-label={copy.sections}>
+          <button role="tab" aria-selected={tab==="overview"} className={tab==="overview"?"active":""} onClick={()=>setTab("overview")}>{copy.overview}</button>
+          <button role="tab" aria-selected={tab==="story"} className={tab==="story"?"active":""} onClick={()=>setTab("story")}>{copy.story} <span>{visibleEvents.length+visibleMemories.length}</span></button>
+          <button role="tab" aria-selected={tab==="family"} className={tab==="family"?"active":""} onClick={()=>setTab("family")}>{copy.family} <span>{related.length}</span></button>
         </div>
         <div className="nx6-profile-body">
         {tab==="overview"&&<>
@@ -206,20 +207,19 @@ export default function ProfileDrawer({
           !member.phone &&
           !member.email && (
             <div className="privacy-note">
-              This member has chosen to keep contact details visible only to
-              administrators.
+              {copy.privacyAdmin}
             </div>
           )}
         {!showProfileDetails && (
           <div className="privacy-note">
-            This profile has more details than this preview is allowed to show.
+            {copy.privacyLimited}
           </div>
         )}
         {(() => { const links=[
           {label:"Facebook",url:safeExternalUrl(member.facebook_url),show:showProfileDetails&&(visibility!=="public"||member.facebook_public)},
           {label:"Instagram",url:safeExternalUrl(member.instagram_url),show:showProfileDetails&&(visibility!=="public"||member.instagram_public)},
           {label:member.other_social_label||"Website",url:safeExternalUrl(member.other_social_url),show:showProfileDetails&&(visibility!=="public"||member.other_social_public)}
-        ].filter(x=>x.url&&x.show); return links.length?<div className="profile-social-links"><div className="detail-label"><Link2 size={12}/> Social links</div><div className="social-link-chips">{links.map(x=><a key={x.label} href={x.url} target="_blank" rel="noopener noreferrer nofollow" className="social-link-chip">{x.label}<ExternalLink size={12}/></a>)}</div><div className="person-meta">External links are user-provided and are not identity verification.</div></div>:null })()}
+        ].filter(x=>x.url&&x.show); return links.length?<div className="profile-social-links"><div className="detail-label"><Link2 size={12}/> {copy.social}</div><div className="social-link-chips">{links.map(x=><a key={x.label} href={x.url} target="_blank" rel="noopener noreferrer nofollow" className="social-link-chip">{x.label}<ExternalLink size={12}/></a>)}</div><div className="person-meta">{copy.external}</div></div>:null })()}
         {showProfileDetails && member.bio && (
           <>
             <h3 style={{ fontSize: 14 }}>{copy.about}</h3>
@@ -300,16 +300,16 @@ export default function ProfileDrawer({
                   {other.full_name}
                 </div>
                 <div className="person-meta">
-                  {viewerMemberId ? (relationshipLabelToViewer(members, relationships, viewerMemberId, other.id) || type) : type} · {other.profession || copy.member}
+                  {viewerMemberId ? localizeRelationshipLabel(relationshipLabelToViewer(members, relationships, viewerMemberId, other.id) || type, language) : type} · {other.profession || copy.member}
                 </div>
               </div>
               <button className="btn small relationship-view-button" onClick={() => onSelect(other)}>
-                View {other.full_name.split(/\s+/)[0]} <ArrowRight size={14} />
+                {copy.view} {other.full_name.split(/\s+/)[0]} <ArrowRight size={14} />
               </button>
             </div>
           ))}
         </div>
-        {!canEdit && viewerMemberId && <div className="profile-correction-note"><AlertCircle size={16}/><span><b>Something looks wrong?</b> Tell the family owner what needs correcting. Members cannot directly change foundational family structure.</span>{onReportCorrection&&<button className="btn small" onClick={onReportCorrection}>Report correction</button>}</div>}
+        {!canEdit && viewerMemberId && <div className="profile-correction-note"><AlertCircle size={16}/><span><b>{copy.correctionTitle}</b> {copy.correctionBody}</span>{onReportCorrection&&<button className="btn small" onClick={onReportCorrection}>{copy.correction}</button>}</div>}
         </>}
         </div>
         <div className="form-actions nx6-profile-actions">

@@ -2,28 +2,19 @@
 import {useState} from "react";
 import {ArrowRight,Heart,Link2,Plus,UserRound} from "lucide-react";
 import {Member} from "../lib/types";
+import {useLanguage} from "../lib/i18n";
 
-const RELS=[
-  {value:"father",label:"Father",gender:"Male"},
-  {value:"mother",label:"Mother",gender:"Female"},
-  {value:"husband",label:"Husband",gender:"Male"},
-  {value:"wife",label:"Wife",gender:"Female"},
-  {value:"son",label:"Son",gender:"Male"},
-  {value:"daughter",label:"Daughter",gender:"Female"},
-] as const;
-
+const RELS=[{value:"father",gender:"Male"},{value:"mother",gender:"Female"},{value:"husband",gender:"Male"},{value:"wife",gender:"Female"},{value:"son",gender:"Male"},{value:"daughter",gender:"Female"}] as const;
 export default function QuickFamilyStart({viewer,suggestedName="",onAddMyself,onAddRelative,onImport,onBuildTogether,onDismiss}:{viewer?:Member;suggestedName?:string;onAddMyself:(name:string,gender:Member["gender"])=>Promise<void>;onAddRelative:(name:string,relationship:string,gender:Member["gender"])=>Promise<void>;onImport:()=>void;onBuildTogether?:()=>void;onDismiss:()=>void}){
+ const {language}=useLanguage();
+ const c=language==="hi"?{kicker:"सबसे करीबी लोगों से शुरू करें",build:(n:string)=>`${n} का करीबी परिवार जोड़ें`,self:"पहले खुद को जोड़ें",viewerBody:"सिर्फ नाम से माता-पिता, जीवनसाथी या बच्चे को जोड़ें। बाकी जानकारी बाद में आ सकती है।",selfBody:"खुद को जोड़ें ताकि ऐप आपके रिश्ते जैसे पिता, बहन और कज़िन समझा सके।",rel:"आपसे रिश्ता",their:"उनका नाम",your:"आपका नाम",gender:"लिंग",optional:"वैकल्पिक",male:"पुरुष",female:"महिला",other:"अन्य",adding:"जोड़ रहे हैं…",addRelative:"रिश्तेदार जोड़ें",addMyself:"खुद को जोड़ें",together:"सुझाव: रिश्तेदारों से आसान फ़ॉर्म द्वारा जानकारी लें",import:"सूची है? Excel / CSV इस्तेमाल करें",later:"यह बाद में करूँगा",error:"इस व्यक्ति को नहीं जोड़ सके।",father:"पिता",mother:"माता",husband:"पति",wife:"पत्नी",son:"बेटा",daughter:"बेटी"}:language==="mr"?{kicker:"सर्वात जवळच्या माणसांपासून सुरुवात करा",build:(n:string)=>`${n} चे जवळचे कुटुंब जोडा`,self:"आधी स्वतःला जोडा",viewerBody:"फक्त नावाने आई-वडील, जोडीदार किंवा मूल जोडा. बाकी माहिती नंतर भरता येईल.",selfBody:"स्वतःला जोडा म्हणजे अॅप वडील, बहीण, चुलत भावंड अशी नाती समजावू शकेल.",rel:"आपल्याशी नाते",their:"त्यांचे नाव",your:"आपले नाव",gender:"लिंग",optional:"ऐच्छिक",male:"पुरुष",female:"स्त्री",other:"इतर",adding:"जोडत आहे…",addRelative:"नातेवाईक जोडा",addMyself:"स्वतःला जोडा",together:"सुचवलेले: नातेवाईकांकडून सोप्या फॉर्मने माहिती घ्या",import:"यादी आहे? Excel / CSV वापरा",later:"हे नंतर करेन",error:"ही व्यक्ती जोडता आली नाही.",father:"वडील",mother:"आई",husband:"पती",wife:"पत्नी",son:"मुलगा",daughter:"मुलगी"}:{kicker:"Start with the people closest to you",build:(n:string)=>`Build ${n}’s close family`,self:"Add yourself first",viewerBody:"Add a parent, partner or child with only a name. Everything else can come later.",selfBody:"Add yourself so the app can explain Father, Sister, Cousin and your personal family line.",rel:"Relationship to you",their:"Their name",your:"Your name",gender:"Gender",optional:"optional",male:"Male",female:"Female",other:"Other",adding:"Adding…",addRelative:"Add relative",addMyself:"Add myself",together:"Recommended: ask relatives through simple forms",import:"Have a list? Use Excel / CSV",later:"I’ll do this later",error:"Could not add this person.",father:"Father",mother:"Mother",husband:"Husband",wife:"Wife",son:"Son",daughter:"Daughter"};
  const [name,setName]=useState(viewer?"":suggestedName),[gender,setGender]=useState<Member["gender"]>("Male"),[relationship,setRelationship]=useState("father"),[busy,setBusy]=useState(false),[error,setError]=useState("");
- const add=async()=>{if(!name.trim())return;setBusy(true);setError("");try{if(!viewer)await onAddMyself(name.trim(),gender);else{const rel=RELS.find(x=>x.value===relationship)!;await onAddRelative(name.trim(),relationship,rel.gender as Member["gender"]);setName("");}}catch(e:any){setError(e.message||"Could not add this person.")}finally{setBusy(false)}};
- return <section className="card quick-family-start">
-   <div className="quick-family-start-copy"><span className="warm-kicker"><Heart size={12}/> Start with the people closest to you</span><h2>{viewer?`Build ${viewer.full_name.split(/\s+/)[0]}’s close family`:"Add yourself first"}</h2><p>{viewer?"Add a parent, partner or child with only a name. Everything else can come later.":"Your family already exists. Add yourself so the app can say “Father”, “Sister”, “Cousin” and show your personal family line."}</p></div>
-   <div className="quick-family-start-form">
-    {viewer&&<label><span>Relationship to you</span><select className="select" value={relationship} onChange={e=>setRelationship(e.target.value)}>{RELS.map(r=><option key={r.value} value={r.value}>{r.label}</option>)}</select></label>}
-    <label><span>{viewer?"Their name":"Your name"}</span><input className="text-input" value={name} onChange={e=>setName(e.target.value)} placeholder={viewer?"e.g. Sunita Deshmukh":"e.g. Amit Deshmukh"} onKeyDown={e=>e.key==="Enter"&&add()}/></label>
-    {!viewer&&<label><span>Gender <em>optional profile detail</em></span><select className="select" value={gender} onChange={e=>setGender(e.target.value as Member["gender"])}><option>Male</option><option>Female</option><option>Other</option></select></label>}
-    <button className="btn primary" disabled={busy||!name.trim()} onClick={add}>{busy?"Adding…":<>{viewer?<Plus size={16}/>:<UserRound size={16}/>} {viewer?"Add relative":"Add myself"} <ArrowRight size={15}/></>}</button>
-   </div>
-   <div className="quick-family-start-alt">{onBuildTogether&&<button className="text-action quick-build-together" onClick={onBuildTogether}><Link2 size={14}/> Recommended: ask relatives through simple forms</button>}<button className="text-action" onClick={onImport}>Have a list? Use Excel / CSV</button><button className="text-action" onClick={onDismiss}>I’ll do this later</button></div>
-   {error&&<div className="notice danger-text">{error}</div>}
- </section>
+ const label=(value:string)=>(c as any)[value]||value;
+ const add=async()=>{if(!name.trim())return;setBusy(true);setError("");try{if(!viewer)await onAddMyself(name.trim(),gender);else{const rel=RELS.find(x=>x.value===relationship)!;await onAddRelative(name.trim(),relationship,rel.gender as Member["gender"]);setName("");}}catch(e:any){setError(e.message||c.error)}finally{setBusy(false)}};
+ return <section className="card quick-family-start"><div className="quick-family-start-copy"><span className="warm-kicker"><Heart size={12}/> {c.kicker}</span><h2>{viewer?c.build(viewer.full_name.split(/\s+/)[0]):c.self}</h2><p>{viewer?c.viewerBody:c.selfBody}</p></div><div className="quick-family-start-form">
+  {viewer&&<label><span>{c.rel}</span><select className="select" value={relationship} onChange={e=>setRelationship(e.target.value)}>{RELS.map(r=><option key={r.value} value={r.value}>{label(r.value)}</option>)}</select></label>}
+  <label><span>{viewer?c.their:c.your}</span><input className="text-input" value={name} onChange={e=>setName(e.target.value)} placeholder={viewer?"e.g. Sunita Deshmukh":"e.g. Amit Deshmukh"} onKeyDown={e=>e.key==="Enter"&&add()}/></label>
+  {!viewer&&<label><span>{c.gender} <em>{c.optional}</em></span><select className="select" value={gender} onChange={e=>setGender(e.target.value as Member["gender"])}><option value="Male">{c.male}</option><option value="Female">{c.female}</option><option value="Other">{c.other}</option></select></label>}
+  <button className="btn primary" disabled={busy||!name.trim()} onClick={add}>{busy?c.adding:<>{viewer?<Plus size={16}/>:<UserRound size={16}/>} {viewer?c.addRelative:c.addMyself} <ArrowRight size={15}/></>}</button>
+ </div><div className="quick-family-start-alt">{onBuildTogether&&<button className="text-action quick-build-together" onClick={onBuildTogether}><Link2 size={14}/> {c.together}</button>}<button className="text-action" onClick={onImport}>{c.import}</button><button className="text-action" onClick={onDismiss}>{c.later}</button></div>{error&&<div className="notice danger-text">{error}</div>}</section>
 }

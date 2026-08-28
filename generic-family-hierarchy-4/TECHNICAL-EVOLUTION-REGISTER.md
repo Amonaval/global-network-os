@@ -28,3 +28,10 @@ Review at milestone boundaries or when entering a materially new vertical. Do no
 ## Rule
 
 Technical debt is prioritized by **user impact, security/privacy, scalability, portability, validated commercial leverage and development drag**—not by architectural aesthetics.
+
+## Mission 1 checkpoint — 2026-08-27
+
+Two register items moved from principle to implementation:
+
+- **Mobile portability:** Family signature selection now lives in a pure domain module with no React/DOM/browser storage dependency. Continue extracting only when validated flows require it; do not start a native rewrite yet.
+- **I18N:** a Family critical-journey source gate now exists and central catalogs are type-complete. Remaining advanced Family and non-Family locale gaps stay open and should be promoted when those surfaces become primary/commercial.

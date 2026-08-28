@@ -13,6 +13,20 @@ preserve relationships and gradually complete the family story. Choose English,
 Hindi or Marathi from the language selector; names remain in the script in which
 your family enters them.
 
+## Home — My Family, Through Me
+
+Home now starts from **you**, not from a dashboard of Family features. Its job is to answer the most human question first: **“Who is this person to me?”**
+
+- **My Family, Through Me** confirms which family profile represents you and makes your relationships the starting point.
+- **A connection worth knowing** selects one wider-family relative and shows the relationship label plus the path from you to that person.
+- **People closest to you** gives quick access to immediate family without opening the full graph.
+- **One family moment** shows exactly one useful return prompt: an upcoming birthday/anniversary, a preserved memory, a preservation gap or a relative worth rediscovering.
+- **Family**, **Memories** and **More** keep deeper tools available without crowding the primary experience.
+
+When Hindi or Marathi is selected, the signature Home journey, relationship labels, first-start flow and primary profile actions should stay in that language. Names, places, biographies and memories remain in the language in which your family entered them.
+
+On mobile, the same relationship-first behavior is preserved with touch-friendly actions and horizontally scrollable relationship paths. The relationship-selection logic is kept outside the web UI so it can be reused by a future native client.
+
 ## Create your family
 
 1. Give the family a familiar name.
