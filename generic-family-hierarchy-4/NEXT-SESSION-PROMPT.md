@@ -57,3 +57,6 @@ M7-C is source implemented. Apply migration `063_m7c_guided_pilot_admin_console.
 
 ## Post-M7-D handoff
 M7-D Pilot Feedback & Product Learning Loop is source implemented. Apply migration 064 and run `npm run validate:m7d`, typecheck, build and the M7-D runtime checklist. Mission 7 is now complete as SHOW → GUIDE → OPERATE → LEARN. The next major mission should be chosen from concrete pilot evidence or a deliberately requested strategic track; do not automatically continue infrastructure or graph complexity.
+
+## M7-E handoff
+M7-E is the planned closure mission for M6/M7. Apply migration 066 and run runtime certification. Do not add deeper graph/showcase scope unless pilot evidence demands it.

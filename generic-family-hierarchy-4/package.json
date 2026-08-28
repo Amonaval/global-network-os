@@ -66,7 +66,8 @@
     "validate:m7b": "node scripts/m7b-wow-showcase-gate.mjs && npm run validate:m6e",
     "validate:m7a": "node scripts/m7a-zero-friction-launch-gate.mjs && npm run validate:m7b",
     "validate:m7c": "node scripts/m7c-guided-pilot-console-gate.mjs && npm run validate:m7a",
-    "validate:m7d": "node scripts/m7d-pilot-feedback-learning-gate.mjs && npm run validate:m7c"
+    "validate:m7d": "node scripts/m7d-pilot-feedback-learning-gate.mjs && npm run validate:m7c",
+    "validate:m7e": "node scripts/m7e-showcase-runtime-certification-gate.mjs && npm run validate:m7d"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

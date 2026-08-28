@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');let passed=0;const ok=(n,c)=>{if(!c){console.error(`FAIL: ${n}`);process.exitCode=1}else{passed++;console.log(`PASS: ${n}`)}};
+const ui=read('components/ShowcaseRuntimeCertification.tsx'),disc=read('components/CrossNetworkDiscovery.tsx'),sql=read('supabase/migrations/066_m7e_showcase_runtime_hardening.sql'),home=read('components/MyNetworksHome.tsx'),doc=read('MISSION-7E-SHOWCASE-RUNTIME-HARDENING-DEMO-CERTIFICATION.md'),pkg=JSON.parse(read('package.json'));
+ok('Runtime certification UI exists',ui.includes('showcase-runtime-certification')&&ui.includes('M7ECertificationTitleTxt'));
+ok('My Networks surfaces certification',home.includes('<ShowcaseRuntimeCertification/>'));
+ok('Zero-result discovery is diagnosed',disc.includes('diagnoseDiscovery')&&disc.includes('matching_unclaimed'));
+ok('Diagnostics are privacy-safe categories',sql.includes('diagnose_cross_network_discovery')&&!sql.includes("jsonb_build_object('targetUser"));
+ok('Certification checks bridge capabilities',sql.includes("capabilities->>'discovery'")&&sql.includes("capabilities->>'introductions'")&&sql.includes("capabilities->>'pathTraversal'"));
+ok('Vertical-neutral diagnostic covers Family',sql.includes('family_members')&&sql.includes('nm.member_id=fm.id'));
+ok('Vertical-neutral diagnostic covers Alumni',sql.includes('alumni_profiles')&&sql.includes('ap.claimed_by'));
+ok('Vertical-neutral diagnostic covers generic people',sql.includes('network_entities')&&sql.includes("ne.kind='person'"));
+ok('Mission documentation exists',doc.includes('Demo certification rule')&&doc.includes('zero-result'));
+ok('Validation command exists',pkg.scripts?.['validate:m7e']?.includes('m7e-showcase-runtime-certification-gate.mjs'));
+console.log(`M7-E source gate: ${passed}/10 passed`);if(process.exitCode)process.exit(process.exitCode);

@@ -593,3 +593,6 @@ M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe l
 - `npm run validate:m7d`
 - M7-D source gate validates contextual feedback, membership/admin scope, bounded friction taxonomy, privacy separation, spam guard and cumulative M7-C chain.
 - Runtime checklist: `MISSION-7D-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+## M7-E validation
+Run `npm run validate:m7e`, then `npm run check:types` and `npm run build`. Runtime verification is defined in `MISSION-7E-RUNTIME-VERIFICATION-CHECKLIST.md`.

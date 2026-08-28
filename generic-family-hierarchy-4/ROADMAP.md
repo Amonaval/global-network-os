@@ -1814,3 +1814,6 @@ Portfolio operating layer for Owners/Admins running real pilots. Reuses M7-A act
 
 ## M7-D — Pilot Feedback & Product Learning Loop — SOURCE IMPLEMENTED
 Closes Mission 7 with contextual micro-feedback and admin-scoped learning. Measure whether key experiences actually helped, classify repeated friction, and review de-identified notes without exposing M6 search/candidate data. Migration 064. After M7-D, select the next major product mission from real pilot evidence; avoid adding speculative platform complexity without a demonstrated problem.
+
+## M7-E — Showcase Runtime Hardening & Demo Certification — IMPLEMENTED
+Closure mission for the M6/M7 trusted-network track: live demo preflight, privacy-safe zero-result diagnostics, runtime certification and hardening. Further work in this track should be pilot-evidence driven.

@@ -1376,3 +1376,6 @@ M7-C adds an admin-scoped pilot portfolio to My Networks. It classifies administ
 **Status:** SOURCE IMPLEMENTED / SOURCE-GATED / RUNTIME VERIFICATION PENDING
 
 Members can provide lightweight contextual feedback on launch, participation, claiming, bridges, discovery, introductions and outcomes. Owners/Admins receive aggregate learning signals and de-identified notes. Mission 7 is now functionally complete as SHOW → GUIDE → OPERATE → LEARN. Runtime certification remains in the fully installed project.
+
+### M7-E — Showcase Runtime Hardening & Demo Certification
+Status: SOURCE IMPLEMENTED / RUNTIME CERTIFICATION PENDING. Closes the planned M6/M7 trusted-network showcase track after local runtime verification.

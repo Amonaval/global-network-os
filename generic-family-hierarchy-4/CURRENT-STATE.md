@@ -159,3 +159,6 @@ Guided Pilot & Admin Launch Console is source implemented. My Networks now provi
 
 ## M7-D checkpoint
 Mission 7 now includes a closed product-learning loop. `PilotFeedbackLearningLoop` captures bounded contextual feedback from active members and provides Owners/Admins with aggregate 30-day learning across administered networks. Feedback remains separate from M6 discovery candidate/search data. Migration 064 is required. The next major mission should be evidence-led from real pilot friction and demonstrated repeat value.
+
+## M7-E current state
+Showcase runtime now has aggregate preflight certification and discovery zero-result diagnostics. The synthetic M7-B theater remains separate/read-only.
