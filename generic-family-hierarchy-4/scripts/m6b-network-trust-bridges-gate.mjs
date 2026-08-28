@@ -10,7 +10,7 @@ ok('capabilities are constrained to discovery and introductions intent',migratio
 ok('raw bridge tables are not exposed to authenticated clients',migration.includes('revoke all on public.network_bridge_codes from anon,authenticated')&&migration.includes('revoke all on public.network_trust_bridges from anon,authenticated'));
 ok('writes use M4/M5 application command boundary',svc.includes('request_network_trust_bridge')&&remote.includes('/api/v1/trust-bridges/request')&&api.includes('RequestNetworkBridgeCommand'));
 ok('My Networks surfaces governed bridge manager',home.includes('NetworkBridgeManager')&&ui.includes('GovernedAndRevocableTxt'));
-ok('UI explicitly says M6-B does not enable cross-network discovery yet',ui.includes('M6BCapabilitiesInertTxt'));
+ok('bridge UI preserves explicit capability/privacy boundary',ui.includes('M6BCapabilitiesInertTxt'));
 ok('approval and revocation actions are visible in UX',ui.includes('reviewNetworkTrustBridge')&&ui.includes('revokeNetworkTrustBridge'));
 ok('no universal profile or graph merge introduced',!migration.includes('global_profile')&&!migration.includes('universal_profile')&&!migration.includes('cross_network_members'));
 ok('M6-B remains separately gateable',read('package.json').includes('validate:m6b'));

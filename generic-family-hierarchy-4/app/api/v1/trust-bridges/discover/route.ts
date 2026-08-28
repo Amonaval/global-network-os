@@ -1,0 +1,2 @@
+import {executeCommand} from "../../../../../server/shared/command-runtime";import {discoverTrustedNetwork} from "../../../../../server/trust/discovery-service";import {text} from "../../../../../server/shared/validation";
+export const runtime="nodejs";export async function POST(request:Request){return executeCommand({request,commandName:"discoverTrustedNetwork",rateLimit:{limit:20},parse:b=>({sourceNetworkId:text(b.sourceNetworkId,"sourceNetworkId",64),query:text(b.query,"query",120),limit:Math.max(1,Math.min(Number(b.limit)||8,12))}),execute:discoverTrustedNetwork})}

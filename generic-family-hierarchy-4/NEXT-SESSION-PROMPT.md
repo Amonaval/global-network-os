@@ -33,3 +33,6 @@ Every major mission must include the normal Markdown/release/runtime artifacts *
 
 ## Latest completed source mission: M6-B
 M6-B adds neutral governed bridges between independently governed networks using private Bridge Codes, recipient-admin approval, explicit relationship types/capability intent, audit events and revocation. Cross-network people discovery and generic trusted introductions are still intentionally disabled. The next strategic mission is **M6-C — Privacy-Safe Cross-Network Discovery & Trusted Introductions**. Reuse `network_trust_bridges`; do not build another bridge subsystem and do not merge network graphs.
+
+## Current handoff after M6-C
+M6-C privacy-safe discovery and trusted introductions is source implemented. First certify migration 059 + runtime checklist. Do not weaken the invariant that adjacent-network identity remains hidden until target acceptance.

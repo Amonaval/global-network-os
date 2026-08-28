@@ -1,0 +1,2 @@
+import {executeCommand} from "../../../../../../server/shared/command-runtime";import {reviewTrustedIntroduction} from "../../../../../../server/trust/discovery-service";import {text,booleanValue} from "../../../../../../server/shared/validation";
+export const runtime="nodejs";export async function POST(request:Request){return executeCommand({request,commandName:"reviewTrustedIntroduction",rateLimit:{limit:20},parse:b=>({introductionId:text(b.introductionId,"introductionId",64),accept:booleanValue(b.accept,"accept")}),execute:reviewTrustedIntroduction})}

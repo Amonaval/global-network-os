@@ -1,0 +1,2 @@
+import {executeCommand} from "../../../../../../server/shared/command-runtime";import {requestTrustedIntroduction} from "../../../../../../server/trust/discovery-service";import {text} from "../../../../../../server/shared/validation";
+export const runtime="nodejs";export async function POST(request:Request){return executeCommand({request,commandName:"requestTrustedIntroduction",successStatus:201,rateLimit:{limit:15},parse:b=>({candidateId:text(b.candidateId,"candidateId",64),message:text(b.message,"message",500)}),execute:requestTrustedIntroduction})}

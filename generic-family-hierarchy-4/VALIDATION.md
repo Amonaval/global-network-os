@@ -569,3 +569,6 @@ M6-A reuses NX-1 rather than creating a second identity system. The existing `Tr
 
 ## M6-B — Trusted Network-to-Network Linking & Governed Bridges
 M6-B extends M6-A/NX-1 with an explicit neutral graph of networks. Administrators exchange private Bridge Codes, request a typed relationship, propose future discovery/introduction capability intent, and the receiving network administrator must accept or decline. Either side can revoke an accepted bridge. The bridge itself exposes no cross-network members, profiles, relationships, activity or graph data; capability intent remains inert until M6-C. All writes use the M4/M5 application command runtime. Migration: `058_m6b_network_trust_bridges.sql`.
+
+## M6-C
+Run `npm run validate:m6c`, then `npm run check:types` and `npm run build`; complete `MISSION-6C-RUNTIME-VERIFICATION-CHECKLIST.md`.

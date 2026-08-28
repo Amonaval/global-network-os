@@ -30,3 +30,10 @@ export type RevokeNetworkBridgeCommand={bridgeId:string};
 export type RevokeNetworkBridgeResult={bridgeId:string;status:"revoked"};
 export type NetworkBridgeCodeCommand={networkId:string;regenerate?:boolean};
 export type NetworkBridgeCodeResult={networkId:string;code:string};
+
+export type DiscoverTrustedNetworkCommand={sourceNetworkId:string;query:string;limit?:number};
+export type DiscoverTrustedNetworkResult={candidates:Array<{candidateId:string;targetNetworkId:string;targetNetworkName:string;bridgeId:string;relationshipType:string;matchHint:string}>};
+export type RequestTrustedIntroductionCommand={candidateId:string;message:string};
+export type RequestTrustedIntroductionResult={introductionId:string};
+export type ReviewTrustedIntroductionCommand={introductionId:string;accept:boolean};
+export type ReviewTrustedIntroductionResult={introductionId:string;status:"accepted"|"declined"};

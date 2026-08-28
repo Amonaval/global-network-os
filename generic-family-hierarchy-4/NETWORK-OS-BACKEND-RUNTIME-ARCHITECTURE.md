@@ -221,3 +221,6 @@ The burst guard is deliberately instance-local; it is not global rate limiting. 
 
 ## M6-B — Trusted Network-to-Network Linking & Governed Bridges
 M6-B extends M6-A/NX-1 with an explicit neutral graph of networks. Administrators exchange private Bridge Codes, request a typed relationship, propose future discovery/introduction capability intent, and the receiving network administrator must accept or decline. Either side can revoke an accepted bridge. The bridge itself exposes no cross-network members, profiles, relationships, activity or graph data; capability intent remains inert until M6-C. All writes use the M4/M5 application command runtime. Migration: `058_m6b_network_trust_bridges.sql`.
+
+## M6-C cross-network capability boundary
+Accepted bridge capability flags are now enforced by dedicated discovery/introduction RPCs and M5 command APIs. Cross-network discovery never grants table-level directory access; ephemeral candidate handles mediate matching and consent.
