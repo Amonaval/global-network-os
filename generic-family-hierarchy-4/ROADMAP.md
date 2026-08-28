@@ -1792,3 +1792,6 @@ M6-B extends M6-A/NX-1 with an explicit neutral graph of networks. Administrator
 
 ### M6-C — Privacy-Safe Cross-Network Discovery & Trusted Introductions — SOURCE IMPLEMENTED
 Accepted governed bridges can now create anonymous discovery opportunities and consented introductions without exposing adjacent-network directories.
+
+### M6-D — Network Effect Activation & Measurement — IMPLEMENTED (runtime certification pending)
+Measure the trusted-network funnel and guide the user toward the next genuine value-producing action without surveillance-style analytics.

@@ -1350,3 +1350,5 @@ M6-B extends M6-A/NX-1 with an explicit neutral graph of networks. Administrator
 
 ## M6-C — Privacy-Safe Cross-Network Discovery & Trusted Introductions
 Source implemented. Anonymous discovery + target consent + post-accept disclosure. Runtime certification pending.
+
+- **M6-D Network Effect Activation & Measurement** — SOURCE IMPLEMENTED; runtime certification pending.

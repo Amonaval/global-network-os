@@ -224,3 +224,6 @@ M6-B extends M6-A/NX-1 with an explicit neutral graph of networks. Administrator
 
 ## M6-C cross-network capability boundary
 Accepted bridge capability flags are now enforced by dedicated discovery/introduction RPCs and M5 command APIs. Cross-network discovery never grants table-level directory access; ephemeral candidate handles mediate matching and consent.
+
+## M6-D measurement seam
+Network effect analytics remain first-party and privacy-minimal: compact event type/count/network/bridge facts only. Search terms and discovered candidate identity are deliberately excluded from the analytics table.

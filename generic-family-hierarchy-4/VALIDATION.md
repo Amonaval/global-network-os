@@ -572,3 +572,6 @@ M6-B extends M6-A/NX-1 with an explicit neutral graph of networks. Administrator
 
 ## M6-C
 Run `npm run validate:m6c`, then `npm run check:types` and `npm run build`; complete `MISSION-6C-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+## M6-D validation
+Run `npm run validate:m6d`; then `npm run check:types` and `npm run build` in a fully installed workspace. Runtime-test the bridge → discover → request → consent funnel and aggregate-only pulse.

@@ -61,3 +61,6 @@ Added counts-only cross-membership reach aggregation on the existing NX-1 truste
 M6-B extends M6-A/NX-1 with an explicit neutral graph of networks. Administrators exchange private Bridge Codes, request a typed relationship, propose future discovery/introduction capability intent, and the receiving network administrator must accept or decline. Either side can revoke an accepted bridge. The bridge itself exposes no cross-network members, profiles, relationships, activity or graph data; capability intent remains inert until M6-C. All writes use the M4/M5 application command runtime. Migration: `058_m6b_network_trust_bridges.sql`.
 
 - M6-C: added opaque cross-network discovery handles and target-consented introduction state. Identity disclosure occurs only after acceptance.
+
+### M6-D — Privacy-safe product telemetry
+Added compact first-party behavioral telemetry and deterministic activation-stage derivation. Explicitly excludes search text and cross-network candidate identity from analytics.

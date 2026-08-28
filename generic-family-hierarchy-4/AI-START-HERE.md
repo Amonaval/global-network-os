@@ -123,3 +123,6 @@ M6-A is source implemented. It reuses NX-1 one-account/many-network identity and
 The platform now has governed, bilateral, revocable network-to-network bridges via private Bridge Codes. Do not add public network search or cross-network member disclosure. `discovery` and `introductions` stored on bridges are policy intent only until M6-C.
 
 - Current strategic frontier: M6-C privacy-safe discovery + trusted introductions is source implemented. Preserve anonymous-discovery / explicit-consent invariant.
+
+### Latest mission
+M6-D Network Effect Activation & Measurement is source-implemented. Preserve M6-C anonymity/consent and the mission DOCX rule.

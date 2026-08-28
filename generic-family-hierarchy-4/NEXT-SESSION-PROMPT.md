@@ -36,3 +36,6 @@ M6-B adds neutral governed bridges between independently governed networks using
 
 ## Current handoff after M6-C
 M6-C privacy-safe discovery and trusted introductions is source implemented. First certify migration 059 + runtime checklist. Do not weaken the invariant that adjacent-network identity remains hidden until target acceptance.
+
+## Latest state
+M6-D is source-implemented. Before a new strategic mission, apply migration 060 and complete the short M6-D runtime checklist. Do not expand telemetry into identity/query surveillance.

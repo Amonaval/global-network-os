@@ -1,0 +1,2 @@
+export type NetworkEffectActivationStage="multi_network"|"bridge"|"discover"|"introduce"|"consent"|"proven";
+export type NetworkEffectPulse={days:number;activeNetworks:number;acceptedBridges:number;discoverySearches:number;opportunitiesFound:number;introductionsRequested:number;introductionsAccepted:number;introductionsWaiting:number;introductionsDeclined:number;acceptanceRate:number;activationStage:NetworkEffectActivationStage};
