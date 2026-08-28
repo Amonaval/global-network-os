@@ -2,7 +2,8 @@
 import {useEffect,useMemo,useState} from "react";
 import QRCode from "qrcode";
 import {CalendarDays,Check,Copy,Download,ExternalLink,GitBranch,Mail,Printer,QrCode,RefreshCw,Send,Share2,ShieldCheck,Trash2,Users} from "lucide-react";
-import {Member} from "../lib/types";
+import {Member,Relationship} from "../lib/types";
+import FamilyGrowthRelay from "./FamilyGrowthRelay";
 import {CommunityEvent,CommunityGroup,ContributionSuggestion,MemberInvitation,ParticipationMetrics} from "../lib/participation-types";
 import {actOnContributionSuggestion,createBulkInvitations,createCommunityEvent,createCommunityGroup,fetchCommunityEvents,fetchCommunityGroups,fetchContributionSuggestions,fetchInvitations,fetchParticipationMetrics,resendInvitation,respondToCommunityEvent,revokeInvitation,trackPublicParticipation,fetchCommunityEventAttendees,createMemory,linkMemoryToEvent,fetchLivingLoopMetrics,trackFamilyEngagement} from "../lib/remote";
 
@@ -11,7 +12,7 @@ const csvCell=(x:unknown)=>`"${String(x??"").replaceAll('"','""')}"`;
 const download=(name:string,text:string)=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:"text/csv"}));a.download=name;a.click();URL.revokeObjectURL(a.href)};
 const pct=(a:number,b:number)=>b?`${Math.round(a/b*100)}%`:"0%";
 
-export default function ParticipationCenter({members,auth,onSelect,onNotify,demo=false}:{members:Member[];auth:any;onSelect:(m:Member)=>void;onNotify:(x:string)=>void;demo?:boolean}){
+export default function ParticipationCenter({members,relationships=[],viewerMemberId,networkName,auth,onSelect,onNotify,demo=false}:{members:Member[];relationships?:Relationship[];viewerMemberId?:string;networkName?:string;auth:any;onSelect:(m:Member)=>void;onNotify:(x:string)=>void;demo?:boolean}){
  const admin=demo || auth?.role==="admin";
  const [tab,setTab]=useState<Tab>("contribute"),[busy,setBusy]=useState(false);
  const [suggestions,setSuggestions]=useState<ContributionSuggestion[]>([]),[invitations,setInvitations]=useState<MemberInvitation[]>([]);
@@ -49,6 +50,7 @@ export default function ParticipationCenter({members,auth,onSelect,onNotify,demo
  const respond=async(id:string,response:string)=>{try{if(demo)setEvents(x=>x.map(e=>e.id===id?{...e,my_response:response as any,going:e.going+(response==="going"?1:0),interested:e.interested+(response==="interested"?1:0)}:e));else{await respondToCommunityEvent(id,response);setEvents(await fetchCommunityEvents());}onNotify("Your response is saved.")}catch(e:any){onNotify(e.message||"Could not save response.")}};
  const tabs:[Tab,string,any][]=[["contribute","Contribute",Check],["groups","Groups & reunions",CalendarDays],["share","Share cards",QrCode],...(admin?([['invite','Invitations',Send],['metrics','Participation',ShieldCheck]] as [Tab,string,any][]):[])];
  return <section className="participation-page">
+  <FamilyGrowthRelay members={members} relationships={relationships} viewerMemberId={viewerMemberId} networkName={networkName} readOnly={demo} onSelect={onSelect} onOpenInvites={admin?()=>setTab("invite"):undefined} onNotify={onNotify}/>
   <div className="page-head"><div><h1 className="page-title">Help the network grow</h1><p className="page-subtitle">{demo?"Showcase: contribution prompts, reunions, sharing and participation proof from the sample family.":"Small, verified contributions make this family network more complete and useful."}</p></div><button className="btn small" disabled={busy} onClick={load}><RefreshCw size={14}/> Refresh</button></div>
   <div className="participation-tabs">{tabs.map(([id,label,Icon])=><button key={id} className={tab===id?"active":""} onClick={()=>setTab(id)}><Icon size={15}/>{label}</button>)}</div>
 

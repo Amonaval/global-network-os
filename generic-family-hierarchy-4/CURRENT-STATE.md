@@ -80,3 +80,6 @@ Family Home now includes an additive Living Family loop: a daily meaningful fami
 
 ## NX-3 current product state
 Family Home now includes Family Time Machine & Generational Legacy: evidence-bound eras from existing births/life events/memories plus a preservation-risk layer showing what family context may otherwise be lost. No generated history, schema migration or cross-network exposure. Runtime milestone verification remains pending.
+
+## NX-4 current product state
+Family Participation now starts with a Family Growth Relay: one prioritized useful gap, relationship-aware context, privacy-safe “ask someone” hand-off, and a direct admin seam into secure invitations. Existing governed contribution/claiming permissions remain authoritative; no schema or cross-network change. Runtime milestone verification pending.

@@ -1606,6 +1606,9 @@ export default function NetworkApp() {
           {view === "participation" && hasFeature("contribute.help_family") && (
             <ParticipationCenter
               members={members}
+              relationships={relationships}
+              viewerMemberId={viewerMemberId}
+              networkName={network?.name}
               auth={auth}
               demo={demoPreview}
               onSelect={openMember}

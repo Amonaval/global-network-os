@@ -1257,3 +1257,8 @@ Delivered a calm Family return loop using existing authorized graph, memory, eve
 **Status:** IMPLEMENTED / SOURCE-VALIDATION IN PROGRESS / MILESTONE RUNTIME VERIFICATION PENDING
 
 Delivered an evidence-bound Family Time Machine, preservation-priority experience and generation-coverage view using existing Family data only. No AI-authored history, schema/RLS migration or cross-network exposure.
+
+
+## NX-4 — Family Growth Relay
+Status: IMPLEMENTED / SOURCE-VALIDATED / RUNTIME MILESTONE VERIFICATION PENDING.
+Purpose: distribute family preservation and growth across ordinary relatives instead of concentrating upkeep on one organizer.
