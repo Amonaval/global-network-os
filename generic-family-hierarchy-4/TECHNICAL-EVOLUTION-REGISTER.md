@@ -1,37 +1,49 @@
-# Generic Network OS — Technical Evolution & Debt Register
+# Technical Evolution Register
 
-**Updated:** 2026-08-27  
-**Purpose:** periodically address technical debt/future architecture without allowing refactoring to dominate product development.
+**Purpose:** keep technical maturity visible without allowing speculative infrastructure work to dominate product delivery.
 
-## Review cadence
+## Promotion rule
+A technical item becomes an implementation mission only when it blocks one or more of: validated user value, security/privacy, mobile portability, institutional scale, a commercial vertical, operational reliability, or development velocity.
 
-Review at milestone boundaries or when entering a materially new vertical. Do not create work solely because an item exists here.
+## T1 — Application-owned backend boundary — NEXT / Mission 4
+- Introduce modular server-side domain services and versioned command APIs.
+- Preserve Supabase as primary managed backend infrastructure.
+- Extract only high-value multi-step/privileged commands.
 
-## Priority buckets
+## T2 — CI/CD maturity — Mission 4 baseline, then incremental
+- GitHub Actions: install, source gates, i18n/directive checks, type/build, targeted tests.
+- Later: preview/staging promotion, security/dependency scanning, migration checks and rollback evidence.
 
-| Area | Future direction | Trigger to act |
-|---|---|---|
-| Graph model | Generalize tree assumptions into typed entity/edge capabilities where needed | A validated non-tree vertical is blocked |
-| Mobile portability | Extract reusable domain/API/i18n/design contracts | Native/mobile shell becomes planned or web-only assumptions block UX |
-| I18N | Remove literal-string gaps and add completeness checks | Any supported locale shows partial English UX |
-| Design system | Consolidate responsive primitives/tokens/layout patterns | Repeated CSS regressions or cross-vertical inconsistency |
-| Permissions/RLS | Centralize capability authorization contracts and tests | New cross-network or sensitive vertical work |
-| Search | Unified entity/relationship/knowledge search abstractions | Scale or multi-domain discovery requires it |
-| Performance | Large graph virtualization, server-side search/pagination, caching | Real datasets create measurable latency/UX issues |
-| Offline/resilience | Selected offline-first/mobile sync patterns | A validated field/mobile workflow needs intermittent connectivity |
-| Notifications | Provider-neutral event/notification contracts | Return loops justify push/email/in-app orchestration |
-| Observability | Product + network outcome telemetry | Real-user activation/commercial pilots begin |
-| Data portability | Export/import/versioned schema contracts | Enterprise/public-sector adoption or migration requirements |
-| AI isolation | Evidence adapters and model/provider interfaces | More RAG/LLM use enters production workflows |
-| Compliance | Region/domain-specific security/privacy controls | Healthcare, public sector, enterprise or regulated data enters scope |
+## T3 — Observability — Mission 4 seam
+- Request/correlation IDs, command outcomes, duration and sanitized errors.
+- Add external observability products only when operational value justifies them.
 
-## Rule
+## T4 — Async jobs / queues — FUTURE, evidence-triggered
+Candidates: bulk invitations, large imports, enrichment, embeddings, digest generation, graph recalculation. Do not add a queue before these workloads require one.
 
-Technical debt is prioritized by **user impact, security/privacy, scalability, portability, validated commercial leverage and development drag**—not by architectural aesthetics.
+## T5 — Cache / Redis — FUTURE, evidence-triggered
+Only after profiling proves repeated expensive reads/traversals. Prefer Postgres indexes/materialized views first.
 
-## Mission 1 checkpoint — 2026-08-27
+## T6 — Dedicated graph database — FUTURE, benchmark-triggered
+Typed graph remains on Postgres initially. Benchmark recursive CTEs/indexes/projections before considering Neo4j/Neptune/AGE or another graph engine.
 
-Two register items moved from principle to implementation:
+## T7 — Search engine — FUTURE
+Evaluate only when Postgres search no longer meets validated discovery requirements.
 
-- **Mobile portability:** Family signature selection now lives in a pure domain module with no React/DOM/browser storage dependency. Continue extracting only when validated flows require it; do not start a native rewrite yet.
-- **I18N:** a Family critical-journey source gate now exists and central catalogs are type-complete. Remaining advanced Family and non-Family locale gaps stay open and should be promoted when those surfaces become primary/commercial.
+## T8 — Mobile native client — FUTURE PRODUCT MISSION
+Architecture must remain mobile-portable now. Native client should consume shared contracts/API rather than reproduce browser business logic.
+
+## T9 — Internationalization
+Keep all visible UI text tokenized. English is canonical; language packs are independent. Future priorities include Spanish and Simplified Chinese after EN/HI/MR quality is stable; RTL languages require explicit layout readiness.
+
+## T10 — Security / enterprise readiness
+- RLS regression tests.
+- privileged-command review.
+- audit trail.
+- secrets management.
+- backup/restore validation.
+- tenant isolation testing.
+Promote based on design-partner/customer needs rather than enterprise theater.
+
+## T11 — AI/RAG runtime
+Keep intelligence decoupled. Reintroduce deeper RAG only when real professional/institutional/network knowledge creates enough evidence and usage to justify it.

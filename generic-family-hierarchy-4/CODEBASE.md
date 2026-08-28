@@ -1,33 +1,3 @@
-# 2026-08-27 — Mission 1 Codebase Update
-
-**Status:** SOURCE IMPLEMENTED · RUNTIME VERIFICATION OPEN
-
-The Family reference vertical now has a relationship-first signature layer rather than a Home assembled from independent NX feature modules.
-
-### Primary additions
-
-- `lib/family-signature.ts` — pure, UI-agnostic signature model for spotlight relative, closest family and one contextual Family Moment.
-- `lib/family-relationship-copy.ts` — locale presentation for Family relationship labels/descriptions.
-- `components/FamilySignatureExperience.tsx` — new `My Family, Through Me` primary experience.
-- `scripts/mission1-signature-quality-gate.mjs` — signature/mobile-portability/navigation source checks.
-- `scripts/mission1-family-i18n-gate.mjs` — Family critical-journey i18n source checks.
-
-### Important changed composition
-
-- `FamilyHome` no longer renders the NX `Today / People / Legacy` hub or Home stats/action-card stack.
-- Family primary navigation is Home / Family / Memories; Explorer-level surfaces are behind More.
-- Profile, Tree and Memories align to the viewer-relative language and critical English/Hindi/Marathi journey.
-- `lib/i18n.tsx` uses an English canonical key type so central Hindi/Marathi catalogs cannot silently omit a key.
-- Auth, Family setup/join/import and appearance controls now respect the Family locale on the critical path.
-
-### Validation
-
-`npm run validate:mission1` passes 11/11 signature checks, 9/9 Family critical-i18n checks and 8/8 NX-6 compatibility checks. Modified TS/TSX parser/transpile sanity passes.
-
-A clean production build remains open because dependency installation timed out in the implementation workspace and `next` was unavailable. Runtime verification is therefore mandatory before marking this mission VERIFIED/RELEASED.
-
----
-
 # G9 CODEBASE UPDATE
 
 The Generic Network OS now contains `core/intelligence/` as a shared deterministic intelligence layer. `NetworkIntelligenceCenter` is the common UI boundary. Family and Alumni use thin adapters over their existing domain stores; Organization, Business Trust and Franchise consume the generic Network OS entity/affiliation/relationship contracts directly.
@@ -826,3 +796,14 @@ Added shared `NetworkOutcomeHome` and `NetworkMatureGuide`. Productized business
 - `core/intelligence/engine.ts` now handles single-target introduction questions by surfacing known typed relationships into the target or explicitly reporting that no verified warm path exists.
 - See `G9-INTELLIGENCE-HOW-IT-WORKS.md` and `G9-RUNTIME-CERTIFICATION-COMMERCIAL-REALITY-GATE.md`.
 
+
+
+## 2026-08-27 — Post-Mission-3 Runtime Architecture Decision
+
+The current Next.js + Supabase + Vercel architecture is considered a valid managed/serverless backend, not an architectural failure. The next maturity gap is an **application-owned server/command boundary**, not a wholesale backend rewrite.
+
+**Mission 4 — Network OS Application & Runtime Foundation** is the next recommended major mission at **MEDIUM effort**. It will introduce a modular TypeScript `server/` layer, versioned Next.js `/api/v1` command endpoints, server-side Supabase adapters, shared mobile-portable contracts, command/query classification, an observability seam and a GitHub Actions CI baseline. Supabase Postgres/Auth/Storage/Realtime/RLS remain core infrastructure.
+
+Do not add microservices, Kubernetes, Kafka, Redis, a dedicated graph database, native mobile, or RAG expansion as part of Mission 4. Extract only 3–5 high-value multi-step/privileged commands and preserve safe direct RLS-protected queries.
+
+See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNTIME-FOUNDATION.md`.

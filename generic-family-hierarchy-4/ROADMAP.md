@@ -1761,3 +1761,14 @@ Delivered in source:
 - full static UI-copy extraction gate.
 
 Next gate: local build/runtime verification before selecting the next major mission.
+
+
+## 2026-08-27 — Post-Mission-3 Runtime Architecture Decision
+
+The current Next.js + Supabase + Vercel architecture is considered a valid managed/serverless backend, not an architectural failure. The next maturity gap is an **application-owned server/command boundary**, not a wholesale backend rewrite.
+
+**Mission 4 — Network OS Application & Runtime Foundation** is the next recommended major mission at **MEDIUM effort**. It will introduce a modular TypeScript `server/` layer, versioned Next.js `/api/v1` command endpoints, server-side Supabase adapters, shared mobile-portable contracts, command/query classification, an observability seam and a GitHub Actions CI baseline. Supabase Postgres/Auth/Storage/Realtime/RLS remain core infrastructure.
+
+Do not add microservices, Kubernetes, Kafka, Redis, a dedicated graph database, native mobile, or RAG expansion as part of Mission 4. Extract only 3–5 high-value multi-step/privileged commands and preserve safe direct RLS-protected queries.
+
+See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNTIME-FOUNDATION.md`.

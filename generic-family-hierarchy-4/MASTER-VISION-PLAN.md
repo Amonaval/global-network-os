@@ -379,24 +379,13 @@ The platform can become:
 
 Not because it contains every feature, but because it lets any real-world network become structured, alive, useful, trustworthy and selectively connected without surrendering its autonomy or privacy.
 
-## 20. Global portfolio expansion — 2026-08-27
 
-Generic Network OS is not a Family-only product and should not assume Indian-only social structures. Family remains one vertical and product-quality laboratory. Long-term product strategy must support globally relevant consumer, professional, institutional and commercial networks.
+## 2026-08-27 — Post-Mission-3 Runtime Architecture Decision
 
-### Portfolio model
-- **Consumer/community:** Family + community/heritage/belonging.
-- **Professional:** expertise, referrals, associations and trusted collaboration.
-- **Institutional:** organization, healthcare-provider groups, education, public service and nonprofits.
-- **Commercial ecosystems:** franchise, trade, supply ecosystems, builders/manufacturers and business trust.
+The current Next.js + Supabase + Vercel architecture is considered a valid managed/serverless backend, not an architectural failure. The next maturity gap is an **application-owned server/command boundary**, not a wholesale backend rewrite.
 
-### New strategic candidate verticals
-Prioritize research/design around Professional Expertise & Referral Networks and Industry/Trade Ecosystem Networks. Healthcare-provider collaboration is high-potential but higher regulatory risk. Education, research, civic/public-service, nonprofit and built-environment ecosystems remain important candidates.
+**Mission 4 — Network OS Application & Runtime Foundation** is the next recommended major mission at **MEDIUM effort**. It will introduce a modular TypeScript `server/` layer, versioned Next.js `/api/v1` command endpoints, server-side Supabase adapters, shared mobile-portable contracts, command/query classification, an observability seam and a GitHub Actions CI baseline. Supabase Postgres/Auth/Storage/Realtime/RLS remain core infrastructure.
 
-### Global quality doctrine
-Internationalization, localization, accessibility and mobile portability are quality requirements. The product should use universal primitives plus regional/vertical capability profiles rather than country-specific forks.
+Do not add microservices, Kubernetes, Kafka, Redis, a dedicated graph database, native mobile, or RAG expansion as part of Mission 4. Extract only 3–5 high-value multi-step/privileged commands and preserve safe direct RLS-protected queries.
 
-### Graph evolution
-Hierarchy/tree remains a supported projection, not the limit of the platform. Future architecture should support typed entities + typed edges + hierarchy projections + trust/provenance + evidence + network-scoped permissions.
-
-### Commercial leverage
-Prefer institutional anchors where one agreement can activate a real network. Preserve optional direct SaaS, channel, reseller, OEM/white-label, embedded/API and strategic investment/acquisition paths while retaining core IP by default.
+See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNTIME-FOUNDATION.md`.
