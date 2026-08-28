@@ -1,4 +1,5 @@
 "use client";
+import {useLanguage} from "../lib/i18n";
 import { useEffect, useState } from "react";
 import {
   Member,
@@ -24,6 +25,7 @@ export default function ProfileForm({
   onClose: () => void;
   onSubmit: (s: Submission) => Promise<void> | void;
 }) {
+ const {t:tr}=useLanguage();
   const cfg = getNetworkConfig(network ?? null);
   const [form, setForm] = useState({
     full_name: member?.full_name || "",
@@ -140,26 +142,25 @@ export default function ProfileForm({
             {member
               ? `Update ${cfg.entity_label}`
               : cfg.network_template === "family"
-                ? "Add a Relative"
+                ? tr("AddARelativeTxt")
                 : `Submit ${cfg.entity_label}`}
           </h2>
           <button type="button" className="btn small" onClick={onClose}>
-            Close
-          </button>
+            {tr("CloseTxt")}{" "}</button>
         </div>
         <p className="page-subtitle">
           {directEnabled && !governedChanged
-            ? "Low-risk profile fields save immediately. Identity and visibility changes require review."
-            : "This change will be submitted for administrator review."}
+            ? tr("LowRiskProfileFieldsSaveImmediatelyIdentityTxt")
+            : tr("ThisChangeWillBeSubmittedForAdministratorTxt")}
         </p>
         <div className="form-grid" style={{ marginTop: 18 }}>
           {[
-            ["full_name", "Full name"],
-            ["profession", "Profession"],
-            ["city", "City"],
-            ["country", "Country"],
-            ["phone", "Phone"],
-            ["email", "Email"],
+            ["full_name", tr("FullNameTxt")],
+            ["profession", tr("ProfessionTxt")],
+            ["city", tr("CityTxt")],
+            ["country", tr("CountryTxt")],
+            ["phone", tr("PhoneTxt")],
+            ["email", tr("EmailTxt")],
           ].map(([k, label]) => (
             <div className="field" key={k}>
               <label>{label}</label>
@@ -171,49 +172,49 @@ export default function ProfileForm({
             </div>
           ))}
           <div className="field">
-            <label>Profile details visible to</label>
+            <label>{tr("ProfileDetailsVisibleToTxt")}</label>
             <select
               className="select"
               value={form.profile_visibility}
               onChange={(e) => set("profile_visibility", e.target.value)}
             >
-              <option value="public">All members</option>
-              <option value="member">Members</option>
-              <option value="admin">Admins only</option>
+              <option value="public">{tr("AllMembersTxt")}</option>
+              <option value="member">{tr("MembersTxt")}</option>
+              <option value="admin">{tr("AdminsOnlyTxt")}</option>
             </select>
           </div>
           <div className="field">
-            <label>Contact visible to</label>
+            <label>{tr("ContactVisibleToTxt")}</label>
             <select
               className="select"
               value={form.contact_visibility}
               onChange={(e) => set("contact_visibility", e.target.value)}
             >
-              <option value="member">Members</option>
-              <option value="admin">Admins only</option>
+              <option value="member">{tr("MembersTxt")}</option>
+              <option value="admin">{tr("AdminsOnlyTxt")}</option>
             </select>
           </div>
           <div className="field full">
-            <label>Profile photo</label>
+            <label>{tr("ProfilePhotoTxt")}</label>
             {cfg.photo_upload_enabled ? (<>
               <input className="text-input" type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-              <div className="person-meta">JPG, PNG or WebP · maximum 100 KB. Small images keep the family fast and storage-light.</div>
+              <div className="person-meta">{tr("JPGPNGOrWebPMaximum100KBTxt")}</div>
               {form.photo_url && !file && <img src={form.photo_url} alt="Current profile" style={{width:72,height:72,borderRadius:"50%",objectFit:"cover",marginTop:5}} />}
-            </>) : <div className="person-meta">Photo uploads are disabled by your family administrator. Your initials avatar will be used instead.</div>}
+            </>) : <div className="person-meta">{tr("PhotoUploadsAreDisabledByYourFamilyTxt")}</div>}
           </div>
           <div className="field full identity-editor">
-            <label>Lightweight avatar</label>
-            <div className="avatar-choice-row">{AVATAR_STYLES.map(style=><button type="button" key={style} className={`avatar-choice ${form.avatar_style===style?"selected":""}`} onClick={()=>set("avatar_style",style)} aria-pressed={form.avatar_style===style}><IdentityAvatar member={{full_name:form.full_name||"Family Member",avatar_style:style}} size="sm"/><span>{avatarLabels[style]}</span></button>)}</div>
-            <div className="person-meta">Used whenever no profile photo is available. It consumes no media storage.</div>
+            <label>{tr("LightweightAvatarTxt")}</label>
+            <div className="avatar-choice-row">{AVATAR_STYLES.map(style=><button type="button" key={style} className={`avatar-choice ${form.avatar_style===style?"selected":""}`} onClick={()=>set("avatar_style",style)} aria-pressed={form.avatar_style===style}><IdentityAvatar member={{full_name:form.full_name||tr("FamilyMember2Txt"),avatar_style:style}} size="sm"/><span>{avatarLabels[style]}</span></button>)}</div>
+            <div className="person-meta">{tr("UsedWheneverNoProfilePhotoIsAvailableTxt")}</div>
           </div>
           <div className="field full social-links-editor">
-            <label>Social links <span className="optional-label">optional</span></label>
-            <p className="person-meta">We only store the link. Family Network never downloads or copies your social profile photo.</p>
-            {[{key:"facebook",label:"Facebook",placeholder:"https://facebook.com/your-profile"},{key:"instagram",label:"Instagram",placeholder:"https://instagram.com/your-profile"},{key:"other_social",label:"Other profile / website",placeholder:"https://example.com/your-profile"}].map(x=><div className="social-link-row" key={x.key}><div><span>{x.label}</span>{x.key==="other_social"&&<input className="text-input social-label-input" aria-label="Other link label" value={form.other_social_label} onChange={e=>set("other_social_label",e.target.value)} placeholder="Website"/>}</div><input className="text-input" type="url" inputMode="url" placeholder={x.placeholder} value={(form as any)[`${x.key}_url`]} onChange={e=>set(`${x.key}_url`,e.target.value)}/><label className="social-public-toggle"><input type="checkbox" checked={(form as any)[`${x.key}_public`]} disabled={!String((form as any)[`${x.key}_url`]||"").trim()} onChange={e=>set(`${x.key}_public`,e.target.checked)}/><span>Show on public profile</span></label></div>)}
-            <div className="privacy-note compact">A social link is just a link you chose to share. It is not identity verification or proof that an account belongs to this person.</div>
+            <label>{tr("SocialLinksTxt")}{" "}<span className="optional-label">{tr("OptionalTxt")}</span></label>
+            <p className="person-meta">{tr("WeOnlyStoreTheLinkFamilyNetworkTxt")}</p>
+            {[{key:"facebook",label:tr("FacebookTxt"),placeholder:"https://facebook.com/your-profile"},{key:"instagram",label:tr("InstagramTxt"),placeholder:"https://instagram.com/your-profile"},{key:"other_social",label:tr("OtherProfileWebsiteTxt"),placeholder:"https://example.com/your-profile"}].map(x=><div className="social-link-row" key={x.key}><div><span>{x.label}</span>{x.key==="other_social"&&<input className="text-input social-label-input" aria-label={tr("OtherLinkLabelTxt")} value={form.other_social_label} onChange={e=>set("other_social_label",e.target.value)} placeholder={tr("WebsiteTxt")}/>}</div><input className="text-input" type="url" inputMode="url" placeholder={x.placeholder} value={(form as any)[`${x.key}_url`]} onChange={e=>set(`${x.key}_url`,e.target.value)}/><label className="social-public-toggle"><input type="checkbox" checked={(form as any)[`${x.key}_public`]} disabled={!String((form as any)[`${x.key}_url`]||"").trim()} onChange={e=>set(`${x.key}_public`,e.target.checked)}/><span>{tr("ShowOnPublicProfileTxt")}</span></label></div>)}
+            <div className="privacy-note compact">{tr("ASocialLinkIsJustALinkTxt")}</div>
           </div>
           <div className="field full">
-            <label>Bio</label>
+            <label>{tr("BioTxt")}</label>
             <textarea
               className="textarea"
               rows={4}
@@ -232,20 +233,17 @@ export default function ProfileForm({
         )}
         {directEnabled && governedChanged && (
           <div className="notice warning-notice" style={{ marginTop: 14 }}>
-            Full name and visibility are governed fields, so this update will be
-            reviewed.
-          </div>
+            {tr("FullNameAndVisibilityAreGovernedFieldsTxt")}{" "}</div>
         )}
         <div className="form-actions">
           <button type="button" className="btn" onClick={onClose}>
-            Cancel
-          </button>
+            {tr("CancelTxt")}{" "}</button>
           <button className="btn primary" type="submit" disabled={busy}>
             {busy
-              ? "Saving…"
+              ? tr("SavingTxt")
               : directEnabled && !governedChanged
-                ? "Save Profile"
-                : "Submit for Review"}
+                ? tr("SaveProfile2Txt")
+                : tr("SubmitForReviewTxt")}
           </button>
         </div>
       </form>

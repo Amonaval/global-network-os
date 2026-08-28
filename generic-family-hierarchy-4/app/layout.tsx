@@ -1,3 +1,4 @@
+import {DEFAULT_CATALOG} from "../lib/i18n/catalog";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { LanguageProvider } from "../lib/i18n";
@@ -12,8 +13,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Our Family",
-  description: "A private, living home for your family, generations and memories",
+  title: DEFAULT_CATALOG.SetupBrandTxt,
+  description: DEFAULT_CATALOG.APrivateLivingHomeForYourFamilyTxt,
   manifest: "/manifest.json"
 };
 

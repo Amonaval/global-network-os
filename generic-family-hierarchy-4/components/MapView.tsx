@@ -1,4 +1,5 @@
 "use client";
+import {useLanguage} from "../lib/i18n";
 
 import { useMemo } from "react";
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from "react-leaflet";
@@ -20,6 +21,7 @@ function FitToMembers({ members }: { members: Member[] }) {
 }
 
 export default function MapView({ members, onSelect }: { members: Member[]; onSelect: (m: Member) => void }) {
+ const {t:tr}=useLanguage();
   const groups = useMemo(() => {
     const map = new Map<string, { city: string; country: string; lat: number; lng: number; members: Member[] }>();
     members.forEach(m => {
@@ -48,13 +50,13 @@ export default function MapView({ members, onSelect }: { members: Member[]; onSe
               <Popup>
                 <div style={{ minWidth: 190 }}>
                   <strong style={{ fontSize: 15 }}>{group.city}</strong>
-                  <div style={{ color: "#687386", margin: "4px 0 10px" }}>{group.country} · {group.members.length} member{group.members.length === 1 ? "" : "s"}</div>
+                  <div style={{ color: "#687386", margin: "4px 0 10px" }}>{group.country} · {group.members.length} {tr("Member2Txt")}{group.members.length === 1 ? "" : "s"}</div>
                   {group.members.slice(0, 8).map(m => (
                     <button key={m.id} className="map-person" onClick={() => onSelect(m)}>
-                      <span>{m.full_name}</span><small>{m.profession || "Member"}</small>
+                      <span>{m.full_name}</span><small>{m.profession || tr("MemberTxt")}</small>
                     </button>
                   ))}
-                  {group.members.length > 8 && <div style={{ fontSize: 11, marginTop: 5 }}>+ {group.members.length - 8} more</div>}
+                  {group.members.length > 8 && <div style={{ fontSize: 11, marginTop: 5 }}>+ {group.members.length - 8} {tr("More2Txt")}</div>}
                 </div>
               </Popup>
             </CircleMarker>
@@ -62,9 +64,9 @@ export default function MapView({ members, onSelect }: { members: Member[]; onSe
         </MapContainer>
       </div>
       <aside className="map-summary card">
-        <div className="map-summary-head"><div><h3>Members by location</h3><p>City-level locations only</p></div><strong>{members.filter(m => Number.isFinite(m.latitude) && Number.isFinite(m.longitude)).length}</strong></div>
+        <div className="map-summary-head"><div><h3>{tr("MembersByLocationTxt")}</h3><p>{tr("CityLevelLocationsOnlyTxt")}</p></div><strong>{members.filter(m => Number.isFinite(m.latitude) && Number.isFinite(m.longitude)).length}</strong></div>
         {groups.sort((a,b)=>b.members.length-a.members.length).map(g => <button key={`${g.city}-${g.lat}`} className="location-row" onClick={() => onSelect(g.members[0])}><span><b>{g.city}</b><small>{g.country}</small></span><strong>{g.members.length}</strong></button>)}
-        {!groups.length && <div className="empty">No member has valid coordinates. Import latitude/longitude or use the supplied demo dataset.</div>}
+        {!groups.length && <div className="empty">{tr("NoMemberHasValidCoordinatesImportLatitudeTxt")}</div>}
       </aside>
     </div>
   );

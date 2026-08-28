@@ -79,6 +79,7 @@ export default function ProfileDrawer({
   onEditEvent?: (e: LifeEvent) => void;
   onOpenGuide?: (key:string) => void;
 }) {
+ const {t:tr}=useLanguage();
   const { t, language } = useLanguage();
   const [tab,setTab]=useState<"overview"|"story"|"family">("overview");
   const copy = language === "hi" ? { phone:"फ़ोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोड़ें", noMilestones:"अभी कोई जीवन घटना साझा नहीं की गई।", noMemories:"अभी कोई याद साझा नहीं की गई।", noRelations:"अभी कोई रिश्ता दर्ज नहीं है।", member:"सदस्य", undated:"तारीख नहीं", edit:"बदलें" } : language === "mr" ? { phone:"फोन", email:"ईमेल", about:"परिचय", addEvent:"घटना जोडा", noMilestones:"अजून कोणतीही जीवन घटना सामायिक केलेली नाही.", noMemories:"अजून कोणतीही आठवण सामायिक केलेली नाही.", noRelations:"अजून कोणतेही नाते नोंदवलेले नाही.", member:"सदस्य", undated:"तारीख नाही", edit:"बदला" } : { phone:"Phone", email:"Email", about:"About", addEvent:"Add event", noMilestones:"No milestones have been shared yet.", noMemories:"No memories have been shared yet.", noRelations:"No relationships recorded.", member:"Member", undated:"Undated", edit:"Edit" };
@@ -124,15 +125,15 @@ export default function ProfileDrawer({
     >
       <aside className="drawer" role="dialog" aria-modal="true" aria-label={member.full_name}>
         <div className="drawer-head">
-          <div className="drawer-head-title">{onBack && <button className="btn small profile-back" aria-label="Back to previous profile" onClick={onBack}><ArrowLeft size={16}/> Back</button>}
+          <div className="drawer-head-title">{onBack && <button className="btn small profile-back" aria-label={tr("BackToPreviousProfileTxt")} onClick={onBack}><ArrowLeft size={16}/> {tr("BackTxt")}</button>}
           <strong>
             {cfg.network_template === "family"
               ? t("FamilyProfileTxt")
               : `${cfg.entity_label} Profile`}
           </strong></div>
           <div className="drawer-head-actions">
-            {onOpenGuide&&<button className="btn small icon-only profile-guide-button" aria-label="Open profile guide" title="Profile guide" onClick={()=>onOpenGuide("profiles")}><BookOpen size={16}/></button>}
-            <button className="btn small icon-only" aria-label="Close profile" onClick={onClose}><X size={16} /></button>
+            {onOpenGuide&&<button className="btn small icon-only profile-guide-button" aria-label={tr("OpenProfileGuideTxt")} title={tr("ProfileGuideTxt")} onClick={()=>onOpenGuide("profiles")}><BookOpen size={16}/></button>}
+            <button className="btn small icon-only" aria-label={tr("CloseProfileTxt")} onClick={onClose}><X size={16} /></button>
           </div>
         </div>
         <div className="profile-hero">
@@ -142,15 +143,15 @@ export default function ProfileDrawer({
               {member.full_name}
             </h2>
             <div className="person-meta nx6-profile-relationship-summary">
-              {relationshipToViewer || (simple && cfg.network_template === "family" ? "Family member" : `${cfg.level_label} ${member.generation_level}`)}
+              {relationshipToViewer || (simple && cfg.network_template === tr("Family2Txt") ? tr("FamilyMemberTxt") : `${cfg.level_label} ${member.generation_level}`)}
             </div>
-            {relationshipLabel && <div className={`profile-relationship-badge ${relationshipLabel === "You" ? "you" : ""}`}>{relationshipLabel === "You" ? "This is you" : `Your ${relationshipLabel.toLowerCase()}`}</div>}
+            {relationshipLabel && <div className={`profile-relationship-badge ${relationshipLabel === "You" ? "you" : ""}`}>{relationshipLabel === "You" ? tr("ThisIsYouTxt") : `Your ${relationshipLabel.toLowerCase()}`}</div>}
           </div>
         </div>
-        <div className="nx6-profile-tabs" role="tablist" aria-label="Profile sections">
-          <button role="tab" aria-selected={tab==="overview"} className={tab==="overview"?"active":""} onClick={()=>setTab("overview")}>Overview</button>
-          <button role="tab" aria-selected={tab==="story"} className={tab==="story"?"active":""} onClick={()=>setTab("story")}>Story <span>{visibleEvents.length+visibleMemories.length}</span></button>
-          <button role="tab" aria-selected={tab==="family"} className={tab==="family"?"active":""} onClick={()=>setTab("family")}>Family <span>{related.length}</span></button>
+        <div className="nx6-profile-tabs" role="tablist" aria-label={tr("ProfileSectionsTxt")}>
+          <button role="tab" aria-selected={tab==="overview"} className={tab==="overview"?"active":""} onClick={()=>setTab("overview")}>{tr("OverviewTxt")}</button>
+          <button role="tab" aria-selected={tab==="story"} className={tab==="story"?"active":""} onClick={()=>setTab("story")}>{tr("StoryTxt")}{" "}<span>{visibleEvents.length+visibleMemories.length}</span></button>
+          <button role="tab" aria-selected={tab==="family"} className={tab==="family"?"active":""} onClick={()=>setTab("family")}>{tr("FamDirTxt")}{" "}<span>{related.length}</span></button>
         </div>
         <div className="nx6-profile-body">
         {tab==="overview"&&<>
@@ -206,20 +207,17 @@ export default function ProfileDrawer({
           !member.phone &&
           !member.email && (
             <div className="privacy-note">
-              This member has chosen to keep contact details visible only to
-              administrators.
-            </div>
+              {tr("ThisMemberHasChosenToKeepContactTxt")}{" "}</div>
           )}
         {!showProfileDetails && (
           <div className="privacy-note">
-            This profile has more details than this preview is allowed to show.
-          </div>
+            {tr("ThisProfileHasMoreDetailsThanThisTxt")}{" "}</div>
         )}
         {(() => { const links=[
-          {label:"Facebook",url:safeExternalUrl(member.facebook_url),show:showProfileDetails&&(visibility!=="public"||member.facebook_public)},
-          {label:"Instagram",url:safeExternalUrl(member.instagram_url),show:showProfileDetails&&(visibility!=="public"||member.instagram_public)},
-          {label:member.other_social_label||"Website",url:safeExternalUrl(member.other_social_url),show:showProfileDetails&&(visibility!=="public"||member.other_social_public)}
-        ].filter(x=>x.url&&x.show); return links.length?<div className="profile-social-links"><div className="detail-label"><Link2 size={12}/> Social links</div><div className="social-link-chips">{links.map(x=><a key={x.label} href={x.url} target="_blank" rel="noopener noreferrer nofollow" className="social-link-chip">{x.label}<ExternalLink size={12}/></a>)}</div><div className="person-meta">External links are user-provided and are not identity verification.</div></div>:null })()}
+          {label:tr("FacebookTxt"),url:safeExternalUrl(member.facebook_url),show:showProfileDetails&&(visibility!==tr("Public3Txt")||member.facebook_public)},
+          {label:tr("InstagramTxt"),url:safeExternalUrl(member.instagram_url),show:showProfileDetails&&(visibility!==tr("Public3Txt")||member.instagram_public)},
+          {label:member.other_social_label||tr("WebsiteTxt"),url:safeExternalUrl(member.other_social_url),show:showProfileDetails&&(visibility!==tr("Public3Txt")||member.other_social_public)}
+        ].filter(x=>x.url&&x.show); return links.length?<div className="profile-social-links"><div className="detail-label"><Link2 size={12}/> {tr("SocialLinksTxt")}</div><div className="social-link-chips">{links.map(x=><a key={x.label} href={x.url} target="_blank" rel="noopener noreferrer nofollow" className="social-link-chip">{x.label}<ExternalLink size={12}/></a>)}</div><div className="person-meta">{tr("ExternalLinksAreUserProvidedAndAreTxt")}</div></div>:null })()}
         {showProfileDetails && member.bio && (
           <>
             <h3 style={{ fontSize: 14 }}>{copy.about}</h3>
@@ -304,12 +302,12 @@ export default function ProfileDrawer({
                 </div>
               </div>
               <button className="btn small relationship-view-button" onClick={() => onSelect(other)}>
-                View {other.full_name.split(/\s+/)[0]} <ArrowRight size={14} />
+                {tr("ViewTxt")}{" "}{other.full_name.split(/\s+/)[0]} <ArrowRight size={14} />
               </button>
             </div>
           ))}
         </div>
-        {!canEdit && viewerMemberId && <div className="profile-correction-note"><AlertCircle size={16}/><span><b>Something looks wrong?</b> Tell the family owner what needs correcting. Members cannot directly change foundational family structure.</span>{onReportCorrection&&<button className="btn small" onClick={onReportCorrection}>Report correction</button>}</div>}
+        {!canEdit && viewerMemberId && <div className="profile-correction-note"><AlertCircle size={16}/><span><b>{tr("SomethingLooksWrongTxt")}</b> {tr("TellTheFamilyOwnerWhatNeedsCorrectingTxt")}</span>{onReportCorrection&&<button className="btn small" onClick={onReportCorrection}>{tr("ReportCorrectionTxt")}</button>}</div>}
         </>}
         </div>
         <div className="form-actions nx6-profile-actions">

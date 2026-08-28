@@ -1,19 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import ts from '/opt/nvm/versions/node/v22.16.0/lib/node_modules/typescript/lib/typescript.js';
 const roots=['app','components'];
-const files=[];
-for(const root of roots){if(!fs.existsSync(root))continue;const walk=d=>{for(const e of fs.readdirSync(d,{withFileTypes:true})){const p=path.join(d,e.name);if(e.isDirectory())walk(p);else if(/\.tsx$/.test(e.name))files.push(p)}};walk(root)}
-const results=[];
-for(const file of files){const s=fs.readFileSync(file,'utf8');let n=0;
- // Visible JSX text nodes with letters; intentionally approximate.
- for(const m of s.matchAll(/>([^<>{}\n][^<>{}]*)</g)){const t=m[1].trim();if(/[A-Za-z]{2}/.test(t)&&!/^[-–—·|/]+$/.test(t))n++}
- // Common visible string props, excluding class/value identifiers.
- for(const m of s.matchAll(/\b(?:title|description|placeholder|aria-label|label|kicker|actionLabel)=(["'])(.*?)\1/g)){if(/[A-Za-z]{2}/.test(m[2]))n++}
- // User-facing browser dialogs/messages.
- for(const m of s.matchAll(/\b(?:confirm|alert)\(\s*(["'`])([^\n]*?)\1\s*\)/g)){if(/[A-Za-z]{2}/.test(m[2]))n++}
- if(n)results.push({file,count:n});
-}
-results.sort((a,b)=>b.count-a.count||a.file.localeCompare(b.file));
-const total=results.reduce((a,x)=>a+x.count,0);
-console.log(`Potential visible literal audit: ${total} candidates across ${results.length} TSX files`);
-for(const x of results.slice(0,80))console.log(`${String(x.count).padStart(4)}  ${x.file}`);
+const visibleProps=new Set(['title','description','placeholder','aria-label','label','kicker','actionLabel','subtitle','helperText','emptyText','heading','caption']);
+const rows=[];
+for(const root of roots){if(!fs.existsSync(root))continue;const walk=(dir)=>{for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isDirectory()){walk(file);continue}if(!entry.name.endsWith('.tsx'))continue;const source=fs.readFileSync(file,'utf8'),sf=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),hits=[];const visit=node=>{if(ts.isJsxText(node)){const text=node.text.replace(/\s+/g,' ').trim();if(/[A-Za-z\p{L}]{2}/u.test(text))hits.push({line:sf.getLineAndCharacterOfPosition(node.getStart(sf)).line+1,text})}else if(ts.isJsxAttribute(node)&&visibleProps.has(node.name.text)&&node.initializer&&ts.isStringLiteral(node.initializer)&&/[A-Za-z\p{L}]{2}/u.test(node.initializer.text)){hits.push({line:sf.getLineAndCharacterOfPosition(node.getStart(sf)).line+1,text:node.initializer.text})}else if(ts.isStringLiteral(node)&&ts.isCallExpression(node.parent)&&node.parent.arguments[0]===node&&ts.isIdentifier(node.parent.expression)&&['alert','confirm'].includes(node.parent.expression.text)){hits.push({line:sf.getLineAndCharacterOfPosition(node.getStart(sf)).line+1,text:node.text})}ts.forEachChild(node,visit)};visit(sf);if(hits.length)rows.push({file,hits})}};walk(root)}
+const total=rows.reduce((sum,row)=>sum+row.hits.length,0);console.log(`AST visible literal audit: ${total} candidates across ${rows.length} TSX files`);for(const row of rows)for(const hit of row.hits.slice(0,20))console.log(`${row.file}:${hit.line} ${hit.text}`);if(total)process.exitCode=1;

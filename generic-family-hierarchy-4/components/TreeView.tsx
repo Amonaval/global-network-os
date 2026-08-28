@@ -17,7 +17,6 @@ import { Member, Relationship } from "../lib/types";
 import { getNetworkConfig, NetworkSettings } from "../lib/network";
 import { useLanguage } from "../lib/i18n";
 import { relationshipLabelToViewer } from "../lib/relationship-intelligence";
-import {localizeRelationshipLabel} from "../lib/family-relationship-copy";
 
 function initials(name: string) {
   return name
@@ -29,6 +28,7 @@ function initials(name: string) {
 }
 
 function PersonNode({ data }: any) {
+ const {t:tr}=useLanguage();
   return (
     <div
       className={`tree-node ${data.match ? "match" : ""} ${data.dim ? "dim" : ""} ${data.deceased ? "deceased" : ""} ${data.focused ? "focused" : ""} ${data.viewer ? "viewer" : ""}`}
@@ -57,12 +57,12 @@ function PersonNode({ data }: any) {
         )}
       </div>
       <div className="tree-node-name">{data.name}</div>
-      {data.viewer && <div className="tree-you-badge">{data.youLabel}</div>}
-      {data.focused && !data.viewer && <div className="tree-focus-badge">{data.viewingLabel}</div>}
+      {data.viewer && <div className="tree-you-badge">{tr("YouTxt")}</div>}
+      {data.focused && !data.viewer && <div className="tree-focus-badge">{tr("ViewingTxt")}</div>}
       {data.relationshipLabel && !data.viewer && <div className="tree-relation-label">{data.relationshipLabel}</div>}
-      <div className="tree-node-meta">{data.profession || data.memberLabel}</div>
+      <div className="tree-node-meta">{data.profession || tr("FamilyMemberTxt")}</div>
       <div className="tree-node-meta">{data.city || ""}</div>
-      {data.deceased && <div className="tree-node-deceased">† {data.memorialLabel}</div>}
+      {data.deceased && <div className="tree-node-deceased">{tr("InMemoriam3Txt")}</div>}
       <Handle type="source" position={Position.Bottom} style={{ opacity: 0 }} />
       <Handle
         type="source"
@@ -95,12 +95,13 @@ export default function TreeView({
   onSelect: (m: Member) => void;
   network?: NetworkSettings | null;
 }) {
+ const {t:tr}=useLanguage();
   const { language } = useLanguage();
   const copy = language === "hi"
-    ? { shown:"सदस्य दिख रहे हैं", focused:"चुनी हुई शाखा", large:"बड़ा परिवार है? किसी को खोजें, उनकी प्रोफ़ाइल खोलें और साफ शाखा देखने के लिए परिवार वृक्ष में देखें चुनें।", you:"आप", viewing:"देख रहे हैं", member:"परिवार सदस्य", memorial:"स्मृति में", older:"माता-पिता और पूर्वज", currentYou:"आप और जीवनसाथी", currentPerson:"यह व्यक्ति और जीवनसाथी", younger:"बच्चे और वंशज", hint:"यहाँ सीधी परिवार रेखा दिखाई जा रही है। सभी शाखाएँ देखने के लिए पूरा वृक्ष खोलें।" }
+    ? { shown:"सदस्य दिख रहे हैं", focused:"चुनी हुई शाखा", large:"बड़ा परिवार है? किसी को खोजें, उनकी प्रोफ़ाइल खोलें और साफ शाखा देखने के लिए परिवार वृक्ष में देखें चुनें।" }
     : language === "mr"
-      ? { shown:"सदस्य दिसत आहेत", focused:"निवडलेली शाखा", large:"कुटुंब मोठे आहे? व्यक्ती शोधा, त्यांची प्रोफाइल उघडा आणि स्पष्ट शाखेसाठी कुटुंब वृक्षात पहा निवडा.", you:"तुम्ही", viewing:"पाहत आहात", member:"कुटुंब सदस्य", memorial:"स्मरणार्थ", older:"आई-वडील आणि पूर्वज", currentYou:"तुम्ही आणि जोडीदार", currentPerson:"ही व्यक्ती आणि जोडीदार", younger:"मुले आणि वंशज", hint:"इथे थेट कुटुंब रेषा दाखवली आहे. सर्व शाखांसाठी पूर्ण वृक्ष उघडा." }
-      : { shown:"members shown", focused:"Focused branch", large:"Large family? Search for someone, open their profile, then choose View in Family Tree for a clear branch.", you:"You", viewing:"Viewing", member:"Family member", memorial:"In memoriam", older:"Parents & ancestors", currentYou:"You & partner", currentPerson:"This person & partner", younger:"Children & descendants", hint:"Showing the direct family line only. Use Full Tree when you want to explore every branch." };
+      ? { shown:"सदस्य दिसत आहेत", focused:"निवडलेली शाखा", large:"कुटुंब मोठे आहे? व्यक्ती शोधा, त्यांची प्रोफाइल उघडा आणि स्पष्ट शाखेसाठी कुटुंब वृक्षात पहा निवडा." }
+      : { shown:"members shown", focused:"Focused branch", large:"Large family? Search for someone, open their profile, then choose View in Family Tree for a clear branch." };
   const cfg = getNetworkConfig(network ?? null);
   const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
     const byGen = new Map<number, Member[]>();
@@ -144,8 +145,7 @@ export default function TreeView({
             deceased: !!m.date_of_death,
             focused: m.id === focusMemberId,
             viewer: m.id === viewerMemberId,
-            relationshipLabel: viewerMemberId ? localizeRelationshipLabel(relationshipLabelToViewer(members, relationships, viewerMemberId, m.id), language) : null,
-            youLabel: copy.you, viewingLabel: copy.viewing, memberLabel: copy.member, memorialLabel: copy.memorial,
+            relationshipLabel: viewerMemberId ? relationshipLabelToViewer(members, relationships, viewerMemberId, m.id) : null,
           },
         });
       });
@@ -191,7 +191,7 @@ export default function TreeView({
       });
 
     return { nodes, edges };
-  }, [members, relationships, query, focusMemberId, viewerMemberId, compactLineage, language]);
+  }, [members, relationships, query, focusMemberId, viewerMemberId, compactLineage]);
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -227,11 +227,11 @@ export default function TreeView({
       {compactLineage && focusMemberId && (
         <div className="mobile-lineage-view">
           {([
-            { key: "older", label: copy.older, items: members.filter(m => m.generation_level < (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
-            { key: "current", label: focusMemberId === viewerMemberId ? copy.currentYou : copy.currentPerson, items: members.filter(m => m.generation_level === (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
-            { key: "younger", label: copy.younger, items: members.filter(m => m.generation_level > (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
-          ] as const).map(group => group.items.length ? <section className="mobile-lineage-group" key={group.key}><h3>{group.label}</h3>{group.items.map(m => <button className={`mobile-lineage-person ${m.id===viewerMemberId?"viewer":""} ${m.id===focusMemberId?"focused":""}`} key={m.id} onClick={()=>onSelect(m)}><span className="mobile-lineage-avatar">{m.photo_url?<img src={m.photo_url} alt=""/>:initials(m.full_name)}</span><span><b>{m.full_name}</b><small>{m.id===viewerMemberId?copy.you:localizeRelationshipLabel(relationshipLabelToViewer(members, relationships, viewerMemberId || "", m.id),language)||m.profession||copy.member}</small></span></button>)}</section> : null)}
-          <div className="mobile-lineage-hint">{copy.hint}</div>
+            { key: "older", label: tr("ParentsAndAncestorsTxt"), items: members.filter(m => m.generation_level < (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
+            { key: "current", label: focusMemberId === viewerMemberId ? "You & partner" : "This person & partner", items: members.filter(m => m.generation_level === (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
+            { key: "younger", label: tr("ChildrenAndDescendantsTxt"), items: members.filter(m => m.generation_level > (members.find(x=>x.id===focusMemberId)?.generation_level ?? m.generation_level)) },
+          ] as const).map(group => group.items.length ? <section className="mobile-lineage-group" key={group.key}><h3>{group.label}</h3>{group.items.map(m => <button className={`mobile-lineage-person ${m.id===viewerMemberId?"viewer":""} ${m.id===focusMemberId?"focused":""}`} key={m.id} onClick={()=>onSelect(m)}><span className="mobile-lineage-avatar">{m.photo_url?<img src={m.photo_url} alt=""/>:initials(m.full_name)}</span><span><b>{m.full_name}</b><small>{m.id===viewerMemberId?tr("YouTxt"):relationshipLabelToViewer(members, relationships, viewerMemberId || "", m.id)||m.profession||tr("FamilyMemberTxt")}</small></span></button>)}</section> : null)}
+          <div className="mobile-lineage-hint">{tr("ShowingTheDirectFamilyLineOnlyUseTxt")}</div>
         </div>
       )}
       <div className={`tree-flow ${compactLineage ? "has-mobile-lineage" : ""}`}>

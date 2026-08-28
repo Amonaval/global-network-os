@@ -16,10 +16,10 @@ export const PROFESSIONAL_TEMPLATE:VerticalTemplateDefinition={
   {key:"credential",label:"Credential / Qualification"}
  ],
  relationships:[
-  {key:"worked_with",label:"Worked with",direction:"symmetric"},
-  {key:"referred_by",label:"Referred by",direction:"directed"},
-  {key:"collaborates_with",label:"Collaborates with",direction:"symmetric"},
-  {key:"mentors",label:"Mentors",direction:"directed"}
+  {key:"worked_with",label:"Worked with",direction:"symmetric",fromKinds:["person","organization"],toKinds:["person","organization"]},
+  {key:"referred_by",label:"Referred by",direction:"directed",inverseLabel:"Referred",fromKinds:["person","organization"],toKinds:["person","organization"]},
+  {key:"collaborates_with",label:"Collaborates with",direction:"symmetric",fromKinds:["person","organization"],toKinds:["person","organization"]},
+  {key:"mentors",label:"Mentors",direction:"directed",inverseLabel:"Mentored by",fromKinds:["person"],toKinds:["person"]}
  ],
  projections:[
   {key:"expertise-location",label:"Expertise → Country → City",levels:["specialty","country","city"]},

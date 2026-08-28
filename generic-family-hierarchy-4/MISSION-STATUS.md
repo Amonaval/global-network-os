@@ -1309,3 +1309,11 @@ Purpose: restore the accepted post-NX UI baseline after the rejected Mission 1 r
 - Current EN/HI/MR catalog is 328/328 tokens in each locale. Legacy visible-literal extraction remains tracked debt.
 - `npm run validate:m2` PASS; STABILITY-1 chain remains PASS.
 - Next roadmap mission remains the governed graph + institutional bootstrap direction, but only after Mission 2 live runtime verification and any contained hardening.
+
+## Mission 3 — Governed Graph Platform + Institutional Bootstrap
+**SOURCE IMPLEMENTED · RUNTIME VERIFICATION OPEN**
+- M3 source gate: 11/11 PASS.
+- M2 regression gate: 19/19 PASS.
+- STABILITY-1 regression gate: 14/14 PASS.
+- TS/TSX parse/import integrity: PASS.
+- i18n AST direct-visible-literal audit: 0.

@@ -94,3 +94,6 @@ Build coherent increments without demanding founder verification after every sma
 
 ## 2026-08-27 — Mission 2 checkpoint
 Mission 2 (Trusted Expertise & Professional Network) is source implemented and source-gated. Preserve STABILITY-1 baseline and do not redesign Family/NX while hardening this vertical. Current EN/HI/MR catalog is key-complete at 328 tokens each; continue extracting legacy visible literals screen-by-screen using `npm run audit:i18n`. Read `MISSION-2-TRUSTED-EXPERTISE-PROFESSIONAL-NETWORK.md` and its runtime checklist before selecting the next mission.
+
+## Current implementation checkpoint
+Mission 3 Governed Graph + Institutional Bootstrap is source implemented. Preserve the STABILITY-1 UX baseline. Do not expand Family broadly. i18n is catalog-first and direct visible TSX literals are gated by `npm run audit:i18n`. Consume runtime/build feedback before another major mission.

@@ -124,6 +124,7 @@ const uuid = () =>
     Math.random().toString(16).slice(2).padEnd(12, "0").slice(0, 12);
 
 export default function NetworkApp() {
+ const {t:tr}=useLanguage();
   const nx1=useNxEnabled("NX-1");
   const { t, language } = useLanguage();
   const moreLabel = language === "hi" ? "और" : language === "mr" ? "अधिक" : "More";
@@ -131,9 +132,9 @@ export default function NetworkApp() {
     ? { title:"परिवार के सदस्य", subtitle:"नाम, पेशे या स्थान से रिश्तेदार खोजें।", search:"परिवार में खोजें…", professions:"सभी पेशे", locations:"सभी स्थान", generations:"सभी पीढ़ियाँ", allLife:"जीवित + स्मृति में", living:"जीवित", memorial:"स्मृति में", clear:"हटाएँ", of:"में से", view:"प्रोफ़ाइल देखें", focus:"शाखा देखें" }
     : language === "mr"
       ? { title:"कुटुंब सदस्य", subtitle:"नाव, व्यवसाय किंवा ठिकाणाने नातेवाईक शोधा.", search:"कुटुंबात शोधा…", professions:"सर्व व्यवसाय", locations:"सर्व ठिकाणे", generations:"सर्व पिढ्या", allLife:"हयात + स्मरणार्थ", living:"हयात", memorial:"स्मरणार्थ", clear:"साफ करा", of:"पैकी", view:"प्रोफाइल पहा", focus:"शाखा पहा" }
-      : { title:"Find family", subtitle:"Find relatives by name, profession or location.", search:"Search family members…", professions:"All professions", locations:"All locations", generations:"All generations", allLife:"Living + In memoriam", living:"Living", memorial:"In memoriam", clear:"Clear", of:"of", view:"View profile", focus:"View branch" };
-  const helpCopy = language === "hi" ? { title:"परिवार उपयोग सहायता", close:"बंद करें", intro:"यहाँ सबसे जरूरी काम आसानी से किए जा सकते हैं:", items:["परिवार वृक्ष: खोजें, किसी व्यक्ति पर टैप करें और उनकी पारिवारिक शाखा देखें।","परिवार: नाम, शहर या पेशे से रिश्तेदार खोजें।","प्रोफ़ाइल: अपनी जानकारी, तस्वीर और रिश्ते देखें या अपडेट का अनुरोध करें।","Excel: मार्गदर्शित workbook डाउनलोड करें और जोड़ने से पहले हर व्यक्ति व रिश्ता जाँचें।","गोपनीयता: निजी संपर्क केवल परिवार द्वारा अनुमति प्राप्त लोगों को दिखते हैं।","और: स्थान, भाषा, सहायता, privacy preview और family settings यहाँ मिलते हैं।"] } : language === "mr" ? { title:"कुटुंब वापर मदत", close:"बंद करा", intro:"येथे महत्त्वाची कामे सहज करता येतात:", items:["कुटुंब वृक्ष: शोधा, व्यक्तीवर टॅप करा आणि त्यांची कौटुंबिक शाखा पहा.","कुटुंब: नाव, शहर किंवा व्यवसायाने नातेवाईक शोधा.","प्रोफाइल: आपली माहिती, छायाचित्र आणि नाती पहा किंवा बदल सुचवा.","Excel: मार्गदर्शित workbook डाउनलोड करा आणि जोडण्याआधी प्रत्येक व्यक्ती व नाते तपासा.","गोपनीयता: खाजगी संपर्क फक्त कुटुंबाने परवानगी दिलेल्या लोकांना दिसतात.","अधिक: ठिकाणे, भाषा, मदत, privacy preview आणि family settings येथे आहेत."] } : { title:"Quick start · Family help", close:"Close", intro:"The easiest way to use the app:", items:["1. Home: see what matters today and use See my family.","2. Family: starts with your direct lineage on mobile. Tap a person to view their profile; switch to Full Tree only when you want every branch.","3. Me: check your own profile and ask for corrections when something is wrong.","4. Joining: use a private invitation link, the short Family Code from your admin, or claim a profile that matches your verified email.","5. Creating: choose Create my family, then use the guided Excel workbook or start with a few relatives. Excel previews data before anything is added.","6. Explore first: Sample Family is read-only, so you can learn the app without creating real data.","Privacy: private contact details and family-only data stay behind family access rules."] };
-  const mapCopy = language === "hi" ? { title:"परिवार कहाँ रहता है", subtitle:"शहर के स्तर पर परिवार के स्थान। बड़े निशान उस शहर में अधिक सदस्यों को दिखाते हैं।", privacy:"गोपनीयता:", detail:"केवल शहर का स्थान दिखाया जाता है।", have:"सदस्यों के स्थान उपलब्ध हैं।" } : language === "mr" ? { title:"कुटुंब कुठे राहते", subtitle:"शहर पातळीवरील कौटुंबिक ठिकाणे. मोठे चिन्ह त्या शहरात अधिक सदस्य दाखवते.", privacy:"गोपनीयता:", detail:"फक्त शहराचे ठिकाण दाखवले जाते.", have:"सदस्यांची ठिकाणे उपलब्ध आहेत." } : { title:"Where our family lives", subtitle:"City-level family locations. Larger markers mean more relatives in that city.", privacy:"Privacy:", detail:"Only city-level locations are shown.", have:"members have locations." };
+      : { title:tr("FindFamilyTxt"), subtitle:tr("FindRelativesByNameProfessionOrLocationTxt"), search:"Search family members…", professions:"All professions", locations:"All locations", generations:"All generations", allLife:"Living + In memoriam", living:"Living", memorial:"In memoriam", clear:"Clear", of:"of", view:"View profile", focus:"View branch" };
+  const helpCopy = language === "hi" ? { title:"परिवार उपयोग सहायता", close:"बंद करें", intro:"यहाँ सबसे जरूरी काम आसानी से किए जा सकते हैं:", items:["परिवार वृक्ष: खोजें, किसी व्यक्ति पर टैप करें और उनकी पारिवारिक शाखा देखें।","परिवार: नाम, शहर या पेशे से रिश्तेदार खोजें।","प्रोफ़ाइल: अपनी जानकारी, तस्वीर और रिश्ते देखें या अपडेट का अनुरोध करें।","Excel: मार्गदर्शित workbook डाउनलोड करें और जोड़ने से पहले हर व्यक्ति व रिश्ता जाँचें।","गोपनीयता: निजी संपर्क केवल परिवार द्वारा अनुमति प्राप्त लोगों को दिखते हैं।","और: स्थान, भाषा, सहायता, privacy preview और family settings यहाँ मिलते हैं।"] } : language === "mr" ? { title:"कुटुंब वापर मदत", close:"बंद करा", intro:"येथे महत्त्वाची कामे सहज करता येतात:", items:["कुटुंब वृक्ष: शोधा, व्यक्तीवर टॅप करा आणि त्यांची कौटुंबिक शाखा पहा.","कुटुंब: नाव, शहर किंवा व्यवसायाने नातेवाईक शोधा.","प्रोफाइल: आपली माहिती, छायाचित्र आणि नाती पहा किंवा बदल सुचवा.","Excel: मार्गदर्शित workbook डाउनलोड करा आणि जोडण्याआधी प्रत्येक व्यक्ती व नाते तपासा.","गोपनीयता: खाजगी संपर्क फक्त कुटुंबाने परवानगी दिलेल्या लोकांना दिसतात.","अधिक: ठिकाणे, भाषा, मदत, privacy preview आणि family settings येथे आहेत."] } : { title:tr("QuickStartFamilyHelpTxt"), close:"Close", intro:"The easiest way to use the app:", items:["1. Home: see what matters today and use See my family.","2. Family: starts with your direct lineage on mobile. Tap a person to view their profile; switch to Full Tree only when you want every branch.","3. Me: check your own profile and ask for corrections when something is wrong.","4. Joining: use a private invitation link, the short Family Code from your admin, or claim a profile that matches your verified email.","5. Creating: choose Create my family, then use the guided Excel workbook or start with a few relatives. Excel previews data before anything is added.","6. Explore first: Sample Family is read-only, so you can learn the app without creating real data.","Privacy: private contact details and family-only data stay behind family access rules."] };
+  const mapCopy = language === "hi" ? { title:"परिवार कहाँ रहता है", subtitle:"शहर के स्तर पर परिवार के स्थान। बड़े निशान उस शहर में अधिक सदस्यों को दिखाते हैं।", privacy:"गोपनीयता:", detail:"केवल शहर का स्थान दिखाया जाता है।", have:"सदस्यों के स्थान उपलब्ध हैं।" } : language === "mr" ? { title:"कुटुंब कुठे राहते", subtitle:"शहर पातळीवरील कौटुंबिक ठिकाणे. मोठे चिन्ह त्या शहरात अधिक सदस्य दाखवते.", privacy:"गोपनीयता:", detail:"फक्त शहराचे ठिकाण दाखवले जाते.", have:"सदस्यांची ठिकाणे उपलब्ध आहेत." } : { title:tr("WhereOurFamilyLivesTxt"), subtitle:tr("CityLevelFamilyLocationsLargerMarkersMeanTxt"), privacy:"Privacy:", detail:"Only city-level locations are shown.", have:"members have locations." };
   const [network, setNetwork] = useState<NetworkSettings | null>(null),
     [view, setView] = useState<View>("home"),
     [members, setMembers] = useState<Member[]>([]),
@@ -334,7 +335,7 @@ export default function NetworkApp() {
   };
   useEffect(() => {
     const updated = () =>
-      refresh().catch(() => notify("Profile saved, but refresh failed."));
+      refresh().catch(() => notify(tr("ProfileSavedButRefreshFailedTxt")));
     window.addEventListener("living-network-profile-updated", updated);
     return () =>
       window.removeEventListener("living-network-profile-updated", updated);
@@ -400,7 +401,7 @@ export default function NetworkApp() {
       if (selected)
         setLifeEvents(await repository.fetchLifeEvents(selected.id));
       setAllLifeEvents(await repository.fetchNetworkTimeline());
-      notify("Life event deleted.");
+      notify(tr("LifeEventDeletedTxt"));
     } catch (x: any) {
       notify(x.message || "Could not delete life event.");
       throw x;
@@ -432,7 +433,7 @@ export default function NetworkApp() {
         await requestFamilyCreation(settings.name, settings.description || "");
         const requests=await fetchMyFamilyCreationRequests();
         setPendingFamilyRequest(requests.find(item=>item.status==="pending")||null);
-        notify("Family request sent to the platform owner for approval.");
+        notify(tr("FamilyRequestSentToThePlatformOwnerTxt"));
         return;
       }
       const networkId = await createSharedFamily(settings.name, undefined, settings.description || "");
@@ -507,7 +508,7 @@ export default function NetworkApp() {
   const addMyselfFirst = async (name:string,gender:Member["gender"]) => {
     if (repository.mode === "shared") { await addMyselfToFamily(name,gender); await hydrate(await getAuthUser()); }
     else { const id=uuid(); const m:Member={id,full_name:name,generation_level:3,profile_status:"approved",gender,profile_visibility:"member",contact_visibility:"admin"}; await repository.upsertMembers([m]); setMembers(x=>[...x,m]); setFocusId(id); }
-    notify("You’re in. Now add the people closest to you.");
+    notify(tr("YouReInNowAddThePeopleTxt"));
   };
   const addCloseRelative = async (name:string,relationship:string,gender:Member["gender"]) => {
     const viewerId=viewerMemberId || auth?.member_id; if(!viewerId) throw new Error("Add yourself first.");
@@ -627,7 +628,7 @@ export default function NetworkApp() {
               id: `birthday-${m.id}`,
               member_id: m.id,
               event_type: "birth",
-              title: "Birthday",
+              title: tr("BirthdayTxt"),
               event_date: m.date_of_birth!,
               visibility: "member",
               created_at: m.date_of_birth!,
@@ -769,7 +770,7 @@ export default function NetworkApp() {
         ]);
       setSubmissions((x) => [s, ...x]);
       notify(
-        "Profile submitted for admin review and recorded as a change request.",
+        tr("ProfileSubmittedForAdminReviewAndRecordedTxt"),
       );
     } catch (e: any) {
       notify(e.message || "Submission failed.");
@@ -865,7 +866,7 @@ export default function NetworkApp() {
           ),
         );
       }
-      notify("Submission approved.");
+      notify(tr("SubmissionApprovedTxt"));
     } catch (e: any) {
       notify(e.message || "Approval failed.");
     }
@@ -897,7 +898,7 @@ export default function NetworkApp() {
           ),
         );
       }
-      notify("Submission rejected.");
+      notify(tr("SubmissionRejectedTxt"));
     } catch (e: any) {
       notify(e.message || "Rejection failed.");
     }
@@ -911,7 +912,7 @@ export default function NetworkApp() {
         await repository.addRelationship(r);
       }
       setRelationships((rs) => [...rs, r]);
-      notify("Relationship added and validated.");
+      notify(tr("RelationshipAddedAndValidatedTxt"));
     } catch (e: any) {
       notify(e.message || "Could not add relationship.");
     }
@@ -923,7 +924,7 @@ export default function NetworkApp() {
         await repository.deleteRelationship(r.id);
       }
       setRelationships((rs) => rs.filter((x) => x.id !== r.id));
-      notify("Relationship removed.");
+      notify(tr("RelationshipRemovedTxt"));
     } catch (e: any) {
       notify(e.message || "Could not remove relationship.");
     }
@@ -936,7 +937,7 @@ export default function NetworkApp() {
         await repository.saveNetworkSettings(next);
       else saveLocalNetwork(next);
       setNetwork(next);
-      notify("Living Network settings saved.");
+      notify(tr("LivingNetworkSettingsSavedTxt"));
     } catch (e: any) {
       notify(e.message || "Could not save settings.");
     }
@@ -1030,7 +1031,7 @@ export default function NetworkApp() {
       <div className="loading-screen">
         <div className="loading-mark"><TreePine size={30} /></div>
         <div>
-          <b>Our Family</b>
+          <b>{tr("SetupBrandTxt")}</b>
           <div className="page-subtitle">{t("LoadingFamilyTxt")}</div>
         </div>
       </div>
@@ -1040,11 +1041,11 @@ export default function NetworkApp() {
       <div className="landing family-signin-page">
         <div className="landing-card family-signin-card recovery-card">
           <div className="brand-mark"><TreePine size={24} /></div>
-          <span className="warm-kicker">Account recovery</span>
-          <h1>Choose a new password</h1>
-          <p>Your reset link is valid. Create a new password to continue to your family.</p>
+          <span className="warm-kicker">{tr("AccountRecoveryTxt")}</span>
+          <h1>{tr("ChooseANewPasswordTxt")}</h1>
+          <p>{tr("YourResetLinkIsValidCreateATxt")}</p>
         </div>
-        <AuthPanel initialMode="reset" onDone={()=>{}} onResetDone={async()=>{setPasswordRecovery(false);try{await hydrate(await getAuthUser());notify("Password updated successfully.")}catch(e:any){notify(e.message||"Password changed. Please sign in again.");setAuth(null)}}} />
+        <AuthPanel initialMode="reset" onDone={()=>{}} onResetDone={async()=>{setPasswordRecovery(false);try{await hydrate(await getAuthUser());notify(tr("PasswordUpdatedSuccessfullyTxt"))}catch(e:any){notify(e.message||tr("PasswordChangedPleaseSignInAgainTxt"));setAuth(null)}}} />
       </div>
     );
   if (isSupabaseConfigured && !auth && !demoPreview)
@@ -1054,18 +1055,17 @@ export default function NetworkApp() {
           <div className="brand-mark">
             <TreePine size={24} />
           </div>
-          <span className="warm-kicker">A private place for your people</span>
-          <h1>Welcome to your family</h1>
-          <p>Sign in to explore your family tree, profiles, relationships and shared memories.</p>
+          <span className="warm-kicker">{tr("APrivatePlaceForYourPeopleTxt")}</span>
+          <h1>{tr("WelcomeToYourFamilyTxt")}</h1>
+          <p>{tr("SignInToExploreYourFamilyTreeTxt")}</p>
           <div className="family-signin-actions">
             <button className="btn primary" onClick={() => setShowAuth(true)}>
-              Join or sign in <ArrowRight size={16} />
+              {tr("JoinOrSignInTxt")}{" "}<ArrowRight size={16} />
             </button>
             <button className="btn" onClick={enterPublicPlayground}>
-              <PlayCircle size={16} /> Try Playground · no login
-            </button>
+              <PlayCircle size={16} /> {tr("TryPlaygroundNoLoginTxt")}{" "}</button>
           </div>
-          <p className="playground-note">Playground is read-only and temporary. Nothing you do there is saved.</p>
+          <p className="playground-note">{tr("PlaygroundIsReadOnlyAndTemporaryNothingTxt")}</p>
           <LanguageSwitcher />
         </div>
         {showAuth && (
@@ -1075,7 +1075,7 @@ export default function NetworkApp() {
               try {
                 await hydrate(await getAuthUser());
               } catch (e: any) {
-                notify(e.message || "Could not sign in.");
+                notify(e.message || tr("CouldNotSignInTxt"));
               }
             }}
           />
@@ -1094,7 +1094,7 @@ export default function NetworkApp() {
   const openNetworkPlayground=(kind:any)=>{
     setShowMyNetworks(false);setSetupNeeded(false);setDemoPreview(false);
     if(kind==="family"){enterSetupPlayground();return;}
-    if(kind==="alumni"){const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setProductizedDemo(null);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:"Read-only sample alumni community",entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);return;}
+    if(kind==="alumni"){const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setProductizedDemo(null);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:tr("ReadOnlySampleAlumniCommunityTxt"),entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);return;}
     if(isProductizedVerticalKind(kind)){const def=getVerticalDefinition(kind);const pc=PRODUCTIZED_NETWORK_CONFIGS[kind];setProductizedDemo(kind);setAlumniDemo(false);setNetwork({id:`${kind}-playground`,name:pc.sampleName,description:pc.sampleDescription,entity_label:def.legacyNetworkLabels.entityLabel,entity_label_plural:def.legacyNetworkLabels.entityLabelPlural,level_label:def.legacyNetworkLabels.levelLabel,level_label_plural:def.legacyNetworkLabels.levelLabelPlural,parent_label:def.legacyNetworkLabels.parentLabel,child_label:def.legacyNetworkLabels.childLabel,peer_label:def.legacyNetworkLabels.peerLabel,network_template:kind,vertical_kind:kind,membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);}
   };
   const canAdmin = !demoPreview && (!isSupabaseConfigured || network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.role === "admin");
@@ -1189,7 +1189,7 @@ export default function NetworkApp() {
   if (setupNeeded)
     return (
       <>
-        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">Family request sent</span><h1>{pendingFamilyRequest.name}</h1><p>Your family space is waiting for approval. You can still explore the sample family while you wait.</p><div className="notice"><b>Status:</b> Waiting for approval</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify("Approval status refreshed.")}catch(e:any){notify(e.message||"Could not refresh approval status.")}}}>Check approval status</button><button className="btn" onClick={enterSetupPlayground}>Explore sample</button><button className="btn" onClick={async()=>{await signOut();setAuth(null);setPendingFamilyRequest(null);setSetupNeeded(true)}}><LogOut size={15}/> Sign out</button></div></div></div> : <SetupScreen
+        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">{tr("FamilyRequestSentTxt")}</span><h1>{pendingFamilyRequest.name}</h1><p>{tr("YourFamilySpaceIsWaitingForApprovalTxt")}</p><div className="notice"><b>{tr("StatusTxt")}</b> {tr("WaitingForApprovalTxt")}</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify(tr("ApprovalStatusRefreshedTxt"))}catch(e:any){notify(e.message||tr("CouldNotRefreshApprovalStatusTxt"))}}}>{tr("CheckApprovalStatusTxt")}</button><button className="btn" onClick={enterSetupPlayground}>{tr("ExploreSampleTxt")}</button><button className="btn" onClick={async()=>{await signOut();setAuth(null);setPendingFamilyRequest(null);setSetupNeeded(true)}}><LogOut size={15}/> {tr("SignOutTxt")}</button></div></div></div> : <SetupScreen
           shared={isSupabaseConfigured}
           canSetup={canSetupFamily}
           approvalRequired={isSupabaseConfigured&&!isPlatformOwner&&familyCreationApprovalRequired}
@@ -1197,18 +1197,18 @@ export default function NetworkApp() {
           existingFamilies={myFamilies}
           onOpenFamily={async(id)=>{setProductizedDemo(null);setAlumniDemo(false);await setActiveNetwork(id);await hydrate(await getAuthUser());setView("home")}}
           onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}
-          onClaimProfile={async(memberId)=>{await claimProfileByVerifiedEmail(memberId);await hydrate(await getAuthUser());setView("home");notify("Welcome to your family.")}}
-          onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify("Family joined. Welcome!")}}
+          onClaimProfile={async(memberId)=>{await claimProfileByVerifiedEmail(memberId);await hydrate(await getAuthUser());setView("home");notify(tr("WelcomeToYourFamily2Txt"))}}
+          onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify(tr("FamilyJoinedWelcomeTxt"))}}
           onExploreDemo={enterSetupPlayground}
           claimableAlumniProfiles={claimableAlumniProfiles}
           alumniInviteToken={pendingAlumniInvite}
-          onAcceptAlumniInvite={pendingAlumniInvite?async()=>{await acceptAlumniInvitation(pendingAlumniInvite);window.history.replaceState({},"",window.location.pathname);setPendingAlumniInvite("");setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify("Alumni invitation accepted.")}:undefined}
-          onClaimAlumniProfile={async(profileId)=>{await claimAlumniProfile(profileId);await hydrate(await getAuthUser());setView("home");notify("Welcome to your Alumni Network.")}}
+          onAcceptAlumniInvite={pendingAlumniInvite?async()=>{await acceptAlumniInvitation(pendingAlumniInvite);window.history.replaceState({},"",window.location.pathname);setPendingAlumniInvite("");setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify(tr("AlumniInvitationAcceptedTxt"))}:undefined}
+          onClaimAlumniProfile={async(profileId)=>{await claimAlumniProfile(profileId);await hydrate(await getAuthUser());setView("home");notify(tr("WelcomeToYourAlumniNetworkTxt"))}}
           onCreateAlumni={async(name,institution,description)=>{const id=await createAlumniNetwork(name,institution,description);await setActiveNetwork(id);setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify(`${name} is ready.`)}}
-          onExploreAlumniDemo={()=>{const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setDemoPreview(false);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:"Read-only sample alumni community",entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setSetupNeeded(false);setMembers([]);setRelationships([]);setSubmissions([]);}}
+          onExploreAlumniDemo={()=>{const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setDemoPreview(false);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:tr("ReadOnlySampleAlumniCommunityTxt"),entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setSetupNeeded(false);setMembers([]);setRelationships([]);setSubmissions([]);}}
           onCreateProductized={async(kind,name,contextValue,description)=>{const id=await createTemplateNetwork(kind,name,contextValue,description);await setActiveNetwork(id);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);await hydrate(await getAuthUser());setView("home");notify(`${name} is ready.`)}}
           onExploreProductizedDemo={(kind)=>{const def=getVerticalDefinition(kind);const pc=PRODUCTIZED_NETWORK_CONFIGS[kind];setProductizedDemo(kind);setAlumniDemo(false);setDemoPreview(false);setNetwork({id:`${kind}-playground`,name:pc.sampleName,description:pc.sampleDescription,entity_label:def.legacyNetworkLabels.entityLabel,entity_label_plural:def.legacyNetworkLabels.entityLabelPlural,level_label:def.legacyNetworkLabels.levelLabel,level_label_plural:def.legacyNetworkLabels.levelLabelPlural,parent_label:def.legacyNetworkLabels.parentLabel,child_label:def.legacyNetworkLabels.childLabel,peer_label:def.legacyNetworkLabels.peerLabel,network_template:kind,vertical_kind:kind,membership_role:"member"});setSetupNeeded(false);setMembers([]);setRelationships([]);setSubmissions([]);}}
-          onJoinProductizedCode={async(code)=>{await joinProductizedNetworkByCode(code);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);await hydrate(await getAuthUser());setView("home");notify("Network joined. Welcome!")}}
+          onJoinProductizedCode={async(code)=>{await joinProductizedNetworkByCode(code);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);await hydrate(await getAuthUser());setView("home");notify(tr("NetworkJoinedWelcomeTxt"))}}
           onOpenGuide={()=>{enterPublicPlayground();setGuideKey("");setView("guide")}}
           onCreate={createNetwork}
         />}
@@ -1236,61 +1236,61 @@ export default function NetworkApp() {
       <NxReviewPanel/>
       <NetworkTopbar
         icon={<TreePine size={20}/>}
-        title={network?.name || "Our Family"}
+        title={network?.name || tr("SetupBrandTxt")}
         badges={canAdmin?[{label:isSupabaseConfigured?t("SharedFamilyTxt"):t("PrivatePreviewTxt"),tone:isSupabaseConfigured?"shared":"demo",icon:isSupabaseConfigured?<Database size={12}/>:undefined}]:[]}
-        middle={demoPreview?<div className="demo-preview-banner"><Sparkles size={14}/><span>Playground · you are {members.find(m=>m.id===demoViewerId)?.full_name.split(/\s+/)[0] || "a sample family member"} for this visit · nothing is saved</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setDemoViewerId(undefined);setFocusId(undefined);setLineageOnly(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>Back to network selection</button></div>:undefined}
+        middle={demoPreview?<div className="demo-preview-banner"><Sparkles size={14}/><span>{tr("PlaygroundYouAreTxt")}{" "}{members.find(m=>m.id===demoViewerId)?.full_name.split(/\s+/)[0] || tr("ASampleFamilyMemberTxt")} {tr("ForThisVisitNothingIsSavedTxt")}</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setDemoViewerId(undefined);setFocusId(undefined);setLineageOnly(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>{tr("BackToNetworkSelectionTxt")}</button></div>:undefined}
         actions={<div className={`nx6-top-actions ${experience==="simple"&&!canAdmin?"simple-top-actions":""}`}>
-          {isSupabaseConfigured && !demoPreview && auth && <NetworkSwitcher label="Switch network" onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>{setNetwork(null);setSetupNeeded(true)}}/>}
+          {isSupabaseConfigured && !demoPreview && auth && <NetworkSwitcher label={tr("SwitchNetworkTxt")} onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>{setNetwork(null);setSetupNeeded(true)}}/>}
           <LanguageSwitcher compact />
-          {canAdmin && <select className="select nx6-privacy-preview" aria-label="Preview profile privacy as" value={visibility} onChange={(e) => setVisibility(e.target.value as Visibility)}><option value="public">Public preview</option><option value="member">Member preview</option><option value="admin">Admin preview</option></select>}
-          <NetworkAccountMenu label={demoPreview?"Explore":auth?.email?.split("@")[0]||"Me"} subtitle={demoPreview?"Playground":network?.membership_role||auth?.family_role||"Family member"} items={[
-            ...((canAdmin || experience!=="simple")?[{key:"profile",label:t("MyProfileTxt"),icon:<UserRoundPen size={16}/>,onClick:openMyProfile,hint:"Your family profile"}]:[]),
-            ...(nx1&&isSupabaseConfigured&&!demoPreview&&auth?[{key:"networks",label:"My Networks",icon:<UsersRound size={16}/>,onClick:()=>void openMyNetworksHome(),hint:"All your private network contexts"}]:[]),
-            {key:"guide",label:"Explore & Guide",icon:<BookOpen size={16}/>,onClick:()=>{setGuideKey("");setView("guide")},hint:"Learn what this network can do"},
+          {canAdmin && <select className="select nx6-privacy-preview" aria-label={tr("PreviewProfilePrivacyAsTxt")} value={visibility} onChange={(e) => setVisibility(e.target.value as Visibility)}><option value="public">{tr("PublicPreviewTxt")}</option><option value="member">{tr("MemberPreviewTxt")}</option><option value="admin">{tr("AdminPreviewTxt")}</option></select>}
+          <NetworkAccountMenu label={demoPreview?"Explore":auth?.email?.split("@")[0]||tr("MeTxt")} subtitle={demoPreview?"Playground":network?.membership_role||auth?.family_role||tr("FamilyMemberTxt")} items={[
+            ...((canAdmin || experience!==tr("Simple3Txt"))?[{key:"profile",label:t("MyProfileTxt"),icon:<UserRoundPen size={16}/>,onClick:openMyProfile,hint:"Your family profile"}]:[]),
+            ...(nx1&&isSupabaseConfigured&&!demoPreview&&auth?[{key:"networks",label:tr("MyNetworksTxt"),icon:<UsersRound size={16}/>,onClick:()=>void openMyNetworksHome(),hint:"All your private network contexts"}]:[]),
+            {key:"guide",label:tr("ExploreGuideTxt"),icon:<BookOpen size={16}/>,onClick:()=>{setGuideKey("");setView("guide")},hint:"Learn what this network can do"},
             ...(isSupabaseConfigured&&auth?[{key:"signout",label:t("SignOutTxt"),icon:<LogOut size={16}/>,onClick:()=>{signOut();setAuth(null)},danger:true}]:[]),
           ]}/>
         </div>}
       />
       <div className="layout">
         <aside className="sidebar">
-          <div className="sidebar-section-label">{language === "hi" ? "मेरा परिवार" : language === "mr" ? "माझे कुटुंब" : "My family"}</div>
+          <div className="sidebar-section-label">{language === "hi" ? "मेरा परिवार" : language === "mr" ? "माझे कुटुंब" : tr("MyFamilyTxt")}</div>
           {visibleMemberNav.map(([navView,label,icon])=><button
             key={navView}
             className={`nav-btn ${view === navView ? "active" : ""}`}
             onClick={() => navView === "tree" ? openFamilyView() : setView(navView)}
           >{icon} {label}</button>)}
-          {(!demoPreview || !!auth) && hasFeature("core.profile") && <button className={`nav-btn ${selected?.id===auth?.member_id ? "active" : ""}`} onClick={openMyProfile}><UserRoundPen size={17}/> {language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</button>}
-          {hasFeature("core.guide")&&<button className={`nav-btn guide-nav ${view === "guide" ? "active" : ""}`} onClick={() => {setGuideKey("");setView("guide")}}><BookOpen size={17}/> Explore & Guide</button>}
+          {(!demoPreview || !!auth) && hasFeature("core.profile") && <button className={`nav-btn ${selected?.id===auth?.member_id ? "active" : ""}`} onClick={openMyProfile}><UserRoundPen size={17}/> {language === "hi" ? "मैं" : language === "mr" ? "मी" : tr("MeTxt")}</button>}
+          {hasFeature("core.guide")&&<button className={`nav-btn guide-nav ${view === "guide" ? "active" : ""}`} onClick={() => {setGuideKey("");setView("guide")}}><BookOpen size={17}/> {tr("ExploreGuideTxt")}</button>}
           {canAdmin && hasFeature("admin.center") && <div className="admin-nav-separator">
-            <div className="sidebar-section-label">{language === "hi" ? "परिवार प्रबंधन" : language === "mr" ? "कुटुंब व्यवस्थापन" : "Family management"}</div>
-            <button className={`nav-btn admin-nav ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><ShieldCheck size={17}/> {language === "hi" ? "परिवार संभालें" : language === "mr" ? "कुटुंब सांभाळा" : "Manage family"}</button>
+            <div className="sidebar-section-label">{language === "hi" ? "परिवार प्रबंधन" : language === "mr" ? "कुटुंब व्यवस्थापन" : tr("FamilyManagementTxt")}</div>
+            <button className={`nav-btn admin-nav ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><ShieldCheck size={17}/> {language === "hi" ? "परिवार संभालें" : language === "mr" ? "कुटुंब सांभाळा" : tr("ManageFamilyTxt")}</button>
           </div>}
           {isPlatformOwner && isSupabaseConfigured && <div className="admin-nav-separator founder-nav-area">
-            <div className="sidebar-section-label">Platform</div>
-            <button className={`nav-btn founder-nav ${view === "founder" ? "active" : ""}`} onClick={() => setView("founder")}><Rocket size={17}/> Launch Control</button>
+            <div className="sidebar-section-label">{tr("PlatformTxt")}</div>
+            <button className={`nav-btn founder-nav ${view === "founder" ? "active" : ""}`} onClick={() => setView("founder")}><Rocket size={17}/> {tr("LaunchControlTxt")}</button>
           </div>}
           {canAdmin && <div className="experience-preview">
-            <label>{language === "hi" ? "सदस्य अनुभव देखें" : language === "mr" ? "सदस्य अनुभव पहा" : "Preview member experience"}</label>
+            <label>{language === "hi" ? "सदस्य अनुभव देखें" : language === "mr" ? "सदस्य अनुभव पहा" : tr("PreviewMemberExperienceTxt")}</label>
             <select className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>
               {(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map(level=><option key={level} value={level}>{EXPERIENCE_LABELS[level].label}</option>)}
             </select>
             <small>{EXPERIENCE_LABELS[experience].description}</small>
-            {isPlatformOwner && <span className="founder-preview-note">Founder test features are visible to you before release.</span>}
+            {isPlatformOwner && <span className="founder-preview-note">{tr("FounderTestFeaturesAreVisibleToYouTxt")}</span>}
           </div>}
           <div className="sidebar-family-summary">
-            <strong>{members.length} {language === "hi" ? "परिवार सदस्य" : language === "mr" ? "कुटुंब सदस्य" : "family members"}</strong>
-            <span>{new Set(members.map((m) => m.generation_level)).size} {language === "hi" ? "पीढ़ियाँ" : language === "mr" ? "पिढ्या" : "generations"}</span>
+            <strong>{members.length} {language === "hi" ? "परिवार सदस्य" : language === "mr" ? "कुटुंब सदस्य" : tr("FamilyMembers2Txt")}</strong>
+            <span>{new Set(members.map((m) => m.generation_level)).size} {language === "hi" ? "पीढ़ियाँ" : language === "mr" ? "पिढ्या" : tr("GenerationsTxt")}</span>
           </div>
-          {!canAdmin && <div className="member-experience-card"><small>{language==='hi'?'आपका दृश्य':language==='mr'?'आपले दृश्य':'Your view'}</small><strong>{experience==='simple'?(language==='hi'?'सरल':language==='mr'?'सोपे':'Simple'):experience==='connected'?(language==='hi'?'और परिवार':language==='mr'?'अधिक कुटुंब':'More family'):(language==='hi'?'सब सुविधाएँ':language==='mr'?'सर्व सुविधा':'Everything')}</strong><button className="text-action" onClick={()=>changeMyExperience(experience==='simple'?'connected':experience==='connected'?'explorer':'simple')}>{experience==='explorer'?(language==='hi'?'सरल दृश्य पर जाएँ':language==='mr'?'सोप्या दृश्यावर जा':'Use simple view'):(language==='hi'?'और देखें':language==='mr'?'अधिक पहा':'Explore more')} <ArrowRight size={14}/></button></div>}
+          {!canAdmin && <div className="member-experience-card"><small>{language==='hi'?'आपका दृश्य':language==='mr'?'आपले दृश्य':tr("YourViewTxt")}</small><strong>{experience==='simple'?(language==='hi'?'सरल':language==='mr'?'सोपे':tr("Simple2Txt")):experience==='connected'?(language==='hi'?'और परिवार':language==='mr'?'अधिक कुटुंब':tr("MoreFamilyTxt")):(language==='hi'?'सब सुविधाएँ':language==='mr'?'सर्व सुविधा':tr("EverythingTxt"))}</strong><button className="text-action" onClick={()=>changeMyExperience(experience==='simple'?'connected':experience==='connected'?'explorer':'simple')}>{experience==='explorer'?(language==='hi'?'सरल दृश्य पर जाएँ':language==='mr'?'सोप्या दृश्यावर जा':tr("UseSimpleViewTxt")):(language==='hi'?'और देखें':language==='mr'?'अधिक पहा':tr("ExploreMoreTxt"))} <ArrowRight size={14}/></button></div>}
         </aside>
         <main className="main">
           {view!=="guide" && view!=="founder" && <FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key===guideByView[view])} onOpenGuide={openGuide} onOpenFeature={openGuideFeature} onTryPlayground={tryGuideInPlayground} rememberKey={`view-${view}`}/>}
-          {familyReady && view==="home" && <div className="family-ready-celebration"><div className="family-ready-icon"><Sparkles size={22}/></div><div><span className="warm-kicker">Your family is ready</span><h2>{familyReady}</h2><p>Start with yourself and the people closest to you. You can import a list or enrich everything gradually.</p></div><div className="family-ready-actions">{hasFeature("contribute.branch_intake")&&<button className="btn primary small" onClick={()=>{setFamilyReady(null);setShowFamilyIntake(true)}}>Build together · Recommended</button>}<button className="btn small" onClick={()=>{setFamilyReady(null);if(!viewerMemberId)window.scrollTo({top:0,behavior:"smooth"})}}>Add myself / close family</button><button className="btn small" onClick={()=>{setFamilyReady(null);setShowImport(true)}}>Import Excel / CSV</button><button className="icon-button" aria-label="Dismiss" onClick={()=>setFamilyReady(null)}><X size={16}/></button></div></div>}
-          {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">{appComposition.whatsNew.kicker}</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||appComposition.whatsNew.fallbackTitle}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||appComposition.whatsNew.fallbackDescription}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
+          {familyReady && view==="home" && <div className="family-ready-celebration"><div className="family-ready-icon"><Sparkles size={22}/></div><div><span className="warm-kicker">{tr("YourFamilyIsReadyTxt")}</span><h2>{familyReady}</h2><p>{tr("StartWithYourselfAndThePeopleClosestTxt")}</p></div><div className="family-ready-actions">{hasFeature("contribute.branch_intake")&&<button className="btn primary small" onClick={()=>{setFamilyReady(null);setShowFamilyIntake(true)}}>{tr("BuildTogetherRecommendedTxt")}</button>}<button className="btn small" onClick={()=>{setFamilyReady(null);if(!viewerMemberId)window.scrollTo({top:0,behavior:"smooth"})}}>{tr("AddMyselfCloseFamilyTxt")}</button><button className="btn small" onClick={()=>{setFamilyReady(null);setShowImport(true)}}>{tr("ImportExcelCSVTxt")}</button><button className="icon-button" aria-label={tr("DismissTxt")} onClick={()=>setFamilyReady(null)}><X size={16}/></button></div></div>}
+          {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">{appComposition.whatsNew.kicker}</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||appComposition.whatsNew.fallbackTitle}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||appComposition.whatsNew.fallbackDescription}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>{tr("TryItTxt")}</button><button className="btn small" onClick={dismissAnnouncement}>{tr("GotItTxt")}</button></div></div>}
           {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={openMember} />}
           {view === "home" && canAdmin && !demoPreview && !quickStartDismissed && members.length < 5 && <QuickFamilyStart viewer={viewerMemberId?members.find(m=>m.id===viewerMemberId):undefined} suggestedName={auth?.email?.split("@")[0]||""} onAddMyself={addMyselfFirst} onAddRelative={addCloseRelative} onImport={()=>setShowImport(true)} onBuildTogether={hasFeature("contribute.branch_intake")?()=>setShowFamilyIntake(true):undefined} onDismiss={()=>setQuickStartDismissed(true)}/>}
           {view === "intelligence" && <NetworkIntelligenceCenter kind="family" entities={familyIntelligenceEntities} relationships={familyIntelligenceRelationships} activities={familyIntelligenceActivities} dimensionKeys={["generation","city","country","profession"]} onGo={target=>{if(target==="connections")setView("tree");else if(target==="contribute")setView("participation");else if(target==="community")setView("community");else if(target==="directory")setView("directory");else if(target==="explorer")setView("tree");}} onEntityOpen={entity=>{const member=members.find(m=>m.id===entity.entity.id);if(member)openMember(member)}}/>}
-          {view === "home" && <FamilyHome members={members} relationships={relationships} events={allLifeEvents} memories={demoPreview?memories:undefined} networkName={network?.name} viewerMemberId={viewerMemberId} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} showFamilyPulse={hasFeature("remember.family_pulse")} showQuietDigest={hasFeature("remember.quiet_digest")} canAddRelative={canAdmin||experience!=="simple"} simple={experience==="simple"} readOnly={demoPreview} />}
+          {view === "home" && <FamilyHome members={members} relationships={relationships} events={allLifeEvents} memories={demoPreview?memories:undefined} networkName={network?.name} viewerMemberId={viewerMemberId} onSelect={openMember} onGo={(v)=>{if(v==="community"&&!hasFeature("remember.memories"))return;if(v==="participation"&&!hasFeature("contribute.help_family"))return;setView(v)}} onAddRelative={()=>setShowForm(true)} showMemories={hasFeature("remember.memories")} showSpecialDays={hasFeature("celebrate.special_days")} showContributions={hasFeature("contribute.help_family")} showSharing={hasFeature("share.family")} showFamilyPulse={hasFeature("remember.family_pulse")} showQuietDigest={hasFeature("remember.quiet_digest")} canAddRelative={canAdmin||experience!==tr("Simple3Txt")} simple={experience==="simple"} readOnly={demoPreview} />}
           {view === "tree" && (
             <section className="tree-page">
               {cfg.network_template === "family" && (
@@ -1303,11 +1303,11 @@ export default function NetworkApp() {
                     <p>{network?.description || t("FamWelcomeDescTxt")}</p>
                     <div className="welcome-actions">
                       <button className="btn primary" onClick={() => setView("directory")}><Search size={15} /> {t("FindSomeoneTxt")}</button>
-                      {(canAdmin||experience!=="simple")&&<button className="btn warm" onClick={() => setShowForm(true)}><Plus size={15} /> {t("AddRelativeTxt")}</button>}
+                      {(canAdmin||experience!==tr("Simple3Txt"))&&<button className="btn warm" onClick={() => setShowForm(true)}><Plus size={15} /> {t("AddRelativeTxt")}</button>}
                     </div>
                   </div>
                   <div className="family-welcome-people">
-                    <div className="family-faces" aria-label="Family members">
+                    <div className="family-faces" aria-label={tr("FamilyMembersTxt")}>
                       {members.slice(0, 4).map((member) => <span className="family-face" key={member.id}>{member.photo_url ? <img src={member.photo_url} alt="" /> : member.full_name.split(/\s+/).map((part) => part[0]).slice(0,2).join("")}</span>)}
                     </div>
                     <div className="family-welcome-stats">
@@ -1322,12 +1322,11 @@ export default function NetworkApp() {
                 <div>
                   <h2 className="page-title">
                     {cfg.network_template === "family"
-                      ? (lineageOnly && focusId ? "My Family Line" : t("FamTreeTxt"))
-                      : "Hierarchy"}
+                      ? (lineageOnly && focusId ? tr("MyFamilyLineTxt") : t("FamTreeTxt"))
+                      : tr("HierarchyTxt")}
                   </h2>
                   <p className="page-subtitle">
-                    Start with the people closest to you. Tap any person to open their profile, or switch to the full family whenever you want.
-                  </p>
+                    {tr("StartWithThePeopleClosestToYouTxt")}{" "}</p>
                 </div>
                 <div className="card-actions">
                   <button
@@ -1335,42 +1334,36 @@ export default function NetworkApp() {
                     onClick={() => setShowDeceased((x) => !x)}
                   >
                     <HeartHandshake size={14} />{" "}
-                    {showDeceased ? "Hide deceased" : "Show deceased"}
+                    {showDeceased ? tr("HideDeceasedTxt") : tr("ShowDeceasedTxt")}
                   </button>
                   {focusId && selectedHistory.length > 0 && (
                     <button className="btn small" onClick={backProfile}>
-                      <ArrowRight size={14} style={{transform:"rotate(180deg)"}} /> Back to profile
-                    </button>
+                      <ArrowRight size={14} style={{transform:"rotate(180deg)"}} /> {tr("BackToProfileTxt")}{" "}</button>
                   )}
                   {focusId ? (
                     <button className="btn small" onClick={clearFocus}>
-                      <GitBranch size={14} /> Full Tree
-                    </button>
+                      <GitBranch size={14} /> {tr("FullTreeTxt")}{" "}</button>
                   ) : viewerMemberId ? (
                     <button className="btn small" onClick={showMyLineage}>
-                      <Eye size={14} /> My Lineage
-                    </button>
+                      <Eye size={14} /> {tr("MyLineageTxt")}{" "}</button>
                   ) : null}
                   {focusId && focusId !== viewerMemberId && (
                     <button className="btn small" onClick={showMyLineage}>
-                      <Eye size={14} /> My Lineage
-                    </button>
+                      <Eye size={14} /> {tr("MyLineageTxt")}{" "}</button>
                   )}
                 </div>
               </div>
-              <div className="tree-mobile-view-switch" aria-label="Family tree view">
+              <div className="tree-mobile-view-switch" aria-label={tr("FamilyTreeViewTxt")}>
                 {lineageOnly && focusId ? (
                   <button className="btn small" onClick={clearFocus}>
-                    <GitBranch size={14} /> View Full Tree
-                  </button>
+                    <GitBranch size={14} /> {tr("ViewFullTreeTxt")}{" "}</button>
                 ) : (
                   <button className="btn small primary" onClick={showMyLineage} disabled={!viewerMemberId}>
-                    <Eye size={14} /> View My Lineage
-                  </button>
+                    <Eye size={14} /> {tr("ViewMyLineageTxt")}{" "}</button>
                 )}
               </div>
               {viewerMemberId && immediateFamily.length > 0 && <div className="family-magic-strip">
-                <div className="family-magic-head"><span><Sparkles size={15}/> Your closest family</span><small>Tap anyone to see how they relate to you.</small></div>
+                <div className="family-magic-head"><span><Sparkles size={15}/> {tr("YourClosestFamilyTxt")}</span><small>{tr("TapAnyoneToSeeHowTheyRelateTxt")}</small></div>
                 <div className="family-magic-people">{immediateFamily.map(({member,label})=><button key={member.id} onClick={()=>openMember(member)}><span className="family-magic-avatar">{member.photo_url?<img src={member.photo_url} alt=""/>:member.full_name.split(/\s+/).map(x=>x[0]).slice(0,2).join("")}</span><span><b>{label}</b><small>{member.full_name}</small></span></button>)}</div>
               </div>}
               <div className="search-bar">
@@ -1387,10 +1380,10 @@ export default function NetworkApp() {
                 )}
               </div>
               <div className="notice">
-                {filtered.length} members shown ·{" "}
+                {filtered.length} {tr("MembersShownTxt")}{" "}
                 {focusId
                   ? `Your family line: ${lineageIds.size} people.`
-                  : "Whole family tree."}
+                  : tr("WholeFamilyTreeTxt")}
               </div>
               <TreeView
                 members={filtered.filter(
@@ -1510,7 +1503,7 @@ export default function NetworkApp() {
                 {directoryResults.length} {directoryCopy.of} {members.length}{" "}
                 {cfg.entity_label_plural.toLowerCase()}
                 {repository.mode === "shared" && serverDirectoryMembers
-                  ? " · server search"
+                  ? tr("ServerSearchTxt")
                   : ""}
               </p>
               <div className="results-grid">
@@ -1627,35 +1620,33 @@ export default function NetworkApp() {
             <section>
               <div className="page-head">
                 <div>
-                  <h1 className="page-title">Manage family</h1>
+                  <h1 className="page-title">{tr("ManageFamilyTxt")}</h1>
                   <p className="page-subtitle">
-                    Manage shared data, relationships, approvals and P4.1
-                    governance.
-                  </p>
+                    {tr("ManageSharedDataRelationshipsApprovalsAndP4Txt")}{" "}</p>
                 </div>
               </div>
               {network && <FamilyAdminCenter network={network} members={members} relationships={relationships} memberCount={members.length} relationshipCount={relationships.length} changeRequests={changeRequests} onSaveSettings={updateLivingSetting} onOpenInvitations={()=>setShowInvitation(true)} onOpenParticipation={()=>setView("participation")} onOpenFamilyIntake={hasFeature("contribute.branch_intake")?()=>setShowFamilyIntake(true):undefined} onExportCsv={exportCsv} onExportJson={exportJson} onPrint={()=>window.print()} onNotify={notify} onFeatureSettingsChanged={refreshFeatureState}/>}
-              <details className="legacy-admin-details"><summary>Advanced administration & diagnostics</summary>
+              <details className="legacy-admin-details"><summary>{tr("AdvancedAdministrationAndDiagnosticsTxt")}</summary>
               <div className="admin-grid">
                 <div className="card stat">
-                  <div className="stat-label">Members</div>
+                  <div className="stat-label">{tr("MembersTxt")}</div>
                   <div className="stat-number">{members.length}</div>
                 </div>
                 <div className="card stat">
-                  <div className="stat-label">Relationships</div>
+                  <div className="stat-label">{tr("Relationships3Txt")}</div>
                   <div className="stat-number">{relationships.length}</div>
                 </div>
                 <div className="card stat">
-                  <div className="stat-label">Pending profiles</div>
+                  <div className="stat-label">{tr("PendingProfilesTxt")}</div>
                   <div className="stat-number">
                     {submissions.filter((s) => s.status === "pending").length}
                   </div>
                 </div>
                 <div className="card stat">
-                  <div className="stat-label">Integrity</div>
+                  <div className="stat-label">{tr("IntegrityTxt")}</div>
                   <div className="stat-number" style={{ fontSize: 18 }}>
                     {validationReport.valid
-                      ? "Healthy"
+                      ? tr("HealthyTxt")
                       : `${validationReport.errors.length} errors`}
                   </div>
                 </div>
@@ -1663,20 +1654,17 @@ export default function NetworkApp() {
               <div className="card governance-card">
                 <div className="governance-head">
                   <div>
-                    <h3 style={{ margin: 0 }}>Living Network</h3>
+                    <h3 style={{ margin: 0 }}>{tr("LivingNetworkTxt")}</h3>
                     <p className="page-subtitle">
-                      Field-aware participation and family-module milestones.
-                    </p>
+                      {tr("FieldAwareParticipationAndFamilyModuleMilestonesTxt")}{" "}</p>
                   </div>
                   <Settings2 size={18} />
                 </div>
                 <label className="living-setting">
                   <span>
-                    <b>Direct-save safe self edits</b>
+                    <b>{tr("DirectSaveSafeSelfEditsTxt")}</b>
                     <small>
-                      Profession, location, bio, contact details and owned photo
-                      only.
-                    </small>
+                      {tr("ProfessionLocationBioContactDetailsAndOwnedTxt")}{" "}</small>
                   </span>
                   <input
                     type="checkbox"
@@ -1691,16 +1679,15 @@ export default function NetworkApp() {
                   />
                 </label>
                 <label className="living-setting">
-                  <span><b>Allow photo uploads</b><small>Off by default for alpha. When enabled, every uploaded image is limited to 100 KB. When off, initials avatars are used.</small></span>
+                  <span><b>{tr("AllowPhotoUploadsTxt")}</b><small>{tr("OffByDefaultForAlphaWhenEnabledTxt")}</small></span>
                   <input type="checkbox" checked={cfg.photo_upload_enabled} onChange={(e) => updateLivingSetting({photo_upload_enabled:e.target.checked})} />
                 </label>
                 {cfg.network_template === "family" && (
                   <label className="living-setting">
                     <span>
-                      <b>Upcoming family milestones</b>
+                      <b>{tr("UpcomingFamilyMilestonesTxt")}</b>
                       <small>
-                        Birthdays and family events in the next 30 days.
-                      </small>
+                        {tr("BirthdaysAndFamilyEventsInTheNextTxt")}{" "}</small>
                     </span>
                     <input
                       type="checkbox"
@@ -1717,11 +1704,9 @@ export default function NetworkApp() {
               <div className="card governance-card">
                 <div className="governance-head">
                   <div>
-                    <h3 style={{ margin: 0 }}>Public Page</h3>
+                    <h3 style={{ margin: 0 }}>{tr("PublicPageTxt")}</h3>
                     <p className="page-subtitle">
-                      A shareable read-only directory for members who have set
-                      their profile visibility to Public. No sign-in required.
-                    </p>
+                      {tr("AShareableReadOnlyDirectoryForMembersTxt")}{" "}</p>
                   </div>
                   <Eye size={18} />
                 </div>
@@ -1748,60 +1733,48 @@ export default function NetworkApp() {
                     {typeof window !== "undefined"
                       ? window.location.origin
                       : ""}
-                    /public
-                  </code>
+                    {tr("Public2Txt")}{" "}</code>
                   <button
                     className="btn small"
                     onClick={() => {
                       if (typeof window !== "undefined")
                         navigator.clipboard
                           ?.writeText(window.location.origin + "/public")
-                          .then(() => notify("Public URL copied."));
+                          .then(() => notify(tr("PublicURLCopiedTxt")));
                     }}
                   >
-                    Copy
-                  </button>
+                    {tr("CopyTxt")}{" "}</button>
                   <a
                     className="btn small"
                     href="/public"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <ExternalLink size={13} /> Preview
-                  </a>
+                    <ExternalLink size={13} /> {tr("PreviewTxt")}{" "}</a>
                 </div>
                 <p className="page-subtitle" style={{ marginTop: 10 }}>
-                  Members control visibility from their own profile. Profiles
-                  set to "Members" or "Admins only" are hidden from this page.
-                </p>
+                  {tr("MembersControlVisibilityFromTheirOwnProfileTxt")}{" "}</p>
               </div>
               <div className="card governance-card">
                 <div className="governance-head">
                   <div>
-                    <h3 style={{ margin: 0 }}>Data Integrity</h3>
+                    <h3 style={{ margin: 0 }}>{tr("DataIntegrityTxt")}</h3>
                     <p className="page-subtitle">
-                      P4.1 validates self-links, duplicate relationships, orphan
-                      references, generation order, cycles and duplicate
-                      identity signals.
-                    </p>
+                      {tr("P41ValidatesSelfLinksDuplicateRelationshipsTxt")}{" "}</p>
                   </div>
                   {validationReport.valid ? (
                     <div className="validation-good">
-                      <CheckCircle2 size={16} /> No blocking errors
-                    </div>
+                      <CheckCircle2 size={16} /> {tr("NoBlockingErrorsTxt")}{" "}</div>
                   ) : (
                     <div className="validation-bad">
                       <ShieldAlert size={16} /> {validationReport.errors.length}{" "}
-                      errors
-                    </div>
+                      {tr("ErrorsTxt")}{" "}</div>
                   )}
                 </div>
                 {validationReport.warnings.length > 0 && (
                   <div className="notice warning-notice">
                     <AlertTriangle size={15} />{" "}
-                    {validationReport.warnings.length} warning(s), including
-                    possible duplicate identities or mixed-generation spouses.
-                  </div>
+                    {validationReport.warnings.length} {tr("WarningSIncludingPossibleDuplicateIdentitiesOrTxt")}{" "}</div>
                 )}
                 {validationReport.errors.slice(0, 6).map((x, i) => (
                   <div className="validation-issue error" key={i}>
@@ -1819,23 +1792,20 @@ export default function NetworkApp() {
                   validationReport.warnings.length ===
                   0 && (
                   <div className="empty compact">
-                    The current hierarchy passed the P4.1 integrity checks.
-                  </div>
+                    {tr("TheCurrentHierarchyPassedTheP41Txt")}{" "}</div>
                 )}
               </div>
               <div className="card governance-card">
                 <div className="governance-head">
                   <div>
-                    <h3 style={{ margin: 0 }}>Change Requests</h3>
+                    <h3 style={{ margin: 0 }}>{tr("ChangeRequestsTxt")}</h3>
                     <p className="page-subtitle">
-                      Profile submissions are now represented in the generalized
-                      change-request model.
-                    </p>
+                      {tr("ProfileSubmissionsAreNowRepresentedInTheTxt")}{" "}</p>
                   </div>
                   <ClipboardCheck size={18} />
                 </div>
                 {changeRequests.length === 0 && (
-                  <div className="empty compact">No change requests yet.</div>
+                  <div className="empty compact">{tr("NoChangeRequestsYetTxt")}</div>
                 )}
                 {changeRequests.slice(0, 12).map((r) => (
                   <div className="governance-row" key={r.id}>
@@ -1855,16 +1825,14 @@ export default function NetworkApp() {
               <div className="card governance-card">
                 <div className="governance-head">
                   <div>
-                    <h3 style={{ margin: 0 }}>Audit Log</h3>
+                    <h3 style={{ margin: 0 }}>{tr("AuditLogTxt")}</h3>
                     <p className="page-subtitle">
-                      Administrative and contribution actions are recorded in
-                      the database.
-                    </p>
+                      {tr("AdministrativeAndContributionActionsAreRecordedInTxt")}{" "}</p>
                   </div>
                   <ShieldCheck size={18} />
                 </div>
                 {auditLog.length === 0 && (
-                  <div className="empty compact">No audit events yet.</div>
+                  <div className="empty compact">{tr("NoAuditEventsYetTxt")}</div>
                 )}
                 {auditLog.slice(0, 12).map((a) => (
                   <div className="governance-row" key={a.id}>
@@ -1879,54 +1847,42 @@ export default function NetworkApp() {
                 ))}
               </div>
               <div className="card governance-card">
-                <h3 style={{ marginTop: 0 }}>Member Invitations</h3>
+                <h3 style={{ marginTop: 0 }}>{tr("MemberInvitationsTxt")}</h3>
                 <p className="page-subtitle">
-                  Invite an existing hierarchy member to claim their profile and
-                  create an account.
-                </p>
+                  {tr("InviteAnExistingHierarchyMemberToClaimTxt")}{" "}</p>
                 <div className="card-actions">
                   <button
                     className="btn primary"
                     onClick={() => setShowInvitation(true)}
                   >
-                    Create Invitation Link
-                  </button>
+                    {tr("CreateInvitationLinkTxt")}{" "}</button>
                 </div>
               </div>
               <AnalyticsPanel onNotify={notify} />
               <div className="card governance-card">
-                <h3 style={{ marginTop: 0 }}>Shared Data</h3>
+                <h3 style={{ marginTop: 0 }}>{tr("SharedDataTxt")}</h3>
                 <p className="page-subtitle">
-                  Imports merge/upsert records and never silently delete
-                  existing relationships. Database rules now reject self-links
-                  and parent/child cycles. Non-UUID source IDs remain safely
-                  mapped to UUIDs.
-                </p>
+                  {tr("ImportsMergeUpsertRecordsAndNeverSilentlyTxt")}{" "}</p>
                 <div className="card-actions">
                   <button
                     className="btn primary"
                     onClick={() => setShowImport(true)}
                   >
-                    <Upload size={15} /> Import CSV / XLSX / XML
-                  </button>
+                    <Upload size={15} /> {tr("ImportCSVXLSXXMLTxt")}{" "}</button>
                   <button className="btn" onClick={exportCsv}>
-                    <Download size={15} /> Export CSV
-                  </button>
+                    <Download size={15} /> {tr("ExportCSVTxt")}{" "}</button>
                   <button className="btn" onClick={exportJson}>
-                    <Download size={15} /> Export JSON
-                  </button>
+                    <Download size={15} /> {tr("ExportJSONTxt")}{" "}</button>
                   <button className="btn" onClick={exportSvg}>
-                    <Download size={15} /> Export SVG
-                  </button>
+                    <Download size={15} /> {tr("ExportSVGTxt")}{" "}</button>
                   <button className="btn" onClick={() => window.print()}>
-                    <Download size={15} /> Print / PDF
-                  </button>
+                    <Download size={15} /> {tr("PrintPDFTxt")}{" "}</button>
                 </div>
               </div>
               <div className="card governance-card">
-                <h3 style={{ marginTop: 0 }}>Profile Submissions</h3>
+                <h3 style={{ marginTop: 0 }}>{tr("ProfileSubmissionsTxt")}</h3>
                 {submissions.length === 0 && (
-                  <p className="page-subtitle">No submissions yet.</p>
+                  <p className="page-subtitle">{tr("NoSubmissionsYetTxt")}</p>
                 )}
                 {submissions.map((s) => (
                   <div
@@ -1953,14 +1909,12 @@ export default function NetworkApp() {
                           className="btn small primary"
                           onClick={() => approve(s)}
                         >
-                          Approve
-                        </button>
+                          {tr("ApproveTxt")}{" "}</button>
                         <button
                           className="btn small danger"
                           onClick={() => reject(s)}
                         >
-                          Reject
-                        </button>
+                          {tr("RejectTxt")}{" "}</button>
                       </div>
                     )}
                   </div>
@@ -1973,21 +1927,21 @@ export default function NetworkApp() {
       </div>
       <nav className="mobile-bottom-nav has-admin">
         {mobileBottomSurfaces.filter(surface=>{if(surface.featureKey&&!hasFeature(surface.featureKey as FeatureKey))return false;const minimum=surface.minimumExperience as ExperienceLevel|undefined;return !minimum||EXPERIENCE_RANK[experience]>=EXPERIENCE_RANK[minimum]}).map(surface=><button key={surface.viewId} className={view === surface.viewId ? "active" : ""} onClick={() => surface.viewId === "tree" ? openFamilyView() : setView(surface.viewId as View)}>{surfaceIcon(surface.iconToken,19)}<span>{localizedSurfaceLabel(surface,appLocale)}</span></button>)}
-        {(!demoPreview || !!auth) && <button className={selected?.id===auth?.member_id ? "active" : ""} onClick={openMyProfile}><UserRoundPen size={19}/><span>{language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</span></button>}
+        {(!demoPreview || !!auth) && <button className={selected?.id===auth?.member_id ? "active" : ""} onClick={openMyProfile}><UserRoundPen size={19}/><span>{language === "hi" ? "मैं" : language === "mr" ? "मी" : tr("MeTxt")}</span></button>}
         <button className={showMobileMenu || appComposition.mobileMoreActiveViewIds.includes(view) ? "active" : ""} onClick={() => setShowMobileMenu(true)}><Menu size={19}/><span>{moreLabel}</span></button>
       </nav>
       {showMobileMenu && <div className="mobile-more-overlay" onMouseDown={(event) => event.target === event.currentTarget && setShowMobileMenu(false)}><section className="mobile-more-sheet" role="dialog" aria-modal="true" aria-label={moreLabel}>
-        <div className="mobile-more-head"><div><span className="warm-kicker">{network?.name}</span><h2>{moreLabel}</h2></div><button className="icon-button" aria-label="Close" autoFocus onClick={() => setShowMobileMenu(false)}><X size={19}/></button></div>
+        <div className="mobile-more-head"><div><span className="warm-kicker">{network?.name}</span><h2>{moreLabel}</h2></div><button className="icon-button" aria-label={tr("CloseTxt")} autoFocus onClick={() => setShowMobileMenu(false)}><X size={19}/></button></div>
         {mobileMoreSurfaces.map(surface=><button key={surface.viewId} className="mobile-more-action" onClick={() => { setView(surface.viewId as View); setShowMobileMenu(false); }}><span>{surfaceIcon(surface.iconToken)}{localizedSurfaceLabel(surface,appLocale)}</span><ArrowRight /></button>)}
-        {isPlatformOwner && isSupabaseConfigured && <button className="mobile-more-action" onClick={() => { setView("founder"); setShowMobileMenu(false); }}><span><Rocket />Launch Control</span><ArrowRight /></button>}
-        {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={() => { setSetupNeeded(true); setShowMobileMenu(false); }}><span><UsersRound />Create, join or switch family</span><ArrowRight /></button>}
-        {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={async()=>{if(!window.confirm(`Leave ${network?.name||"this family"}? If you are its only account, the empty family will be archived.`))return;try{const action=await leaveCurrentFamily();setShowMobileMenu(false);await hydrate(await getAuthUser());notify(action==="archived"?"Family archived. You can create or join another family.":"You left the family.")}catch(e:any){notify(e.message||"Could not leave this family.")}}}><span><LogOut />Leave this family</span><ArrowRight /></button>}
-        <button className="mobile-more-action" onClick={() => { setGuideKey(""); setView("guide"); setShowMobileMenu(false); }}><span><BookOpen />Explore & Guide</span><ArrowRight /></button>
-        <button className="mobile-more-action" onClick={toggleLargeText}><span><BookOpen />{largeText ? (language==='hi'?'सामान्य टेक्स्ट':language==='mr'?'सामान्य मजकूर':'Normal text size') : (language==='hi'?'बड़ा टेक्स्ट':language==='mr'?'मोठा मजकूर':'Larger text')}</span><ArrowRight /></button>
+        {isPlatformOwner && isSupabaseConfigured && <button className="mobile-more-action" onClick={() => { setView("founder"); setShowMobileMenu(false); }}><span><Rocket />{tr("LaunchControlTxt")}</span><ArrowRight /></button>}
+        {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={() => { setSetupNeeded(true); setShowMobileMenu(false); }}><span><UsersRound />{tr("CreateJoinOrSwitchFamilyTxt")}</span><ArrowRight /></button>}
+        {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={async()=>{if(!window.confirm(`Leave ${network?.name||tr("ThisFamilyTxt")}? If you are its only account, the empty family will be archived.`))return;try{const action=await leaveCurrentFamily();setShowMobileMenu(false);await hydrate(await getAuthUser());notify(action==="archived"?"Family archived. You can create or join another family.":"You left the family.")}catch(e:any){notify(e.message||tr("CouldNotLeaveThisFamilyTxt"))}}}><span><LogOut />{tr("LeaveThisFamilyTxt")}</span><ArrowRight /></button>}
+        <button className="mobile-more-action" onClick={() => { setGuideKey(""); setView("guide"); setShowMobileMenu(false); }}><span><BookOpen />{tr("ExploreGuideTxt")}</span><ArrowRight /></button>
+        <button className="mobile-more-action" onClick={toggleLargeText}><span><BookOpen />{largeText ? (language==='hi'?'सामान्य टेक्स्ट':language==='mr'?'सामान्य मजकूर':tr("NormalTextSizeTxt")) : (language==='hi'?'बड़ा टेक्स्ट':language==='mr'?'मोठा मजकूर':tr("LargerTextTxt"))}</span><ArrowRight /></button>
         <div className="mobile-more-setting"><LanguageSwitcher /></div>
-        {!canAdmin&&<label className="mobile-more-setting friendly-experience-setting"><span>{language==='hi'?'ऐप में कितना दिखे?':language==='mr'?'अॅपमध्ये किती दाखवायचे?':'How much would you like to see?'}</span><select className="select" value={experience} onChange={e=>changeMyExperience(e.target.value as ExperienceLevel)}><option value="simple">{language==='hi'?'सरल — बस जरूरी चीजें':language==='mr'?'सोपे — फक्त महत्त्वाचे':'Simple — just the essentials'}</option><option value="connected">{language==='hi'?'और परिवार — यादें और खास दिन':language==='mr'?'अधिक कुटुंब — आठवणी आणि खास दिवस':'More family — memories & moments'}</option><option value="explorer">{language==='hi'?'सब देखें — सभी सदस्य सुविधाएँ':language==='mr'?'सगळे पहा — सर्व सदस्य सुविधा':'Everything — all member features'}</option></select><small>{language==='hi'?'इसे कभी भी बदल सकते हैं।':language==='mr'?'हे कधीही बदलू शकता.':'You can change this anytime.'}</small></label>}
-        {canAdmin&&<label className="mobile-more-setting"><span>{language === "hi" ? "प्रोफ़ाइल गोपनीयता पूर्वावलोकन" : language === "mr" ? "प्रोफाइल गोपनीयता पूर्वावलोकन" : "Preview profile privacy as"}</span><select className="select" value={visibility} onChange={(event) => setVisibility(event.target.value as Visibility)}><option value="public">Public visitor</option><option value="member">Family member</option><option value="admin">Family admin</option></select></label>}
-        {canAdmin&&<label className="mobile-more-setting"><span>{language==='hi'?'सदस्य अनुभव देखें':language==='mr'?'सदस्य अनुभव पहा':'Preview member experience'}</span><select className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>{(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map(level=><option key={level} value={level}>{EXPERIENCE_LABELS[level].label}</option>)}</select></label>}
+        {!canAdmin&&<label className="mobile-more-setting friendly-experience-setting"><span>{language==='hi'?'ऐप में कितना दिखे?':language==='mr'?'अॅपमध्ये किती दाखवायचे?':tr("HowMuchWouldYouLikeToSeeTxt")}</span><select className="select" value={experience} onChange={e=>changeMyExperience(e.target.value as ExperienceLevel)}><option value="simple">{language==='hi'?'सरल — बस जरूरी चीजें':language==='mr'?'सोपे — फक्त महत्त्वाचे':tr("SimpleJustTheEssentialsTxt")}</option><option value="connected">{language==='hi'?'और परिवार — यादें और खास दिन':language==='mr'?'अधिक कुटुंब — आठवणी आणि खास दिवस':tr("MoreFamilyMemoriesAndMomentsTxt")}</option><option value="explorer">{language==='hi'?'सब देखें — सभी सदस्य सुविधाएँ':language==='mr'?'सगळे पहा — सर्व सदस्य सुविधा':tr("EverythingAllMemberFeaturesTxt")}</option></select><small>{language==='hi'?'इसे कभी भी बदल सकते हैं।':language==='mr'?'हे कधीही बदलू शकता.':tr("YouCanChangeThisAnytimeTxt")}</small></label>}
+        {canAdmin&&<label className="mobile-more-setting"><span>{language === "hi" ? "प्रोफ़ाइल गोपनीयता पूर्वावलोकन" : language === "mr" ? "प्रोफाइल गोपनीयता पूर्वावलोकन" : tr("PreviewProfilePrivacyAsTxt")}</span><select className="select" value={visibility} onChange={(event) => setVisibility(event.target.value as Visibility)}><option value="public">{tr("PublicVisitorTxt")}</option><option value="member">{tr("FamilyMemberTxt")}</option><option value="admin">{tr("FamilyAdminTxt")}</option></select></label>}
+        {canAdmin&&<label className="mobile-more-setting"><span>{language==='hi'?'सदस्य अनुभव देखें':language==='mr'?'सदस्य अनुभव पहा':tr("PreviewMemberExperienceTxt")}</span><select className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>{(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map(level=><option key={level} value={level}>{EXPERIENCE_LABELS[level].label}</option>)}</select></label>}
         {isSupabaseConfigured && <button className="mobile-more-action sign-out" onClick={() => { signOut(); setAuth(null); setShowMobileMenu(false); }}><span><LogOut />{t("SignOutTxt")}</span></button>}
       </section></div>}
       {showFamilyIntake && network && !demoPreview && (
@@ -2031,8 +1985,8 @@ export default function NetworkApp() {
             if(!note?.trim()) return;
             try{
               await repository.createChangeRequest({action:"other",target_member_id:selected.id,payload:{kind:"family_correction",note:note.trim(),member_name:selected.full_name}});
-              notify("Correction sent to the family owner for review.");
-            }catch(e:any){notify(e.message||"Could not send the correction. Please try again.")}
+              notify(tr("CorrectionSentToTheFamilyOwnerForTxt"));
+            }catch(e:any){notify(e.message||tr("CouldNotSendTheCorrectionPleaseTryTxt"))}
           }:undefined}
           events={hasFeature("remember.history")?lifeEvents:[]}
           memories={hasFeature("remember.memories")?memories.filter((m) => m.member_id === selected.id):[]}
@@ -2056,7 +2010,7 @@ export default function NetworkApp() {
           onClose={() => setShowRelationships(false)}
           onSave={saveRel}
           onDelete={removeRel}
-          canRemoveFoundational={!isSupabaseConfigured || network?.membership_role === "owner"}
+          canRemoveFoundational={!isSupabaseConfigured || network?.membership_role === tr("Owner2Txt")}
           onOpenGuide={(key)=>{setShowRelationships(false);openGuide(key)}}
         />
       )}{" "}

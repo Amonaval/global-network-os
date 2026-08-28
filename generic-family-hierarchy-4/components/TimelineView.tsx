@@ -51,8 +51,9 @@ export default function TimelineView({
   network: NetworkSettings | null;
   onSelect: (m: Member) => void;
 }) {
+ const {t:tr}=useLanguage();
   const { language } = useLanguage();
-  const copy = language === "hi" ? { title:"हमारे परिवार की कहानी", subtitle:"पीढ़ियों से जुड़े पल, यात्राएँ और महत्वपूर्ण घटनाएँ।", allTypes:"सभी घटनाएँ", allGenerations:"सभी पीढ़ियाँ", empty:"अभी कोई पारिवारिक पल नहीं", emptyHelp:"किसी सदस्य की प्रोफ़ाइल खोलकर महत्वपूर्ण घटना या याद जोड़ें।", undated:"तारीख नहीं" } : language === "mr" ? { title:"आपल्या कुटुंबाची गोष्ट", subtitle:"पिढ्यांमधील क्षण, प्रवास आणि महत्त्वाच्या घटना.", allTypes:"सर्व घटना", allGenerations:"सर्व पिढ्या", empty:"अजून कौटुंबिक क्षण नाहीत", emptyHelp:"सदस्याची प्रोफाइल उघडून महत्त्वाची घटना किंवा आठवण जोडा.", undated:"तारीख नाही" } : { title:"Our Family Story", subtitle:"Moments, moves and milestones shared across generations.", allTypes:"All event types", allGenerations:"All generations", empty:"No family moments here yet", emptyHelp:"Open a family member’s profile to add a milestone, memory or important life event.", undated:"Undated" };
+  const copy = language === "hi" ? { title:"हमारे परिवार की कहानी", subtitle:"पीढ़ियों से जुड़े पल, यात्राएँ और महत्वपूर्ण घटनाएँ।", allTypes:"सभी घटनाएँ", allGenerations:"सभी पीढ़ियाँ", empty:"अभी कोई पारिवारिक पल नहीं", emptyHelp:"किसी सदस्य की प्रोफ़ाइल खोलकर महत्वपूर्ण घटना या याद जोड़ें।", undated:"तारीख नहीं" } : language === "mr" ? { title:"आपल्या कुटुंबाची गोष्ट", subtitle:"पिढ्यांमधील क्षण, प्रवास आणि महत्त्वाच्या घटना.", allTypes:"सर्व घटना", allGenerations:"सर्व पिढ्या", empty:"अजून कौटुंबिक क्षण नाहीत", emptyHelp:"सदस्याची प्रोफाइल उघडून महत्त्वाची घटना किंवा आठवण जोडा.", undated:"तारीख नाही" } : { title:tr("OurFamilyStoryTxt"), subtitle:tr("MomentsMovesAndMilestonesSharedAcrossGenerationsTxt"), allTypes:"All event types", allGenerations:"All generations", empty:"No family moments here yet", emptyHelp:"Open a family member’s profile to add a milestone, memory or important life event.", undated:"Undated" };
   const cfg = getNetworkConfig(network),
     [type, setType] = useState("all"),
     [generation, setGeneration] = useState("");
@@ -93,12 +94,12 @@ export default function TimelineView({
           <h1 className="page-title">
             {cfg.network_template === "family"
               ? copy.title
-              : "Network Timeline"}
+              : tr("NetworkTimelineTxt")}
           </h1>
           <p className="page-subtitle">
             {cfg.network_template === "family"
               ? copy.subtitle
-              : "A privacy-aware history of visible events across the network."}
+              : tr("APrivacyAwareHistoryOfVisibleEventsTxt")}
           </p>
         </div>
         <CalendarDays size={25} />
@@ -138,12 +139,12 @@ export default function TimelineView({
           <h3>
             {cfg.network_template === "family"
               ? copy.empty
-              : "No visible events yet"}
+              : tr("NoVisibleEventsYetTxt")}
           </h3>
           <p>
             {cfg.network_template === "family"
               ? copy.emptyHelp
-              : "Add a visible event from an entity profile to begin the timeline."}
+              : tr("AddAVisibleEventFromAnEntityTxt")}
           </p>
         </div>
       )}

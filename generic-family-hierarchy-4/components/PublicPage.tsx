@@ -1,4 +1,5 @@
 "use client";
+import {useLanguage} from "../lib/i18n";
 import { useEffect, useState } from "react";
 import { TreePine, Users, GitBranch, ExternalLink } from "lucide-react";
 import { supabase } from "../lib/supabase";
@@ -31,6 +32,7 @@ function initials(name: string) {
 }
 
 export default function PublicPage() {
+ const {t:tr}=useLanguage();
   const [network, setNetwork] = useState<NetworkInfo | null>(null);
   const [members, setMembers] = useState<PublicMember[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ export default function PublicPage() {
   const [embed, setEmbed] = useState(false);
 
   useEffect(() => {
-    if (!supabase) { setError("This network is not configured for shared access."); setLoading(false); return; }
+    if (!supabase) { setError(tr("ThisNetworkIsNotConfiguredForSharedTxt")); setLoading(false); return; }
     (async () => {
       try {
         const params = new URLSearchParams(window.location.search);
@@ -77,7 +79,7 @@ export default function PublicPage() {
     return (
       <div className="loading-screen">
         <TreePine size={30} />
-        <div><b>Loading…</b><div className="page-subtitle">Fetching public directory</div></div>
+        <div><b>{tr("LoadingTxt")}</b><div className="page-subtitle">{tr("FetchingPublicDirectoryTxt")}</div></div>
       </div>
     );
   }
@@ -87,9 +89,9 @@ export default function PublicPage() {
       <div className="landing">
         <div className="landing-card">
           <div className="brand-mark"><TreePine size={24} /></div>
-          <h1>Hierarchy Network</h1>
+          <h1>{tr("HierarchyNetworkTxt")}</h1>
           <p className="page-subtitle">{error}</p>
-          <a href="/" className="btn primary" style={{ display: "inline-block", marginTop: 12 }}>Back to sign-in</a>
+          <a href="/" className="btn primary" style={{ display: "inline-block", marginTop: 12 }}>{tr("BackToSignIn2Txt")}</a>
         </div>
       </div>
     );
@@ -101,12 +103,11 @@ export default function PublicPage() {
       {!embed && <header style={{ background: "var(--surface)", borderBottom: "1px solid var(--line)", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div className="brand-mark"><TreePine size={18} /></div>
-          <span style={{ fontWeight: 700, fontSize: 15 }}>{network?.name || "Hierarchy Network"}</span>
-          <span className="mode-pill shared" style={{ fontSize: 10 }}>Public</span>
+          <span style={{ fontWeight: 700, fontSize: 15 }}>{network?.name || tr("HierarchyNetworkTxt")}</span>
+          <span className="mode-pill shared" style={{ fontSize: 10 }}>{tr("PublicTxt")}</span>
         </div>
         <a href="/" className="btn small" style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <ExternalLink size={13} /> Sign in
-        </a>
+          <ExternalLink size={13} /> {tr("SignInTxt")}{" "}</a>
       </header>}
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "28px 24px 60px" }}>
@@ -122,11 +123,11 @@ export default function PublicPage() {
             <div className="stat-number">{members.length}</div>
           </div>
           <div className="card stat" style={{ minWidth: 120 }}>
-            <div className="stat-label">{network?.level_label_plural ?? "Generations"}</div>
+            <div className="stat-label">{network?.level_label_plural ?? tr("Generations2Txt")}</div>
             <div className="stat-number">{genCount}</div>
           </div>
           <div className="card stat" style={{ minWidth: 120 }}>
-            <div className="stat-label">In memoriam</div>
+            <div className="stat-label">{tr("InMemoriamTxt")}</div>
             <div className="stat-number">{members.filter(m => !!m.date_of_death).length}</div>
           </div>
         </div>
@@ -136,8 +137,8 @@ export default function PublicPage() {
           <>
             <div className="page-head" style={{ marginBottom: 12 }}>
               <div>
-                <h1 className="page-title">{entityLabelPlural} Directory</h1>
-                <p className="page-subtitle">Members who have made their profile publicly visible.</p>
+                <h1 className="page-title">{entityLabelPlural} {tr("DirectoryTxt")}</h1>
+                <p className="page-subtitle">{tr("MembersWhoHaveMadeTheirProfilePubliclyTxt")}</p>
               </div>
             </div>
             <div className="search-bar" style={{ marginBottom: 16 }}>
@@ -148,15 +149,15 @@ export default function PublicPage() {
                 placeholder={`Search ${entityLabelPlural.toLowerCase()}…`}
               />
             </div>
-            <p className="page-subtitle" style={{ marginBottom: 14 }}>{filtered.length} {entityLabelPlural.toLowerCase()} shown</p>
+            <p className="page-subtitle" style={{ marginBottom: 14 }}>{filtered.length} {entityLabelPlural.toLowerCase()} {tr("ShownTxt")}</p>
           </>
         )}
 
         {/* Member grid */}
         {members.length === 0 ? (
           <div className="card" style={{ padding: 40, textAlign: "center" }}>
-            <p className="page-subtitle">No public profiles are available yet.</p>
-            <p className="page-subtitle">Members can set their visibility to Public from their profile settings.</p>
+            <p className="page-subtitle">{tr("NoPublicProfilesAreAvailableYetTxt")}</p>
+            <p className="page-subtitle">{tr("MembersCanSetTheirVisibilityToPublicTxt")}</p>
           </div>
         ) : (
           <div className="results-grid">
@@ -166,7 +167,7 @@ export default function PublicPage() {
                 <div style={{ minWidth: 0, flex: 1 }}>
                   <div className="person-name">
                     {m.full_name}
-                    {m.date_of_death && <span className="person-meta"> · In memoriam</span>}
+                    {m.date_of_death && <span className="person-meta"> {tr("InMemoriam2Txt")}</span>}
                   </div>
                   <div className="person-meta">
                     {m.profession || entityLabel}<br />
@@ -183,9 +184,9 @@ export default function PublicPage() {
         {/* CTA */}
         {!embed && <div className="card" style={{ marginTop: 40, padding: "28px 24px", textAlign: "center" }}>
           <GitBranch size={28} style={{ margin: "0 auto 10px", display: "block", color: "var(--muted)" }} />
-          <h3 style={{ marginTop: 0 }}>Part of this network?</h3>
-          <p className="page-subtitle">Sign in or accept an invitation to view the full hierarchy, relationship tree, and more.</p>
-          <a href="/" className="btn primary" style={{ display: "inline-block", marginTop: 12 }}>Sign in to the full network</a>
+          <h3 style={{ marginTop: 0 }}>{tr("PartOfThisNetworkTxt")}</h3>
+          <p className="page-subtitle">{tr("SignInOrAcceptAnInvitationToTxt")}</p>
+          <a href="/" className="btn primary" style={{ display: "inline-block", marginTop: 12 }}>{tr("SignInToTheFullNetworkTxt")}</a>
         </div>}
       </div>
     </div>

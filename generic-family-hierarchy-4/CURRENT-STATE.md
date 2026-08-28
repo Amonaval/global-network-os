@@ -100,3 +100,10 @@ Trusted Expertise & Professional Network is now the sixth registered vertical an
 
 ## i18n current state
 English remains the canonical token contract. Hindi and Marathi are separate catalogs and are now key-complete for the current 328-token catalog. Legacy visible literals still exist outside catalogs; `npm run audit:i18n` tracks extraction debt and future missions must reduce it screen-by-screen rather than through a destabilizing mass rewrite.
+
+## Mission 3 update — Governed Graph + Institutional Bootstrap
+- Mission 3 is source implemented; runtime verification remains open.
+- Network OS now has additive typed graph/governance contracts while preserving existing hierarchy/projection behavior.
+- Productized Admin now exposes an Institutional Bootstrap panel that reuses import, join code, claiming, membership and delegated admin flows.
+- i18n extraction reached 1,933 canonical English tokens with 351 reviewed Hindi and Marathi overrides; untranslated tokens fall back to English.
+- AST visible-literal audit is zero for enforced user-visible TSX categories.

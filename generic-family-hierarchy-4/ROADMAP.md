@@ -1748,3 +1748,16 @@ Select the next coherent mission based on product leverage, not historical numbe
 - Current EN/HI/MR catalog is 328/328 tokens in each locale. Legacy visible-literal extraction remains tracked debt.
 - `npm run validate:m2` PASS; STABILITY-1 chain remains PASS.
 - Next roadmap mission remains the governed graph + institutional bootstrap direction, but only after Mission 2 live runtime verification and any contained hardening.
+
+## Mission 3 — Governed Graph Platform + Institutional Bootstrap — SOURCE IMPLEMENTED
+Purpose: move from hierarchy-only thinking to governed typed relationships while enabling one institutional sponsor to seed and activate many members.
+
+Delivered in source:
+- additive graph rule/provenance contracts;
+- relationship-kind constraints for Professional Network;
+- governed metadata on new productized relationships;
+- institution-first bootstrap score/stages;
+- admin bootstrap panel with seed template, launch invite, join-code regeneration and distributed activation model;
+- full static UI-copy extraction gate.
+
+Next gate: local build/runtime verification before selecting the next major mission.

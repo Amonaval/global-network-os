@@ -43,3 +43,11 @@ Do not mark a locale supported until its primary journeys are complete and visua
 - `LocaleCatalog` remains structurally partial so future language packs can be developed behind English fallback before being declared supported.
 - A locale is not considered **supported** until its current token contract is complete and primary journeys are visually verified.
 - `npm run audit:i18n` tracks legacy user-visible literals that have not yet been extracted from components.
+
+## Mission 3 extraction closure
+- English is the canonical source catalog.
+- Hindi/Marathi are independent reviewed overrides with English fallback; key-count equality is not required.
+- Static user-visible copy must not be authored directly in TSX.
+- `npm run audit:i18n` is AST-based to avoid false positives from TypeScript generics and technical strings.
+- Do not translate class names, route segments, enum/status keys, API fields, locale codes or persisted values.
+- Future `es`, `zh-CN`, `fr`, `pt`, `de` packs plug into the same catalog loader; Arabic requires an RTL readiness mission before launch.

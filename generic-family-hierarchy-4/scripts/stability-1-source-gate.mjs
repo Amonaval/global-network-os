@@ -9,14 +9,14 @@ ok('catalog files typed to English token contract',(hi.includes('LocaleCatalog')
 const nx=read('lib/nx-review.tsx'),panel=read('components/NxReviewPanel.tsx'),home=read('components/FamilyHome.tsx'),participation=read('components/ParticipationCenter.tsx');
 ok('window nxFeatures review seam',nx.includes('window.nxFeatures===true'));
 ok('NX 1-6 catalogued',['NX-1','NX-2','NX-3','NX-4','NX-5','NX-6'].every(v=>nx.includes(`"${v}"`)));
-ok('NX review panel present',panel.includes('NX Review Mode'));
+ok('NX review panel present',panel.includes('NXReviewModeTxt'));
 ok('NX6 Home comparison gate',home.includes('useNxEnabled("NX-6")'));
 ok('NX4 Growth Relay gate',participation.includes('useNxEnabled("NX-4")'));
 const css=read('app/globals.css');
 ok('autoprefixer start warning removed',!css.includes('align-items:start')&&!css.includes('align-content:start'));
 ok('contained product hero spacing',css.includes('.product-network-app .product-hero .btn{margin-right:10px;margin-top:10px}'));
 const app=read('components/NetworkApp.tsx'),alumni=read('components/AlumniNetworkApp.tsx'),template=read('components/TemplateNetworkApp.tsx');
-ok('Family Playground back action',app.includes('Back to network selection'));
-ok('Alumni Playground back action',alumni.includes('Back to network selection'));
-ok('Product Playground back action',template.includes('Back to network selection'));
+ok('Family Playground back action',app.includes('BackToNetworkSelectionTxt'));
+ok('Alumni Playground back action',alumni.includes('BackToNetworkSelectionTxt'));
+ok('Product Playground back action',template.includes('BackToNetworkSelectionTxt'));
 for(const [name,pass] of checks)console.log(`${pass?'PASS':'FAIL'} ${name}`);const failed=checks.filter(x=>!x[1]);console.log(`STABILITY-1 source gate: ${checks.length-failed.length}/${checks.length}`);if(failed.length)process.exit(1);

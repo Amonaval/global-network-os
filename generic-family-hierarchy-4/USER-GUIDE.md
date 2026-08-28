@@ -409,3 +409,6 @@ From network selection choose **Trusted Expertise / Expert Network → Playgroun
 
 ### Privacy
 The professional network is a separate tenant context. It does not merge Family or Alumni profiles. Mission 2 is not a healthcare/patient-record product and should not be used to store patient-identifying clinical information.
+
+## Institutional Bootstrap (productized network admins)
+Open **Admin** in a Professional or other productized network. The Institutional Bootstrap card shows a simple activation path: seed the initial directory, activate members, let people claim their identity, delegate another admin, and enrich the network together. Download the seed CSV template for a starting structure, then use the existing import flow. Share the private join code or copy the launch invitation. The bootstrap card does not create a second membership system; it coordinates the existing Network OS capabilities.

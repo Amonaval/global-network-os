@@ -16,8 +16,9 @@ export default function UpcomingWidget({
   items: UpcomingMilestone[];
   onSelect: (m: Member) => void;
 }) {
+ const {t:tr}=useLanguage();
   const { language } = useLanguage();
-  const copy = language === "hi" ? { title:"आने वाले दिन", subtitle:"अगले 30 दिनों के पारिवारिक अवसर", birthday:"जन्मदिन", today:"आज", days:"दिन" } : language === "mr" ? { title:"लवकरच", subtitle:"पुढील 30 दिवसांतील कौटुंबिक प्रसंग", birthday:"वाढदिवस", today:"आज", days:"दिवस" } : { title:"Coming up", subtitle:"Family milestones in the next 30 days", birthday:"Birthday", today:"today", days:"d" };
+  const copy = language === "hi" ? { title:"आने वाले दिन", subtitle:"अगले 30 दिनों के पारिवारिक अवसर", birthday:"जन्मदिन", today:"आज", days:"दिन" } : language === "mr" ? { title:"लवकरच", subtitle:"पुढील 30 दिवसांतील कौटुंबिक प्रसंग", birthday:"वाढदिवस", today:"आज", days:"दिवस" } : { title:tr("ComingUpTxt"), subtitle:tr("FamilyMilestonesInTheNext30DaysTxt"), birthday:"Birthday", today:"today", days:"d" };
   if (!items.length) return null;
   return (
     <div className="card upcoming-widget">

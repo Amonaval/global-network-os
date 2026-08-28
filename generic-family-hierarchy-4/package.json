@@ -53,7 +53,8 @@
     "validate:nx6": "node scripts/nx-6-source-gate.mjs && npm run validate:nx5",
     "validate:stability1": "node scripts/stability-1-source-gate.mjs",
     "validate:m2": "node scripts/m2-professional-i18n-gate.mjs && npm run validate:stability1",
-    "audit:i18n": "node scripts/i18n-extraction-audit.mjs"
+    "audit:i18n": "node scripts/i18n-extraction-audit.mjs",
+    "validate:m3": "node scripts/m3-governed-graph-bootstrap-gate.mjs && npm run validate:m2 && npm run audit:i18n"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

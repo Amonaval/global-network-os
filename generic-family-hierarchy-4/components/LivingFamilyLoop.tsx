@@ -1,4 +1,5 @@
 "use client";
+import {useLanguage} from "../lib/i18n";
 // [NX-2] Living Network return-loop capability. Reviewable via window.nxFeatures.
 
 import {useMemo} from "react";
@@ -43,6 +44,7 @@ function ageFrom(date?:string){
 }
 
 export default function LivingFamilyLoop({members,relationships,events,memories,viewerMemberId,readOnly=false,onSelect,onGo}:Props){
+ const {t:tr}=useLanguage();
   const viewer=viewerMemberId?members.find(m=>m.id===viewerMemberId):undefined;
   const today=dayKey();
 
@@ -79,16 +81,16 @@ export default function LivingFamilyLoop({members,relationships,events,memories,
   const historicEvent=useMemo(()=>[...events].filter(e=>e.event_date).sort((a,b)=>(a.event_date||"").localeCompare(b.event_date||""))[0],[events]);
 
   const daily=useMemo<DailyMoment>(()=>{
-    if(upcoming[0]?.days===0)return {kind:"celebrate",kicker:"Today in your family",title:`It’s ${upcoming[0].member.full_name}’s birthday`,body:"A small call or message can mean more than another scroll through a feed.",action:"Open their profile",member:upcoming[0].member};
+    if(upcoming[0]?.days===0)return {kind:"celebrate",kicker:tr("TodayInYourFamilyTxt"),title:`It’s ${upcoming[0].member.full_name}’s birthday`,body:"A small call or message can mean more than another scroll through a feed.",action:"Open their profile",member:upcoming[0].member};
     const mode=today%3;
-    if(mode===0&&rediscover)return {kind:"rediscover",kicker:"Rediscover someone",title:`Do you know ${rediscover.member.full_name}?`,body:`${rediscover.label} · ${rediscover.distance} relationship ${rediscover.distance===1?"step":"steps"} from you${rediscover.member.city?` · ${rediscover.member.city}`:""}. Open their profile and reconnect the name to the person.`,action:"Meet this relative",member:rediscover.member};
+    if(mode===0&&rediscover)return {kind:"rediscover",kicker:tr("RediscoverSomeoneTxt"),title:`Do you know ${rediscover.member.full_name}?`,body:`${rediscover.label} · ${rediscover.distance} relationship ${rediscover.distance===1?"step":"steps"} from you${rediscover.member.city?` · ${rediscover.member.city}`:""}. Open their profile and reconnect the name to the person.`,action:"Meet this relative",member:rediscover.member};
     if(mode===1&&(oldMemory||historicEvent)){
-      if(oldMemory)return {kind:"remember",kicker:"Remember together",title:oldMemory.title,body:oldMemory.story?.slice(0,150)||"A family story worth keeping visible across generations.",action:"Open family memories"};
-      return {kind:"remember",kicker:"From your family history",title:historicEvent!.title,body:`This moment from ${historicEvent!.event_date} is part of the family story future generations should not have to rediscover from scratch.`,action:"See the family tree",member:members.find(m=>m.id===historicEvent!.member_id)};
+      if(oldMemory)return {kind:"remember",kicker:tr("RememberTogetherTxt"),title:oldMemory.title,body:oldMemory.story?.slice(0,150)||"A family story worth keeping visible across generations.",action:"Open family memories"};
+      return {kind:"remember",kicker:tr("FromYourFamilyHistoryTxt"),title:historicEvent!.title,body:`This moment from ${historicEvent!.event_date} is part of the family story future generations should not have to rediscover from scratch.`,action:"See the family tree",member:members.find(m=>m.id===historicEvent!.member_id)};
     }
-    if(preserveMember)return {kind:"preserve",kicker:"Preserve one story",title:`What should the next generation know about ${preserveMember.full_name}?`,body:preserveMember.bio?"Their profile still has missing context. One photo, city or detail makes the family record more human.":"Their story is still mostly a name in the tree. Add one meaningful detail while someone still remembers it.",action:"Help preserve their story",member:preserveMember};
-    if(rediscover)return {kind:"rediscover",kicker:"Rediscover someone",title:`Meet ${rediscover.member.full_name}`,body:`${rediscover.label}. Family networks become meaningful when names turn back into people.`,action:"Open their profile",member:rediscover.member};
-    return {kind:"remember",kicker:"A meaningful minute",title:"Your family is more than a tree",body:"Add one memory, story or missing detail that someone younger may otherwise never know.",action:"Preserve a memory"};
+    if(preserveMember)return {kind:"preserve",kicker:tr("PreserveOneStoryTxt"),title:`What should the next generation know about ${preserveMember.full_name}?`,body:preserveMember.bio?"Their profile still has missing context. One photo, city or detail makes the family record more human.":"Their story is still mostly a name in the tree. Add one meaningful detail while someone still remembers it.",action:"Help preserve their story",member:preserveMember};
+    if(rediscover)return {kind:"rediscover",kicker:tr("RediscoverSomeoneTxt"),title:`Meet ${rediscover.member.full_name}`,body:`${rediscover.label}. Family networks become meaningful when names turn back into people.`,action:"Open their profile",member:rediscover.member};
+    return {kind:"remember",kicker:tr("AMeaningfulMinuteTxt"),title:tr("YourFamilyIsMoreThanATree2Txt"),body:"Add one memory, story or missing detail that someone younger may otherwise never know.",action:"Preserve a memory"};
   },[upcoming,today,rediscover,oldMemory,historicEvent,preserveMember,members]);
 
   const generations=useMemo(()=>new Set(members.map(m=>m.generation_level)).size,[members]);
@@ -106,10 +108,10 @@ export default function LivingFamilyLoop({members,relationships,events,memories,
     if(daily.kind==="remember")return onGo(oldMemory?"community":"tree");
   };
 
-  return <section className="living-family-loop" aria-label="Living family connection">
+  return <section className="living-family-loop" aria-label={tr("LivingFamilyConnectionTxt")}>
     <div className="living-loop-heading">
-      <div><span className="warm-kicker"><Heart size={12}/> Living family</span><h2>One meaningful family minute</h2></div>
-      <p>No endless feed. Come back for a real person, memory or family moment.</p>
+      <div><span className="warm-kicker"><Heart size={12}/> {tr("LivingFamilyTxt")}</span><h2>{tr("OneMeaningfulFamilyMinuteTxt")}</h2></div>
+      <p>{tr("NoEndlessFeedComeBackForATxt")}</p>
     </div>
 
     <div className="living-loop-grid">
@@ -119,21 +121,21 @@ export default function LivingFamilyLoop({members,relationships,events,memories,
       </article>
 
       <article className="living-generations-card">
-        <div className="living-card-head"><span className="living-small-icon"><Sparkles size={17}/></span><div><span>Across generations</span><h3>{generations} generations still connected here</h3></div></div>
+        <div className="living-card-head"><span className="living-small-icon"><Sparkles size={17}/></span><div><span>{tr("AcrossGenerationsTxt")}</span><h3>{generations} {tr("GenerationsStillConnectedHereTxt")}</h3></div></div>
         {oldest&&youngest&&oldest.id!==youngest.id?<div className="generation-bridge">
-          <button onClick={()=>onSelect(oldest)}><small>Older generation</small><b>{oldest.full_name}</b><em>{ageFrom(oldest.date_of_birth)??""}{ageFrom(oldest.date_of_birth)!==undefined?" yrs":""}</em></button>
+          <button onClick={()=>onSelect(oldest)}><small>{tr("OlderGenerationTxt")}</small><b>{oldest.full_name}</b><em>{ageFrom(oldest.date_of_birth)??""}{ageFrom(oldest.date_of_birth)!==undefined?tr("YrsTxt"):""}</em></button>
           <div className="generation-line"><span/><Heart size={15}/><span/></div>
-          <button onClick={()=>onSelect(youngest)}><small>Younger generation</small><b>{youngest.full_name}</b><em>{ageFrom(youngest.date_of_birth)??""}{ageFrom(youngest.date_of_birth)!==undefined?" yrs":""}</em></button>
-        </div>:<p className="living-muted">Add birthdays across generations to make family continuity visible.</p>}
-        <p className="generation-purpose">Names, relationships and stories that live only in people’s memory are easy to lose. This network keeps that context discoverable for the next generation.</p>
+          <button onClick={()=>onSelect(youngest)}><small>{tr("YoungerGenerationTxt")}</small><b>{youngest.full_name}</b><em>{ageFrom(youngest.date_of_birth)??""}{ageFrom(youngest.date_of_birth)!==undefined?tr("YrsTxt"):""}</em></button>
+        </div>:<p className="living-muted">{tr("AddBirthdaysAcrossGenerationsToMakeFamilyTxt")}</p>}
+        <p className="generation-purpose">{tr("NamesRelationshipsAndStoriesThatLiveOnlyTxt")}</p>
       </article>
     </div>
 
     <div className="family-continuity-strip">
-      <div><Clock3 size={17}/><span><b>{generations}</b><small>generations represented</small></span></div>
-      <div><MapPin size={17}/><span><b>{cities}</b><small>family cities connected</small></span></div>
-      <div><BookHeart size={17}/><span><b>{knownStories}</b><small>stories & life context preserved</small></span></div>
-      <button onClick={()=>onGo("participation")}><Sparkles size={15}/><span><b>Preserve one more thing</b><small>Help a future relative know this family better</small></span><ChevronRight size={16}/></button>
+      <div><Clock3 size={17}/><span><b>{generations}</b><small>{tr("GenerationsRepresentedTxt")}</small></span></div>
+      <div><MapPin size={17}/><span><b>{cities}</b><small>{tr("FamilyCitiesConnectedTxt")}</small></span></div>
+      <div><BookHeart size={17}/><span><b>{knownStories}</b><small>{tr("StoriesAndLifeContextPreservedTxt")}</small></span></div>
+      <button onClick={()=>onGo("participation")}><Sparkles size={15}/><span><b>{tr("PreserveOneMoreThingTxt")}</b><small>{tr("HelpAFutureRelativeKnowThisFamilyTxt")}</small></span><ChevronRight size={16}/></button>
     </div>
   </section>;
 }

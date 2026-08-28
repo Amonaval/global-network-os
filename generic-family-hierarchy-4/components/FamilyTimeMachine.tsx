@@ -1,4 +1,5 @@
 "use client";
+import {useLanguage} from "../lib/i18n";
 // [NX-3] Family Time Machine / generational legacy capability. Reviewable via window.nxFeatures.
 
 import {useMemo,useState} from "react";
@@ -29,6 +30,7 @@ function eraLabel(from:number,to:number){return from===to?`${from}`:`${from}–$
 function safeText(value?:string,max=128){const v=value?.trim();return v?v.length>max?`${v.slice(0,max-1)}…`:v:""}
 
 export default function FamilyTimeMachine({members,relationships,events,memories,viewerMemberId,readOnly=false,onSelect,onGo}:Props){
+ const {t:tr}=useLanguage();
   const [activeEra,setActiveEra]=useState(0);
   const currentYear=new Date().getFullYear();
   const viewer=viewerMemberId?members.find(m=>m.id===viewerMemberId):undefined;
@@ -100,43 +102,43 @@ export default function FamilyTimeMachine({members,relationships,events,memories
     return onGo("tree");
   };
 
-  return <section className="family-time-machine" aria-label="Family time machine and generational legacy">
+  return <section className="family-time-machine" aria-label={tr("FamilyTimeMachineAndGenerationalLegacyTxt")}>
     <div className="legacy-heading">
-      <div><span className="warm-kicker"><History size={12}/> Family Time Machine</span><h2>See how your family became today</h2></div>
-      <p>Built only from dates, people, places and stories your family has actually preserved.</p>
+      <div><span className="warm-kicker"><History size={12}/> {tr("FamilyTimeMachineTxt")}</span><h2>{tr("SeeHowYourFamilyBecameTodayTxt")}</h2></div>
+      <p>{tr("BuiltOnlyFromDatesPeoplePlacesAndTxt")}</p>
     </div>
 
     {eras.length?<div className="time-machine-shell">
-      <div className="time-machine-rail" role="tablist" aria-label="Family eras">
-        {eras.map((era,index)=><button key={era.key} role="tab" aria-selected={index===activeEra} className={index===activeEra?"active":""} onClick={()=>setActiveEra(index)}><span>{era.label}</span><small>{era.items.length} known moments</small></button>)}
+      <div className="time-machine-rail" role="tablist" aria-label={tr("FamilyErasTxt")}>
+        {eras.map((era,index)=><button key={era.key} role="tab" aria-selected={index===activeEra} className={index===activeEra?"active":""} onClick={()=>setActiveEra(index)}><span>{era.label}</span><small>{era.items.length} {tr("KnownMomentsTxt")}</small></button>)}
       </div>
       {active&&<article className="era-stage">
-        <div className="era-stage-head"><div><span>Family chapter</span><h3>{active.label}</h3><p>{active.people} people represented{active.places.length?` · ${active.places.join(" · ")}`:""}</p></div><div className="era-signal"><Clock3 size={18}/><b>{active.items.length}</b><small>preserved moments</small></div></div>
+        <div className="era-stage-head"><div><span>{tr("FamilyChapterTxt")}</span><h3>{active.label}</h3><p>{active.people} {tr("PeopleRepresentedTxt")}{active.places.length?` · ${active.places.join(" · ")}`:""}</p></div><div className="era-signal"><Clock3 size={18}/><b>{active.items.length}</b><small>{tr("PreservedMomentsTxt")}</small></div></div>
         <div className="era-moments">{active.items.map((item,index)=><button key={`${item.kind}-${item.year}-${index}`} onClick={()=>openItem(item)} className={`era-moment ${item.kind}`}><span className="era-year">{item.year}</span><span className="era-copy"><b>{item.title}</b><small>{item.detail}</small>{item.location&&<em><MapPin size={11}/>{item.location}</em>}</span><ChevronRight size={15}/></button>)}</div>
-        {active.items.length>=8&&<small className="era-more-note">Showing a concise chapter, not every stored record.</small>}
+        {active.items.length>=8&&<small className="era-more-note">{tr("ShowingAConciseChapterNotEveryStoredTxt")}</small>}
       </article>}
-    </div>:<div className="legacy-empty card"><History size={28}/><div><h3>Your Time Machine is waiting for its first anchors</h3><p>Add birthdays, life events or memories. The app will build the family timeline only from real information your family preserves.</p></div><button className="btn primary" onClick={()=>onGo("community")}>Preserve a first memory</button></div>}
+    </div>:<div className="legacy-empty card"><History size={28}/><div><h3>{tr("YourTimeMachineIsWaitingForItsTxt")}</h3><p>{tr("AddBirthdaysLifeEventsOrMemoriesTheTxt")}</p></div><button className="btn primary" onClick={()=>onGo("community")}>{tr("PreserveAFirstMemoryTxt")}</button></div>}
 
     <div className="legacy-proof-strip">
-      <div><Users size={17}/><span><b>{members.length}</b><small>people carried forward</small></span></div>
-      <div><MapPin size={17}/><span><b>{totalPlaces}</b><small>known places in the story</small></span></div>
-      <div><BookHeart size={17}/><span><b>{preservedStories}</b><small>stories & context preserved</small></span></div>
-      <div><Sparkles size={17}/><span><b>{pathKnown}</b><small>relationship connections mapped</small></span></div>
+      <div><Users size={17}/><span><b>{members.length}</b><small>{tr("PeopleCarriedForwardTxt")}</small></span></div>
+      <div><MapPin size={17}/><span><b>{totalPlaces}</b><small>{tr("KnownPlacesInTheStoryTxt")}</small></span></div>
+      <div><BookHeart size={17}/><span><b>{preservedStories}</b><small>{tr("StoriesAndContextPreservedTxt")}</small></span></div>
+      <div><Sparkles size={17}/><span><b>{pathKnown}</b><small>{tr("RelationshipConnectionsMappedTxt")}</small></span></div>
     </div>
 
     <div className="legacy-risk-wrap">
-      <div className="legacy-risk-head"><div><span className="warm-kicker"><BookHeart size={12}/> What could be forgotten?</span><h2>Preserve the people future generations may know only by name</h2></div><p>This is a preservation priority, not a score. Older generations and profiles with missing context rise first.</p></div>
+      <div className="legacy-risk-head"><div><span className="warm-kicker"><BookHeart size={12}/> {tr("WhatCouldBeForgottenTxt")}</span><h2>{tr("PreserveThePeopleFutureGenerationsMayKnowTxt")}</h2></div><p>{tr("ThisIsAPreservationPriorityNotATxt")}</p></div>
       <div className="legacy-risk-grid">
         <article className="legacy-priority-card">
-          {preservationNeeds[0]?<><div className="legacy-priority-icon"><BookHeart/></div><span>Highest preservation opportunity</span><h3>{preservationNeeds[0].member.full_name}</h3><p>{preservationNeeds[0].relation?`${preservationNeeds[0].relation} · `:""}{preservationNeeds[0].age!==undefined?`${preservationNeeds[0].age} yrs · `:""}Missing {preservationNeeds[0].missing.join(", ")}.</p><button className="btn primary" onClick={()=>{if(!readOnly)trackFamilyEngagement('legacy_preserve_priority','member',preservationNeeds[0].member.id).catch(()=>{});onSelect(preservationNeeds[0].member)}}>Open & preserve <ChevronRight size={15}/></button></>:<><Sparkles size={24}/><h3>Strong family record</h3><p>The core profile details we check are already well preserved.</p></>}
+          {preservationNeeds[0]?<><div className="legacy-priority-icon"><BookHeart/></div><span>{tr("HighestPreservationOpportunityTxt")}</span><h3>{preservationNeeds[0].member.full_name}</h3><p>{preservationNeeds[0].relation?`${preservationNeeds[0].relation} · `:""}{preservationNeeds[0].age!==undefined?`${preservationNeeds[0].age} yrs · `:""}{tr("MissingTxt")}{" "}{preservationNeeds[0].missing.join(", ")}.</p><button className="btn primary" onClick={()=>{if(!readOnly)trackFamilyEngagement('legacy_preserve_priority','member',preservationNeeds[0].member.id).catch(()=>{});onSelect(preservationNeeds[0].member)}}>{tr("OpenAndPreserveTxt")}{" "}<ChevronRight size={15}/></button></>:<><Sparkles size={24}/><h3>{tr("StrongFamilyRecordTxt")}</h3><p>{tr("TheCoreProfileDetailsWeCheckAreTxt")}</p></>}
         </article>
         <div className="legacy-needs-list">
-          {preservationNeeds.slice(1,5).map(need=><button key={need.member.id} onClick={()=>onSelect(need.member)}><span className="legacy-avatar">{need.member.photo_url?<img src={need.member.photo_url} alt=""/>:need.member.full_name.split(/\s+/).map(x=>x[0]).slice(0,2).join("")}</span><span><b>{need.member.full_name}</b><small>{need.relation?`${need.relation} · `:""}Needs {need.missing.join(" · ")}</small></span><ChevronRight size={15}/></button>)}
-          {!preservationNeeds.slice(1,5).length&&<div className="legacy-no-needs"><Sparkles size={20}/><span><b>No urgent profile gaps found</b><small>Memories and life stories can still make the family record richer.</small></span></div>}
+          {preservationNeeds.slice(1,5).map(need=><button key={need.member.id} onClick={()=>onSelect(need.member)}><span className="legacy-avatar">{need.member.photo_url?<img src={need.member.photo_url} alt=""/>:need.member.full_name.split(/\s+/).map(x=>x[0]).slice(0,2).join("")}</span><span><b>{need.member.full_name}</b><small>{need.relation?`${need.relation} · `:""}{tr("Needs2Txt")}{" "}{need.missing.join(" · ")}</small></span><ChevronRight size={15}/></button>)}
+          {!preservationNeeds.slice(1,5).length&&<div className="legacy-no-needs"><Sparkles size={20}/><span><b>{tr("NoUrgentProfileGapsFoundTxt")}</b><small>{tr("MemoriesAndLifeStoriesCanStillMakeTxt")}</small></span></div>}
         </div>
         <article className="legacy-generation-gap">
-          <div><Camera size={19}/><span>Generation coverage</span></div>
-          {branchRisk?<><h3>Generation {branchRisk.generation}</h3><p>{branchRisk.count} people · {branchRisk.storyGap} without a story · {branchRisk.photoGap} without a photo.</p><button className="living-link" onClick={()=>onGo("participation")}>Help preserve this generation <ChevronRight size={15}/></button></>:<p>Add more relatives to reveal which generation needs preservation attention.</p>}
+          <div><Camera size={19}/><span>{tr("GenerationCoverageTxt")}</span></div>
+          {branchRisk?<><h3>{tr("GenerationTxt")}{" "}{branchRisk.generation}</h3><p>{branchRisk.count} {tr("People3Txt")}{" "}{branchRisk.storyGap} {tr("WithoutAStoryTxt")}{" "}{branchRisk.photoGap} {tr("WithoutAPhotoTxt")}</p><button className="living-link" onClick={()=>onGo("participation")}>{tr("HelpPreserveThisGenerationTxt")}{" "}<ChevronRight size={15}/></button></>:<p>{tr("AddMoreRelativesToRevealWhichGenerationTxt")}</p>}
         </article>
       </div>
     </div>

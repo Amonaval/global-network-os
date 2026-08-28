@@ -1,32 +1,3 @@
-# Mission 1 Validation — Signature Product Experience & Quality Gate
-
-**Source status:** PASS  
-**Runtime/build status:** OPEN
-
-## Automated source gate
-
-```bash
-npm run validate:mission1
-```
-
-Current implementation workspace result:
-
-- Signature quality: **11/11 PASS**
-- Family critical-journey i18n: **9/9 PASS**
-- NX-6 compatibility: **8/8 PASS**
-
-A parser/transpile sanity pass succeeds for modified TS/TSX source.
-
-## Production build
-
-The implementation workspace could not complete dependency installation; `node_modules` remained incomplete and `next` was unavailable. Therefore `npm run build` has **not** been certified. Run a clean dependency install and production build in the normal developer environment.
-
-## Runtime gate
-
-Use `MISSION-1-RUNTIME-VERIFICATION-CHECKLIST.md`. Verify desktop/tablet/mobile, English/Hindi/Marathi critical Family flows, relationship path correctness, primary-navigation reduction and existing Family data/actions before closing the mission.
-
----
-
 # G9 VALIDATION UPDATE
 
 - `core/intelligence/contracts.ts` + `engine.ts`: strict standalone TypeScript check PASS.
@@ -550,7 +521,12 @@ Historical source gates D1 through G8 passed in this workspace. After archive-li
 - Dependency-installed Next build remains external/local/CI because `npm ci` did not complete in the sandbox window.
 - Commercial gate: CONDITIONAL PASS TO PILOT; G10 remains blocked pending buyer/data/paid-pilot evidence.
 
-## 2026-08-27 — Mission 1 runtime hardening milestone
 
-Mission 1 now passes source/static hardening: 11/11 signature checks, 9/9 critical Family EN/HI/MR checks, 8/8 NX-6 compatibility, the full NX-5→NX-2/G1.3/G2 source regression chain, 170-file TS/TSX syntax-transpile, 483 relative-import integrity checks and a pure-domain Family signature smoke. Live Next.js build/browser certification remains open only because the execution environment could not restore dependencies (`EAI_AGAIN`; no local `next`). Do not call Mission 1 runtime VERIFIED until `npm ci`, `npm run build` and the manual viewport/language checklist pass in a normal environment.
-
+## Mission 3 source validation
+- `node scripts/m3-governed-graph-bootstrap-gate.mjs` → 11/11 PASS.
+- `node scripts/m2-professional-i18n-gate.mjs` → 19/19 PASS.
+- `node scripts/stability-1-source-gate.mjs` → 14/14 PASS.
+- `node scripts/i18n-extraction-audit.mjs` → 0 direct visible TSX literals.
+- 186 TS/TSX files parsed with 0 syntax errors.
+- Relative import integrity checked with 0 missing relative imports.
+- Live Next.js build/runtime remains a local verification gate.
