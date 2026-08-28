@@ -99,6 +99,12 @@ export const NETWORK_TEMPLATES = [
     entity_label: "Location", entity_label_plural: "Locations", level_label: "Region", level_label_plural: "Regions", parent_label: "Owner", child_label: "Location", peer_label: "Peer location",
   },
   {
+    id: "professional",
+    name: "Trusted Expertise Network",
+    description: "Professional expertise, trusted referrals, collaboration and reusable case knowledge",
+    entity_label: "Professional", entity_label_plural: "Professionals", level_label: "Expertise", level_label_plural: "Expertise areas", parent_label: "Referrer", child_label: "Referred professional", peer_label: "Collaborator",
+  },
+  {
     id: "academic",
     name: "Academic Lineage",
     description: "PhD advisor–student trees and research lab hierarchies",

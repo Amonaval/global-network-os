@@ -1,0 +1,42 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');
+const checks=[];const ok=(name,v)=>checks.push([name,!!v]);
+const verticalContracts=read('core/verticals/contracts.ts');
+const registry=read('app-shell/vertical-registry.ts');
+const runtime=read('app-shell/vertical-runtime.ts');
+const templateCatalog=read('core/templates/catalog.ts');
+const productCfg=read('templates/productized/config.ts');
+const template=read('templates/professional/definition.ts');
+const professional=read('verticals/professional/definition.ts');
+const setup=read('components/SetupScreen.tsx');
+const myNetworks=read('components/MyNetworksHome.tsx');
+const launch=read('components/FounderLaunchConsole.tsx');
+const intelligence=read('core/intelligence/engine.ts')+read('components/shared/NetworkIntelligenceCenter.tsx');
+const migration=read('supabase/migrations/054_m2_trusted_expertise_professional_network.sql');
+ok('professional vertical kind contract',verticalContracts.includes('"professional"'));
+ok('professional registered',registry.includes('PROFESSIONAL_VERTICAL'));
+ok('professional composition registered',runtime.includes('PROFESSIONAL_APP_COMPOSITION'));
+ok('professional template registered',templateCatalog.includes('PROFESSIONAL_TEMPLATE'));
+ok('professional domain capability',professional.includes('domain.professional-expertise'));
+ok('professional relationship model',['worked_with','referred_by','collaborates_with','mentors'].every(x=>template.includes(`"${x}"`)));
+ok('professional sample is global and substantial',productCfg.includes('Global Trusted Expertise Network')&&(productCfg.match(/"(India|USA|UK|Spain|Canada|UAE|Australia|Singapore)"/g)||[]).length>=8&&productCfg.includes('professionalNames'));
+ok('professional creation/playground exposed',setup.includes('"professional"')&&setup.includes('ProfessionalNetworkTxt'));
+ok('professional visible in My Networks',myNetworks.includes('"professional"'));
+ok('professional launch control supported',launch.includes('professional'));
+ok('professional intelligence supported',intelligence.includes('professional:{'));
+ok('migration activates professional',migration.includes("vertical_kind='professional'")&&migration.includes('professional.core.home'));
+ok('regulated healthcare excluded from template',template.includes('Healthcare patient data')&&template.includes('out of scope'));
+// i18n catalog integrity
+function keys(file){return [...read(file).matchAll(/^\s{2}([A-Za-z0-9_]+):/gm)].map(m=>m[1]);}
+const en=keys('lib/i18n/messages/en.ts'),hi=keys('lib/i18n/messages/hi.ts'),mr=keys('lib/i18n/messages/mr.ts');
+const enSet=new Set(en),hiSet=new Set(hi),mrSet=new Set(mr);
+ok('English catalog has no duplicate tokens',enSet.size===en.length);
+ok('Hindi catalog complete for current token set',en.every(k=>hiSet.has(k)));
+ok('Marathi catalog complete for current token set',en.every(k=>mrSet.has(k)));
+const sourceFiles=[];const walk=d=>{for(const e of fs.readdirSync(d,{withFileTypes:true})){const p=`${d}/${e.name}`;if(e.isDirectory())walk(p);else if(/\.(tsx?|mjs)$/.test(e.name))sourceFiles.push(p)}};for(const d of ['app','components','lib'])if(fs.existsSync(d))walk(d);
+const used=new Set();for(const f of sourceFiles){const s=read(f);for(const m of s.matchAll(/\bt\(\s*["']([A-Za-z0-9_]+)["']/g))used.add(m[1]);}
+ok('all referenced i18n tokens exist in English catalog',[...used].every(k=>enSet.has(k)));
+const catalog=read('lib/i18n/catalog.ts');ok('language packs loaded outside components',catalog.includes('import("./messages/hi")')&&catalog.includes('import("./messages/mr")'));
+ok('SetupScreen has no embedded language dictionary',!setup.includes('language === "hi"')&&!setup.includes("language==='hi'"));
+for(const [name,pass] of checks)console.log(`${pass?'PASS':'FAIL'} ${name}`);
+const failed=checks.filter(x=>!x[1]);console.log(`MISSION-2 source gate: ${checks.length-failed.length}/${checks.length}`);if(failed.length)process.exit(1);

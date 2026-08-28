@@ -9,7 +9,7 @@ import {getVerticalAppComposition} from "../app-shell/vertical-runtime";
 import {addPlatformOwnerByEmail,applyAlphaDay1LaunchPreset,fetchPlatformNetworkTargets,fetchPlatformVerticalLaunchConsole,fetchPlatformOwnerAudit,fetchPlatformOwners,fetchPlatformRolloutAudit,fetchPlatformFamilyCreationRequests,reviewFamilyCreationRequest,fetchFamilyCreationPolicy,setFamilyCreationPolicy,fetchPlatformGuideFeedback,fetchGuideFeedbackSignals,updatePlatformGuideFeedbackStatus,PlatformGuideFeedback,fetchPlaygroundLaunchConsole,setPlaygroundFeatureVisibility,PlaygroundFeatureRow,PlatformFamilyCreationRequest,PlatformFamilyTarget,PlatformLaunchFeature,PlatformOwnerAuditRow,PlatformOwnerRow,PlatformRolloutAudit,removePlatformOwner,setPlatformVerticalBundleRollout,setPlatformFeatureRollout} from "../lib/remote";
 
 const STATES:LaunchState[]=["hidden","test","pilot","released"];
-const ACTIVE_VERTICALS:NetworkVerticalKind[]=["family","alumni","organization","business-trust","franchise"];
+const ACTIVE_VERTICALS:NetworkVerticalKind[]=["family","alumni","organization","business-trust","franchise","professional"];
 const stateHelp:Record<LaunchState,string>={hidden:"Nobody sees it.",test:"Only platform owners see it.",pilot:"Only selected pilot networks see it.",released:"Available to all eligible networks."};
 
 export default function FounderLaunchConsole({onChanged,onNotify,initialVertical="family"}:{onChanged:()=>Promise<void>|void;onNotify:(message:string)=>void;initialVertical?:NetworkVerticalKind}){

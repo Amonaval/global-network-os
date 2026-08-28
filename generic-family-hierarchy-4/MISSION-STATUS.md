@@ -1295,3 +1295,17 @@ No new mission number has been assigned.
 **Status:** SOURCE IMPLEMENTED / LOCAL BUILD VERIFICATION REQUIRED
 
 Purpose: restore the accepted post-NX UI baseline after the rejected Mission 1 redesign, introduce a safer review seam for NX-1→NX-6, establish clean locale-catalog architecture, and fix only contained runtime/CSS issues.
+
+
+## Mission 2 — Trusted Expertise & Professional Network
+**Status:** SOURCE IMPLEMENTED / SOURCE-GATED / LIVE RUNTIME VERIFICATION OPEN
+
+- Added the sixth Network OS vertical for professional associations and expert communities.
+- Core job: expertise discovery + credential/context + trusted referral/collaboration paths + reusable case knowledge.
+- Reuses existing productized runtime; no Family/NX redesign.
+- 36-person global Playground spans India, USA, UK, Spain, Canada, UAE, Australia and Singapore.
+- Healthcare patient data / diagnosis / regulated clinical workflows remain explicitly out of scope.
+- Migration 054 activates professional tenancy/template/feature support.
+- Current EN/HI/MR catalog is 328/328 tokens in each locale. Legacy visible-literal extraction remains tracked debt.
+- `npm run validate:m2` PASS; STABILITY-1 chain remains PASS.
+- Next roadmap mission remains the governed graph + institutional bootstrap direction, but only after Mission 2 live runtime verification and any contained hardening.

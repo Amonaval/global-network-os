@@ -5,6 +5,7 @@ import { FAMILY_APP_COMPOSITION } from "../verticals/family/runtime/composition"
 import { ORGANIZATION_APP_COMPOSITION } from "../verticals/organization/runtime/composition";
 import { BUSINESS_TRUST_APP_COMPOSITION } from "../verticals/business-trust/runtime/composition";
 import { FRANCHISE_APP_COMPOSITION } from "../verticals/franchise/runtime/composition";
+import { PROFESSIONAL_APP_COMPOSITION } from "../verticals/professional/runtime/composition";
 import { getVerticalDefinition } from "./vertical-registry";
 import { getVerticalCapabilityRuntime } from "./vertical-capabilities";
 
@@ -14,6 +15,7 @@ const appCompositions = {
   organization: ORGANIZATION_APP_COMPOSITION,
   "business-trust": BUSINESS_TRUST_APP_COMPOSITION,
   franchise: FRANCHISE_APP_COMPOSITION,
+  professional: PROFESSIONAL_APP_COMPOSITION,
 } as const satisfies Record<NetworkVerticalKind, VerticalAppComposition>;
 
 function assertComposition(kind: NetworkVerticalKind, app: VerticalAppComposition) {

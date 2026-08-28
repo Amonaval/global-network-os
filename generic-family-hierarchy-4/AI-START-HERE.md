@@ -69,11 +69,9 @@ Do not wait for the founder to originate every major product idea. Bring forward
 
 ## Current strategic direction
 
-The strongest long-term thesis remains **trusted multi-network participation**, but Family is no longer allowed to consume the entire roadmap. The portfolio direction is: product excellence → commercial vertical proof → governed graph/platform + institutional distribution → network effect → evidence-governed intelligence.
+The strongest long-term thesis is **trusted multi-network participation**: independently governed networks become more useful as trusted people participate across multiple networks, without creating a universal readable social graph.
 
-**Active milestone:** Mission 1 — Signature Product Experience & Quality Gate. Source implementation is complete; runtime/build verification is open. Family Home now uses **My Family, Through Me**, with lean navigation, one contextual Family Moment, a pure future-native signature model and a critical Family English/Hindi/Marathi quality gate.
-
-Do not start Mission 2, resume NE-2 or resume RAG hardening until the Mission 1 runtime gate is resolved. After closure, the planned next mission is **Trusted Expertise & Professional Network** as a global/commercial vertical proof.
+Current strategic work should reconcile the existing architecture with the `NE-*` Network Effect track before starting a new numbered G mission.
 
 ## Product outcome north star
 
@@ -92,3 +90,7 @@ Build coherent increments without demanding founder verification after every sma
 - `ROADMAP.md` and `MISSION-STATUS.md` may retain history, but append concise logs rather than expanding session bootstrap context.
 - Archive superseded handoffs instead of forcing every session to read them.
 - At mission close, update only files whose durable truth changed.
+
+
+## 2026-08-27 — Mission 2 checkpoint
+Mission 2 (Trusted Expertise & Professional Network) is source implemented and source-gated. Preserve STABILITY-1 baseline and do not redesign Family/NX while hardening this vertical. Current EN/HI/MR catalog is key-complete at 328 tokens each; continue extracting legacy visible literals screen-by-screen using `npm run audit:i18n`. Read `MISSION-2-TRUSTED-EXPERTISE-PROFESSIONAL-NETWORK.md` and its runtime checklist before selecting the next mission.

@@ -51,7 +51,9 @@
     "validate:g9.1-quality": "node scripts/g9-1-b1-c1-intelligence-quality-hardening-gate.mjs && npm run validate:g9.1d",
     "validate:nx5": "node scripts/nx-5-source-gate.mjs && node scripts/nx-4-source-gate.mjs && node scripts/nx-3-source-gate.mjs && node scripts/nx-2-source-gate.mjs && node scripts/g1-3-network-membership-gate.mjs && node scripts/g2-shared-identity-participation-gate.mjs",
     "validate:nx6": "node scripts/nx-6-source-gate.mjs && npm run validate:nx5",
-    "validate:stability1": "node scripts/stability-1-source-gate.mjs"
+    "validate:stability1": "node scripts/stability-1-source-gate.mjs",
+    "validate:m2": "node scripts/m2-professional-i18n-gate.mjs && npm run validate:stability1",
+    "audit:i18n": "node scripts/i18n-extraction-audit.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

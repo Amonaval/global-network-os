@@ -22,7 +22,7 @@ type NetworkMembershipTransportRow = {
 };
 
 function isNetworkVerticalKind(value: unknown): value is NetworkVerticalKind {
-  return value === "family" || value === "alumni" || value === "organization" || value === "business-trust" || value === "franchise";
+  return value === "family" || value === "alumni" || value === "organization" || value === "business-trust" || value === "franchise" || value === "professional";
 }
 
 function resolveTransportVerticalKind(row: NetworkMembershipTransportRow): NetworkVerticalKind {

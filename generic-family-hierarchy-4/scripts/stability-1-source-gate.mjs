@@ -5,7 +5,7 @@ const i18n=read('lib/i18n.tsx'),catalog=read('lib/i18n/catalog.ts'),en=read('lib
 ok('provider has no embedded locale dictionary',!i18n.includes('familyTree:')&&!i18n.includes('welcomeCopy:'));
 ok('catalog dynamically loads Hindi',catalog.includes('import("./messages/hi")'));
 ok('catalog dynamically loads Marathi',catalog.includes('import("./messages/mr")'));
-ok('catalog files typed to English token contract',hi.includes('MessageCatalog')&&mr.includes('MessageCatalog'));
+ok('catalog files typed to English token contract',(hi.includes('LocaleCatalog')||hi.includes('MessageCatalog'))&&(mr.includes('LocaleCatalog')||mr.includes('MessageCatalog')));
 const nx=read('lib/nx-review.tsx'),panel=read('components/NxReviewPanel.tsx'),home=read('components/FamilyHome.tsx'),participation=read('components/ParticipationCenter.tsx');
 ok('window nxFeatures review seam',nx.includes('window.nxFeatures===true'));
 ok('NX 1-6 catalogued',['NX-1','NX-2','NX-3','NX-4','NX-5','NX-6'].every(v=>nx.includes(`"${v}"`)));

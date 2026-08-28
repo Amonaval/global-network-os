@@ -13,7 +13,8 @@ const COPY={
  alumni:{title:"Alumni Intelligence",description:"Turn cohort, company, city and relationship context into mentoring, discovery and warm professional paths."},
  organization:{title:"Organizational Intelligence",description:"Find expertise, structural risk, ownership context and useful connection paths from the network you are allowed to see."},
  "business-trust":{title:"Trust Intelligence",description:"Use provenance, shared context and known relationship paths to support sourcing and warm introductions."},
- franchise:{title:"Franchise Intelligence",description:"Find reusable operating knowledge, peer locations and network gaps across the franchise system."}
+ franchise:{title:"Franchise Intelligence",description:"Find reusable operating knowledge, peer locations and network gaps across the franchise system."},
+ professional:{title:"Professional Intelligence",description:"Find trusted expertise, warm referral paths, credential context and reusable case knowledge across the professional network."}
 } as const;
 export default function NetworkIntelligenceCenter({kind,entities,relationships,activities=[],dimensionKeys=[],onGo,onEntityOpen}:{kind:IntelligenceVerticalKind;entities:readonly NetworkAffiliatedEntity[];relationships:readonly NetworkEntityRelationship[];activities?:readonly NetworkActivity[];dimensionKeys?:readonly string[];onGo:(target:Target)=>void;onEntityOpen?:(entity:NetworkAffiliatedEntity)=>void}){
  const dataset=useMemo(()=>({entities,relationships,activities}),[entities,relationships,activities]);

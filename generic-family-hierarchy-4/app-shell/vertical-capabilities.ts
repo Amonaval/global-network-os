@@ -23,6 +23,7 @@ const verticalCapabilities = {
   organization: {mode:"productized-template", identityClaiming:null, participation:null, construction:null},
   "business-trust": {mode:"productized-template", identityClaiming:null, participation:null, construction:null},
   franchise: {mode:"productized-template", identityClaiming:null, participation:null, construction:null},
+  professional: {mode:"productized-template", identityClaiming:null, participation:null, construction:null},
 } as const;
 
 export type VerticalCapabilityRuntimeRegistry = typeof verticalCapabilities;

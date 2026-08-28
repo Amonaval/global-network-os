@@ -5,12 +5,13 @@
 
 ## Product
 
-Five product verticals exist on the Generic Network OS foundation:
+Six product verticals exist on the Generic Network OS foundation:
 - Family
 - Alumni
 - Organizational Intelligence
 - Business Trust
 - Franchise
+- Trusted Expertise & Professional Network
 
 Family is the strongest real-user/product-quality proving ground. The platform already contains substantial cross-cutting capability: structured networks, vertical runtime/composition, claiming/membership foundations, participation, guides, Playground/showcase support, themes/mobile work, internationalization foundations, community concepts, trusted introductions and network intelligence experiments.
 
@@ -92,3 +93,10 @@ Family is recomposed around **Today · People · Legacy** rather than a long sta
 - New i18n runtime uses separate locale catalogs and dynamic locale loading; legacy inline locale copy remains migration debt and must not be expanded.
 - `window.nxFeatures = true` opens NX Review Mode for NX-1→NX-6 surface comparison without removing underlying modern architecture.
 - Playground now provides an explicit route back to network selection.
+
+
+## Mission 2 — current product state
+Trusted Expertise & Professional Network is now the sixth registered vertical and the first explicit commercial-vertical proof after STABILITY-1. It reuses the productized-template engine with professional specialties, services, credentials, geography, trusted referral/collaboration relationships, practice groups and de-identified case knowledge. A 36-professional global Playground demonstrates the concept across multiple regions. Mission 2 source gate and STABILITY-1 regression gate pass; live Next.js/runtime verification remains open.
+
+## i18n current state
+English remains the canonical token contract. Hindi and Marathi are separate catalogs and are now key-complete for the current 328-token catalog. Legacy visible literals still exist outside catalogs; `npm run audit:i18n` tracks extraction debt and future missions must reduce it screen-by-screen rather than through a destabilizing mass rewrite.

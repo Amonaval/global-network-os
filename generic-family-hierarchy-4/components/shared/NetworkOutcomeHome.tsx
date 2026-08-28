@@ -3,35 +3,40 @@ import {AlertTriangle,ArrowRight,BookOpenCheck,CalendarDays,Handshake,Lightbulb,
 import type {NetworkActivity,NetworkAffiliatedEntity} from "../../core/network-os/contracts";
 import type {NetworkGroup} from "../../capabilities/activity/remote";
 import type {NetworkEntityRelationship} from "../../capabilities/template-product/remote";
+import {useLanguage} from "../../lib/i18n";
+import type {MessageToken} from "../../lib/i18n/catalog";
 
-type Kind="organization"|"business-trust"|"franchise"|"alumni";
+type Kind="organization"|"business-trust"|"franchise"|"alumni"|"professional";
 type Target="explorer"|"directory"|"community"|"connections"|"contribute"|"guide";
+type OutcomeCopy={eyebrow:MessageToken;title:MessageToken;focus:MessageToken;signals:[MessageToken,MessageToken,MessageToken];returnTitle:MessageToken;returnText:MessageToken};
 
-const COPY={
- organization:{eyebrow:"Organizational intelligence",title:"What needs attention in your organization",focus:"Turn hidden expertise and ownership into action.",signals:["Find concentrated knowledge before it becomes a risk","See who owns, depends on or understands critical work","Reuse lessons instead of solving the same problem twice"],returnTitle:"Your organization gets smarter when knowledge is captured",returnText:"Review new lessons, ownership gaps and help requests regularly so the network stays useful after the initial import."},
- "business-trust":{eyebrow:"Trusted ecosystem",title:"Find evidence and warm paths, not another directory",focus:"Make sourcing and introductions safer and faster.",signals:["Prefer providers backed by recent network evidence","Trace who can make a warm introduction","Capture successful engagements so trust compounds"],returnTitle:"Trust improves when outcomes come back into the network",returnText:"Verify relationships and record successful outcomes so future sourcing decisions have provenance instead of anonymous ratings."},
- franchise:{eyebrow:"Franchise operations",title:"Help every location learn from the whole network",focus:"Stop stores from solving the same operational problem independently.",signals:["Find locations that already solved a similar issue","Reuse launch, staffing and operating lessons","Connect managers through regional and specialist circles"],returnTitle:"Every solved problem should become a reusable operating advantage",returnText:"Return to new playbook entries, support requests and training events so operating knowledge spreads across locations."},
- alumni:{eyebrow:"Alumni opportunity network",title:"Turn alumni identity into professional opportunity",focus:"Use shared identity to open doors, mentor and give back.",signals:["Find people by cohort, city, company and expertise","Use warm alumni context for introductions","Capture journeys that help the next alumnus move faster"],returnTitle:"The network becomes valuable when alumni keep giving back",returnText:"Return for mentoring needs, introductions, career journeys and chapter activity—not just directory updates."}
-} as const;
+const COPY:Record<Kind,OutcomeCopy>={
+ organization:{eyebrow:"OrgOutcomeEyebrowTxt",title:"OrgOutcomeTitleTxt",focus:"OrgOutcomeFocusTxt",signals:["OrgSignal1Txt","OrgSignal2Txt","OrgSignal3Txt"],returnTitle:"OrgReturnTitleTxt",returnText:"OrgReturnDescTxt"},
+ "business-trust":{eyebrow:"TrustOutcomeEyebrowTxt",title:"TrustOutcomeTitleTxt",focus:"TrustOutcomeFocusTxt",signals:["TrustSignal1Txt","TrustSignal2Txt","TrustSignal3Txt"],returnTitle:"TrustReturnTitleTxt",returnText:"TrustReturnDescTxt"},
+ franchise:{eyebrow:"FranchiseOutcomeEyebrowTxt",title:"FranchiseOutcomeTitleTxt",focus:"FranchiseOutcomeFocusTxt",signals:["FranchiseSignal1Txt","FranchiseSignal2Txt","FranchiseSignal3Txt"],returnTitle:"FranchiseReturnTitleTxt",returnText:"FranchiseReturnDescTxt"},
+ alumni:{eyebrow:"AlumniOutcomeEyebrowTxt",title:"AlumniOutcomeTitleTxt",focus:"AlumniOutcomeFocusTxt",signals:["AlumniSignal1Txt","AlumniSignal2Txt","AlumniSignal3Txt"],returnTitle:"AlumniReturnTitleTxt",returnText:"AlumniReturnDescTxt"},
+ professional:{eyebrow:"ProfessionalOutcomeEyebrowTxt",title:"ProfessionalOutcomeTitleTxt",focus:"ProfessionalOutcomeFocusTxt",signals:["ProfessionalSignal1Txt","ProfessionalSignal2Txt","ProfessionalSignal3Txt"],returnTitle:"ProfessionalReturnTitleTxt",returnText:"ProfessionalReturnDescTxt"}
+};
 
 export default function NetworkOutcomeHome({kind,entities,relationships,activities,groups,completeness,locationCount,onGo}:{kind:Kind;entities:readonly NetworkAffiliatedEntity[];relationships:readonly NetworkEntityRelationship[];activities:readonly NetworkActivity[];groups:readonly NetworkGroup[];completeness:number;locationCount:number;onGo:(target:Target)=>void}){
+ const {t}=useLanguage();
  const c=COPY[kind], upcoming=activities.filter(a=>a.type==="event"&&a.startsAt&&new Date(a.startsAt).getTime()>Date.now()).length, knowledge=activities.filter(a=>a.type==="memory"||a.type==="milestone").length;
  const gaps=Math.max(0,Math.round(entities.length*(100-completeness)/100));
  return <>
   <section className="card outcome-command-center">
-   <div className="outcome-command-head"><div><span className="warm-kicker"><Sparkles size={12}/> {c.eyebrow}</span><h2>{c.title}</h2><p>{c.focus}</p></div><button className="btn primary" onClick={()=>onGo("connections")}><Network size={15}/> Explore useful paths</button></div>
+   <div className="outcome-command-head"><div><span className="warm-kicker"><Sparkles size={12}/> {t(c.eyebrow)}</span><h2>{t(c.title)}</h2><p>{t(c.focus)}</p></div><button className="btn primary" onClick={()=>onGo("connections")}><Network size={15}/> {t("ExploreUsefulPathsTxt")}</button></div>
    <div className="outcome-signal-grid">
-    <button onClick={()=>onGo("connections")}><Handshake/><span><b>{relationships.length}</b><small>known relationship paths</small></span><ArrowRight/></button>
-    <button onClick={()=>onGo("community")}><BookOpenCheck/><span><b>{knowledge}</b><small>reusable lessons / evidence</small></span><ArrowRight/></button>
-    <button onClick={()=>onGo("community")}><UsersRound/><span><b>{groups.length}</b><small>active circles / communities</small></span><ArrowRight/></button>
-    <button onClick={()=>onGo("contribute")}><AlertTriangle/><span><b>{gaps}</b><small>estimated context gaps</small></span><ArrowRight/></button>
+    <button onClick={()=>onGo("connections")}><Handshake/><span><b>{relationships.length}</b><small>{t("KnownRelationshipPathsTxt")}</small></span><ArrowRight/></button>
+    <button onClick={()=>onGo("community")}><BookOpenCheck/><span><b>{knowledge}</b><small>{t("ReusableLessonsEvidenceTxt")}</small></span><ArrowRight/></button>
+    <button onClick={()=>onGo("community")}><UsersRound/><span><b>{groups.length}</b><small>{t("ActiveCirclesCommunitiesTxt")}</small></span><ArrowRight/></button>
+    <button onClick={()=>onGo("contribute")}><AlertTriangle/><span><b>{gaps}</b><small>{t("EstimatedContextGapsTxt")}</small></span><ArrowRight/></button>
    </div>
-   <div className="outcome-reasons">{c.signals.map((s,i)=><article key={s}><span>{i+1}</span><p>{s}</p></article>)}</div>
+   <div className="outcome-reasons">{c.signals.map((token,i)=><article key={token}><span>{i+1}</span><p>{t(token)}</p></article>)}</div>
   </section>
   <section className="return-loop-grid">
-   <article className="card return-loop-card"><RefreshCw/><div><span className="warm-kicker">Return loop</span><h3>{c.returnTitle}</h3><p>{c.returnText}</p><button className="btn small" onClick={()=>onGo("community")}>See what changed <ArrowRight size={13}/></button></div></article>
-   <article className="card return-loop-card"><CalendarDays/><div><span className="warm-kicker">Right now</span><h3>{upcoming} upcoming · {locationCount} locations</h3><p>Events, geography and communities give people a reason to return after the initial structure is built.</p><button className="btn small" onClick={()=>onGo("guide")}>See recommended workflow <ArrowRight size={13}/></button></div></article>
-   <article className="card return-loop-card"><Lightbulb/><div><span className="warm-kicker">Next best action</span><h3>{completeness<80?"Improve missing context":"Activate the network"}</h3><p>{completeness<80?"Complete affiliations and relationships so discovery becomes trustworthy.":"Ask a real question, capture the answer and turn it into reusable network knowledge."}</p><button className="btn small" onClick={()=>onGo(completeness<80?"contribute":"connections")}>Take action <ArrowRight size={13}/></button></div></article>
+   <article className="card return-loop-card"><RefreshCw/><div><span className="warm-kicker">{t("ReturnLoopTxt")}</span><h3>{t(c.returnTitle)}</h3><p>{t(c.returnText)}</p><button className="btn small" onClick={()=>onGo("community")}>{t("SeeWhatChangedTxt")} <ArrowRight size={13}/></button></div></article>
+   <article className="card return-loop-card"><CalendarDays/><div><span className="warm-kicker">{t("RightNowTxt")}</span><h3>{upcoming} {t("UpcomingTxt")} · {locationCount} {t("LocationsTxt")}</h3><p>{t("EventsGeographyReturnDescTxt")}</p><button className="btn small" onClick={()=>onGo("guide")}>{t("SeeRecommendedWorkflowTxt")} <ArrowRight size={13}/></button></div></article>
+   <article className="card return-loop-card"><Lightbulb/><div><span className="warm-kicker">{t("NextBestActionTxt")}</span><h3>{completeness<80?t("ImproveMissingContextTxt"):t("ActivateNetworkTxt")}</h3><p>{completeness<80?t("CompleteAffiliationsDescTxt"):t("AskRealQuestionDescTxt")}</p><button className="btn small" onClick={()=>onGo(completeness<80?"contribute":"connections")}>{t("TakeActionTxt")} <ArrowRight size={13}/></button></div></article>
   </section>
  </>;
 }

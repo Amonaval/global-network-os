@@ -36,3 +36,10 @@ After EN/HI/MR architecture and completeness are stable:
 6. Arabic (`ar`) only together with proper RTL architecture/testing.
 
 Do not mark a locale supported until its primary journeys are complete and visually verified on mobile and desktop.
+
+## Mission 2 checkpoint — 2026-08-27
+- Current canonical catalog: **328 tokens**.
+- English / Hindi / Marathi each currently contain all 328 tokens.
+- `LocaleCatalog` remains structurally partial so future language packs can be developed behind English fallback before being declared supported.
+- A locale is not considered **supported** until its current token contract is complete and primary journeys are visually verified.
+- `npm run audit:i18n` tracks legacy user-visible literals that have not yet been extracted from components.

@@ -4,8 +4,9 @@ import { FAMILY_VERTICAL } from "../verticals/family/definition";
 import { ORGANIZATION_VERTICAL } from "../verticals/organization/definition";
 import { BUSINESS_TRUST_VERTICAL } from "../verticals/business-trust/definition";
 import { FRANCHISE_VERTICAL } from "../verticals/franchise/definition";
+import { PROFESSIONAL_VERTICAL } from "../verticals/professional/definition";
 
-const definitions = [FAMILY_VERTICAL, ALUMNI_VERTICAL, ORGANIZATION_VERTICAL, BUSINESS_TRUST_VERTICAL, FRANCHISE_VERTICAL] as const;
+const definitions = [FAMILY_VERTICAL, ALUMNI_VERTICAL, ORGANIZATION_VERTICAL, BUSINESS_TRUST_VERTICAL, FRANCHISE_VERTICAL, PROFESSIONAL_VERTICAL] as const;
 type RegisteredVerticalDefinition = typeof definitions[number];
 type VerticalRegistry = {
   readonly [K in RegisteredVerticalDefinition["kind"]]: Extract<RegisteredVerticalDefinition, {kind: K}>;
