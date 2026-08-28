@@ -1252,3 +1252,8 @@ Validation: NX-1, G1.3, G2 and G8.5-C source gates PASS. Full build not complete
 **Status:** IMPLEMENTED / SOURCE-GATED / MILESTONE RUNTIME VERIFICATION PENDING
 
 Delivered a calm Family return loop using existing authorized graph, memory, event and profile data: one meaningful family minute, graph-aware relative rediscovery, generational continuity, story-preservation prompts and family-continuity signals. No new schema/RLS and no addictive feed mechanics. Runtime verification is intentionally deferred to the next milestone verification window.
+
+## NX-3 — Family Time Machine & Generational Legacy
+**Status:** IMPLEMENTED / SOURCE-VALIDATION IN PROGRESS / MILESTONE RUNTIME VERIFICATION PENDING
+
+Delivered an evidence-bound Family Time Machine, preservation-priority experience and generation-coverage view using existing Family data only. No AI-authored history, schema/RLS migration or cross-network exposure.

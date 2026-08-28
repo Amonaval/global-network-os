@@ -1,0 +1,10 @@
+components/FamilyTimeMachine.tsx
+components/FamilyHome.tsx
+app/globals.css
+lib/user-guide-content.ts
+NX-3-FAMILY-TIME-MACHINE.md
+NX-3-RUNTIME-VERIFICATION-CHECKLIST.md
+NX-3-AFFECTED-FILES.txt
+scripts/nx-3-source-gate.mjs
+MISSION-STATUS.md
+CURRENT-STATE.md

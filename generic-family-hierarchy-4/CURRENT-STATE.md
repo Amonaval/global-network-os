@@ -77,3 +77,6 @@ Deliver affected/new files only where practical and preserve repository hierarch
 
 ## NX-2 current product state
 Family Home now includes an additive Living Family loop: a daily meaningful family action, graph-aware relative rediscovery, generational connection and preservation signals. It reuses existing Family data/permissions and introduces no new persistence or cross-network exposure. Runtime milestone verification remains pending.
+
+## NX-3 current product state
+Family Home now includes Family Time Machine & Generational Legacy: evidence-bound eras from existing births/life events/memories plus a preservation-risk layer showing what family context may otherwise be lost. No generated history, schema migration or cross-network exposure. Runtime milestone verification remains pending.
