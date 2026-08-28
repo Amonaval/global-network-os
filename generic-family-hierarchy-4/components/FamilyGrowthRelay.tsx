@@ -1,4 +1,6 @@
 "use client";
+// [NX-4] Family Growth Relay / distributed contribution capability. Reviewable via window.nxFeatures.
+
 import {useMemo} from "react";
 import {ArrowRight,CheckCircle2,HeartHandshake,MessageCircle,Network,ShieldCheck,Sparkles,Users} from "lucide-react";
 import {Member,Relationship} from "../lib/types";

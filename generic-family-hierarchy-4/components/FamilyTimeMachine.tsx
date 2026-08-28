@@ -1,4 +1,6 @@
 "use client";
+// [NX-3] Family Time Machine / generational legacy capability. Reviewable via window.nxFeatures.
+
 import {useMemo,useState} from "react";
 import {BookHeart,Camera,ChevronRight,Clock3,History,MapPin,Sparkles,Users} from "lucide-react";
 import {LifeEvent,Member,Memory,Relationship} from "../lib/types";

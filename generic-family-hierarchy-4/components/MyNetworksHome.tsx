@@ -1,4 +1,6 @@
 "use client";
+// [NX-1][NX-6] Trusted multi-network home + later UX unification. Reviewable via window.nxFeatures.
+
 import type {ReactNode} from "react";
 import {Building2,ChevronRight,GraduationCap,Handshake,Layers3,LogOut,Plus,ShieldCheck,Sparkles,Store,TreePine,UserRound,UsersRound} from "lucide-react";
 import type {TrustedPersonIdentity} from "../core/identity/trusted-person";

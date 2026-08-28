@@ -1,4 +1,6 @@
 "use client";
+// [NX-2] Living Network return-loop capability. Reviewable via window.nxFeatures.
+
 import {useMemo} from "react";
 import {BookHeart,CalendarHeart,ChevronRight,Clock3,Heart,History,MapPin,Sparkles,Users} from "lucide-react";
 import {LifeEvent,Member,Memory,Relationship} from "../lib/types";

@@ -30,7 +30,6 @@ import {
   Settings2,
   ArrowRight,
   Menu,
-  ChevronDown,
   Home,
   Rocket,
   Sparkles,
@@ -86,6 +85,8 @@ import TimelineView from "./TimelineView";
 import UpcomingWidget, { UpcomingMilestone } from "./UpcomingWidget";
 import ParticipationCenter from "./ParticipationCenter";
 import FamilyHome from "./FamilyHome";
+import NxReviewPanel from "./NxReviewPanel";
+import {useNxEnabled} from "../lib/nx-review";
 import MyNetworksHome from "./MyNetworksHome";
 import NetworkSwitcher from "./shared/NetworkSwitcher";
 import FamilyAdminCenter from "./FamilyAdminCenter";
@@ -123,6 +124,7 @@ const uuid = () =>
     Math.random().toString(16).slice(2).padEnd(12, "0").slice(0, 12);
 
 export default function NetworkApp() {
+  const nx1=useNxEnabled("NX-1");
   const { t, language } = useLanguage();
   const moreLabel = language === "hi" ? "और" : language === "mr" ? "अधिक" : "More";
   const directoryCopy = language === "hi"
@@ -1029,7 +1031,7 @@ export default function NetworkApp() {
         <div className="loading-mark"><TreePine size={30} /></div>
         <div>
           <b>Our Family</b>
-          <div className="page-subtitle">{t("loading")}</div>
+          <div className="page-subtitle">{t("LoadingFamilyTxt")}</div>
         </div>
       </div>
     );
@@ -1181,13 +1183,8 @@ export default function NetworkApp() {
   const mobileBottomSurfaces=appComposition.mobileBottomViewIds.map(id=>appComposition.primaryNavigation.find(surface=>surface.viewId===id)).filter(Boolean) as typeof appComposition.primaryNavigation[number][];
   const mobileMoreSurfaces=appComposition.mobileMoreNavigation.filter(surface=>{
     if(surface.adminOnly&&!canAdmin)return false;
-    if(surface.featureKey&&!hasFeature(surface.featureKey as FeatureKey))return false;
-    const minimum=surface.minimumExperience as ExperienceLevel|undefined;
-    if(minimum&&!surface.adminOnly&&EXPERIENCE_RANK[experience]<EXPERIENCE_RANK[minimum])return false;
-    return true;
+    return !surface.featureKey||hasFeature(surface.featureKey as FeatureKey);
   });
-  const desktopMoreSurfaces=mobileMoreSurfaces.filter(surface=>!surface.adminOnly);
-  const desktopMoreActive=desktopMoreSurfaces.some(surface=>surface.viewId===view)||view==="guide";
   const canSetupFamily = !isSupabaseConfigured || !!auth;
   if (setupNeeded)
     return (
@@ -1236,20 +1233,21 @@ export default function NetworkApp() {
     );
   return (
     <div className={`app-shell ${largeText ? "large-text" : ""}`}>
+      <NxReviewPanel/>
       <NetworkTopbar
         icon={<TreePine size={20}/>}
         title={network?.name || "Our Family"}
-        badges={canAdmin?[{label:isSupabaseConfigured?t("sharedFamily"):t("localFamily"),tone:isSupabaseConfigured?"shared":"demo",icon:isSupabaseConfigured?<Database size={12}/>:undefined}]:[]}
-        middle={demoPreview?<div className="demo-preview-banner"><Sparkles size={14}/><span>Playground · you are {members.find(m=>m.id===demoViewerId)?.full_name.split(/\s+/)[0] || "a sample family member"} for this visit · nothing is saved</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setDemoViewerId(undefined);setFocusId(undefined);setLineageOnly(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>Join or create mine</button></div>:undefined}
+        badges={canAdmin?[{label:isSupabaseConfigured?t("SharedFamilyTxt"):t("PrivatePreviewTxt"),tone:isSupabaseConfigured?"shared":"demo",icon:isSupabaseConfigured?<Database size={12}/>:undefined}]:[]}
+        middle={demoPreview?<div className="demo-preview-banner"><Sparkles size={14}/><span>Playground · you are {members.find(m=>m.id===demoViewerId)?.full_name.split(/\s+/)[0] || "a sample family member"} for this visit · nothing is saved</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setDemoViewerId(undefined);setFocusId(undefined);setLineageOnly(false);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}>Back to network selection</button></div>:undefined}
         actions={<div className={`nx6-top-actions ${experience==="simple"&&!canAdmin?"simple-top-actions":""}`}>
           {isSupabaseConfigured && !demoPreview && auth && <NetworkSwitcher label="Switch network" onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>{setNetwork(null);setSetupNeeded(true)}}/>}
           <LanguageSwitcher compact />
           {canAdmin && <select className="select nx6-privacy-preview" aria-label="Preview profile privacy as" value={visibility} onChange={(e) => setVisibility(e.target.value as Visibility)}><option value="public">Public preview</option><option value="member">Member preview</option><option value="admin">Admin preview</option></select>}
           <NetworkAccountMenu label={demoPreview?"Explore":auth?.email?.split("@")[0]||"Me"} subtitle={demoPreview?"Playground":network?.membership_role||auth?.family_role||"Family member"} items={[
-            ...((canAdmin || experience!=="simple")?[{key:"profile",label:t("myProfile"),icon:<UserRoundPen size={16}/>,onClick:openMyProfile,hint:"Your family profile"}]:[]),
-            ...(isSupabaseConfigured&&!demoPreview&&auth?[{key:"networks",label:"My Networks",icon:<UsersRound size={16}/>,onClick:()=>void openMyNetworksHome(),hint:"All your private network contexts"}]:[]),
+            ...((canAdmin || experience!=="simple")?[{key:"profile",label:t("MyProfileTxt"),icon:<UserRoundPen size={16}/>,onClick:openMyProfile,hint:"Your family profile"}]:[]),
+            ...(nx1&&isSupabaseConfigured&&!demoPreview&&auth?[{key:"networks",label:"My Networks",icon:<UsersRound size={16}/>,onClick:()=>void openMyNetworksHome(),hint:"All your private network contexts"}]:[]),
             {key:"guide",label:"Explore & Guide",icon:<BookOpen size={16}/>,onClick:()=>{setGuideKey("");setView("guide")},hint:"Learn what this network can do"},
-            ...(isSupabaseConfigured&&auth?[{key:"signout",label:t("signOut"),icon:<LogOut size={16}/>,onClick:()=>{signOut();setAuth(null)},danger:true}]:[]),
+            ...(isSupabaseConfigured&&auth?[{key:"signout",label:t("SignOutTxt"),icon:<LogOut size={16}/>,onClick:()=>{signOut();setAuth(null)},danger:true}]:[]),
           ]}/>
         </div>}
       />
@@ -1261,13 +1259,8 @@ export default function NetworkApp() {
             className={`nav-btn ${view === navView ? "active" : ""}`}
             onClick={() => navView === "tree" ? openFamilyView() : setView(navView)}
           >{icon} {label}</button>)}
-          {(desktopMoreSurfaces.length>0||hasFeature("core.guide"))&&<details className={`desktop-more-nav ${desktopMoreActive?"active":""}`}>
-            <summary><Menu size={17}/>{moreLabel}<ChevronDown size={14}/></summary>
-            <div className="desktop-more-nav-items">
-              {desktopMoreSurfaces.map(surface=><button key={surface.viewId} className={`nav-btn ${view===surface.viewId?"active":""}`} onClick={()=>setView(surface.viewId as View)}>{surfaceIcon(surface.iconToken)}{localizedSurfaceLabel(surface,appLocale)}</button>)}
-              {hasFeature("core.guide")&&<button className={`nav-btn guide-nav ${view==="guide"?"active":""}`} onClick={()=>{setGuideKey("");setView("guide")}}><BookOpen size={17}/>{language==="hi"?"जानें और सहायता":language==="mr"?"जाणून घ्या आणि मदत":"Explore & Guide"}</button>}
-            </div>
-          </details>}
+          {(!demoPreview || !!auth) && hasFeature("core.profile") && <button className={`nav-btn ${selected?.id===auth?.member_id ? "active" : ""}`} onClick={openMyProfile}><UserRoundPen size={17}/> {language === "hi" ? "मैं" : language === "mr" ? "मी" : "Me"}</button>}
+          {hasFeature("core.guide")&&<button className={`nav-btn guide-nav ${view === "guide" ? "active" : ""}`} onClick={() => {setGuideKey("");setView("guide")}}><BookOpen size={17}/> Explore & Guide</button>}
           {canAdmin && hasFeature("admin.center") && <div className="admin-nav-separator">
             <div className="sidebar-section-label">{language === "hi" ? "परिवार प्रबंधन" : language === "mr" ? "कुटुंब व्यवस्थापन" : "Family management"}</div>
             <button className={`nav-btn admin-nav ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><ShieldCheck size={17}/> {language === "hi" ? "परिवार संभालें" : language === "mr" ? "कुटुंब सांभाळा" : "Manage family"}</button>
@@ -1293,7 +1286,7 @@ export default function NetworkApp() {
         <main className="main">
           {view!=="guide" && view!=="founder" && <FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key===guideByView[view])} onOpenGuide={openGuide} onOpenFeature={openGuideFeature} onTryPlayground={tryGuideInPlayground} rememberKey={`view-${view}`}/>}
           {familyReady && view==="home" && <div className="family-ready-celebration"><div className="family-ready-icon"><Sparkles size={22}/></div><div><span className="warm-kicker">Your family is ready</span><h2>{familyReady}</h2><p>Start with yourself and the people closest to you. You can import a list or enrich everything gradually.</p></div><div className="family-ready-actions">{hasFeature("contribute.branch_intake")&&<button className="btn primary small" onClick={()=>{setFamilyReady(null);setShowFamilyIntake(true)}}>Build together · Recommended</button>}<button className="btn small" onClick={()=>{setFamilyReady(null);if(!viewerMemberId)window.scrollTo({top:0,behavior:"smooth"})}}>Add myself / close family</button><button className="btn small" onClick={()=>{setFamilyReady(null);setShowImport(true)}}>Import Excel / CSV</button><button className="icon-button" aria-label="Dismiss" onClick={()=>setFamilyReady(null)}><X size={16}/></button></div></div>}
-          {activeAnnouncement && view!=="founder" && view!=="home" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">{appComposition.whatsNew.kicker}</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||appComposition.whatsNew.fallbackTitle}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||appComposition.whatsNew.fallbackDescription}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
+          {activeAnnouncement && view!=="founder" && <div className="whats-new-card"><div className="whats-new-icon"><Sparkles size={20}/></div><div><span className="warm-kicker">{appComposition.whatsNew.kicker}</span><h3>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.label||appComposition.whatsNew.fallbackTitle}</h3><p>{FEATURE_BY_KEY[activeAnnouncement.feature_key as FeatureKey]?.description||appComposition.whatsNew.fallbackDescription}</p></div><div className="whats-new-actions"><button className="btn primary small" onClick={()=>{openAnnouncedFeature(activeAnnouncement.feature_key as FeatureKey);dismissAnnouncement()}}>Try it</button><button className="btn small" onClick={dismissAnnouncement}>Got it</button></div></div>}
           {hasFeature("celebrate.special_days") && view !== "tree" && view !== "home" && <UpcomingWidget items={upcoming} onSelect={openMember} />}
           {view === "home" && canAdmin && !demoPreview && !quickStartDismissed && members.length < 5 && <QuickFamilyStart viewer={viewerMemberId?members.find(m=>m.id===viewerMemberId):undefined} suggestedName={auth?.email?.split("@")[0]||""} onAddMyself={addMyselfFirst} onAddRelative={addCloseRelative} onImport={()=>setShowImport(true)} onBuildTogether={hasFeature("contribute.branch_intake")?()=>setShowFamilyIntake(true):undefined} onDismiss={()=>setQuickStartDismissed(true)}/>}
           {view === "intelligence" && <NetworkIntelligenceCenter kind="family" entities={familyIntelligenceEntities} relationships={familyIntelligenceRelationships} activities={familyIntelligenceActivities} dimensionKeys={["generation","city","country","profession"]} onGo={target=>{if(target==="connections")setView("tree");else if(target==="contribute")setView("participation");else if(target==="community")setView("community");else if(target==="directory")setView("directory");else if(target==="explorer")setView("tree");}} onEntityOpen={entity=>{const member=members.find(m=>m.id===entity.entity.id);if(member)openMember(member)}}/>}
@@ -1304,13 +1297,13 @@ export default function NetworkApp() {
                 <div className="family-welcome">
                   <div className="family-welcome-copy">
                     <span className="family-welcome-kicker">
-                      {t("yourFamilyTogether")}
+                      {t("FamTogetherTitleTxt")}
                     </span>
                     <h1>{network?.name}</h1>
-                    <p>{network?.description || t("welcomeCopy")}</p>
+                    <p>{network?.description || t("FamWelcomeDescTxt")}</p>
                     <div className="welcome-actions">
-                      <button className="btn primary" onClick={() => setView("directory")}><Search size={15} /> {t("findSomeone")}</button>
-                      {(canAdmin||experience!=="simple")&&<button className="btn warm" onClick={() => setShowForm(true)}><Plus size={15} /> {t("addRelative")}</button>}
+                      <button className="btn primary" onClick={() => setView("directory")}><Search size={15} /> {t("FindSomeoneTxt")}</button>
+                      {(canAdmin||experience!=="simple")&&<button className="btn warm" onClick={() => setShowForm(true)}><Plus size={15} /> {t("AddRelativeTxt")}</button>}
                     </div>
                   </div>
                   <div className="family-welcome-people">
@@ -1318,9 +1311,9 @@ export default function NetworkApp() {
                       {members.slice(0, 4).map((member) => <span className="family-face" key={member.id}>{member.photo_url ? <img src={member.photo_url} alt="" /> : member.full_name.split(/\s+/).map((part) => part[0]).slice(0,2).join("")}</span>)}
                     </div>
                     <div className="family-welcome-stats">
-                      <span><b>{members.length}</b> {t("people")}</span>
-                      <span><b>{new Set(members.map((m) => m.generation_level)).size}</b> {t("generations")}</span>
-                      <span><b>{relationships.length}</b> {t("connections")}</span>
+                      <span><b>{members.length}</b> {t("PeopleTxt")}</span>
+                      <span><b>{new Set(members.map((m) => m.generation_level)).size}</b> {t("GenerationsTxt")}</span>
+                      <span><b>{relationships.length}</b> {t("ConnectionsTxt")}</span>
                     </div>
                   </div>
                 </div>
@@ -1329,7 +1322,7 @@ export default function NetworkApp() {
                 <div>
                   <h2 className="page-title">
                     {cfg.network_template === "family"
-                      ? (lineageOnly && focusId ? "My Family Line" : t("familyTree"))
+                      ? (lineageOnly && focusId ? "My Family Line" : t("FamTreeTxt"))
                       : "Hierarchy"}
                   </h2>
                   <p className="page-subtitle">
@@ -1385,7 +1378,7 @@ export default function NetworkApp() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder={t("searchFamily")}
+                  placeholder={t("SearchFamilyPlaceholderTxt")}
                 />
                 {query && (
                   <button className="btn small" onClick={() => setQuery("")}>
@@ -1442,7 +1435,7 @@ export default function NetworkApp() {
                 >
                   <Plus size={15} />{" "}
                   {cfg.network_template === "family"
-                    ? t("addRelative")
+                    ? t("AddRelativeTxt")
                     : `Submit ${cfg.entity_label}`}
                 </button>
               </div>
@@ -1989,13 +1982,13 @@ export default function NetworkApp() {
         {isPlatformOwner && isSupabaseConfigured && <button className="mobile-more-action" onClick={() => { setView("founder"); setShowMobileMenu(false); }}><span><Rocket />Launch Control</span><ArrowRight /></button>}
         {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={() => { setSetupNeeded(true); setShowMobileMenu(false); }}><span><UsersRound />Create, join or switch family</span><ArrowRight /></button>}
         {isSupabaseConfigured && auth && !demoPreview && <button className="mobile-more-action" onClick={async()=>{if(!window.confirm(`Leave ${network?.name||"this family"}? If you are its only account, the empty family will be archived.`))return;try{const action=await leaveCurrentFamily();setShowMobileMenu(false);await hydrate(await getAuthUser());notify(action==="archived"?"Family archived. You can create or join another family.":"You left the family.")}catch(e:any){notify(e.message||"Could not leave this family.")}}}><span><LogOut />Leave this family</span><ArrowRight /></button>}
-        <button className="mobile-more-action" onClick={() => { setGuideKey(""); setView("guide"); setShowMobileMenu(false); }}><span><BookOpen />{language==="hi"?"जानें और सहायता":language==="mr"?"जाणून घ्या आणि मदत":"Explore & Guide"}</span><ArrowRight /></button>
+        <button className="mobile-more-action" onClick={() => { setGuideKey(""); setView("guide"); setShowMobileMenu(false); }}><span><BookOpen />Explore & Guide</span><ArrowRight /></button>
         <button className="mobile-more-action" onClick={toggleLargeText}><span><BookOpen />{largeText ? (language==='hi'?'सामान्य टेक्स्ट':language==='mr'?'सामान्य मजकूर':'Normal text size') : (language==='hi'?'बड़ा टेक्स्ट':language==='mr'?'मोठा मजकूर':'Larger text')}</span><ArrowRight /></button>
         <div className="mobile-more-setting"><LanguageSwitcher /></div>
         {!canAdmin&&<label className="mobile-more-setting friendly-experience-setting"><span>{language==='hi'?'ऐप में कितना दिखे?':language==='mr'?'अॅपमध्ये किती दाखवायचे?':'How much would you like to see?'}</span><select className="select" value={experience} onChange={e=>changeMyExperience(e.target.value as ExperienceLevel)}><option value="simple">{language==='hi'?'सरल — बस जरूरी चीजें':language==='mr'?'सोपे — फक्त महत्त्वाचे':'Simple — just the essentials'}</option><option value="connected">{language==='hi'?'और परिवार — यादें और खास दिन':language==='mr'?'अधिक कुटुंब — आठवणी आणि खास दिवस':'More family — memories & moments'}</option><option value="explorer">{language==='hi'?'सब देखें — सभी सदस्य सुविधाएँ':language==='mr'?'सगळे पहा — सर्व सदस्य सुविधा':'Everything — all member features'}</option></select><small>{language==='hi'?'इसे कभी भी बदल सकते हैं।':language==='mr'?'हे कधीही बदलू शकता.':'You can change this anytime.'}</small></label>}
         {canAdmin&&<label className="mobile-more-setting"><span>{language === "hi" ? "प्रोफ़ाइल गोपनीयता पूर्वावलोकन" : language === "mr" ? "प्रोफाइल गोपनीयता पूर्वावलोकन" : "Preview profile privacy as"}</span><select className="select" value={visibility} onChange={(event) => setVisibility(event.target.value as Visibility)}><option value="public">Public visitor</option><option value="member">Family member</option><option value="admin">Family admin</option></select></label>}
         {canAdmin&&<label className="mobile-more-setting"><span>{language==='hi'?'सदस्य अनुभव देखें':language==='mr'?'सदस्य अनुभव पहा':'Preview member experience'}</span><select className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>{(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map(level=><option key={level} value={level}>{EXPERIENCE_LABELS[level].label}</option>)}</select></label>}
-        {isSupabaseConfigured && <button className="mobile-more-action sign-out" onClick={() => { signOut(); setAuth(null); setShowMobileMenu(false); }}><span><LogOut />{t("signOut")}</span></button>}
+        {isSupabaseConfigured && <button className="mobile-more-action sign-out" onClick={() => { signOut(); setAuth(null); setShowMobileMenu(false); }}><span><LogOut />{t("SignOutTxt")}</span></button>}
       </section></div>}
       {showFamilyIntake && network && !demoPreview && (
         <FamilyIntakeAdmin familyName={network.name} onClose={()=>setShowFamilyIntake(false)} onCommitted={async()=>{await refresh()}} onNotify={notify}/>

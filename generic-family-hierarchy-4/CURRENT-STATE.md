@@ -3,16 +3,6 @@
 **Updated:** 2026-08-27  
 **Purpose:** compact operational truth. Keep this short; move history to roadmap/status/archive.
 
-## Active milestone — Mission 1: Signature Product Experience & Quality Gate
-
-**Source implementation:** complete. **Runtime verification:** open.
-
-Family Home now uses **My Family, Through Me** as the primary experience instead of the NX-6 `Today / People / Legacy` stack. The viewer, one wider-family connection, explicit relationship path, closest-family context and exactly one Family Moment form the primary composition. Advanced Family destinations are progressively disclosed under More.
-
-A pure `lib/family-signature.ts` domain seam keeps spotlight/moment logic independent of React/DOM for future native reuse. The critical Family journey now has source-level English/Hindi/Marathi coverage across auth/recovery, setup/join/import, Home, Tree, Profile, Memories, shell and appearance controls. Deep Explorer/Admin and non-Family locale completeness are **not yet certified**.
-
-Source gates pass **11/11 + 9/9 + 8/8**. A production build remains open because dependency installation could not complete in the implementation workspace. See `MISSION-1-RUNTIME-VERIFICATION-CHECKLIST.md`.
-
 ## Product
 
 Five product verticals exist on the Generic Network OS foundation:
@@ -63,7 +53,7 @@ The sequence is **not automatically accepted**. Before implementation, compare i
 
 ## Current product consolidation
 
-NX-1 through NX-5 established Family return, preservation, participation and belonging primitives. NX-6 consolidated them into `Today / People / Legacy`, but the post-NX review found that composition still exposed too much product structure. **Mission 1 supersedes the NX-6 Home composition** while retaining its useful underlying capabilities, account/menu simplification and profile hierarchy. No new schema/RLS/cross-network exposure is introduced by Mission 1.
+NX-1 through NX-5 established the first Network OS home plus Family return, preservation, participation and belonging loops. **NX-6 is the current consolidation milestone:** reduce feature-stack UX, unify navigation/account controls, simplify profiles and make My Networks + Family Home explain themselves through experience. Runtime verification is still milestone-based. No new schema/RLS/cross-network exposure is introduced by NX-6.
 
 ## Validation / release discipline
 
@@ -93,10 +83,12 @@ Family Participation now starts with a Family Growth Relay: one prioritized usef
 ## NX-5 current product state
 Family Home now includes Family Connection & Belonging: a relationship-aware wider-family spotlight, plain-language kinship, a clickable `You → … → relative` path, and derived Family Circles for generation/place/close-family context. It reuses current Family graph data only; no new persistence, contact exposure or social-feed mechanics. Runtime milestone verification pending.
 
-## NX-6 current product state — SUPERSEDED ON FAMILY HOME
-NX-6 introduced `Today · People · Legacy`, shared account actions, focused Profile tabs and My Networks progressive disclosure. Mission 1 intentionally supersedes only the Family Home composition with **My Family, Through Me**; the underlying NX primitives remain available and the compatibility source gate continues to pass.
+## NX-6 current product state
+Family is recomposed around **Today · People · Legacy** rather than a long stack of mission surfaces. Global account actions now share one menu across Family, Alumni and productized verticals; profiles use focused Overview · Story · Family tabs; My Networks hides secondary Playground/privacy detail until requested. NX-6 is a presentation/composition milestone, not a new data capability. Source/regression gates pass; runtime WOW verification remains pending.
 
-## 2026-08-27 — Mission 1 runtime hardening milestone
-
-Mission 1 now passes source/static hardening: 11/11 signature checks, 9/9 critical Family EN/HI/MR checks, 8/8 NX-6 compatibility, the full NX-5→NX-2/G1.3/G2 source regression chain, 170-file TS/TSX syntax-transpile, 483 relative-import integrity checks and a pure-domain Family signature smoke. Live Next.js build/browser certification remains open only because the execution environment could not restore dependencies (`EAI_AGAIN`; no local `next`). Do not call Mission 1 runtime VERIFIED until `npm ci`, `npm run build` and the manual viewport/language checklist pass in a normal environment.
-
+## STABILITY-1 — current working rule
+- Mission 1 large Home/navigation redesign is reverted; accepted post-NX UI remains the baseline.
+- Only contained fixes are being applied.
+- New i18n runtime uses separate locale catalogs and dynamic locale loading; legacy inline locale copy remains migration debt and must not be expanded.
+- `window.nxFeatures = true` opens NX Review Mode for NX-1→NX-6 surface comparison without removing underlying modern architecture.
+- Playground now provides an explicit route back to network selection.

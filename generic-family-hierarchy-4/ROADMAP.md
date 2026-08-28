@@ -1,35 +1,3 @@
-# 2026-08-27 Roadmap Addendum — Mission 1 Active Milestone
-
-## Mission 1 — Signature Product Experience & Quality Gate
-
-**State:** SOURCE IMPLEMENTED · RUNTIME GATE OPEN  
-**Effort:** HIGH
-
-### Business/product question
-
-Can Generic Network OS create one product experience people understand and value immediately, rather than merely expose many capable modules?
-
-### Delivered in source
-
-- Family signature experience: **My Family, Through Me**.
-- One wider-family spotlight + explicit relationship path.
-- Compact closest-family context + exactly one Family Moment.
-- Home feature-stack removal and primary-navigation reduction.
-- Progressive disclosure of advanced Family surfaces.
-- UI-agnostic signature domain model for future native reuse.
-- Family critical-journey English/Hindi/Marathi hardening and automated source gate.
-- NX-6 compatibility gate updated to allow the intentional successor Home.
-
-### Close gate
-
-Complete clean build + founder/runtime verification. Fix any UX/i18n regressions as one hardening window, then mark VERIFIED/RELEASED.
-
-### Next roadmap mission after closure
-
-**Mission 2 — Trusted Expertise & Professional Network** remains the planned commercial vertical proof. Do not begin it until Mission 1's runtime gate is resolved.
-
----
-
 # G9 UPDATE — NETWORK INTELLIGENCE LAYER IMPLEMENTED
 
 G9 is implemented as deterministic, permission-aware intelligence across all five verticals. It adds network search, connection/path intelligence, network health/completeness, missing-link detection, connector analysis and evidence-backed Ask Network. Intelligence starts in Test for real networks and is enabled in Playground.
@@ -1759,3 +1727,10 @@ Before coding the next mission, compare:
 - global/mobile/i18n quality closure needs.
 
 Select the next coherent mission based on product leverage, not historical numbering.
+
+## Stability / Quality Track — STABILITY-1
+- Keep the accepted post-NX UX baseline; avoid broad Mission-1-style rewrites.
+- Review NX-1→NX-6 incrementally through `window.nxFeatures = true` before removing/reworking any NX capability.
+- Complete i18n migration screen-by-screen into separate locale catalogs; no new inline translation dictionaries.
+- Future locale candidates after completeness: Spanish (`es`), Simplified Chinese (`zh-CN`), then French/Portuguese/German; Arabic only with RTL readiness.
+- Keep future changes small, tagged by originating mission/release, and independently reviewable wherever practical.

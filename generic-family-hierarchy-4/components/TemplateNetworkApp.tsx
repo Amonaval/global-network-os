@@ -67,6 +67,7 @@ export default function TemplateNetworkApp({network,auth,kind,demo=false,onNetwo
  const openEntityConnections=(item:NetworkAffiliatedEntity)=>{setFocusEntityId(item.entity.id);setSelectedEntity(null);setTab("connections")};
  return <div className={`product-network-app ${cfg.themeClass}`}>
   <NetworkTopbar icon={verticalIcon(kind)} title={network.name} badges={[{label:cfg.label,tone:"shared"},...(demo?[{label:"Playground",tone:"demo" as const}]:[])]} middle={!demo?<NetworkSwitcher onSwitched={onNetworkChanged} onCreate={()=>onOpenNetworkLobby?.()} label="Switch network"/>:undefined} actions={<NetworkAccountMenu label={demo?"Explore":auth?.email?.split("@")[0]||"Me"} subtitle={demo?"Playground":`${cfg.shortLabel} member`} items={[
+    ...(demo&&onOpenNetworkLobby?[{key:"back",label:"Back to network selection",icon:<Layers3 size={16}/>,onClick:()=>void onOpenNetworkLobby(),hint:"Choose another Playground or network"}]:[]),
     {key:"guide",label:"Explore & Guide",icon:<BookOpen size={16}/>,onClick:()=>setTab("guide"),hint:`Understand this ${cfg.shortLabel.toLowerCase()} network`},
     ...(!demo&&onOpenNetworkLobby?[{key:"networks",label:"My Networks",icon:<Layers3 size={16}/>,onClick:()=>void onOpenNetworkLobby(),hint:"Move between your private networks"}]:[]),
     ...(isPlatformOwner?[{key:"launch",label:"Launch Control",icon:<Rocket size={16}/>,onClick:()=>setTab("launch"),hint:"Platform release controls"}]:[]),

@@ -1,4 +1,6 @@
 "use client";
+// [NX-5] Family connection, relationship context and belonging capability. Reviewable via window.nxFeatures.
+
 import {useMemo} from "react";
 import {ChevronRight,Heart,MapPin,Network,Sparkles,Users} from "lucide-react";
 import {LifeEvent,Member,Memory,Relationship} from "../lib/types";

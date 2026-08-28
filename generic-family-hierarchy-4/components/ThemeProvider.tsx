@@ -15,11 +15,11 @@ function applyTheme(theme:AppTheme){
 export function ThemeProvider({children}:{children:ReactNode}){
  const [theme,setThemeState]=useState<AppTheme>("light");
  useEffect(()=>{
-  const stored=window.localStorage.getItem(STORAGE_KEY) as AppTheme|null;
+  const stored=typeof window!=="undefined"?window.localStorage.getItem(STORAGE_KEY) as AppTheme|null:null;
   const initial=stored&&["light","dark","aurora"].includes(stored)?stored:"light";
   setThemeState(initial);applyTheme(initial);
  },[]);
- const setTheme=(next:AppTheme)=>{setThemeState(next);applyTheme(next);try{window.localStorage.setItem(STORAGE_KEY,next)}catch{}};
+ const setTheme=(next:AppTheme)=>{setThemeState(next);applyTheme(next);try{if(typeof window!=="undefined")window.localStorage.setItem(STORAGE_KEY,next)}catch{}};
  const value=useMemo(()=>({theme,setTheme}),[theme]);
  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
