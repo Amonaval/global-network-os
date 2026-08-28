@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');const checks=[];const ok=(n,v)=>checks.push([n,!!v]);
+const identity=read('core/identity/trusted-person.ts'),runtime=read('capabilities/trusted-identity/runtime.ts'),ui=read('components/MyNetworksHome.tsx'),migration=read('supabase/migrations/057_m6a_trusted_identity_reach.sql'),css=read('app/globals.css'),rules=read('MISSION-DOCUMENTATION-RULE.md'),ci=read('.github/workflows/ci.yml');
+ok('trusted identity aggregate now carries derived reach',identity.includes('TrustedNetworkReach')&&identity.includes('reach: TrustedNetworkReach'));
+ok('reach runtime reuses NX-1 identity and neutral memberships',runtime.includes('fetchMyNetworkMemberships')&&runtime.includes('get_my_trusted_network_reach'));
+ok('reach RPC aggregates only networks the actor belongs to',migration.includes("nm.user_id=auth.uid()")&&migration.includes("nm.status='active'")&&migration.includes('count(distinct user_id)'));
+ok('claimed contexts reuse existing Family Alumni and productized bindings',migration.includes('own.member_id is not null')&&migration.includes('ap.claimed_by=auth.uid()')&&migration.includes('e.owner_user_id=auth.uid()'));
+ok('no global profile or graph merge table introduced',!migration.includes('create table')&&migration.includes('does not expose or merge'));
+ok('My Networks renders the Network Reach experience',ui.includes('m6-reach-card')&&ui.includes('identity.reach.uniqueMemberAccounts')&&ui.includes('identity.reach.claimedContexts'));
+ok('UI explicitly preserves aggregate-only privacy boundary',ui.includes('AggregateOnlyTxt')&&ui.includes('CrossNetworkBridgesComeNextTxt'));
+ok('reach UI is responsive and theme-compatible',css.includes('M6-A — Trusted Network Reach')&&css.includes('@media(max-width:800px)'));
+ok('mission documentation rule requires DOCX',rules.includes('.docx')&&rules.includes('every major mission'));
+ok('CI advances to the M6-A regression chain',ci.includes('validate:m6a')&&ci.includes('check:types')&&ci.includes('npm run build'));
+for(const [n,p] of checks)console.log(`${p?'PASS':'FAIL'} ${n}`);const failed=checks.filter(x=>!x[1]);console.log(`MISSION-6A source gate: ${checks.length-failed.length}/${checks.length}`);if(failed.length)process.exit(1);

@@ -1337,3 +1337,9 @@ See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNT
 **Status:** SOURCE IMPLEMENTED / RUNTIME-DEPLOYMENT VERIFICATION PENDING
 
 Hardened the Mission 4 application boundary without expanding infrastructure: shared command runtime, bounded payload handling, lightweight actor-command burst guard, durable authenticated idempotency for duplicate-sensitive create/bootstrap commands, health/readiness endpoints, runtime config ownership, structured operational metadata, background-job seam and stronger CI/type/build gates. Migration 056 is required before deploying M5 code.
+
+
+## Mission 6-A — Trusted Identity Unification + Cross-Network Reachability
+**Status:** SOURCE IMPLEMENTED / SOURCE-GATED / RUNTIME VERIFICATION PENDING
+
+M6-A reuses NX-1 rather than creating a second identity system. The existing `TrustedPersonIdentity` now carries a privacy-safe `TrustedNetworkReach` aggregate. My Networks shows active networks, distinct verticals, distinct authenticated member accounts across networks the user already belongs to, identity-linked/claimed contexts, and owned/administered network counts. Migration 057 adds a counts-only RPC that never exposes or merges cross-network member identities, profile fields, relationships or graph data. Cross-network trust edges/discovery/introductions remain explicitly deferred to M6-B/M6-C. Permanent mission closure now requires a human-readable `.docx` artifact via `MISSION-DOCUMENTATION-RULE.md`.

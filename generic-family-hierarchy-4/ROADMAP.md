@@ -1779,3 +1779,9 @@ Mission 4 Application & Runtime Foundation is source implemented. Five command w
 
 ## Mission 5 — Production & Operational Runtime — SOURCE IMPLEMENTED
 Production hardening of the single-deploy Next.js + Supabase architecture: command-runtime standardization, request limits, idempotent expensive writes, health/readiness, operational logs, CI/type/build checks and future job seam. Runtime verification remains. Do not continue infrastructure expansion after M5 without measured demand; return focus to product/network-effect/customer-value missions once certified.
+
+
+## Mission 6-A — Trusted Identity Unification + Cross-Network Reachability
+**Status:** SOURCE IMPLEMENTED / SOURCE-GATED / RUNTIME VERIFICATION PENDING
+
+M6-A reuses NX-1 rather than creating a second identity system. The existing `TrustedPersonIdentity` now carries a privacy-safe `TrustedNetworkReach` aggregate. My Networks shows active networks, distinct verticals, distinct authenticated member accounts across networks the user already belongs to, identity-linked/claimed contexts, and owned/administered network counts. Migration 057 adds a counts-only RPC that never exposes or merges cross-network member identities, profile fields, relationships or graph data. Cross-network trust edges/discovery/introductions remain explicitly deferred to M6-B/M6-C. Permanent mission closure now requires a human-readable `.docx` artifact via `MISSION-DOCUMENTATION-RULE.md`.

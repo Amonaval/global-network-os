@@ -8,11 +8,23 @@ import type { NetworkMembership } from "../network/contracts";
  * human and their own memberships so future consented cross-network capabilities
  * have a stable seam without merging network graphs.
  */
+export type TrustedNetworkReach = {
+  activeNetworks: number;
+  ownedNetworks: number;
+  administeredNetworks: number;
+  verticals: number;
+  uniqueMemberAccounts: number;
+  membershipEdges: number;
+  claimedContexts: number;
+};
+
 export type TrustedPersonIdentity = {
   id: string;
   email: string | null;
   displayName: string;
   memberships: NetworkMembership[];
+  /** M6-A derived aggregate only; it never exposes another network's private graph. */
+  reach: TrustedNetworkReach;
 };
 
 export type TrustedIdentityPrivacyRule = {

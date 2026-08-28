@@ -3,7 +3,7 @@ import {useLanguage} from "../lib/i18n";
 // [NX-1][NX-6] Trusted multi-network home + later UX unification. Reviewable via window.nxFeatures.
 
 import type {ReactNode} from "react";
-import {BriefcaseBusiness,Building2,ChevronRight,GraduationCap,Handshake,Layers3,LogOut,Plus,ShieldCheck,Sparkles,Store,TreePine,UserRound,UsersRound} from "lucide-react";
+import {BriefcaseBusiness,Building2,ChevronRight,GraduationCap,Handshake,Layers3,Link2,LogOut,Plus,ShieldCheck,Sparkles,Store,TreePine,UserCheck,UserRound,UsersRound} from "lucide-react";
 import type {TrustedPersonIdentity} from "../core/identity/trusted-person";
 import {TRUSTED_IDENTITY_PRIVACY_RULES} from "../core/identity/trusted-person";
 import type {NetworkMembership} from "../core/network/contracts";
@@ -23,6 +23,17 @@ export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onEx
   </section>
 
   <section className="nx6-trust-strip"><ShieldCheck size={19}/><div><b>{tr("ConnectedForYouIsolatedByDefaultTxt")}</b><span>{tr("JoiningMoreNetworksNeverMergesTheirProfilesTxt")}</span></div><span className="nx6-private-pill">{tr("PrivateByNetwork2Txt")}</span></section>
+
+  <section className="card m6-reach-card">
+   <div className="m6-reach-head"><div><span className="warm-kicker"><Link2 size={13}/> {tr("YourNetworkReachTxt")}</span><h2>{tr("WhatYourMembershipsMeanTogetherTxt")}</h2><p>{tr("M6ReachPrivacyDescTxt")}</p></div><span className="m6-reach-badge"><ShieldCheck size={14}/>{tr("AggregateOnlyTxt")}</span></div>
+   <div className="m6-reach-grid">
+    <article><Layers3/><span><b>{identity.reach.activeNetworks}</b><small>{tr("ActiveNetworksTxt")}</small></span></article>
+    <article><Sparkles/><span><b>{identity.reach.verticals}</b><small>{tr("NetworkTypesTxt")}</small></span></article>
+    <article><UsersRound/><span><b>{identity.reach.uniqueMemberAccounts}</b><small>{tr("DistinctMemberAccountsTxt")}</small></span></article>
+    <article><UserCheck/><span><b>{identity.reach.claimedContexts}/{identity.reach.activeNetworks}</b><small>{tr("IdentityLinkedContextsTxt")}</small></span></article>
+   </div>
+   <div className="m6-reach-foot"><span><b>{identity.reach.ownedNetworks}</b> {tr("OwnedTxt")} · <b>{identity.reach.administeredNetworks}</b> {tr("AdministeredTxt")}</span><span>{tr("CrossNetworkBridgesComeNextTxt")}</span></div>
+  </section>
 
   <section className="my-networks-section nx6-networks-section">
    <div className="my-networks-heading"><div><span className="warm-kicker">{tr("YourSpacesTxt")}</span><h2>{tr("ContinueWhereItMattersTxt")}</h2><p>{tr("EachCardOpensASeparatelyGovernedNetworkTxt")}</p></div></div>

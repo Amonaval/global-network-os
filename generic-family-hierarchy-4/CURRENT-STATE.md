@@ -125,3 +125,9 @@ Source implemented on 2026-08-27. Network OS now has an additive application-own
 
 ## Mission 5 — Production & Operational Runtime
 Source implemented on 2026-08-28. The Mission 4 command boundary now runs through a shared production runtime wrapper with bounded JSON parsing, payload limits, authenticated burst protection, normalized command logging, durable Supabase-backed idempotency for network creation/institutional bootstrap, health/readiness endpoints, centralized runtime config, and an honest background-job seam. CI now includes M5 regression, TypeScript and production build gates. No microservices/Redis/Kafka/service-role runtime was introduced. Runtime/deployment verification remains open.
+
+
+## Mission 6-A — Trusted Identity Unification + Cross-Network Reachability
+**Status:** SOURCE IMPLEMENTED / SOURCE-GATED / RUNTIME VERIFICATION PENDING
+
+M6-A reuses NX-1 rather than creating a second identity system. The existing `TrustedPersonIdentity` now carries a privacy-safe `TrustedNetworkReach` aggregate. My Networks shows active networks, distinct verticals, distinct authenticated member accounts across networks the user already belongs to, identity-linked/claimed contexts, and owned/administered network counts. Migration 057 adds a counts-only RPC that never exposes or merges cross-network member identities, profile fields, relationships or graph data. Cross-network trust edges/discovery/introductions remain explicitly deferred to M6-B/M6-C. Permanent mission closure now requires a human-readable `.docx` artifact via `MISSION-DOCUMENTATION-RULE.md`.

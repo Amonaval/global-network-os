@@ -400,3 +400,7 @@ A new released vertical is not UX-complete merely because the domain workflow wo
 - shared appearance themes do not make cards/forms/nav unreadable;
 - at least one living-network summary links structure to activity/community;
 - Family/Alumni protected foundations remain unchanged unless an explicit backward-compatible mission requires otherwise.
+
+
+## Permanent mission DOCX rule
+Every major mission (or intentionally grouped small-mission batch) must include a human-readable `.docx` mission document before closure. Follow `MISSION-DOCUMENTATION-RULE.md`. Markdown remains the technical source of truth; the DOCX is the durable human-readable record.

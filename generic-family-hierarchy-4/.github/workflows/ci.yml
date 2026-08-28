@@ -14,6 +14,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run validate:m5
+      # validate:m6a includes validate:m5 and the full prior regression chain
+      - run: npm run validate:m6a
       - run: npm run check:types
       - run: npm run build

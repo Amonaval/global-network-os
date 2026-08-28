@@ -559,3 +559,9 @@ Runtime verification must confirm authenticated create/join/relationship/bootstr
 - `npm run check:types` — strict TypeScript no-emit check.
 - `npm run build` — production Next.js build.
 - Runtime: apply migration 056, test `/api/health`, `/api/ready`, the five commands, idempotency behavior, request rejection behavior and structured logs. See `MISSION-5-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+
+## Mission 6-A — Trusted Identity Unification + Cross-Network Reachability
+**Status:** SOURCE IMPLEMENTED / SOURCE-GATED / RUNTIME VERIFICATION PENDING
+
+M6-A reuses NX-1 rather than creating a second identity system. The existing `TrustedPersonIdentity` now carries a privacy-safe `TrustedNetworkReach` aggregate. My Networks shows active networks, distinct verticals, distinct authenticated member accounts across networks the user already belongs to, identity-linked/claimed contexts, and owned/administered network counts. Migration 057 adds a counts-only RPC that never exposes or merges cross-network member identities, profile fields, relationships or graph data. Cross-network trust edges/discovery/introductions remain explicitly deferred to M6-B/M6-C. Permanent mission closure now requires a human-readable `.docx` artifact via `MISSION-DOCUMENTATION-RULE.md`.

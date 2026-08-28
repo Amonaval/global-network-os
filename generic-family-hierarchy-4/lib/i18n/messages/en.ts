@@ -1932,6 +1932,17 @@ export const en={
   ViewInStructureTxt:"View in structure",
   HowAreWeConnectedTxt:"How are we connected?",
   FindAConnectionPathTxt:"Find a connection path",
+  YourNetworkReachTxt:"Your Network Reach",
+  WhatYourMembershipsMeanTogetherTxt:"What your memberships mean together",
+  M6ReachPrivacyDescTxt:"A privacy-safe aggregate across networks you already belong to. Counts are combined; member identities and graphs are not exposed across networks.",
+  AggregateOnlyTxt:"Aggregate only",
+  ActiveNetworksTxt:"Active networks",
+  NetworkTypesTxt:"Network types",
+  DistinctMemberAccountsTxt:"Distinct member accounts",
+  IdentityLinkedContextsTxt:"Identity-linked contexts",
+  OwnedTxt:"owned",
+  AdministeredTxt:"administered",
+  CrossNetworkBridgesComeNextTxt:"Trusted cross-network bridges are intentionally not enabled yet — that is the next mission.",
 } as const;
 export type MessageToken=keyof typeof en;
 export type MessageCatalog=Record<MessageToken,string>;

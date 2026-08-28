@@ -51,3 +51,7 @@ Keep intelligence decoupled. Reintroduce deeper RAG only when real professional/
 
 ## T12 — Mission 5 operational runtime — IMPLEMENTED BASELINE
 The application backend now has a shared command execution runtime, bounded request parsing, per-instance burst protection, durable Postgres idempotency for selected duplicate-sensitive commands, health/readiness probes, centralized runtime config, structured logs, stronger CI and a background-job abstraction that intentionally refuses non-durable async execution. This is the production baseline; shared rate limiting, managed queues/workers and external observability remain evidence-triggered.
+
+
+## 2026-08-28 — M6-A trusted reach aggregate
+Added counts-only cross-membership reach aggregation on the existing NX-1 trusted-person seam. This deliberately avoids a global profile table and keeps network-local identity bindings authoritative. Future M6-B work should add explicit network-to-network trust edges before any cross-network discovery.

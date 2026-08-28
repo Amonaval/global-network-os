@@ -9,6 +9,7 @@
 2. `PRODUCT-CONSTITUTION.md`
 3. `CURRENT-STATE.md`
 4. `AIDLC-OPERATING-RULE.md` when planning/building/reviewing a mission
+5. `MISSION-DOCUMENTATION-RULE.md` before closing a major mission
 
 ### Read only when relevant
 - `CODEBASE.md` / architecture docs — implementation or architecture work.
@@ -112,3 +113,7 @@ See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNT
 
 ## 2026-08-28 — Mission 5 checkpoint
 Mission 4 was runtime-accepted after broad manual cross-application navigation with only minor regression backlog items. Mission 5 Production & Operational Runtime is now source implemented. Preserve the single-deploy Next.js + Supabase model: do not add Redis, queues, microservices or other operational infrastructure without measured need. Before the next major product mission, apply migration 056 and runtime-certify M5 using its checklist.
+
+
+## M6-A current state
+M6-A is source implemented. It reuses NX-1 one-account/many-network identity and adds a privacy-safe Network Reach aggregate to My Networks. It does not create a universal profile or merge graphs. M6-B is the next strategic step: governed network-to-network trust bridges.
