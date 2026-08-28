@@ -10,5 +10,5 @@ ok('My Networks renders the Network Reach experience',ui.includes('m6-reach-card
 ok('UI explicitly preserves aggregate-only privacy boundary',ui.includes('AggregateOnlyTxt')&&ui.includes('M6ReachPrivacyDescTxt'));
 ok('reach UI is responsive and theme-compatible',css.includes('M6-A — Trusted Network Reach')&&css.includes('@media(max-width:800px)'));
 ok('mission documentation rule requires DOCX',rules.includes('.docx')&&rules.includes('every major mission'));
-ok('CI preserves the M6-A regression chain through the latest mission',/validate:m6[a-d]/.test(ci)&&ci.includes('check:types')&&ci.includes('npm run build'));
+ok('CI preserves the M6-A regression chain through the latest mission',/validate:m6[a-e]/.test(ci)&&ci.includes('check:types')&&ci.includes('npm run build'));
 for(const [n,p] of checks)console.log(`${p?'PASS':'FAIL'} ${n}`);const failed=checks.filter(x=>!x[1]);console.log(`MISSION-6A source gate: ${checks.length-failed.length}/${checks.length}`);if(failed.length)process.exit(1);

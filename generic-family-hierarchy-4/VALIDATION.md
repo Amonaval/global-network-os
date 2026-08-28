@@ -575,3 +575,7 @@ Run `npm run validate:m6c`, then `npm run check:types` and `npm run build`; comp
 
 ## M6-D validation
 Run `npm run validate:m6d`; then `npm run check:types` and `npm run build` in a fully installed workspace. Runtime-test the bridge → discover → request → consent funnel and aggregate-only pulse.
+
+
+## M6-E source certification
+Run `npm run validate:m6e`. The gate verifies migration 061, explicit path-traversal consent, bounded two-hop reasoning, path provenance, introduction path revalidation, privacy-safe multi-hop measurement, UI provenance, M7 program documentation, and then runs the full M6-D→prior regression chain. Runtime certification additionally requires type/build and the M6-E two-hop/negative-governance checklist.

@@ -227,3 +227,7 @@ Accepted bridge capability flags are now enforced by dedicated discovery/introdu
 
 ## M6-D measurement seam
 Network effect analytics remain first-party and privacy-minimal: compact event type/count/network/bridge facts only. Search terms and discovered candidate identity are deliberately excluded from the analytics table.
+
+
+## M6-E governed path reasoning
+The trust graph remains stored in Supabase/Postgres and evaluated through dedicated security-definer RPCs behind the application runtime. M6-E does not introduce a graph database. Traversal is bounded to two bridge edges, direct paths are preferred, and transitivity requires explicit `pathTraversal` consent on every participating bridge. Candidate path provenance is short-lived and revalidated before introduction creation.

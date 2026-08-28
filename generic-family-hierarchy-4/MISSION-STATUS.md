@@ -1352,3 +1352,12 @@ M6-B extends M6-A/NX-1 with an explicit neutral graph of networks. Administrator
 Source implemented. Anonymous discovery + target consent + post-accept disclosure. Runtime certification pending.
 
 - **M6-D Network Effect Activation & Measurement** — SOURCE IMPLEMENTED; runtime certification pending.
+
+
+## M6-E — Governed Multi-Hop Trusted Paths
+**Status:** SOURCE IMPLEMENTED / SOURCE-GATED / RUNTIME VERIFICATION PENDING.
+Maximum depth-2 trusted-path discovery is implemented with explicit `pathTraversal` consent on every edge. Identity disclosure remains governed by M6-C. Multi-hop opportunity counts feed M6-D.
+
+## Mission 7 — Real-World Activation, Showcase & Pilot Readiness
+**Status:** PROGRAM DEFINED / NOT YET IMPLEMENTED.
+M7-B WOW Showcase Universe is recommended first, followed by launch optimization, guided pilots and measured learning. See `MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md`.

@@ -39,3 +39,9 @@ M6-C privacy-safe discovery and trusted introductions is source implemented. Fir
 
 ## Latest state
 M6-D is source-implemented. Before a new strategic mission, apply migration 060 and complete the short M6-D runtime checklist. Do not expand telemetry into identity/query surveillance.
+
+
+## Latest handoff — after M6-E
+M6-E Governed Multi-Hop Trusted Paths is source implemented. Apply migration `061_m6e_governed_multihop_trusted_paths.sql`, run `npm run validate:m6e`, typecheck/build and the runtime checklist before closing.
+
+The next recommended product mission is **M7-B — WOW Showcase Universe & Guided Scenario Theater — MEDIUM-HIGH effort**. Read `MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md` first. Build 5–7 concrete synthetic end-to-end scenarios across ~600–900 deliberately interconnected entities/identities. Scenarios must exercise real M6-A identity reach, M6-B bridges, M6-C anonymous discovery/consent, M6-D pulse and selected M6-E two-hop paths. The demo is a product-design test harness: fix genuine UX friction discovered while making stories feel magical.

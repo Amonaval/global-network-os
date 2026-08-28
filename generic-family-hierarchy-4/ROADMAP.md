@@ -1795,3 +1795,10 @@ Accepted governed bridges can now create anonymous discovery opportunities and c
 
 ### M6-D — Network Effect Activation & Measurement — IMPLEMENTED (runtime certification pending)
 Measure the trusted-network funnel and guide the user toward the next genuine value-producing action without surveillance-style analytics.
+
+
+### M6-E — Governed Multi-Hop Trusted Paths — SOURCE IMPLEMENTED
+Adds explicit per-bridge `pathTraversal` consent and privacy-safe maximum-depth-2 trusted-path discovery. Direct paths remain preferred, two-hop results remain anonymous until M6-C consent, stale/revoked paths are revalidated before introductions, and M6-D measures multi-hop opportunities without search/candidate analytics. Migration: `061_m6e_governed_multihop_trusted_paths.sql`.
+
+## Mission 7 — Real-World Activation, Showcase & Pilot Readiness
+Mission 7 is now the next product-validation program. See `MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md`. Recommended sequence: **M7-B WOW Showcase Universe & Guided Scenario Theater (MEDIUM-HIGH) → M7-A Zero-Friction Network Launch (MEDIUM) → M7-C Guided Pilot/Admin Activation (MEDIUM) → M7-D Pilot Feedback & Learning Loop (MEDIUM)**. The showcase must use 5–7 concrete synthetic end-to-end stories and exercise real M6-A/B/C/D/E product paths rather than random data or narrated mock behavior.

@@ -22,7 +22,7 @@ export type BootstrapInstitutionResult={inserted:number;updated:number;skipped:n
 export type ClaimIdentityCommand={kind:"family"|"alumni"|"productized";subjectId:string};
 export type ClaimIdentityResult={networkId:string};
 
-export type RequestNetworkBridgeCommand={sourceNetworkId:string;targetCode:string;relationshipType:"affiliation"|"community"|"partner"|"parent_child"|"trusted_peer";contextLabel?:string;capabilities:{discovery:boolean;introductions:boolean}};
+export type RequestNetworkBridgeCommand={sourceNetworkId:string;targetCode:string;relationshipType:"affiliation"|"community"|"partner"|"parent_child"|"trusted_peer";contextLabel?:string;capabilities:{discovery:boolean;introductions:boolean;pathTraversal:boolean}};
 export type RequestNetworkBridgeResult={bridgeId:string};
 export type ReviewNetworkBridgeCommand={bridgeId:string;accept:boolean};
 export type ReviewNetworkBridgeResult={bridgeId:string;status:"accepted"|"declined"};
@@ -32,7 +32,7 @@ export type NetworkBridgeCodeCommand={networkId:string;regenerate?:boolean};
 export type NetworkBridgeCodeResult={networkId:string;code:string};
 
 export type DiscoverTrustedNetworkCommand={sourceNetworkId:string;query:string;limit?:number};
-export type DiscoverTrustedNetworkResult={candidates:Array<{candidateId:string;targetNetworkId:string;targetNetworkName:string;bridgeId:string;relationshipType:string;matchHint:string}>};
+export type DiscoverTrustedNetworkResult={candidates:Array<{candidateId:string;targetNetworkId:string;targetNetworkName:string;bridgeId:string;relationshipType:string;matchHint:string;pathDepth:1|2;pathSummary:string}>};
 export type RequestTrustedIntroductionCommand={candidateId:string;message:string};
 export type RequestTrustedIntroductionResult={introductionId:string};
 export type ReviewTrustedIntroductionCommand={introductionId:string;accept:boolean};

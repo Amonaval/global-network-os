@@ -64,3 +64,10 @@ M6-B extends M6-A/NX-1 with an explicit neutral graph of networks. Administrator
 
 ### M6-D — Privacy-safe product telemetry
 Added compact first-party behavioral telemetry and deterministic activation-stage derivation. Explicitly excludes search text and cross-network candidate identity from analytics.
+
+
+## 2026-08-28 — M6-E bounded graph complexity
+Decision: support maximum-depth-2 trusted-path reasoning in Postgres before considering a dedicated graph store. Add explicit transitive-path consent per bridge, shortest-path preference, deduplication, path revalidation and privacy-safe multi-hop measurement. Rejected for now: unrestricted traversal, depth >2, graph DB, global social graph and automatic trust propagation.
+
+## 2026-08-28 — Mission 7 showcase-first product validation
+Decision: define M7 as Real-World Activation, Showcase & Pilot Readiness and implement the WOW Showcase Universe before launch/pilot optimization. The demo must exercise real product paths and synthetic interconnected data so it functions as both market education and UX validation.

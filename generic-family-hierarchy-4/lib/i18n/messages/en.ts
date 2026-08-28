@@ -2015,6 +2015,12 @@ export const en={
   M6DNextConsentWaitingTxt:"You have an introduction waiting for review.",
   M6DNextConsentTxt:"Your first request is in motion; consent is the next proof point.",
   M6DNextProvenTxt:"You have completed the core network-effect loop. Repeat only when there is genuine value.",
+  AllowTrustedPathTraversalTxt:"Allow this bridge to participate in trusted multi-hop paths",
+  PathTraversalOnTxt:"Path traversal permitted",
+  PathTraversalOffTxt:"Path traversal off",
+  DirectTrustedBridgeTxt:"Direct trusted bridge",
+  TwoHopTrustedPathTxt:"Two-hop trusted path",
+  MultiHopOpportunitiesTxt:"Multi-hop opportunities",
 } as const;
 export type MessageToken=keyof typeof en;
 export type MessageCatalog=Record<MessageToken,string>;

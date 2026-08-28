@@ -1,6 +1,6 @@
 export type NetworkBridgeRelationshipType="affiliation"|"community"|"partner"|"parent_child"|"trusted_peer";
 export type NetworkBridgeStatus="pending"|"accepted"|"declined"|"revoked";
-export type NetworkBridgeCapabilities={discovery:boolean;introductions:boolean};
+export type NetworkBridgeCapabilities={discovery:boolean;introductions:boolean;pathTraversal:boolean};
 export type NetworkTrustBridge={
  id:string;requesterNetworkId:string;requesterNetworkName:string;recipientNetworkId:string;recipientNetworkName:string;
  relationshipType:NetworkBridgeRelationshipType;status:NetworkBridgeStatus;contextLabel:string|null;capabilities:NetworkBridgeCapabilities;

@@ -140,3 +140,10 @@ M6-B extends M6-A/NX-1 with an explicit neutral graph of networks. Administrator
 
 ## M6-D — Network Effect Activation & Measurement
 Implemented source-level. Adds privacy-safe behavioral metrics and a Network Effect Pulse in My Networks. Runtime certification requires migration 060 + local type/build + short funnel test.
+
+
+## M6-E current state
+Governed graph reach now supports direct and explicitly consented two-hop trusted paths. Path traversal is off by default and every edge must opt in. Anonymous discovery/consent rules remain unchanged. Runtime certification requires migration 061 plus the M6-E checklist.
+
+## Next product program
+Mission 7 is defined as Real-World Activation, Showcase & Pilot Readiness. The recommended first implementation is M7-B WOW Showcase Universe & Guided Scenario Theater because the demo will double as a product-design test harness and expose real workflow friction before pilots.
