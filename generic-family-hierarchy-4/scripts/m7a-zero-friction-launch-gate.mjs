@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');let passed=0;const ok=(name,cond)=>{if(!cond){console.error(`FAIL: ${name}`);process.exitCode=1}else{passed++;console.log(`PASS: ${name}`)}};
+const ui=read('components/NetworkLaunchActivation.tsx'),home=read('components/MyNetworksHome.tsx'),migration=read('supabase/migrations/062_m7a_zero_friction_launch_activation.sql'),remote=read('capabilities/launch-activation/remote.ts'),docs=read('MISSION-7A-ZERO-FRICTION-NETWORK-LAUNCH.md'),pkg=JSON.parse(read('package.json'));
+ok('Launch activation component exists',ui.includes('network-launch-activation')&&ui.includes('BestNextActionTxt'));
+ok('My Networks includes launch guide',home.includes('<NetworkLaunchActivation'));
+ok('Readiness uses progressive milestones',ui.includes('seededItems')&&ui.includes('activeMembers')&&ui.includes('claimedIdentities')&&ui.includes('acceptedBridges')&&ui.includes('acceptedIntroductions'));
+ok('Launch snapshot is admin scoped',migration.includes("nm.role in ('owner','admin')")&&migration.includes("nm.user_id=auth.uid()"));
+ok('Snapshot is aggregate only',migration.includes('count(*)')&&!migration.includes('returns table(user_id'));
+ok('Remote derives deterministic next stage',remote.includes('seeded<5?"seed"')&&remote.includes('outcomes<1?"outcome":"proven"'));
+ok('M7-A is documented',docs.includes('Zero-Friction Network Launch')&&docs.includes('best next action'));
+ok('Validation command exists',pkg.scripts?.['validate:m7a']?.includes('m7a-zero-friction-launch-gate.mjs'));
+console.log(`M7-A source gate: ${passed}/8 passed`);if(process.exitCode)process.exit(process.exitCode);

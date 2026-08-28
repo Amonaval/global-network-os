@@ -111,3 +111,6 @@ M7-B is now source implemented with a deterministic **720-person synthetic unive
 The seven V1 stories are: pediatric specialist help, AI/PIM architecture expertise, senior frontend referral, alumni mentorship, Pune relocation guidance, startup CA/finance expertise, and Indore franchise/property guidance.
 
 M7-B should now be used as a product-design test harness before M7-A: any confusing stage in these stories is evidence that the real activation workflow needs simplification.
+
+## M7-A implementation update — Zero-Friction Launch V1
+M7-A is now source implemented. My Networks includes a Launch Activation guide for networks the signed-in person owns/administers. It measures five progressive signals — seeded people/entities, active participants, claimed identities, accepted bridges and accepted introductions — and gives one deterministic best next action. Migration 062 provides counts-only admin-scoped snapshots. Existing import, invite, claim and network admin screens remain authoritative; M7-A orchestrates them instead of replacing them.

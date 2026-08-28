@@ -13,6 +13,7 @@ import NetworkBridgeManager from "./NetworkBridgeManager";
 import CrossNetworkDiscovery from "./CrossNetworkDiscovery";
 import NetworkEffectPulse from "./NetworkEffectPulse";
 import NetworkEffectShowcase from "./NetworkEffectShowcase";
+import NetworkLaunchActivation from "./NetworkLaunchActivation";
 
 function icon(kind:NetworkVerticalKind,size=20):ReactNode{if(kind==="alumni")return <GraduationCap size={size}/>;if(kind==="organization")return <Building2 size={size}/>;if(kind==="business-trust")return <Handshake size={size}/>;if(kind==="franchise")return <Store size={size}/>;if(kind==="professional")return <BriefcaseBusiness size={size}/>;return <TreePine size={size}/>;}
 const outcome:Record<NetworkVerticalKind,string>={family:"Keep generations, relationships and family memory connected.",alumni:"Reconnect across batches, places, careers and shared history.",organization:"Understand people, expertise, ownership and how work connects.","business-trust":"Discover businesses and services through meaningful trust paths.",franchise:"Connect locations, owners, operations and local communities.",professional:"Find trusted expertise, warm referrals and reusable professional knowledge."};
@@ -39,6 +40,7 @@ export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onEx
    <div className="m6-reach-foot"><span><b>{identity.reach.ownedNetworks}</b> {tr("OwnedTxt")} · <b>{identity.reach.administeredNetworks}</b> {tr("AdministeredTxt")}</span><span>{tr("CrossNetworkBridgesNowGovernedTxt")}</span></div>
   </section>
 
+  <NetworkLaunchActivation identity={identity} onOpenNetwork={onOpenNetwork} onAddNetwork={onAddNetwork}/>
   <NetworkEffectShowcase/>
   <NetworkBridgeManager identity={identity}/>
   <CrossNetworkDiscovery identity={identity}/>

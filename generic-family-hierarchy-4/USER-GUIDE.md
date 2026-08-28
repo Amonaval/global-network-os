@@ -415,3 +415,6 @@ Open **Admin** in a Professional or other productized network. The Institutional
 
 ## Experience the Network Effect — Showcase
 From **My Networks**, open **Experience the Network Effect** to explore seven synthetic, read-only stories showing how Network OS can turn a real need into a governed trusted introduction. Choose a story, then move through Need → Direct Gap → Trusted Path → Anonymous Match → Consent → Reveal → Outcome. The showcase never exposes the synthetic target identity before the consent stage and does not change your live networks.
+
+## M7-A — Zero-Friction Network Launch & Activation
+M7-A is source implemented. My Networks now gives Owners/Admins a privacy-safe launch-readiness path: seed meaningful people/entities → bring in participants → claim/link identities → establish trusted reach when appropriate → complete a first consented outcome. Migration 062 returns aggregate counts only for networks the caller administers. Existing import/invite/claim/admin experiences are reused rather than duplicated. Validate with `npm run validate:m7a`; runtime/type/build certification is pending in the normal installed workspace. After M7-A, proceed to M7-C Guided Pilot/Admin Activation and then M7-D Pilot Feedback & Learning, using M7-B/M7-A friction as evidence.
