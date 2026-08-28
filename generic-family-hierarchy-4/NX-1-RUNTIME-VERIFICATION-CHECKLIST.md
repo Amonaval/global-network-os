@@ -28,3 +28,12 @@ Use this checklist at the NX-1 milestone verification window, not after every sm
 - Run `npm ci` if dependencies are not installed.
 - Run `npm run build`.
 - Run existing G1.3 / G2 / G8.5-C source gates.
+
+## UX hardening checks from first milestone review
+- Open `Add or join network`: the onboarding content should use the available width; `Safe Playgrounds` and `Network OS products` must span the card instead of being trapped in one narrow grid column.
+- From `My Networks`, open a real network, then press the browser Back button: it should return to `My Networks`.
+- From `My Networks`, open a Playground, then press browser Back: it should return to `My Networks`.
+- In Organization / Business Trust / Franchise Home, verify `Network health` shows one readable percentage inside the ring with its label outside the ring; no overlapping text.
+- While signed in, confirm `Sign out` is available from My Networks, Family, Alumni and productized vertical shells (including a signed-in Playground view).
+- Open a Family member profile on desktop/tablet: it should appear as an elevated panel with outer margin and dimmed backdrop, not as a full-height edge-to-edge sheet.
+- On mobile, confirm the Family profile still behaves as a bottom sheet and remains scrollable.

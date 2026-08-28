@@ -49,3 +49,11 @@ My Networks is an always-on core shell capability for authenticated multi-networ
 - enterprise identity/entitlements
 
 Those require evidence or later privacy-sensitive missions.
+
+## First milestone UX hardening
+The first runtime review exposed several experience-level issues that were not identity-model defects. NX-1 now also treats these as part of the mission quality bar:
+- Network onboarding/Playground content uses the full available workspace rather than the old narrow Family onboarding column.
+- Major Network OS transitions participate in browser history, including My Networks -> network and My Networks -> Playground.
+- Network health uses a readable progress ring instead of overlapping text.
+- Signed-in account actions, especially Sign out, remain discoverable across Network OS surfaces.
+- Family profile presentation uses an elevated desktop panel with backdrop/margins while preserving the mobile bottom-sheet pattern.

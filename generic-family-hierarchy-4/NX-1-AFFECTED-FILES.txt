@@ -16,3 +16,7 @@ USER-GUIDE.md
 scripts/nx-1-source-gate.mjs
 ROADMAP.md
 MISSION-STATUS.md
+components/SetupScreen.tsx
+components/TemplateNetworkApp.tsx
+components/AlumniNetworkApp.tsx
+scripts/nx-1-ux-hardening-gate.mjs

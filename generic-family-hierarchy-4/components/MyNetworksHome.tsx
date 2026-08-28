@@ -1,6 +1,6 @@
 "use client";
 import type {ReactNode} from "react";
-import {Building2,ChevronRight,GraduationCap,Handshake,Layers3,Plus,ShieldCheck,Sparkles,Store,TreePine,UserRound,UsersRound} from "lucide-react";
+import {Building2,ChevronRight,GraduationCap,Handshake,Layers3,LogOut,Plus,ShieldCheck,Sparkles,Store,TreePine,UserRound,UsersRound} from "lucide-react";
 import type {TrustedPersonIdentity} from "../core/identity/trusted-person";
 import {TRUSTED_IDENTITY_PRIVACY_RULES} from "../core/identity/trusted-person";
 import type {NetworkMembership} from "../core/network/contracts";
@@ -23,14 +23,14 @@ const outcome:Record<NetworkVerticalKind,string>={
  franchise:"Connect locations, owners, operations and local communities.",
 };
 
-export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onExploreDemo}:{identity:TrustedPersonIdentity;onOpenNetwork:(membership:NetworkMembership)=>Promise<void>|void;onAddNetwork:()=>void;onExploreDemo?:(kind:NetworkVerticalKind)=>void}){
+export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onExploreDemo,onSignOut}:{identity:TrustedPersonIdentity;onOpenNetwork:(membership:NetworkMembership)=>Promise<void>|void;onAddNetwork:()=>void;onExploreDemo?:(kind:NetworkVerticalKind)=>void;onSignOut?:()=>Promise<void>|void}){
  const memberships=identity.memberships.filter(m=>m.status==="active");
  const kinds:Array<NetworkVerticalKind>=["family","alumni","organization","business-trust","franchise"];
  return <div className="my-networks-page">
   <section className="my-networks-hero">
    <div className="my-networks-identity-mark"><UserRound size={24}/></div>
    <div className="my-networks-hero-copy"><span className="nx1-new-pill">New · one home for all your networks</span><span className="warm-kicker"><Layers3 size={13}/> Your trusted network home</span><h1>My Networks</h1><p>One sign-in. Different parts of your life. Each network stays separately governed and private.</p></div>
-   <div className="my-networks-person"><small>Signed in as</small><b>{identity.displayName}</b>{identity.email&&<span>{identity.email}</span>}<em>{memberships.length} active network{memberships.length===1?"":"s"}</em></div>
+   <div className="my-networks-person"><small>Signed in as</small><b>{identity.displayName}</b>{identity.email&&<span>{identity.email}</span>}<em>{memberships.length} active network{memberships.length===1?"":"s"}</em>{onSignOut&&<button className="btn small my-networks-signout" onClick={()=>void onSignOut()}><LogOut size={14}/> Sign out</button>}</div>
   </section>
 
   <section className="my-networks-value-strip">

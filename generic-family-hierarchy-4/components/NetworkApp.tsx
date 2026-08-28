@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import {
   Search,
@@ -102,6 +102,7 @@ import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fet
 import {buildTrustedPersonIdentity} from "../capabilities/trusted-identity/runtime";
 import type {TrustedPersonIdentity} from "../core/identity/trusted-person";
 import type {NetworkMembership as NeutralNetworkMembership} from "../core/network/contracts";
+import type {NetworkVerticalKind} from "../core/verticals/contracts";
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import {createAlumniNetwork,fetchClaimableAlumniProfiles,claimAlumniProfile,acceptAlumniInvitation,type ClaimableAlumniProfile} from "../verticals/alumni/data/remote";
 import {createTemplateNetwork,joinProductizedNetworkByCode} from "../capabilities/template-product/remote";
@@ -290,6 +291,40 @@ export default function NetworkApp() {
     })();
   }, []);
   useEffect(()=>{if(typeof window!=="undefined"){setPendingAlumniInvite(new URLSearchParams(window.location.search).get("alumniInvite")||"")}},[]);
+  const historyReadyRef=useRef(false);
+  const pushAppHistory=(screen:"network"|"my-networks"|"setup"|"playground",networkId?:string|null,verticalKind?:NetworkVerticalKind)=>{
+    if(typeof window==="undefined"||!historyReadyRef.current)return;
+    window.history.pushState({...(window.history.state||{}),__networkOS:true,screen,networkId:networkId||null,verticalKind:verticalKind||null},"",window.location.href);
+  };
+  useEffect(()=>{
+    if(!ready||typeof window==="undefined")return;
+    if(!historyReadyRef.current){
+      const screen=showMyNetworks?"my-networks":setupNeeded?"setup":"network";
+      window.history.replaceState({...(window.history.state||{}),__networkOS:true,screen,networkId:network?.id||null},"",window.location.href);
+      historyReadyRef.current=true;
+    }
+    const restore=async(event:PopStateEvent)=>{
+      const state=event.state;
+      if(!state?.__networkOS)return;
+      setShowMobileMenu(false);setSelected(null);setSelectedHistory([]);
+      try{
+        if(state.screen==="my-networks"){
+          if(!auth){setSetupNeeded(true);return;}
+          const identity=await buildTrustedPersonIdentity(await getAuthUser());
+          setTrustedIdentity(identity);setShowMyNetworks(true);setSetupNeeded(false);
+          return;
+        }
+        if(state.screen==="setup"){setShowMyNetworks(false);setSetupNeeded(true);return;}
+        if(state.screen==="playground"&&state.verticalKind){openNetworkPlayground(state.verticalKind,false);return;}
+        setShowMyNetworks(false);setSetupNeeded(false);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);
+        if(state.networkId&&state.networkId!==network?.id)await setActiveNetwork(state.networkId);
+        if(auth)await hydrate(await getAuthUser());
+        setView("home");
+      }catch(e:any){notify(e.message||"Could not restore the previous page.")}
+    };
+    window.addEventListener("popstate",restore);
+    return()=>window.removeEventListener("popstate",restore);
+  },[ready,auth?.id,network?.id]);
   useEffect(() => {
     if(!supabase)return;
     const {data:{subscription}}=supabase.auth.onAuthStateChange((event)=>{
@@ -1079,15 +1114,21 @@ export default function NetworkApp() {
       </div>
     );
   const openMyNetworksHome=async()=>{
-    if(!auth){setSetupNeeded(true);return;}
-    try{const identity=await buildTrustedPersonIdentity(await getAuthUser());setTrustedIdentity(identity);setShowMyNetworks(true);setSetupNeeded(false);}catch(e:any){notify(e.message||"Could not load your networks.")}
+    if(!auth){pushAppHistory("setup");setSetupNeeded(true);return;}
+    try{const identity=await buildTrustedPersonIdentity(await getAuthUser());pushAppHistory("my-networks");setTrustedIdentity(identity);setShowMyNetworks(true);setSetupNeeded(false);}catch(e:any){notify(e.message||"Could not load your networks.")}
   };
   const openMembershipFromHome=async(membership:NeutralNetworkMembership)=>{
     if(!membership.isActive)await setActiveNetwork(membership.network.id);
+    pushAppHistory("network",membership.network.id);
     setShowMyNetworks(false);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);
     await hydrate(await getAuthUser());setView("home");
   };
-  const openNetworkPlayground=(kind:any)=>{
+  const signOutFromNetworkOS=async()=>{
+    await signOut();setAuth(null);setNetwork(null);setMembers([]);setRelationships([]);setTrustedIdentity(null);setShowMyNetworks(false);setSetupNeeded(true);
+    if(typeof window!=="undefined")window.history.replaceState({...(window.history.state||{}),__networkOS:true,screen:"setup",networkId:null},"",window.location.href);
+  };
+  const openNetworkPlayground=(kind:NetworkVerticalKind,recordHistory=true)=>{
+    if(recordHistory)pushAppHistory("playground",null,kind);
     setShowMyNetworks(false);setSetupNeeded(false);setDemoPreview(false);
     if(kind==="family"){enterSetupPlayground();return;}
     if(kind==="alumni"){const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setProductizedDemo(null);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:"Read-only sample alumni community",entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);return;}
@@ -1095,13 +1136,13 @@ export default function NetworkApp() {
   };
   const canAdmin = !demoPreview && (!isSupabaseConfigured || network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.role === "admin");
   const isPlatformOwner = !isSupabaseConfigured || !!auth?.platform_owner;
-  if(showMyNetworks && trustedIdentity) return <MyNetworksHome identity={trustedIdentity} onOpenNetwork={openMembershipFromHome} onAddNetwork={()=>{setShowMyNetworks(false);setNetwork(null);setSetupNeeded(true)}} onExploreDemo={openNetworkPlayground}/>;
+  if(showMyNetworks && trustedIdentity) return <MyNetworksHome identity={trustedIdentity} onOpenNetwork={openMembershipFromHome} onAddNetwork={()=>{pushAppHistory("setup");setShowMyNetworks(false);setNetwork(null);setSetupNeeded(true)}} onExploreDemo={openNetworkPlayground} onSignOut={signOutFromNetworkOS}/>
   // Vertical handoff must happen before any Family-only feature evaluation.
   // G5 bugfix: evaluating Alumni surface keys through lib/features (the Family compatibility facade)
   // throws by design. Alumni owns its own feature catalog/runtime and UI workspace.
-  if(network && activeVerticalKind==="alumni" && !setupNeeded) return <AlumniNetworkApp network={network} auth={auth} demo={alumniDemo} onNetworkChanged={async()=>{setAlumniDemo(false);await hydrate(await getAuthUser());setView("home")}} onOpenNetworkLobby={openMyNetworksHome} onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setSetupNeeded(true)}}/>;
+  if(network && activeVerticalKind==="alumni" && !setupNeeded) return <AlumniNetworkApp network={network} auth={auth} demo={alumniDemo} onNetworkChanged={async()=>{setAlumniDemo(false);await hydrate(await getAuthUser());setView("home")}} onOpenNetworkLobby={openMyNetworksHome} onSignOut={signOutFromNetworkOS}/>
   // G8: productized verticals hand off before Family-only feature evaluation, exactly like Alumni.
-  if(network && isProductizedVerticalKind(activeVerticalKind) && !setupNeeded) return <TemplateNetworkApp network={network} auth={auth} kind={activeVerticalKind} demo={productizedDemo===activeVerticalKind} onNetworkChanged={async()=>{setProductizedDemo(null);await hydrate(await getAuthUser());setView("home")}} onOpenNetworkLobby={openMyNetworksHome} onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setSetupNeeded(true)}}/>;
+  if(network && isProductizedVerticalKind(activeVerticalKind) && !setupNeeded) return <TemplateNetworkApp network={network} auth={auth} kind={activeVerticalKind} demo={productizedDemo===activeVerticalKind} onNetworkChanged={async()=>{setProductizedDemo(null);await hydrate(await getAuthUser());setView("home")}} onOpenNetworkLobby={openMyNetworksHome} onSignOut={signOutFromNetworkOS}/>
   const experience:ExperienceLevel = demoPreview ? "explorer" : (experiencePreview || (!isSupabaseConfigured ? "explorer" : (auth?.experience_level || "simple")));
   // Defensive guard for transient setup/switch states: Family feature runtime never receives another vertical's key.
   const hasFeature=(key:FeatureKey)=>activeVerticalKind==="family"&&isFeatureAvailable(key,demoPreview?playgroundFeatures:platformFeatures,experience,canAdmin);
@@ -1192,7 +1233,7 @@ export default function NetworkApp() {
           claimableProfiles={claimableProfiles}
           existingFamilies={myFamilies}
           onOpenFamily={async(id)=>{setProductizedDemo(null);setAlumniDemo(false);await setActiveNetwork(id);await hydrate(await getAuthUser());setView("home")}}
-          onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}
+          onSignOut={signOutFromNetworkOS}
           onClaimProfile={async(memberId)=>{await claimProfileByVerifiedEmail(memberId);await hydrate(await getAuthUser());setView("home");notify("Welcome to your family.")}}
           onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify("Family joined. Welcome!")}}
           onExploreDemo={enterSetupPlayground}
