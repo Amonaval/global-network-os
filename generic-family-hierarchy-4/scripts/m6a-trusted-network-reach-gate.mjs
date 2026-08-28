@@ -7,7 +7,7 @@ ok('reach RPC aggregates only networks the actor belongs to',migration.includes(
 ok('claimed contexts reuse existing Family Alumni and productized bindings',migration.includes('own.member_id is not null')&&migration.includes('ap.claimed_by=auth.uid()')&&migration.includes('e.owner_user_id=auth.uid()'));
 ok('no global profile or graph merge table introduced',!migration.includes('create table')&&migration.includes('does not expose or merge'));
 ok('My Networks renders the Network Reach experience',ui.includes('m6-reach-card')&&ui.includes('identity.reach.uniqueMemberAccounts')&&ui.includes('identity.reach.claimedContexts'));
-ok('UI explicitly preserves aggregate-only privacy boundary',ui.includes('AggregateOnlyTxt')&&ui.includes('CrossNetworkBridgesComeNextTxt'));
+ok('UI explicitly preserves aggregate-only privacy boundary',ui.includes('AggregateOnlyTxt')&&ui.includes('M6ReachPrivacyDescTxt'));
 ok('reach UI is responsive and theme-compatible',css.includes('M6-A — Trusted Network Reach')&&css.includes('@media(max-width:800px)'));
 ok('mission documentation rule requires DOCX',rules.includes('.docx')&&rules.includes('every major mission'));
 ok('CI advances to the M6-A regression chain',ci.includes('validate:m6a')&&ci.includes('check:types')&&ci.includes('npm run build'));

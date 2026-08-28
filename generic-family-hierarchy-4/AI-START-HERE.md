@@ -117,3 +117,7 @@ Mission 4 was runtime-accepted after broad manual cross-application navigation w
 
 ## M6-A current state
 M6-A is source implemented. It reuses NX-1 one-account/many-network identity and adds a privacy-safe Network Reach aggregate to My Networks. It does not create a universal profile or merge graphs. M6-B is the next strategic step: governed network-to-network trust bridges.
+
+
+### Current strategic edge — M6-B
+The platform now has governed, bilateral, revocable network-to-network bridges via private Bridge Codes. Do not add public network search or cross-network member disclosure. `discovery` and `introductions` stored on bridges are policy intent only until M6-C.

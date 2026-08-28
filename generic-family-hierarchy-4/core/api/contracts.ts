@@ -21,3 +21,12 @@ export type BootstrapInstitutionResult={inserted:number;updated:number;skipped:n
 
 export type ClaimIdentityCommand={kind:"family"|"alumni"|"productized";subjectId:string};
 export type ClaimIdentityResult={networkId:string};
+
+export type RequestNetworkBridgeCommand={sourceNetworkId:string;targetCode:string;relationshipType:"affiliation"|"community"|"partner"|"parent_child"|"trusted_peer";contextLabel?:string;capabilities:{discovery:boolean;introductions:boolean}};
+export type RequestNetworkBridgeResult={bridgeId:string};
+export type ReviewNetworkBridgeCommand={bridgeId:string;accept:boolean};
+export type ReviewNetworkBridgeResult={bridgeId:string;status:"accepted"|"declined"};
+export type RevokeNetworkBridgeCommand={bridgeId:string};
+export type RevokeNetworkBridgeResult={bridgeId:string;status:"revoked"};
+export type NetworkBridgeCodeCommand={networkId:string;regenerate?:boolean};
+export type NetworkBridgeCodeResult={networkId:string;code:string};

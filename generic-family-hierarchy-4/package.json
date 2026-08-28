@@ -58,7 +58,8 @@
     "validate:m4": "node scripts/m4-application-runtime-gate.mjs && npm run validate:m3",
     "check:types": "tsc --noEmit",
     "validate:m5": "node scripts/m5-production-runtime-gate.mjs && npm run validate:m4",
-    "validate:m6a": "node scripts/m6a-trusted-network-reach-gate.mjs && npm run validate:m5"
+    "validate:m6a": "node scripts/m6a-trusted-network-reach-gate.mjs && npm run validate:m5",
+    "validate:m6b": "node scripts/m6b-network-trust-bridges-gate.mjs && npm run validate:m6a"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

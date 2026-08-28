@@ -29,3 +29,7 @@ Do not jump directly to unrestricted cross-network search. Privacy-safe discover
 
 ## Permanent closure rule
 Every major mission must include the normal Markdown/release/runtime artifacts **and** a human-readable `.docx` mission document. Follow `MISSION-DOCUMENTATION-RULE.md`.
+
+
+## Latest completed source mission: M6-B
+M6-B adds neutral governed bridges between independently governed networks using private Bridge Codes, recipient-admin approval, explicit relationship types/capability intent, audit events and revocation. Cross-network people discovery and generic trusted introductions are still intentionally disabled. The next strategic mission is **M6-C — Privacy-Safe Cross-Network Discovery & Trusted Introductions**. Reuse `network_trust_bridges`; do not build another bridge subsystem and do not merge network graphs.

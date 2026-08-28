@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');let pass=0,fail=0;const ok=(name,c)=>{if(c){console.log(`PASS ${name}`);pass++}else{console.error(`FAIL ${name}`);fail++}};
+const migration=read('supabase/migrations/058_m6b_network_trust_bridges.sql');
+const ui=read('components/NetworkBridgeManager.tsx');const home=read('components/MyNetworksHome.tsx');const api=read('core/api/contracts.ts');const svc=read('server/trust/service.ts');const remote=read('capabilities/network-trust/remote.ts');
+ok('neutral bridge persistence exists',migration.includes('network_trust_bridges')&&migration.includes('requester_network_id')&&migration.includes('recipient_network_id'));
+ok('bridge invitation uses private code rather than network directory',migration.includes('network_bridge_codes')&&migration.includes('Bridge code was not found'));
+ok('receiving network admin must explicitly review',migration.includes('Only an administrator of the receiving network can review this bridge'));
+ok('either bridged network admin can revoke accepted bridge',migration.includes("status<>'accepted'")&&migration.includes('network_trust_bridge_revoked'));
+ok('capabilities are constrained to discovery and introductions intent',migration.includes("'discovery'")&&migration.includes("'introductions'")&&migration.includes('are inert until later'));
+ok('raw bridge tables are not exposed to authenticated clients',migration.includes('revoke all on public.network_bridge_codes from anon,authenticated')&&migration.includes('revoke all on public.network_trust_bridges from anon,authenticated'));
+ok('writes use M4/M5 application command boundary',svc.includes('request_network_trust_bridge')&&remote.includes('/api/v1/trust-bridges/request')&&api.includes('RequestNetworkBridgeCommand'));
+ok('My Networks surfaces governed bridge manager',home.includes('NetworkBridgeManager')&&ui.includes('GovernedAndRevocableTxt'));
+ok('UI explicitly says M6-B does not enable cross-network discovery yet',ui.includes('M6BCapabilitiesInertTxt'));
+ok('approval and revocation actions are visible in UX',ui.includes('reviewNetworkTrustBridge')&&ui.includes('revokeNetworkTrustBridge'));
+ok('no universal profile or graph merge introduced',!migration.includes('global_profile')&&!migration.includes('universal_profile')&&!migration.includes('cross_network_members'));
+ok('M6-B remains separately gateable',read('package.json').includes('validate:m6b'));
+console.log(`\nM6-B source gate: ${pass} passed, ${fail} failed`);if(fail)process.exit(1);

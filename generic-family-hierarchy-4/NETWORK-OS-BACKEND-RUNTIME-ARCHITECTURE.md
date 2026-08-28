@@ -217,3 +217,7 @@ The implemented server is modular but remains one deployable Next.js application
 Mission 5 standardizes every current `/api/v1` write behind a shared command runtime. It adds bounded request parsing, command burst protection, durable authenticated idempotency for network creation and institutional bootstrap, health/readiness probes, centralized runtime config, stronger structured logs and a future background-job contract.
 
 The burst guard is deliberately instance-local; it is not global rate limiting. The background dispatcher deliberately refuses durable work because no queue/worker exists yet. These are honest seams rather than simulated production infrastructure. Add shared limiting or managed workers only when traffic, integrations or processing duration prove the need.
+
+
+## M6-B — Trusted Network-to-Network Linking & Governed Bridges
+M6-B extends M6-A/NX-1 with an explicit neutral graph of networks. Administrators exchange private Bridge Codes, request a typed relationship, propose future discovery/introduction capability intent, and the receiving network administrator must accept or decline. Either side can revoke an accepted bridge. The bridge itself exposes no cross-network members, profiles, relationships, activity or graph data; capability intent remains inert until M6-C. All writes use the M4/M5 application command runtime. Migration: `058_m6b_network_trust_bridges.sql`.

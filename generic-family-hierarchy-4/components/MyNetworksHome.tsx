@@ -9,6 +9,7 @@ import {TRUSTED_IDENTITY_PRIVACY_RULES} from "../core/identity/trusted-person";
 import type {NetworkMembership} from "../core/network/contracts";
 import type {NetworkVerticalKind} from "../core/verticals/contracts";
 import {getVerticalDefinition} from "../app-shell/vertical-registry";
+import NetworkBridgeManager from "./NetworkBridgeManager";
 
 function icon(kind:NetworkVerticalKind,size=20):ReactNode{if(kind==="alumni")return <GraduationCap size={size}/>;if(kind==="organization")return <Building2 size={size}/>;if(kind==="business-trust")return <Handshake size={size}/>;if(kind==="franchise")return <Store size={size}/>;if(kind==="professional")return <BriefcaseBusiness size={size}/>;return <TreePine size={size}/>;}
 const outcome:Record<NetworkVerticalKind,string>={family:"Keep generations, relationships and family memory connected.",alumni:"Reconnect across batches, places, careers and shared history.",organization:"Understand people, expertise, ownership and how work connects.","business-trust":"Discover businesses and services through meaningful trust paths.",franchise:"Connect locations, owners, operations and local communities.",professional:"Find trusted expertise, warm referrals and reusable professional knowledge."};
@@ -32,8 +33,10 @@ export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onEx
     <article><UsersRound/><span><b>{identity.reach.uniqueMemberAccounts}</b><small>{tr("DistinctMemberAccountsTxt")}</small></span></article>
     <article><UserCheck/><span><b>{identity.reach.claimedContexts}/{identity.reach.activeNetworks}</b><small>{tr("IdentityLinkedContextsTxt")}</small></span></article>
    </div>
-   <div className="m6-reach-foot"><span><b>{identity.reach.ownedNetworks}</b> {tr("OwnedTxt")} · <b>{identity.reach.administeredNetworks}</b> {tr("AdministeredTxt")}</span><span>{tr("CrossNetworkBridgesComeNextTxt")}</span></div>
+   <div className="m6-reach-foot"><span><b>{identity.reach.ownedNetworks}</b> {tr("OwnedTxt")} · <b>{identity.reach.administeredNetworks}</b> {tr("AdministeredTxt")}</span><span>{tr("CrossNetworkBridgesNowGovernedTxt")}</span></div>
   </section>
+
+  <NetworkBridgeManager identity={identity}/>
 
   <section className="my-networks-section nx6-networks-section">
    <div className="my-networks-heading"><div><span className="warm-kicker">{tr("YourSpacesTxt")}</span><h2>{tr("ContinueWhereItMattersTxt")}</h2><p>{tr("EachCardOpensASeparatelyGovernedNetworkTxt")}</p></div></div>
