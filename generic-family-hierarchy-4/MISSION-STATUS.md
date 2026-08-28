@@ -1248,4 +1248,7 @@ Implemented after Northstar manual validation exposed explicit-target resolution
 Delivered: My Networks home, generic Family-shell switching, account-scoped trusted identity aggregate, privacy explanation, five-vertical Playground, vertical-kind projection fix, guide + milestone checklist.
 Validation: NX-1, G1.3, G2 and G8.5-C source gates PASS. Full build not completed in the authoring container because dependency restoration timed out; milestone checklist requires `npm ci` + `npm run build` in the normal project environment.
 
-- NX-1 verification hardening: corrected full-width Network OS onboarding/Playground layout, browser Back restoration for My Networks/network/Playground transitions, Network Health ring rendering, cross-surface sign-out visibility, and desktop Family profile panel presentation. Dedicated `nx-1-ux-hardening-gate.mjs` added.
+## NX-2 — Living Network: Daily Value & Generational Connection
+**Status:** IMPLEMENTED / SOURCE-GATED / MILESTONE RUNTIME VERIFICATION PENDING
+
+Delivered a calm Family return loop using existing authorized graph, memory, event and profile data: one meaningful family minute, graph-aware relative rediscovery, generational continuity, story-preservation prompts and family-continuity signals. No new schema/RLS and no addictive feed mechanics. Runtime verification is intentionally deferred to the next milestone verification window.

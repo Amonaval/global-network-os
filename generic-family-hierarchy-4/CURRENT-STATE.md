@@ -74,3 +74,6 @@ Deliver affected/new files only where practical and preserve repository hierarch
 - Family shell now uses the neutral cross-vertical switcher.
 - My Networks includes a five-vertical Playground entry and explicit identity/privacy explanation.
 - Neutral membership projection now preserves all five registered `vertical_kind` values.
+
+## NX-2 current product state
+Family Home now includes an additive Living Family loop: a daily meaningful family action, graph-aware relative rediscovery, generational connection and preservation signals. It reuses existing Family data/permissions and introduces no new persistence or cross-network exposure. Runtime milestone verification remains pending.

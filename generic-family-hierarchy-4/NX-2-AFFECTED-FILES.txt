@@ -1,0 +1,11 @@
+components/LivingFamilyLoop.tsx
+components/FamilyHome.tsx
+components/NetworkApp.tsx
+app/globals.css
+lib/user-guide-content.ts
+NX-2-LIVING-NETWORK.md
+NX-2-RUNTIME-VERIFICATION-CHECKLIST.md
+NX-2-AFFECTED-FILES.txt
+scripts/nx-2-source-gate.mjs
+MISSION-STATUS.md
+CURRENT-STATE.md
