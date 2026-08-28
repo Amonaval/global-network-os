@@ -579,3 +579,6 @@ Run `npm run validate:m6d`; then `npm run check:types` and `npm run build` in a 
 
 ## M6-E source certification
 Run `npm run validate:m6e`. The gate verifies migration 061, explicit path-traversal consent, bounded two-hop reasoning, path provenance, introduction path revalidation, privacy-safe multi-hop measurement, UI provenance, M7 program documentation, and then runs the full M6-D→prior regression chain. Runtime certification additionally requires type/build and the M6-E two-hop/negative-governance checklist.
+
+## M7-B — WOW Showcase Universe & Guided Scenario Theater
+Source implemented. My Networks now includes a read-only synthetic Scenario Theater backed by a deterministic 720-person / six-network showcase universe and seven authored stories. It demonstrates direct and governed two-hop trusted reach while preserving M6 anonymous discovery and target consent. M7-B also re-ships `CrossNetworkDiscovery.tsx` to repair the observed sequential-package missing-module regression. No database migration is required. Runtime/type/build certification remains pending in the fully installed project workspace.

@@ -147,3 +147,6 @@ Governed graph reach now supports direct and explicitly consented two-hop truste
 
 ## Next product program
 Mission 7 is defined as Real-World Activation, Showcase & Pilot Readiness. The recommended first implementation is M7-B WOW Showcase Universe & Guided Scenario Theater because the demo will double as a product-design test harness and expose real workflow friction before pilots.
+
+## M7-B — WOW Showcase Universe & Guided Scenario Theater
+Source implemented. My Networks now includes a read-only synthetic Scenario Theater backed by a deterministic 720-person / six-network showcase universe and seven authored stories. It demonstrates direct and governed two-hop trusted reach while preserving M6 anonymous discovery and target consent. M7-B also re-ships `CrossNetworkDiscovery.tsx` to repair the observed sequential-package missing-module regression. No database migration is required. Runtime/type/build certification remains pending in the fully installed project workspace.

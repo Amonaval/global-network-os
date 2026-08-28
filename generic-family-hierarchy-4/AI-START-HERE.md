@@ -132,3 +132,6 @@ M6-D Network Effect Activation & Measurement is source-implemented. Preserve M6-
 M6-E adds bounded two-hop trusted-path reasoning with explicit per-edge path traversal consent. Never interpret an accepted bridge as automatic transitive permission. Maximum path depth is 2 and M6-C consent remains authoritative for identity disclosure.
 
 Mission 7 is formally defined in `MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md`. Recommended next build: **M7-B WOW Showcase Universe & Guided Scenario Theater**. Treat demo quality as product validation: use synthetic interconnected data and real flows, not fake shortcuts.
+
+## Latest mission — M7-B WOW Showcase Universe
+M7-B is source implemented. The My Networks experience now contains a synthetic, read-only 720-person Showcase Universe and seven guided Network Effect stories. Apply the M7-B delta as self-contained: it deliberately re-ships `components/CrossNetworkDiscovery.tsx` to repair the observed missing-module regression. Latest cumulative source gate is `npm run validate:m7b`. Runtime/type/build certification remains local-workspace work.

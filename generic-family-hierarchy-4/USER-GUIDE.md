@@ -412,3 +412,6 @@ The professional network is a separate tenant context. It does not merge Family 
 
 ## Institutional Bootstrap (productized network admins)
 Open **Admin** in a Professional or other productized network. The Institutional Bootstrap card shows a simple activation path: seed the initial directory, activate members, let people claim their identity, delegate another admin, and enrich the network together. Download the seed CSV template for a starting structure, then use the existing import flow. Share the private join code or copy the launch invitation. The bootstrap card does not create a second membership system; it coordinates the existing Network OS capabilities.
+
+## Experience the Network Effect — Showcase
+From **My Networks**, open **Experience the Network Effect** to explore seven synthetic, read-only stories showing how Network OS can turn a real need into a governed trusted introduction. Choose a story, then move through Need → Direct Gap → Trusted Path → Anonymous Match → Consent → Reveal → Outcome. The showcase never exposes the synthetic target identity before the consent stage and does not change your live networks.

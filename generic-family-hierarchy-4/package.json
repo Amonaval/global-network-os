@@ -62,7 +62,8 @@
     "validate:m6b": "node scripts/m6b-network-trust-bridges-gate.mjs && npm run validate:m6a",
     "validate:m6c": "node scripts/m6c-cross-network-introductions-gate.mjs && npm run validate:m6b",
     "validate:m6d": "node scripts/m6d-network-effect-activation-gate.mjs && npm run validate:m6c",
-    "validate:m6e": "node scripts/m6e-governed-multihop-paths-gate.mjs && npm run validate:m6d"
+    "validate:m6e": "node scripts/m6e-governed-multihop-paths-gate.mjs && npm run validate:m6d",
+    "validate:m7b": "node scripts/m7b-wow-showcase-gate.mjs && npm run validate:m6e"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

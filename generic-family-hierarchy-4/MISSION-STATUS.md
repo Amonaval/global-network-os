@@ -1361,3 +1361,6 @@ Maximum depth-2 trusted-path discovery is implemented with explicit `pathTravers
 ## Mission 7 — Real-World Activation, Showcase & Pilot Readiness
 **Status:** PROGRAM DEFINED / NOT YET IMPLEMENTED.
 M7-B WOW Showcase Universe is recommended first, followed by launch optimization, guided pilots and measured learning. See `MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md`.
+
+## M7-B — WOW Showcase Universe & Guided Scenario Theater
+Source implemented. My Networks now includes a read-only synthetic Scenario Theater backed by a deterministic 720-person / six-network showcase universe and seven authored stories. It demonstrates direct and governed two-hop trusted reach while preserving M6 anonymous discovery and target consent. M7-B also re-ships `CrossNetworkDiscovery.tsx` to repair the observed sequential-package missing-module regression. No database migration is required. Runtime/type/build certification remains pending in the fully installed project workspace.

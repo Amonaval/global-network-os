@@ -45,3 +45,6 @@ M6-D is source-implemented. Before a new strategic mission, apply migration 060 
 M6-E Governed Multi-Hop Trusted Paths is source implemented. Apply migration `061_m6e_governed_multihop_trusted_paths.sql`, run `npm run validate:m6e`, typecheck/build and the runtime checklist before closing.
 
 The next recommended product mission is **M7-B — WOW Showcase Universe & Guided Scenario Theater — MEDIUM-HIGH effort**. Read `MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md` first. Build 5–7 concrete synthetic end-to-end scenarios across ~600–900 deliberately interconnected entities/identities. Scenarios must exercise real M6-A identity reach, M6-B bridges, M6-C anonymous discovery/consent, M6-D pulse and selected M6-E two-hop paths. The demo is a product-design test harness: fix genuine UX friction discovered while making stories feel magical.
+
+## Latest state — M7-B WOW Showcase
+M7-B is source implemented. Apply the M7-B affected-files package as a self-contained delta; it includes `components/CrossNetworkDiscovery.tsx` specifically to repair the observed missing-module regression. Run `npm run validate:m7b`, typecheck and build. Verify the seven-story Scenario Theater in My Networks. After certification, proceed to M7-A Zero-Friction Network Launch & Activation, using friction discovered in M7-B as input rather than rebuilding onboarding from scratch.

@@ -104,3 +104,10 @@ Reason: building the strongest possible demo first will reveal whether the produ
 - quality of 5–7 end-to-end stories matters more than thousands of random records;
 - do not create new architecture merely for presentation effects;
 - M7 learning should determine what gets built after M7.
+
+## M7-B implementation update — WOW Showcase Universe V1
+M7-B is now source implemented with a deterministic **720-person synthetic universe**, six network types and seven guided stories. The implementation deliberately uses authored scenarios rather than random rows and includes both one-hop and M6-E governed two-hop examples. `NetworkEffectShowcase` is embedded in My Networks as a read-only Scenario Theater. The theater preserves anonymous discovery and target consent rather than bypassing privacy for presentation convenience.
+
+The seven V1 stories are: pediatric specialist help, AI/PIM architecture expertise, senior frontend referral, alumni mentorship, Pune relocation guidance, startup CA/finance expertise, and Indore franchise/property guidance.
+
+M7-B should now be used as a product-design test harness before M7-A: any confusing stage in these stories is evidence that the real activation workflow needs simplification.
