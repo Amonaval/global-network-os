@@ -1,4 +1,6 @@
 import { supabase } from "../../../lib/supabase";
+import {postCommand} from "../../../lib/api-client";
+import type {ClaimIdentityResult} from "../../../core/api/contracts";
 
 export type AlumniProfile = {id:string;full_name:string;email?:string|null;graduation_year?:number|null;program?:string|null;department?:string|null;city?:string|null;company?:string|null;job_title?:string|null;bio?:string|null;visibility:"members"|"private";claimed:boolean;is_me:boolean};
 export type ClaimableAlumniProfile={profile_id:string;network_id:string;network_name:string;full_name:string;graduation_year?:number|null;program?:string|null};

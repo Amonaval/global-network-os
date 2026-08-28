@@ -30,3 +30,7 @@
 
 ## No schema change
 Mission 4 adds no Supabase migration and introduces no service-role requirement.
+
+## Runtime certification correction — 2026-08-27
+- Fixed missing `postCommand` and `ClaimIdentityResult` imports in `verticals/alumni/data/remote.ts`.
+- Strengthened `scripts/m4-application-runtime-gate.mjs` to verify command-facade imports/contracts, preventing this compile-time omission from passing the source gate again.

@@ -552,3 +552,6 @@ Run:
 - `npm run build` once dependencies are installed.
 
 Runtime verification must confirm authenticated create/join/relationship/bootstrap/claim commands work through `/api/v1`, unauthorized calls return normalized 401/403 responses, and direct Supabase access still remains constrained by existing RLS.
+
+### Mission 4 runtime correction
+During first local `next build`, Alumni claim transport exposed a missing import in `verticals/alumni/data/remote.ts`. The file now imports `postCommand` from `lib/api-client` and `ClaimIdentityResult` from `core/api/contracts`. Mission 4 source validation now includes an explicit facade-import/contract check.
