@@ -1390,3 +1390,14 @@ Status: SOURCE IMPLEMENTED / RUNTIME CERTIFICATION PENDING. Closes the planned M
 ### LC-1 — M6/M7 Launch Control Governance Hardening — COMPLETE
 Restored the permanent rule that deployment never equals release. All M6-A..M6-E and M7-A..M7-F surfaces are controlled per vertical through the existing Launch Control.
 
+
+## 2026-08-28 — Strategic Product Model Update: Federation cardinality + product identity
+The post-M7 strategic finding is now corrected and durable:
+- Person↔Network is many-to-many.
+- Network↔Umbrella/Federation is also many-to-many.
+- A person's Family and Business networks do not automatically share an umbrella.
+- Multiple Family networks may share one community umbrella; multiple Retail networks may share a Retail federation; a Medical network may independently affiliate with a Medical association.
+- M6 peer trust and NF affiliation are distinct relationship classes.
+- Federation exposes an explicit policy-controlled federated profile, never the child network's private graph by implication.
+
+The system has crossed from a personal app into a reusable product/platform-backed product. Future roadmap language should use Product / Platform Foundation / Applications-Verticals consistently. The public Product Profile and Product Evolution Journey were rebuilt from the durable mission record rather than a conversational summary.

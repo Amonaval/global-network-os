@@ -225,3 +225,8 @@ Before mass advertising:
 
 Advertising should amplify a network that already feels alive.
 
+
+## 2026-08-28 — Founder narrative checkpoint
+The strongest narrative is not “a Family app with many features.” It is: **a personal Family hierarchy seed repeatedly encountered real identity, privacy, governance, participation and scale problems; solving those problems organically produced a governed Network OS product.**
+
+The product now has two independent many-to-many dimensions: people participate in multiple local networks, and networks independently affiliate into appropriate domain umbrellas/federations. Preserve this distinction in demos, diagrams and future commercialization narratives.

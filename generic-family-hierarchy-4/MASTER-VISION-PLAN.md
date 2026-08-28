@@ -389,3 +389,7 @@ The current Next.js + Supabase + Vercel architecture is considered a valid manag
 Do not add microservices, Kubernetes, Kafka, Redis, a dedicated graph database, native mobile, or RAG expansion as part of Mission 4. Extract only 3–5 high-value multi-step/privileged commands and preserve safe direct RLS-protected queries.
 
 See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNTIME-FOUNDATION.md`.
+
+
+## 2026-08-28 — Master model update: network-of-networks federation
+The long-term graph is not a single tree. Treat both `Person↔Network` and `Network↔Umbrella/Federation` as governed many-to-many relationships. Domain umbrellas remain independent: Family communities, Retail federations, Medical associations, trade groups, alumni federations, franchise hierarchies and other ecosystems may coexist without sharing membership or data. M6 peer trust remains separate from NF affiliation. Future applications reuse the common foundation while retaining domain-specific consent and publication policies.

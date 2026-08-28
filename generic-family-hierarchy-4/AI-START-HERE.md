@@ -151,3 +151,14 @@ Mission 7 ends at M7-F. Before proposing more trusted-network/showcase capabilit
 ### Permanent launch-control rule (LC-1)
 Never close a user-facing mission unless its capability is registered in the owning vertical feature catalog, persisted in Founder Launch Control, and runtime-gated. Deployment is not release. M6/M7 advanced capabilities are the reference implementation.
 
+
+## 2026-08-28 read-first product-model correction
+Before proposing Federation work, internalize these invariants:
+- `Person ↔ Network` is many-to-many.
+- `Network ↔ Umbrella/Federation` is also many-to-many.
+- A person's two Family networks may share one community umbrella; their two Retail businesses may share a Retail federation; an unrelated Medical business may belong to another association. Never infer umbrella membership from the person who belongs to those networks.
+- M6 bridge = peer trust/reach. NF affiliation = governed umbrella/federation participation. Do not reuse them as synonyms.
+- Federation publishes explicit federated profiles; it does not merge child graphs.
+- The system is now a Network OS product with a reusable platform foundation and multiple applications/verticals, not merely a Family app.
+
+For product history, use `TRUSTWEAVE-PRODUCT-EVOLUTION-JOURNEY.html` V2 and durable mission records rather than reconstructing history from memory.

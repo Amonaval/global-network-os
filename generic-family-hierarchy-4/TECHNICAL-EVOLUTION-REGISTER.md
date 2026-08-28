@@ -87,3 +87,6 @@ Added `pilot_product_decisions` as a small governed decision ledger above M7-D f
 ### LC-1 — Advanced capability rollout governance
 Reused the existing vertical-aware `platform_feature_flags` architecture rather than introducing a parallel flag service. Added catalog/runtime registration for M6/M7 and restored fail-closed rendering semantics on My Networks.
 
+
+## T13 — Network federation / affiliation graph — PLANNED, NF-0 first
+Model federation as governed many-to-many `Network ↔ Umbrella/Federation` relationships, not as a single parent pointer and not as M6 peer trust. A network may have multiple valid affiliations if policy permits. Preserve source-network provenance and publish only explicit federated-profile fields. Do not merge child graphs into umbrella graphs. NF-0 must define relationship types, authorization, visibility, revocation and application-specific publication scopes before NF-1/NF-2 implementation.

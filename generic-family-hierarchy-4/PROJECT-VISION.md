@@ -278,3 +278,14 @@ The common platform supplies reusable network primitives underneath while each v
 
 The long-term thesis is not “one giant super app screen.” It is **one trusted operating layer for many independently governed networks**.
 
+
+## 2026-08-28 — Product identity and two-axis Network OS model
+The project began as a personal Family hierarchy application and has organically crossed into a reusable **Network OS product** backed by a common platform foundation. Use the following vocabulary going forward:
+- Product: TrustWeave / Generic Network OS (working brand is provisional).
+- Platform foundation: identity, membership, governed networks, privacy, consent, launch control, peer trust, future federation, runtime and intelligence seams.
+- Applications/vertical products: Family, Alumni, Professional, Organization, Business Trust, Franchise, Community/Federation and future application products such as trusted matrimony.
+
+The structural model is not one hierarchy. Both major dimensions are many-to-many:
+`Person ↔ Network` and `Network ↔ Umbrella/Federation`. A person may participate in many unrelated networks; each network independently affiliates with appropriate domain umbrellas. M6 peer bridges remain a separate horizontal trust edge. NF federation must never imply child-graph disclosure.
+
+Traction will determine product-market fit and whether this becomes a product company; traction is not required to accurately call the present reusable system a product.

@@ -1825,84 +1825,98 @@ M7-F closes the Real-World Activation & Showcase program. No automatic M7-G is p
 All advanced M6/M7 capabilities are now launch-controlled per vertical. Future missions must include catalog registration + persisted launch row + runtime gate before closure. Advanced capabilities remain TEST by default until deliberate Pilot/Release promotion.
 
 
-# 2026-08-28 — Second Network Dimension: Federation / Affiliation
+# 2026-08-28 — Second Network Dimension: Federation / Affiliation (corrected model)
 
 ## Strategic finding
-The Network OS now has two independent but complementary structural dimensions. This is a major product-model clarification and should be used in future architecture, demos, product education and roadmap decisions.
+The Network OS now has **two independent many-to-many dimensions**. This is a major product-model clarification and must be reflected in architecture, demos, roadmap language, public storytelling and future schemas.
 
-### Dimension A — horizontal trusted reach
-`Person → many governed memberships` plus `Network ↔ Network` trusted peer bridges.
+### Dimension A — Person ↔ Networks + horizontal trusted reach
+A person may belong to many independently governed networks at the same time. Those networks do not merge just because they share a person.
 
-Purpose:
-- preserve independent network governance;
-- allow privacy-safe cross-network discovery;
-- enable consented introductions;
-- support bounded multi-hop trusted paths;
-- avoid merging member directories or graphs.
+Examples:
+- one person can belong to their own Family network and their spouse's Family network;
+- the same person can belong to two Retail Business networks and one Medical Business network;
+- the same person can simultaneously belong to Alumni, Professional, Family and Community networks.
 
-Conceptual shape:
+Separately, peer networks may establish governed M6 trust bridges for discovery and consented introductions.
 
 ```text
-Family A ───── trusted bridge ───── Alumni B ───── trusted bridge ───── Professional C
-   │                                      │                                      │
-people / local profiles              people / local profiles              people / local profiles
+                              PERSON
+                                │
+             ┌──────────────────┼──────────────────┐
+             │                  │                  │
+        Family A           Family B         Retail Business A
+             │                  │                  │
+      local/private graph  local/private graph  local/private graph
+
+        Network A  ↔  trusted peer bridge  ↔  Network B
 ```
 
-### Dimension B — vertical network federation
-`Person → Network → Community / Umbrella → Federation`.
+### Dimension B — Networks ↔ Umbrellas / Federations
+Network affiliation is also **many-to-many**. There is no rule that Family and Business networks belong to the same umbrella, and there is no rule that two networks owned/used by the same person share an umbrella.
 
-Purpose:
-- allow many small/private networks to participate in a larger ecosystem;
-- keep each child network's internal graph private;
-- expose a deliberate federated/public network profile upward;
-- support affiliation, chapter, association, franchise and federation semantics;
-- enable umbrella-level applications without flattening the underlying networks.
-
-Conceptual shape:
+Each network independently participates in zero, one or many suitable umbrella ecosystems subject to governance.
 
 ```text
-                         Wider Federation
-                               │
-                        Community / Umbrella
-                  ┌────────────┼────────────┐
-                  │            │            │
-              Family A      Family B      Family C
-                  │
-               Members
+                                  PERSON
+                                    │
+         ┌──────────────────────────┼───────────────────────────┐
+         │                          │                           │
+     Family A                   Family B                 Retail Business A
+         │                          │                           │
+         └──────────────┬───────────┘                           │
+                        ▼                                       ▼
+              Maheshwari Community                    Retail Federation X
+                                                                ▲
+                                                                │
+                                                        Retail Business B
+
+                                  PERSON
+                                    │
+                              Medical Business
+                                    │
+                                    ▼
+                           Medical Association Y
 ```
 
-Equivalent non-Family shapes include:
-- business → trade association;
-- outlet/dealer → regional franchise → national franchise;
-- alumni chapter → university alumni federation;
-- local organization → district/state/national federation;
-- professional group → umbrella association.
+Two Family networks may belong to the same community umbrella, or to different community umbrellas. Two Retail networks may share a Retail federation while an unrelated Medical network belongs to a Medical association. A single business may eventually have multiple valid affiliations—for example city trade association + national federation + community business forum—if policy permits it.
 
-## Product model — the cross
+### Relationship cardinality invariant
 
 ```text
-                         NETWORK FEDERATION
-                               ↑
-                               │
-              Network → Community → Federation
-                               │
-                               │
-HORIZONTAL TRUST  Network A ← NETWORK OS → Network B  HORIZONTAL TRUST
-                               │
-                               │
-                    Person → many networks
-                               ↓
-                         TRUSTED IDENTITY
+Person  ↔  Network               MANY : MANY
+Network ↔  Umbrella/Federation   MANY : MANY
+Network ↔  Peer Trust Bridge      MANY : MANY (governed bilateral edge)
 ```
 
-The product should therefore no longer be explained as only a hierarchy/tree or only a multi-network identity system. It is a governed **network-of-networks operating system** with both peer trust and hierarchical/federated affiliation.
+Do **not** model umbrella membership as ownership of the child network. Affiliation is a governed relationship with its own status, visibility, capabilities and provenance.
+
+## Product model — two axes, not one universal hierarchy
+
+```text
+                  DOMAIN-SPECIFIC UMBRELLAS / FEDERATIONS
+                 ↗              ↑                 ↖
+        Community X      Retail Federation     Medical Association
+             ↑                  ↑                    ↑
+             │                  │                    │
+          Family A         Retail Biz A         Medical Biz
+             ↑                  ↑                    ↑
+             └────────────── PERSON ─────────────────┘
+                              │
+                         other networks
+
+        HORIZONTAL DIMENSION: governed Network ↔ Network peer trust
+        VERTICAL/FEDERATION DIMENSION: governed Network ↔ Umbrella affiliation
+```
+
+The product should therefore not be explained as one tree, one community hierarchy or one global graph. It is a governed **network-of-networks product/platform** where people can participate in many local networks and those networks can participate in one or more larger domain-specific ecosystems.
 
 ## Critical architecture contract — Private Graph vs Federated Profile
 Affiliation must never imply inheritance of the child network's private graph.
 
 A future federated/public network profile may expose policy-controlled fields such as:
-- network/community name;
-- verified affiliation status;
+- network/community name and network type;
+- verified affiliation status and provenance;
 - origin / broad geography;
 - broad size or household/entity count;
 - opted-in public/federated participants;
@@ -1924,25 +1938,25 @@ It must not automatically expose:
 Mission 7 remains closed. Federation is a separate strategic track, not M7-G.
 
 ### NF-0 — Federation Architecture & Privacy Contract
-Define neutral relationship semantics, authorization, visibility inheritance rules, provenance and public/federated-profile boundaries. Distinguish peer trust bridges from affiliation/containment relationships.
+Define neutral affiliation semantics, many-to-many cardinality, authorization, visibility rules, provenance and federated-profile boundaries. Explicitly distinguish peer trust bridges from umbrella affiliation.
 
 ### NF-1 — Network Federated/Public Profile
-Give each network an explicit policy-controlled outward profile. Reuse existing network identity, launch control and visibility primitives where semantically valid.
+Give each network an explicit policy-controlled outward profile. A network may maintain different publication scopes for different umbrella/application contexts rather than one universal public record.
 
-### NF-2 — Network → Umbrella Affiliation
-Request/approve/revoke affiliation between a child network and umbrella network. Initial relationship types should include affiliation, chapter, association, franchise and federation without forcing them into M6 peer-bridge semantics.
+### NF-2 — Network ↔ Umbrella Affiliation
+Request/approve/revoke affiliation between a network and an umbrella. Initial relationship types may include affiliation, chapter, association, franchise, federation and verified membership. Support multiple affiliations when permitted by policy.
 
 ### NF-3 — Umbrella Network Runtime
-Allow the umbrella to treat networks—not only people/entities—as governed participants. Provide network-member directory, affiliation status, aggregate health and permitted public profile views.
+Allow an umbrella to treat networks—not only people/entities—as governed participants. Provide network-member directory, affiliation status, aggregate health and permitted federated-profile views.
 
 ### NF-4 — Federated Directory & Discovery
-Search/discover participating networks and opted-in participants across the umbrella while preserving source-network provenance and privacy.
+Search/discover participating networks and explicitly opted-in participants across an umbrella while preserving source-network provenance and privacy.
 
 ### NF-5 — Community Applications Framework
 Create reusable application scopes on top of federation, e.g. matrimony, jobs/referrals, expertise, business discovery, mentorship, relocation help, events, emergency/community support.
 
 ### NF-6 — Trusted Matrimony Vertical V1
-Potential high-value application: claimed person → family provenance → verified community affiliation → explicit matrimony opt-in → privacy-safe discovery → mutual introduction/reveal. Treat this as a vertical/application product, not a relaxation of default profile privacy.
+Potential high-value application: claimed person → Family provenance → verified community affiliation → explicit matrimony opt-in → privacy-safe discovery → mutual introduction/reveal. Matrimony is an application over the trust/federation foundation, not a relaxation of default profile privacy.
 
 ### NF-7 — Federation Pilot / Launch Control / Certification
 All federation and umbrella capabilities must use the existing Launch Control invariant (`hidden → test → pilot → released`) per vertical and, where applicable, per network/pilot cohort.
@@ -1950,7 +1964,17 @@ All federation and umbrella capabilities must use the existing Launch Control in
 ## Recommended sequencing
 Do not implement the entire NF track in one batch. The first architecture/product batch should be **NF-0 + NF-1 + NF-2**. It creates the second dimension without prematurely building a community super-app or matrimony marketplace.
 
-A strong real-world pilot candidate is multiple actual Family networks affiliating into one wider community umbrella while each Family retains its private governance and data boundary.
+A strong real-world pilot is two or more actual Family networks affiliating into the same wider community umbrella while each Family retains its private governance. A second proof should use Business networks with a domain-specific umbrella so the architecture proves it is not Family-specific.
+
+## Product classification — app → product → platform-backed product
+The project began legitimately as an application/POC. It is now valid to describe the larger system as a **product** because it has repeatable users/roles, multiple vertical applications, reusable governed capabilities, release controls, privacy contracts, onboarding, pilot evidence, operational/runtime architecture and an explicit value proposition beyond one personal use case.
+
+Use this vocabulary:
+- **Product:** TrustWeave / Generic Network OS (working public identity; provisional brand).
+- **Platform foundation:** identity, membership, network model, trust, federation, privacy, consent, launch governance, runtime and intelligence seams.
+- **Applications / vertical products:** Family, Alumni, Professional, Organization, Business Trust, Franchise, Community/Federation and future Matrimony/Jobs/Expertise applications.
+
+Traction is required to prove product-market fit and a product company—not to earn the word “product.”
 
 # 2026-08-28 — Product Storytelling & Documentation System
 
@@ -1966,9 +1990,9 @@ Alternative naming directions retained for later brand review:
 ## Working public description
 > TrustWeave is a governed Network OS for families, alumni, professional groups, businesses, franchises and communities. People can belong to many private networks, networks can establish trusted peer bridges, and networks can affiliate into larger communities/federations while exposing only deliberately shared profiles. Applications such as trusted introductions, expertise discovery, jobs, business discovery, community services and matrimony can reuse the same identity, trust, privacy and consent foundation.
 
-## Two durable public/story artifacts created now
-1. `TRUSTWEAVE-PUBLIC-PRODUCT-PROFILE.html` — public-facing interactive product explainer: product thesis, two-dimensional architecture, applications, privacy boundary, major capabilities and working-name exploration.
-2. `TRUSTWEAVE-PRODUCT-EVOLUTION-JOURNEY.html` — interactive organic product history from the personal Family hierarchy POC through Family product, architecture hardening, vertical expansion, intelligence, network effect, M6/M7 governance and the new Federation dimension.
+## Two durable public/story artifacts — V2 rebuilt from the durable project record
+1. `TRUSTWEAVE-PUBLIC-PRODUCT-PROFILE.html` — public-facing interactive product explainer using the corrected many-to-many model: person↔networks, peer trust, network↔umbrella affiliation, domain-specific federations, application layer, privacy boundaries and product/platform positioning.
+2. `TRUSTWEAVE-PRODUCT-EVOLUTION-JOURNEY.html` — detailed interactive product archaeology rebuilt from `MISSION-STATUS.md`, `ROADMAP.md`, `CURRENT-STATE.md`, mission/release documents and architecture history. It records the major S/P/A/B/G/NX/M2–M7/LC-1/NF stages, why each shift happened, what it unlocked and which evidence files preserve it.
 
 These pages are intended to preserve product comprehension. The platform has crossed the point where a new stakeholder—or even the founder after a gap—can infer the whole product from the UI or codebase alone.
 

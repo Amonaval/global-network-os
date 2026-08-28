@@ -169,3 +169,17 @@ Implemented as the final planned Mission 7 closure gate. Owner/Admin users can r
 ## LC-1 — M6/M7 Launch Control Governance Hardening
 M6/M7 advanced capabilities are now fully registered in vertical-aware Founder Launch Control. They default to TEST (platform owners only), can be independently promoted per vertical/network to Pilot or Released, and My Networks fails closed when a capability is not enabled. M6-E multi-hop traversal is independently gateable from direct bridge/discovery behavior. Migration: 068.
 
+
+# 2026-08-28 — Product Model Clarification: Many-to-Many Federation + Product Status
+The current product model has two independent many-to-many dimensions:
+
+1. **Person ↔ Network:** a person may belong to many independently governed Family, Alumni, Professional, Business, Organization, Franchise or Community networks.
+2. **Network ↔ Umbrella/Federation:** each network may independently affiliate with zero, one or many appropriate domain umbrellas. Two Family networks may share one community umbrella; two Retail networks may share a Retail federation; an unrelated Medical network may belong to a different Medical association. Shared person membership does not imply shared umbrella membership.
+
+M6 peer bridges remain a separate horizontal trust relationship. NF affiliation is not a peer bridge and not ownership/graph merging.
+
+The larger system is now correctly described as a **product with a reusable platform foundation**, rather than merely a Family app. Family remains a first-class application/vertical and proving ground. Product-market fit and company traction remain future evidence questions.
+
+The two interactive story artifacts have been rebuilt as V2 from durable project history:
+- `TRUSTWEAVE-PUBLIC-PRODUCT-PROFILE.html`
+- `TRUSTWEAVE-PRODUCT-EVOLUTION-JOURNEY.html`

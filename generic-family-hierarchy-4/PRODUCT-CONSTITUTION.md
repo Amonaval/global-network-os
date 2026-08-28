@@ -112,3 +112,18 @@ Avoid:
 At every strategic checkpoint ask:
 
 > If we stopped adding features today, what would we redesign, simplify or connect so the existing product became dramatically more desirable?
+
+
+## Federation constitution — 2026-08-28
+The Network OS must not collapse into one global hierarchy or public social graph.
+
+Permanent rules:
+- Person↔Network is many-to-many.
+- Network↔Umbrella/Federation is many-to-many.
+- A user's networks may affiliate with the same umbrella, different umbrellas or no umbrella at all.
+- M6 peer trust and NF umbrella affiliation are different semantics and must remain different contracts.
+- Umbrella participation exposes only explicit federated/public profile fields and application-specific opt-ins; it never inherits the child network's private graph by default.
+- Launch Control applies to every future federation/application capability before Alpha/Pilot/Release exposure.
+- High-value applications such as trusted matrimony must reuse provenance, identity, privacy and mutual-consent primitives rather than weakening them.
+
+The product is now described as a product/platform-backed product, with Family as one application/vertical rather than the total product boundary.
