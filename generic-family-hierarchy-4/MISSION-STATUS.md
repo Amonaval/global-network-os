@@ -1419,3 +1419,19 @@ NF-1 creates the first persisted federation-facing identity for a network withou
 - no M6 bridge reuse and no implicit person/member/graph access;
 - CR-1 first slice: advanced capability modules dynamically loaded when rendered.
 Runtime DB migration/deployed smoke remains required in the user's installed workspace.
+
+## NF-3 — Umbrella Network Runtime — SOURCE IMPLEMENTED 2026-08-29
+**Outcome:** approved Network↔Umbrella affiliations now become an operational network-of-networks runtime without turning the umbrella into a people database.
+
+Implemented:
+- admin-only umbrella runtime summaries;
+- approved participating-network directory;
+- Passport visibility/freshness coverage;
+- vertical/capability/application-scope aggregate mix;
+- privacy-minimal readiness score;
+- source Passport privacy respected dynamically;
+- TEST Launch Control + lazy client loading.
+
+**Verification posture:** integrated runtime verification intentionally deferred by founder until the federation batch is applied sequentially. See `MISSION-NF3-RUNTIME-VERIFICATION-CHECKLIST.md`.
+
+**Next:** NF-4 Federated Directory & Discovery.

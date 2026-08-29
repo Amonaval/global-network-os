@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');
+const must=(p,needles)=>{const s=read(p);for(const n of needles)if(!s.includes(n))throw new Error(`${p} missing ${n}`)};
+must('supabase/migrations/072_nf3_umbrella_network_runtime.sql',['get_my_umbrella_runtime_summaries','get_umbrella_network_participants','f.status=\'approved\'','p.visibility in (\'federation\',\'public\')','%.advanced.umbrella_runtime']);
+must('components/FederationUmbrellaRuntime.tsx',['NF3NetworksNotPeopleTxt','NF3DirectoryTitleTxt','UMBRELLA_RUNTIME_GUARDRAILS']);
+must('core/features/advanced-network.ts',["'umbrella_runtime'",'Umbrella network runtime']);
+must('components/MyNetworksHome.tsx',['dynamic(()=>import("./FederationUmbrellaRuntime")','enabled("umbrella_runtime")']);
+const sql=read('supabase/migrations/072_nf3_umbrella_network_runtime.sql').toLowerCase();
+for(const forbidden of ['family_members','alumni_profiles','organization_profiles','network_relationships','network_memberships nm'])if(sql.includes(forbidden))throw new Error(`NF-3 must not depend on private/member graph table: ${forbidden}`);
+console.log('NF-3 umbrella runtime source gate passed.');

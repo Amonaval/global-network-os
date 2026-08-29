@@ -1948,8 +1948,19 @@ Create a first-class Umbrella/Federation entity and explicit many-to-many Networ
 
 Initial relationship types: member, chapter, affiliate, constituent, franchisee, partner and other. Multiple affiliations are allowed where governance permits.
 
-### NF-3 — Umbrella Network Runtime
-Allow an umbrella to treat networks—not only people/entities—as governed participants. Provide network-member directory, affiliation status, aggregate health and permitted federated-profile views.
+### NF-3 — Umbrella Network Runtime — SOURCE IMPLEMENTED 2026-08-29
+An umbrella now treats **Networks as its governed participants**. The operating runtime consumes approved NF-2 affiliations plus currently permitted NF-1 Passport metadata only.
+
+Implemented source scope:
+- approved participating-network directory (not a child-member directory);
+- requested/suspended affiliation governance counts;
+- Passport visibility and freshness coverage;
+- vertical diversity and outward capability/application-scope mix;
+- privacy-minimal federation readiness score;
+- Passport privacy re-evaluated at read time so a source network can withhold outward fields without destroying institutional affiliation;
+- independent TEST Launch Control and dynamic client loading.
+
+**Architecture invariant:** NF-3 must not query or replicate child-network people, contacts, relationships or graph topology. Aggregate health is federation-operation metadata, not private-network surveillance.
 
 ### NF-4 — Federated Directory & Discovery
 Search/discover participating networks and explicitly opted-in participants across an umbrella while preserving source-network provenance and privacy.

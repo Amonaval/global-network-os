@@ -153,3 +153,26 @@ A feature has three independent states: **entitlement/rollout**, **code/dependen
 
 ## Future composable network-type architecture
 The six current verticals are reference implementations. After their primitives stabilize, extract a versioned Network Type Manifest covering terminology, entities, relationships, projections, fields, modules, navigation, workflows, roles and application/federation scopes. A governed Network Type Studio can then create hundreds of network products from safe declarative composition instead of adding hard-coded verticals.
+
+## NF-3 federation runtime read model — 2026-08-29
+```text
+Umbrella Admin
+     │
+     ▼
+approved Network↔Umbrella affiliations
+     │
+     ├── Network identity / vertical / affiliation metadata
+     │
+     └── currently permitted Network Passport projection
+             │
+             ▼
+      Umbrella Network Runtime
+      - network participant directory
+      - affiliation health
+      - Passport readiness/freshness
+      - vertical/capability/scope aggregates
+```
+
+**Forbidden shortcut:** `Umbrella → child network_memberships / profiles / relationships`.
+
+The NF-3 read model is intentionally derived and privacy-minimal. A Network Passport becoming Private removes its outward fields from the runtime at the next read without requiring affiliation deletion.

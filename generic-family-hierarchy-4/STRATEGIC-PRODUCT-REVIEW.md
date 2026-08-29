@@ -629,3 +629,8 @@ NF-1 is strategically important because it prevents federation from becoming a d
 Two missing platform properties are now high-priority roadmap tracks. First, Launch Control must eventually govern not only visible behavior but code/dependency loading and backend activity; disabled advanced capabilities should not burden the basic product path. Second, the current six verticals must become proven templates/primitives for a future governed Network Type Studio rather than a permanent closed taxonomy.
 
 NF-2 also establishes institutional provenance as a defensible asset: approved Network↔Umbrella relationships are explicit, reversible and Passport-based, while private member graphs remain isolated.
+
+## NF-3 strategic review — operating leverage without data centralization
+NF-3 strengthens the Distribution Supernode thesis because an umbrella can now become operationally useful before TrustWeave exposes any cross-network people discovery. The organizer sees governed network participation, readiness and declared outward capability coverage, while each child network retains its private graph.
+
+This creates a strategically valuable asymmetry: TrustWeave can make umbrella onboarding useful and scalable **without requiring central data ownership**. NF-4 should build discovery on top of this boundary rather than weakening it.

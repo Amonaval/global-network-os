@@ -451,3 +451,14 @@ Important: a Network Passport is **not a member directory**. Publishing it does 
 When `Governed federation affiliation` is enabled in Launch Control, a Network Owner/Admin can request that a network join an umbrella such as a community, association, federation or institution. Before requesting, set the network's Network Passport visibility to **Federation** or **Public**. The umbrella reviewer sees that governed Passport, not the network's member graph.
 
 Umbrella Owners/Admins can approve or decline requests and can suspend an approved affiliation. Either authorized side can revoke an active/requested affiliation. Approval verifies only the institution-to-institution relationship; it does not add network members to the umbrella or grant access to profiles, contacts, relationships or application scopes.
+
+## Using the Umbrella Network Runtime (NF-3)
+For an authorized Umbrella/Federation Owner or Admin:
+1. Complete NF-1 Network Passports for candidate child networks.
+2. Use NF-2 to request and approve Network↔Umbrella affiliations.
+3. When Launch Control enables **Umbrella network runtime**, open **My Networks**.
+4. Select an umbrella you govern.
+5. Review approved network participants, pending governance, Passport coverage, network-type diversity and outward capability/scope mix.
+6. Search/filter the participating-network directory.
+
+The directory contains **networks, not their members**. If a participating network changes its Passport to Private, its outward profile fields disappear from the umbrella runtime while the approved institutional affiliation remains recorded.

@@ -95,4 +95,7 @@ NF-2 source is implemented. The second dimension now uses separate `federation_u
 
 Architecture roadmap additions are binding: CR-1..CR-4 Composable Runtime/Lean Capability Delivery and NC-0..NC-5 Network Type Studio. NF-2 also starts CR-1 by dynamically importing advanced My Networks modules.
 
-Next federation mission: NF-3 Umbrella Network Runtime using **approved affiliations + Passport/aggregate outward data only**. Never infer member enrollment or expose private source graphs.
+NF-3 Umbrella Network Runtime is SOURCE IMPLEMENTED. Next federation mission: **NF-4 Federated Directory & Discovery**, built on approved affiliations + governed Passport provenance + explicit eligibility/opt-in. Never infer member enrollment or expose private source graphs.
+
+## Federation batch validation posture — 2026-08-29
+Founder is intentionally deferring integrated verification until the planned federation source missions are implemented. Preserve every mission as an additive affected-files ZIP with its own migration order and runtime checklist. Later apply/verify NF-1 → NF-2 → NF-3 → subsequent missions sequentially and fix issues at the mission boundary where they appear.

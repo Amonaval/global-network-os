@@ -97,3 +97,13 @@ Feature rollout and code delivery are separate concerns. Advanced My Networks ca
 
 ## T15 — Composable Network Type Studio — PLANNED AFTER VERTICAL MATURITY
 The fixed six-vertical catalog must evolve into a declarative Network Type Manifest and governed studio where customers can define terminology, entity/relationship schemas, projections, modules, workflows, roles and application scopes. Build only after repeated verticals prove the stable primitive vocabulary. See ROADMAP NC-0..NC-5.
+
+## 2026-08-29 — NF-3 federation read model
+Decision: implement the first umbrella operating runtime as an authorization-scoped **derived read model** over NF-2 affiliations + NF-1 outward Passport metadata. Do not copy child graphs into umbrella storage.
+
+Benefits:
+- keeps federation loosely coupled from vertical schemas;
+- preserves source-network revocability/privacy changes at read time;
+- avoids a second source of truth for network profiles;
+- creates a neutral substrate for future NF-4 discovery;
+- aligns with CR lean-capability loading through dynamic import.

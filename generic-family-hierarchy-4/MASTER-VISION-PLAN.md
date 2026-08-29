@@ -426,3 +426,8 @@ Federation now has a real outward identity primitive. Each independently governe
 NF-2 turns federation from a conceptual second dimension into governed institutional provenance: a network presents its Network Passport, requests an umbrella relationship, and the umbrella explicitly approves/declines/suspends/revokes it. The relationship never implies person membership or data access.
 
 Two architecture directions are now explicit in the long-term platform: **Composable Runtime** (entitlement, code delivery and backend activation are separately governed so basic products remain lean) and **Network Type Studio** (mature vertical primitives become declarative terminology/entities/relationships/modules/workflows so hundreds of network types can be created without product-code changes).
+
+## NF-3 Network-of-Networks Operating Principle — 2026-08-29
+Federation must scale governance without centralizing private graphs. An Umbrella's primary participant is a **Network**, not an inherited list of people. Operational federation health should therefore be computed from approved affiliations and governed outward Passport metadata rather than child-network surveillance.
+
+NF-3 proves the operating model: one trusted umbrella can coordinate many independently governed networks, observe federation-level readiness and capability coverage, and preserve each source network's ownership/privacy boundary.

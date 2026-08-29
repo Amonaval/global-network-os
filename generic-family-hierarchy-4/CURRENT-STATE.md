@@ -195,3 +195,12 @@ Started the Network Federation track with **Federation as Distribution Supernode
 The federation second dimension now has first-class umbrella anchors plus governed many-to-many affiliations. Network Owner/Admin requests require a Federation/Public Network Passport; Umbrella Owner/Admin approves or declines; approved links can be suspended/revoked. Affiliation is institutional provenance only and returns no member/profile/contact/graph data. M6 peer trust bridges remain separate. `network_affiliation` is TEST by default.
 
 Architecture review also started CR-1: advanced My Networks capability modules now use dynamic imports so hidden/disabled advanced modules are not part of the initial client path. Roadmap adds CR-1..CR-4 for entitlement + delivery + backend activation alignment and NC-0..NC-5 for a future composable Network Type Studio capable of hundreds of customer-defined network types.
+
+## 2026-08-29 — NF-3 Umbrella Network Runtime — source implemented
+- Umbrellas can now operate on **Networks as governed participants**.
+- Runtime reads approved NF-2 affiliations plus currently permitted NF-1 Passport metadata only.
+- Adds aggregate affiliation/Passport readiness, vertical diversity, capability/scope mix and an approved participating-network directory.
+- If a source Passport becomes Private, the approved institutional relationship remains but outward Passport fields are withheld.
+- No child-network member/profile/contact/relationship graph is queried.
+- `*.advanced.umbrella_runtime` is TEST by default and dynamically loaded.
+- Integrated runtime validation is intentionally deferred until federation mission ZIPs are applied sequentially.
