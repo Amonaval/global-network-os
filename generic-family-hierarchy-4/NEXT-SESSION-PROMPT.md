@@ -71,3 +71,15 @@ Every major mission needs a human-readable `.docx`, affected-files-only ZIP pres
 
 ## Public/story documentation direction
 Keep diagrams and human explanations alongside technical artifacts. The product has crossed the complexity threshold where code and release manifests alone are insufficient. Future artifact ideas are catalogued at the bottom of `ROADMAP.md`; create only what the current mission needs.
+
+## Founder defense / IP / expansion doctrine — binding from 2026-08-29
+Read `FOUNDER-IP-DEFENSE-AND-EXPANSION-STRATEGY.md` before choosing major roadmap work.
+
+The founder strategy is now explicitly **protect → seed → prove → compound → amplify**. Early GTM may remain intentionally low-profile while onboarding trusted, technically underserved institutions and building dense networks. Federation should be evaluated not only as architecture but as a **distribution supernode** that can activate many child networks.
+
+Run an anti-cloning test for major missions: **if a well-funded competitor copied every visible screen in six months, what would they still not possess?** Prefer work that compounds governed network density, institutional relationships, provenance, scoped permissions, successful outcome history, protected technical mechanisms, trade-secret operating intelligence or embedded workflows.
+
+Maintain a parallel `IP-*` invention-harvest track across TrustWeave and other founder products. Do not expose detailed potentially patentable mechanisms publicly before recording them and obtaining appropriate professional advice where filing may be valuable.
+
+## NF-0A mission now active
+`NF-0A / FD-2 — Federation as Distribution Supernode` has a foundation implementation. Read `MISSION-NF0A-FEDERATION-AS-DISTRIBUTION-SUPERNODE.md` and its runtime checklist before continuing. Do not turn the synthetic Distribution Lab into real affiliation data until NF-1 Network Passport and NF-2 governed affiliation contracts/persistence exist.

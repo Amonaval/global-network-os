@@ -18,6 +18,7 @@ import AdminPilotLaunchConsole from "./AdminPilotLaunchConsole";
 import PilotFeedbackLearningLoop from "./PilotFeedbackLearningLoop";
 import ShowcaseRuntimeCertification from "./ShowcaseRuntimeCertification";
 import PilotEvidenceDecisionGate from "./PilotEvidenceDecisionGate";
+import FederationDistributionSupernode from "./FederationDistributionSupernode";
 import {fetchEffectivePlatformFeatures} from "../capabilities/launch-runtime/remote";
 import {advancedNetworkFeatureKey,type AdvancedNetworkFeatureSuffix} from "../core/features/advanced-network";
 
@@ -58,6 +59,7 @@ export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onEx
   {enabled("trust_bridges")&&<NetworkBridgeManager identity={identity} allowPathTraversal={enabled("multihop_paths")}/>}
   {enabled("cross_network_discovery")&&<CrossNetworkDiscovery identity={identity} allowMultiHop={enabled("multihop_paths")}/>}
   {enabled("network_effect_pulse")&&<NetworkEffectPulse/>}
+  {enabled("federation_distribution")&&<FederationDistributionSupernode/>}
   {enabled("pilot_feedback")&&<PilotFeedbackLearningLoop identity={identity}/>}
   {enabled("product_decision_gate")&&<PilotEvidenceDecisionGate identity={identity}/>}
 

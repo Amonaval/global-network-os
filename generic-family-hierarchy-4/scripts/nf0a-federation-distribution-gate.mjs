@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8');
+let failures=0;const ok=(label,value)=>{if(value)console.log(`✓ ${label}`);else{console.error(`✗ ${label}`);failures++}};
+const contracts=read('core/federation/contracts.ts'),distribution=read('core/federation/distribution.ts'),features=read('core/features/advanced-network.ts'),home=read('components/MyNetworksHome.tsx'),migration=read('supabase/migrations/069_nf0_federation_distribution_supernode.sql');
+ok('Federation is a separate contract',contracts.includes('FederationRelationshipType')&&contracts.includes('private_graph_stays_private'));
+ok('Affiliation does not imply access',contracts.includes('affiliation_not_access')&&contracts.includes('network_not_person'));
+ok('Distribution scoring is aggregate-only',distribution.includes('No person-level profile')&&distribution.includes('multiplicationScore'));
+ok('Federation distribution is launch-controlled',features.includes("'federation_distribution'")&&features.includes("bundle:'federation'"));
+ok('My Networks renders the launch-controlled lab',home.includes('FederationDistributionSupernode')&&home.includes('enabled("federation_distribution")'));
+ok('Migration defaults federation distribution to TEST',migration.includes("'test'")&&migration.includes("grants no person-level access"));
+if(failures){process.exitCode=1}else console.log('NF-0A federation distribution source gate passed.');

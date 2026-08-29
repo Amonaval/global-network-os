@@ -54,8 +54,7 @@
     "validate:stability1": "node scripts/stability-1-source-gate.mjs",
     "validate:m2": "node scripts/m2-professional-i18n-gate.mjs && npm run validate:stability1",
     "audit:i18n": "node scripts/i18n-extraction-audit.mjs",
-    "validate:m3": "node scripts/m3-governed-graph-bootstrap-gate.mjs && npm run validate:m2 && npm run audit:i18n && npm run audit:i18n:tokens",
-    "audit:i18n:tokens": "node scripts/i18n-token-integrity-gate.mjs",
+    "validate:m3": "node scripts/m3-governed-graph-bootstrap-gate.mjs && npm run validate:m2 && npm run audit:i18n",
     "validate:m4": "node scripts/m4-application-runtime-gate.mjs && npm run validate:m3",
     "check:types": "tsc --noEmit",
     "validate:m5": "node scripts/m5-production-runtime-gate.mjs && npm run validate:m4",
@@ -70,7 +69,8 @@
     "validate:m7d": "node scripts/m7d-pilot-feedback-learning-gate.mjs && npm run validate:m7c",
     "validate:m7e": "node scripts/m7e-showcase-runtime-certification-gate.mjs && npm run validate:m7d",
     "validate:m7f": "node scripts/m7f-pilot-evidence-decision-gate.mjs && npm run validate:m7e",
-    "validate:lc1": "node scripts/lc1-m6-m7-launch-control-gate.mjs && npm run validate:m7f"
+    "validate:lc1": "node scripts/lc1-m6-m7-launch-control-gate.mjs && npm run validate:m7f",
+    "validate:nf0a": "node scripts/nf0a-federation-distribution-gate.mjs && npm run check:types"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

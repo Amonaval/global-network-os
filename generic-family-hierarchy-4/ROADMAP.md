@@ -2156,3 +2156,40 @@ Future public/demo HTML artifacts should favor:
 - current vs future capabilities visibly differentiated;
 - links between public product story and deeper technical evidence;
 - self-contained HTML where feasible for durable offline demos.
+
+## IP / Founder Defense Track — cross-cutting, beginning 2026-08-29
+
+This is a parallel strategic track, not a substitute for NF product delivery.
+
+### IP-0 — Invention Harvest & Patentability Review
+Create and maintain an invention register across TrustWeave and the founder's other products. Capture problem, prior approaches, technical mechanism/effect, novelty hypothesis, alternatives, implementation evidence, contributors/date and disclosure status. Score candidates before engaging patent counsel.
+
+Initial TrustWeave screening priorities:
+1. purpose-scoped privacy-preserving trust routing across independently governed network graphs;
+2. application-specific derived graph projection without exposing private underlying topology;
+3. explainable authorization/provenance (`Trust Receipt`) for federated discovery;
+4. outcome-adaptive trust routing without universal public reputation.
+
+### IP-1 — Disclosure & Trade-Secret Classification
+Before public technical publication, classify material as PUBLIC CONCEPT / PATENT CANDIDATE / TRADE SECRET / COMMODITY. Keep product value explainable while avoiding unnecessary disclosure of ranking weights, anti-abuse mechanisms and unfiled technical inventions.
+
+### FD-1 — Quiet Institutional Seeding
+Prioritize trusted organizers and technically underserved institutions where directory/coordination workflows are still spreadsheet, WhatsApp or manual. Measure activated-network density rather than raw registrations.
+
+### FD-2 — Federation Distribution Flywheel
+Prove that umbrella/federation anchors reduce marginal acquisition cost: organizer → child networks → members → adjacent-network referral. Federation must remain distribution leverage without creating implicit person-level access.
+
+### FD-3 — Outcome Moat Dashboard
+Track the non-copyable asset base: verified memberships/affiliations, scoped opt-ins, accepted introductions, fulfilled requests, successful outcomes, organizer referrals, dense-network count and time/cost to launch the next network.
+
+### Binding anti-cloning gate
+After NF-0/1/2, no major non-blocker mission should be prioritized solely because it expands generic capability. Prefer missions that create a user outcome **and** compound a defensible asset.
+
+See `FOUNDER-IP-DEFENSE-AND-EXPANSION-STRATEGY.md`.
+
+## HIGH PRIORITY — NF-0A / FD-2 Federation as Distribution Supernode — STARTED 2026-08-29
+Federation is now explicitly a GTM/distribution primitive as well as architecture. The first implementation slice adds aggregate-only **Network Multiplication Potential** scoring and a Launch-Controlled Distribution Lab. It intentionally does not create real affiliations yet.
+
+**Strategic success metric:** reduce marginal acquisition effort by activating many governed child networks from one trusted umbrella/association relationship while preserving `affiliation ≠ access`.
+
+Next: NF-1 Network Passport → NF-2 governed Network↔Umbrella affiliation → connect real aggregate affiliation data to the distribution model.

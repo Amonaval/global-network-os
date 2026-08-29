@@ -594,3 +594,29 @@ A person can belong to all of these, but experiences appear only within the rele
 
 This resolves a major “super-app clutter” risk: **shared account and platform, separate network contexts.**
 
+
+## 13. Founder defensibility review — copy resistance is now a product criterion
+
+The next phase must assume that a mature software company could reproduce visible UI and commodity platform features faster than a solo founder could outspend it. Therefore product strategy must deliberately create assets that cannot be cloned from screenshots or public demos.
+
+### Strategic weighting
+- Federation as distribution supernode: **24/100**
+- Network Passport: **14/100**
+- Purpose-specific Application Scopes: **22/100**
+- Trust Receipt / provenance explanation: **16/100**
+- Request → Route → Introduction → Outcome loop: **24/100**
+
+### Defensibility test
+Every major mission now asks two questions in addition to product value:
+1. **Does this create an observable user/network outcome?**
+2. **If copied at the UI layer, what non-copyable asset remains?**
+
+Prefer work that compounds at least one of: governed data, verified provenance, outcome history, institutional distribution, embedded operating workflow, patentable technical mechanism, trade-secret routing logic or durable brand vocabulary.
+
+### Quiet expansion strategy
+Before broad market exposure, favor institutional anchors and communities where existing coordination is manual and internal technical-build capacity is limited. Launch a small number of dense networks, prove outcomes, capture organizer referrals and then activate adjacent networks through umbrella/federation channels. Broad awareness should amplify demonstrated density, not announce an easily copied empty concept.
+
+See `FOUNDER-IP-DEFENSE-AND-EXPANSION-STRATEGY.md`.
+
+## 2026-08-29 Strategic Shift — Distribution Before Disclosure
+The Network OS should not publicly spend its strongest network-effect story before it has real density. Early adoption can be won through simple useful private-network experiences and fast onboarding for technically underserved institutions. Federation becomes a **distribution supernode**: prioritize anchors by downstream governed-network activation potential. In parallel, selected standalone products can build founder credibility/attention. The full TrustWeave trust-routing story should be revealed progressively when product, density and attention clocks converge.

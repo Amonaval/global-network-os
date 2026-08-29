@@ -183,3 +183,6 @@ The larger system is now correctly described as a **product with a reusable plat
 The two interactive story artifacts have been rebuilt as V2 from durable project history:
 - `TRUSTWEAVE-PUBLIC-PRODUCT-PROFILE.html`
 - `TRUSTWEAVE-PRODUCT-EVOLUTION-JOURNEY.html`
+
+## 2026-08-29 — NF-0A / FD-2 Federation Distribution Foundation
+Started the Network Federation track with **Federation as Distribution Supernode**. A separate federation contract now encodes privacy invariants; an aggregate-only deterministic multiplier model ranks umbrella anchors; and a TEST-by-default Federation Distribution Lab is wired into My Networks through Launch Control. Real Network↔Umbrella persistence remains intentionally deferred to NF-1/NF-2.

@@ -1401,3 +1401,6 @@ The post-M7 strategic finding is now corrected and durable:
 - Federation exposes an explicit policy-controlled federated profile, never the child network's private graph by implication.
 
 The system has crossed from a personal app into a reusable product/platform-backed product. Future roadmap language should use Product / Platform Foundation / Applications-Verticals consistently. The public Product Profile and Product Evolution Journey were rebuilt from the durable mission record rather than a conversational summary.
+
+## NF Track
+- **NF-0A / FD-2 — Federation as Distribution Supernode:** FOUNDATION IMPLEMENTED / RUNTIME MIGRATION VERIFY NEXT. Separate federation semantics, privacy invariants, deterministic Network Multiplication Potential, synthetic cross-domain playground, TEST launch control and verification artifacts are in place. Real affiliation persistence remains NF-2.

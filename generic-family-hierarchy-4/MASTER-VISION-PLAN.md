@@ -393,3 +393,27 @@ See `NETWORK-OS-BACKEND-RUNTIME-ARCHITECTURE.md` and `MISSION-4-APPLICATION-RUNT
 
 ## 2026-08-28 — Master model update: network-of-networks federation
 The long-term graph is not a single tree. Treat both `Person↔Network` and `Network↔Umbrella/Federation` as governed many-to-many relationships. Domain umbrellas remain independent: Family communities, Retail federations, Medical associations, trade groups, alumni federations, franchise hierarchies and other ecosystems may coexist without sharing membership or data. M6 peer trust remains separate from NF affiliation. Future applications reuse the common foundation while retaining domain-specific consent and publication policies.
+
+## 2026-08-29 — Founder defensibility & quiet expansion layer
+
+TrustWeave should pursue a compound moat rather than assume product breadth or technical complexity is sufficient protection.
+
+### Five strategic moat engines
+1. **Federation as distribution supernode — 24/100.** Acquire whole trusted ecosystems through anchors/umbrellas.
+2. **Network Passport — 14/100.** Create a portable, policy-controlled outward identity for governed networks.
+3. **Purpose-specific Application Scopes — 22/100.** Reuse one trust fabric safely across jobs, expertise, business, community, matrimony and future applications.
+4. **Trust Receipt / explainable provenance — 16/100.** Make every important cross-network result explainable in terms of provenance, authorization and consent.
+5. **Request → Route → Introduction → Outcome — 24/100.** Turn graph infrastructure into repeat utility and proprietary outcome evidence.
+
+### Distribution posture
+Early expansion may intentionally remain low-profile. Prefer non-technical or technically underserved institutions with trusted organizers, existing directories and manual coordination pain. Bootstrap useful density before broad marketing. Use successful organizer relationships and federation/umbrella structures to pull adjacent networks into the platform.
+
+This is not permanent stealth and must never reduce transparency to users. It is sequencing: **protect → seed → prove → compound → amplify**.
+
+### IP posture
+Maintain a portfolio-wide invention-harvest discipline across TrustWeave, RAG/Organizational Intelligence, Dependency Intelligence and Consumer Taste/Movie Intelligence. Protect technically meaningful mechanisms selectively through patents where appropriate, keep sensitive ranking/anti-abuse details as trade secrets where better, use trademark/brand protection for distinctive product language, and rely on proprietary network/outcome data as the deepest long-term moat.
+
+See `FOUNDER-IP-DEFENSE-AND-EXPANSION-STRATEGY.md`.
+
+## HIGH IMPORTANCE — Stealth-to-Scale + Federation Distribution Supernodes
+TrustWeave should initially expose only the immediately useful private-network product while quietly compounding governed network density. Umbrella/federation anchors are acquisition multipliers: one organizer relationship can activate many independently governed networks. This must never create implicit member access. Loud public reveal is condition-gated by product proof, network density, institutional/federation proof, outcomes, IP readiness and production readiness—not by a fixed date. Selected standalone products may build founder visibility in parallel without exposing the complete TrustWeave strategic map.

@@ -1,13 +1,14 @@
 import type {FeatureDefinition} from './contracts';
 import type {NetworkVerticalKind} from '../verticals/contracts';
 
-export type AdvancedNetworkFeatureBundle='network-effect'|'showcase'|'pilot-ops';
+export type AdvancedNetworkFeatureBundle='network-effect'|'federation'|'showcase'|'pilot-ops';
 export type AdvancedNetworkFeatureSuffix=
  | 'identity_reach'
  | 'trust_bridges'
  | 'cross_network_discovery'
  | 'network_effect_pulse'
  | 'multihop_paths'
+ | 'federation_distribution'
  | 'guided_launch'
  | 'wow_showcase'
  | 'pilot_console'
@@ -30,6 +31,7 @@ export function createAdvancedNetworkFeatures<K extends NetworkVerticalKind,E ex
   {key:k('cross_network_discovery'),bundle:'network-effect',label:'Cross-network discovery & introductions',description:'M6-C privacy-safe discovery and consented introductions.',minimumExperience:connected,defaultLaunch:'test'},
   {key:k('network_effect_pulse'),bundle:'network-effect',label:'Network Effect Pulse',description:'M6-D privacy-minimal activation measurement.',minimumExperience:connected,defaultLaunch:'test'},
   {key:k('multihop_paths'),bundle:'network-effect',label:'Governed multi-hop paths',description:'M6-E depth-2 trusted path traversal. Hidden independently from direct discovery.',minimumExperience:connected,defaultLaunch:'test'},
+  {key:k('federation_distribution'),bundle:'federation',label:'Federation distribution supernode',description:'FD-2/NF-0 aggregate-only anchor scoring for one-to-many institutional onboarding. Affiliation never grants person-level access.',minimumExperience:'admin',defaultLaunch:'test'},
   {key:k('guided_launch'),bundle:'pilot-ops',label:'Guided network launch',description:'M7-A zero-friction launch and activation guidance.',minimumExperience:'admin',defaultLaunch:'test'},
   {key:k('wow_showcase'),bundle:'showcase',label:'WOW showcase theater',description:'M7-B synthetic guided network-effect stories.',minimumExperience:member,defaultLaunch:'test'},
   {key:k('pilot_console'),bundle:'pilot-ops',label:'Pilot launch console',description:'M7-C admin operating console for pilot readiness and intervention.',minimumExperience:'admin',defaultLaunch:'test'},
