@@ -3,25 +3,30 @@ import {useLanguage} from "../lib/i18n";
 // [NX-1][NX-6] Trusted multi-network home + later UX unification. Reviewable via window.nxFeatures.
 
 import {useEffect,useMemo,useState,type ReactNode} from "react";
+import dynamic from "next/dynamic";
 import {BriefcaseBusiness,Building2,ChevronRight,GraduationCap,Handshake,Layers3,Link2,LogOut,Plus,ShieldCheck,Sparkles,Store,TreePine,UserCheck,UserRound,UsersRound} from "lucide-react";
 import type {TrustedPersonIdentity} from "../core/identity/trusted-person";
 import {TRUSTED_IDENTITY_PRIVACY_RULES} from "../core/identity/trusted-person";
 import type {NetworkMembership} from "../core/network/contracts";
 import type {NetworkVerticalKind} from "../core/verticals/contracts";
 import {getVerticalDefinition} from "../app-shell/vertical-registry";
-import NetworkBridgeManager from "./NetworkBridgeManager";
-import CrossNetworkDiscovery from "./CrossNetworkDiscovery";
-import NetworkEffectPulse from "./NetworkEffectPulse";
-import NetworkEffectShowcase from "./NetworkEffectShowcase";
-import NetworkLaunchActivation from "./NetworkLaunchActivation";
-import AdminPilotLaunchConsole from "./AdminPilotLaunchConsole";
-import PilotFeedbackLearningLoop from "./PilotFeedbackLearningLoop";
-import ShowcaseRuntimeCertification from "./ShowcaseRuntimeCertification";
-import PilotEvidenceDecisionGate from "./PilotEvidenceDecisionGate";
-import FederationDistributionSupernode from "./FederationDistributionSupernode";
-import NetworkPassportManager from "./NetworkPassportManager";
 import {fetchEffectivePlatformFeatures} from "../capabilities/launch-runtime/remote";
 import {advancedNetworkFeatureKey,type AdvancedNetworkFeatureSuffix} from "../core/features/advanced-network";
+
+// Advanced capabilities are delivered only when rendered by Launch Control.
+// This keeps the basic My Networks bundle lean while preserving independent rollout.
+const NetworkBridgeManager=dynamic(()=>import("./NetworkBridgeManager"),{ssr:false});
+const CrossNetworkDiscovery=dynamic(()=>import("./CrossNetworkDiscovery"),{ssr:false});
+const NetworkEffectPulse=dynamic(()=>import("./NetworkEffectPulse"),{ssr:false});
+const NetworkEffectShowcase=dynamic(()=>import("./NetworkEffectShowcase"),{ssr:false});
+const NetworkLaunchActivation=dynamic(()=>import("./NetworkLaunchActivation"),{ssr:false});
+const AdminPilotLaunchConsole=dynamic(()=>import("./AdminPilotLaunchConsole"),{ssr:false});
+const PilotFeedbackLearningLoop=dynamic(()=>import("./PilotFeedbackLearningLoop"),{ssr:false});
+const ShowcaseRuntimeCertification=dynamic(()=>import("./ShowcaseRuntimeCertification"),{ssr:false});
+const PilotEvidenceDecisionGate=dynamic(()=>import("./PilotEvidenceDecisionGate"),{ssr:false});
+const FederationDistributionSupernode=dynamic(()=>import("./FederationDistributionSupernode"),{ssr:false});
+const NetworkPassportManager=dynamic(()=>import("./NetworkPassportManager"),{ssr:false});
+const NetworkFederationAffiliationManager=dynamic(()=>import("./NetworkFederationAffiliationManager"),{ssr:false});
 
 function icon(kind:NetworkVerticalKind,size=20):ReactNode{if(kind==="alumni")return <GraduationCap size={size}/>;if(kind==="organization")return <Building2 size={size}/>;if(kind==="business-trust")return <Handshake size={size}/>;if(kind==="franchise")return <Store size={size}/>;if(kind==="professional")return <BriefcaseBusiness size={size}/>;return <TreePine size={size}/>;}
 const outcome:Record<NetworkVerticalKind,string>={family:"Keep generations, relationships and family memory connected.",alumni:"Reconnect across batches, places, careers and shared history.",organization:"Understand people, expertise, ownership and how work connects.","business-trust":"Discover businesses and services through meaningful trust paths.",franchise:"Connect locations, owners, operations and local communities.",professional:"Find trusted expertise, warm referrals and reusable professional knowledge."};
@@ -61,6 +66,7 @@ export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onEx
   {enabled("cross_network_discovery")&&<CrossNetworkDiscovery identity={identity} allowMultiHop={enabled("multihop_paths")}/>}
   {enabled("network_effect_pulse")&&<NetworkEffectPulse/>}
   {enabled("network_passport")&&<NetworkPassportManager identity={identity}/>}
+  {enabled("network_affiliation")&&<NetworkFederationAffiliationManager identity={identity}/>}
   {enabled("federation_distribution")&&<FederationDistributionSupernode/>}
   {enabled("pilot_feedback")&&<PilotFeedbackLearningLoop identity={identity}/>}
   {enabled("product_decision_gate")&&<PilotEvidenceDecisionGate identity={identity}/>}

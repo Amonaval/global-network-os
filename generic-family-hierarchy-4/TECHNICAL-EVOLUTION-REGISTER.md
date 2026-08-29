@@ -90,3 +90,10 @@ Reused the existing vertical-aware `platform_feature_flags` architecture rather 
 
 ## T13 — Network federation / affiliation graph — PLANNED, NF-0 first
 Model federation as governed many-to-many `Network ↔ Umbrella/Federation` relationships, not as a single parent pointer and not as M6 peer trust. A network may have multiple valid affiliations if policy permits. Preserve source-network provenance and publish only explicit federated-profile fields. Do not merge child graphs into umbrella graphs. NF-0 must define relationship types, authorization, visibility, revocation and application-specific publication scopes before NF-1/NF-2 implementation.
+
+
+## T14 — Capability delivery / modular runtime — STARTED 2026-08-29
+Feature rollout and code delivery are separate concerns. Advanced My Networks capabilities now begin moving from static imports to Launch-Control-driven dynamic imports. Continue toward route/dependency isolation, backend activation boundaries, bundle budgets and capability manifests. Dynamic loading is performance/operational optimization only; RLS/server authorization remains the security boundary. See ROADMAP CR-1..CR-4.
+
+## T15 — Composable Network Type Studio — PLANNED AFTER VERTICAL MATURITY
+The fixed six-vertical catalog must evolve into a declarative Network Type Manifest and governed studio where customers can define terminology, entity/relationship schemas, projections, modules, workflows, roles and application scopes. Build only after repeated verticals prove the stable primitive vocabulary. See ROADMAP NC-0..NC-5.

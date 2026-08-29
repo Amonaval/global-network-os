@@ -420,3 +420,9 @@ TrustWeave should initially expose only the immediately useful private-network p
 
 ## NF-1 milestone — Network Passport (2026-08-29)
 Federation now has a real outward identity primitive. Each independently governed network can maintain a **Network Passport** that states who the network is, broad context, what network-level capabilities it offers, which purpose areas it may participate in, and exactly whether that Passport is private, federation-only or public. This is intentionally not a public member directory and must never be populated by copying private graph topology. The Passport becomes the identity anchor for NF-2 affiliation provenance and later Trust Receipts.
+
+
+## 2026-08-29 — Federation provenance + composable platform direction
+NF-2 turns federation from a conceptual second dimension into governed institutional provenance: a network presents its Network Passport, requests an umbrella relationship, and the umbrella explicitly approves/declines/suspends/revokes it. The relationship never implies person membership or data access.
+
+Two architecture directions are now explicit in the long-term platform: **Composable Runtime** (entitlement, code delivery and backend activation are separately governed so basic products remain lean) and **Network Type Studio** (mature vertical primitives become declarative terminology/entities/relationships/modules/workflows so hundreds of network types can be created without product-code changes).

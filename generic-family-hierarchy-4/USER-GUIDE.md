@@ -445,3 +445,9 @@ Choose visibility deliberately:
 - **Public** — enables the read-only `/passport/<slug>` page.
 
 Important: a Network Passport is **not a member directory**. Publishing it does not expose member names, contact details, relationships or private graph topology. Declaring a participation scope also does not opt any member into that application.
+
+
+## Network Passport affiliation with a community / federation (NF-2)
+When `Governed federation affiliation` is enabled in Launch Control, a Network Owner/Admin can request that a network join an umbrella such as a community, association, federation or institution. Before requesting, set the network's Network Passport visibility to **Federation** or **Public**. The umbrella reviewer sees that governed Passport, not the network's member graph.
+
+Umbrella Owners/Admins can approve or decline requests and can suspend an approved affiliation. Either authorized side can revoke an active/requested affiliation. Approval verifies only the institution-to-institution relationship; it does not add network members to the umbrella or grant access to profiles, contacts, relationships or application scopes.

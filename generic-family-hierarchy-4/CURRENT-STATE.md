@@ -189,3 +189,9 @@ Started the Network Federation track with **Federation as Distribution Supernode
 
 ## 2026-08-29 — NF-1 Network Passport
 **SOURCE IMPLEMENTED / SOURCE-GATED / RUNTIME VERIFICATION PENDING.** Networks now have a separate persisted outward identity contract with private/federation/public visibility, admin-governed network-level metadata, declared purpose scopes, and an optional shareable `/passport/<slug>` page. The public RPC reads only explicitly public Passport rows and does not source member/profile/relationship tables. NF-1 is Launch-Controlled and TEST by default. NF-2 governed Network↔Umbrella affiliation is next.
+
+
+## 2026-08-29 — NF-2 Governed Network↔Umbrella Affiliation — source implemented
+The federation second dimension now has first-class umbrella anchors plus governed many-to-many affiliations. Network Owner/Admin requests require a Federation/Public Network Passport; Umbrella Owner/Admin approves or declines; approved links can be suspended/revoked. Affiliation is institutional provenance only and returns no member/profile/contact/graph data. M6 peer trust bridges remain separate. `network_affiliation` is TEST by default.
+
+Architecture review also started CR-1: advanced My Networks capability modules now use dynamic imports so hidden/disabled advanced modules are not part of the initial client path. Roadmap adds CR-1..CR-4 for entitlement + delivery + backend activation alignment and NC-0..NC-5 for a future composable Network Type Studio capable of hundreds of customer-defined network types.

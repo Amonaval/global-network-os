@@ -146,3 +146,10 @@ Review these buckets:
 10. **Evidence/intelligence isolation** — optional AI remains decoupled from canonical operations.
 
 Do not turn this into a permanent refactor project. Prioritize debt only when it blocks product quality, security, scale, mobile portability or a validated vertical.
+
+
+## 2026-08-29 — Capability delivery is a separate architecture dimension
+A feature has three independent states: **entitlement/rollout**, **code/dependency delivery**, and **backend/runtime activation**. Hiding a feature is insufficient if its large UI/dependencies still ship or its RPC/subscription/job activity still runs. CR-1 begins by dynamically importing advanced My Networks modules. Future capability manifests should declare lazy UI entrypoints, dependencies, authorization, backend activation and telemetry. Dynamic loading never replaces server authorization/RLS.
+
+## Future composable network-type architecture
+The six current verticals are reference implementations. After their primitives stabilize, extract a versioned Network Type Manifest covering terminology, entities, relationships, projections, fields, modules, navigation, workflows, roles and application/federation scopes. A governed Network Type Studio can then create hundreds of network products from safe declarative composition instead of adding hard-coded verticals.

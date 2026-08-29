@@ -1408,3 +1408,14 @@ The system has crossed from a personal app into a reusable product/platform-back
 ## NF-1 — Network Passport
 **Status:** SOURCE IMPLEMENTED / SOURCE-GATED / RUNTIME VERIFICATION PENDING.
 NF-1 creates the first persisted federation-facing identity for a network without exposing its private graph. Owners/Admins can author a Passport with explicit `private | federation | public` visibility, network summary/geography/capabilities/purpose declarations and a stable slug. Public Passport reads are anonymous only when deliberately public. Participation-scope declarations are inert and create no person/application consent. Source gate and i18n gate pass; full type/build verification remains pending a complete dependency install. Next: NF-2 governed Network↔Umbrella affiliation.
+
+
+## NF-2 — Governed Network↔Umbrella Affiliation — SOURCE IMPLEMENTED — 2026-08-29
+- first-class federation umbrellas and umbrella administrators;
+- many-to-many governed Network↔Umbrella affiliations;
+- Federation/Public Network Passport required before request;
+- request → approve/decline → suspend/revoke lifecycle;
+- independent TEST-by-default `network_affiliation` Launch Control;
+- no M6 bridge reuse and no implicit person/member/graph access;
+- CR-1 first slice: advanced capability modules dynamically loaded when rendered.
+Runtime DB migration/deployed smoke remains required in the user's installed workspace.

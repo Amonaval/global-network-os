@@ -88,3 +88,11 @@ Maintain a parallel `IP-*` invention-harvest track across TrustWeave and other f
 `NF-1 — Network Passport` is source implemented. Read `MISSION-NF1-NETWORK-PASSPORT.md`, release manifest and runtime checklist before continuing. The Passport is a separate network-level outward identity with `private | federation | public` visibility; it must never become a shortcut to member/profile/relationship data. Public `/passport/<slug>` reads only deliberately public Passport rows. Purpose scopes are declarations only, not person consent.
 
 **Next recommended mission: NF-2 — Governed Network ↔ Umbrella Affiliation.** Implement explicit request/review/approve/decline/suspend/revoke affiliation between independently governed networks/umbrellas, using Network Passports for outward identity. Do not reuse M6 peer bridge semantics and do not grant implicit person-level access.
+
+
+## Latest handoff — 2026-08-29 NF-2
+NF-2 source is implemented. The second dimension now uses separate `federation_umbrellas` / `network_umbrella_affiliations`, never M6 peer bridge rows. Requests require an NF-1 Passport with `federation` or `public` visibility; umbrella admins approve/decline, suspend and revoke. `*.advanced.network_affiliation` remains TEST by default.
+
+Architecture roadmap additions are binding: CR-1..CR-4 Composable Runtime/Lean Capability Delivery and NC-0..NC-5 Network Type Studio. NF-2 also starts CR-1 by dynamically importing advanced My Networks modules.
+
+Next federation mission: NF-3 Umbrella Network Runtime using **approved affiliations + Passport/aggregate outward data only**. Never infer member enrollment or expose private source graphs.

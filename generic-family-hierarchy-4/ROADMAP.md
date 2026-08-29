@@ -1943,8 +1943,10 @@ Define neutral affiliation semantics, many-to-many cardinality, authorization, v
 ### NF-1 — Network Federated/Public Profile
 Give each network an explicit policy-controlled outward profile. A network may maintain different publication scopes for different umbrella/application contexts rather than one universal public record.
 
-### NF-2 — Network ↔ Umbrella Affiliation
-Request/approve/revoke affiliation between a network and an umbrella. Initial relationship types may include affiliation, chapter, association, franchise, federation and verified membership. Support multiple affiliations when permitted by policy.
+### NF-2 — Network ↔ Umbrella Affiliation — SOURCE IMPLEMENTED 2026-08-29
+Create a first-class Umbrella/Federation entity and explicit many-to-many Network↔Umbrella affiliation lifecycle. A network Owner/Admin requests using a Federation/Public Network Passport; an Umbrella Owner/Admin reviews; either side can revoke and the umbrella can suspend. Approved affiliation is institutional provenance only and grants **zero implicit member/profile/graph/application access**. M6 peer trust remains a different edge type.
+
+Initial relationship types: member, chapter, affiliate, constituent, franchisee, partner and other. Multiple affiliations are allowed where governance permits.
 
 ### NF-3 — Umbrella Network Runtime
 Allow an umbrella to treat networks—not only people/entities—as governed participants. Provide network-member directory, affiliation status, aggregate health and permitted federated-profile views.
@@ -1960,6 +1962,49 @@ Potential high-value application: claimed person → Family provenance → verif
 
 ### NF-7 — Federation Pilot / Launch Control / Certification
 All federation and umbrella capabilities must use the existing Launch Control invariant (`hidden → test → pilot → released`) per vertical and, where applicable, per network/pilot cohort.
+
+## Strategic platform track — CR: Composable Runtime & Lean Capability Delivery
+Feature rollout must not mean "ship everything and hide most of it." Mature deployments should align three independent controls:
+1. **Entitlement/rollout** — who may use a capability.
+2. **Delivery/loading** — whether its UI code, route bundle and heavy dependencies are loaded.
+3. **Data/runtime activation** — whether backend queries, subscriptions, jobs and expensive services run.
+
+### CR-1 — Client capability code splitting — STARTED 2026-08-29
+Move advanced My Networks capabilities behind dynamic imports so basic users load the shell and enabled product modules rather than every advanced feature bundle. NF-2 starts this on the M6/M7/NF advanced capability cluster.
+
+### CR-2 — Route & dependency isolation
+Split heavy domain routes/dependencies into independently loadable capability boundaries. Prevent optional graph/map/editor/intelligence dependencies from entering the basic path unless required. Add bundle budgets and bundle-analyzer checks.
+
+### CR-3 — Backend activation boundaries
+Feature state must also gate RPC/query/subscription/background-job activation. Hidden capability code must not create avoidable network calls, realtime subscriptions, caches or job load. Security authorization remains server-side regardless of client delivery.
+
+### CR-4 — Capability manifests / deployable packs
+Evolve the vertical registry into capability manifests describing UI entrypoints, data contracts, migrations/dependencies, permissions, telemetry and lazy loaders. Investigate build/deployment profiles for Core, Community, Organization, Intelligence and other packs only when operational evidence justifies separate deployment artifacts.
+
+**Architecture rule:** dynamic import is a performance boundary, never a security boundary. Server authorization/RLS remains authoritative.
+
+## Strategic platform track — NC: No-Code / Composable Network Type Studio
+The six mature verticals are proving grounds, not the permanent limit of the platform. Once their primitives are stable, users must be able to create new network products without source-code changes.
+
+### NC-0 — Primitive extraction from mature verticals
+Identify reusable primitives proven across Family, Alumni, Organization, Business Trust, Franchise and Professional: entity types, relationship types, hierarchy/projections, vocabulary, profile fields, lifecycle states, modules, workflows, permissions, applications, dashboard cards and navigation.
+
+### NC-1 — Network Type Manifest
+Define a versioned declarative manifest for a custom network type: name/icon/theme, terminology/nomenclature, entity schema, relationship vocabulary, projections/hierarchies, enabled capability modules, navigation and default governance.
+
+### NC-2 — Network Type Studio
+Provide a governed builder where an Owner can create a new network type, rename concepts, define fields/relationships, choose modules, configure workflows/roles and preview the resulting experience without editing code.
+
+### NC-3 — Module Marketplace / Composition
+Allow reusable modules such as directory, graph, timeline, events, expertise, business discovery, intake, memories, jobs, federation and intelligence to be composed into a network product. Dependencies/conflicts must be validated automatically.
+
+### NC-4 — Custom workflow, policy & application scopes
+Add declarative state machines, approval flows, role/permission matrices, purpose-scoped publication and federation/application participation rules. Avoid arbitrary user code in the first versions; prefer safe declarative configuration.
+
+### NC-5 — Template packaging & versioned evolution
+Promote successful custom types into reusable templates, support version migration, configuration export/import and compatibility checks. This is the path from six hand-authored verticals to **hundreds of governed network types**.
+
+**Sequencing:** do not build NC-2 prematurely. First mature multiple verticals and federation so the studio exposes proven primitives rather than freezing today’s assumptions into a generic builder.
 
 ## Recommended sequencing
 Do not implement the entire NF track in one batch. The first architecture/product batch should be **NF-0 + NF-1 + NF-2**. It creates the second dimension without prematurely building a community super-app or matrimony marketplace.
@@ -2208,3 +2253,17 @@ Completed source scope:
 - independent TEST-by-default Launch Control.
 
 **Next:** NF-2 Network ↔ Umbrella Affiliation. Do not build umbrella directory/search or infer any person access until explicit affiliation request/review/revoke semantics exist.
+
+
+## 2026-08-29 — NF-2 Governed Network↔Umbrella Affiliation — SOURCE IMPLEMENTED
+NF-2 establishes the second network dimension as a separate governed graph:
+- first-class umbrella/community/association/federation anchors;
+- umbrella Owner/Admin governance;
+- Passport-gated affiliation requests;
+- umbrella approve/decline; suspend/revoke lifecycle;
+- many-to-many affiliations;
+- no reuse of M6 `network_trust_bridges`;
+- no member/profile/contact/relationship/graph access from affiliation;
+- TEST-by-default Launch Control via `*.advanced.network_affiliation`.
+
+**Next:** NF-3 Umbrella Network Runtime should consume only approved affiliations and Passport/aggregate outward data. Do not turn approved affiliations into automatic person membership or broad discovery.

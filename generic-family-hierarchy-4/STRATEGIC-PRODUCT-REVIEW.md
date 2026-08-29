@@ -623,3 +623,9 @@ The Network OS should not publicly spend its strongest network-effect story befo
 
 ## NF-1 strategic review — Passport before affiliation
 NF-1 is strategically important because it prevents federation from becoming a disguised data-sharing hierarchy. Future umbrellas should interact first with a **Network Passport**, not with raw child-network tables. This gives TrustWeave a stable object on which to attach verified affiliation provenance, purpose scopes, Trust Receipts and outcome history while preserving local governance. The visible Passport UI is not itself the moat; its accumulated governed provenance can become one.
+
+
+## 2026-08-29 — Architecture lens: lean delivery and open-ended network types
+Two missing platform properties are now high-priority roadmap tracks. First, Launch Control must eventually govern not only visible behavior but code/dependency loading and backend activity; disabled advanced capabilities should not burden the basic product path. Second, the current six verticals must become proven templates/primitives for a future governed Network Type Studio rather than a permanent closed taxonomy.
+
+NF-2 also establishes institutional provenance as a defensible asset: approved Network↔Umbrella relationships are explicit, reversible and Passport-based, while private member graphs remain isolated.

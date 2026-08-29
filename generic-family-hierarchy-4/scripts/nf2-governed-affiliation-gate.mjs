@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+const must=(file,needles)=>{const s=fs.readFileSync(file,'utf8');for(const n of needles)if(!s.includes(n))throw new Error(`${file} missing: ${n}`)};
+must('core/federation/umbrella-affiliation.ts',['FederationUmbrellaType','NetworkUmbrellaAffiliation','FEDERATION_AFFILIATION_GUARDRAILS']);
+must('capabilities/federation/affiliation-remote.ts',['requestNetworkUmbrellaAffiliation','reviewNetworkUmbrellaAffiliation','suspendNetworkUmbrellaAffiliation','revokeNetworkUmbrellaAffiliation']);
+must('supabase/migrations/071_nf2_governed_network_umbrella_affiliation.sql',['public.federation_umbrellas','public.network_umbrella_affiliations','public.network_passports','visibility not in (\'federation\',\'public\')','review_network_umbrella_affiliation','suspend_network_umbrella_affiliation','revoke_network_umbrella_affiliation','%.advanced.network_affiliation']);
+must('components/NetworkFederationAffiliationManager.tsx',['NF2NoMemberAccessTxt','NF2PassportRequiredTxt','reviewNetworkUmbrellaAffiliation']);
+must('core/features/advanced-network.ts',["'network_affiliation'",'No member access is implied']);
+must('components/MyNetworksHome.tsx',['dynamic(()=>import("./NetworkFederationAffiliationManager")','enabled("network_affiliation")']);
+const migration=fs.readFileSync('supabase/migrations/071_nf2_governed_network_umbrella_affiliation.sql','utf8');
+for(const forbidden of ['network_trust_bridges','community_family_links','family_members','alumni_profiles','organization_people'])if(migration.includes(forbidden))throw new Error(`NF-2 must stay separate from peer bridges/person graph sources: ${forbidden}`);
+if(!migration.includes('grants no implicit member, profile, contact, relationship, graph, discovery or application access'))throw new Error('NF-2 privacy invariant comment missing');
+console.log('NF-2 source gate passed: separate governed Network↔Umbrella affiliation, Passport review boundary, reversible states, no person graph access.');
