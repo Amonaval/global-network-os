@@ -15,6 +15,7 @@ export type AdvancedNetworkFeatureSuffix=
  | 'federated_directory'
  | 'application_scopes'
  | 'trusted_request_routing'
+ | 'governed_introductions'
  | 'guided_launch'
  | 'wow_showcase'
  | 'pilot_console'
@@ -44,6 +45,7 @@ export function createAdvancedNetworkFeatures<K extends NetworkVerticalKind,E ex
   {key:k('federated_directory'),bundle:'federation',label:'Federated directory & discovery',description:'NF-4 purpose-aware discovery of directory-eligible Network Passports through approved umbrella paths. Returns Networks only; person/resource discovery requires separate consent contracts.',minimumExperience:member,defaultLaunch:'test'},
   {key:k('application_scopes'),bundle:'federation',label:'Purpose-scoped applications',description:'NF-5 explicit person-level opt-in snapshots for federation applications. Purpose consent is scoped by network, umbrella and application and never creates global discoverability.',minimumExperience:member,defaultLaunch:'test'},
   {key:k('trusted_request_routing'),bundle:'federation',label:'Trusted request routing',description:'NF-6 purpose-scoped requests routed deterministically to explicit NF-5 opt-ins through an approved umbrella path. Suggestions do not contact targets or reveal private contact details.',minimumExperience:member,defaultLaunch:'test'},
+  {key:k('governed_introductions'),bundle:'federation',label:'Governed introductions',description:'NF-7 consent handshake over a shortlisted NF-6 route. Contact channels cross the federation boundary only after explicit target acceptance.',minimumExperience:member,defaultLaunch:'test'},
   {key:k('guided_launch'),bundle:'pilot-ops',label:'Guided network launch',description:'M7-A zero-friction launch and activation guidance.',minimumExperience:'admin',defaultLaunch:'test'},
   {key:k('wow_showcase'),bundle:'showcase',label:'WOW showcase theater',description:'M7-B synthetic guided network-effect stories.',minimumExperience:member,defaultLaunch:'test'},
   {key:k('pilot_console'),bundle:'pilot-ops',label:'Pilot launch console',description:'M7-C admin operating console for pilot readiness and intervention.',minimumExperience:'admin',defaultLaunch:'test'},

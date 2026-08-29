@@ -216,3 +216,7 @@ NF-5 introduces explicit person-owned federation application consent. A Network 
 NF-6 is source-implemented after NF-5. Users can create a purpose-scoped request inside an eligible source Network → approved Umbrella → Purpose context. Routing persists deterministic candidate evidence derived only from active NF-5 opt-in snapshots whose affiliation, Passport and declared purpose remain valid. Requesters can refresh, shortlist or dismiss routes and close/cancel requests. NF-6 does not notify a target, reveal private contacts or create an introduction. Launch Control key: `*.advanced.trusted_request_routing`, federation bundle, TEST by default. Integrated runtime validation remains intentionally deferred until the sequential federation ZIP verification pass.
 
 Documentation strategy also now includes `DOCUMENTATION-CONTROLLED-REVEAL-ARCHITECTURE.md` and a planned standalone `trustweave-docs` repository with role-specific User, Community Head, Agent/Operator, Partner, Developer, Architecture and Founder layers.
+
+
+### NF-7 checkpoint
+Governed federated introductions are source-implemented. Only shortlisted NF-6 routes can request contact; the target explicitly accepts/declines and requester contact remains withheld until acceptance. Dedicated architecture/privacy gate and i18n audit pass. Runtime and full NF-1→NF-8 compile/import validation remain intentionally deferred to NF-8 closure.

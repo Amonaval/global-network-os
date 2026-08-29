@@ -444,3 +444,7 @@ TrustWeave should not depend on people repeatedly browsing directories. NF-6 est
 
 ## Controlled-reveal documentation strategy
 Create a separate documentation product/repository with audience-specific guides and progressive disclosure. Public/prospect material explains value first; Community Head, Agent, Partner, Developer and Architect layers reveal execution depth appropriate to the role; Founder material remains separately classified/private. This supports lower founder explanation effort, stronger surprise/proof during serious conversations and reduced accidental disclosure of sensitive strategy/IP. See `DOCUMENTATION-CONTROLLED-REVEAL-ARCHITECTURE.md`.
+
+
+### NF-7: consent is the connection boundary
+TrustWeave now separates discovery, routing and connection. A Trust Route never silently exposes contact. An NF-7 introduction is one-purpose, one-route, one-recipient consent. This becomes the required bridge from institutional provenance to measurable outcome evidence in NF-8.

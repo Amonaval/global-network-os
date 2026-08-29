@@ -476,3 +476,7 @@ When enabled, a member may opt into a purpose only where their network already h
 When enabled, **Trusted Request Routing** lets you describe a need inside one eligible Network → Umbrella → Purpose context. TrustWeave suggests people who have already published an active NF-5 profile for that exact purpose and are currently reachable through that federation.
 
 A route suggestion does **not** contact the person and does not reveal their private email/phone or source-network profile. You can shortlist/dismiss suggestions and refresh routes while your request is open. Closing/cancelling the request affects only the request; it does not change your memberships or the other person's opt-in. Introductions remain a separate future consent step.
+
+
+## Governed Introductions (NF-7)
+After you shortlist a trusted route, you can request an introduction. The recipient first sees your chosen name/alias, your reason and the Trust Receipt explaining the institutional route. Your response channel stays private until they accept. If accepted, both parties can see only the response channels deliberately supplied for that introduction. Declining or cancelling does not expose them.

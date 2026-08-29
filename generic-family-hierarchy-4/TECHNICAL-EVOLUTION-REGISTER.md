@@ -132,3 +132,7 @@ Introduced `federated_scope_profiles` as a generic, user-owned selective project
 **Decision:** plan a standalone role-specific documentation repository rather than exposing the entire internal document corpus.
 
 **Reason:** reduce founder explanation load, enable repeatable partner/agent/community onboarding and prevent accidental disclosure of founder strategy/IP. Public build exclusion, not hidden navigation, is the required boundary for private material.
+
+
+### NF-7 — Consent-gated introduction boundary
+Added isolated `core/federation`, remote adapter, lazy UI capability and migration 076. Direct table access is revoked. RPCs revalidate NF-5 purpose participation, active umbrella, NF-2 affiliations and NF-1 Passport visibility/purpose at request/acceptance time. Full cross-mission TS/import/build hardening is deferred to NF-8 by explicit validation strategy.

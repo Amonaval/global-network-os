@@ -113,3 +113,7 @@ NF-0A through NF-5 are source-implemented. NF-5 adds explicit person-level purpo
 NF-6 Trusted Request Routing is now layered on NF-5. Migration `075_nf6_trusted_request_routing.sql` persists user requests and deterministic route evidence. Routes are eligible only while the source federation path and target NF-5 purpose consent remain valid. No introduction/contact disclosure exists yet. Next recommended mission: **NF-7 Governed Introduction & Consent**.
 
 The roadmap also now contains a high-priority DR controlled-reveal documentation track and `DOCUMENTATION-CONTROLLED-REVEAL-ARCHITECTURE.md`. Future standalone `trustweave-docs` should separate User, Community Head, Agent/Operator, Partner, Developer, Architecture and Founder guides, with founder/private content excluded from external builds.
+
+
+### Latest federation checkpoint — NF-7
+NF-7 Governed Introduction & Consent is source-implemented and source-gated. Preserve the rule `route != introduction != accepted connection`. Next implement **NF-8 — Outcome + Trust Receipt**. At NF-8 closure perform the intentionally deferred full TypeScript/import/build sweep across all NF-1→NF-8 changes, then prepare the sequential integrated runtime verification plan because the user has not validated NF-1 onward yet.

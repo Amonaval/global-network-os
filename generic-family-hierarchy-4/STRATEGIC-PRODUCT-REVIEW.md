@@ -651,3 +651,7 @@ Federation can now progress from Network discovery to person-level application u
 NF-6 shifts federation from “browse who is available” toward “state what you need and let governed trust produce routes.” This is strategically stronger because it creates measurable demand, route decisions and eventually outcome evidence. Do not expose recipient contacts or imply endorsement at routing time; NF-7 owns consented introduction.
 
 Documentation should mirror the product's privacy philosophy: disclose information by purpose. The future standalone documentation repository must provide different paths for User, Community Head, Agent/Operator, Partner, Developer, Architect and Founder audiences. Founder/private material must be excluded from external builds rather than merely hidden in navigation.
+
+
+### NF-7 product rule — Route before consent; consent before contact
+The network effect must not be purchased by weakening privacy. TrustWeave can suggest a route using outward scoped data, but direct response channels cross only after recipient acceptance. This preserves the product distinction between a useful trust graph and a centralized people/contact database.

@@ -194,3 +194,7 @@ NF-6 introduces a derived request-routing projection without merging source grap
 `Requester → Source Network → approved Umbrella → Target Network → active purpose opt-in`
 
 The persisted request belongs to the requester. Route evidence references an NF-5 outward scope profile and stores relevance score/reasons plus the institutional path. Route validity is read through current affiliation, umbrella, Passport and purpose-consent state. No private vertical graph is copied into the federation layer. A route is not yet an introduction edge; NF-7 must create that separately after recipient consent.
+
+
+### NF-7 introduction edge
+NF-7 adds a transient governed interaction edge on top of the federation path: `Requester → NF-6 Request → Shortlisted Route → Introduction Request → Target Consent`. It does not alter Person↔Network membership or Network↔Umbrella affiliation graphs. Acceptance grants only this introduction's deliberately supplied response channels.

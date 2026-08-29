@@ -1466,3 +1466,8 @@ Delivered: Network-only federated search, purpose-aware filtering, approved-affi
 - integrated runtime verification intentionally deferred with the federation batch.
 
 **Next:** NF-7 Governed Introduction & Consent.
+
+
+### NF-7 — Governed Introduction & Consent
+**Status:** Source implemented / source-gated / runtime verification deferred.
+**Next:** NF-8 Outcome + Trust Receipt, followed by the planned complete NF-1→NF-8 TypeScript/import/build + sequential runtime verification round.

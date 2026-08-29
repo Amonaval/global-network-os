@@ -2455,3 +2455,7 @@ After major product milestones, update the relevant audience guides and living p
 - preserves surprise and perceived execution maturity;
 - reduces accidental disclosure of founder strategy, patent candidates, ranking logic or anti-abuse mechanisms;
 - separates “how to use TrustWeave” from “how TrustWeave wins.”
+
+
+## NF-7 — Governed Introduction & Consent — SOURCE IMPLEMENTED
+NF-7 converts an explicitly shortlisted NF-6 route into a consent handshake. Requester and recipient deliberately supply response channels for this single introduction; cross-party contact remains locked until target acceptance. NF-7 does not inherit private contact fields from vertical profiles. Launch Control: `*.advanced.governed_introductions`, federation bundle, TEST. Full NF-1→NF-8 TypeScript/import/build and integrated runtime sweep is intentionally scheduled for NF-8 closure. Next: **NF-8 — Outcome + Trust Receipt**.
