@@ -70,7 +70,8 @@
     "validate:m7e": "node scripts/m7e-showcase-runtime-certification-gate.mjs && npm run validate:m7d",
     "validate:m7f": "node scripts/m7f-pilot-evidence-decision-gate.mjs && npm run validate:m7e",
     "validate:lc1": "node scripts/lc1-m6-m7-launch-control-gate.mjs && npm run validate:m7f",
-    "validate:nf0a": "node scripts/nf0a-federation-distribution-gate.mjs && npm run check:types"
+    "validate:nf0a": "node scripts/nf0a-federation-distribution-gate.mjs && npm run check:types",
+    "validate:nf1": "node scripts/nf1-network-passport-gate.mjs && npm run audit:i18n && npm run check:types"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+const must=(file,needles)=>{const s=fs.readFileSync(file,'utf8');for(const n of needles)if(!s.includes(n))throw new Error(`${file} missing: ${n}`)};
+must('core/federation/network-passport.ts',['NetworkPassportVisibility','NETWORK_PASSPORT_GUARDRAILS']);
+must('supabase/migrations/070_nf1_network_passport.sql',['create table if not exists public.network_passports','get_public_network_passport','save_network_passport','network_admin_reviewed','%.advanced.network_passport']);
+must('components/NetworkPassportManager.tsx',['NF1NetworkLevelOnlyTxt','participationScopes','directoryDiscoverable']);
+must('components/PublicNetworkPassport.tsx',['NF1PrivacyPublicDescTxt','fetchPublicNetworkPassport']);
+must('core/features/advanced-network.ts',["'network_passport'",'No private member graph is exposed']);
+must('components/MyNetworksHome.tsx',['<NetworkPassportManager identity={identity}/>']);
+const migration=fs.readFileSync('supabase/migrations/070_nf1_network_passport.sql','utf8');
+for(const forbidden of ['family_members','alumni_profiles','organization_people','phone','email'])if(migration.includes(forbidden))throw new Error(`Passport migration must not expose person-level source: ${forbidden}`);
+console.log('NF-1 source gate passed: governed network-level Passport, explicit visibility, public RPC and no member graph source.');

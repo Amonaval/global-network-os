@@ -417,3 +417,6 @@ See `FOUNDER-IP-DEFENSE-AND-EXPANSION-STRATEGY.md`.
 
 ## HIGH IMPORTANCE — Stealth-to-Scale + Federation Distribution Supernodes
 TrustWeave should initially expose only the immediately useful private-network product while quietly compounding governed network density. Umbrella/federation anchors are acquisition multipliers: one organizer relationship can activate many independently governed networks. This must never create implicit member access. Loud public reveal is condition-gated by product proof, network density, institutional/federation proof, outcomes, IP readiness and production readiness—not by a fixed date. Selected standalone products may build founder visibility in parallel without exposing the complete TrustWeave strategic map.
+
+## NF-1 milestone — Network Passport (2026-08-29)
+Federation now has a real outward identity primitive. Each independently governed network can maintain a **Network Passport** that states who the network is, broad context, what network-level capabilities it offers, which purpose areas it may participate in, and exactly whether that Passport is private, federation-only or public. This is intentionally not a public member directory and must never be populated by copying private graph topology. The Passport becomes the identity anchor for NF-2 affiliation provenance and later Trust Receipts.

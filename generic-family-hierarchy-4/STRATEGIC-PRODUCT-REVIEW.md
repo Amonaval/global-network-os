@@ -620,3 +620,6 @@ See `FOUNDER-IP-DEFENSE-AND-EXPANSION-STRATEGY.md`.
 
 ## 2026-08-29 Strategic Shift — Distribution Before Disclosure
 The Network OS should not publicly spend its strongest network-effect story before it has real density. Early adoption can be won through simple useful private-network experiences and fast onboarding for technically underserved institutions. Federation becomes a **distribution supernode**: prioritize anchors by downstream governed-network activation potential. In parallel, selected standalone products can build founder credibility/attention. The full TrustWeave trust-routing story should be revealed progressively when product, density and attention clocks converge.
+
+## NF-1 strategic review — Passport before affiliation
+NF-1 is strategically important because it prevents federation from becoming a disguised data-sharing hierarchy. Future umbrellas should interact first with a **Network Passport**, not with raw child-network tables. This gives TrustWeave a stable object on which to attach verified affiliation provenance, purpose scopes, Trust Receipts and outcome history while preserving local governance. The visible Passport UI is not itself the moat; its accumulated governed provenance can become one.

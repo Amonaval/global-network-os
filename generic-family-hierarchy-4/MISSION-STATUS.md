@@ -1404,3 +1404,7 @@ The system has crossed from a personal app into a reusable product/platform-back
 
 ## NF Track
 - **NF-0A / FD-2 — Federation as Distribution Supernode:** FOUNDATION IMPLEMENTED / RUNTIME MIGRATION VERIFY NEXT. Separate federation semantics, privacy invariants, deterministic Network Multiplication Potential, synthetic cross-domain playground, TEST launch control and verification artifacts are in place. Real affiliation persistence remains NF-2.
+
+## NF-1 — Network Passport
+**Status:** SOURCE IMPLEMENTED / SOURCE-GATED / RUNTIME VERIFICATION PENDING.
+NF-1 creates the first persisted federation-facing identity for a network without exposing its private graph. Owners/Admins can author a Passport with explicit `private | federation | public` visibility, network summary/geography/capabilities/purpose declarations and a stable slug. Public Passport reads are anonymous only when deliberately public. Participation-scope declarations are inert and create no person/application consent. Source gate and i18n gate pass; full type/build verification remains pending a complete dependency install. Next: NF-2 governed Network↔Umbrella affiliation.

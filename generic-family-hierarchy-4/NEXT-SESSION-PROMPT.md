@@ -83,3 +83,8 @@ Maintain a parallel `IP-*` invention-harvest track across TrustWeave and other f
 
 ## NF-0A mission now active
 `NF-0A / FD-2 — Federation as Distribution Supernode` has a foundation implementation. Read `MISSION-NF0A-FEDERATION-AS-DISTRIBUTION-SUPERNODE.md` and its runtime checklist before continuing. Do not turn the synthetic Distribution Lab into real affiliation data until NF-1 Network Passport and NF-2 governed affiliation contracts/persistence exist.
+
+## NF-1 completed source checkpoint — 2026-08-29
+`NF-1 — Network Passport` is source implemented. Read `MISSION-NF1-NETWORK-PASSPORT.md`, release manifest and runtime checklist before continuing. The Passport is a separate network-level outward identity with `private | federation | public` visibility; it must never become a shortcut to member/profile/relationship data. Public `/passport/<slug>` reads only deliberately public Passport rows. Purpose scopes are declarations only, not person consent.
+
+**Next recommended mission: NF-2 — Governed Network ↔ Umbrella Affiliation.** Implement explicit request/review/approve/decline/suspend/revoke affiliation between independently governed networks/umbrellas, using Network Passports for outward identity. Do not reuse M6 peer bridge semantics and do not grant implicit person-level access.

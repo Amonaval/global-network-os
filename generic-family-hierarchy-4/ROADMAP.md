@@ -2193,3 +2193,18 @@ Federation is now explicitly a GTM/distribution primitive as well as architectur
 **Strategic success metric:** reduce marginal acquisition effort by activating many governed child networks from one trusted umbrella/association relationship while preserving `affiliation ≠ access`.
 
 Next: NF-1 Network Passport → NF-2 governed Network↔Umbrella affiliation → connect real aggregate affiliation data to the distribution model.
+
+## 2026-08-29 — NF-1 Network Passport — SOURCE IMPLEMENTED
+NF-1 converts the planned “federated/public network profile” into the product concept **Network Passport**. It is the governed outward identity boundary between a private network and future federation/application participation.
+
+Completed source scope:
+- one persisted Passport per network;
+- Owner/Admin authoring;
+- stable share slug;
+- private / federation / public visibility;
+- network-level summary, broad geography/origin, capabilities and declared application-purpose scopes;
+- optional direct public read-only Passport;
+- no private member graph, contacts or person enrollment;
+- independent TEST-by-default Launch Control.
+
+**Next:** NF-2 Network ↔ Umbrella Affiliation. Do not build umbrella directory/search or infer any person access until explicit affiliation request/review/revoke semantics exist.

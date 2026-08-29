@@ -433,3 +433,15 @@ After collecting pilot feedback, open **My Networks → Pilot Evidence Review**.
 ## Controlling M6/M7 advanced capabilities
 Platform Owners can open Launch Control, select a network vertical, and manage the **Advanced network effect**, **Advanced showcase**, and **Advanced pilot operations** groups. Use Hidden for unavailable, Test for platform-owner verification, Pilot for selected networks, and Released only when the capability is ready for all eligible networks of that vertical. Multi-hop trusted paths are controlled separately from direct bridges/discovery.
 
+
+## Network Passport (NF-1)
+When the Founder/Launch Control enables **Network Passport** for your vertical, a Network Owner/Admin can create a controlled outward identity from **My Networks**.
+
+Use it to describe the network itself: a short tagline and summary, broad geography/origin, an official HTTPS link, network-level capabilities, and possible purpose scopes such as mentoring, business, jobs or events.
+
+Choose visibility deliberately:
+- **Private** — stored for the network but not externally readable.
+- **Federation** — reserved for future governed federation contexts; it is not a public web page.
+- **Public** — enables the read-only `/passport/<slug>` page.
+
+Important: a Network Passport is **not a member directory**. Publishing it does not expose member names, contact details, relationships or private graph topology. Declaring a participation scope also does not opt any member into that application.
