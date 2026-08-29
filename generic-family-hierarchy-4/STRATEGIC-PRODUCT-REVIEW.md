@@ -634,3 +634,8 @@ NF-2 also establishes institutional provenance as a defensible asset: approved N
 NF-3 strengthens the Distribution Supernode thesis because an umbrella can now become operationally useful before TrustWeave exposes any cross-network people discovery. The organizer sees governed network participation, readiness and declared outward capability coverage, while each child network retains its private graph.
 
 This creates a strategically valuable asymmetry: TrustWeave can make umbrella onboarding useful and scalable **without requiring central data ownership**. NF-4 should build discovery on top of this boundary rather than weakening it.
+
+## NF-4 strategic review — discovery utility without privacy collapse
+NF-4 converts federation from administration into user utility while preserving the moat-defining governance boundary. The discoverable object is still a **Network Passport**, not a copied member directory. The institutional trust receipt (`your network → umbrella → target network`) begins making TrustWeave provenance visible to ordinary users and creates a clean foundation for later scoped applications.
+
+Strategic implication: NF-5 must formalize purpose/application scopes before any person-level federation search. This prevents a declared network capability such as jobs or matrimony from being misinterpreted as consent by all members.

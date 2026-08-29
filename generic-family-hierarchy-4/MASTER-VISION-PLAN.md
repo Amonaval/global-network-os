@@ -431,3 +431,6 @@ Two architecture directions are now explicit in the long-term platform: **Compos
 Federation must scale governance without centralizing private graphs. An Umbrella's primary participant is a **Network**, not an inherited list of people. Operational federation health should therefore be computed from approved affiliations and governed outward Passport metadata rather than child-network surveillance.
 
 NF-3 proves the operating model: one trusted umbrella can coordinate many independently governed networks, observe federation-level readiness and capability coverage, and preserve each source network's ownership/privacy boundary.
+
+## NF-4 Discovery Principle — Find Trustworthy Networks Before People — 2026-08-29
+TrustWeave federation discovery begins at the institutional layer. A user can discover outward-facing networks reachable through an approved umbrella path, and the system explains why the network is reachable. This deliberately avoids the common super-directory failure mode: affiliation does not make every member searchable. Person/resource discovery becomes a later application-layer capability requiring purpose-specific eligibility and explicit consent.

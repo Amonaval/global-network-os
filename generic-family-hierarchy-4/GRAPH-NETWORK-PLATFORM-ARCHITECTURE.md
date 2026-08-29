@@ -176,3 +176,8 @@ approved Network↔Umbrella affiliations
 **Forbidden shortcut:** `Umbrella → child network_memberships / profiles / relationships`.
 
 The NF-3 read model is intentionally derived and privacy-minimal. A Network Passport becoming Private removes its outward fields from the runtime at the next read without requiring affiliation deletion.
+
+## NF-4 federated discovery read model — 2026-08-29
+Eligibility is computed at read time from four independent facts: (1) requester has an active membership in a source network; (2) source network has an approved affiliation to an active umbrella; (3) target network has an approved affiliation to the same umbrella; (4) target Network Passport is Federation/Public and directory-discoverable. The result contains Network Passport fields plus institutional provenance only.
+
+Purpose filtering is metadata-level filtering over target-network declared capabilities/scopes. It is **not** a participant authorization mechanism. Any future person/resource projection must add a separate application-scope + eligibility + consent layer before returning those entities.

@@ -107,3 +107,10 @@ Benefits:
 - avoids a second source of truth for network profiles;
 - creates a neutral substrate for future NF-4 discovery;
 - aligns with CR lean-capability loading through dynamic import.
+
+## 2026-08-29 — NF-4 governed federated discovery
+- adds a derived, read-time Network discovery projection instead of materializing a central federation directory;
+- uses active membership + approved source/target umbrella affiliations + permitted Network Passport as the complete eligibility chain;
+- adds explainable trust-path provenance to each result;
+- keeps purpose filters at network-declaration level and reserves person/resource eligibility for NF-5+;
+- continues CR-1 lazy capability delivery through dynamic import.

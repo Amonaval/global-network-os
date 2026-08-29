@@ -462,3 +462,8 @@ For an authorized Umbrella/Federation Owner or Admin:
 6. Search/filter the participating-network directory.
 
 The directory contains **networks, not their members**. If a participating network changes its Passport to Private, its outward profile fields disappear from the umbrella runtime while the approved institutional affiliation remains recorded.
+
+## Using Federated Directory & Discovery (NF-4)
+When the NF-4 feature is enabled in Launch Control, My Networks can search for other **networks** reachable through umbrellas your own networks already participate in. Search can use network name, outward summary, geography, capabilities or a declared purpose. Each result shows the institutional path that made it reachable.
+
+A purpose such as Jobs, Business, Mentoring or Matrimony is only a network-level declaration. NF-4 does not show members from that network or imply that any individual opted in. Public Passports may be opened when the source network explicitly published them; Federation-only Passports stay inside eligible federation contexts.

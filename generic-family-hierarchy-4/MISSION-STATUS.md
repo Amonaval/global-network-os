@@ -1435,3 +1435,12 @@ Implemented:
 **Verification posture:** integrated runtime verification intentionally deferred by founder until the federation batch is applied sequentially. See `MISSION-NF3-RUNTIME-VERIFICATION-CHECKLIST.md`.
 
 **Next:** NF-4 Federated Directory & Discovery.
+
+## NF-4 — Federated Directory & Discovery — SOURCE IMPLEMENTED 2026-08-29
+**Status:** source complete / runtime validation deferred by founder batch strategy.
+
+Delivered: Network-only federated search, purpose-aware filtering, approved-affiliation eligibility, directory-enabled Passport boundary, institutional trust receipt, TEST Launch Control, dynamic loading and a dedicated source gate.
+
+**Privacy boundary:** network scope/capability declarations are not person consent. No federated people/resource discovery is introduced by NF-4.
+
+**Next:** NF-5 Community Applications / Purpose Scope Framework.

@@ -99,3 +99,8 @@ NF-3 Umbrella Network Runtime is SOURCE IMPLEMENTED. Next federation mission: **
 
 ## Federation batch validation posture — 2026-08-29
 Founder is intentionally deferring integrated verification until the planned federation source missions are implemented. Preserve every mission as an additive affected-files ZIP with its own migration order and runtime checklist. Later apply/verify NF-1 → NF-2 → NF-3 → subsequent missions sequentially and fix issues at the mission boundary where they appear.
+
+## Latest handoff — 2026-08-29 NF-4
+NF-4 Federated Directory & Discovery is SOURCE IMPLEMENTED. It discovers **Networks only** across active requester membership → approved source affiliation → shared active umbrella → approved target affiliation → directory-enabled Federation/Public Network Passport. Results include an explainable institutional trust path. Purpose filters match network-declared capabilities/scopes only and must never be treated as person consent.
+
+Next federation mission: **NF-5 Community Applications / Purpose Scope Framework**. Define reusable purpose contracts, participant eligibility/opt-in, selective disclosure and application-specific projections before adding any federated person/resource discovery. Continue the founder-approved deferred integration-validation posture and preserve additive affected-files ZIPs.

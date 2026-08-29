@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');
+const must=(p,needles)=>{const s=read(p);for(const n of needles)if(!s.includes(n))throw new Error(`${p} missing ${n}`)};
+must('supabase/migrations/073_nf4_federated_directory_discovery.sql',['search_federated_network_directory','network_memberships','f.status=\'approved\'','p.visibility in (\'federation\',\'public\')','p.directory_discoverable=true','%.advanced.federated_directory']);
+must('core/federation/federated-discovery.ts',['FederatedNetworkDiscoveryResult','FEDERATED_DISCOVERY_GUARDRAILS','Networks, not people']);
+must('components/FederatedDirectoryDiscovery.tsx',['searchFederatedNetworks','NF4TrustRouteTxt','FEDERATED_DISCOVERY_GUARDRAILS']);
+must('components/MyNetworksHome.tsx',['dynamic(()=>import("./FederatedDirectoryDiscovery")','enabled("federated_directory")']);
+const sql=read('supabase/migrations/073_nf4_federated_directory_discovery.sql').toLowerCase();
+for(const forbidden of ['family_members','alumni_profiles','organization_profiles','network_relationships'])if(sql.includes(forbidden))throw new Error(`NF-4 must not depend on child person/graph table: ${forbidden}`);
+console.log('NF-4 federated directory source gate passed.');

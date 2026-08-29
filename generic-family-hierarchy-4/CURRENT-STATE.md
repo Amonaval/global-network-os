@@ -204,3 +204,6 @@ Architecture review also started CR-1: advanced My Networks capability modules n
 - No child-network member/profile/contact/relationship graph is queried.
 - `*.advanced.umbrella_runtime` is TEST by default and dynamically loaded.
 - Integrated runtime validation is intentionally deferred until federation mission ZIPs are applied sequentially.
+
+## 2026-08-29 — NF-4 Federated Directory & Discovery — source implemented
+NF-4 adds authenticated Network-only discovery across approved umbrella paths. Results are derived from directory-enabled Federation/Public Network Passports and carry an explainable source-network → umbrella → target-network route. Purpose filtering operates on network-declared capabilities/scopes only; it never enrolls or exposes child-network people. Integrated runtime verification remains intentionally deferred until the federation batch is applied sequentially.

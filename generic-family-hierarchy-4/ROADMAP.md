@@ -1962,8 +1962,19 @@ Implemented source scope:
 
 **Architecture invariant:** NF-3 must not query or replicate child-network people, contacts, relationships or graph topology. Aggregate health is federation-operation metadata, not private-network surveillance.
 
-### NF-4 — Federated Directory & Discovery
-Search/discover participating networks and explicitly opted-in participants across an umbrella while preserving source-network provenance and privacy.
+### NF-4 — Federated Directory & Discovery — SOURCE IMPLEMENTED 2026-08-29
+Federated discovery is now implemented as a **Network-first, purpose-aware directory** over approved NF-2 affiliations and NF-1 Network Passports. An authenticated user may discover a target network only when one of their active source networks and the target network have approved affiliations under the same active umbrella, and the target Passport is `federation`/`public` plus `directory_discoverable=true`.
+
+Implemented source scope:
+- Network-only discovery; no child-network people/resources are returned;
+- query across outward Passport identity, summary, geography, capabilities and declared participation scopes;
+- optional purpose filter against network-declared outward capabilities/scopes;
+- explainable trust receipt/path: `source network → umbrella → target network`;
+- Passport visibility and directory eligibility re-evaluated at read time;
+- independent TEST Launch Control and dynamic client loading;
+- no Family/Alumni/Organization person or relationship table dependency in the discovery RPC.
+
+**Consent invariant:** a network declaring `jobs`, `business`, `mentoring`, `matrimony` or another scope means only that the **network may support that purpose**. It does not opt any person into discovery. Person/resource discovery must wait for NF-5 purpose/application-scope contracts and explicit participant eligibility/consent.
 
 ### NF-5 — Community Applications Framework
 Create reusable application scopes on top of federation, e.g. matrimony, jobs/referrals, expertise, business discovery, mentorship, relocation help, events, emergency/community support.
