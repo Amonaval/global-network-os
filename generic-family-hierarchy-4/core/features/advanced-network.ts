@@ -13,6 +13,7 @@ export type AdvancedNetworkFeatureSuffix=
  | 'network_affiliation'
  | 'umbrella_runtime'
  | 'federated_directory'
+ | 'application_scopes'
  | 'guided_launch'
  | 'wow_showcase'
  | 'pilot_console'
@@ -40,6 +41,7 @@ export function createAdvancedNetworkFeatures<K extends NetworkVerticalKind,E ex
   {key:k('network_affiliation'),bundle:'federation',label:'Governed federation affiliation',description:'NF-2 request/review/suspend/revoke Network↔Umbrella affiliation using Network Passport as the review boundary. No member access is implied.',minimumExperience:'admin',defaultLaunch:'test'},
   {key:k('umbrella_runtime'),bundle:'federation',label:'Umbrella network runtime',description:'NF-3 operating view where approved networks are the governed participants. Uses affiliation and permitted Passport metadata only; never child-network people or graph topology.',minimumExperience:'admin',defaultLaunch:'test'},
   {key:k('federated_directory'),bundle:'federation',label:'Federated directory & discovery',description:'NF-4 purpose-aware discovery of directory-eligible Network Passports through approved umbrella paths. Returns Networks only; person/resource discovery requires separate consent contracts.',minimumExperience:member,defaultLaunch:'test'},
+  {key:k('application_scopes'),bundle:'federation',label:'Purpose-scoped applications',description:'NF-5 explicit person-level opt-in snapshots for federation applications. Purpose consent is scoped by network, umbrella and application and never creates global discoverability.',minimumExperience:member,defaultLaunch:'test'},
   {key:k('guided_launch'),bundle:'pilot-ops',label:'Guided network launch',description:'M7-A zero-friction launch and activation guidance.',minimumExperience:'admin',defaultLaunch:'test'},
   {key:k('wow_showcase'),bundle:'showcase',label:'WOW showcase theater',description:'M7-B synthetic guided network-effect stories.',minimumExperience:member,defaultLaunch:'test'},
   {key:k('pilot_console'),bundle:'pilot-ops',label:'Pilot launch console',description:'M7-C admin operating console for pilot readiness and intervention.',minimumExperience:'admin',defaultLaunch:'test'},

@@ -1444,3 +1444,12 @@ Delivered: Network-only federated search, purpose-aware filtering, approved-affi
 **Privacy boundary:** network scope/capability declarations are not person consent. No federated people/resource discovery is introduced by NF-4.
 
 **Next:** NF-5 Community Applications / Purpose Scope Framework.
+
+## NF-5 — Community Applications / Purpose Scope Framework — SOURCE IMPLEMENTED 2026-08-29
+- explicit person opt-in per network + umbrella + purpose;
+- governed selective outward snapshot;
+- participant discovery only through approved umbrella paths;
+- Trust Receipt path on results;
+- immediate withdrawal;
+- TEST Launch Control + dynamic loading;
+- runtime validation deferred until sequential ZIP application.

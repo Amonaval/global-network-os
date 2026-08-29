@@ -207,3 +207,6 @@ Architecture review also started CR-1: advanced My Networks capability modules n
 
 ## 2026-08-29 — NF-4 Federated Directory & Discovery — source implemented
 NF-4 adds authenticated Network-only discovery across approved umbrella paths. Results are derived from directory-enabled Federation/Public Network Passports and carry an explainable source-network → umbrella → target-network route. Purpose filtering operates on network-declared capabilities/scopes only; it never enrolls or exposes child-network people. Integrated runtime verification remains intentionally deferred until the federation batch is applied sequentially.
+
+## 2026-08-29 — NF-5 Purpose-Scoped Applications — SOURCE IMPLEMENTED
+NF-5 introduces explicit person-owned federation application consent. A Network Passport purpose declaration is only a prerequisite; each person separately publishes a selective outward snapshot scoped to one source network, one approved umbrella and one purpose. Profiles are withdrawable and contain no inherited private-network contacts/relationships. Integrated runtime verification is intentionally deferred with the current NF batch strategy.

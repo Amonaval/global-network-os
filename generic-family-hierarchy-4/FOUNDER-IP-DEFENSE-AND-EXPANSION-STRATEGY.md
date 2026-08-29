@@ -286,3 +286,10 @@ Reveal progressively rather than spending the entire narrative at once:
 Publicly demonstrate value and outcomes. Do not unnecessarily publish the full acquisition sequence, patent-candidate mechanisms, ranking/scoring internals, anti-abuse logic, institutional target playbook or unreleased application roadmap.
 
 **Founder principle:** Quietly become first. Publicly become obvious later.
+
+## Distribution partner economics — high-priority doctrine
+TrustWeave should scale with a predominantly variable-cost partner layer rather than a large founder-operated field-sales organization. The default escalation is: advocate/referral → verified activation bounty → recurring/time-bounded revenue share → supernode/operator economics → rare milestone-vesting strategic equity.
+
+Partner compensation must follow **verified retained value**, not registrations or imported names. Larger-community incentives should unlock only after activation/retention thresholds, and equity should be used only when a partner creates exceptional asymmetric leverage that commercial economics cannot reasonably buy.
+
+Full operating doctrine: `FOUNDER-DISTRIBUTION-PARTNER-ECONOMICS.md`.

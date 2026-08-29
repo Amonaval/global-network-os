@@ -1976,8 +1976,20 @@ Implemented source scope:
 
 **Consent invariant:** a network declaring `jobs`, `business`, `mentoring`, `matrimony` or another scope means only that the **network may support that purpose**. It does not opt any person into discovery. Person/resource discovery must wait for NF-5 purpose/application-scope contracts and explicit participant eligibility/consent.
 
-### NF-5 — Community Applications Framework
-Create reusable application scopes on top of federation, e.g. matrimony, jobs/referrals, expertise, business discovery, mentorship, relocation help, events, emergency/community support.
+### NF-5 — Community Applications / Purpose Scope Framework — SOURCE IMPLEMENTED 2026-08-29
+Introduces the reusable consent contract required before federation may discover people/resources. A Network Passport can declare that a purpose is supported, but each person must separately opt in with a selective outward snapshot bound to **one source Network + one approved Umbrella + one Purpose**.
+
+Implemented source scope:
+- generic purpose catalog for jobs/referrals, business, expertise, mentoring, matrimony, relocation, events, volunteering and community help;
+- eligible context derived only from active membership + approved NF-2 affiliation + Federation/Public NF-1 Passport declaring the purpose;
+- user-owned selective snapshot: display name, purpose headline/summary, broad location, tags and contact mode;
+- no inherited private vertical member/profile/contact/relationship fields;
+- withdraw/republish independently of network membership;
+- purpose-scoped participant search only through approved umbrella reach;
+- Trust Receipt route on each participant result;
+- independent TEST Launch Control and dynamic loading.
+
+**Binding invariant:** `Network declares purpose ≠ Person consents`. `Person consents to Purpose A ≠ Person is discoverable in Purpose B`.
 
 ### NF-6 — Trusted Matrimony Vertical V1
 Potential high-value application: claimed person → Family provenance → verified community affiliation → explicit matrimony opt-in → privacy-safe discovery → mutual introduction/reveal. Matrimony is an application over the trust/federation foundation, not a relaxation of default profile privacy.
@@ -2248,6 +2260,32 @@ Prove that umbrella/federation anchors reduce marginal acquisition cost: organiz
 
 ### FD-3 — Outcome Moat Dashboard
 Track the non-copyable asset base: verified memberships/affiliations, scoped opt-ins, accepted introductions, fulfilled requests, successful outcomes, organizer referrals, dense-network count and time/cost to launch the next network.
+
+
+### FD-4 — Distribution Partner Economics — HIGH PRIORITY 2026-08-29
+Build a variable-cost partner engine optimized for **retained activated networks per founder hour**, not lead volume. Use the cheapest reversible incentive that unlocks the required leverage: advocate/referral → verified activation bounty → time-bounded revenue share → supernode/operator economics → exceptional milestone-vesting strategic equity.
+
+**Binding economics rules:**
+- pay for verified activation/retention, not imported names or raw sign-ups;
+- reward larger communities only after retained activation thresholds so incentives favor high-quality supernodes rather than inflated lists;
+- prefer revenue share on cash collected over large upfront acquisition spend;
+- keep equity scarce, evidence-based and milestone-vesting;
+- record partner attribution from source → network/umbrella → child networks → retained usage → revenue → adjacent referrals;
+- cap partner acquisition economics against contribution margin/LTV and include anti-gaming/clawback rules.
+
+### FD-5 — Partner Attribution & Economics Ledger
+Introduce a founder-only attribution model for partner/referrer/operator → sourced network/umbrella → activation milestones → downstream networks → retained members → paid revenue → earned bounty/share. Keep this commercially sensitive and separate from public trust/reputation.
+
+### FD-6 — Agent / Operator Program Experiments
+Pilot 2–3 partner tiers with real organizers. Measure founder hours saved, retained network activation, cost per retained member/network, downstream multiplier and support burden. Avoid long-term exclusivity until performance is proven.
+
+### FD-7 — Supernode Commercial Partnerships
+Create umbrella economics that reward independently governed child-network activation and retained commercial value without granting umbrella access to member data.
+
+### FD-8 — Exceptional Strategic Partner Earn-In
+For rare partners who unlock otherwise inaccessible distribution/brand/regulatory/institutional leverage, allow small equity/equity-like participation only through explicit milestone vesting. Commercial compensation remains the default first layer.
+
+See `FOUNDER-DISTRIBUTION-PARTNER-ECONOMICS.md`.
 
 ### Binding anti-cloning gate
 After NF-0/1/2, no major non-blocker mission should be prioritized solely because it expands generic capability. Prefer missions that create a user outcome **and** compound a defensible asset.

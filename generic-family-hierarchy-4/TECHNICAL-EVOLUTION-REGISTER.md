@@ -114,3 +114,6 @@ Benefits:
 - adds explainable trust-path provenance to each result;
 - keeps purpose filters at network-declaration level and reserves person/resource eligibility for NF-5+;
 - continues CR-1 lazy capability delivery through dynamic import.
+
+## 2026-08-29 — NF-5 Purpose-Scoped Projection
+Introduced `federated_scope_profiles` as a generic, user-owned selective projection rather than reading vertical-specific person tables across federation boundaries. This creates a reusable application contract while preserving vertical data isolation and supports lean dynamic delivery behind `*.advanced.application_scopes`.

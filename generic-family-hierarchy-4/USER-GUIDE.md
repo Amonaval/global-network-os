@@ -467,3 +467,6 @@ The directory contains **networks, not their members**. If a participating netwo
 When the NF-4 feature is enabled in Launch Control, My Networks can search for other **networks** reachable through umbrellas your own networks already participate in. Search can use network name, outward summary, geography, capabilities or a declared purpose. Each result shows the institutional path that made it reachable.
 
 A purpose such as Jobs, Business, Mentoring or Matrimony is only a network-level declaration. NF-4 does not show members from that network or imply that any individual opted in. Public Passports may be opened when the source network explicitly published them; Federation-only Passports stay inside eligible federation contexts.
+
+## Purpose-scoped federation applications (NF-5, Test)
+When enabled, a member may opt into a purpose only where their network already has an approved umbrella affiliation and its Network Passport declares that purpose. The member chooses the outward display name, headline, summary, broad location, tags and contact mode. Withdrawing the opt-in removes it from future scoped searches without changing network membership. A network declaring a purpose never opts members in automatically.

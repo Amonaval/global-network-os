@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+const need=(p,s)=>{const t=fs.readFileSync(p,'utf8');if(!t.includes(s))throw new Error(`${p}: missing ${s}`)};
+need('supabase/migrations/074_nf5_community_application_scope_framework.sql','federated_scope_profiles');
+need('supabase/migrations/074_nf5_community_application_scope_framework.sql','save_my_federated_scope_profile');
+need('supabase/migrations/074_nf5_community_application_scope_framework.sql','search_federated_scope_profiles');
+need('supabase/migrations/074_nf5_community_application_scope_framework.sql',"p.visibility in ('federation','public')");
+need('supabase/migrations/074_nf5_community_application_scope_framework.sql','network_umbrella_affiliations');
+need('core/features/advanced-network.ts',"'application_scopes'");
+need('components/MyNetworksHome.tsx','FederatedPurposeScopeFramework');
+need('components/FederatedPurposeScopeFramework.tsx','FEDERATED_SCOPE_GUARDRAILS');
+const sql=fs.readFileSync('supabase/migrations/074_nf5_community_application_scope_framework.sql','utf8').toLowerCase();
+for(const forbidden of ['family_members','family_relationships','alumni_profiles','organization_people']) if(sql.includes(forbidden)) throw new Error(`NF-5 must not inherit private vertical person tables: ${forbidden}`);
+console.log('NF-5 purpose-scope architecture gate: PASS');

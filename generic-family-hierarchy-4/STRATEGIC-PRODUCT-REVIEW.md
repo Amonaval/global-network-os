@@ -639,3 +639,9 @@ This creates a strategically valuable asymmetry: TrustWeave can make umbrella on
 NF-4 converts federation from administration into user utility while preserving the moat-defining governance boundary. The discoverable object is still a **Network Passport**, not a copied member directory. The institutional trust receipt (`your network → umbrella → target network`) begins making TrustWeave provenance visible to ordinary users and creates a clean foundation for later scoped applications.
 
 Strategic implication: NF-5 must formalize purpose/application scopes before any person-level federation search. This prevents a declared network capability such as jobs or matrimony from being misinterpreted as consent by all members.
+
+## 2026-08-29 — Distribution Partner Economics
+Scale strategy now explicitly favors variable, outcome-funded distribution: referral/activation agents for broad reach, revenue-share operators for repeat activation, umbrella/supernode economics for one-to-many onboarding, and exceptional milestone-vesting strategic equity only when distribution leverage is genuinely irreplaceable. Success is measured by retained activated networks per founder hour and cost per retained network/member, not raw leads.
+
+## 2026-08-29 — NF-5 closes the consent gap
+Federation can now progress from Network discovery to person-level application utility without turning TrustWeave into a public directory. The durable product primitive is purpose-specific selective publication: a user opts into exactly one application context and can withdraw it independently. This materially strengthens privacy, extensibility and the future Trust Receipt model.

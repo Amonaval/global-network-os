@@ -434,3 +434,6 @@ NF-3 proves the operating model: one trusted umbrella can coordinate many indepe
 
 ## NF-4 Discovery Principle — Find Trustworthy Networks Before People — 2026-08-29
 TrustWeave federation discovery begins at the institutional layer. A user can discover outward-facing networks reachable through an approved umbrella path, and the system explains why the network is reachable. This deliberately avoids the common super-directory failure mode: affiliation does not make every member searchable. Person/resource discovery becomes a later application-layer capability requiring purpose-specific eligibility and explicit consent.
+
+## NF-5 — Purpose-scoped federation applications
+The federation layer now distinguishes three independent declarations: Network capability/purpose declaration, institutional affiliation, and person-level application consent. No layer implies the next. This enables future jobs, business, expertise, mentorship, matrimony and assistance applications without creating global people discoverability.

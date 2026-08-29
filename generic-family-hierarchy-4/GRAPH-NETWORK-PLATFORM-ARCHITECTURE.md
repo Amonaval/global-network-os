@@ -181,3 +181,8 @@ The NF-3 read model is intentionally derived and privacy-minimal. A Network Pass
 Eligibility is computed at read time from four independent facts: (1) requester has an active membership in a source network; (2) source network has an approved affiliation to an active umbrella; (3) target network has an approved affiliation to the same umbrella; (4) target Network Passport is Federation/Public and directory-discoverable. The result contains Network Passport fields plus institutional provenance only.
 
 Purpose filtering is metadata-level filtering over target-network declared capabilities/scopes. It is **not** a participant authorization mechanism. Any future person/resource projection must add a separate application-scope + eligibility + consent layer before returning those entities.
+
+## NF-5 consent graph extension
+The governed graph now adds a separate purpose-consent edge:
+`Person/User → [source Network + Umbrella + Purpose] → selective outward scope profile`.
+This edge is independently revocable and is never derived from Person↔Network membership, Network↔Umbrella affiliation or Network Passport purpose declarations. Federated participant discovery may return only active scope snapshots reachable through an approved umbrella path.
