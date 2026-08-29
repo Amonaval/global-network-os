@@ -448,3 +448,6 @@ Create a separate documentation product/repository with audience-specific guides
 
 ### NF-7: consent is the connection boundary
 TrustWeave now separates discovery, routing and connection. A Trust Route never silently exposes contact. An NF-7 introduction is one-purpose, one-route, one-recipient consent. This becomes the required bridge from institutional provenance to measurable outcome evidence in NF-8.
+
+### NF-8 closes the first trust-to-outcome loop
+The first generic TrustWeave federation loop is now represented in code from outward Network identity through affiliation, discovery, explicit purpose participation, routed need, consented introduction and private outcome evidence. This is strategically important because the moat can accumulate around real governed outcomes rather than profile volume alone. The next step is runtime proof, not more intelligence abstraction.

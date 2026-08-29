@@ -655,3 +655,6 @@ Documentation should mirror the product's privacy philosophy: disclose informati
 
 ### NF-7 product rule — Route before consent; consent before contact
 The network effect must not be purchased by weakening privacy. TrustWeave can suggest a route using outward scoped data, but direct response channels cross only after recipient acceptance. This preserves the product distinction between a useful trust graph and a centralized people/contact database.
+
+### Federation closure review — NF-8
+NF-8 establishes the minimum evidence substrate required for a future proprietary Trust + Outcome Graph while deliberately refusing the dangerous shortcut of a universal reputation score. Trust Receipt snapshots explain institutional provenance; bilateral outcomes describe what happened for one purpose-specific connection. NF-9 should only proceed after the complete federation batch survives integrated runtime use and produces credible evidence.

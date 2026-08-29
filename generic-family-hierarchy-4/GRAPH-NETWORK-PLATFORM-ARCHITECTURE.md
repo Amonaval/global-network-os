@@ -198,3 +198,8 @@ The persisted request belongs to the requester. Route evidence references an NF-
 
 ### NF-7 introduction edge
 NF-7 adds a transient governed interaction edge on top of the federation path: `Requester → NF-6 Request → Shortlisted Route → Introduction Request → Target Consent`. It does not alter Person↔Network membership or Network↔Umbrella affiliation graphs. Acceptance grants only this introduction's deliberately supplied response channels.
+
+### NF-8 outcome evidence edge
+NF-8 adds two evidence objects without modifying the membership or affiliation graphs: `Accepted Introduction → Trust Receipt` and `Accepted Introduction → Participant Outcome Evidence`. The Trust Receipt snapshots request purpose/title, source/target Network names, Umbrella, institutional path and route/introduction/acceptance timestamps. Outcome evidence is keyed by introduction + participant, so requester and recipient attest independently. These records are private evidence inputs for later intelligence, not global Person reputation edges.
+
+**Non-transitivity:** successful outcome evidence on one purpose/path must not automatically raise a person's standing in unrelated purposes, networks or umbrellas. Any future NF-9 learning must be purpose-scoped, explainable and anti-gaming-aware.

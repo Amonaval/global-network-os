@@ -136,3 +136,10 @@ Introduced `federated_scope_profiles` as a generic, user-owned selective project
 
 ### NF-7 — Consent-gated introduction boundary
 Added isolated `core/federation`, remote adapter, lazy UI capability and migration 076. Direct table access is revoked. RPCs revalidate NF-5 purpose participation, active umbrella, NF-2 affiliations and NF-1 Passport visibility/purpose at request/acceptance time. Full cross-mission TS/import/build hardening is deferred to NF-8 by explicit validation strategy.
+
+### 2026-08-29 — NF-8 outcome evidence and federation batch closure
+- Added immutable-style federation Trust Receipt snapshots for accepted introductions.
+- Added bilateral participant-owned outcome evidence with one record per participant/introduction.
+- Added NF-8 lazy-loaded Launch Control capability `*.advanced.outcome_trust_receipt`.
+- Completed NF-1→NF-8 dedicated gate sweep, relative-import audit and syntax-transpile sweep.
+- Full workspace TypeScript remains environment-blocked by missing third-party type definitions; integrated runtime validation is the next hard gate.

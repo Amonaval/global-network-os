@@ -2004,11 +2004,13 @@ Turn NF-5 purpose opt-ins into a request-first trust utility. A user creates a n
 
 **Next:** NF-7 Governed Introduction & Consent. A shortlisted route may become an explicit introduction request only after the target receives a governed request and accepts/declines.
 
-### NF-7 — Governed Introduction & Consent
-Convert shortlisted NF-6 routes into explicit recipient-controlled introductions. Preserve hidden contact details until acceptance; record request, consent, expiry/revocation and the Trust Receipt path.
+### NF-7 — Governed Introduction & Consent — SOURCE IMPLEMENTED 2026-08-29
+Convert shortlisted NF-6 routes into explicit recipient-controlled introductions. Contact channels remain withheld until acceptance and consent is revalidated against the current federation/purpose path.
 
-### NF-8 — Outcome & Trust Receipt
-Close the request loop with outcome capture. Extend provenance from “why this route was visible” to “what happened after a governed introduction” without creating public reputation scores.
+### NF-8 — Outcome & Trust Receipt — SOURCE IMPLEMENTED / FEDERATION BATCH CLOSURE 2026-08-29
+Close the request loop with participant-owned outcome capture and an immutable-style Trust Receipt snapshot. An accepted introduction creates/backs a receipt containing request, route, institutional path and consent timestamps. Requester and recipient independently record private outcome evidence; one party cannot author the other's result. No outcome becomes a public person score and NF-8 does not change routing weights automatically.
+
+**NF-1→NF-8 closure gate:** all eight dedicated source/architecture gates pass; federation relative-import audit passes; selected federation TypeScript/TSX syntax transpilation passes; i18n visible-literal audit passes. Full project `tsc --noEmit` remains environment-blocked by the extracted workspace's incomplete third-party type definitions (React/Node/Leaflet/D3/etc.), not by a known NF-specific diagnostic. Integrated database/runtime validation is intentionally next before NF-9.
 
 ### NF-9 — Outcome-Adaptive Trust Intelligence
 Use accumulated request/route/introduction/outcome evidence to improve future routing while preserving purpose scope, privacy, anti-gaming controls and explainability.
@@ -2459,3 +2461,13 @@ After major product milestones, update the relevant audience guides and living p
 
 ## NF-7 — Governed Introduction & Consent — SOURCE IMPLEMENTED
 NF-7 converts an explicitly shortlisted NF-6 route into a consent handshake. Requester and recipient deliberately supply response channels for this single introduction; cross-party contact remains locked until target acceptance. NF-7 does not inherit private contact fields from vertical profiles. Launch Control: `*.advanced.governed_introductions`, federation bundle, TEST. Full NF-1→NF-8 TypeScript/import/build and integrated runtime sweep is intentionally scheduled for NF-8 closure. Next: **NF-8 — Outcome + Trust Receipt**.
+
+## NF-1→NF-8 Federation Batch Closure — 2026-08-29
+The first federation trust/outcome loop is source-complete:
+`Network Passport → governed affiliation → umbrella runtime → federated network discovery → purpose-scoped person consent → trusted request routing → governed introduction → outcome + Trust Receipt`.
+
+### Mandatory next gate before NF-9
+Apply migrations `070` through `077` in order after `069`, apply each affected-files release in sequence, then execute the accumulated runtime checklists. Fix integration/runtime defects before starting NF-9. The user has intentionally not runtime-validated NF-1 onward yet.
+
+### NF-9 hold condition
+Outcome-adaptive routing intelligence stays **HOLD** until real NF-1→NF-8 runtime evidence exists. NF-8 stores the evidence substrate only; it deliberately does not turn outcomes into automatic ranking weights or public reputation.

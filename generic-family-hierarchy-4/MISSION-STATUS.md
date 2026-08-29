@@ -1471,3 +1471,10 @@ Delivered: Network-only federated search, purpose-aware filtering, approved-affi
 ### NF-7 — Governed Introduction & Consent
 **Status:** Source implemented / source-gated / runtime verification deferred.
 **Next:** NF-8 Outcome + Trust Receipt, followed by the planned complete NF-1→NF-8 TypeScript/import/build + sequential runtime verification round.
+
+### NF-8 — Outcome + Trust Receipt — SOURCE IMPLEMENTED / BATCH CLOSED
+**Outcome:** the generic federation loop now reaches measurable post-introduction evidence without creating public trust scores. Trust Receipt provenance and bilateral private outcomes are persisted separately.
+
+**Closure:** NF-1 through NF-8 dedicated source gates pass. Relative-import and syntax sweeps pass. Full project TypeScript is environment-blocked by incomplete third-party type definitions. User runtime validation has not yet started by design.
+
+**Next:** sequential NF-1→NF-8 application + runtime/database verification and defect hardening. NF-9 remains held until this gate is complete.

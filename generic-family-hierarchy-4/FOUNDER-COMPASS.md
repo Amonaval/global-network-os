@@ -241,3 +241,6 @@ This is progressive disclosure, not misleading presentation: every surfaced clai
 A separate `trustweave-docs` repository should eventually expose role-specific paths for User, Community Head, Agent/Operator, Partner, Developer and Architect audiences while keeping Founder strategy, partner economics, IP candidates, ranking/anti-abuse internals and reveal sequencing in a private build/classification. Never rely on hidden navigation alone to protect founder-private documentation.
 
 See `DOCUMENTATION-CONTROLLED-REVEAL-ARCHITECTURE.md`.
+
+### Federation batch closure principle
+NF-1→NF-8 is the first complete governed trust-to-outcome loop. Do not mistake source completion for market proof. Before adding outcome-adaptive intelligence, apply and runtime-validate the complete sequence, observe failure modes and preserve the strongest evidence/anti-gaming insights as founder/private operating knowledge.

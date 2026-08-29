@@ -220,3 +220,8 @@ Documentation strategy also now includes `DOCUMENTATION-CONTROLLED-REVEAL-ARCHIT
 
 ### NF-7 checkpoint
 Governed federated introductions are source-implemented. Only shortlisted NF-6 routes can request contact; the target explicitly accepts/declines and requester contact remains withheld until acceptance. Dedicated architecture/privacy gate and i18n audit pass. Runtime and full NF-1→NF-8 compile/import validation remain intentionally deferred to NF-8 closure.
+
+### NF-8 / federation batch closure checkpoint
+NF-8 Outcome + Trust Receipt is source-implemented. Accepted NF-7 introductions receive a durable provenance snapshot and both participants can independently record private outcome evidence. Requesters may optionally close the originating request when recording an outcome. Outcome evidence is not public reputation and does not automatically alter NF-6 routing.
+
+NF-1→NF-8 source hardening is complete: all dedicated mission gates pass, relative imports across federation integration files resolve, selected NF TypeScript/TSX files syntax-transpile, and i18n AST audit reports zero visible literals. Full project TypeScript remains blocked in this extracted workspace by missing third-party type-definition libraries. Integrated runtime/database verification remains intentionally pending until the user applies the releases sequentially.

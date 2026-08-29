@@ -480,3 +480,6 @@ A route suggestion does **not** contact the person and does not reveal their pri
 
 ## Governed Introductions (NF-7)
 After you shortlist a trusted route, you can request an introduction. The recipient first sees your chosen name/alias, your reason and the Trust Receipt explaining the institutional route. Your response channel stays private until they accept. If accepted, both parties can see only the response channels deliberately supplied for that introduction. Declining or cancelling does not expose them.
+
+## Outcome + Trust Receipt (NF-8)
+After both people have consented to an NF-7 introduction, either participant can record what happened: connected, helpful progress, resolved, not resolved, or no meaningful follow-up. Each person records their own result; the other participant cannot edit it. The associated Trust Receipt shows the institutional route and consent timeline that led to the connection. These outcomes are private evidence for the connection and are not public ratings.
