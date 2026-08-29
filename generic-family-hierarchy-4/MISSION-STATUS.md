@@ -1453,3 +1453,16 @@ Delivered: Network-only federated search, purpose-aware filtering, approved-affi
 - immediate withdrawal;
 - TEST Launch Control + dynamic loading;
 - runtime validation deferred until sequential ZIP application.
+
+
+### NF-6 — Trusted Request Routing — SOURCE COMPLETE / RUNTIME DEFERRED
+- persisted governed requests and route evidence;
+- purpose/umbrella/network scoped;
+- deterministic relevance reasons + institutional Trust Receipt path;
+- current NF-5 consent, affiliation and Passport state rechecked;
+- no contact reveal or recipient notification;
+- Launch Control TEST default + dynamic import;
+- dedicated source gate + i18n audit + isolated TS syntax transpilation passed;
+- integrated runtime verification intentionally deferred with the federation batch.
+
+**Next:** NF-7 Governed Introduction & Consent.

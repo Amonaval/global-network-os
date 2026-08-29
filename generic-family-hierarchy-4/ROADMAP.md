@@ -1991,11 +1991,30 @@ Implemented source scope:
 
 **Binding invariant:** `Network declares purpose ≠ Person consents`. `Person consents to Purpose A ≠ Person is discoverable in Purpose B`.
 
-### NF-6 — Trusted Matrimony Vertical V1
-Potential high-value application: claimed person → Family provenance → verified community affiliation → explicit matrimony opt-in → privacy-safe discovery → mutual introduction/reveal. Matrimony is an application over the trust/federation foundation, not a relaxation of default profile privacy.
+### NF-6 — Trusted Request Routing — SOURCE IMPLEMENTED 2026-08-29
+Turn NF-5 purpose opt-ins into a request-first trust utility. A user creates a need inside one governed source Network → Umbrella → Purpose context; TrustWeave deterministically suggests eligible NF-5 purpose profiles through that same approved umbrella path.
 
-### NF-7 — Federation Pilot / Launch Control / Certification
-All federation and umbrella capabilities must use the existing Launch Control invariant (`hidden → test → pilot → released`) per vertical and, where applicable, per network/pilot cohort.
+**Implemented boundary:**
+- persisted user-owned requests;
+- persisted route evidence with deterministic relevance score/reasons;
+- current Passport + affiliation + NF-5 consent are rechecked before route display;
+- shortlist/dismiss decisions stay requester-owned;
+- no target notification, contact reveal, introduction request or endorsement in NF-6;
+- TEST-by-default Launch Control and lazy-loaded UI.
+
+**Next:** NF-7 Governed Introduction & Consent. A shortlisted route may become an explicit introduction request only after the target receives a governed request and accepts/declines.
+
+### NF-7 — Governed Introduction & Consent
+Convert shortlisted NF-6 routes into explicit recipient-controlled introductions. Preserve hidden contact details until acceptance; record request, consent, expiry/revocation and the Trust Receipt path.
+
+### NF-8 — Outcome & Trust Receipt
+Close the request loop with outcome capture. Extend provenance from “why this route was visible” to “what happened after a governed introduction” without creating public reputation scores.
+
+### NF-9 — Outcome-Adaptive Trust Intelligence
+Use accumulated request/route/introduction/outcome evidence to improve future routing while preserving purpose scope, privacy, anti-gaming controls and explainability.
+
+### Application lane after the generic trust loop
+Matrimony, Jobs, Expertise/Mentoring, Business Discovery, Relocation, Volunteering and Community Help should be built as `APP-*` applications over NF-5 through NF-9 rather than occupying the federation core sequence. Matrimony remains a high-value candidate but is no longer hard-coded as NF-6.
 
 ## Strategic platform track — CR: Composable Runtime & Lean Capability Delivery
 Feature rollout must not mean "ship everything and hide most of it." Mature deployments should align three independent controls:
@@ -2327,3 +2346,112 @@ NF-2 establishes the second network dimension as a separate governed graph:
 - TEST-by-default Launch Control via `*.advanced.network_affiliation`.
 
 **Next:** NF-3 Umbrella Network Runtime should consume only approved affiliations and Passport/aggregate outward data. Do not turn approved affiliations into automatic person membership or broad discovery.
+
+
+## Strategic documentation track — DR: Controlled Reveal & Role-Specific Documentation — HIGH PRIORITY 2026-08-29
+TrustWeave documentation must become a separate, clean, Git-manageable documentation product rather than a flat collection of internal files. The documentation repository is both an operating asset and a controlled-disclosure system.
+
+### Binding principle — reveal value before revealing implementation depth
+Do not expose every strategy, architecture detail, moat mechanism or operational playbook at first contact. Show the minimum convincing layer for the audience and reveal deeper proof as interest, role and trust increase. The desired experience is: **idea sounds strong → audience asks how it can actually work → reveal that implementation, governance, product and rollout systems already exist.**
+
+This is not deception. Public claims must remain accurate. The strategy is progressive disclosure: useful proof first, deeper execution evidence later.
+
+### Planned standalone documentation repository
+Suggested repository: `trustweave-docs` with a generated/static documentation site and Markdown as source of truth.
+
+```text
+trustweave-docs/
+  00-start-here/
+    product-overview.md
+    what-to-share-with-whom.md
+    terminology.md
+  10-user-guide/
+    getting-started/
+    networks/
+    privacy-and-consent/
+    federation/
+    applications/
+    faq/
+  20-community-head-guide/
+    why-create-a-network.md
+    launch-in-30-minutes.md
+    volunteer-model.md
+    member-activation.md
+    governance.md
+  30-agent-operator-guide/
+    prospecting.md
+    onboarding-playbook.md
+    activation-quality.md
+    attribution-and-rewards.md
+    support-boundaries.md
+  40-partner-guide/
+    partnership-models.md
+    umbrella-supernode-model.md
+    economics.md
+    pilot-process.md
+    integration-options.md
+  50-developer-guide/
+    local-setup.md
+    capability-manifests.md
+    verticals.md
+    database-migrations.md
+    testing-and-release.md
+    extension-boundaries.md
+  60-architecture-guide/
+    platform-model.md
+    identity-and-network-graphs.md
+    federation.md
+    privacy-and-purpose-scopes.md
+    runtime-composition.md
+    custom-network-types.md
+    trust-routing.md
+  70-founder-guide/                 # private/internal
+    founder-compass.md
+    distribution-strategy.md
+    partner-economics.md
+    moat-and-ip.md
+    reveal-sequencing.md
+    pricing-and-commercialization.md
+    decision-register.md
+  80-demo-and-sales/
+    demo-sequences.md
+    audience-specific-story-cards.md
+    pilot-readiness.md
+    case-studies/
+  90-reference/
+    glossary.md
+    feature-matrix.md
+    release-history.md
+    architecture-decisions/
+```
+
+### DR-1 — Documentation Information Architecture
+Create the standalone repository structure, navigation hierarchy, ownership/source rules and content classification. Avoid duplicate truth by linking/generated inclusion from canonical product documents where possible.
+
+### DR-2 — Disclosure Classification
+Every page/section receives a classification such as `PUBLIC`, `PROSPECT`, `COMMUNITY_HEAD`, `AGENT`, `PARTNER`, `DEVELOPER`, `ARCHITECT`, `FOUNDER_PRIVATE`. Founder-private content must never be accidentally copied into public builds.
+
+### DR-3 — Audience Story Paths
+Create short progressive journeys instead of one giant manual:
+- community head: problem → value → 30-minute launch → governance → demo;
+- partner: distribution opportunity → economics → federation model → pilot → deeper architecture;
+- agent/operator: who to approach → how to launch → how activation is measured → economics;
+- developer/architect: product model → privacy boundaries → capability/runtime architecture → extension model;
+- founder: complete strategy, moat, IP, economics and sequencing.
+
+### DR-4 — Share Packs / Strength Cards
+Generate deliberately small shareable packs for each stage: Idea Card → Product Proof → Privacy/Governance Proof → Federation Proof → Implementation/Architecture Proof → Commercial/Partner Proof. Each card should stand alone and reveal only the depth appropriate to that conversation.
+
+### DR-5 — Documentation Build & Access Boundary
+Use one source repository but allow separate public/prospect/private build outputs or access-controlled sections. Never rely only on hidden navigation for founder/private material; sensitive content must be excluded from public build artifacts.
+
+### DR-6 — Documentation-as-Product Release Rule
+After major product milestones, update the relevant audience guides and living product pages. Architecture/internal strategy changes should update only the appropriate deeper layers. Documentation completeness becomes part of mission closure, but public disclosure remains deliberate rather than automatic.
+
+### Why this matters strategically
+- lowers founder explanation effort;
+- allows prospects to self-educate at the right depth;
+- creates a repeatable sales/partner/onboarding asset;
+- preserves surprise and perceived execution maturity;
+- reduces accidental disclosure of founder strategy, patent candidates, ranking logic or anti-abuse mechanisms;
+- separates “how to use TrustWeave” from “how TrustWeave wins.”

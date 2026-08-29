@@ -230,3 +230,14 @@ Advertising should amplify a network that already feels alive.
 The strongest narrative is not “a Family app with many features.” It is: **a personal Family hierarchy seed repeatedly encountered real identity, privacy, governance, participation and scale problems; solving those problems organically produced a governed Network OS product.**
 
 The product now has two independent many-to-many dimensions: people participate in multiple local networks, and networks independently affiliate into appropriate domain umbrellas/federations. Preserve this distinction in demos, diagrams and future commercialization narratives.
+
+## 2026-08-29 — Controlled Reveal / Strength-Card Doctrine
+TrustWeave should reveal proof in layers rather than dumping the full product, architecture, roadmap, economics and moat into a first conversation.
+
+**Sequence:** problem/mission → product value → privacy/governance → federation proof → outcome proof → scale proof → architecture proof → commercial/strategic depth.
+
+This is progressive disclosure, not misleading presentation: every surfaced claim must be true, but deeper execution evidence appears when the audience has earned a reason to inspect it. The intended surprise is that when a serious prospect asks “how will this actually work?”, the implementation, governance, architecture and operating model are already prepared.
+
+A separate `trustweave-docs` repository should eventually expose role-specific paths for User, Community Head, Agent/Operator, Partner, Developer and Architect audiences while keeping Founder strategy, partner economics, IP candidates, ranking/anti-abuse internals and reveal sequencing in a private build/classification. Never rely on hidden navigation alone to protect founder-private documentation.
+
+See `DOCUMENTATION-CONTROLLED-REVEAL-ARCHITECTURE.md`.

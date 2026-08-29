@@ -470,3 +470,9 @@ A purpose such as Jobs, Business, Mentoring or Matrimony is only a network-level
 
 ## Purpose-scoped federation applications (NF-5, Test)
 When enabled, a member may opt into a purpose only where their network already has an approved umbrella affiliation and its Network Passport declares that purpose. The member chooses the outward display name, headline, summary, broad location, tags and contact mode. Withdrawing the opt-in removes it from future scoped searches without changing network membership. A network declaring a purpose never opts members in automatically.
+
+
+## Trusted Request Routing (NF-6, TEST)
+When enabled, **Trusted Request Routing** lets you describe a need inside one eligible Network → Umbrella → Purpose context. TrustWeave suggests people who have already published an active NF-5 profile for that exact purpose and are currently reachable through that federation.
+
+A route suggestion does **not** contact the person and does not reveal their private email/phone or source-network profile. You can shortlist/dismiss suggestions and refresh routes while your request is open. Closing/cancelling the request affects only the request; it does not change your memberships or the other person's opt-in. Introductions remain a separate future consent step.

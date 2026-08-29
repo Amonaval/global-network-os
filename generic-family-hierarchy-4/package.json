@@ -74,7 +74,8 @@
     "validate:nf1": "node scripts/nf1-network-passport-gate.mjs && npm run audit:i18n && npm run check:types",
     "validate:nf2": "node scripts/nf2-governed-affiliation-gate.mjs && npm run audit:i18n && npm run check:types",
     "validate:nf3": "node scripts/nf3-umbrella-runtime-gate.mjs && npm run audit:i18n && npm run check:types",
-    "validate:nf5": "node scripts/nf5-application-scope-gate.mjs && npm run audit:i18n && npm run check:types"
+    "validate:nf5": "node scripts/nf5-application-scope-gate.mjs && npm run audit:i18n && npm run check:types",
+    "validate:nf6": "node scripts/nf6-trusted-request-routing-gate.mjs && npm run audit:i18n && npm run check:types"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

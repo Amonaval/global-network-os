@@ -107,3 +107,9 @@ Next federation mission: **NF-5 Community Applications / Purpose Scope Framework
 
 ## Latest federation status — 2026-08-29
 NF-0A through NF-5 are source-implemented. NF-5 adds explicit person-level purpose consent over approved federation paths; do not bypass this layer for future person/resource discovery. User is intentionally deferring integrated runtime verification until the federation batch is complete, then will apply affected-file ZIPs sequentially and validate each mission. Next likely federation work: NF-6 application vertical / trusted request-routing direction, while preserving Launch Control and selective disclosure.
+
+
+## Latest federation checkpoint — NF-6 source implemented
+NF-6 Trusted Request Routing is now layered on NF-5. Migration `075_nf6_trusted_request_routing.sql` persists user requests and deterministic route evidence. Routes are eligible only while the source federation path and target NF-5 purpose consent remain valid. No introduction/contact disclosure exists yet. Next recommended mission: **NF-7 Governed Introduction & Consent**.
+
+The roadmap also now contains a high-priority DR controlled-reveal documentation track and `DOCUMENTATION-CONTROLLED-REVEAL-ARCHITECTURE.md`. Future standalone `trustweave-docs` should separate User, Community Head, Agent/Operator, Partner, Developer, Architecture and Founder guides, with founder/private content excluded from external builds.

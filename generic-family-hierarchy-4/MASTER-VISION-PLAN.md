@@ -437,3 +437,10 @@ TrustWeave federation discovery begins at the institutional layer. A user can di
 
 ## NF-5 — Purpose-scoped federation applications
 The federation layer now distinguishes three independent declarations: Network capability/purpose declaration, institutional affiliation, and person-level application consent. No layer implies the next. This enables future jobs, business, expertise, mentorship, matrimony and assistance applications without creating global people discoverability.
+
+
+## NF-6 evolution — from directories to needs
+TrustWeave should not depend on people repeatedly browsing directories. NF-6 establishes the generic request primitive: a person states a purpose-scoped need and the platform computes explainable routes through explicit consent and approved institutional reach. The durable moat begins accumulating in the sequence `request → route evidence → later introduction → later outcome`, not in raw profile count.
+
+## Controlled-reveal documentation strategy
+Create a separate documentation product/repository with audience-specific guides and progressive disclosure. Public/prospect material explains value first; Community Head, Agent, Partner, Developer and Architect layers reveal execution depth appropriate to the role; Founder material remains separately classified/private. This supports lower founder explanation effort, stronger surprise/proof during serious conversations and reduced accidental disclosure of sensitive strategy/IP. See `DOCUMENTATION-CONTROLLED-REVEAL-ARCHITECTURE.md`.

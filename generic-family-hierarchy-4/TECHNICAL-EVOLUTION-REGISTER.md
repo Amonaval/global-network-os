@@ -117,3 +117,18 @@ Benefits:
 
 ## 2026-08-29 — NF-5 Purpose-Scoped Projection
 Introduced `federated_scope_profiles` as a generic, user-owned selective projection rather than reading vertical-specific person tables across federation boundaries. This creates a reusable application contract while preserving vertical data isolation and supports lean dynamic delivery behind `*.advanced.application_scopes`.
+
+
+## 2026-08-29 — NF-6 Trusted Request Routing
+**Decision:** add persisted `federated_requests` and `federated_request_routes` rather than treating search results as transient UI only.
+
+**Reason:** durable request/route evidence is required for later introduction/outcome learning and provides an auditable Trust Receipt path.
+
+**Guardrail:** route scoring uses only selective NF-5 outward snapshots and current federation eligibility; it is not a reputation score. NF-6 cannot contact the target or reveal source/private contact data.
+
+**Delivery:** capability remains lazy-loaded and TEST-by-default via Launch Control.
+
+## 2026-08-29 — Documentation as controlled-disclosure architecture
+**Decision:** plan a standalone role-specific documentation repository rather than exposing the entire internal document corpus.
+
+**Reason:** reduce founder explanation load, enable repeatable partner/agent/community onboarding and prevent accidental disclosure of founder strategy/IP. Public build exclusion, not hidden navigation, is the required boundary for private material.

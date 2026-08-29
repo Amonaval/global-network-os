@@ -645,3 +645,9 @@ Scale strategy now explicitly favors variable, outcome-funded distribution: refe
 
 ## 2026-08-29 — NF-5 closes the consent gap
 Federation can now progress from Network discovery to person-level application utility without turning TrustWeave into a public directory. The durable product primitive is purpose-specific selective publication: a user opts into exactly one application context and can withdraw it independently. This materially strengthens privacy, extensibility and the future Trust Receipt model.
+
+
+## 2026-08-29 strategic review — request-first federation + controlled reveal
+NF-6 shifts federation from “browse who is available” toward “state what you need and let governed trust produce routes.” This is strategically stronger because it creates measurable demand, route decisions and eventually outcome evidence. Do not expose recipient contacts or imply endorsement at routing time; NF-7 owns consented introduction.
+
+Documentation should mirror the product's privacy philosophy: disclose information by purpose. The future standalone documentation repository must provide different paths for User, Community Head, Agent/Operator, Partner, Developer, Architect and Founder audiences. Founder/private material must be excluded from external builds rather than merely hidden in navigation.

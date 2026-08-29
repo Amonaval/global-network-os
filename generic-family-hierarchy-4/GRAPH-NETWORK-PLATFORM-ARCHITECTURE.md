@@ -186,3 +186,11 @@ Purpose filtering is metadata-level filtering over target-network declared capab
 The governed graph now adds a separate purpose-consent edge:
 `Person/User → [source Network + Umbrella + Purpose] → selective outward scope profile`.
 This edge is independently revocable and is never derived from Person↔Network membership, Network↔Umbrella affiliation or Network Passport purpose declarations. Federated participant discovery may return only active scope snapshots reachable through an approved umbrella path.
+
+
+## NF-6 request-routing graph projection
+NF-6 introduces a derived request-routing projection without merging source graphs:
+
+`Requester → Source Network → approved Umbrella → Target Network → active purpose opt-in`
+
+The persisted request belongs to the requester. Route evidence references an NF-5 outward scope profile and stores relevance score/reasons plus the institutional path. Route validity is read through current affiliation, umbrella, Passport and purpose-consent state. No private vertical graph is copied into the federation layer. A route is not yet an introduction edge; NF-7 must create that separately after recipient consent.

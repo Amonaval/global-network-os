@@ -30,6 +30,7 @@ const NetworkFederationAffiliationManager=dynamic(()=>import("./NetworkFederatio
 const FederationUmbrellaRuntime=dynamic(()=>import("./FederationUmbrellaRuntime"),{ssr:false});
 const FederatedDirectoryDiscovery=dynamic(()=>import("./FederatedDirectoryDiscovery"),{ssr:false});
 const FederatedPurposeScopeFramework=dynamic(()=>import("./FederatedPurposeScopeFramework"),{ssr:false});
+const TrustedRequestRouting=dynamic(()=>import("./TrustedRequestRouting"),{ssr:false});
 
 function icon(kind:NetworkVerticalKind,size=20):ReactNode{if(kind==="alumni")return <GraduationCap size={size}/>;if(kind==="organization")return <Building2 size={size}/>;if(kind==="business-trust")return <Handshake size={size}/>;if(kind==="franchise")return <Store size={size}/>;if(kind==="professional")return <BriefcaseBusiness size={size}/>;return <TreePine size={size}/>;}
 const outcome:Record<NetworkVerticalKind,string>={family:"Keep generations, relationships and family memory connected.",alumni:"Reconnect across batches, places, careers and shared history.",organization:"Understand people, expertise, ownership and how work connects.","business-trust":"Discover businesses and services through meaningful trust paths.",franchise:"Connect locations, owners, operations and local communities.",professional:"Find trusted expertise, warm referrals and reusable professional knowledge."};
@@ -73,6 +74,7 @@ export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onEx
   {enabled("umbrella_runtime")&&<FederationUmbrellaRuntime/>}
   {enabled("federated_directory")&&<FederatedDirectoryDiscovery/>}
   {enabled("application_scopes")&&<FederatedPurposeScopeFramework/>}
+  {enabled("trusted_request_routing")&&<TrustedRequestRouting/>}
   {enabled("federation_distribution")&&<FederationDistributionSupernode/>}
   {enabled("pilot_feedback")&&<PilotFeedbackLearningLoop identity={identity}/>}
   {enabled("product_decision_gate")&&<PilotEvidenceDecisionGate identity={identity}/>}

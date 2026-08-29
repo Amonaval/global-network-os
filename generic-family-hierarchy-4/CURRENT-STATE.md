@@ -210,3 +210,9 @@ NF-4 adds authenticated Network-only discovery across approved umbrella paths. R
 
 ## 2026-08-29 — NF-5 Purpose-Scoped Applications — SOURCE IMPLEMENTED
 NF-5 introduces explicit person-owned federation application consent. A Network Passport purpose declaration is only a prerequisite; each person separately publishes a selective outward snapshot scoped to one source network, one approved umbrella and one purpose. Profiles are withdrawable and contain no inherited private-network contacts/relationships. Integrated runtime verification is intentionally deferred with the current NF batch strategy.
+
+
+## 2026-08-29 — NF-6 Trusted Request Routing — source implemented
+NF-6 is source-implemented after NF-5. Users can create a purpose-scoped request inside an eligible source Network → approved Umbrella → Purpose context. Routing persists deterministic candidate evidence derived only from active NF-5 opt-in snapshots whose affiliation, Passport and declared purpose remain valid. Requesters can refresh, shortlist or dismiss routes and close/cancel requests. NF-6 does not notify a target, reveal private contacts or create an introduction. Launch Control key: `*.advanced.trusted_request_routing`, federation bundle, TEST by default. Integrated runtime validation remains intentionally deferred until the sequential federation ZIP verification pass.
+
+Documentation strategy also now includes `DOCUMENTATION-CONTROLLED-REVEAL-ARCHITECTURE.md` and a planned standalone `trustweave-docs` repository with role-specific User, Community Head, Agent/Operator, Partner, Developer, Architecture and Founder layers.
