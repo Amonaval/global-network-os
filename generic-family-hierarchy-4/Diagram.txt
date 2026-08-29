@@ -1,0 +1,20 @@
+                         NETWORK OS
+
+          ┌──────────────────────────────────┐
+          │                                  │
+    PERSON DIMENSION                  NETWORK DIMENSION
+          │                                  │
+          ▼                                  ▼
+   Multi-network identity           Network affiliation
+          │                                  │
+   Trusted discovery                Umbrella community
+          │                                  │
+   Introductions                    Chapters/federations
+          │                                  │
+          └──────────────┬───────────────────┘
+                         ▼
+                 APPLICATION LAYER
+                         │
+       ┌────────┬────────┼────────┬──────────┐
+       ▼        ▼        ▼        ▼          ▼
+   Matrimony   Jobs   Business  Experts   Community

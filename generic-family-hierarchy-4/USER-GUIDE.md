@@ -483,3 +483,19 @@ After you shortlist a trusted route, you can request an introduction. The recipi
 
 ## Outcome + Trust Receipt (NF-8)
 After both people have consented to an NF-7 introduction, either participant can record what happened: connected, helpful progress, resolved, not resolved, or no meaningful follow-up. Each person records their own result; the other participant cannot edit it. The associated Trust Receipt shows the institutional route and consent timeline that led to the connection. These outcomes are private evidence for the connection and are not public ratings.
+
+## My Networks — Guided Control Center
+My Networks is designed to start simple even when advanced TrustWeave capabilities are enabled.
+
+1. **My Networks** — open the networks you already belong to. This is the normal everyday starting point.
+2. **Connect Networks** — understand governed trust links and cross-network reach.
+3. **Build a Federation** — work through Network Passport, Umbrella affiliation, Umbrella operations and Federated Directory as a guided sequence.
+4. **Ask & Connect** — opt into a purpose, describe a need, request a governed introduction and record the outcome.
+5. **Manage & Launch** — administrator/pilot tools for controlled rollout, feedback and certification.
+
+When an advanced journey is opened, TrustWeave shows its available tools in a step rail and renders only the selected tool. You do not need to understand or scroll through every advanced feature. Availability still follows Launch Control for the selected network type.
+
+
+## Understanding advanced My Networks areas
+
+When an advanced area or tool is unfamiliar, use the small information control beside its active title. The guide explains the concept in context, when it is useful, the relevant privacy or governance boundary, and a sensible next action. These explainers are optional: they do not change feature availability, permissions or Launch Control state.

@@ -1478,3 +1478,13 @@ Delivered: Network-only federated search, purpose-aware filtering, approved-affi
 **Closure:** NF-1 through NF-8 dedicated source gates pass. Relative-import and syntax sweeps pass. Full project TypeScript is environment-blocked by incomplete third-party type definitions. User runtime validation has not yet started by design.
 
 **Next:** sequential NF-1→NF-8 application + runtime/database verification and defect hardening. NF-9 remains held until this gate is complete.
+
+### NX-8 — My Networks Guided Control Center / Iteration 2
+**Status:** Source implemented; runtime review pending.
+**Outcome:** Replaces subtle journey tabs and within-journey vertical dumping with visually explicit outcome navigation plus one-tool-at-a-time progressive disclosure. Existing NF/M6/M7 Launch Control remains unchanged.
+
+
+## NX-9 — My Networks Contextual Guidance & WOW Refinement
+**Status:** SOURCE IMPLEMENTED · runtime UX review pending.
+
+The guided control center now teaches advanced areas/tools on demand through contextual explainers rather than adding more permanent copy to the page. This is a refinement of NX-8, not a new information architecture.

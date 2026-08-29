@@ -225,3 +225,11 @@ Governed federated introductions are source-implemented. Only shortlisted NF-6 r
 NF-8 Outcome + Trust Receipt is source-implemented. Accepted NF-7 introductions receive a durable provenance snapshot and both participants can independently record private outcome evidence. Requesters may optionally close the originating request when recording an outcome. Outcome evidence is not public reputation and does not automatically alter NF-6 routing.
 
 NF-1→NF-8 source hardening is complete: all dedicated mission gates pass, relative imports across federation integration files resolve, selected NF TypeScript/TSX files syntax-transpile, and i18n AST audit reports zero visible literals. Full project TypeScript remains blocked in this extracted workspace by missing third-party type-definition libraries. Integrated runtime/database verification remains intentionally pending until the user applies the releases sequentially.
+
+## NX-8 My Networks Guided Control Center — source implemented
+The NX-7 information architecture has been refined into a progressive-disclosure control center. The default remains the user's actual networks. Advanced areas use plain-language outcome navigation and only one selected capability is rendered at a time. Federation and Request/Outcome concepts are presented as guided step sequences, while Launch & Learn is clearly identified as administrator-oriented. Launch Control remains authoritative per network type. Runtime UX review is pending.
+
+
+## NX-9 My Networks contextual guidance refinement — source checkpoint
+
+NX-8's guided control center is retained. NX-9 adds on-demand contextual explainers for the active area/tool, tailored privacy/usage guidance, recommended next moves and additional visual focus polish. Advanced capabilities remain independently Launch-Controlled and lazy-loaded; the help layer changes comprehension only, not authorization or rollout semantics. Runtime UX review is pending.

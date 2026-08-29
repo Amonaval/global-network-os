@@ -1,0 +1,21 @@
+# NX-8 Runtime Verification Checklist
+
+- [ ] `npm run build` succeeds after applying the current NF build hardening + NX-8 overlay.
+- [ ] My Networks opens on **My Networks**, not an advanced journey.
+- [ ] The five workspace choices are visually recognizable as clickable navigation without explanation.
+- [ ] Plain-language labels make sense before reading architecture terminology.
+- [ ] Quick Start routes correctly to Ask & Connect, Build a Federation, Connect Networks and (for admins) Manage & Launch.
+- [ ] Advanced network-type context appears only in advanced areas and changes Launch Control availability correctly.
+- [ ] Only enabled tools appear in the tool rail.
+- [ ] A journey with zero enabled tools clearly explains that Launch Control has not enabled it.
+- [ ] Selecting one tool does not render the other tools in that journey below it.
+- [ ] Federation step order feels natural: Passport → Affiliation → Umbrella → Directory.
+- [ ] Requests/Outcomes step order feels natural: Purpose → Request → Introduction → Outcome.
+- [ ] Existing NF-0A→NF-8 functionality remains unchanged after opening its tool.
+- [ ] Everyday network cards still open the correct network.
+- [ ] Safe Playground and privacy details remain available without dominating the page.
+- [ ] Light theme is readable and visually calm.
+- [ ] Dark theme is readable and visually calm.
+- [ ] Mobile navigation remains obvious; tool rail becomes horizontally scrollable and usable.
+- [ ] Tablet layouts do not create dense or clipped cards.
+- [ ] Keyboard focus states and button semantics remain usable.

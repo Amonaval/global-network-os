@@ -2471,3 +2471,35 @@ Apply migrations `070` through `077` in order after `069`, apply each affected-f
 
 ### NF-9 hold condition
 Outcome-adaptive routing intelligence stays **HOLD** until real NF-1→NF-8 runtime evidence exists. NF-8 stores the evidence substrate only; it deliberately does not turn outcomes into automatic ranking weights or public reputation.
+
+## NX-8 — My Networks Guided Control Center · Iteration 2 — IMPLEMENTED / RUNTIME REVIEW PENDING
+
+**Intent:** evolve the NX-7 journey workspace from an organized expert surface into an effortless, progressive-disclosure product experience.
+
+### Product rules now established
+- My Networks is **everyday-first**. The default surface is the user's actual networks, not an advanced feature catalog.
+- Advanced capabilities are presented in plain outcome language: **Connect Networks**, **Build a Federation**, **Ask & Connect**, and **Manage & Launch**.
+- Top-level journeys must be visually unmistakable navigation, not subtle tab-like labels.
+- Journey selection is only the first disclosure boundary. Within a journey, the user chooses **one tool / workflow step at a time**; inactive advanced modules are not rendered.
+- Federation teaches a progressive model: **Network Passport → Join Umbrella → Umbrella Workspace → Federated Directory**, with Distribution Lab positioned as an optional strategic tool.
+- Requests/Outcomes teaches: **Choose Purpose → Ask for Need → Consent to Connect → Record Outcome**.
+- Advanced network-type context remains visible but secondary; Launch Control continues to determine availability independently for each vertical.
+- Role cues distinguish Everyday, Advanced and Admin areas. Admin launch tooling should never dominate the normal member journey.
+- UX copy must explain **what the user is trying to achieve before naming the underlying architecture concept**.
+
+### Iteration-2 acceptance target
+A user should be able to answer within seconds: **Where are my networks? What can I do here? Which advanced journey fits my goal? What is the next step?** The next NX iteration, if needed, should be feedback/polish only unless runtime testing exposes a fundamental navigation flaw.
+
+
+## NX-9 — My Networks Contextual Guidance & WOW Refinement — SOURCE IMPLEMENTED
+
+**Intent:** preserve the NX-8 guided control-center architecture while making advanced capability self-explaining at the moment of need.
+
+- Add lightweight contextual help to the active workspace and active tool rather than expanding every card with permanent instructional copy.
+- Tailor guidance by concept: mental model, appropriate usage moment, privacy/guardrail where relevant, and a sensible next move.
+- Keep progressive disclosure as the UX constitution: `everyday network → advanced journey → one selected tool → contextual explanation on demand`.
+- Treat contextual teaching as part of capability quality, not as documentation bolted on after implementation.
+- Continue refining visual focus, transitions, hierarchy and mobile modal behavior without reopening the NX-8 information architecture unless runtime feedback proves it wrong.
+- Update both living TrustWeave product artifacts after this refinement.
+
+**Next:** runtime review should now focus on polish, comprehension and actual user feedback rather than another structural My Networks redesign.

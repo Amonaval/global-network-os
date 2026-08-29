@@ -231,6 +231,31 @@ The strongest narrative is not “a Family app with many features.” It is: **a
 
 The product now has two independent many-to-many dimensions: people participate in multiple local networks, and networks independently affiliate into appropriate domain umbrellas/federations. Preserve this distinction in demos, diagrams and future commercialization narratives.
 
+
+## 2026-08-29 — Founder Defense, IP & Quiet Expansion Doctrine
+
+The founder cannot assume technical novelty or first-launch timing will protect the product from a well-funded software company. Future strategy must deliberately compound multiple defenses: **institutional distribution + governed network density + proprietary trust/outcome history + purpose-scoped privacy + selective patents/trade secrets + recognizable product language**.
+
+### Binding founder rules
+- Treat **first-mover advantage as a density race**, not a launch-date race.
+- Prefer quiet onboarding of trusted, technically underserved institutions before broad publicity when this accelerates real network density.
+- Target trusted organizers/umbrellas as distribution supernodes; one successful anchor should make the next networks cheaper to acquire.
+- Before broad public technical disclosure, classify novel mechanisms as public concept, patent candidate, trade secret or commodity implementation.
+- Run a continuing cross-product invention-harvest program; do not limit IP thinking to TrustWeave.
+- Prioritize mechanisms that create proprietary real-world evidence: verification, affiliation, permission, introductions and successful outcomes.
+- Never create artificial lock-in. Switching cost must arise from accumulated useful history and embedded workflows, with reasonable portability/export.
+- Continue to reveal product value externally while keeping unnecessary internals—routing weights, anti-abuse logic and unfiled protectable mechanisms—private.
+
+### Anti-cloning test
+For every major mission ask:
+
+> **If a well-funded competitor copied every visible screen six months from now, what would they still not possess?**
+
+A strong answer should include some combination of governed network density, institutional relationships, verified provenance, successful outcome history, protected technical mechanisms, trade-secret operating intelligence or deeply embedded workflows.
+
+See `FOUNDER-IP-DEFENSE-AND-EXPANSION-STRATEGY.md`.
+
+
 ## 2026-08-29 — Controlled Reveal / Strength-Card Doctrine
 TrustWeave should reveal proof in layers rather than dumping the full product, architecture, roadmap, economics and moat into a first conversation.
 

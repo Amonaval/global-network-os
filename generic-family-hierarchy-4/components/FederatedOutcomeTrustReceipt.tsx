@@ -8,10 +8,10 @@ import {useLanguage} from "../lib/i18n";
 export default function FederatedOutcomeTrustReceipt(){
  const {t}=useLanguage();
  const [items,setItems]=useState<FederatedOutcomeCandidate[]>([]),[selected,setSelected]=useState(""),[code,setCode]=useState<FederatedOutcomeCode>("helpful"),[note,setNote]=useState(""),[closeRequest,setCloseRequest]=useState(false),[receipt,setReceipt]=useState<FederatedTrustReceipt|null>(null),[busy,setBusy]=useState(false),[notice,setNotice]=useState("");
- const load=async()=>{setBusy(true);try{const rows=await getMyFederatedOutcomeCandidates();setItems(rows);const next=selected&&rows.some(x=>x.introductionId===selected)?selected:(rows[0]?.introductionId||"");setSelected(next);if(next)setReceipt(await getFederatedTrustReceipt(next));else setReceipt(null)}catch(e:any){setNotice(e.message||t("NF8LoadFailedTxt"))}finally{setBusy(false)}};
+ const load=async()=>{setBusy(true);try{const rows=await getMyFederatedOutcomeCandidates();setItems(rows);const next=selected&&rows.some((x:FederatedOutcomeCandidate)=>x.introductionId===selected)?selected:(rows[0]?.introductionId||"");setSelected(next);if(next)setReceipt(await getFederatedTrustReceipt(next));else setReceipt(null)}catch(e:any){setNotice(e.message||t("NF8LoadFailedTxt"))}finally{setBusy(false)}};
  useEffect(()=>{void load()},[]);
  const choose=async(id:string)=>{setSelected(id);setNotice("");try{setReceipt(await getFederatedTrustReceipt(id))}catch(e:any){setNotice(e.message||t("NF8ReceiptFailedTxt"))}};
- const current=items.find(x=>x.introductionId===selected)||null;
+ const current=items.find((x:FederatedOutcomeCandidate)=>x.introductionId===selected)||null;
  const save=async()=>{if(!current)return;setBusy(true);try{await recordMyFederatedOutcome({introductionId:current.introductionId,outcomeCode:code,note,closeRequest:current.myRole==="requester"&&closeRequest});setNotice(t("NF8SavedTxt"));setNote("");setCloseRequest(false);await load()}catch(e:any){setNotice(e.message||t("NF8SaveFailedTxt"));setBusy(false)}};
  return <section className="card nf8-outcome-card">
   <div className="nf8-head"><div><span className="warm-kicker"><ClipboardCheck size={13}/>{t("NF8KickerTxt")}</span><h2>{t("NF8TitleTxt")}</h2><p>{t("NF8DescTxt")}</p></div><span className="nf8-badge"><ShieldCheck size={14}/>{t("NF8PrivateEvidenceTxt")}</span></div>
