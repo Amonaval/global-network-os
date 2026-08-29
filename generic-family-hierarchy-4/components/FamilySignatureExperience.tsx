@@ -72,7 +72,7 @@ export default function FamilySignatureExperience({members, events, memories, re
           <span><small>{copy.viewer}</small><b>{viewer.full_name}</b></span><ChevronRight size={16}/>
         </button>}
       </div>
-      <div className="family-signature-network-mark"><TreePine size={23}/><strong>{networkName || t("yourFamilyTogether")}</strong><span>{members.length} {t("people")}</span><small>{copy.private}</small></div>
+      <div className="family-signature-network-mark"><TreePine size={23}/><strong>{networkName || t("FamTogetherTitleTxt")}</strong><span>{members.length} {t("PeopleTxt")}</span><small>{copy.private}</small></div>
     </section>
 
     <section className="family-signature-stage">
@@ -93,7 +93,7 @@ export default function FamilySignatureExperience({members, events, memories, re
             </div>
           </div>
           <div className="family-signature-actions"><button className="btn primary" onClick={()=>onSelect(spotlight.member)}><UserRound size={16}/>{copy.open}</button><button className="btn" onClick={()=>onGo("tree")}><GitBranch size={16}/>{copy.tree}</button></div>
-        </> : <div className="family-signature-empty"><UsersRound size={28}/><h2>{viewer ? copy.unknown : t("addRelative")}</h2><p>{viewer ? copy.growBody : copy.intro}</p>{canAddRelative && !readOnly && <button className="btn primary" onClick={onAddRelative}><Plus size={16}/>{copy.add}</button>}</div>}
+        </> : <div className="family-signature-empty"><UsersRound size={28}/><h2>{viewer ? copy.unknown : t("AddRelativeTxt")}</h2><p>{viewer ? copy.growBody : copy.intro}</p>{canAddRelative && !readOnly && <button className="btn primary" onClick={onAddRelative}><Plus size={16}/>{copy.add}</button>}</div>}
       </div>
 
       {momentContent && <button className="family-signature-moment" onClick={momentContent.action}>

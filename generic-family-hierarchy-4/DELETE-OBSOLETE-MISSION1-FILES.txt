@@ -1,0 +1,10 @@
+These files belong to the rejected Mission-1 Family Signature Experience and are NOT part of the accepted STABILITY-1 + Mission 2 + Mission 3 baseline:
+
+components/FamilySignatureExperience.tsx
+lib/family-signature.ts
+scripts/mission1-signature-quality-gate.mjs
+
+Recommended: extract this hotfix at repository root, then run:
+  powershell -ExecutionPolicy Bypass -File .\APPLY-HOTFIX.ps1
+
+The script refuses deletion if active TS/TSX/MJS files still reference the rejected artifacts.
