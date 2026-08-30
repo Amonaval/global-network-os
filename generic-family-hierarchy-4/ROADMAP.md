@@ -1,3 +1,18 @@
+
+# MPF / Community Association Real-User Track — ACTIVE
+
+## MPF-A0 — Community / Association Vertical Foundation ✅ source complete
+Activate a reusable family/household membership association using shared Network OS primitives. Deliver association creation, household representative semantics, annual membership fields, events/RSVP, memories/media, announcements, committees, directory/explorer, contributions, Playground and Launch Control. No MPF hard-coding. Runtime verification remains.
+
+## MPF-A1 — 10-Family Pilot Hardening — NEXT AFTER RUNTIME GATE
+Create the first real association network, optimize invite-link → register household → representative/spouse/children → dashboard flow, verify photo/media handling, birthdays/celebrations, event RSVP, community Pulse and admin simplicity. Implement only gaps demonstrated by the pilot.
+
+## MPF-A2 — Membership Operations & Governance
+Turn annual membership metadata into a polished renewal workflow and add committee-term administration. Define a dedicated election-grade voting capability separately from casual Pulse/polls before any binding president/committee election is run through TrustWeave.
+
+## MPF-A3 — Chapter Replication & Organic Expansion
+After one chapter is healthy, make cloning/configuring another chapter low-effort. Do not expose Federation/multi-network concepts to ordinary families; introduce higher umbrellas only when multiple independent chapters are active.
+
 # G9 UPDATE — NETWORK INTELLIGENCE LAYER IMPLEMENTED
 
 G9 is implemented as deterministic, permission-aware intelligence across all five verticals. It adds network search, connection/path intelligence, network health/completeness, missing-link detection, connector analysis and evidence-backed Ask Network. Intelligence starts in Test for real networks and is enabled in Playground.

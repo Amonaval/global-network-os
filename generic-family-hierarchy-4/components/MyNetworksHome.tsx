@@ -33,8 +33,8 @@ const TrustedRequestRouting=dynamic(()=>import("./TrustedRequestRouting"),{ssr:f
 const GovernedFederatedIntroductions=dynamic(()=>import("./GovernedFederatedIntroductions"),{ssr:false});
 const FederatedOutcomeTrustReceipt=dynamic(()=>import("./FederatedOutcomeTrustReceipt"),{ssr:false});
 
-function icon(kind:NetworkVerticalKind,size=20):ReactNode{if(kind==="alumni")return <GraduationCap size={size}/>;if(kind==="organization")return <Building2 size={size}/>;if(kind==="business-trust")return <Handshake size={size}/>;if(kind==="franchise")return <Store size={size}/>;if(kind==="professional")return <BriefcaseBusiness size={size}/>;return <TreePine size={size}/>;}
-const outcome:Record<NetworkVerticalKind,string>={family:"Keep generations, relationships and family memory connected.",alumni:"Reconnect across batches, places, careers and shared history.",organization:"Understand people, expertise, ownership and how work connects.","business-trust":"Discover businesses and services through meaningful trust paths.",franchise:"Connect locations, owners, operations and local communities.",professional:"Find trusted expertise, warm referrals and reusable professional knowledge."};
+function icon(kind:NetworkVerticalKind,size=20):ReactNode{if(kind==="alumni")return <GraduationCap size={size}/>;if(kind==="association")return <UsersRound size={size}/>;if(kind==="organization")return <Building2 size={size}/>;if(kind==="business-trust")return <Handshake size={size}/>;if(kind==="franchise")return <Store size={size}/>;if(kind==="professional")return <BriefcaseBusiness size={size}/>;return <TreePine size={size}/>;}
+const outcome:Record<NetworkVerticalKind,string>={family:"Keep generations, relationships and family memory connected.",association:"Run families, membership, events and community participation in one private association.",alumni:"Reconnect across batches, places, careers and shared history.",organization:"Understand people, expertise, ownership and how work connects.","business-trust":"Discover businesses and services through meaningful trust paths.",franchise:"Connect locations, owners, operations and local communities.",professional:"Find trusted expertise, warm referrals and reusable professional knowledge."};
 
 type WorkspaceSection="overview"|"trust"|"federation"|"outcomes"|"launch";
 type ToolDefinition={key:AdvancedNetworkFeatureSuffix;label:string;description:string;helper:string;icon:ReactNode;step?:string};
@@ -47,7 +47,7 @@ const LAUNCH_FEATURES:AdvancedNetworkFeatureSuffix[]=["guided_launch","wow_showc
 export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onExploreDemo,onSignOut}:{identity:TrustedPersonIdentity;onOpenNetwork:(membership:NetworkMembership)=>Promise<void>|void;onAddNetwork:()=>void;onExploreDemo?:(kind:NetworkVerticalKind)=>void;onSignOut?:()=>Promise<void>|void}){
  const {t:tr}=useLanguage();
  const memberships=identity.memberships.filter(m=>m.status==="active");
- const kinds:Array<NetworkVerticalKind>=["family","alumni","organization","business-trust","franchise","professional"];
+ const kinds:Array<NetworkVerticalKind>=["family","association","alumni","organization","business-trust","franchise","professional"];
  const initialKind=(memberships.find(m=>m.isActive)?.network.verticalKind||memberships[0]?.network.verticalKind||"family") as NetworkVerticalKind;
  const availableKinds=useMemo(()=>Array.from(new Set(memberships.map(m=>m.network.verticalKind))) as NetworkVerticalKind[],[memberships]);
  const [workspaceKind,setWorkspaceKind]=useState<NetworkVerticalKind>(initialKind);

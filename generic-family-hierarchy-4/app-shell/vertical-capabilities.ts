@@ -15,6 +15,7 @@ const verticalCapabilities = {
     participation: createParticipationRuntime(FAMILY_PARTICIPATION_ADAPTER),
     construction: createNetworkConstructionRuntime(FAMILY_CONSTRUCTION_ADAPTER),
   },
+  association: {mode:"productized-template", identityClaiming:null, participation:null, construction:null},
   alumni: {
     identityClaiming: createIdentityClaimingRuntime(ALUMNI_IDENTITY_CLAIM_ADAPTER),
     participation: createParticipationRuntime(ALUMNI_PARTICIPATION_ADAPTER),

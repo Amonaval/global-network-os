@@ -234,6 +234,11 @@ The NX-7 information architecture has been refined into a progressive-disclosure
 
 NX-8's guided control center is retained. NX-9 adds on-demand contextual explainers for the active area/tool, tailored privacy/usage guidance, recommended next moves and additional visual focus polish. Advanced capabilities remain independently Launch-Controlled and lazy-loaded; the help layer changes comprehension only, not authorization or rollout semantics. Runtime UX review is pending.
 
-## RC-1 — Federation Runtime Certification & Product Hardening (started 2026-08-29)
 
-RC-1 has begun. The first hardening pass found certification drift introduced by the NX-8 guided workspace refactor: NF-2/3/4/6/7/8 gates still expected direct per-feature `enabled("...")` calls even though My Networks now centrally filters enabled tools. The gates were aligned to the current architecture rather than regressing the UX. NF-4's missing package validation command was also restored. `validate:rc1-source` now passes the NF-1→NF-8 batch and checks TEST-default capability registration, centralized Launch Control filtering, lazy imports, progressive disclosure and explicit NX-9 modal theme contracts. Full build/database/browser runtime certification remains open; do not treat RC-1 as closed yet.
+# 2026-08-29 — MPF-A0 Community / Association Vertical — SOURCE COMPLETE / RUNTIME GATE OPEN
+
+A seventh active vertical, **Community / Association**, is now composed from the existing Generic Network OS productized runtime. Its primary membership unit can be a family/household with one representative while people, committees and locations remain first-class entities. V1 includes association creation, annual membership year/status, household/representative semantics, directory/explorer, events + RSVP, memories/media capability, announcements, committees/circles, contributions, Playground and Launch Control.
+
+The implementation is generic; MPF East is only the first intended real pilot/configuration. Formal election-grade voting is deliberately not claimed as complete and remains a later governed enhancement. Migration: `078_mpfa0_community_association_vertical.sql`. Source gate: `npm run validate:mpfa0`.
+
+Next evidence gate: create MPF East in staging, onboard 5–10 real families, verify the family-representative registration flow and community-life loops, then let real usage drive MPF-A1 enhancements.

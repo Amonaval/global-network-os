@@ -63,6 +63,18 @@ export const NETWORK_TEMPLATES = [
     peer_label: "Spouse",
   },
   {
+    id: "association",
+    name: "Community / Association",
+    description: "Household/member associations with events, RSVP, memories, committees and annual renewal",
+    entity_label: "Family / Household",
+    entity_label_plural: "Families / Households",
+    level_label: "Membership",
+    level_label_plural: "Memberships",
+    parent_label: "Representative",
+    child_label: "Member",
+    peer_label: "Community peer",
+  },
+  {
     id: "organization",
     name: "Organizational Intelligence",
     description: "Matrix organization, teams, projects, expertise and ownership",

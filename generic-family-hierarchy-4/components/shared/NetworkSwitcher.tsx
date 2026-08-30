@@ -1,12 +1,12 @@
 "use client";
 import {useEffect,useState,type ReactNode} from "react";
-import {BriefcaseBusiness,Building2,ChevronDown,GraduationCap,Handshake,Plus,Store,TreePine} from "lucide-react";
+import {BriefcaseBusiness,Building2,ChevronDown,GraduationCap,Handshake,Plus,Store,TreePine,UsersRound} from "lucide-react";
 import type {NetworkMembership} from "../../core/network/contracts";
 import type {NetworkVerticalKind} from "../../core/verticals/contracts";
 import {fetchMyNetworkMemberships,setActiveNetwork} from "../../lib/remote";
 import {getVerticalDefinition} from "../../app-shell/vertical-registry";
 import {useLanguage} from "../../lib/i18n";
-function kindIcon(kind:NetworkVerticalKind,size=14):ReactNode{if(kind==="alumni")return <GraduationCap size={size}/>;if(kind==="organization")return <Building2 size={size}/>;if(kind==="business-trust")return <Handshake size={size}/>;if(kind==="franchise")return <Store size={size}/>;if(kind==="professional")return <BriefcaseBusiness size={size}/>;return <TreePine size={size}/>}
+function kindIcon(kind:NetworkVerticalKind,size=14):ReactNode{if(kind==="alumni")return <GraduationCap size={size}/>;if(kind==="association")return <UsersRound size={size}/>;if(kind==="organization")return <Building2 size={size}/>;if(kind==="business-trust")return <Handshake size={size}/>;if(kind==="franchise")return <Store size={size}/>;if(kind==="professional")return <BriefcaseBusiness size={size}/>;return <TreePine size={size}/>}
 export default function NetworkSwitcher({onSwitched,onCreate,label}:{onSwitched:()=>Promise<void>|void;onCreate?:()=>void;label?:string}){
  const {t}=useLanguage();
  const [networks,setNetworks]=useState<NetworkMembership[]>([]),[open,setOpen]=useState(false),[busy,setBusy]=useState(false);

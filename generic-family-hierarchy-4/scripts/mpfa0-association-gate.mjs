@@ -1,0 +1,20 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');
+let failures=0;
+const ok=(label,condition)=>{if(condition)console.log(`PASS ${label}`);else{console.error(`FAIL ${label}`);failures++}};
+const contracts=read('core/verticals/contracts.ts'),registry=read('app-shell/vertical-registry.ts'),runtime=read('app-shell/vertical-runtime.ts'),config=read('templates/productized/config.ts'),template=read('templates/association/definition.ts'),setup=read('components/SetupScreen.tsx'),migration=read('supabase/migrations/078_mpfa0_community_association_vertical.sql');
+ok('association is a typed vertical',contracts.includes('"association"'));
+ok('association vertical is registered',registry.includes('ASSOCIATION_VERTICAL'));
+ok('association has active runtime composition',runtime.includes('ASSOCIATION_APP_COMPOSITION'));
+ok('association is a productized create kind',config.includes('ProductizedVerticalKind="association"|'));
+ok('household is the primary association membership unit',template.includes('primaryEntityKind:"household"'));
+ok('association models annual membership',template.includes('membership_year')&&template.includes('membership_status'));
+ok('shared community life covers events/memories/media',template.includes('"events"')&&template.includes('"memories"')&&template.includes('"media"'));
+ok('setup exposes Community / Association creation',setup.includes('"association"'));
+ok('database constraints include association',migration.includes("'family','alumni','association','organization'"));
+ok('association creation has family/household semantics',migration.includes("p_vertical_kind='association'")&&migration.includes("v_entity:='Family / Household'"));
+ok('baseline association features are release-controlled',migration.includes("'association.core.home'")&&migration.includes("'association.shared.community'"));
+ok('advanced association features default to TEST',migration.includes("'test'")&&migration.includes("association.advanced.%"));
+ok('formal election is not falsely implemented as casual activity',template.includes('Formal elections are a governed extension'));
+if(failures){console.error(`\nMPF-A0 source gate failed: ${failures}`);process.exit(1)}
+console.log('\nMPF-A0 Community / Association source gate passed.');

@@ -80,7 +80,8 @@
     "validate:nf7": "node scripts/nf7-governed-introductions-gate.mjs && npm run audit:i18n",
     "validate:nf8": "node scripts/nf8-outcome-trust-receipt-gate.mjs && npm run audit:i18n",
     "validate:nf-batch": "node scripts/nf1-nf8-federation-batch-gate.mjs && npm run audit:i18n",
-    "validate:rc1-source": "node scripts/rc1-federation-runtime-certification-source-gate.mjs"
+    "validate:rc1-source": "node scripts/rc1-federation-runtime-certification-source-gate.mjs",
+    "validate:mpfa0": "node scripts/mpfa0-association-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",
