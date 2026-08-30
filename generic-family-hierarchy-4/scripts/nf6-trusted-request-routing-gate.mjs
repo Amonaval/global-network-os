@@ -17,6 +17,6 @@ must(!migration.includes("network_trust_bridges"),"NF-6 federation routing does 
 must(migration.includes("c.owner_user_id<>auth.uid()"),"requester is excluded from own candidate routes");
 must(migration.includes("A route suggestion is not an introduction"),"database contract states routing is not introduction/contact disclosure");
 must(remote.includes("refresh_my_federated_request_routes")&&component.includes("Suggested trust routes")===false,"remote/UI routing surface is wired and i18n-driven");
-must(features.includes("trusted_request_routing")&&home.includes('enabled("trusted_request_routing")'),"Launch Control feature and My Networks integration exist");
+must(features.includes("trusted_request_routing")&&home.includes('\"trusted_request_routing\"')&&home.includes('filter(item=>enabled(item.key))'),"Launch Control feature and centralized NX-8 tool filtering exist");
 must(home.includes('dynamic(()=>import("./TrustedRequestRouting")'),"NF-6 is lazy-loaded behind Launch Control");
 if(process.exitCode)process.exit(process.exitCode);console.log("NF-6 trusted request routing source gate PASS");

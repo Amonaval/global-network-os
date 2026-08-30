@@ -1,0 +1,14 @@
+package.json
+scripts/nf2-governed-affiliation-gate.mjs
+scripts/nf3-umbrella-runtime-gate.mjs
+scripts/nf4-federated-directory-gate.mjs
+scripts/nf6-trusted-request-routing-gate.mjs
+scripts/nf7-governed-introductions-gate.mjs
+scripts/nf8-outcome-trust-receipt-gate.mjs
+scripts/rc1-federation-runtime-certification-source-gate.mjs
+RC-1-FEDERATION-RUNTIME-CERTIFICATION-HARDENING.md
+RC-1-FEDERATION-RUNTIME-CERTIFICATION-HARDENING.docx
+RC-1-RUNTIME-VERIFICATION-CHECKLIST.md
+RC-1-AFFECTED-FILES.txt
+CURRENT-STATE.md
+ROADMAP.md

@@ -19,5 +19,5 @@ must(remote.includes('request_federated_introduction_v2'),'remote adapter missin
 must(ui.includes('NF7AcceptTxt')&&ui.includes('NF7DeclineTxt'),'UI must expose explicit accept/decline');
 must(feature.includes("'governed_introductions'"),'feature registry missing governed_introductions');
 must(home.includes('dynamic(()=>import("./GovernedFederatedIntroductions")'),'NF-7 must stay lazily loaded');
-must(home.includes('enabled("governed_introductions")'),'My Networks missing NF-7 Launch Control render');
+must(home.includes('\"governed_introductions\"')&&home.includes('filter(item=>enabled(item.key))'),'My Networks missing NF-7 centralized Launch Control filtering');
 console.log('NF-7 governed introduction gate: PASS');

@@ -18,6 +18,6 @@ must(!migration.includes('network_trust_bridges'),'NF-8 does not collapse federa
 must(remote.includes('record_my_federated_introduction_outcome')&&remote.includes('get_my_federated_trust_receipt'),'remote boundary exposes outcome and receipt RPCs');
 must(ui.includes('FederatedOutcomeTrustReceipt')&&ui.includes('OUTCOME_TRUST_RECEIPT_GUARDRAILS'),'outcome/receipt UI is present with guardrails');
 must(features.includes("'outcome_trust_receipt'")&&features.includes('Outcome + Trust Receipt'),'Launch Control registry contains NF-8 capability');
-must(home.includes('dynamic(()=>import("./FederatedOutcomeTrustReceipt")')&&home.includes('enabled("outcome_trust_receipt")'),'NF-8 is lazy-loaded and feature-controlled');
+must(home.includes('dynamic(()=>import("./FederatedOutcomeTrustReceipt")')&&home.includes('\"outcome_trust_receipt\"')&&home.includes('filter(item=>enabled(item.key))'),'NF-8 is lazy-loaded and feature-controlled through NX-8 centralized filtering');
 must(pkg.scripts?.['validate:nf8']?.includes('nf8-outcome-trust-receipt-gate.mjs'),'package exposes NF-8 validation command');
 if(process.exitCode) process.exit(process.exitCode); else console.log('NF-8 outcome + Trust Receipt gate passed.');

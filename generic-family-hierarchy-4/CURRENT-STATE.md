@@ -233,3 +233,7 @@ The NX-7 information architecture has been refined into a progressive-disclosure
 ## NX-9 My Networks contextual guidance refinement — source checkpoint
 
 NX-8's guided control center is retained. NX-9 adds on-demand contextual explainers for the active area/tool, tailored privacy/usage guidance, recommended next moves and additional visual focus polish. Advanced capabilities remain independently Launch-Controlled and lazy-loaded; the help layer changes comprehension only, not authorization or rollout semantics. Runtime UX review is pending.
+
+## RC-1 — Federation Runtime Certification & Product Hardening (started 2026-08-29)
+
+RC-1 has begun. The first hardening pass found certification drift introduced by the NX-8 guided workspace refactor: NF-2/3/4/6/7/8 gates still expected direct per-feature `enabled("...")` calls even though My Networks now centrally filters enabled tools. The gates were aligned to the current architecture rather than regressing the UX. NF-4's missing package validation command was also restored. `validate:rc1-source` now passes the NF-1→NF-8 batch and checks TEST-default capability registration, centralized Launch Control filtering, lazy imports, progressive disclosure and explicit NX-9 modal theme contracts. Full build/database/browser runtime certification remains open; do not treat RC-1 as closed yet.

@@ -2503,3 +2503,8 @@ A user should be able to answer within seconds: **Where are my networks? What ca
 - Update both living TrustWeave product artifacts after this refinement.
 
 **Next:** runtime review should now focus on polish, comprehension and actual user feedback rather than another structural My Networks redesign.
+
+## RC-1 — Federation Runtime Certification, Product Hardening & Next-Phase Reassessment
+**Status:** IN PROGRESS
+
+Current evidence: federation/NX source certification has been hardened and passes after aligning older NF gates with NX-8 centralized Launch Control filtering. NF-4 now has a first-class validation command. Remaining work is the real build, database-backed Mentoring E2E, privacy-negative matrix, cross-theme/responsive NX review, and six-vertical regression. NF-9 remains behind the post-RC-1 decision gate.
