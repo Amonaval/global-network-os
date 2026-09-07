@@ -24,6 +24,9 @@ ok('pricing experiment UI',ui.includes('Test hypotheses; do not freeze pricing')
 ok('evidence export',ui.includes('Export evidence JSON')&&ui.includes('pilot_export'));
 ok('import kit link',ui.includes('/housing-society-pilot-import-template.csv'));
 ok('admin app integration',app.includes('<HousingSocietyPilotPanel')&&app.includes('recordHsPilotUsageEvent'));
+const tabMatch=app.match(/type Tab=([^;]+);/),tabValues=new Set([...(tabMatch?.[1]||'').matchAll(/"([^"]+)"/g)].map(m=>m[1]));
+const housingViewIds=new Set([...(comp.matchAll(/viewId:"([^"]+)"/g))].map(m=>m[1]));
+ok('housing navigation tab contract stays exhaustive',[...housingViewIds].every(viewId=>tabValues.has(viewId))&&tabValues.has('maintenance'));
 ok('feature flags catalogued',cat.includes('housing-society.pilot.readiness')&&cat.includes('housing-society.pilot.metrics')&&cat.includes('housing-society.pilot.pricing'));
 ok('launch composition updated',comp.includes('Founder Society commercialization pilot')&&comp.includes('Pilot D second society'));
 ok('template closes HS6',def.includes('HS-6 closes the roadmap'));

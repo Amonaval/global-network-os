@@ -1099,7 +1099,7 @@ export default function NetworkApp() {
   };
   const canAdmin = !demoPreview && (!isSupabaseConfigured || network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.role === "admin");
   const isPlatformOwner = !isSupabaseConfigured || !!auth?.platform_owner;
-  if(showMyNetworks && trustedIdentity) return <MyNetworksHome identity={trustedIdentity} onOpenNetwork={openMembershipFromHome} onAddNetwork={()=>{setShowMyNetworks(false);setNetwork(null);setSetupNeeded(true)}} onExploreDemo={openNetworkPlayground}/>;
+  if(showMyNetworks && trustedIdentity) return <MyNetworksHome identity={trustedIdentity} onOpenNetwork={openMembershipFromHome} onAddNetwork={()=>{setShowMyNetworks(false);setNetwork(null);setSetupNeeded(true)}} onExploreDemo={openNetworkPlayground} onDeleted={async()=>{const identity=await buildTrustedPersonIdentity(await getAuthUser());setTrustedIdentity(identity);await hydrate(await getAuthUser())}}/>;
   // Vertical handoff must happen before any Family-only feature evaluation.
   // G5 bugfix: evaluating Alumni surface keys through lib/features (the Family compatibility facade)
   // throws by design. Alumni owns its own feature catalog/runtime and UI workspace.

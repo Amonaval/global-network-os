@@ -2581,3 +2581,12 @@ HS-6 closes the planned Housing Society mission roadmap with a measurable founde
 
 ### Housing Society roadmap after HS-6
 Do not automatically build the deferred list. Payment gateways, accounting/Tally, WhatsApp/SMS automation, biometric/access integrations, parcels, classifieds, IoT/meters, AI intelligence and external regulatory integrations remain evidence-driven backlog items. The next work should be runtime verification, founder-pilot feedback and fixes.
+
+## Platform parity closure — implemented, runtime verify
+- [x] Cross-vertical Language switcher parity.
+- [x] Cross-vertical Public / Member / Admin privacy preview parity.
+- [x] Shared "Choose the easiest starting point" for every released vertical.
+- [x] Build together / Excel-CSV / Start small entry paths.
+- [x] Owner-only network deletion with exact-name + browser confirmation.
+- [ ] Add step-up email/OTP confirmation for permanent deletion before high-scale production use.
+- [ ] Runtime-certify the full HS-0 → HS-6 chain and migration 089 in staging before broad member onboarding.

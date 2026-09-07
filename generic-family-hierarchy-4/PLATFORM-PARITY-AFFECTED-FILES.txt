@@ -1,0 +1,14 @@
+CURRENT-STATE.md
+PLATFORM-PARITY-AFFECTED-FILES.txt
+PLATFORM-VERTICAL-PARITY-CLOSURE.md
+ROADMAP.md
+components/AlumniNetworkApp.tsx
+components/FamilyAdminCenter.tsx
+components/MyNetworksHome.tsx
+components/NetworkApp.tsx
+components/SetupScreen.tsx
+components/TemplateNetworkApp.tsx
+lib/network-lifecycle.ts
+package.json
+scripts/platform-vertical-parity-gate.mjs
+supabase/migrations/089_platform_vertical_parity_and_network_lifecycle.sql

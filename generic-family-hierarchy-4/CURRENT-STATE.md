@@ -272,3 +272,10 @@ Delivered source: scoped security/facility/compliance operator grants; resident 
 
 ## HS-6 — Founder Society Pilot & Commercialization — SOURCE IMPLEMENTED / RUNTIME VERIFY
 The Housing Society source roadmap is complete through commercialization readiness. HS-6 adds pilot phases A/B/C/D, evidence-based readiness, unit activation/weekly usage/notice readership/complaint-resolution metrics, operator-value checkpoints, pricing experiments, evidence export, reusable pilot import assets and a second-society repeatability gate. This is not runtime-certified: migrations 082–088 and the real founder pilot still require user verification. Deferred integrations remain backlog until evidence justifies them.
+
+## 2026-09-07 — Cross-vertical onboarding & lifecycle parity closure
+- Family, Alumni, Housing Society, Family Association, Association, Organization, Business Trust, Franchise and Professional now expose a consistent creation decision point: Build together, Excel/CSV import, or Start small.
+- Alumni and all productized vertical shells now expose the shared Language switcher and Public / Member / Admin privacy preview controls already proven in Family.
+- Public/Member preview suppresses admin navigation in Alumni/productized shells until Admin preview is restored.
+- Network Owners can permanently delete creator-owned networks from My Networks using exact-name confirmation plus a second destructive confirmation. Migration 089 provides a vertical-neutral owner-authorized delete RPC; account identity and other networks remain intact.
+- Status: SOURCE VERIFIED. Runtime verification still required before broad onboarding, especially for unverified HS-4 through HS-6 migrations and destructive-delete behavior in staging.

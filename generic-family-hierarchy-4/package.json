@@ -90,7 +90,8 @@
     "validate:hs3": "node scripts/hs3-maintenance-finance-gate.mjs && npm run validate:hs2",
     "validate:hs4": "node scripts/hs4-governance-decisions-gate.mjs && npm run validate:hs3",
     "validate:hs5": "node scripts/hs5-security-compliance-assets-gate.mjs && npm run validate:hs4",
-    "validate:hs6": "node scripts/hs6-founder-pilot-commercialization-gate.mjs && npm run validate:hs5"
+    "validate:hs6": "node scripts/hs6-founder-pilot-commercialization-gate.mjs && npm run validate:hs5",
+    "validate:platform-parity": "node scripts/platform-vertical-parity-gate.mjs && npm run validate:hs6"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",
