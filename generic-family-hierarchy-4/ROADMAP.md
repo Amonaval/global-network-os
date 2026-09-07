@@ -2519,7 +2519,30 @@ A user should be able to answer within seconds: **Where are my networks? What ca
 
 **Next:** runtime review should now focus on polish, comprehension and actual user feedback rather than another structural My Networks redesign.
 
-## RC-1 — Federation Runtime Certification, Product Hardening & Next-Phase Reassessment
-**Status:** IN PROGRESS
 
-Current evidence: federation/NX source certification has been hardened and passes after aligning older NF gates with NX-8 centralized Launch Control filtering. NF-4 now has a first-class validation command. Remaining work is the real build, database-backed Mentoring E2E, privacy-negative matrix, cross-theme/responsive NX review, and six-vertical regression. NF-9 remains behind the post-RC-1 decision gate.
+## MPF-A1 — Family-Grade Association Experience
+
+**SOURCE COMPLETE / RUNTIME VERIFY.** Use the first 10 real families as the product feedback loop. Next enhancements should be evidence-driven: renewal UX, media ergonomics, parent-association linkage and formal election-grade governance.
+
+## FCA — Family Community / Cultural Association
+**FCA-0 — Foundation & Contract Hardening — SOURCE COMPLETE / RUNTIME VERIFY**
+- precise reusable `family-association` composition; generic Association preserved
+- Family-grade profiles, families/representatives/members directory, relationships/tree readiness
+- annual membership + temporal history + controlled role history + awards + finance ledger
+- Manage Community annual operations
+- Family co-admin reuse, member discoverability/privacy, Coming Up/history, activity likes/comments
+- safe Leave / Archive & unlink / Permanent network-owned delete
+
+**FCA-1 — 10-Family Pilot Readiness — NEXT AFTER RUNTIME EVIDENCE**
+- self-onboarding/review policy and invitation-delivery UX
+- Excel column mapping for existing family lists
+- family + individual RSVP, guests and optional event contribution/payment status
+- change-request/approval matrix and additional-member approval policy
+- richer event gallery-link/comments experience
+- member-facing membership/contribution history and transfers
+- simple parent/umbrella connection UX without Federation terminology
+
+**FCA-2 — Annual Operations & Governance — EVIDENCE DRIVEN**
+- event operating workspaces, committee portfolios, awards/recognition workflows
+- annual finance summaries/carry-forward visibility
+- election-grade voting with configurable eligibility and secret-ballot guarantees

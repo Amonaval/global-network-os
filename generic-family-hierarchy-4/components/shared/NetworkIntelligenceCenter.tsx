@@ -13,6 +13,8 @@ type Target="explorer"|"directory"|"community"|"connections"|"contribute"|"intel
 const COPY={
  family:{title:DEFAULT_CATALOG.FamilyIntelligenceTxt,description:DEFAULT_CATALOG.FindInformationGapsUsefulConnectionsAndSharedTxt},
  alumni:{title:DEFAULT_CATALOG.AlumniIntelligenceTxt,description:DEFAULT_CATALOG.TurnCohortCompanyCityAndRelationshipContextTxt},
+ "family-association":{title:DEFAULT_CATALOG.AlumniIntelligenceTxt,description:DEFAULT_CATALOG.TurnCohortCompanyCityAndRelationshipContextTxt},
+ association:{title:DEFAULT_CATALOG.AlumniIntelligenceTxt,description:DEFAULT_CATALOG.TurnCohortCompanyCityAndRelationshipContextTxt},
  organization:{title:DEFAULT_CATALOG.OrganizationalIntelligenceTxt,description:DEFAULT_CATALOG.FindExpertiseStructuralRiskOwnershipContextAndTxt},
  "business-trust":{title:DEFAULT_CATALOG.TrustIntelligenceTxt,description:DEFAULT_CATALOG.UseProvenanceSharedContextAndKnownRelationshipTxt},
  franchise:{title:DEFAULT_CATALOG.FranchiseIntelligenceTxt,description:DEFAULT_CATALOG.FindReusableOperatingKnowledgePeerLocationsAndTxt},

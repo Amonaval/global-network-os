@@ -8,6 +8,8 @@ export const ASSOCIATION_TEMPLATE:VerticalTemplateDefinition={
  relationships:[
   {key:"represented_by",label:"Represented by",direction:"directed",fromKinds:["household"],toKinds:["person"]},
   {key:"member_of_household",label:"Member of household",direction:"directed",fromKinds:["person"],toKinds:["household"]},
+  {key:"spouse_of",label:"Spouse of",direction:"symmetric",fromKinds:["person"],toKinds:["person"]},
+  {key:"parent_of",label:"Parent of",direction:"directed",fromKinds:["person"],toKinds:["person"]},
   {key:"serves_on",label:"Serves on",direction:"directed",fromKinds:["person"],toKinds:["committee"]},
   {key:"supports",label:"Supports",direction:"symmetric"}
  ],
@@ -20,7 +22,7 @@ export const ASSOCIATION_TEMPLATE:VerticalTemplateDefinition={
  capabilities:["profiles","affiliation","explorer","discovery","groups","events","memories","maps","milestones","contributions","notifications","construction","media","claiming","invitations","guide","playground","launch-control"],
  terminology:{household:"Family / Household",representative:"Family Representative",renewal:"Annual Membership Renewal",committee:"Committee"},
  notes:[
-  "Association membership may be household-based while people remain first-class participants inside each household.",
+  "Association membership may be household-based while people remain first-class participants inside each household with Family-grade profiles and relationships.",
   "Events, RSVP, memories, announcements and groups reuse the shared Network OS activity engine.",
   "Formal elections are a governed extension and must not be conflated with lightweight polls or Pulse."
  ]

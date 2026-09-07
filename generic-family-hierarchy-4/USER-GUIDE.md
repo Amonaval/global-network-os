@@ -499,3 +499,15 @@ When an advanced journey is opened, TrustWeave shows its available tools in a st
 ## Understanding advanced My Networks areas
 
 When an advanced area or tool is unfamiliar, use the small information control beside its active title. The guide explains the concept in context, when it is useful, the relevant privacy or governance boundary, and a sensible next action. These explainers are optional: they do not change feature availability, permissions or Launch Control state.
+
+
+## Community / Association — Family-grade experience
+
+Association members can maintain full personal profiles, see their family/household relationships, birthdays, events, memories and community history. A family representative may delegate profile maintenance to claimed family co-admins without granting network-wide admin rights. Use **Me & My Family** for personal/family context and **Explore & Guide** for consolidated help.
+
+## Family Community / Cultural Association
+This vertical is for communities where the annual membership unit is a family but every spouse/child/member needs an independent profile. Use **Families & Members** to switch between Families, Representatives and Members and filter by Area or Profession. Use **Me & My Family** for personal/family context, **Community Life** for events/memories/updates, and **Explore & Guide** for one dedicated help destination.
+
+Association admins use **Manage Community** for official annual membership policy, April–March membership years, family renewal/payment status, controlled leadership roles and the community finance ledger. Members may maintain their own permitted profile fields; official membership/payment/governance fields remain admin-controlled. Family co-admins can maintain their own family profiles without becoming chapter-wide admins.
+
+For network lifecycle, **Leave network** removes only your membership. **Archive & unlink** preserves the network/history but removes active access. **Delete permanently** is owner-only and deletes network-owned data; independent identity and other networks are not deleted.

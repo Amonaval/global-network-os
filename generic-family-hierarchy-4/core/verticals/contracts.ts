@@ -1,6 +1,6 @@
 import type { FeatureCatalog } from "../features/contracts";
 
-export type NetworkVerticalKind = "family" | "alumni" | "association" | "organization" | "business-trust" | "franchise" | "professional";
+export type NetworkVerticalKind = "family" | "alumni" | "association" | "family-association" | "organization" | "business-trust" | "franchise" | "professional";
 
 export type VerticalCapabilityId =
   | "network.context"
@@ -22,6 +22,7 @@ export type VerticalCapabilityId =
   | "domain.kinship"
   | "domain.institutional-membership"
   | "domain.community-association"
+  | "domain.family-association"
   | "domain.organizational-intelligence"
   | "domain.business-trust"
   | "domain.franchise-operations"

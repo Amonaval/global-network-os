@@ -3,6 +3,7 @@ import type { NetworkVerticalKind } from "../core/verticals/contracts";
 import { ALUMNI_APP_COMPOSITION } from "../verticals/alumni/runtime/composition";
 import { FAMILY_APP_COMPOSITION } from "../verticals/family/runtime/composition";
 import { ASSOCIATION_APP_COMPOSITION } from "../verticals/association/runtime/composition";
+import { FAMILY_ASSOCIATION_APP_COMPOSITION } from "../verticals/family-association/runtime/composition";
 import { ORGANIZATION_APP_COMPOSITION } from "../verticals/organization/runtime/composition";
 import { BUSINESS_TRUST_APP_COMPOSITION } from "../verticals/business-trust/runtime/composition";
 import { FRANCHISE_APP_COMPOSITION } from "../verticals/franchise/runtime/composition";
@@ -14,6 +15,7 @@ const appCompositions = {
   family: FAMILY_APP_COMPOSITION,
   alumni: ALUMNI_APP_COMPOSITION,
   association: ASSOCIATION_APP_COMPOSITION,
+  "family-association": FAMILY_ASSOCIATION_APP_COMPOSITION,
   organization: ORGANIZATION_APP_COMPOSITION,
   "business-trust": BUSINESS_TRUST_APP_COMPOSITION,
   franchise: FRANCHISE_APP_COMPOSITION,

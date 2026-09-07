@@ -63,6 +63,18 @@ export const NETWORK_TEMPLATES = [
     peer_label: "Spouse",
   },
   {
+    id: "family-association",
+    name: "Family Community / Cultural Association",
+    description: "Family-grade cultural/community chapter with annual family membership, full people profiles, events, committees and history",
+    entity_label: "Family",
+    entity_label_plural: "Families",
+    level_label: "Membership Year",
+    level_label_plural: "Membership Years",
+    parent_label: "Representative",
+    child_label: "Family Member",
+    peer_label: "Community Member",
+  },
+  {
     id: "association",
     name: "Community / Association",
     description: "Household/member associations with events, RSVP, memories, committees and annual renewal",

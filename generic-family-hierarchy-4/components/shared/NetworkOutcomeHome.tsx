@@ -6,11 +6,13 @@ import type {NetworkEntityRelationship} from "../../capabilities/template-produc
 import {useLanguage} from "../../lib/i18n";
 import type {MessageToken} from "../../lib/i18n/catalog";
 
-type Kind="organization"|"business-trust"|"franchise"|"alumni"|"professional";
+type Kind="family-association"|"association"|"organization"|"business-trust"|"franchise"|"alumni"|"professional";
 type Target="explorer"|"directory"|"community"|"connections"|"contribute"|"guide";
 type OutcomeCopy={eyebrow:MessageToken;title:MessageToken;focus:MessageToken;signals:[MessageToken,MessageToken,MessageToken];returnTitle:MessageToken;returnText:MessageToken};
 
 const COPY:Record<Kind,OutcomeCopy>={
+ "family-association":{eyebrow:"AlumniOutcomeEyebrowTxt",title:"AlumniOutcomeTitleTxt",focus:"AlumniOutcomeFocusTxt",signals:["AlumniSignal1Txt","AlumniSignal2Txt","AlumniSignal3Txt"],returnTitle:"AlumniReturnTitleTxt",returnText:"AlumniReturnDescTxt"},
+ association:{eyebrow:"AlumniOutcomeEyebrowTxt",title:"AlumniOutcomeTitleTxt",focus:"AlumniOutcomeFocusTxt",signals:["AlumniSignal1Txt","AlumniSignal2Txt","AlumniSignal3Txt"],returnTitle:"AlumniReturnTitleTxt",returnText:"AlumniReturnDescTxt"},
  organization:{eyebrow:"OrgOutcomeEyebrowTxt",title:"OrgOutcomeTitleTxt",focus:"OrgOutcomeFocusTxt",signals:["OrgSignal1Txt","OrgSignal2Txt","OrgSignal3Txt"],returnTitle:"OrgReturnTitleTxt",returnText:"OrgReturnDescTxt"},
  "business-trust":{eyebrow:"TrustOutcomeEyebrowTxt",title:"TrustOutcomeTitleTxt",focus:"TrustOutcomeFocusTxt",signals:["TrustSignal1Txt","TrustSignal2Txt","TrustSignal3Txt"],returnTitle:"TrustReturnTitleTxt",returnText:"TrustReturnDescTxt"},
  franchise:{eyebrow:"FranchiseOutcomeEyebrowTxt",title:"FranchiseOutcomeTitleTxt",focus:"FranchiseOutcomeFocusTxt",signals:["FranchiseSignal1Txt","FranchiseSignal2Txt","FranchiseSignal3Txt"],returnTitle:"FranchiseReturnTitleTxt",returnText:"FranchiseReturnDescTxt"},

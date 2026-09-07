@@ -45,4 +45,7 @@ export type NetworkActivity={
  metadata?:Record<string,unknown>;
  myRsvp?:"going"|"maybe"|"declined"|null;
  goingCount?:number;
+ myLiked?:boolean;
+ likeCount?:number;
+ commentCount?:number;
 };

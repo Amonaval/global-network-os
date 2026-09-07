@@ -242,3 +242,11 @@ A seventh active vertical, **Community / Association**, is now composed from the
 The implementation is generic; MPF East is only the first intended real pilot/configuration. Formal election-grade voting is deliberately not claimed as complete and remains a later governed enhancement. Migration: `078_mpfa0_community_association_vertical.sql`. Source gate: `npm run validate:mpfa0`.
 
 Next evidence gate: create MPF East in staging, onboard 5–10 real families, verify the family-representative registration flow and community-life loops, then let real usage drive MPF-A1 enhancements.
+
+
+## MPF-A1 — Family-Grade Association Experience
+
+Community / Association is now a Family-grade active vertical with a dedicated signature Home, full person profiles, household relationships, Me & My Family, upcoming birthdays/events, community history, scoped household co-admins, and a distinct Mahesh-inspired Light/Dark/Aurora visual system. Source validation passes; real-repository build/runtime certification remains required.
+
+## FCA-0 — Family Community / Cultural Association — SOURCE COMPLETE, RUNTIME VERIFY
+A new `family-association` vertical has been added without changing generic Association. It composes Family-grade people/profile/hierarchy with annual family membership, temporal history, controlled governance roles, community finance, Coming Up/history, member discovery, family co-admins, engagement and safe network lifecycle. MPF East is the first proving configuration; code remains generic. `validate:fca0` passes 27 checks. Runtime database/build/UI verification remains required before the 10-family pilot.
