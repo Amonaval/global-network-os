@@ -1,6 +1,7 @@
 core/import/contracts.ts
 core/import/registry.ts
 core/import/workbook.ts
+core/import/sheet-names.ts
 core/import/parser.ts
 components/shared/GuidedWorkbookImport.tsx
 capabilities/import/productized-workbook.ts
@@ -20,3 +21,4 @@ CURRENT-STATE.md
 ROADMAP.md
 MISSION-STATUS.md
 USER-GUIDE.md
+XP-1-WORKBOOK-SHEET-NAME-HOTFIX.md

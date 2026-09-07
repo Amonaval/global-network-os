@@ -1,8 +1,10 @@
 import * as XLSX from "xlsx";
 import type {ImportSchema} from "./contracts";
+import {getImportWorkbookSheetNames} from "./sheet-names";
 
 export function createImportWorkbook(schema:ImportSchema){
  const wb=XLSX.utils.book_new();
+ const sheetNames=getImportWorkbookSheetNames(schema);
  const readme=[
   [schema.title],[schema.description],[],["Workbook / schema version",schema.version],["Vertical",schema.verticalKind],[],["How to use"],["1","Start with the sample rows and replace them with your data."],["2","Keep Stable ID values unique; use them to reference rows across sheets."],["3","Leave optional fields blank rather than guessing."],["4","Upload the workbook, review valid/warning/rejected rows, then confirm import."],[],["Duplicate behavior",schema.duplicatePolicy],[],["Privacy notes"],...schema.privacyNotes.map((x,i)=>[String(i+1),x]),[],["Sheet guide"],["Sheet","Required?","Purpose"],...schema.sheets.map(s=>[s.name,s.required?"Yes":"No",s.description])
  ];
@@ -12,7 +14,7 @@ export function createImportWorkbook(schema:ImportSchema){
  const gs=XLSX.utils.aoa_to_sheet(guide);gs["!cols"]=[{wch:24},{wch:28},{wch:11},{wch:13},{wch:38},{wch:25},{wch:80}];XLSX.utils.book_append_sheet(wb,gs,"Column Guide");
  for(const s of schema.sheets){
   const rows=s.sampleRows.map(sample=>Object.fromEntries(s.columns.map(col=>[col.label,sample[col.key]??""])));
-  const ws=XLSX.utils.json_to_sheet(rows,{header:s.columns.map(c=>c.label)});ws["!cols"]=s.columns.map(col=>({wch:Math.min(42,Math.max(14,col.label.length+3,String(col.example??"").length+3))}));XLSX.utils.book_append_sheet(wb,ws,s.name.slice(0,31));
+  const ws=XLSX.utils.json_to_sheet(rows,{header:s.columns.map(c=>c.label)});ws["!cols"]=s.columns.map(col=>({wch:Math.min(42,Math.max(14,col.label.length+3,String(col.example??"").length+3))}));XLSX.utils.book_append_sheet(wb,ws,sheetNames.get(s.key)!);
  }
  return wb;
 }

@@ -286,3 +286,7 @@ Cross-vertical lifecycle now has explicit Leave, reversible Archive, Restore, an
 ## XP-1 — Guided Workbook Onboarding Platform — SOURCE COMPLETE
 
 A shared versioned Import Schema Registry now covers all nine released verticals. Registry-driven XLSX generation supplies README, Column Guide, sample rows, required/optional/type/enum/reference guidance, privacy notes and schema version. A shared parser classifies valid/warning/rejected rows and blocks missing sheets/columns, invalid values, duplicate/ambiguous stable IDs and unresolved references before commit. Alumni and Housing Society preserve their domain-specific import semantics; other productized verticals use stable-ID-aware entity/relationship adapters; Family retains its mature specialized kinship workbook flow. Source/type/parse gates are complete; browser/staging import verification remains pending.
+
+
+## 2026-09-08 — XP-1 workbook sheet-name runtime hotfix
+The guided XLSX generator now sanitizes Excel-forbidden worksheet characters (`: \ / ? * [ ]`), enforces the 31-character worksheet-name limit, and deterministically resolves collisions after sanitization/truncation. The parser resolves the same generated names while retaining compatibility with valid legacy/manual sheet names. This fixes the Housing Society template download crash caused by `Occupancy / Ownership / Tenancy`. XP-1 source gate strengthened to 31/31 checks; full inherited XP-1 → XP-0 → platform → HS/FCA chain passes. Browser download/re-upload smoke remains recommended.

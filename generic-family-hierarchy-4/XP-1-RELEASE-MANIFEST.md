@@ -8,6 +8,7 @@ Primary source changes:
 - `core/import/contracts.ts`
 - `core/import/registry.ts`
 - `core/import/workbook.ts`
+- `core/import/sheet-names.ts` — Excel-safe, 31-char, collision-safe worksheet naming shared by generator/parser
 - `core/import/parser.ts`
 - `components/shared/GuidedWorkbookImport.tsx`
 - `capabilities/import/productized-workbook.ts`
@@ -28,3 +29,7 @@ Closure artifacts:
 - updates to `CURRENT-STATE.md`, `ROADMAP.md`, `MISSION-STATUS.md`, `USER-GUIDE.md`
 
 Certification: **source checkpoint only**. Dependency-installed Next.js/browser/staging persistence verification remains pending.
+
+
+## Runtime hotfix — 2026-09-08
+Fixed template download failure when a schema display name contains Excel-forbidden worksheet characters. Generator and parser now share one deterministic worksheet-name mapping. XP-1 gate expanded from 28 to 31 checks.

@@ -133,3 +133,7 @@ This is the binding reusable pattern for future verticals.
 ## Runtime still required
 
 This checkpoint is **not runtime-certified** until the checklist is exercised against a dependency-installed app and staging Supabase environment, including generated XLSX download/open, upload parsing, domain commits, duplicate re-import and cross-sheet error cases for each released vertical.
+
+
+## Runtime correction: Excel worksheet naming
+Registry sheet `name` is a human-facing label and is not assumed to be a legal Excel worksheet identifier. `core/import/sheet-names.ts` now derives deterministic workbook names by replacing `: \ / ? * [ ]`, limiting names to 31 characters, reserving platform guide names, and suffixing collisions. `workbook.ts` and `parser.ts` consume the same mapping so generated workbooks round-trip correctly.
