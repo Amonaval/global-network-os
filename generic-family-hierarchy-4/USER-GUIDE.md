@@ -511,3 +511,7 @@ This vertical is for communities where the annual membership unit is a family bu
 Association admins use **Manage Community** for official annual membership policy, April–March membership years, family renewal/payment status, controlled leadership roles and the community finance ledger. Members may maintain their own permitted profile fields; official membership/payment/governance fields remain admin-controlled. Family co-admins can maintain their own family profiles without becoming chapter-wide admins.
 
 For network lifecycle, **Leave network** removes only your membership. **Archive & unlink** preserves the network/history but removes active access. **Delete permanently** is owner-only and deletes network-owned data; independent identity and other networks are not deleted.
+
+
+## Housing Society founder pilot (HS-6)
+Housing Society admins can use **Manage Society → Pilot readiness & commercialization evidence** to run Pilot A/B/C/D, view objective product evidence, record weekly admin-value checkpoints, test pricing hypotheses and export a pilot evidence JSON. Residents continue using familiar society surfaces; notice readership and aggregate usage contribute to pilot evidence without granting residents admin access. See `docs/housing-society/FOUNDER-PILOT-ADMIN-GUIDE.md` and `RESIDENT-PILOT-GUIDE.md`.

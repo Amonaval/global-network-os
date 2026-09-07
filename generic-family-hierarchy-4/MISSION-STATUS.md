@@ -1537,4 +1537,15 @@ Delivered: typed vertical + registry/runtime, Unit-first entity model, property 
 - Approvals: **move-in/out and renovation/NOC lifecycle**
 - Assets/compliance: **asset + service history, due calendar, emergency contacts**
 - Migration: **087 additive/rerunnable; runtime smoke pending**
-- Next mission: **HS-6 Founder Society Pilot & Commercialization**
+- Next mission: **HS-6 Founder Society Pilot & Commercialization** — now source implemented below
+
+
+## HS-6 — Founder Society Pilot & Commercialization
+**SOURCE IMPLEMENTED / RUNTIME VERIFY**
+- Pilot A/B/C/D lifecycle and target cohort.
+- Objective readiness derived from mapped imports, unit/profile claiming, weekly usage, notice readership, complaints, maintenance, governance and security/compliance evidence.
+- Weekly operator evidence: admin hours saved, remaining WhatsApp/spreadsheet operations, willingness-to-pay, renewal intent and repeatability.
+- Evidence-first pricing experiments; no hard-coded commercial pricing.
+- Second-society proof explicitly fails when founder-specific code/manual patching is required.
+- Reusable import template/sample, admin guide, resident guide and second-society runbook.
+- **Planned HS roadmap complete at source level. Next: batch runtime verification + founder pilot evidence + issue fixing.**

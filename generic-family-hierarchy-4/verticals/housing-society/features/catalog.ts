@@ -28,5 +28,8 @@ const foundation:FeatureDefinition<string,any,any>[]=[
  {key:"housing-society.assets.registry",bundle:"admin",label:"Assets & service history",description:"Society asset, warranty/AMC/service and next-due history.",minimumExperience:"admin",defaultLaunch:"released"},
  {key:"housing-society.compliance.calendar",bundle:"admin",label:"Compliance calendar",description:"Due-date and document visibility for society inspections, certificates and renewals.",minimumExperience:"admin",defaultLaunch:"released"},
  {key:"housing-society.security.emergency",bundle:"core",label:"Emergency contacts",description:"Member-visible emergency and critical facility contacts.",minimumExperience:"member",defaultLaunch:"released"},
+ {key:"housing-society.pilot.readiness",bundle:"admin",label:"Pilot readiness",description:"Founder/committee pilot stage, evidence gates and second-society repeatability proof.",minimumExperience:"admin",defaultLaunch:"released"},
+ {key:"housing-society.pilot.metrics",bundle:"admin",label:"Pilot evidence metrics",description:"Activation, usage, notice reach, complaint resolution, maintenance visibility and operator-value evidence.",minimumExperience:"admin",defaultLaunch:"released"},
+ {key:"housing-society.pilot.pricing",bundle:"admin",label:"Pricing experiments",description:"Evidence-first pricing hypotheses and committee response without hard-coded commercial pricing.",minimumExperience:"admin",defaultLaunch:"released"},
 ];
 export const HOUSING_SOCIETY_FEATURE_CATALOG={...base,features:[...base.features.filter(f=>f.key!=="housing-society.shared.intelligence"),...foundation]};

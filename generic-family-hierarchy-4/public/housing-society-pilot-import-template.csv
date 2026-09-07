@@ -1,0 +1,2 @@
+unit,resident_name,building,wing,floor,unit_type,occupancy_role,resident_email,phone,household,profession,vehicle_registration,vehicle_type,parking_slot,parking_zone
+A-101,Resident Name,Tower A,A,1,2BHK,owner,resident@example.com,9999999999,Household Name,Profession,MH12AB1234,car,P-101,Basement 1

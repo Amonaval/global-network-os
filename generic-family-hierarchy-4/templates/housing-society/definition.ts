@@ -29,6 +29,6 @@ export const HOUSING_SOCIETY_TEMPLATE:VerticalTemplateDefinition={
  notes:[
   "HS-1 adds append-only ownership, co-ownership, tenancy and occupancy history while retaining graph edges for discovery/current structure.",
   "Official property facts remain committee/admin governed; a tenant must never be able to mutate ownership.",
-  "Vehicles, parking, My Flat, verified-email claiming and mapped bulk onboarding are HS-1 core. HS-2 adds daily operations; HS-3 adds maintenance billing, dues, funds and budget visibility while payment gateways remain deferred. HS-4 adds committee history, meetings, minutes, action items, resolutions and controlled member voting; election-grade secret ballots remain deferred. HS-5 adds scoped security operations, move/renovation approvals, asset service history, compliance calendar and emergency contacts."
+  "Vehicles, parking, My Flat, verified-email claiming and mapped bulk onboarding are HS-1 core. HS-2 adds daily operations; HS-3 adds maintenance billing, dues, funds and budget visibility while payment gateways remain deferred. HS-4 adds committee history, meetings, minutes, action items, resolutions and controlled member voting; election-grade secret ballots remain deferred. HS-5 adds scoped security operations, move/renovation approvals, asset service history, compliance calendar and emergency contacts. HS-6 closes the roadmap with a measured founder pilot, pricing evidence and second-society repeatability proof."
  ]
 };

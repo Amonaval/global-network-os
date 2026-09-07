@@ -2573,4 +2573,11 @@ Committee terms and designation history, meetings, agenda/minutes, action items 
 ## HS-5 — Security, Compliance & Asset Operations
 **SOURCE IMPLEMENTED / RUNTIME VERIFY**
 
-Visitor/staff operations, move/renovation approvals, asset service history, compliance calendar and emergency contacts are implemented with scoped operator grants rather than full admin rights. Next: **HS-6 Founder Society Pilot & Commercialization**.
+Visitor/staff operations, move/renovation approvals, asset service history, compliance calendar and emergency contacts are implemented with scoped operator grants rather than full admin rights.
+
+
+## HS-6 — Founder Society Pilot & Commercialization — SOURCE IMPLEMENTED / RUNTIME VERIFY
+HS-6 closes the planned Housing Society mission roadmap with a measurable founder-led pilot system: Pilot A internal demo → Pilot B 20–50 real units → Pilot C full society → Pilot D second society. It derives readiness from HS-1→HS-5 evidence, records admin time saved/offline operations/willingness-to-pay/renewal intent, tracks pricing hypotheses, exports evidence, and ships reusable onboarding/admin/resident guides plus a mapped import kit. **Runtime certification remains pending until the founder pilot and second-society repeatability gate are actually exercised.**
+
+### Housing Society roadmap after HS-6
+Do not automatically build the deferred list. Payment gateways, accounting/Tally, WhatsApp/SMS automation, biometric/access integrations, parcels, classifieds, IoT/meters, AI intelligence and external regulatory integrations remain evidence-driven backlog items. The next work should be runtime verification, founder-pilot feedback and fixes.
