@@ -2564,3 +2564,8 @@ Delivered source: HS-0 feature/intelligence regression fixes, notices, complaint
 
 ## HS-3 — Maintenance, Dues & Finance — SOURCE IMPLEMENTED / RUNTIME VERIFY
 Delivered source: shared CapabilityId fix for HS-2/HS-3 domain capabilities; charge catalog; billing cycles; generated unit bills; immutable bill lines; paid/partial/unpaid/waived state; adjustments/waivers; payment references and receipts; arrears; funds; budget and actual expense visibility; resident current-flat ledger and committee finance administration. Payment gateway/accounting integration remain deferred. Runtime closure requires staging migration 085 plus reconciliation of one 20–50-unit billing cycle. **Next: HS-4 Governance, Meetings & Decisions.**
+
+## HS-4 — Governance, Meetings & Decisions
+**SOURCE IMPLEMENTED / RUNTIME VERIFY**
+
+Committee terms and designation history, meetings, agenda/minutes, action items and controlled member resolutions are implemented. This is governance-record infrastructure, not a statutory secret-ballot election engine. Next: **HS-5 Security, Compliance & Asset Operations**.

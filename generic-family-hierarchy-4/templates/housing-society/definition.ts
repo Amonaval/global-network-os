@@ -24,11 +24,11 @@ export const HOUSING_SOCIETY_TEMPLATE:VerticalTemplateDefinition={
   {key:"resident-type",label:"Resident Type → Building",levels:["resident_type","building"]},
   {key:"parking",label:"Parking Zone → Building",levels:["parking_zone","building"]}
  ],
- capabilities:["profiles","affiliation","explorer","discovery","groups","events","memories","maps","milestones","contributions","connection-paths","notifications","notices","complaints","vendors","amenities","bookings","maintenance","billing","dues","finance","claiming","invitations","guide","playground","launch-control"],
+ capabilities:["profiles","affiliation","explorer","discovery","groups","events","memories","maps","milestones","contributions","connection-paths","notifications","notices","complaints","vendors","amenities","bookings","maintenance","billing","dues","finance","governance","meetings","resolutions","polls","documents","claiming","invitations","guide","playground","launch-control"],
  terminology:{home:"Home",unit:"Flat / Unit",resident:"Resident",admin:"Manage Society"},
  notes:[
   "HS-1 adds append-only ownership, co-ownership, tenancy and occupancy history while retaining graph edges for discovery/current structure.",
   "Official property facts remain committee/admin governed; a tenant must never be able to mutate ownership.",
-  "Vehicles, parking, My Flat, verified-email claiming and mapped bulk onboarding are HS-1 core. HS-2 adds daily operations; HS-3 adds maintenance billing, dues, funds and budget visibility while payment gateways remain deferred."
+  "Vehicles, parking, My Flat, verified-email claiming and mapped bulk onboarding are HS-1 core. HS-2 adds daily operations; HS-3 adds maintenance billing, dues, funds and budget visibility while payment gateways remain deferred. HS-4 adds committee history, meetings, minutes, action items, resolutions and controlled member voting; election-grade secret ballots remain deferred."
  ]
 };

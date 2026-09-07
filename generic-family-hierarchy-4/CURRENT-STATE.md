@@ -262,3 +262,6 @@ A new `family-association` vertical has been added without changing generic Asso
 
 ## 2026-09-07 — HS-3 Maintenance, Dues & Finance
 HS-3 is source implemented. Housing Society now has typed finance capabilities, flat-level maintenance bills, charge heads, billing cycles, immutable bill lines, adjustments/waivers, manual payments + receipts, arrears, funds and budget-vs-actual visibility. The HS-2 `CapabilityId` build regression is fixed centrally. Runtime staging verification of migration 085 and one reconciled 20–50-unit billing cycle remains required.
+
+## HS-4 — Governance, Meetings & Decisions — SOURCE IMPLEMENTED / RUNTIME VERIFY
+Delivered source: historical committee terms and office-bearer assignments, AGM/SGM/committee meetings, ordered agenda, published minutes, action register, resolutions, controlled one-member-one-vote approval/advisory decisions and governance document references. Election-grade secret voting remains deliberately deferred. Runtime closure requires migration 086 plus one real meeting-to-resolution lifecycle. **Next: HS-5 Security, Compliance & Asset Operations.**

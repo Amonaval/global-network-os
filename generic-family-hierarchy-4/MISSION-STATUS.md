@@ -1521,3 +1521,11 @@ Delivered: typed vertical + registry/runtime, Unit-first entity model, property 
 - Security: **resident current-flat financial isolation; official finance writes admin-only**
 - Migration: **085 additive/rerunnable; runtime reconciliation pending**
 - Next mission: **HS-4 Governance, Meetings & Decisions**
+
+## HS-4 — Governance, Meetings & Decisions
+- Status: **SOURCE IMPLEMENTED / RUNTIME VERIFY**
+- Validation: **28/28 HS-4 + full HS-3→HS-0 + FCA regression chain passes**
+- Governance: **committee terms/roles, meetings, agenda/minutes, actions, resolutions, controlled member votes, document references**
+- Boundary: **election-grade secret ballot/nomination engine deferred**
+- Migration: **086 additive/rerunnable; runtime smoke pending**
+- Next mission: **HS-5 Security, Compliance & Asset Operations**

@@ -18,5 +18,9 @@ const foundation:FeatureDefinition<string,any,any>[]=[
  {key:"housing-society.finance.maintenance",bundle:"core",label:"Maintenance & dues",description:"Flat-wise maintenance bills, dues, receipts, arrears and adjustments with member-safe visibility.",minimumExperience:"member",defaultLaunch:"released"},
  {key:"housing-society.finance.charge-heads",bundle:"admin",label:"Charge heads",description:"Committee-configured maintenance, sinking fund, repair fund, parking, water and special assessment heads.",minimumExperience:"admin",defaultLaunch:"released"},
  {key:"housing-society.finance.budget",bundle:"admin",label:"Budget & funds",description:"Society funds plus budget-versus-actual operating visibility without replacing accounting software.",minimumExperience:"admin",defaultLaunch:"released"},
+ {key:"housing-society.governance.committee",bundle:"core",label:"Committee & terms",description:"Time-bounded chairperson, secretary, treasurer and committee role history.",minimumExperience:"member",defaultLaunch:"released"},
+ {key:"housing-society.governance.meetings",bundle:"community",label:"Meetings & minutes",description:"AGM, SGM and committee meetings with agenda, minutes and action register.",minimumExperience:"member",defaultLaunch:"released"},
+ {key:"housing-society.governance.resolutions",bundle:"community",label:"Resolutions & polls",description:"Controlled member approval/advisory voting with one vote per signed-in network member; not election-grade secret voting.",minimumExperience:"member",defaultLaunch:"released"},
+ {key:"housing-society.governance.documents",bundle:"community",label:"Governance documents",description:"Version-labelled meeting and resolution document references with member/admin visibility.",minimumExperience:"member",defaultLaunch:"released"},
 ];
 export const HOUSING_SOCIETY_FEATURE_CATALOG={...base,features:[...base.features.filter(f=>f.key!=="housing-society.shared.intelligence"),...foundation]};

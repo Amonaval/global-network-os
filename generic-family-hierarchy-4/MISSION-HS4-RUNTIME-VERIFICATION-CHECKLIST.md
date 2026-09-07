@@ -1,0 +1,13 @@
+# HS-4 Runtime Verification Checklist
+- Apply `086_hs4_governance_meetings_decisions.sql` twice safely.
+- Create one committee term and assign Chairperson, Secretary and Treasurer.
+- End/reassign one office-bearer and confirm prior history remains.
+- Schedule a committee meeting and AGM/SGM-style meeting.
+- Add ordered agenda items; publish minutes and attendee count.
+- Create an action item, move it to in-progress, then done.
+- Open an approval resolution; cast Yes/No/Abstain from distinct members.
+- Confirm a member cannot vote twice as two rows; changing vote updates the same record.
+- Close the resolution and confirm result/history remains readable.
+- Confirm non-admin cannot mutate committee/meeting/resolution official records.
+- Confirm another society cannot read these records.
+- Confirm this flow is clearly marked non-election-grade.
