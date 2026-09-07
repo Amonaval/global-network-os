@@ -265,3 +265,6 @@ HS-3 is source implemented. Housing Society now has typed finance capabilities, 
 
 ## HS-4 — Governance, Meetings & Decisions — SOURCE IMPLEMENTED / RUNTIME VERIFY
 Delivered source: historical committee terms and office-bearer assignments, AGM/SGM/committee meetings, ordered agenda, published minutes, action register, resolutions, controlled one-member-one-vote approval/advisory decisions and governance document references. Election-grade secret voting remains deliberately deferred. Runtime closure requires migration 086 plus one real meeting-to-resolution lifecycle. **Next: HS-5 Security, Compliance & Asset Operations.**
+
+## HS-5 — Security, Compliance & Asset Operations — SOURCE IMPLEMENTED / RUNTIME VERIFY
+Delivered source: scoped security/facility/compliance operator grants; resident flat-scoped visitor pre-approval; check-in/out; domestic staff + flat permissions; move-in/out; renovation/NOC approval; society asset/warranty/service history; compliance calendar; emergency contacts. Runtime closure requires migration 087 plus one real security/approval/asset/compliance smoke. **Next: HS-6 Founder Society Pilot & Commercialization.**

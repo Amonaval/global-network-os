@@ -1,0 +1,13 @@
+# HS-5 Runtime Verification Checklist
+- Apply `087_hs5_security_compliance_assets.sql` twice safely.
+- Grant one network member `security` scope; confirm they are not network admin.
+- Resident pre-approves visitor only for their current claimed flat.
+- Security operator sees visitor operational contact and can check in/out.
+- Ordinary unrelated member cannot read visitor private contact.
+- Add domestic staff, verify status, authorize one flat and preserve history.
+- Submit move-in/out request from resident; approve/reject as committee.
+- Submit renovation request; approve with NOC reference and conditions.
+- Add lift/pump/fire asset, warranty and service record; confirm next-service date.
+- Add compliance item due within 30 days and verify warning/visibility.
+- Publish emergency contacts and verify all members can see them.
+- Confirm a second society cannot read/write first society records.

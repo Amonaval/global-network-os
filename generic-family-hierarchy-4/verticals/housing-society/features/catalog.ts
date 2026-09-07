@@ -22,5 +22,11 @@ const foundation:FeatureDefinition<string,any,any>[]=[
  {key:"housing-society.governance.meetings",bundle:"community",label:"Meetings & minutes",description:"AGM, SGM and committee meetings with agenda, minutes and action register.",minimumExperience:"member",defaultLaunch:"released"},
  {key:"housing-society.governance.resolutions",bundle:"community",label:"Resolutions & polls",description:"Controlled member approval/advisory voting with one vote per signed-in network member; not election-grade secret voting.",minimumExperience:"member",defaultLaunch:"released"},
  {key:"housing-society.governance.documents",bundle:"community",label:"Governance documents",description:"Version-labelled meeting and resolution document references with member/admin visibility.",minimumExperience:"member",defaultLaunch:"released"},
+ {key:"housing-society.security.visitors",bundle:"community",label:"Visitors & entry",description:"Current-flat visitor pre-approval with scoped security-operator check-in/out.",minimumExperience:"member",defaultLaunch:"released"},
+ {key:"housing-society.security.staff",bundle:"admin",label:"Domestic staff",description:"Verified staff register and time-bounded flat permissions with scoped security access.",minimumExperience:"admin",defaultLaunch:"released"},
+ {key:"housing-society.security.move-approvals",bundle:"community",label:"Move & renovation approvals",description:"Resident move-in/out and renovation/NOC request lifecycle.",minimumExperience:"member",defaultLaunch:"released"},
+ {key:"housing-society.assets.registry",bundle:"admin",label:"Assets & service history",description:"Society asset, warranty/AMC/service and next-due history.",minimumExperience:"admin",defaultLaunch:"released"},
+ {key:"housing-society.compliance.calendar",bundle:"admin",label:"Compliance calendar",description:"Due-date and document visibility for society inspections, certificates and renewals.",minimumExperience:"admin",defaultLaunch:"released"},
+ {key:"housing-society.security.emergency",bundle:"core",label:"Emergency contacts",description:"Member-visible emergency and critical facility contacts.",minimumExperience:"member",defaultLaunch:"released"},
 ];
 export const HOUSING_SOCIETY_FEATURE_CATALOG={...base,features:[...base.features.filter(f=>f.key!=="housing-society.shared.intelligence"),...foundation]};

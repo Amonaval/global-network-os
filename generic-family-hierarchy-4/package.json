@@ -88,7 +88,8 @@
     "validate:hs1": "node scripts/hs1-property-resident-core-gate.mjs && npm run validate:hs0",
     "validate:hs2": "node scripts/hs2-daily-operations-gate.mjs && npm run validate:hs1",
     "validate:hs3": "node scripts/hs3-maintenance-finance-gate.mjs && npm run validate:hs2",
-    "validate:hs4": "node scripts/hs4-governance-decisions-gate.mjs && npm run validate:hs3"
+    "validate:hs4": "node scripts/hs4-governance-decisions-gate.mjs && npm run validate:hs3",
+    "validate:hs5": "node scripts/hs5-security-compliance-assets-gate.mjs && npm run validate:hs4"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

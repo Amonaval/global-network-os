@@ -1529,3 +1529,12 @@ Delivered: typed vertical + registry/runtime, Unit-first entity model, property 
 - Boundary: **election-grade secret ballot/nomination engine deferred**
 - Migration: **086 additive/rerunnable; runtime smoke pending**
 - Next mission: **HS-5 Security, Compliance & Asset Operations**
+
+## HS-5 — Security, Compliance & Asset Operations
+- Status: **SOURCE IMPLEMENTED / RUNTIME VERIFY**
+- Validation: **28/28 HS-5 + complete HS-4→HS-0 + FCA regression chain passes**
+- Security: **scoped security/facility/compliance grants, visitors, domestic staff permissions**
+- Approvals: **move-in/out and renovation/NOC lifecycle**
+- Assets/compliance: **asset + service history, due calendar, emergency contacts**
+- Migration: **087 additive/rerunnable; runtime smoke pending**
+- Next mission: **HS-6 Founder Society Pilot & Commercialization**

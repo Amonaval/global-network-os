@@ -2569,3 +2569,8 @@ Delivered source: shared CapabilityId fix for HS-2/HS-3 domain capabilities; cha
 **SOURCE IMPLEMENTED / RUNTIME VERIFY**
 
 Committee terms and designation history, meetings, agenda/minutes, action items and controlled member resolutions are implemented. This is governance-record infrastructure, not a statutory secret-ballot election engine. Next: **HS-5 Security, Compliance & Asset Operations**.
+
+## HS-5 — Security, Compliance & Asset Operations
+**SOURCE IMPLEMENTED / RUNTIME VERIFY**
+
+Visitor/staff operations, move/renovation approvals, asset service history, compliance calendar and emergency contacts are implemented with scoped operator grants rather than full admin rights. Next: **HS-6 Founder Society Pilot & Commercialization**.
