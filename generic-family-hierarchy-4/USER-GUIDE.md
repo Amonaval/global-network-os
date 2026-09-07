@@ -521,3 +521,17 @@ Housing Society admins can use **Manage Society → Pilot readiness & commercial
 - **Archive network** is Owner-only. The network becomes inactive, member access is suspended, and all data/history/media are preserved.
 - **Restore network** is available to the Owner from **My Networks → Archived networks** and restores the archived network and its membership state.
 - **Delete permanently** is Owner-only and requires typing the exact network name plus confirmation. It permanently purges network-owned relational records and network-prefixed media. Use it only when the network should never be restored.
+
+## Guided Workbook Import — all released networks
+
+For an admin importing an existing list:
+
+1. Open the network **Admin** area and find **Guided workbook**.
+2. Choose **Download XLSX**. The workbook is generated from that network type's current import schema.
+3. Read `README` and `Column Guide`. Use friendly Stable IDs such as `P001`, `U001` or `BR001`; never use Aadhaar/PAN/passport numbers as workbook IDs.
+4. Replace the realistic sample rows with your data. Keep referenced IDs consistent across sheets and leave genuinely unknown optional values blank.
+5. Upload the completed workbook.
+6. Review the file summary and each exact row/column issue. Rejected rows or other blocking errors must be fixed before import can be confirmed.
+7. Choose **Confirm import** only after the review is clean.
+
+The importer is vertical-aware: Housing Society keeps occupancy/vehicle/parking history rules, Alumni keeps Alumni profile semantics, Family keeps kinship validation, and other productized networks use their own allowed entity and relationship contracts.

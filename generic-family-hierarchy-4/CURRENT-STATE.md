@@ -282,3 +282,7 @@ The Housing Society source roadmap is complete through commercialization readine
 
 ## 2026-09-08 — XP-0 Network Lifecycle Safety — SOURCE IMPLEMENTED / RUNTIME VERIFY
 Cross-vertical lifecycle now has explicit Leave, reversible Archive, Restore, and verified Permanent Purge semantics. Archive snapshots membership states and preserves all domain/media data. Hard purge explicitly removes network-prefixed Supabase Storage, deletes the network, then performs a metadata-driven scan of every public FK referencing `networks(id)` plus Storage residue; any residue aborts the transaction. A minimal platform-owned zero-residue purge receipt is intentionally retained. Family no longer silently archives through Leave. Runtime staging verification of migration 090 is pending.
+
+## XP-1 — Guided Workbook Onboarding Platform — SOURCE COMPLETE
+
+A shared versioned Import Schema Registry now covers all nine released verticals. Registry-driven XLSX generation supplies README, Column Guide, sample rows, required/optional/type/enum/reference guidance, privacy notes and schema version. A shared parser classifies valid/warning/rejected rows and blocks missing sheets/columns, invalid values, duplicate/ambiguous stable IDs and unresolved references before commit. Alumni and Housing Society preserve their domain-specific import semantics; other productized verticals use stable-ID-aware entity/relationship adapters; Family retains its mature specialized kinship workbook flow. Source/type/parse gates are complete; browser/staging import verification remains pending.

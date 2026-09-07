@@ -92,7 +92,8 @@
     "validate:hs5": "node scripts/hs5-security-compliance-assets-gate.mjs && npm run validate:hs4",
     "validate:hs6": "node scripts/hs6-founder-pilot-commercialization-gate.mjs && npm run validate:hs5",
     "validate:platform-parity": "node scripts/platform-vertical-parity-gate.mjs && npm run validate:hs6",
-    "validate:xp0": "node scripts/xp0-network-lifecycle-safety-gate.mjs && npm run validate:platform-parity"
+    "validate:xp0": "node scripts/xp0-network-lifecycle-safety-gate.mjs && npm run validate:platform-parity",
+    "validate:xp1": "node scripts/xp1-guided-workbook-onboarding-gate.mjs && npm run validate:xp0"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

@@ -2601,3 +2601,9 @@ Do not automatically build the deferred list. Payment gateways, accounting/Tally
 - [ ] XP-5 Backup / Export / Recovery.
 - [ ] XP-6 Invitation, Claiming & Correction Parity.
 - [ ] XP-7 Guide, What's New & Readiness Closure.
+
+## XP Cross-Vertical Product Parity
+
+- **XP-0 — Network Lifecycle Safety:** ✅ source checkpoint complete; runtime/staging verification pending.
+- **XP-1 — Guided Excel / Workbook Onboarding Platform:** ✅ source checkpoint complete; runtime/staging verification pending. Shared registry → generated workbook → validator → vertical commit adapter is now the binding import architecture.
+- **XP-2 — i18n Closure:** next sequential mission after XP-1 checkpoint/runtime findings are carried forward.

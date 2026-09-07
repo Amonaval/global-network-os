@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8'),checks=[],ok=(n,c)=>checks.push([n,!!c]);
-const sql=read('supabase/migrations/083_hs1_property_household_resident_core.sql'),ui=read('components/HousingSocietyCorePanel.tsx'),app=read('components/TemplateNetworkApp.tsx'),remote=read('verticals/housing-society/runtime/remote.ts'),comp=read('verticals/housing-society/runtime/composition.ts'),cat=read('verticals/housing-society/features/catalog.ts'),invite=read('app/society-invite/[token]/page.tsx'),template=read('templates/housing-society/definition.ts');
+const sql=read('supabase/migrations/083_hs1_property_household_resident_core.sql'),ui=read('components/HousingSocietyCorePanel.tsx'),app=read('components/TemplateNetworkApp.tsx'),remote=read('verticals/housing-society/runtime/remote.ts'),comp=read('verticals/housing-society/runtime/composition.ts'),cat=read('verticals/housing-society/features/catalog.ts'),invite=read('app/society-invite/[token]/page.tsx'),template=read('templates/housing-society/definition.ts'),xp1Import=read('capabilities/import/housing-workbook.ts');
 ok('temporal occupancy table',sql.includes('hs_unit_occupancy_history')&&sql.includes("occupancy_role in ('owner','co-owner','tenant','occupant')"));
 ok('history never modeled as overwrite-only metadata',sql.includes('starts_on date')&&sql.includes('ends_on date')&&sql.includes("hs1_occupancy_recorded"));
 ok('parking and vehicle tables',sql.includes('hs_parking_slots')&&sql.includes('hs_vehicles')&&sql.includes('hs_parking_allocations'));
@@ -14,7 +14,7 @@ ok('official occupancy is admin governed',sql.includes("Society admin access req
 ok('bulk import mapper backend',sql.includes('hs1_import_resident_rows')&&sql.includes('hs_import_batches'));
 ok('bulk import creates units residents household links',sql.includes("kind='unit'")&&sql.includes("'member_of_household'")&&sql.includes("'resident_of'"));
 ok('bulk import can seed invitations vehicles parking',sql.includes('hs1_create_resident_invitation')&&sql.includes('vehicle_registration')&&sql.includes('parking_slot'));
-ok('mapped onboarding UI',ui.includes('Housing Society bulk onboarding')&&ui.includes('mapping')&&ui.includes('resident_name'));
+ok('mapped onboarding UI',ui.includes('Housing Society guided bulk onboarding')&&ui.includes('GuidedWorkbookImport')&&xp1Import.includes('resident_name')&&xp1Import.includes('importHsResidentRows'));
 ok('my flat UI',ui.includes('mode==="my-flat"')&&ui.includes('Vehicles linked to my flat'));
 ok('admin lifecycle UI',ui.includes('Record owner / tenant / occupant')&&ui.includes('Owner / tenant history'));
 ok('housing directory filters and thumbnails',app.includes('housingBuildingFilter')&&app.includes('housingResidentTypeFilter')&&app.includes('photo_url'));

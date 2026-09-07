@@ -1559,3 +1559,13 @@ Delivered: typed vertical + registry/runtime, Unit-first entity model, property 
 - My Networks exposes active lifecycle actions plus an Archived section for owners.
 - Family lifecycle no longer conflates Leave with implicit archive.
 - Source gate added; full Supabase/runtime verification pending.
+
+## XP-1 — Guided Excel / Workbook Onboarding Platform — IMPLEMENTED / VERIFY
+
+- Versioned import schemas cover Family, Alumni, Association, Family Association, Housing Society, Organization, Business Trust, Franchise and Professional.
+- Generated XLSX templates include README, Column Guide, samples, accepted values, stable IDs, privacy notes and schema version.
+- Shared parser reports valid/warning/rejected rows with exact reason and blocks unresolved cross-sheet references/duplicates/type errors.
+- Shared Guided Workbook UX replaces one-off Alumni/productized/Housing upload parsers.
+- Vertical commit adapters preserve Alumni and Housing Society domain semantics while generic productized verticals use stable-ID upsert + typed relationships.
+- Family mature kinship import remains intact.
+- Source checkpoint passes; dependency-installed browser/staging verification remains open.
