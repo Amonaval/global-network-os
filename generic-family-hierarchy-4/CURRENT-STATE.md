@@ -253,3 +253,6 @@ A new `family-association` vertical has been added without changing generic Asso
 
 ## HS-0 Housing Society Vertical Foundation — source checkpoint
 `housing-society` is now source-implemented as a first-class productized TrustWeave vertical. Unit/Flat is the primary operating object; Building/Wing/Floor are hierarchy dimensions; Household and Person remain first-class linked identities. The resident composition uses familiar society terminology and hides Intelligence/advanced platform machinery. A synthetic 24-unit playground, rerun-safe migration 082, source gate, guide entries and civic theme are included. Complaints, maintenance, billing, facilities, governance, security and compliance remain future missions. Status: **SOURCE IMPLEMENTED / RUNTIME VERIFY**.
+
+## HS-1 Property, Household & Resident Core — source checkpoint
+**SOURCE IMPLEMENTED / RUNTIME VERIFY.** Housing Society now has temporal owner/co-owner/tenant/occupant history, My Flat, verified-email society invitation claiming, vehicles/parking, and mapped Excel/CSV onboarding designed for the 20–50 unit pilot gate. Official property facts and parking allocations remain admin governed; resident vehicle writes are restricted to current occupied flats. Migration 083 is additive/rerunnable and preserves HS-0/FCA contracts. Runtime certification remains pending on staging Supabase.

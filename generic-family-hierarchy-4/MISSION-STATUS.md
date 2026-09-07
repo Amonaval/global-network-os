@@ -1493,3 +1493,13 @@ The guided control center now teaches advanced areas/tools on demand through con
 **SOURCE IMPLEMENTED / RUNTIME VERIFY**
 
 Delivered: typed vertical + registry/runtime, Unit-first entity model, property hierarchy, explicit ownership/tenancy/occupancy relationships, resident-oriented navigation, civic theme, 24-unit playground, guide truth, Launch Control feature seed, rerun-safe migration 082, source gate and closure docs. Runtime Supabase/Vercel verification is still required before certification. Next mission: HS-1 Property, Household & Resident Core.
+
+## HS-1 — Property, Household & Resident Core
+- Implementation: **complete in source**
+- Validation: **25/25 HS-1 + 24/24 HS-0 + 27/27 FCA-0 source gates pass**
+- Guide: **updated**
+- Playground: **HS-0 synthetic society retained; HS-1 runtime data needs staging verification**
+- Launch Control: **HS-1 feature rows added**
+- What's New / living artifacts: **updated**
+- Runtime certification: **pending migration 083 + 20–50 unit onboarding/claiming test**
+- Next mission: **HS-2 Daily Society Operations**

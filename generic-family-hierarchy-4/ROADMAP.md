@@ -2555,3 +2555,6 @@ A user should be able to answer within seconds: **Where are my networks? What ca
 - Synthetic 24-unit Pune-style society demonstrates structure safely.
 - Migration 082 is additive/rerunnable and contains post-migration contract assertions.
 - **Next:** HS-1 temporal property + resident lifecycle, claiming/invitations, My Flat, vehicles/parking and import mapping for a 20–50 unit pilot.
+
+## HS-1 — Property, Household & Resident Core — SOURCE IMPLEMENTED / RUNTIME VERIFY
+Delivered source: temporal property lifecycle, household/resident graph, resident profiles and claiming, My Flat, vehicles/parking, mapped bulk onboarding and admin authorization boundaries. Pilot closure requires onboarding 20–50 real/sanitized units without manual DB work and completing the runtime checklist. **Next: HS-2 Daily Society Operations only after HS-1 pilot core verification.**

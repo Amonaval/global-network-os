@@ -27,8 +27,8 @@ export const HOUSING_SOCIETY_TEMPLATE:VerticalTemplateDefinition={
  capabilities:["profiles","affiliation","explorer","discovery","groups","events","memories","maps","milestones","contributions","connection-paths","notifications","claiming","invitations","guide","playground","launch-control"],
  terminology:{home:"Home",unit:"Flat / Unit",resident:"Resident",admin:"Manage Society"},
  notes:[
-  "HS-0 uses generic entities/relationships only for the property-resident graph; temporal ownership/tenancy tables arrive in HS-1.",
+  "HS-1 adds append-only ownership, co-ownership, tenancy and occupancy history while retaining graph edges for discovery/current structure.",
   "Official property facts remain committee/admin governed; a tenant must never be able to mutate ownership.",
-  "Billing, complaints, security, documents and facilities are intentionally not claimed as implemented in HS-0."
+  "Vehicles, parking, My Flat, verified-email claiming and mapped bulk onboarding are HS-1 core. Billing, complaints, security, documents and facilities remain later missions."
  ]
 };
