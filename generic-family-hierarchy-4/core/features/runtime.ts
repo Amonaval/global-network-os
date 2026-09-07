@@ -33,7 +33,7 @@ export function isFeatureAvailableForCatalog<
   canAdmin: boolean,
 ): boolean {
   const definition = featureByKey[key];
-  if (!definition) throw new Error(`Unknown feature key: ${key}`);
+  if (!definition) return false;
   const effective = features[key];
   const launchEnabled = effective?.enabled ?? definition.defaultLaunch === "released";
   if (!launchEnabled) return false;

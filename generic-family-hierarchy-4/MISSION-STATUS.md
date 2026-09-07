@@ -1503,3 +1503,12 @@ Delivered: typed vertical + registry/runtime, Unit-first entity model, property 
 - What's New / living artifacts: **updated**
 - Runtime certification: **pending migration 083 + 20–50 unit onboarding/claiming test**
 - Next mission: **HS-2 Daily Society Operations**
+
+## HS-2 — Daily Society Operations
+- Status: **SOURCE IMPLEMENTED / RUNTIME VERIFY**
+- Regression fixes: **HS-0 unknown feature crash fixed; Housing Society intelligence typing made exhaustive**
+- Validation: **26/26 HS-2 + 27/27 HS-1 + 24/24 HS-0 + 27/27 FCA-0 source gates pass**
+- Daily operations: **notices, complaints/comments/SLA, vendors/contracts, amenities/bookings, Coming Up**
+- Shared reuse: **events/RSVP/memories/likes/comments/timeline retained**
+- Migration: **084 additive/rerunnable; runtime smoke pending**
+- Next mission: **HS-3 Maintenance, Dues & Finance**

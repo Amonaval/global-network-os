@@ -256,3 +256,6 @@ A new `family-association` vertical has been added without changing generic Asso
 
 ## HS-1 Property, Household & Resident Core — source checkpoint
 **SOURCE IMPLEMENTED / RUNTIME VERIFY.** Housing Society now has temporal owner/co-owner/tenant/occupant history, My Flat, verified-email society invitation claiming, vehicles/parking, and mapped Excel/CSV onboarding designed for the 20–50 unit pilot gate. Official property facts and parking allocations remain admin governed; resident vehicle writes are restricted to current occupied flats. Migration 083 is additive/rerunnable and preserves HS-0/FCA contracts. Runtime certification remains pending on staging Supabase.
+
+## HS-2 Daily Society Operations — source checkpoint
+**SOURCE IMPLEMENTED / RUNTIME VERIFY.** The two HS-0 regression defects are fixed: optional unknown feature probes fail closed instead of crashing, and Housing Society is exhaustive in the shared intelligence type/copy contracts. HS-2 adds society-scoped notices, complaint/SLA/comments/evidence workflow, vendor/contracts, amenities/bookings and Coming Up, while reusing the shared event/RSVP/memory/timeline engine. Migration 084 is additive/rerunnable. HS-3 billing remains intentionally excluded.

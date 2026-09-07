@@ -2558,3 +2558,6 @@ A user should be able to answer within seconds: **Where are my networks? What ca
 
 ## HS-1 — Property, Household & Resident Core — SOURCE IMPLEMENTED / RUNTIME VERIFY
 Delivered source: temporal property lifecycle, household/resident graph, resident profiles and claiming, My Flat, vehicles/parking, mapped bulk onboarding and admin authorization boundaries. Pilot closure requires onboarding 20–50 real/sanitized units without manual DB work and completing the runtime checklist. **Next: HS-2 Daily Society Operations only after HS-1 pilot core verification.**
+
+## HS-2 — Daily Society Operations — SOURCE IMPLEMENTED / RUNTIME VERIFY
+Delivered source: HS-0 feature/intelligence regression fixes, notices, complaint/service-desk lifecycle with comments/evidence/vendor/SLA assignment, vendor + contract/AMC records, amenity catalog/bookings, resident Notices/Complaints/Amenities navigation, admin daily-ops dashboard, and Coming Up composed with the existing shared events/RSVP/memories/timeline engine. Runtime closure requires staging migration 084 and a one-week pilot smoke. **Next: HS-3 Maintenance, Dues & Finance.**

@@ -24,7 +24,7 @@ export const HOUSING_SOCIETY_TEMPLATE:VerticalTemplateDefinition={
   {key:"resident-type",label:"Resident Type → Building",levels:["resident_type","building"]},
   {key:"parking",label:"Parking Zone → Building",levels:["parking_zone","building"]}
  ],
- capabilities:["profiles","affiliation","explorer","discovery","groups","events","memories","maps","milestones","contributions","connection-paths","notifications","claiming","invitations","guide","playground","launch-control"],
+ capabilities:["profiles","affiliation","explorer","discovery","groups","events","memories","maps","milestones","contributions","connection-paths","notifications","notices","complaints","vendors","amenities","bookings","claiming","invitations","guide","playground","launch-control"],
  terminology:{home:"Home",unit:"Flat / Unit",resident:"Resident",admin:"Manage Society"},
  notes:[
   "HS-1 adds append-only ownership, co-ownership, tenancy and occupancy history while retaining graph edges for discovery/current structure.",

@@ -18,7 +18,8 @@ const COPY={
  organization:{title:DEFAULT_CATALOG.OrganizationalIntelligenceTxt,description:DEFAULT_CATALOG.FindExpertiseStructuralRiskOwnershipContextAndTxt},
  "business-trust":{title:DEFAULT_CATALOG.TrustIntelligenceTxt,description:DEFAULT_CATALOG.UseProvenanceSharedContextAndKnownRelationshipTxt},
  franchise:{title:DEFAULT_CATALOG.FranchiseIntelligenceTxt,description:DEFAULT_CATALOG.FindReusableOperatingKnowledgePeerLocationsAndTxt},
- professional:{title:DEFAULT_CATALOG.ProfessionalIntelligenceTxt,description:DEFAULT_CATALOG.FindTrustedExpertiseWarmReferralPathsCredentialTxt}
+ professional:{title:DEFAULT_CATALOG.ProfessionalIntelligenceTxt,description:DEFAULT_CATALOG.FindTrustedExpertiseWarmReferralPathsCredentialTxt},
+ "housing-society":{title:"Society intelligence",description:"Use permission-aware resident, property and community context without exposing platform machinery."}
 } as const;
 export default function NetworkIntelligenceCenter({kind,entities,relationships,activities=[],dimensionKeys=[],onGo,onEntityOpen}:{kind:IntelligenceVerticalKind;entities:readonly NetworkAffiliatedEntity[];relationships:readonly NetworkEntityRelationship[];activities?:readonly NetworkActivity[];dimensionKeys?:readonly string[];onGo:(target:Target)=>void;onEntityOpen?:(entity:NetworkAffiliatedEntity)=>void}){
  const {t:tr}=useLanguage();
