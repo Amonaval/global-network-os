@@ -15,5 +15,8 @@ const foundation:FeatureDefinition<string,any,any>[]=[
  {key:"housing-society.ops.vendors",bundle:"admin",label:"Vendors & contracts",description:"Committee-managed vendor directory and contract/AMC lifecycle.",minimumExperience:"admin",defaultLaunch:"released"},
  {key:"housing-society.ops.amenities",bundle:"community",label:"Amenities",description:"Resident amenity discovery and governed booking requests.",minimumExperience:"member",defaultLaunch:"released"},
  {key:"housing-society.ops.coming-up",bundle:"community",label:"Coming Up",description:"Upcoming society events, active notices and bookings in one resident-facing view.",minimumExperience:"member",defaultLaunch:"released"},
+ {key:"housing-society.finance.maintenance",bundle:"core",label:"Maintenance & dues",description:"Flat-wise maintenance bills, dues, receipts, arrears and adjustments with member-safe visibility.",minimumExperience:"member",defaultLaunch:"released"},
+ {key:"housing-society.finance.charge-heads",bundle:"admin",label:"Charge heads",description:"Committee-configured maintenance, sinking fund, repair fund, parking, water and special assessment heads.",minimumExperience:"admin",defaultLaunch:"released"},
+ {key:"housing-society.finance.budget",bundle:"admin",label:"Budget & funds",description:"Society funds plus budget-versus-actual operating visibility without replacing accounting software.",minimumExperience:"admin",defaultLaunch:"released"},
 ];
 export const HOUSING_SOCIETY_FEATURE_CATALOG={...base,features:[...base.features.filter(f=>f.key!=="housing-society.shared.intelligence"),...foundation]};

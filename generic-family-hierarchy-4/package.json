@@ -86,7 +86,8 @@
     "validate:fca0": "node scripts/fca0-family-association-gate.mjs",
     "validate:hs0": "node scripts/hs0-housing-society-gate.mjs && npm run validate:fca0",
     "validate:hs1": "node scripts/hs1-property-resident-core-gate.mjs && npm run validate:hs0",
-    "validate:hs2": "node scripts/hs2-daily-operations-gate.mjs && npm run validate:hs1"
+    "validate:hs2": "node scripts/hs2-daily-operations-gate.mjs && npm run validate:hs1",
+    "validate:hs3": "node scripts/hs3-maintenance-finance-gate.mjs && npm run validate:hs2"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

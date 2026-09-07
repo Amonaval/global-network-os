@@ -1512,3 +1512,12 @@ Delivered: typed vertical + registry/runtime, Unit-first entity model, property 
 - Shared reuse: **events/RSVP/memories/likes/comments/timeline retained**
 - Migration: **084 additive/rerunnable; runtime smoke pending**
 - Next mission: **HS-3 Maintenance, Dues & Finance**
+
+## HS-3 — Maintenance, Dues & Finance
+- Status: **SOURCE IMPLEMENTED / RUNTIME VERIFY**
+- Build fix: **Housing Society HS-2/HS-3 capability IDs added to shared `CapabilityId`; isolated template type-check passes**
+- Validation: **28/28 HS-3 + 26/26 HS-2 + 27/27 HS-1 + 24/24 HS-0 + 27/27 FCA-0 source gates pass**
+- Finance core: **charge heads, billing cycles, flat ledger, adjustments/waivers, payments/receipts, arrears, funds, budget-vs-actual**
+- Security: **resident current-flat financial isolation; official finance writes admin-only**
+- Migration: **085 additive/rerunnable; runtime reconciliation pending**
+- Next mission: **HS-4 Governance, Meetings & Decisions**

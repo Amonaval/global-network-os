@@ -16,12 +16,13 @@ const meSurface:VerticalSurfaceDescriptor={viewId:"me",featureKey:"housing-socie
 const noticeSurface:VerticalSurfaceDescriptor={viewId:"notices",featureKey:"housing-society.ops.notices",iconToken:"calendar",label:label("Notices")};
 const complaintSurface:VerticalSurfaceDescriptor={viewId:"complaints",featureKey:"housing-society.ops.complaints",iconToken:"settings",label:label("Complaints")};
 const amenitySurface:VerticalSurfaceDescriptor={viewId:"amenities",featureKey:"housing-society.ops.amenities",iconToken:"calendar",label:label("Amenities")};
-const residentSurfaces=[residentBase[0],meSurface,residentBase.find(s=>s.viewId==="directory")!,noticeSurface,complaintSurface,amenitySurface,...residentBase.filter(s=>!["home","directory"].includes(s.viewId))];
+const maintenanceSurface:VerticalSurfaceDescriptor={viewId:"maintenance",featureKey:"housing-society.finance.maintenance",iconToken:"settings",label:label("Maintenance")};
+const residentSurfaces=[residentBase[0],meSurface,residentBase.find(s=>s.viewId==="directory")!,noticeSurface,complaintSurface,maintenanceSurface,amenitySurface,...residentBase.filter(s=>!["home","directory"].includes(s.viewId))];
 export const HOUSING_SOCIETY_APP_COMPOSITION={
  ...base,primaryNavigation:residentSurfaces,
  mobileMoreNavigation:base.mobileMoreNavigation.map(s=>s.viewId==="admin"?rename(s,"Manage Society"):s),
- mobileBottomViewIds:["home","me","directory","complaints"],mobileMoreActiveViewIds:["notices","amenities","community","connections","admin","guide"],
- guide:{...base.guide,playgroundViewIds:["home","me","directory","notices","complaints","amenities","community","explorer","connections"]},
- launch:{...base.launch,playgroundTitle:"Housing Society Playground",playgroundDescription:"A realistic residential community centered on flats/units, residents, households and society structure.",playgroundRecommendation:"Start at Home, explore Society Structure, then browse Residents and Community.",pilotTargetsTitle:"Housing Society daily-operations pilot",pilotTargetsDescription:"Onboard 20–50 real units, then run notices, complaints, amenity requests and community events with committee operators."},
- whatsNew:{...base.whatsNew,kicker:"New in Housing Society",fallbackTitle:"Housing Society daily operations",fallbackDescription:"Notices, complaints, vendors, amenities, events and Coming Up now turn the society graph into a weekly operating experience."}
+ mobileBottomViewIds:["home","me","directory","complaints"],mobileMoreActiveViewIds:["notices","maintenance","amenities","community","connections","admin","guide"],
+ guide:{...base.guide,playgroundViewIds:["home","me","directory","notices","complaints","maintenance","amenities","community","explorer","connections"]},
+ launch:{...base.launch,playgroundTitle:"Housing Society Playground",playgroundDescription:"A realistic residential community centered on flats/units, residents, households and society structure.",playgroundRecommendation:"Start at Home, explore Society Structure, then browse Residents and Community.",pilotTargetsTitle:"Housing Society daily-operations pilot",pilotTargetsDescription:"Onboard 20–50 real units, run daily operations, then represent one complete maintenance billing cycle with flat-level dues and receipts."},
+ whatsNew:{...base.whatsNew,kicker:"New in Housing Society",fallbackTitle:"Housing Society maintenance & finance",fallbackDescription:"Flat-level maintenance bills, dues, receipts, arrears, funds and budget visibility now extend the daily operations foundation."}
 } satisfies VerticalAppComposition;

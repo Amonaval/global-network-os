@@ -259,3 +259,6 @@ A new `family-association` vertical has been added without changing generic Asso
 
 ## HS-2 Daily Society Operations — source checkpoint
 **SOURCE IMPLEMENTED / RUNTIME VERIFY.** The two HS-0 regression defects are fixed: optional unknown feature probes fail closed instead of crashing, and Housing Society is exhaustive in the shared intelligence type/copy contracts. HS-2 adds society-scoped notices, complaint/SLA/comments/evidence workflow, vendor/contracts, amenities/bookings and Coming Up, while reusing the shared event/RSVP/memory/timeline engine. Migration 084 is additive/rerunnable. HS-3 billing remains intentionally excluded.
+
+## 2026-09-07 — HS-3 Maintenance, Dues & Finance
+HS-3 is source implemented. Housing Society now has typed finance capabilities, flat-level maintenance bills, charge heads, billing cycles, immutable bill lines, adjustments/waivers, manual payments + receipts, arrears, funds and budget-vs-actual visibility. The HS-2 `CapabilityId` build regression is fixed centrally. Runtime staging verification of migration 085 and one reconciled 20–50-unit billing cycle remains required.
