@@ -1549,3 +1549,13 @@ Delivered: typed vertical + registry/runtime, Unit-first entity model, property 
 - Second-society proof explicitly fails when founder-specific code/manual patching is required.
 - Reusable import template/sample, admin guide, resident guide and second-society runbook.
 - **Planned HS roadmap complete at source level. Next: batch runtime verification + founder pilot evidence + issue fixing.**
+
+## XP-0 — Network Lifecycle Safety
+**SOURCE IMPLEMENTED / RUNTIME VERIFY**
+- Shared lifecycle primitives: leave, archive, restore, hard purge.
+- Archive membership-state snapshot makes restoration deterministic for new archives.
+- Permanent purge explicitly deletes network-prefixed Storage and aborts unless the FK-metadata + Storage residue report is clean.
+- Minimal zero-residue purge receipt is intentionally platform-owned and preserved.
+- My Networks exposes active lifecycle actions plus an Archived section for owners.
+- Family lifecycle no longer conflates Leave with implicit archive.
+- Source gate added; full Supabase/runtime verification pending.

@@ -2590,3 +2590,14 @@ Do not automatically build the deferred list. Payment gateways, accounting/Tally
 - [x] Owner-only network deletion with exact-name + browser confirmation.
 - [ ] Add step-up email/OTP confirmation for permanent deletion before high-scale production use.
 - [ ] Runtime-certify the full HS-0 → HS-6 chain and migration 089 in staging before broad member onboarding.
+
+## XP Cross-Vertical Product Parity
+- [x] **XP-0 Network Lifecycle Safety — source checkpoint:** explicit Leave; Archive/Restore; storage-aware permanent purge; metadata-driven zero-residue verification; My Networks archived-owner recovery surface.
+- [ ] XP-0 staging/runtime/database/storage certification.
+- [ ] XP-1 Guided Excel / Workbook Onboarding Platform — next sequential mission after instruction.
+- [ ] XP-2 i18n Closure.
+- [ ] XP-3 Quick Start & Activation Parity.
+- [ ] XP-4 Shared Network Admin Center.
+- [ ] XP-5 Backup / Export / Recovery.
+- [ ] XP-6 Invitation, Claiming & Correction Parity.
+- [ ] XP-7 Guide, What's New & Readiness Closure.

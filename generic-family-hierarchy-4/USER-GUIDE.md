@@ -515,3 +515,9 @@ For network lifecycle, **Leave network** removes only your membership. **Archive
 
 ## Housing Society founder pilot (HS-6)
 Housing Society admins can use **Manage Society → Pilot readiness & commercialization evidence** to run Pilot A/B/C/D, view objective product evidence, record weekly admin-value checkpoints, test pricing hypotheses and export a pilot evidence JSON. Residents continue using familiar society surfaces; notice readership and aggregate usage contribute to pilot evidence without granting residents admin access. See `docs/housing-society/FOUNDER-PILOT-ADMIN-GUIDE.md` and `RESIDENT-PILOT-GUIDE.md`.
+
+## Network lifecycle: leave, archive, restore, or permanently delete
+- **Leave network** removes only your membership/access. It does not delete the network or other members' data. A sole Owner must first add another Owner or choose Archive/Permanent Delete.
+- **Archive network** is Owner-only. The network becomes inactive, member access is suspended, and all data/history/media are preserved.
+- **Restore network** is available to the Owner from **My Networks → Archived networks** and restores the archived network and its membership state.
+- **Delete permanently** is Owner-only and requires typing the exact network name plus confirmation. It permanently purges network-owned relational records and network-prefixed media. Use it only when the network should never be restored.

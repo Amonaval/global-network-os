@@ -1,0 +1,16 @@
+supabase/migrations/090_xp0_network_lifecycle_safety.sql
+lib/network-lifecycle.ts
+components/MyNetworksHome.tsx
+components/FamilyAdminCenter.tsx
+scripts/xp0-network-lifecycle-safety-gate.mjs
+package.json
+CROSS-VERTICAL-FAMILY-PARITY-ROADMAP.md
+XP-0-NETWORK-LIFECYCLE-SAFETY.md
+XP-0-RUNTIME-VERIFICATION-CHECKLIST.md
+XP-0-RELEASE-MANIFEST.md
+XP-0-AFFECTED-FILES.txt
+CURRENT-STATE.md
+ROADMAP.md
+MISSION-STATUS.md
+USER-GUIDE.md
+XP-0-PREIMPLEMENTATION-AUDIT.md

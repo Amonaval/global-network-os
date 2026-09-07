@@ -279,3 +279,6 @@ The Housing Society source roadmap is complete through commercialization readine
 - Public/Member preview suppresses admin navigation in Alumni/productized shells until Admin preview is restored.
 - Network Owners can permanently delete creator-owned networks from My Networks using exact-name confirmation plus a second destructive confirmation. Migration 089 provides a vertical-neutral owner-authorized delete RPC; account identity and other networks remain intact.
 - Status: SOURCE VERIFIED. Runtime verification still required before broad onboarding, especially for unverified HS-4 through HS-6 migrations and destructive-delete behavior in staging.
+
+## 2026-09-08 — XP-0 Network Lifecycle Safety — SOURCE IMPLEMENTED / RUNTIME VERIFY
+Cross-vertical lifecycle now has explicit Leave, reversible Archive, Restore, and verified Permanent Purge semantics. Archive snapshots membership states and preserves all domain/media data. Hard purge explicitly removes network-prefixed Supabase Storage, deletes the network, then performs a metadata-driven scan of every public FK referencing `networks(id)` plus Storage residue; any residue aborts the transaction. A minimal platform-owned zero-residue purge receipt is intentionally retained. Family no longer silently archives through Leave. Runtime staging verification of migration 090 is pending.
