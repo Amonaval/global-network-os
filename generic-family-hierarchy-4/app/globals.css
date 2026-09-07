@@ -1135,3 +1135,12 @@ html[data-theme="aurora"] .product-network-app.association-network{background:ra
 .fca-admin-panel{display:grid;gap:16px;margin-bottom:18px}.fca-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.fca-history-list{display:grid;gap:7px;margin-top:14px}.fca-history-list>div{display:grid;grid-template-columns:minmax(120px,1fr) minmax(120px,1fr) auto;gap:8px;padding:9px 0;border-top:1px solid var(--border);align-items:center}.fca-history-list small,.fca-finance-note{color:var(--muted)}
 @media(max-width:900px){.fca-admin-grid{grid-template-columns:1fr}.fca-history-list>div{grid-template-columns:1fr}}
 .activity-engagement{display:flex;gap:7px;align-items:center;margin-top:10px;padding-top:9px;border-top:1px solid var(--border)}.activity-engagement button{display:inline-flex;align-items:center;gap:5px;border:0;background:transparent;color:var(--muted);cursor:pointer;padding:6px 8px;border-radius:8px}.activity-engagement button:hover,.activity-engagement button.active{background:var(--surface-soft,rgba(127,127,127,.08));color:var(--text)}
+
+/* HS-0 — Housing Society civic theme. Deliberately separate from Family/Association branding. */
+.housing-society-network{--product:#176b72;--product-strong:#0d4f57;--product-soft:#eaf6f5;--product-accent:#c58b3a;background:radial-gradient(circle at 92% 2%,rgba(23,107,114,.10),transparent 30%),linear-gradient(180deg,#f8fbfb,#f5f7f8 62%,#f7f4ed)}
+.housing-society-network .product-side-nav{border-right-color:rgba(23,107,114,.16)}
+.housing-society-network .product-side-nav button.active{box-shadow:inset 3px 0 0 var(--product);border-color:rgba(23,107,114,.28)}
+.housing-society-network .product-hero{background:linear-gradient(130deg,#103f46,#176b72 60%,#347f84);color:#fff}
+.housing-society-network .product-entity-card:hover{border-color:rgba(23,107,114,.42);box-shadow:0 14px 34px rgba(13,79,87,.10)}
+html[data-theme="dark"] .product-network-app.housing-society-network{--product:#74cbd0;--product-strong:#a9e1e4;--product-soft:#173034;background:radial-gradient(circle at 90% 2%,rgba(116,203,208,.10),transparent 30%),#0f1517}
+html[data-theme="aurora"] .product-network-app.housing-society-network{background:radial-gradient(circle at 88% 4%,rgba(31,127,134,.14),transparent 28%),linear-gradient(180deg,#f7fffe,#f1f7f6 58%,#f8f3e9)}

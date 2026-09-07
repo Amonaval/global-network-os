@@ -79,11 +79,12 @@
     "validate:nf6": "node scripts/nf6-trusted-request-routing-gate.mjs && npm run audit:i18n && npm run check:types",
     "validate:nf7": "node scripts/nf7-governed-introductions-gate.mjs && npm run audit:i18n",
     "validate:nf8": "node scripts/nf8-outcome-trust-receipt-gate.mjs && npm run audit:i18n",
-    "validate:nf-batch": "node scripts/nf1-nf8-federation-batch-gate.mjs && npm run audit:i18n",    
+    "validate:nf-batch": "node scripts/nf1-nf8-federation-batch-gate.mjs && npm run audit:i18n",
     "validate:rc1-source": "node scripts/rc1-federation-runtime-certification-source-gate.mjs",
     "validate:mpfa0": "node scripts/mpfa0-association-gate.mjs",
     "validate:mpfa1": "node scripts/mpfa1-family-grade-association-gate.mjs && npm run validate:mpfa0",
-    "validate:fca0": "node scripts/fca0-family-association-gate.mjs"
+    "validate:fca0": "node scripts/fca0-family-association-gate.mjs",
+    "validate:hs0": "node scripts/hs0-housing-society-gate.mjs && npm run validate:fca0"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

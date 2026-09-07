@@ -2546,3 +2546,12 @@ A user should be able to answer within seconds: **Where are my networks? What ca
 - event operating workspaces, committee portfolios, awards/recognition workflows
 - annual finance summaries/carry-forward visibility
 - election-grade voting with configurable eligibility and secret-ballot guarantees
+
+## HS-0 — Housing Society Vertical Foundation & Reuse Audit — SOURCE IMPLEMENTED / RUNTIME VERIFY
+- Registered first-class `housing-society` without renaming or breaking existing verticals.
+- Unit/Flat is the primary property/operating object; hierarchy is Building/Tower → Wing → Floor → Unit.
+- Explicit owner/co-owner/tenant/occupancy/household/resident relationship contracts prevent ownership inference from residency.
+- Reuses productized directory, hierarchy, community, Launch Control, Playground and guide engines.
+- Synthetic 24-unit Pune-style society demonstrates structure safely.
+- Migration 082 is additive/rerunnable and contains post-migration contract assertions.
+- **Next:** HS-1 temporal property + resident lifecycle, claiming/invitations, My Flat, vehicles/parking and import mapping for a 20–50 unit pilot.

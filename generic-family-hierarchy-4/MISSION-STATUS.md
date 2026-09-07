@@ -1488,3 +1488,8 @@ Delivered: Network-only federated search, purpose-aware filtering, approved-affi
 **Status:** SOURCE IMPLEMENTED · runtime UX review pending.
 
 The guided control center now teaches advanced areas/tools on demand through contextual explainers rather than adding more permanent copy to the page. This is a refinement of NX-8, not a new information architecture.
+
+## HS-0 — Housing Society Vertical Foundation & Reuse Audit
+**SOURCE IMPLEMENTED / RUNTIME VERIFY**
+
+Delivered: typed vertical + registry/runtime, Unit-first entity model, property hierarchy, explicit ownership/tenancy/occupancy relationships, resident-oriented navigation, civic theme, 24-unit playground, guide truth, Launch Control feature seed, rerun-safe migration 082, source gate and closure docs. Runtime Supabase/Vercel verification is still required before certification. Next mission: HS-1 Property, Household & Resident Core.

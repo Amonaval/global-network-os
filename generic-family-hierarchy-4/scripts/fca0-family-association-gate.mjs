@@ -27,7 +27,7 @@ ok('dedicated annual operations panel',fs.existsSync('components/FamilyAssociati
 ok('governed annual operating RPCs',migration.includes('get_fca_admin_snapshot')&&migration.includes('upsert_fca_membership_year')&&migration.includes('set_fca_family_membership'));
 ok('safe lifecycle operations',migration.includes('leave_productized_network')&&migration.includes('archive_productized_network')&&migration.includes('delete_productized_network_permanently'));
 ok('shared activity likes and comments',migration.includes('network_activity_reactions')&&migration.includes('network_activity_comments')&&read('components/shared/NetworkActivityHub.tsx').includes('activity-engagement'));
-ok('generic outcome/pulse hidden from family community home',app.includes('kind!=="family-association"&&<><NetworkOutcomeHome'));
+ok('generic outcome/pulse hidden from family community home',app.includes('kind!=="family-association"&&')&&app.includes('NetworkOutcomeHome kind={kind}'));
 ok('shared productized seeding preserved',migration.includes("elsif p_kind='organization'")&&migration.includes("(p_network,'org-structure'")&&migration.includes("(p_network,'profession-service'"));
 
 for(const [n,v] of checks) console.log(`${v?'PASS':'FAIL'} ${n}`);

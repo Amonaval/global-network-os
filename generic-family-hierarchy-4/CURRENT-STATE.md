@@ -250,3 +250,6 @@ Community / Association is now a Family-grade active vertical with a dedicated s
 
 ## FCA-0 — Family Community / Cultural Association — SOURCE COMPLETE, RUNTIME VERIFY
 A new `family-association` vertical has been added without changing generic Association. It composes Family-grade people/profile/hierarchy with annual family membership, temporal history, controlled governance roles, community finance, Coming Up/history, member discovery, family co-admins, engagement and safe network lifecycle. MPF East is the first proving configuration; code remains generic. `validate:fca0` passes 27 checks. Runtime database/build/UI verification remains required before the 10-family pilot.
+
+## HS-0 Housing Society Vertical Foundation — source checkpoint
+`housing-society` is now source-implemented as a first-class productized TrustWeave vertical. Unit/Flat is the primary operating object; Building/Wing/Floor are hierarchy dimensions; Household and Person remain first-class linked identities. The resident composition uses familiar society terminology and hides Intelligence/advanced platform machinery. A synthetic 24-unit playground, rerun-safe migration 082, source gate, guide entries and civic theme are included. Complaints, maintenance, billing, facilities, governance, security and compliance remain future missions. Status: **SOURCE IMPLEMENTED / RUNTIME VERIFY**.

@@ -8,6 +8,7 @@ import { ORGANIZATION_APP_COMPOSITION } from "../verticals/organization/runtime/
 import { BUSINESS_TRUST_APP_COMPOSITION } from "../verticals/business-trust/runtime/composition";
 import { FRANCHISE_APP_COMPOSITION } from "../verticals/franchise/runtime/composition";
 import { PROFESSIONAL_APP_COMPOSITION } from "../verticals/professional/runtime/composition";
+import { HOUSING_SOCIETY_APP_COMPOSITION } from "../verticals/housing-society/runtime/composition";
 import { getVerticalDefinition } from "./vertical-registry";
 import { getVerticalCapabilityRuntime } from "./vertical-capabilities";
 
@@ -16,6 +17,7 @@ const appCompositions = {
   alumni: ALUMNI_APP_COMPOSITION,
   association: ASSOCIATION_APP_COMPOSITION,
   "family-association": FAMILY_ASSOCIATION_APP_COMPOSITION,
+  "housing-society": HOUSING_SOCIETY_APP_COMPOSITION,
   organization: ORGANIZATION_APP_COMPOSITION,
   "business-trust": BUSINESS_TRUST_APP_COMPOSITION,
   franchise: FRANCHISE_APP_COMPOSITION,

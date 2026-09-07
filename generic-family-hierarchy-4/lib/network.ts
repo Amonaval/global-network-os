@@ -75,6 +75,18 @@ export const NETWORK_TEMPLATES = [
     peer_label: "Community Member",
   },
   {
+    id: "housing-society",
+    name: "Residential Community / Housing Society",
+    description: "Flats/units, residents, households and recurring society operations",
+    entity_label: "Flat / Unit",
+    entity_label_plural: "Flats / Units",
+    level_label: "Floor",
+    level_label_plural: "Floors",
+    parent_label: "Owner",
+    child_label: "Resident",
+    peer_label: "Neighbour",
+  },
+  {
     id: "association",
     name: "Community / Association",
     description: "Household/member associations with events, RSVP, memories, committees and annual renewal",
