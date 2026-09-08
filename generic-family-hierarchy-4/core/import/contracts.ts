@@ -3,7 +3,7 @@ import type {NetworkVerticalKind} from "../verticals/contracts";
 export type ImportColumnType="text"|"number"|"date"|"boolean"|"email"|"enum"|"reference";
 export type ImportColumnTarget=`label`|`metadata.${string}`|`affiliation.${string}`|`stableId`|`fromRef`|`toRef`|`relationshipType`|`ignore`;
 export type ImportColumnSchema={
- key:string;label:string;type:ImportColumnType;required?:boolean;description:string;example?:string|number|boolean;acceptedValues?:readonly string[];target:ImportColumnTarget;referenceSheet?:string;privacyNote?:string;aliases?:readonly string[];
+ key:string;label:string;type:ImportColumnType;required?:boolean;description:string;example?:string|number|boolean;acceptedValues?:readonly string[];target:ImportColumnTarget;referenceSheet?:string;referenceSheets?:readonly string[];privacyNote?:string;aliases?:readonly string[];
 };
 export type ImportSheetSchema={
  key:string;name:string;description:string;required?:boolean;recordType:"entity"|"relationship"|"domain";entityKind?:string;columns:readonly ImportColumnSchema[];sampleRows:readonly Record<string,unknown>[];

@@ -10,7 +10,7 @@ export function createImportWorkbook(schema:ImportSchema){
  ];
  const rs=XLSX.utils.aoa_to_sheet(readme);rs["!cols"]=[{wch:28},{wch:105}];XLSX.utils.book_append_sheet(wb,rs,"README");
  const guide:[[string,string,string,string,string,string,string],...(string[])[]]=[["Sheet","Column","Required?","Type","Accepted values / reference","Example","Description"]];
- for(const s of schema.sheets)for(const col of s.columns)guide.push([s.name,col.label,col.required?"Yes":"No",col.type,col.acceptedValues?.join(" | ")||col.referenceSheet||"",String(col.example??""),`${col.description}${col.privacyNote?` Privacy: ${col.privacyNote}`:""}`]);
+ for(const s of schema.sheets)for(const col of s.columns)guide.push([s.name,col.label,col.required?"Yes":"No",col.type,col.acceptedValues?.join(" | ")||col.referenceSheets?.join(" / ")||col.referenceSheet||"",String(col.example??""),`${col.description}${col.privacyNote?` Privacy: ${col.privacyNote}`:""}`]);
  const gs=XLSX.utils.aoa_to_sheet(guide);gs["!cols"]=[{wch:24},{wch:28},{wch:11},{wch:13},{wch:38},{wch:25},{wch:80}];XLSX.utils.book_append_sheet(wb,gs,"Column Guide");
  for(const s of schema.sheets){
   const rows=s.sampleRows.map(sample=>Object.fromEntries(s.columns.map(col=>[col.label,sample[col.key]??""])));

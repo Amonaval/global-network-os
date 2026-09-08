@@ -16,7 +16,8 @@ import {VERTICALS} from '../runtime/catalog.mjs';
 
 const expectedKinds=VERTICALS.map(v=>v.kind).sort();
 const toArrayBuffer=(wb:XLSX.WorkBook)=>{
-  const bytes=XLSX.write(wb,{type:'array',bookType:'xlsx'}) as Uint8Array;
+  const bytes=XLSX.write(wb,{type:'array',bookType:'xlsx'}) as ArrayBuffer|Uint8Array;
+  if(bytes instanceof ArrayBuffer)return bytes.slice(0);
   return bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength) as ArrayBuffer;
 };
 
@@ -42,7 +43,7 @@ test('Q1 import schemas are deterministic, Excel-safe and internally unique',()=
       const columnKeys=sheet.columns.map(c=>c.key.toLowerCase());
       assert.equal(new Set(columnKeys).size,columnKeys.length,`${schema.verticalKind}/${sheet.key} unique columns`);
       for(const col of sheet.columns.filter(c=>c.required))assert.ok(col.target!=='ignore',`${schema.verticalKind}/${sheet.key}/${col.key} required column has target`);
-      for(const ref of sheet.columns.filter(c=>c.type==='reference'))assert.ok(schema.sheets.some(s=>s.name===ref.referenceSheet),`${schema.verticalKind}/${sheet.key}/${ref.key} points to a real sheet`);
+      for(const ref of sheet.columns.filter(c=>c.type==='reference')){const targets=ref.referenceSheets?.length?[...ref.referenceSheets]:ref.referenceSheet?[ref.referenceSheet]:[];assert.ok(targets.length>0,`${schema.verticalKind}/${sheet.key}/${ref.key} declares reference target(s)`);for(const target of targets)assert.ok(schema.sheets.some(s=>s.name===target),`${schema.verticalKind}/${sheet.key}/${ref.key} points to real sheet ${target}`)}
     }
   }
 });
