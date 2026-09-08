@@ -1,55 +1,101 @@
-# Executable Test Case Catalog
+# Executable Test Case Catalog — QA Mega Mission
 
-## Generic platform suite (~50%)
+The executable suite is intentionally split roughly between shared platform behavior and vertical-specific behavior. `qa/static-suite-audit.mjs` guards the presence of the mandatory runtime suites; `qa/report-summary.mjs` reports role × vertical execution.
 
-Run across every released vertical unless marked N/A:
+## Shared platform certification
 
-1. Authentication: sign-in, sign-out, invalid credentials, password reset entry.
-2. My Networks: switch network, archived section, restore visibility.
-3. Network create/open and blank-state handling.
-4. Choose how to start: Build Together / Excel / Start Small.
-5. Quick Start: role-aware, real navigation, progress persistence, dismiss/resume.
-6. Language: EN/HI/MR across Home/Admin/Guide/error states.
-7. Admin Center: owner/admin/member authorization and module routing.
-8. Members/roles: add, role change, removal constraints.
-9. Invitations: create, email/link, resend, revoke, expire, accept, duplicate claim.
-10. Corrections: submit, approve/reject, audit history.
-11. Guided workbook: download, legal sheet names, unchanged roundtrip, validation, duplicate IDs, broken refs, confirm import.
-12. Backup/export: JSON, XLSX, metadata, credential exclusion, media manifest.
-13. Guide: contextual tasks route to real actions.
-14. What's New: unread/read persistence and routing.
-15. Network Health: signals respond to real network state; unknown metrics are not invented.
-16. Lifecycle: leave, archive, restore, hard delete, storage residue = 0.
-17. Error UX: no raw SQL/stack trace to end user; correlation evidence captured by QA.
-18. Responsive smoke: desktop + mobile viewport for shell, tabs, dialogs.
-19. Accessibility smoke: page title/landmarks, buttons named, dialog focus, keyboard tabs.
-20. Security/RLS: direct cross-tenant API attempts denied.
+1. Anonymous shell and health/readiness runtime behavior.
+2. Authentication: invalid credentials, forgot-password entry, dedicated QA login.
+3. Nine released verticals × owner/admin/member shell smoke.
+4. Admin authorization: owner/admin visible and usable; member absent/denied.
+5. Cross-tenant known network-ID substitution through REST/RPC.
+6. API anonymous denial across protected command routes.
+7. API idempotency/validation boundaries reject invalid input without HTTP 5xx.
+8. Backup/export owner/admin success and member denial.
+9. Hard purge member denial + exact-name confirmation.
+10. Deterministic quick-start state across every role/vertical.
+11. Logical backup RPC across every vertical and role boundary.
+12. Productized settings/relationship/membership safe reads.
+13. Database migration replay: current staging rerun + fresh 001→checkpoint→latest + rerun.
+14. DB integrity: no orphan memberships/entities/relationships/media, active-network membership consistency, critical RLS enabled.
+15. RPC exposure/ACL audit: unexpected PUBLIC/anon function execution is a finding, especially SECURITY DEFINER.
+16. RLS: tenant A/B network and membership invisibility by known UUID.
+17. RLS: cross-tenant update/delete/insert attempts.
+18. Storage: own tenant path works; foreign tenant read/list/upload is denied.
+19. Invitation governance: member create/list denied, revoke invalidates, resend rotates token, old token fails, accepted token cannot replay.
+20. Guided workbook browser download→XLSX validation→same-file upload/review.
+21. Import schema registry/workbook naming/duplicate/reference/value validation unit contracts.
+22. Quick-start registry completeness and role thresholds.
+23. Graph relationship validation and governance confidence clamping.
+24. Network-health readiness calculations.
+25. Backup contract/media-manifest semantics.
+26. API error normalization/validation utility contracts.
+27. Golden shell flows: family admin/export and productized navigation/admin.
+28. Expert crawler for every owner/admin/member × released vertical.
+29. Crawler expected-vs-discovered selector inventory; missing must-exist surface fails test.
+30. Console errors, page errors, failed requests and HTTP 5xx evidence capture.
+31. axe WCAG 2A/2AA/2.1AA serious/critical checks on every released vertical.
+32. Mobile 390×844 shell/overflow smoke on every released vertical.
+33. Keyboard reachability of primary admin navigation.
+34. Controlled create→10-row import→media upload→archive→restore→purge→zero residue.
+35. 100-row deterministic bootstrap; idempotent repeat; 25-row pagination; search.
+36. Optional extra 1,000-row stress path.
+37. Slow REST responses do not crash shell.
+38. Transient REST outage does not leak raw stack/SQL details.
+39. Firefox and WebKit member-shell smoke across all nine released verticals.
+40. Machine-readable + human-readable bug, coverage, remediation and certification outputs.
 
-## Vertical-specific suite (~50%)
+## Vertical depth
 
 ### Family
-People CRUD; spouse/parent/child graph; relationship validation; family tree; claim existing person; invitations; memories/media; public/privacy preview; family workbook relationships.
-
-### Alumni
-Alumni profiles; cohorts/chapters; affiliations/connections; alumni import; invitation + claimed/unclaimed behavior; directory filters.
+- Family shell, tree, owner/admin/member role boundary.
+- Family admin summary authorization.
+- Backup/export and family workbook parser contracts.
+- Relationship duplicate/self/invalid-reference rules.
+- Family tenant storage prefix security.
+- Invitation claiming/replay boundary.
 
 ### Housing Society
-Buildings; units; resident/household; owner/tenant occupancy history; move-in/out; vehicles; parking; notices; complaints; amenities/bookings; vendors/contracts; dues/payments/funds/budget; committee/meetings/resolutions/voting; visitors/staff/security; assets/compliance/emergency; renovation/NOC; workbook six-sheet relationship integrity.
+- Home/directory/complaints/guide/admin must-exist navigation.
+- HS1 property snapshot, my-flat and import-template runtime.
+- HS2 operations, HS3 finance, HS4 governance, HS5 security/compliance/assets, HS6 pilot snapshots.
+- Guided Housing workbook browser round-trip.
+- Owner/admin/member shell authorization.
+- Deep panels remain free of runtime fatal errors.
 
 ### Family Association
-Families; people; household linking; one representative; annual membership cycle; renewal/grace; fees/privacy; carry-forward/donation; designations/history; co-admin; transfer/exit semantics; workbook family/person references.
+- Home/me/directory/community/guide/admin navigation.
+- FCA admin snapshot owner/admin success; member denial.
+- Family/person workbook reference contracts and browser round-trip.
+- Role/renewal/finance/admin surface runtime loading.
+
+### Alumni
+- Home/explorer/directory/community/connections/guide/admin navigation.
+- Alumni directory owner/admin/member runtime reads.
+- Guided alumni workbook browser round-trip.
+- Claim/invite/admin boundaries exercised by shared participation/security suites.
 
 ### Association
-Members; groups/chapters; roles/affiliations; events; invitation and admin flows; member directory.
+- Home/me/directory/community/guide/admin navigation.
+- Member/group/community shell and guided workbook round-trip.
 
 ### Organization
-People; teams; projects; skills; reporting/working relationships; import reference integrity; admin/role boundaries.
+- Home/explorer/directory/community/connections/guide/admin navigation.
+- People/team/project bootstrap volume, pagination/search/idempotency.
+- Guided workbook round-trip and outage/slow-backend resilience.
 
 ### Business Trust
-Business entities; contacts; categories; trust/business relationships; duplicate businesses; professional contact privacy; import links.
+- Home/explorer/directory/community/connections/guide/admin navigation.
+- Business entity/relationship shell and guided workbook round-trip.
 
 ### Franchise
-Branches; owner/operators; geography; organizational relationships; branch lifecycle; import references.
+- Home/explorer/directory/community/connections/guide/admin navigation.
+- Branch/location relationship shell and guided workbook round-trip.
 
 ### Professional
-Professional profile; expertise; affiliations; professional relationships; privacy/contact controls; import links.
+- Home/explorer/directory/community/connections/guide/admin navigation.
+- Professional/expertise shell, guided workbook round-trip and transient-outage behavior.
+
+## Regression closure rule
+
+Every defect discovered by runtime certification receives a permanent automated regression assertion. The defect is not closed until the focused suite and full `npm run qa:certify` pass for the certified scope.

@@ -1,0 +1,9 @@
+export type QaVerticalKind='family'|'housing-society'|'family-association'|'association'|'alumni'|'organization'|'business-trust'|'franchise'|'professional';
+export type QaRole='owner'|'admin'|'member'|'invitee'|'tenantB';
+export interface QaVertical{kind:QaVerticalKind;label:string;context:string;entityKind:string;marker:string}
+export const VERTICALS:QaVertical[];
+export const ROLE_KEYS:QaRole[];
+export const EXPECTED_SHARED_SURFACES:string[];
+export const ADMIN_SURFACES:string[];
+export const EXPECTED_NAV_BY_KIND:Record<QaVerticalKind,string[]>;
+export function expectedCrawlerTestIds(kind:QaVerticalKind,role:string):string[];

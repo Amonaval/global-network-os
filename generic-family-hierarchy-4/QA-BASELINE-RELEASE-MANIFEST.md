@@ -1,43 +1,47 @@
-# QA Mega Mission Baseline — Release Manifest
+# QA Mega Mission — Implementation Release Manifest
 
-Baseline: XP-7 Admin Runtime Closure cumulative repository.
-Date: 2026-09-08.
-Purpose: freeze feature work and hand off into automated runtime certification/hardening.
+Baseline source: `global-network-os-QA-mega-mission-baseline.zip` only.
+Implementation date: 2026-09-08.
+Feature development status: **paused**.
+Runtime certification status: **ready for owner execution; not pre-claimed**.
 
-## Added in this baseline
-- `playwright.config.ts`
-- `.env.qa.example`
-- `qa/README.md`
-- `qa/TEST-CASE-CATALOG.md`
-- QA vertical/role catalog and production mutation safety guards
-- runtime console/page/network/HTTP failure watcher
-- expert owner/admin/member browser crawler scaffold
-- anonymous health/readiness smoke
-- all-vertical shared Admin/start/guide smoke scaffold
-- member owner-only-control boundary smoke
-- destructive-suite hard safety guard
-- migration static audit across all SQL migrations
-- Markdown/JSON/HTML/JUnit/trace/screenshot/video reporting architecture
-- `QA-MEGA-MISSION-ROADMAP.md`
-- `FUTURE-TECHNICAL-ROADMAP.md`
-- `NEW-SESSION-QA-MASTER-PROMPT.md`
+## Mission implementation delivered
 
-## QA commands introduced
-- `npm run qa:setup`
-- `npm run qa:smoke`
-- `npm run qa:crawl`
-- `npm run qa:verticals`
-- `npm run qa:security`
-- `npm run qa:db-static`
-- `npm run qa:all`
-- `npm run qa:preflight`
-- `npm run qa:certify`
-- `npm run qa:report`
+The repository now contains the complete QA execution architecture requested by `NEW-SESSION-QA-MASTER-PROMPT.md`:
 
-## Verification performed here
-- migration static audit: PASS across 95 SQL migrations.
-- package.json scripts parse correctly.
-- source QA files and documentation packaged.
+1. `npm run qa:preflight` summarized prerequisite/regression report.
+2. deterministic dedicated role authentication and nine-vertical staging seeding.
+3. stable `data-testid` selectors on shared runtime/import/admin surfaces.
+4. all-nine-vertical × owner/admin/member runtime smoke.
+5. owner/admin/member authorization matrix plus cross-tenant API substitution.
+6. staging migration rerun, fresh 001→historical checkpoint→latest replay, DB integrity and RPC runtime coverage.
+7. two-tenant RLS adversarial suite including direct tables, storage and invitation-token replay/revocation.
+8. shared golden E2E paths.
+9. vertical capability/deep flows with Housing Society, Family Association, Family and Alumni prioritized.
+10. expert crawler producing per-role×vertical control inventory and action graphs with expected coverage assertions.
+11. axe/keyboard/mobile and Firefox/WebKit smoke.
+12. destructive lifecycle/import/media/purge plus residue verification and controlled volume/idempotency tests.
+13. evidence-backed `BUG-REPORT.md`, JSON findings, role×vertical `COVERAGE-MATRIX`, `CERTIFICATION-SUMMARY` and prioritized `REMEDIATION-PLAN`.
 
-## Not yet claimed
-Playwright itself is not installed/locked in this artifact because the current execution environment could not reliably reach npm. Run `npm run qa:setup` once in the next environment/session; that command installs `@playwright/test@1.55.0` and Chromium and updates the local package lock. Deep runtime certification has intentionally not been claimed.
+## Primary operator command
+
+After `npm ci`, `npm run qa:setup`, `.env.qa` staging configuration and application startup:
+
+```bash
+npm run qa:certify
+```
+
+See `qa/LOCAL-RUNTIME-CERTIFICATION-GUIDE.md`.
+
+## Safety
+
+Mutating suites require both `QA_MODE=staging` and `QA_ALLOW_MUTATION=true`; production-like targets are rejected. Hosted Supabase targets must match `QA_STAGING_PROJECT_REF`. Fresh replay requires explicit opt-in and refuses a DB where `public.networks` already exists.
+
+## Verification performed while building this artifact
+
+- QA structural audit: PASS (mandatory suites/harnesses/selectors present).
+- QA runtime guard unit tests: PASS.
+- syntax checks performed on new Node/TypeScript QA harness files.
+- migration static audit was previously PASS across 95 migrations in this baseline.
+
+Full database/RLS/API/browser certification is deliberately **not claimed here** because it belongs on the owner's local/staging environment with real QA credentials and browser/runtime tooling.

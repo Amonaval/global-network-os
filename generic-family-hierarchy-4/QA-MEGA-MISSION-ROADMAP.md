@@ -85,3 +85,7 @@ Use synthetic, explicitly non-real data by default. Dedicated QA users should be
 
 ## Certification rule
 A mission is not complete because source gates pass. "Runtime certified" requires build + DB replay + RLS + API + Playwright golden path + cross-vertical smoke + zero open P0/P1 defects for the certified scope.
+
+## Implementation status — 2026-09-08
+
+The Q0–Q9 **test-system implementation** is now present in the baseline. Runtime PASS/FAIL certification remains intentionally environment-driven: the owner runs `npm run qa:certify` against dedicated staging and returns `qa-results/` for remediation. A code-complete test harness is not equivalent to a certified product; certification still requires every mandatory runtime layer to execute successfully with zero open P0/P1 findings.

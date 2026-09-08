@@ -173,13 +173,13 @@ export default function ImportModal({ onClose, onImport, existingMembers = [], e
 
   const importNow = () => { if (!parsed || !report || report.errors.length) return; setBusy(true); try { onImport(parsed.members, parsed.relationships); } catch (exception: any) { setError(exception.message || "We could not add this family. Please try again."); setBusy(false); } };
 
-  return <div className="modal-overlay excel-overlay" onMouseDown={(event)=>event.target===event.currentTarget&&onClose()}><div className="modal excel-modal" role="dialog" aria-modal="true" aria-labelledby="excel-title">
+  return <div data-testid="qa-import-modal" className="modal-overlay excel-overlay" onMouseDown={(event)=>event.target===event.currentTarget&&onClose()}><div className="modal excel-modal" role="dialog" aria-modal="true" aria-labelledby="excel-title">
     <FeatureGuide entry={GUIDE_ENTRIES.find(e=>e.key==="guided-excel")} onOpenGuide={onOpenGuide} rememberKey="modal-import"/>
     <div className="excel-head"><div><span className="warm-kicker"><FileSpreadsheet size={13} /> {c.assistant}</span><h2 id="excel-title">{c.title}</h2><p>{c.intro}</p></div><button ref={closeButtonRef} className="icon-button" aria-label={tr("CloseTxt")} onClick={onClose}><X size={19} /></button></div>
     <div className="excel-steps"><span className={stage === "guide" ? "active" : "done"}><b>1</b> {c.templateStep}</span><i /><span className={stage === "upload" ? "active" : stage === "review" ? "done" : ""}><b>2</b> {c.uploadStep}</span><i /><span className={stage === "review" ? "active" : ""}><b>3</b> {c.reviewStep}</span></div>
 
     {stage === "guide" && <div className="excel-guide-grid">
-      <div className="template-card"><div className="template-visual"><FileSpreadsheet size={42} /><span>{tr("SetupBrandTxt")}</span><small>{tr("MembersRelationshipsGuidanceTxt")}</small></div><h3>{c.templateTitle}</h3><p>{c.templateCopy}</p><button className="btn primary" onClick={downloadFamilyTemplate}><Download size={16} /> {c.download}</button>
+      <div className="template-card"><div className="template-visual"><FileSpreadsheet size={42} /><span>{tr("SetupBrandTxt")}</span><small>{tr("MembersRelationshipsGuidanceTxt")}</small></div><h3>{c.templateTitle}</h3><p>{c.templateCopy}</p><button data-testid="qa-import-download-template" className="btn primary" onClick={downloadFamilyTemplate}><Download size={16} /> {c.download}</button>
         <div className="sample-workbook-actions">
           <button className="btn" onClick={()=>downloadStaticSample("/family-demo-small-10.xlsx","family-demo-small-10.xlsx")}><Download size={16} /> {tr("SmallDemo10PeopleTxt")}</button>
           <button className="btn" onClick={()=>downloadStaticSample("/family-demo-showcase-60.xlsx","family-demo-showcase-60.xlsx")}><Download size={16} /> {tr("FullShowcase60PeopleTxt")}</button>
@@ -203,8 +203,8 @@ export default function ImportModal({ onClose, onImport, existingMembers = [], e
       {!report.errors.length && <div className="import-assurance"><ShieldCheck /><span><b>{c.safe}</b> {c.safeHelp}</span></div>}
     </div>}
 
-    {stage === "guide" && <label className="excel-dropzone"><input className="visually-hidden-file" type="file" accept=".xlsx,.xls,.csv" onChange={(event) => event.target.files?.[0] && handleFile(event.target.files[0])} /><UploadCloud /><span><b>{c.already}</b><small>{c.drop}</small><small>{tr("CSVCanContainPeopleUseXLSXWhenTxt")}</small></span></label>}
+    {stage === "guide" && <label data-testid="qa-import-dropzone" className="excel-dropzone"><input className="visually-hidden-file" type="file" accept=".xlsx,.xls,.csv" onChange={(event) => event.target.files?.[0] && handleFile(event.target.files[0])} /><UploadCloud /><span><b>{c.already}</b><small>{c.drop}</small><small>{tr("CSVCanContainPeopleUseXLSXWhenTxt")}</small></span></label>}
     {error && <div className="notice danger-text excel-error" style={{ whiteSpace: "pre-line" }}><AlertTriangle size={16} /> {error}</div>}
-    <div className="excel-actions"><button className="btn" onClick={stage === "guide" ? onClose : () => { setError(""); setStage(stage === "review" ? "upload" : "guide"); }}><ArrowLeft size={15} /> {stage === "guide" ? c.cancel : c.back}</button>{stage === "upload" && <button className="btn primary" disabled={busy || !memberRows.length} onClick={validate}>{busy ? c.checking : <>{c.check} <ArrowRight size={15} /></>}</button>}{stage === "review" && <button className="btn primary" disabled={busy || !!report?.errors.length} onClick={importNow}>{busy ? c.adding : <>{c.add} <ArrowRight size={15} /></>}</button>}</div>
+    <div className="excel-actions"><button className="btn" onClick={stage === "guide" ? onClose : () => { setError(""); setStage(stage === "review" ? "upload" : "guide"); }}><ArrowLeft size={15} /> {stage === "guide" ? c.cancel : c.back}</button>{stage === "upload" && <button data-testid="qa-import-validate" className="btn primary" disabled={busy || !memberRows.length} onClick={validate}>{busy ? c.checking : <>{c.check} <ArrowRight size={15} /></>}</button>}{stage === "review" && <button data-testid="qa-import-commit" className="btn primary" disabled={busy || !!report?.errors.length} onClick={importNow}>{busy ? c.adding : <>{c.add} <ArrowRight size={15} /></>}</button>}</div>
   </div></div>;
 }

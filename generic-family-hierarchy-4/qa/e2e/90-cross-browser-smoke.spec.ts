@@ -1,0 +1,2 @@
+import {test,expect} from '@playwright/test';import {VERTICALS} from '../runtime/catalog.mjs';import {login} from '../lib/login';import {activate,seedState} from '../lib/role-client';
+for(const v of VERTICALS)test(`[cross-browser] ${v.kind} member shell`,async({page})=>{const s=seedState();await activate('member',s.networks[v.kind].id);await login(page,'member');await expect(page.getByTestId(`qa-vertical-shell-${v.kind}`)).toBeVisible({timeout:20_000});await expect(page.locator('body')).not.toContainText(/Unhandled Runtime Error|Application error|TypeError:/i)});

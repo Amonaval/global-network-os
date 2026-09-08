@@ -318,3 +318,7 @@ Source-complete: shared invite lifecycle (email attempt + private-link fallback,
 ---
 ## 2026-09-08 — QA-first strategic reset
 Feature expansion is paused after XP-7 runtime closure. The primary product mission is now **Runtime Certification & Product Hardening**. A dedicated `qa/` quality-engineering layer has been added with Playwright scaffolding, owner/admin/member exploratory crawlers, runtime console/network capture, bug reporting, cross-vertical catalog, safety guards, migration static audit, and a full generic + vertical-specific test catalog. Existing source gates remain useful but are explicitly not considered runtime certification.
+
+## QA Mega Mission state — 2026-09-08
+
+Feature development is paused. The repository now includes the automated QA Mega Mission harness (unit/contracts, DB replay/integrity/RPC, RLS/storage/invitation security, API integration, 9-vertical×3-role Playwright, golden/deep flows, guided workbook roundtrip, expert crawler, axe/mobile/cross-browser, lifecycle/import/purge, volume/resilience, and evidence-backed reporting). The next product activity is runtime execution/remediation, not new feature development. Use `qa/LOCAL-RUNTIME-CERTIFICATION-GUIDE.md` and run `npm run qa:certify` on dedicated staging.

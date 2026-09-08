@@ -1,31 +1,61 @@
-# TrustWeave Quality Engineering
+# TrustWeave Runtime Certification System
 
-This folder is the executable runtime-certification layer for TrustWeave / Generic Network OS.
+Feature development is paused. This folder implements automated runtime certification; source gates are regression assets but **never runtime proof**.
 
-## Safety modes
+## Primary command
 
-- `QA_MODE=readonly` — navigation, rendering, console/network/RPC checks. No destructive actions.
-- `QA_MODE=staging` — allows seeded data creation, invitations, imports, archive/restore and disposable hard-delete against a NON-PRODUCTION Supabase project.
-- Destructive helpers additionally require `QA_ALLOW_MUTATION=true`.
+After one-time QA tooling installation and `.env.qa` staging configuration:
 
-The runner refuses destructive workflows when the configured base URL looks production-like unless `QA_ALLOW_PRODUCTION=true` is explicitly set. Do not set that flag for ordinary QA.
+```bash
+npm run qa:certify
+```
 
-## First run
+Detailed local/staging instructions: [`qa/LOCAL-RUNTIME-CERTIFICATION-GUIDE.md`](./LOCAL-RUNTIME-CERTIFICATION-GUIDE.md).
+
+## What is implemented
+
+- summarized preflight: Q1 unit/contracts, QA structure, types, production build, migration audit, source regression;
+- deterministic dedicated owner/admin/member/invitee/tenant-B users and fixtures for all nine released verticals;
+- hard staging/production mutation guard;
+- stable shared selectors for shell/admin/start/import/lifecycle and guided-workbook surfaces;
+- 9 vertical × 3 role Playwright runtime smoke and authorization matrix;
+- HTTP API authentication/validation/export/purge contracts;
+- current-staging rerunnable migrations plus disposable fresh 001→checkpoint→latest upgrade certification;
+- DB integrity/orphan/storage-residue checks;
+- RPC runtime matrix plus DB privilege/exposure audit;
+- two-tenant known-ID substitution, direct-table, storage-prefix and invitation-token adversarial suite;
+- shared golden flows and vertical-specific capability/deep flows (Housing Society, Family Association, Family, Alumni first);
+- guided-workbook browser download→upload→review round-trip;
+- expert crawler per role × vertical with expected-vs-discovered control coverage and action graph;
+- axe WCAG smoke, keyboard check, nine-vertical mobile overflow smoke;
+- controlled create/import/media/archive/restore/purge with zero-residue verification;
+- 100-row default volume + pagination/search/idempotency, optional 1,000 additional rows;
+- slow-backend/outage resilience smoke;
+- Chromium full suite + Firefox/WebKit released-vertical smoke;
+- machine/human bug, coverage, certification and prioritized remediation evidence.
+
+## One-time tooling
 
 ```bash
 npm ci
-npm run qa:install
-cp .env.qa.example .env.qa
-# fill QA_BASE_URL and test credentials
-npm run qa:smoke
-npm run qa:crawl
-npm run qa:report
+npm run qa:setup  # installs Playwright/axe/browser binaries plus project-local Node PostgreSQL driver (`pg`); no psql/admin install required
 ```
 
-For full staging certification:
+`qa:setup` installs exact QA-only Playwright/axe versions plus `pg` with `--no-save --package-lock=false`, then installs Chromium/Firefox/WebKit. It does not mutate the repository dependency manifest and requires no local PostgreSQL/psql installation.
 
-```bash
-QA_MODE=staging QA_ALLOW_MUTATION=true npm run qa:certify
-```
+## Certification evidence
 
-Artifacts are written to `qa-results/` and include Playwright traces, screenshots, videos on failure, JSON issue events, JUnit, HTML report, and `BUG-REPORT.md`.
+`qa-results/` is regenerated for each certification run unless `QA_PRESERVE_RESULTS=true`.
+
+Primary outputs:
+- `CERTIFICATION-SUMMARY.json`
+- `BUG-REPORT.md`
+- `REMEDIATION-PLAN.md`
+- `COVERAGE-MATRIX.md/.json`
+- `findings.json`
+- Playwright JSON/JUnit/HTML + failure traces/screenshots/videos
+- crawler role×vertical inventories/action graphs
+- DB migration/integrity/RPC evidence
+- RLS/security evidence
+
+A release is not certified when a mandatory layer is failed/blocked/not-run, when any P0/P1 remains, or merely because source checks pass. Every fixed runtime bug must retain a regression assertion.

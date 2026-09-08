@@ -1236,7 +1236,7 @@ export default function NetworkApp() {
       </>
     );
   return (
-    <div className={`app-shell ${largeText ? "large-text" : ""}`}>
+    <div data-testid="qa-vertical-shell-family" className={`app-shell ${largeText ? "large-text" : ""}`}>
       <NxReviewPanel/>
       <NetworkTopbar
         icon={<TreePine size={20}/>}
@@ -1260,6 +1260,7 @@ export default function NetworkApp() {
           <div className="sidebar-section-label">{language === "hi" ? "मेरा परिवार" : language === "mr" ? "माझे कुटुंब" : tr("MyFamilyTxt")}</div>
           {visibleMemberNav.map(([navView,label,icon])=><button
             key={navView}
+            data-testid={`qa-nav-${navView}`}
             className={`nav-btn ${view === navView ? "active" : ""}`}
             onClick={() => navView === "tree" ? openFamilyView() : setView(navView)}
           >{icon} {label}</button>)}
@@ -1267,7 +1268,7 @@ export default function NetworkApp() {
           {hasFeature("core.guide")&&<button className={`nav-btn guide-nav ${view === "guide" ? "active" : ""}`} onClick={() => {setGuideKey("");setView("guide")}}><BookOpen size={17}/> {tr("ExploreGuideTxt")}</button>}
           {canAdmin && hasFeature("admin.center") && <div className="admin-nav-separator">
             <div className="sidebar-section-label">{language === "hi" ? "परिवार प्रबंधन" : language === "mr" ? "कुटुंब व्यवस्थापन" : tr("FamilyManagementTxt")}</div>
-            <button className={`nav-btn admin-nav ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><ShieldCheck size={17}/> {language === "hi" ? "परिवार संभालें" : language === "mr" ? "कुटुंब सांभाळा" : tr("ManageFamilyTxt")}</button>
+            <button data-testid="qa-nav-admin" className={`nav-btn admin-nav ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><ShieldCheck size={17}/> {language === "hi" ? "परिवार संभालें" : language === "mr" ? "कुटुंब सांभाळा" : tr("ManageFamilyTxt")}</button>
           </div>}
           {isPlatformOwner && isSupabaseConfigured && <div className="admin-nav-separator founder-nav-area">
             <div className="sidebar-section-label">{tr("PlatformTxt")}</div>

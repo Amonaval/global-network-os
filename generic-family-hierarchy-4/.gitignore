@@ -1,7 +1,9 @@
 node_modules*
 .next
 .env
+.env.qa
 .env.local
 out
 .DS_Store
 *.tsbuildinfo
+qa-results
