@@ -42,6 +42,7 @@ type Props = {
 };
 
 export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],existingFamilies=[],onOpenFamily,onSignOut,onClaimProfile,shared,canSetup,approvalRequired=false,onOpenGuide,claimableAlumniProfiles=[],onClaimAlumniProfile,onCreateAlumni,onExploreAlumniDemo,alumniInviteToken,onAcceptAlumniInvite,onCreateProductized,onExploreProductizedDemo,onJoinProductizedCode }: Props) {
+ const {t:xp2t}=useLanguage();
  const {t:tr}=useLanguage();
   const {t}=useLanguage();
   const c = {
@@ -119,32 +120,40 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
       </>}
       {path==="alumni"&&<>
         <button className="setup-back" onClick={()=>{setPath("entry");setError("")}}><ArrowLeft size={15}/> {t("BackTxt")}</button>
-        <div className="setup-heading"><div><span className="setup-eyebrow">{tr("AlumniNetworkV1Txt")}</span><h2>{tr("CreateAlumniCommunityTxt")}</h2></div></div>
-        <p className="setup-intro">{tr("AlumniDataStaysSeparateFromFamilyMembersTxt")}</p>
-        <div className="field spacious"><label>{t("NetworkNameTxt")}</label><input className="text-input" value={alumniName} onChange={e=>setAlumniName(e.target.value)} placeholder={tr("EGCOEPAlumni20082012Txt")}/></div>
-        <div className="field spacious"><label>{t("InstitutionCommunityTxt")}</label><input className="text-input" value={institution} onChange={e=>setInstitution(e.target.value)} placeholder={tr("EGCollegeOfEngineeringPuneTxt")}/></div>
-        <div className="field spacious"><label>{t("DescriptionTxt")} <em>{t("OptionalTxt")}</em></label><textarea className="text-input" rows={3} value={alumniDescription} onChange={e=>setAlumniDescription(e.target.value)} placeholder={tr("WhoThisAlumniNetworkIsForTxt")}/></div>
-        <button className="btn primary setup-next" disabled={busy||!alumniName.trim()||!institution.trim()} onClick={()=>setAlumniStep(2)}>{t("ChooseHowStartTxt")} <ArrowRight size={17}/></button>
-        {alumniStep===2&&<><div className="setup-heading compact-heading"><div><span className="setup-eyebrow">2 · {alumniName}</span><h2>{t("ChooseEasiestStartTxt")}</h2></div></div><div className="family-start-options">
-          <button className="family-start-card recommended" disabled={busy} onClick={()=>createAlumniWithMode("build")}><span className="start-icon"><UsersRound/></span><span className="recommended-pill">{t("RecommendedLowestEffortTxt")}</span><strong>Build together</strong><small>Create first, then invite alumni to build profiles together.</small></button>
-          <button className="family-start-card" disabled={busy} onClick={()=>createAlumniWithMode("excel")}><span className="start-icon"><FileSpreadsheet/></span><strong>{t("UploadExcelCsvTxt")}</strong><small>Create the network, then open guided import with preview.</small></button>
-          <button className="family-start-card" disabled={busy} onClick={()=>createAlumniWithMode("empty")}><span className="start-icon"><Sparkles/></span><strong>Start small</strong><small>Create now and add people later.</small></button>
-        </div></>}
+        {alumniStep===1?<>
+          <div className="setup-heading"><div><span className="setup-eyebrow">{tr("AlumniNetworkV1Txt")}</span><h2>{tr("CreateAlumniCommunityTxt")}</h2></div></div>
+          <p className="setup-intro">{tr("AlumniDataStaysSeparateFromFamilyMembersTxt")}</p>
+          <div className="field spacious"><label>{t("NetworkNameTxt")}</label><input className="text-input" value={alumniName} onChange={e=>setAlumniName(e.target.value)} placeholder={tr("EGCOEPAlumni20082012Txt")}/></div>
+          <div className="field spacious"><label>{t("InstitutionCommunityTxt")}</label><input className="text-input" value={institution} onChange={e=>setInstitution(e.target.value)} placeholder={tr("EGCollegeOfEngineeringPuneTxt")}/></div>
+          <div className="field spacious"><label>{t("DescriptionTxt")} <em>{t("OptionalTxt")}</em></label><textarea className="text-input" rows={3} value={alumniDescription} onChange={e=>setAlumniDescription(e.target.value)} placeholder={tr("WhoThisAlumniNetworkIsForTxt")}/></div>
+          <button className="btn primary setup-next" disabled={busy||!alumniName.trim()||!institution.trim()} onClick={()=>{setError("");setAlumniStep(2)}}>{t("ChooseHowStartTxt")} <ArrowRight size={17}/></button>
+        </>:<>
+          <button className="setup-back inline-step-back" disabled={busy} onClick={()=>setAlumniStep(1)}><ArrowLeft size={15}/> {t("BackTxt")}</button>
+          <div className="setup-heading compact-heading"><div><span className="setup-eyebrow">2 · {alumniName}</span><h2>{t("ChooseEasiestStartTxt")}</h2></div></div><div className="family-start-options">
+            <button className="family-start-card recommended" disabled={busy} onClick={()=>createAlumniWithMode("build")}><span className="start-icon"><UsersRound/></span><span className="recommended-pill">{t("RecommendedLowestEffortTxt")}</span><strong>{xp2t("XP2Visible0491Txt")}</strong><small>{xp2t("XP2Visible0492Txt")}</small></button>
+            <button className="family-start-card" disabled={busy} onClick={()=>createAlumniWithMode("excel")}><span className="start-icon"><FileSpreadsheet/></span><strong>{t("UploadExcelCsvTxt")}</strong><small>{xp2t("XP2Visible0493Txt")}</small></button>
+            <button className="family-start-card" disabled={busy} onClick={()=>createAlumniWithMode("empty")}><span className="start-icon"><Sparkles/></span><strong>{xp2t("XP2Visible0494Txt")}</strong><small>{xp2t("XP2Visible0495Txt")}</small></button>
+          </div>
+        </>}
       </>}
       {path==="productized"&&(()=>{const pc=PRODUCTIZED_NETWORK_CONFIGS[productizedKind];const Icon=productizedKind==="housing-society"?Building2:(productizedKind==="association"||productizedKind==="family-association")?UsersRound:productizedKind==="organization"?Building2:productizedKind==="business-trust"?Handshake:productizedKind==="professional"?BriefcaseBusiness:Store;const createTitle=productizedKind==="professional"?t("ProfessionalCreateTxt"):pc.createTitle;const createDescription=productizedKind==="professional"?t("ProfessionalCreateDescTxt"):pc.createDescription;const shortLabel=productizedKind==="professional"?t("ProfessionalShortTxt"):pc.shortLabel;return <>
         <button className="setup-back" onClick={()=>{setPath("entry");setError("")}}><ArrowLeft size={15}/> {t("BackTxt")}</button>
-        <div className="setup-heading"><div className="brand-mark"><Icon size={24}/></div><div><span className="setup-eyebrow">{t("ReadyProductTxt")}</span><h2>{createTitle}</h2></div></div>
-        <p className="setup-intro">{createDescription}</p>
-        <div className="field spacious"><label>{t("NetworkNameTxt")}</label><input className="text-input" value={productizedName} onChange={e=>setProductizedName(e.target.value)} placeholder={pc.namePlaceholder}/></div>
-        <div className="field spacious"><label>{pc.contextLabel}</label><input className="text-input" value={productizedContext} onChange={e=>setProductizedContext(e.target.value)} placeholder={pc.contextPlaceholder}/></div>
-        <div className="field spacious"><label>{t("DescriptionTxt")} <em>{t("OptionalTxt")}</em></label><textarea className="text-input" rows={3} value={productizedDescription} onChange={e=>setProductizedDescription(e.target.value)} placeholder={t("WhatMembersUnderstandTxt")}/></div>
-        <div className="notice success-notice"><ShieldCheck size={15}/><span><b>{t("SeparateNetworkSharedPlatformTxt")}</b> {t("ProductizedCreationDescTxt")}</span></div>
-        <button className="btn primary setup-next" disabled={busy||!productizedName.trim()||!productizedContext.trim()} onClick={()=>setProductizedStep(2)}>{t("ChooseHowStartTxt")} <ArrowRight size={17}/></button>
-        {productizedStep===2&&<><div className="setup-heading compact-heading"><div><span className="setup-eyebrow">2 · {productizedName}</span><h2>{t("ChooseEasiestStartTxt")}</h2></div></div><div className="family-start-options">
-          <button className="family-start-card recommended" disabled={busy} onClick={()=>createProductizedWithMode("build")}><span className="start-icon"><UsersRound/></span><span className="recommended-pill">{t("RecommendedLowestEffortTxt")}</span><strong>Build together</strong><small>Create the network, then invite members using the shared join/invitation flow.</small></button>
-          <button className="family-start-card" disabled={busy} onClick={()=>createProductizedWithMode("excel")}><span className="start-icon"><FileSpreadsheet/></span><strong>{t("UploadExcelCsvTxt")}</strong><small>Create the network, then open the vertical import mapper/preview.</small></button>
-          <button className="family-start-card" disabled={busy} onClick={()=>createProductizedWithMode("empty")}><span className="start-icon"><Sparkles/></span><strong>Start small</strong><small>Create now and add the first records manually.</small></button>
-        </div></>}
+        {productizedStep===1?<>
+          <div className="setup-heading"><div className="brand-mark"><Icon size={24}/></div><div><span className="setup-eyebrow">{t("ReadyProductTxt")}</span><h2>{createTitle}</h2></div></div>
+          <p className="setup-intro">{createDescription}</p>
+          <div className="field spacious"><label>{t("NetworkNameTxt")}</label><input className="text-input" value={productizedName} onChange={e=>setProductizedName(e.target.value)} placeholder={pc.namePlaceholder}/></div>
+          <div className="field spacious"><label>{pc.contextLabel}</label><input className="text-input" value={productizedContext} onChange={e=>setProductizedContext(e.target.value)} placeholder={pc.contextPlaceholder}/></div>
+          <div className="field spacious"><label>{t("DescriptionTxt")} <em>{t("OptionalTxt")}</em></label><textarea className="text-input" rows={3} value={productizedDescription} onChange={e=>setProductizedDescription(e.target.value)} placeholder={t("WhatMembersUnderstandTxt")}/></div>
+          <div className="notice success-notice"><ShieldCheck size={15}/><span><b>{t("SeparateNetworkSharedPlatformTxt")}</b> {t("ProductizedCreationDescTxt")}</span></div>
+          <button className="btn primary setup-next" disabled={busy||!productizedName.trim()||!productizedContext.trim()} onClick={()=>{setError("");setProductizedStep(2)}}>{t("ChooseHowStartTxt")} <ArrowRight size={17}/></button>
+        </>:<>
+          <button className="setup-back inline-step-back" disabled={busy} onClick={()=>setProductizedStep(1)}><ArrowLeft size={15}/> {t("BackTxt")}</button>
+          <div className="setup-heading compact-heading"><div><span className="setup-eyebrow">2 · {productizedName}</span><h2>{t("ChooseEasiestStartTxt")}</h2><small>{shortLabel}  {xp2t("XP2Visible0496Txt")}</small></div></div><div className="family-start-options">
+            <button className="family-start-card recommended" disabled={busy} onClick={()=>createProductizedWithMode("build")}><span className="start-icon"><UsersRound/></span><span className="recommended-pill">{t("RecommendedLowestEffortTxt")}</span><strong>{xp2t("XP2Visible0491Txt")}</strong><small>{xp2t("XP2Visible0497Txt")}</small></button>
+            <button className="family-start-card" disabled={busy} onClick={()=>createProductizedWithMode("excel")}><span className="start-icon"><FileSpreadsheet/></span><strong>{t("UploadExcelCsvTxt")}</strong><small>{xp2t("XP2Visible0498Txt")}</small></button>
+            <button className="family-start-card" disabled={busy} onClick={()=>createProductizedWithMode("empty")}><span className="start-icon"><Sparkles/></span><strong>{xp2t("XP2Visible0494Txt")}</strong><small>{xp2t("XP2Visible0499Txt")}</small></button>
+          </div>
+        </>}
       </>})()}
       {path==="create"&&<>
         <button className="setup-back" onClick={()=>{if(step===2)setStep(1);else setPath("entry");setError("")}}><ArrowLeft size={15}/> {t("BackTxt")}</button>

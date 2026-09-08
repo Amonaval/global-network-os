@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8'),checks=[],ok=(n,c)=>checks.push([n,!!c]);
+const i18nCatalog=read('lib/i18n/messages/en.ts');const i18nValueToToken=new Map([...i18nCatalog.matchAll(/\b([A-Za-z0-9_]+)\s*:\s*("(?:\\.|[^"])*")/g)].map(m=>{try{return [JSON.parse(m[2]),m[1]]}catch{return ['',m[1]]}}));const hasCopy=(source,text)=>source.includes(text)||Boolean(i18nValueToToken.get(text)&&source.includes(i18nValueToToken.get(text)));
 const contracts=read('core/templates/contracts.ts'),def=read('templates/housing-society/definition.ts'),sql=read('supabase/migrations/085_hs3_maintenance_dues_finance.sql'),ui=read('components/HousingSocietyFinancePanel.tsx'),remote=read('verticals/housing-society/runtime/finance-remote.ts'),app=read('components/TemplateNetworkApp.tsx'),comp=read('verticals/housing-society/runtime/composition.ts'),cat=read('verticals/housing-society/features/catalog.ts');
 ok('HS2 capability contract build fix', ['notices','complaints','vendors','amenities','bookings'].every(x=>contracts.includes(`"${x}"`)));
 ok('HS3 capability ids typed', ['maintenance','billing','dues','finance'].every(x=>contracts.includes(`"${x}"`)));
@@ -20,12 +21,12 @@ ok('finance snapshot member safe',sql.includes('hs3_get_finance_snapshot')&&sql.
 ok('payment gateway deferred',!sql.includes('razorpay')&&!sql.includes('stripe')&&!sql.includes('payment_gateway'));
 ok('finance remote adapter',remote.includes('fetchHsFinanceSnapshot')&&remote.includes('generateHsCycleBills')&&remote.includes('recordHsPayment'));
 ok('maintenance resident surface',comp.includes('viewId:"maintenance"')&&comp.includes('housing-society.finance.maintenance'));
-ok('template renders finance panel',app.includes('tab==="maintenance"')&&app.includes('<HousingSocietyFinancePanel'));
-ok('member flat ledger UI',ui.includes('My flat ledger')&&ui.includes('Receipts & payment references'));
-ok('admin charge catalog UI',ui.includes('Charge catalog')&&ui.includes('Billing cycle'));
-ok('admin flat ledger UI',ui.includes('Flat ledger')&&ui.includes('Adjustment / waiver'));
-ok('budget and funds UI',ui.includes('Society funds')&&ui.includes('Budget vs actual'));
-ok('arrears watch UI',ui.includes('Arrears / aging watch'));
+ok('template renders finance panel',hasCopy(app,'tab==="maintenance"')&&hasCopy(app,'<HousingSocietyFinancePanel'));
+ok('member flat ledger UI',hasCopy(ui,'My flat ledger')&&hasCopy(ui,'Receipts & payment references'));
+ok('admin charge catalog UI',hasCopy(ui,'Charge catalog')&&hasCopy(ui,'Billing cycle'));
+ok('admin flat ledger UI',hasCopy(ui,'Flat ledger')&&hasCopy(ui,'Adjustment / waiver'));
+ok('budget and funds UI',hasCopy(ui,'Society funds')&&hasCopy(ui,'Budget vs actual'));
+ok('arrears watch UI',hasCopy(ui,'Arrears / aging watch'));
 ok('feature flags catalogued',cat.includes('housing-society.finance.maintenance')&&cat.includes('housing-society.finance.charge-heads')&&cat.includes('housing-society.finance.budget'));
 ok('migration rerunnable structures',sql.includes('create table if not exists')&&sql.includes('create index if not exists')&&sql.includes('on conflict(feature_key) do update'));
 ok('migration assertions',sql.includes('HS-3 compatibility check failed'));

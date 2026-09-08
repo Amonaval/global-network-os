@@ -290,3 +290,11 @@ A shared versioned Import Schema Registry now covers all nine released verticals
 
 ## 2026-09-08 — XP-1 workbook sheet-name runtime hotfix
 The guided XLSX generator now sanitizes Excel-forbidden worksheet characters (`: \ / ? * [ ]`), enforces the 31-character worksheet-name limit, and deterministically resolves collisions after sanitization/truncation. The parser resolves the same generated names while retaining compatibility with valid legacy/manual sheet names. This fixes the Housing Society template download crash caused by `Occupancy / Ownership / Tenancy`. XP-1 source gate strengthened to 31/31 checks; full inherited XP-1 → XP-0 → platform → HS/FCA chain passes. Browser download/re-upload smoke remains recommended.
+
+
+## XP-1 runtime closure addendum
+Runtime testing found and corrected two source-gate blind spots: cross-vertical Choose-how-to-start previously appended step 2 below the fold, and XP-0 used unsupported direct SQL deletion from `storage.objects`. Productized/Alumni onboarding is now a real two-step flow. Permanent deletion now uses an authenticated server route plus Supabase Storage API/service-role purge before relational finalization. Migration 091 must be applied and `SUPABASE_SERVICE_ROLE_KEY` configured before hard-delete runtime certification. Source/regression gates pass; staging/browser verification remains pending.
+
+
+## XP-2 update — i18n Closure
+Released production surfaces now consume shared i18n catalog tokens for the XP audit backlog. The AST visible-literal audit is zero; English/Hindi/Marathi catalog shape is complete. Browser/native-language QA remains pending before runtime certification.

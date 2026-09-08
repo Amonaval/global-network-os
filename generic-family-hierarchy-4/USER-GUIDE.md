@@ -535,3 +535,7 @@ For an admin importing an existing list:
 7. Choose **Confirm import** only after the review is clean.
 
 The importer is vertical-aware: Housing Society keeps occupancy/vehicle/parking history rules, Alumni keeps Alumni profile semantics, Family keeps kinship validation, and other productized networks use their own allowed entity and relationship contracts.
+
+
+## XP-2 update — i18n Closure
+Released production surfaces now consume shared i18n catalog tokens for the XP audit backlog. The AST visible-literal audit is zero; English/Hindi/Marathi catalog shape is complete. Browser/native-language QA remains pending before runtime certification.

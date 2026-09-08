@@ -13,7 +13,8 @@ ok('parser resolves generated sanitized sheet names',parser.includes('getImportW
 ok('parser validates required sheets/columns',parser.includes('MISSING_SHEET')&&parser.includes('MISSING_COLUMN')&&parser.includes('REQUIRED_VALUE'));
 ok('parser validates duplicates and cross-sheet references',parser.includes('DUPLICATE_STABLE_ID')&&parser.includes('AMBIGUOUS_STABLE_ID')&&parser.includes('UNRESOLVED_REFERENCE'));
 ok('parser validates enum/email/date/boolean types',parser.includes('Accepted values:')&&parser.includes('valid email address')&&parser.includes('asDate')&&parser.includes('asBool'));
-ok('shared UI implements download-upload-validate-preview-confirm flow',ui.includes('Download XLSX')&&ui.includes('Choose completed file')&&ui.includes('Ready to confirm import')&&ui.includes('Confirm import'));
+const enCatalog=fs.readFileSync('lib/i18n/messages/en.ts','utf8');
+ok('shared UI implements download-upload-validate-preview-confirm flow',ui.includes('XP2Visible0563Txt')&&ui.includes('XP2ImportChooseFileTxt')&&ui.includes('XP2ImportReadyTxt')&&ui.includes('ConfirmImportTxt')&&enCatalog.includes('Download XLSX')&&enCatalog.includes('Choose completed file')&&enCatalog.includes('Ready to confirm import')&&enCatalog.includes('Confirm import'));
 ok('shared UI exposes valid/warning/rejected counts and exact issues',ui.includes('validRows')&&ui.includes('warningRows')&&ui.includes('rejectedRows')&&ui.includes('i.message'));
 ok('productized vertical shell uses shared guided importer',template.includes('GuidedWorkbookImport')&&template.includes('commitProductizedWorkbook'));
 ok('alumni shell uses shared guided importer with domain adapter',alumni.includes('GuidedWorkbookImport')&&alumni.includes('commitAlumniWorkbook'));

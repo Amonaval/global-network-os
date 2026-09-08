@@ -1,0 +1,34 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');
+const setup=read('components/SetupScreen.tsx');
+const cfg=read('templates/productized/config.ts');
+const registry=read('core/import/registry.ts');
+const life=read('lib/network-lifecycle.ts');
+const productRemote=read('capabilities/template-product/remote.ts');
+const template=read('components/TemplateNetworkApp.tsx');
+const purge=read('server/network/purge-service.ts');
+const route=read('app/api/v1/networks/[networkId]/purge/route.ts');
+const m090=read('supabase/migrations/090_xp0_network_lifecycle_safety.sql');
+const m091=read('supabase/migrations/091_xp01_runtime_closure.sql');
+const env=read('.env.example');
+const deploy=read('DEPLOY.md');
+const checks=[];const ok=(name,cond)=>checks.push([name,!!cond]);
+const kinds=['housing-society','family-association','association','organization','business-trust','franchise','professional'];
+for(const kind of kinds){
+ ok(`creation selector exposes ${kind}`,setup.includes(`"${kind}"`)&&cfg.includes(`kind:"${kind}"`));
+ ok(`XP-1 registry covers ${kind}`,registry.includes(`verticalKind:"${kind}"`));
+}
+ok('productized choose-how-to-start is a real two-step replacement',setup.includes('productizedStep===1?<>')&&setup.includes('setProductizedStep(2)')&&setup.includes('setProductizedStep(1)'));
+ok('alumni choose-how-to-start is a real two-step replacement',setup.includes('alumniStep===1?<>')&&setup.includes('setAlumniStep(2)')&&setup.includes('setAlumniStep(1)'));
+ok('all three productized onboarding modes remain wired',setup.includes('createProductizedWithMode("build")')&&setup.includes('createProductizedWithMode("excel")')&&setup.includes('createProductizedWithMode("empty")'));
+ok('Excel mode promises guided workbook rather than legacy mapper',(setup.includes('guided vertical workbook with validation and preview')||setup.includes('XP2Visible0498Txt'))&&fs.readFileSync('lib/i18n/messages/en.ts','utf8').includes('guided vertical workbook with validation and preview'));
+ok('hard delete client uses authenticated server endpoint',life.includes('authorization')&&life.includes('/purge'));
+ok('productized danger zone routes through shared hard-delete client',productRemote.includes('deleteOwnedNetworkPermanently(networkId,confirmName)')&&template.includes('deleteProductizedNetworkPermanently(network.network_id||network.id,lifecycleConfirm)')&&!productRemote.includes('rpc("delete_productized_network_permanently"'));
+ok('server purge requires server-only service role key',purge.includes('SUPABASE_SERVICE_ROLE_KEY')&&env.includes('SUPABASE_SERVICE_ROLE_KEY')&&deploy.includes('server-only'));
+ok('server purge uses Storage API remove',purge.includes('.storage.from(bucket).remove(batch)'));
+ok('server verifies storage residue before DB finalizer',purge.includes('const residue=await listAllFiles')&&purge.includes('delete_owned_network_permanently'));
+ok('route authenticates user context',route.includes('createRequestContext(request)'));
+ok('090 is safe to rerun without restoring direct storage delete',!m090.toLowerCase().includes('delete from storage.objects where')&&m090.includes('prepare_owned_network_for_purge'));
+ok('091 hotfix is safe to rerun and contains no direct storage delete',!m091.toLowerCase().includes('delete from storage.objects where')&&m091.includes('drop function if exists public.delete_owned_network_permanently'));
+ok('DB refuses finalization while storage residue exists',m090.includes('storageResidue')&&m090.includes('Storage API before relational deletion'));
+const failed=checks.filter(([,v])=>!v);for(const [n,v] of checks)console.log(`${v?'PASS':'FAIL'} ${n}`);console.log(`\nXP runtime closure ${checks.length-failed.length}/${checks.length} checks passed.`);if(failed.length)process.exit(1);

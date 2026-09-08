@@ -1569,3 +1569,11 @@ Delivered: typed vertical + registry/runtime, Unit-first entity model, property 
 - Vertical commit adapters preserve Alumni and Housing Society domain semantics while generic productized verticals use stable-ID upsert + typed relationships.
 - Family mature kinship import remains intact.
 - Source checkpoint passes; dependency-installed browser/staging verification remains open.
+
+
+## XP-1 Runtime Closure
+**SOURCE/REGRESSION CLOSED; STAGING CERTIFICATION PENDING.** Runtime-reported onboarding and Storage deletion defects are corrected. All seven productized verticals + Alumni are explicitly included in the closure matrix. Hard delete requires migration 091 and server-only `SUPABASE_SERVICE_ROLE_KEY`.
+
+
+## XP-2 update — i18n Closure
+Released production surfaces now consume shared i18n catalog tokens for the XP audit backlog. The AST visible-literal audit is zero; English/Hindi/Marathi catalog shape is complete. Browser/native-language QA remains pending before runtime certification.

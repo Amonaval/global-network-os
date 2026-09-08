@@ -1,4 +1,5 @@
 import fs from 'node:fs';const read=p=>fs.readFileSync(p,'utf8'),checks=[],ok=(n,c)=>checks.push([n,!!c]);
+const i18nCatalog=read('lib/i18n/messages/en.ts');const i18nValueToToken=new Map([...i18nCatalog.matchAll(/\b([A-Za-z0-9_]+)\s*:\s*("(?:\\.|[^"])*")/g)].map(m=>{try{return [JSON.parse(m[2]),m[1]]}catch{return ['',m[1]]}}));const hasCopy=(source,text)=>source.includes(text)||Boolean(i18nValueToToken.get(text)&&source.includes(i18nValueToToken.get(text)));
 const contracts=read('core/templates/contracts.ts'),def=read('templates/housing-society/definition.ts'),sql=read('supabase/migrations/087_hs5_security_compliance_assets.sql'),ui=read('components/HousingSocietySecurityPanel.tsx'),remote=read('verticals/housing-society/runtime/security-remote.ts'),app=read('components/TemplateNetworkApp.tsx'),comp=read('verticals/housing-society/runtime/composition.ts'),cat=read('verticals/housing-society/features/catalog.ts');
 ok('HS5 capability ids typed',['security','visitors','staff','approvals','assets','compliance','emergency'].every(x=>contracts.includes(`"${x}"`)));
 ok('template declares HS5 capabilities',def.includes('"security","visitors","staff","approvals","assets","compliance","emergency"'));
@@ -17,14 +18,14 @@ ok('RLS boundaries',sql.includes('hs_visitors_scoped_read')&&sql.includes('hs_co
 ok('snapshot privacy masks visitor phone',sql.includes("case when issec then v.phone else null end"));
 ok('remote adapter',remote.includes('fetchHsSecuritySnapshot')&&remote.includes('createHsVisitor')&&remote.includes('upsertHsAsset'));
 ok('resident security surface',comp.includes('viewId:"security"')&&comp.includes('Security & Services'));
-ok('template renders security panel',app.includes('tab==="security"')&&app.includes('<HousingSocietySecurityPanel'));
-ok('admin includes HS5',app.includes('<HousingSocietySecurityPanel isAdmin={isAdmin}'));
-ok('visitor UI',ui.includes('Visitor pre-approval')&&ui.includes('Check in')&&ui.includes('Check out'));
-ok('move renovation UI',ui.includes('Move-in / move-out & renovation')&&ui.includes('Approve + NOC'));
-ok('staff UI',ui.includes('Domestic staff register')&&ui.includes('Authorize flat'));
-ok('assets UI',ui.includes('Asset & AMC/service register')&&ui.includes('Record service'));
-ok('compliance UI',ui.includes('Compliance calendar')&&ui.includes('due within 30 days'));
-ok('emergency UI',ui.includes('Emergency contacts')&&ui.includes('Emergency contact publishing'));
+ok('template renders security panel',hasCopy(app,'tab==="security"')&&hasCopy(app,'<HousingSocietySecurityPanel'));
+ok('admin includes HS5',hasCopy(app,'<HousingSocietySecurityPanel isAdmin={isAdmin}'));
+ok('visitor UI',hasCopy(ui,'Visitor pre-approval')&&hasCopy(ui,'Check in')&&hasCopy(ui,'Check out'));
+ok('move renovation UI',hasCopy(ui,'Move-in / move-out & renovation')&&hasCopy(ui,'Approve + NOC'));
+ok('staff UI',hasCopy(ui,'Domestic staff register')&&hasCopy(ui,'Authorize flat'));
+ok('assets UI',hasCopy(ui,'Asset & AMC/service register')&&hasCopy(ui,'Record service'));
+ok('compliance UI',hasCopy(ui,'Compliance calendar')&&hasCopy(ui,'item(s) due within 30 days.'));
+ok('emergency UI',hasCopy(ui,'Emergency contacts')&&hasCopy(ui,'Emergency contact publishing'));
 ok('feature flags catalogued',cat.includes('housing-society.security.visitors')&&cat.includes('housing-society.compliance.calendar'));
 ok('migration rerunnable',sql.includes('create table if not exists')&&sql.includes('create index if not exists')&&sql.includes('on conflict(feature_key) do update'));
 ok('migration assertions',sql.includes('HS-5 compatibility check failed'));

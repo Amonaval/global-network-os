@@ -1,4 +1,6 @@
 import fs from 'node:fs';const read=p=>fs.readFileSync(p,'utf8'),checks=[],ok=(n,c)=>checks.push([n,!!c]);
+
+const catalog=fs.readFileSync('lib/i18n/messages/en.ts','utf8');
 const sql=read('supabase/migrations/088_hs6_founder_pilot_commercialization.sql'),ui=read('components/HousingSocietyPilotPanel.tsx'),remote=read('verticals/housing-society/runtime/pilot-remote.ts'),app=read('components/TemplateNetworkApp.tsx'),ops=read('components/HousingSocietyOperationsPanel.tsx'),cat=read('verticals/housing-society/features/catalog.ts'),comp=read('verticals/housing-society/runtime/composition.ts'),def=read('templates/housing-society/definition.ts');
 ok('pilot runs model',sql.includes('hs_pilot_runs')&&sql.includes("phase in ('A','B','C','D')")&&sql.includes('target_units'));
 ok('weekly checkpoints model',sql.includes('hs_pilot_checkpoints')&&sql.includes('admin_hours_saved')&&sql.includes('offline_operations_remaining'));
@@ -17,11 +19,11 @@ ok('admin-only pilot controls',sql.includes('hs6_assert_admin_network')&&sql.inc
 ok('member usage scoped to current flat',sql.includes('hs6_record_usage_event')&&sql.includes('owner_user_id=auth.uid()'));
 ok('remote snapshot adapter',remote.includes('fetchHsPilotSnapshot')&&remote.includes('startHsPilot')&&remote.includes('recordHsPilotCheckpoint'));
 ok('pricing remote adapter',remote.includes('recordHsPricingExperiment'));
-ok('pilot UI',ui.includes('Pilot readiness & commercialization evidence')&&ui.includes('Start a pilot run'));
+ok('pilot UI',(ui.includes('Pilot readiness & commercialization evidence')||ui.includes('XP2Visible0372Txt'))&&(ui.includes('Start a pilot run')||ui.includes('XP2Visible0384Txt'))&&catalog.includes('Pilot readiness & commercialization evidence')&&catalog.includes('Start a pilot run'));
 ok('pilot phases surfaced',ui.includes('20–50 real units')&&ui.includes('Second society'));
-ok('operator value checkpoint UI',ui.includes('Admin hours saved / week')&&ui.includes('Ops still only on WhatsApp/Excel'));
-ok('pricing experiment UI',ui.includes('Test hypotheses; do not freeze pricing'));
-ok('evidence export',ui.includes('Export evidence JSON')&&ui.includes('pilot_export'));
+ok('operator value checkpoint UI',(ui.includes('Admin hours saved / week')||ui.includes('XP2Visible0395Txt'))&&(ui.includes('Ops still only on WhatsApp/Excel')||ui.includes('XP2Visible0396Txt'))&&catalog.includes('Admin hours saved / week')&&catalog.includes('Ops still only on WhatsApp/Excel'));
+ok('pricing experiment UI',(ui.includes('Test hypotheses; do not freeze pricing')||ui.includes('XP2Visible0409Txt'))&&catalog.includes('Test hypotheses; do not freeze pricing'));
+ok('evidence export',(ui.includes('Export evidence JSON')||ui.includes('XP2Visible0382Txt'))&&catalog.includes('Export evidence JSON')&&ui.includes('pilot_export'));
 ok('import kit link',ui.includes('/housing-society-pilot-import-template.csv'));
 ok('admin app integration',app.includes('<HousingSocietyPilotPanel')&&app.includes('recordHsPilotUsageEvent'));
 const tabMatch=app.match(/type Tab=([^;]+);/),tabValues=new Set([...(tabMatch?.[1]||'').matchAll(/"([^"]+)"/g)].map(m=>m[1]));

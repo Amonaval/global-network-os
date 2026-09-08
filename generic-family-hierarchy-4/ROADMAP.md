@@ -2607,3 +2607,17 @@ Do not automatically build the deferred list. Payment gateways, accounting/Tally
 - **XP-0 — Network Lifecycle Safety:** ✅ source checkpoint complete; runtime/staging verification pending.
 - **XP-1 — Guided Excel / Workbook Onboarding Platform:** ✅ source checkpoint complete; runtime/staging verification pending. Shared registry → generated workbook → validator → vertical commit adapter is now the binding import architecture.
 - **XP-2 — i18n Closure:** next sequential mission after XP-1 checkpoint/runtime findings are carried forward.
+
+
+### XP-1 runtime closure checkpoint
+- [x] Replace below-fold Choose-how-to-start behavior with true two-step navigation for productized + Alumni creation.
+- [x] Explicit gate coverage for Housing Society, Family Association, Association, Organization, Business Trust, Franchise, Professional.
+- [x] Remove unsupported direct `storage.objects` deletion from XP-0 migration semantics.
+- [x] Route hard delete through authenticated server + Supabase Storage API + service role.
+- [x] Refuse relational finalization while storage residue exists.
+- [x] Keep 090 rerunnable without reintroducing the old defect; add corrective 091.
+- [ ] Staging/browser certify the full start-mode matrix and hard-delete media residue matrix.
+
+
+## XP-2 update — i18n Closure
+Released production surfaces now consume shared i18n catalog tokens for the XP audit backlog. The AST visible-literal audit is zero; English/Hindi/Marathi catalog shape is complete. Browser/native-language QA remains pending before runtime certification.

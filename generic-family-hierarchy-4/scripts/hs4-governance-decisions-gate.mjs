@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8'),checks=[],ok=(n,c)=>checks.push([n,!!c]);
+const i18nCatalog=read('lib/i18n/messages/en.ts');const i18nValueToToken=new Map([...i18nCatalog.matchAll(/\b([A-Za-z0-9_]+)\s*:\s*("(?:\\.|[^"])*")/g)].map(m=>{try{return [JSON.parse(m[2]),m[1]]}catch{return ['',m[1]]}}));const hasCopy=(source,text)=>source.includes(text)||Boolean(i18nValueToToken.get(text)&&source.includes(i18nValueToToken.get(text)));
 const contracts=read('core/templates/contracts.ts'),def=read('templates/housing-society/definition.ts'),sql=read('supabase/migrations/086_hs4_governance_meetings_decisions.sql'),ui=read('components/HousingSocietyGovernancePanel.tsx'),remote=read('verticals/housing-society/runtime/governance-remote.ts'),app=read('components/TemplateNetworkApp.tsx'),comp=read('verticals/housing-society/runtime/composition.ts'),cat=read('verticals/housing-society/features/catalog.ts');
 ok('HS4 capability ids typed',['governance','meetings','resolutions','polls','documents'].every(x=>contracts.includes(`"${x}"`)));
 ok('housing template declares governance capabilities',def.includes('"governance","meetings","resolutions","polls","documents"'));
@@ -11,7 +12,7 @@ ok('action register',sql.includes('hs_governance_action_items')&&sql.includes("(
 ok('resolution persistence',sql.includes('hs_resolutions')&&sql.includes("vote_mode in ('advisory','approval')"));
 ok('one member one vote',sql.includes('unique(resolution_id,voter_user_id)')&&sql.includes('hs4_cast_resolution_vote'));
 ok('vote choices controlled',sql.includes("('yes','no','abstain')"));
-ok('not election grade',ui.includes('not an election-grade secret ballot engine')&&sql.includes('not an election-grade secret-ballot engine'));
+ok('not election grade',hasCopy(ui,'Preserve office-bearer history, meeting records, action items and controlled member decisions. This is not an election-grade secret ballot engine.')&&sql.includes('not an election-grade secret-ballot engine'));
 ok('governance documents',sql.includes('hs_governance_documents')&&sql.includes("visibility in ('admin','members')"));
 ok('member read RLS',sql.includes('hs_governance_meetings_member_read')&&sql.includes('hs_resolutions_member_read'));
 ok('official governance admin writes',sql.includes("if not public.is_network_admin(nid) then raise exception 'Society admin access required.'"));
@@ -19,12 +20,12 @@ ok('member voting allowed via rpc',sql.includes('if r.status<>\'open\'')&&sql.in
 ok('snapshot includes committee meetings actions resolutions',sql.includes("'terms'")&&sql.includes("'meetings'")&&sql.includes("'actions'")&&sql.includes("'resolutions'"));
 ok('remote adapter',remote.includes('fetchHsGovernanceSnapshot')&&remote.includes('createHsGovernanceMeeting')&&remote.includes('castHsResolutionVote'));
 ok('resident governance surface',comp.includes('viewId:"governance"')&&comp.includes('Committee & Meetings'));
-ok('template renders governance panel',app.includes('tab==="governance"')&&app.includes('<HousingSocietyGovernancePanel'));
-ok('admin governance panel included',app.includes('<HousingSocietyGovernancePanel isAdmin={isAdmin}'));
-ok('committee UI',ui.includes('Committee term & role history')&&ui.includes('Chairperson')&&ui.includes('Treasurer'));
-ok('meeting UI',ui.includes('Schedule meeting')&&ui.includes('Agenda, minutes & action items'));
-ok('resolution UI',ui.includes('Resolution / poll')&&ui.includes('Approval vote')&&ui.includes('Advisory poll'));
-ok('member vote UI',ui.includes('Yes')&&ui.includes('Abstain')&&ui.includes('Your vote'));
+ok('template renders governance panel',hasCopy(app,'tab==="governance"')&&hasCopy(app,'<HousingSocietyGovernancePanel'));
+ok('admin governance panel included',hasCopy(app,'<HousingSocietyGovernancePanel isAdmin={isAdmin}'));
+ok('committee UI',hasCopy(ui,'Committee term & role history')&&hasCopy(ui,'Chairperson')&&hasCopy(ui,'Treasurer'));
+ok('meeting UI',hasCopy(ui,'Schedule meeting')&&hasCopy(ui,'Agenda, minutes & action items'));
+ok('resolution UI',hasCopy(ui,'Resolution / poll')&&hasCopy(ui,'Approval vote')&&hasCopy(ui,'Advisory poll'));
+ok('member vote UI',hasCopy(ui,'Yes')&&hasCopy(ui,'Abstain')&&hasCopy(ui,'Your vote:'));
 ok('feature flags catalogued',cat.includes('housing-society.governance.committee')&&cat.includes('housing-society.governance.resolutions'));
 ok('migration feature flags',sql.includes('housing-society.governance.meetings')&&sql.includes('on conflict(feature_key) do update'));
 ok('migration rerunnable',sql.includes('create table if not exists')&&sql.includes('create index if not exists')&&sql.includes('create or replace function'));
