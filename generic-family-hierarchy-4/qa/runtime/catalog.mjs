@@ -5,9 +5,9 @@ export const VERTICALS=[
  {kind:'association',label:'Association',context:'QA Association Chapter',entityKind:'household',marker:'Household'},
  {kind:'alumni',label:'Alumni',context:'QA Institute',entityKind:'alumni',marker:'Alumni'},
  {kind:'organization',label:'Organization',context:'QA Organization',entityKind:'person',marker:'Person'},
- {kind:'business-trust',label:'Business Trust',context:'QA Business Ecosystem',entityKind:'business',marker:'Business'},
+ {kind:'business-trust',label:'Business Trust',context:'QA Business Ecosystem',entityKind:'organization',marker:'Business'},
  {kind:'franchise',label:'Franchise',context:'QA Franchise',entityKind:'location',marker:'Location'},
- {kind:'professional',label:'Professional',context:'QA Expertise Network',entityKind:'professional',marker:'Professional'}
+ {kind:'professional',label:'Professional',context:'QA Expertise Network',entityKind:'person',marker:'Professional'}
 ];
 export const ROLE_KEYS=['owner','admin','member','invitee','tenantB'];
 export const EXPECTED_SHARED_SURFACES=['home','directory','explorer','connections','community','guide'];

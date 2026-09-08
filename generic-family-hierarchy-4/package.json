@@ -111,7 +111,7 @@
     "qa:all": "playwright test",
     "qa:report": "node qa/report-summary.mjs",
     "qa:preflight": "node qa/run-preflight.mjs",
-    "qa:certify": "node qa/run-certification.mjs",
+    "qa:certify": "node qa/run-poc-certification.mjs",
     "qa:setup": "npm install --no-save --package-lock=false @playwright/test@1.55.0 @axe-core/playwright@4.10.2 pg@8.16.3 tsx@4.23.13 && npx playwright install chromium firefox webkit",
     "qa:unit": "tsx --test qa/unit/runtime-contracts.test.mjs qa/unit/core-contracts.test.ts",
     "qa:seed": "node qa/setup/seed.mjs",
@@ -123,7 +123,9 @@
     "qa:lifecycle": "playwright test qa/e2e/70-destructive-lifecycle-import.spec.ts qa/e2e/80-data-volume-resilience.spec.ts",
     "qa:db-integrity": "node qa/db/database-integrity.mjs",
     "qa:db-permissions": "node qa/db/rpc-permission-audit.mjs",
-    "qa:cross-browser": "playwright test qa/e2e/90-cross-browser-smoke.spec.ts"
+    "qa:cross-browser": "playwright test qa/e2e/90-cross-browser-smoke.spec.ts",
+    "qa:certify:poc": "node qa/run-poc-certification.mjs",
+    "qa:certify:full": "node qa/run-certification.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",
@@ -138,12 +140,12 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0",
     "@types/leaflet": "^1.9.16",
     "@types/node": "^20.17.30",
     "@types/qrcode": "^1.5.5",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.5",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "@playwright/test": "^1.55.0"
   }
 }
