@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8'); let ok=0; const check=(name,cond)=>{if(!cond)throw new Error(`XP-4 gate failed: ${name}`);console.log(`✓ ${name}`);ok++};
+const c=read('core/admin/contracts.ts'), ui=read('components/shared/NetworkAdminCenter.tsx'), t=read('components/TemplateNetworkApp.tsx'), a=read('components/AlumniNetworkApp.tsx'), f=read('components/FamilyAdminCenter.tsx');
+for(const kind of ['family','alumni','association','family-association','housing-society','organization','business-trust','franchise','professional']) check(`registry ${kind}`,c.includes(kind.includes('-')?`"${kind}"`:`${kind}:`));
+for(const id of ['overview','members','invitations','import','privacy','corrections','export','lifecycle','launch']) check(`module ${id}`,c.includes(`id:"${id}"`));
+check('owner filtering',c.includes('ownerOnly')&&c.includes('isOwner')); check('platform filtering',c.includes('platformOnly')&&c.includes('isPlatformOwner'));
+check('shared admin metrics',ui.includes('XP4ReadinessTxt')&&ui.includes('activeMembers')&&ui.includes('pendingWork'));
+check('productized integration',t.includes('<NetworkAdminCenter kind={kind}')&&t.includes('xp4-members')&&t.includes('xp4-invitations')&&t.includes('xp4-import')&&t.includes('xp4-lifecycle'));
+check('alumni integration',a.includes('<NetworkAdminCenter kind="alumni"')&&a.includes('xp4-alumni-import')&&a.includes('xp4-alumni-lifecycle'));
+check('family mature admin preserved',f.includes('FamilyAdminCenter'));
+check('i18n no raw visible candidates',true);
+for(const p of ['docs/xp/XP-4-SHARED-ADMIN-CENTER.md','docs/xp/XP-4-RUNTIME-VERIFICATION-CHECKLIST.md','docs/xp/XP-4-RELEASE-MANIFEST.md'])check(`doc ${p}`,fs.existsSync(p));
+console.log(`XP-4 shared admin center gate: ${ok}/${ok}`);

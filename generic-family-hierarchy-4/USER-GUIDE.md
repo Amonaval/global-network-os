@@ -543,3 +543,6 @@ Released production surfaces now consume shared i18n catalog tokens for the XP a
 
 ## XP-3 update — Quick Start & Activation
 Shared role-aware Quick Start is configured across all released verticals, persisted per user/network, dismissible/resumable, progress-aware and linked to real actions. Family retains its mature Quick Family Start. Migration 092 requires staging verification.
+
+## Shared Admin Center
+Network owners/admins can use Admin to jump between members, invitations, workbook import, privacy/corrections, lifecycle and other operational modules. Vertical-specific panels remain available within the same Admin experience.

@@ -302,3 +302,6 @@ Released production surfaces now consume shared i18n catalog tokens for the XP a
 
 ## XP-3 update — Quick Start & Activation
 Shared role-aware Quick Start is configured across all released verticals, persisted per user/network, dismissible/resumable, progress-aware and linked to real actions. Family retains its mature Quick Family Start. Migration 092 requires staging verification.
+
+## XP-4 Shared Admin Center
+Source-complete: shared role-aware admin registry/shell across all nine released verticals; Productized and Alumni integrated, Family mature admin preserved. Runtime role/browser verification pending.
