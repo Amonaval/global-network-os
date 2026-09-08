@@ -100,7 +100,19 @@
     "validate:xp4": "node scripts/xp4-shared-admin-center-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp3",
     "validate:xp5": "node scripts/xp5-backup-export-recovery-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp4",
     "validate:xp6": "node scripts/xp6-invitation-claiming-correction-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp5",
-    "validate:xp7": "node scripts/xp7-guide-whatsnew-readiness-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp6"
+    "validate:xp7": "node scripts/xp7-admin-runtime-closure-gate.mjs && node scripts/xp7-guide-whatsnew-readiness-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp6",
+    "validate:xp7-admin-runtime": "node scripts/xp7-admin-runtime-closure-gate.mjs",
+    "qa:install": "npx playwright install chromium",
+    "qa:smoke": "playwright test qa/e2e/00-anonymous-smoke.spec.ts",
+    "qa:crawl": "playwright test qa/e2e/10-owner-crawl.spec.ts qa/e2e/11-admin-crawl.spec.ts qa/e2e/12-member-crawl.spec.ts",
+    "qa:verticals": "playwright test qa/e2e/20-cross-vertical-admin.spec.ts",
+    "qa:security": "playwright test qa/e2e/30-security-role-boundary.spec.ts",
+    "qa:db-static": "node qa/db/migration-static-audit.mjs",
+    "qa:all": "playwright test",
+    "qa:report": "node qa/report-summary.mjs",
+    "qa:preflight": "npm run check:types && npm run build && npm run qa:db-static && npm run validate:xp7",
+    "qa:certify": "npm run qa:preflight && npm run qa:all",
+    "qa:setup": "npm install --save-dev @playwright/test@1.55.0 && npx playwright install chromium"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

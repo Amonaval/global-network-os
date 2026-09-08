@@ -1592,3 +1592,8 @@ Shared role-aware Quick Start is configured across all released verticals, persi
 
 ### XP cumulative baseline repair included in XP-7
 The final XP-7 full checkpoint is self-contained: it includes `NetworkParticipationAdmin`, migration 091, additive participation contracts and machine-value/i18n semantic fixes, avoiding the affected-only overlay mismatch that caused the reported module-not-found build failure.
+
+---
+# ACTIVE — QA MEGA MISSION / RUNTIME CERTIFICATION
+
+XP-0 through XP-7 are feature/source-rich but not yet comprehensively runtime-certified. QA is now the top priority. Initial QA framework/scaffolding is present; deep executable role fixtures, staging seed data, RLS adversarial tests, migration replay, API integration, vertical-specific golden paths, accessibility and volume tests remain the next implementation work. Certification requires zero open P0/P1 defects in the certified scope.

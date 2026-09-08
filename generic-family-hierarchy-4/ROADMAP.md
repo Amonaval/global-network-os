@@ -2641,3 +2641,8 @@ Shared role-aware Quick Start is configured across all released verticals, persi
 - [x] XP-7 Guide, What's New & Readiness Closure — source complete; final 216-cell matrix and closure artifacts added.
 - [ ] Final dependency-installed `next build` and cross-vertical staging certification.
 - [ ] Runtime evidence for lifecycle Storage purge/restore, workbook round-trip, invitation mail/fallback, backup/export and native-language behavior.
+
+---
+# QA MEGA MISSION — TOP PRIORITY (2026-09-08)
+
+Feature expansion is paused. Execute `QA-MEGA-MISSION-ROADMAP.md` sequentially: Q0 build/source closure → Q1 unit/contracts → Q2 DB/RPC → Q3 RLS isolation → Q4 API integration → Q5 Playwright golden paths → Q6 expert crawler → Q7 volume/resilience → Q8 accessibility/responsive → Q9 certification report. Only after runtime health is stable should the post-QA platform basics in `FUTURE-TECHNICAL-ROADMAP.md` resume.

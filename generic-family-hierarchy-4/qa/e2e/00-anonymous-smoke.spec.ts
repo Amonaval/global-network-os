@@ -1,0 +1,3 @@
+import {test,expect} from '@playwright/test';import {attachRuntimeWatch} from '../lib/runtime-watch';
+test('anonymous shell loads without fatal runtime errors',async({page},testInfo)=>{const w=attachRuntimeWatch(page,testInfo);await page.goto('/');await expect(page.locator('body')).toBeVisible();await expect(page.locator('body')).not.toContainText(/Unhandled Runtime Error|Application error|column reference .* ambiguous/i);w.flush();});
+test('health endpoints respond',async({request})=>{for(const p of ['/api/health','/api/ready']){const r=await request.get(p);expect([200,503]).toContain(r.status())}});
