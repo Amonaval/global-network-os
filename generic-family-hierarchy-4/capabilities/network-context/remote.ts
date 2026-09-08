@@ -21,8 +21,20 @@ type NetworkMembershipTransportRow = {
   network_template?: string | null;
 };
 
+const NETWORK_VERTICAL_KINDS: readonly NetworkVerticalKind[] = [
+  "family",
+  "alumni",
+  "association",
+  "family-association",
+  "housing-society",
+  "organization",
+  "business-trust",
+  "franchise",
+  "professional",
+];
+
 function isNetworkVerticalKind(value: unknown): value is NetworkVerticalKind {
-  return value === "family" || value === "alumni" || value === "organization" || value === "business-trust" || value === "franchise" || value === "professional";
+  return typeof value === "string" && NETWORK_VERTICAL_KINDS.includes(value as NetworkVerticalKind);
 }
 
 function resolveTransportVerticalKind(row: NetworkMembershipTransportRow): NetworkVerticalKind {
