@@ -25,7 +25,7 @@ ok('Excel mode promises guided workbook rather than legacy mapper',(setup.includ
 ok('hard delete client uses authenticated server endpoint',life.includes('authorization')&&life.includes('/purge'));
 ok('productized danger zone routes through shared hard-delete client',productRemote.includes('deleteOwnedNetworkPermanently(networkId,confirmName)')&&template.includes('deleteProductizedNetworkPermanently(network.network_id||network.id,lifecycleConfirm)')&&!productRemote.includes('rpc("delete_productized_network_permanently"'));
 ok('server purge requires server-only service role key',purge.includes('SUPABASE_SERVICE_ROLE_KEY')&&env.includes('SUPABASE_SERVICE_ROLE_KEY')&&deploy.includes('server-only'));
-ok('server purge uses Storage API remove',purge.includes('.storage.from(bucket).remove(batch)'));
+ok('server purge uses Storage API remove',purge.includes('storage.from(bucket).remove(batch)')||purge.includes('.storage.from(bucket).remove(batch)'));
 ok('server verifies storage residue before DB finalizer',purge.includes('const residue=await listAllFiles')&&purge.includes('delete_owned_network_permanently'));
 ok('route authenticates user context',route.includes('createRequestContext(request)'));
 ok('090 is safe to rerun without restoring direct storage delete',!m090.toLowerCase().includes('delete from storage.objects where')&&m090.includes('prepare_owned_network_for_purge'));

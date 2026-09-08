@@ -1,0 +1,36 @@
+XP-7 primary implementation
+- app/globals.css
+- components/TemplateNetworkApp.tsx
+- components/AlumniNetworkApp.tsx
+- components/shared/NetworkAdminCenter.tsx
+- components/shared/NetworkContextualGuide.tsx
+- components/shared/NetworkWhatsNew.tsx
+- components/shared/NetworkHealthPanel.tsx
+- core/guide/contextual-guide.ts
+- core/readiness/network-health.ts
+- core/readiness/regression-matrix.ts
+- lib/i18n/messages/en.ts
+- lib/i18n/messages/hi.ts
+- lib/i18n/messages/mr.ts
+- scripts/xp7-guide-whatsnew-readiness-gate.mjs
+- package.json
+
+Cumulative build/runtime closure repairs included with XP-7
+- components/shared/NetworkParticipationAdmin.tsx (required module omitted from prior repair overlay)
+- core/participation/contracts.ts (preserve mature Family/Alumni contracts + XP-6 contracts additively)
+- lib/api-client.ts (explicit discriminated failure narrowing)
+- components/NetworkApp.tsx (machine owner role must remain canonical, not translated)
+- components/FamilyIntakeAdmin.tsx (machine status/confidence values must remain canonical, not translated)
+- supabase/migrations/091_xp01_runtime_closure.sql (required cumulative baseline migration)
+
+Closure/living artifacts
+- docs/xp/XP-7-GUIDE-WHATS-NEW-READINESS-CLOSURE.md
+- docs/xp/XP-7-RUNTIME-VERIFICATION-CHECKLIST.md
+- docs/xp/XP-7-CROSS-VERTICAL-REGRESSION-MATRIX.md
+- docs/xp/XP-7-RELEASE-MANIFEST.md
+- docs/xp/XP-7-VALIDATION-RESULTS.txt
+- CURRENT-STATE.md
+- ROADMAP.md
+- MISSION-STATUS.md
+- USER-GUIDE.md
+- XP-7-AFFECTED-FILES.txt

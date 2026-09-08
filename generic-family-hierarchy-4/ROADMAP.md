@@ -2629,3 +2629,15 @@ Shared role-aware Quick Start is configured across all released verticals, persi
 - [x] XP-4 Shared Network Admin Center — source-complete; runtime checklist pending.
 
 - [x] XP-5 Backup / Export / Recovery — source-complete; controlled runtime/recovery verification pending.
+
+- [x] XP-6 Invitation, Claiming & Correction Parity — source-complete; mail/identity runtime matrix pending.
+
+## XP final closure — 2026-09-08
+- [x] XP-2 i18n Closure — source complete; AST visible-literal gate at zero.
+- [x] XP-3 Quick Start & Activation Parity — source complete; migration 092 runtime verification pending.
+- [x] XP-4 Shared Network Admin Center — source complete; runtime role/browser matrix pending.
+- [x] XP-5 Backup / Export / Recovery — source complete; migration 093/recovery verification pending.
+- [x] XP-6 Invitation, Claiming & Correction Parity — source complete; migration 094/mail/identity runtime verification pending.
+- [x] XP-7 Guide, What's New & Readiness Closure — source complete; final 216-cell matrix and closure artifacts added.
+- [ ] Final dependency-installed `next build` and cross-vertical staging certification.
+- [ ] Runtime evidence for lifecycle Storage purge/restore, workbook round-trip, invitation mail/fallback, backup/export and native-language behavior.

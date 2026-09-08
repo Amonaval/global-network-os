@@ -1585,3 +1585,10 @@ Shared role-aware Quick Start is configured across all released verticals, persi
 | XP-4 | Shared Network Admin Center | Source complete | Runtime role/browser verification pending |
 
 | XP-5 | Backup / Export / Recovery | Source complete | Apply 093 + staging export/re-import/media checks |
+
+| XP-6 | Invitations / Claiming / Corrections | Source complete | Apply 094 + authenticated mail/expiry/claim matrix |
+
+| XP-7 | Guide, What's New & Readiness Closure | **Source closed** | Contextual guide + persisted What's New + Network Health + 216-cell final matrix. Full runtime/Next-build certification pending. |
+
+### XP cumulative baseline repair included in XP-7
+The final XP-7 full checkpoint is self-contained: it includes `NetworkParticipationAdmin`, migration 091, additive participation contracts and machine-value/i18n semantic fixes, avoiding the affected-only overlay mismatch that caused the reported module-not-found build failure.

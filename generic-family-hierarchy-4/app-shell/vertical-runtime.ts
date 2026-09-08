@@ -46,7 +46,7 @@ export type VerticalRuntimeDefinition = Readonly<{
   app: VerticalAppComposition;
 }>;
 
-export function getVerticalAppComposition<K extends NetworkVerticalKind>(kind: K): (typeof appCompositions)[K] {
+export function getVerticalAppComposition(kind: NetworkVerticalKind): VerticalAppComposition {
   return appCompositions[kind];
 }
 

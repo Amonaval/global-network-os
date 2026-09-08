@@ -308,3 +308,9 @@ Source-complete: shared role-aware admin registry/shell across all nine released
 
 ## XP-5 Backup / Export / Recovery
 Source-complete: versioned logical JSON backup + XLSX export + Storage media manifest across shared Admin surfaces. Security credentials excluded; full automatic restore intentionally not claimed. Migration 093/staging restore verification pending.
+
+## XP-6 Invitation / Claiming / Correction Parity
+Source-complete: shared invite lifecycle (email attempt + private-link fallback, resend, revoke, expiration, accept), membership activation, duplicate identity-claim guard and correction-review audit. Family/Alumni mature identity semantics preserved. Migration 094/runtime mail matrix pending.
+
+## XP-7 — Guide, What's New & Readiness Closure
+**SOURCE CLOSED / RUNTIME CERTIFICATION PENDING.** A role-aware/vertical-aware contextual guide now covers all nine released verticals without replacing Family's mature GuidePortal. Productized verticals and Alumni use persisted, vertical-filtered What's New announcements and a shared Network Health panel based only on known signals. The final executable regression matrix covers 9 verticals × 6 actor states × 4 lifecycle states = 216 cells. The final cumulative baseline also includes the missing `NetworkParticipationAdmin` module, restores the mature participation contract exports alongside XP-6 additions, fixes explicit API failure narrowing, and corrects XP-2 cases where translated display labels had leaked into machine role/status comparisons. No migration 095 is required; the sequence remains 090 → 094. Full browser/staging/Next-build certification remains pending.

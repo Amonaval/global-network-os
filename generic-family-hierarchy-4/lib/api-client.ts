@@ -15,7 +15,8 @@ export async function postCommand<TResponse>(path:string,body:unknown,options:Po
    const response=await fetch(path,{method:"POST",headers:{"content-type":"application/json",authorization:`Bearer ${session.access_token}`,"x-request-id":requestId,...(idempotencyKey?{"idempotency-key":idempotencyKey}:{})},body:JSON.stringify(body)});
    let payload:ApiResponse<TResponse>|null=null;try{payload=await response.json() as ApiResponse<TResponse>}catch{}
    if(response.ok&&payload?.ok)return payload.data;
-   const code=payload&&!payload.ok?payload.error.code:"HTTP_ERROR";const message=payload&&!payload.ok?payload.error.message:`Command failed with HTTP ${response.status}.`;
+   let code="HTTP_ERROR";let message=`Command failed with HTTP ${response.status}.`;
+   if(payload&&payload.ok===false){code=payload.error.code;message=payload.error.message}
    if(attempt<attempts&&[502,503,504].includes(response.status)){await new Promise(r=>setTimeout(r,150*attempt));continue}
    throw new ApiCommandError(message,code,payload?.requestId||requestId,response.status);
   }catch(error){

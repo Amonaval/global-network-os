@@ -99,7 +99,8 @@
     "validate:xp3": "node scripts/xp3-quick-start-activation-gate.mjs && npm run validate:xp2",
     "validate:xp4": "node scripts/xp4-shared-admin-center-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp3",
     "validate:xp5": "node scripts/xp5-backup-export-recovery-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp4",
-    "validate:xp6": "node scripts/xp6-invitation-claiming-correction-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp5"
+    "validate:xp6": "node scripts/xp6-invitation-claiming-correction-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp5",
+    "validate:xp7": "node scripts/xp7-guide-whatsnew-readiness-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp6"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

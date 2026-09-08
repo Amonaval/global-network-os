@@ -1,0 +1,576 @@
+
+> xyz-hierarchy-network@0.2.0 validate:xp7
+> node scripts/xp7-guide-whatsnew-readiness-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp6
+
+PASS guide registry: family
+PASS matrix vertical: family
+PASS guide registry: alumni
+PASS matrix vertical: alumni
+PASS guide registry: housing-society
+PASS matrix vertical: housing-society
+PASS guide registry: family-association
+PASS matrix vertical: family-association
+PASS guide registry: association
+PASS matrix vertical: association
+PASS guide registry: organization
+PASS matrix vertical: organization
+PASS guide registry: business-trust
+PASS matrix vertical: business-trust
+PASS guide registry: franchise
+PASS matrix vertical: franchise
+PASS guide registry: professional
+PASS matrix vertical: professional
+PASS actor state: owner
+PASS actor state: admin
+PASS actor state: member
+PASS actor state: invited
+PASS actor state: claimed
+PASS actor state: anonymous
+PASS lifecycle state: active
+PASS lifecycle state: archived
+PASS lifecycle state: restored
+PASS lifecycle state: hard-deleted
+PASS matrix expands cross product
+PASS shared contextual guide component
+PASS shared whats new component
+PASS shared health component
+PASS health evaluates verified signals
+PASS productized uses contextual guide
+PASS alumni uses contextual guide
+PASS family retains mature guide portal
+PASS productized uses persisted whats new
+PASS alumni uses persisted whats new
+PASS family retains persisted announcements
+PASS admin center uses network health
+PASS xp6 shared participation module present
+PASS 091 runtime closure migration present
+PASS archive/restore/hard delete migration present
+PASS invited/claiming migration present
+PASS EN token XP7ContextGuideTxt
+PASS HI token XP7ContextGuideTxt
+PASS MR token XP7ContextGuideTxt
+PASS EN token XP7WhatsNewTxt
+PASS HI token XP7WhatsNewTxt
+PASS MR token XP7WhatsNewTxt
+PASS EN token XP7NetworkHealthTxt
+PASS HI token XP7NetworkHealthTxt
+PASS MR token XP7NetworkHealthTxt
+PASS EN token XP7HealthProfilesTxt
+PASS HI token XP7HealthProfilesTxt
+PASS MR token XP7HealthProfilesTxt
+PASS EN token XP7HealthInvitationsTxt
+PASS HI token XP7HealthInvitationsTxt
+PASS MR token XP7HealthInvitationsTxt
+PASS legacy participation contract preserved
+PASS xp6 participation contract remains additive
+PASS API response failure narrowing is explicit
+PASS i18n does not replace machine role/status/kind comparisons
+
+XP-7 63/63
+AST visible literal audit: 0 candidates across 0 TSX files
+
+> xyz-hierarchy-network@0.2.0 validate:xp6
+> node scripts/xp6-invitation-claiming-correction-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp5
+
+✓ invitation table
+✓ expiration state
+✓ resend rotates token
+✓ revoke RPC
+✓ accept RPC
+✓ membership activation
+✓ active network activation
+✓ duplicate identity claim guard
+✓ only owner can invite admin
+✓ correction audit table
+✓ correction audit trigger
+✓ rerunnable trigger
+✓ email dispatch via Supabase Auth
+✓ safe manual-link fallback
+✓ generic admin create/resend/revoke UI
+✓ generic invite acceptance surfaced at setup
+✓ network app accepts invite
+✓ productized participation integrated
+✓ alumni participation integrated
+✓ family mature invitations preserved
+✓ existing productized corrections retained
+✓ doc docs/xp/XP-6-INVITATION-CLAIMING-CORRECTION-PARITY.md
+✓ doc docs/xp/XP-6-RUNTIME-VERIFICATION-CHECKLIST.md
+✓ doc docs/xp/XP-6-RELEASE-MANIFEST.md
+XP-6 invitation/claiming/correction gate: 24/24
+AST visible literal audit: 0 candidates across 0 TSX files
+
+> xyz-hierarchy-network@0.2.0 validate:xp5
+> node scripts/xp5-backup-export-recovery-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp4
+
+✓ versioned backup contract
+✓ admin authorization
+✓ metadata-driven network table discovery
+✓ sensitive access datasets excluded
+✓ rerunnable function
+✓ post migration assertion
+✓ authenticated API route
+✓ storage manifest uses Storage API
+✓ media bytes not falsely embedded
+✓ JSON download
+✓ XLSX download
+✓ sheet safety
+✓ restore limitation explicit
+✓ productized wired
+✓ alumni wired
+✓ family wired
+✓ doc docs/xp/XP-5-BACKUP-EXPORT-RECOVERY.md
+✓ doc docs/xp/XP-5-RUNTIME-VERIFICATION-CHECKLIST.md
+✓ doc docs/xp/XP-5-RELEASE-MANIFEST.md
+XP-5 backup/export/recovery gate: 19/19
+AST visible literal audit: 0 candidates across 0 TSX files
+
+> xyz-hierarchy-network@0.2.0 validate:xp4
+> node scripts/xp4-shared-admin-center-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp3
+
+✓ registry family
+✓ registry alumni
+✓ registry association
+✓ registry family-association
+✓ registry housing-society
+✓ registry organization
+✓ registry business-trust
+✓ registry franchise
+✓ registry professional
+✓ module overview
+✓ module members
+✓ module invitations
+✓ module import
+✓ module privacy
+✓ module corrections
+✓ module export
+✓ module lifecycle
+✓ module launch
+✓ owner filtering
+✓ platform filtering
+✓ shared admin metrics
+✓ productized integration
+✓ alumni integration
+✓ family mature admin preserved
+✓ i18n no raw visible candidates
+✓ doc docs/xp/XP-4-SHARED-ADMIN-CENTER.md
+✓ doc docs/xp/XP-4-RUNTIME-VERIFICATION-CHECKLIST.md
+✓ doc docs/xp/XP-4-RELEASE-MANIFEST.md
+XP-4 shared admin center gate: 28/28
+AST visible literal audit: 0 candidates across 0 TSX files
+
+> xyz-hierarchy-network@0.2.0 validate:xp3
+> node scripts/xp3-quick-start-activation-gate.mjs && npm run validate:xp2
+
+PASS registry covers family
+PASS registry covers alumni
+PASS registry covers housing-society
+PASS registry covers association
+PASS registry covers family-association
+PASS registry covers organization
+PASS registry covers business-trust
+PASS registry covers franchise
+PASS registry covers professional
+PASS role aware
+PASS dismissible and resumable
+PASS progress aware
+PASS actions are executable callbacks
+PASS productized shell integrated
+PASS alumni shell integrated
+PASS family mature quick start retained
+PASS housing notice activation action
+PASS all product actions route to real surfaces/editors
+PASS persistent per-user state
+PASS tenant membership guarded
+PASS migration rerunnable
+PASS migration assertion
+PASS closure docs
+XP-3 Quick Start gate: 23/23
+
+> xyz-hierarchy-network@0.2.0 validate:xp2
+> node scripts/xp2-i18n-closure-gate.mjs && npm run validate:xp1-runtime
+
+PASS released-visible-literal-audit — 0 unexplained JSX/visible-prop/alert literals
+PASS xp2-extracted-token-count — 574 extracted tokens
+PASS hindi-catalog-shape — 574/574
+PASS marathi-catalog-shape — 574/574
+PASS released-files-consume-catalog — 17/17
+PASS mission-doc
+PASS runtime-checklist
+PASS release-manifest
+XP-2 i18n closure gate: 8/8
+
+> xyz-hierarchy-network@0.2.0 validate:xp1-runtime
+> node scripts/xp1-runtime-closure-gate.mjs && npm run validate:xp1
+
+PASS creation selector exposes housing-society
+PASS XP-1 registry covers housing-society
+PASS creation selector exposes family-association
+PASS XP-1 registry covers family-association
+PASS creation selector exposes association
+PASS XP-1 registry covers association
+PASS creation selector exposes organization
+PASS XP-1 registry covers organization
+PASS creation selector exposes business-trust
+PASS XP-1 registry covers business-trust
+PASS creation selector exposes franchise
+PASS XP-1 registry covers franchise
+PASS creation selector exposes professional
+PASS XP-1 registry covers professional
+PASS productized choose-how-to-start is a real two-step replacement
+PASS alumni choose-how-to-start is a real two-step replacement
+PASS all three productized onboarding modes remain wired
+PASS Excel mode promises guided workbook rather than legacy mapper
+PASS hard delete client uses authenticated server endpoint
+PASS productized danger zone routes through shared hard-delete client
+PASS server purge requires server-only service role key
+PASS server purge uses Storage API remove
+PASS server verifies storage residue before DB finalizer
+PASS route authenticates user context
+PASS 090 is safe to rerun without restoring direct storage delete
+PASS 091 hotfix is safe to rerun and contains no direct storage delete
+PASS DB refuses finalization while storage residue exists
+
+XP runtime closure 27/27 checks passed.
+
+> xyz-hierarchy-network@0.2.0 validate:xp1
+> node scripts/xp1-guided-workbook-onboarding-gate.mjs && npm run validate:xp0
+
+PASS registry covers family
+PASS registry covers alumni
+PASS registry covers association
+PASS registry covers family-association
+PASS registry covers housing-society
+PASS registry covers organization
+PASS registry covers business-trust
+PASS registry covers franchise
+PASS registry covers professional
+PASS schema contract includes version/privacy/duplicate policy
+PASS column contract includes types/enums/references/import mapping
+PASS workbook generator creates README and Column Guide
+PASS workbook generator uses registry descriptions and schema version
+PASS workbook generator sanitizes Excel-forbidden sheet characters
+PASS workbook sheet naming enforces Excel 31-char limit and collision safety
+PASS parser resolves generated sanitized sheet names
+PASS parser validates required sheets/columns
+PASS parser validates duplicates and cross-sheet references
+PASS parser validates enum/email/date/boolean types
+PASS shared UI implements download-upload-validate-preview-confirm flow
+PASS shared UI exposes valid/warning/rejected counts and exact issues
+PASS productized vertical shell uses shared guided importer
+PASS alumni shell uses shared guided importer with domain adapter
+PASS housing society uses shared guided importer with domain adapter
+PASS ad-hoc XLSX parsing removed from productized/alumni/housing shells
+PASS product adapter upserts by stable id and creates typed relationships
+PASS housing adapter maps workbook sheets into HS-1 history-aware importer
+PASS alumni adapter preserves alumni profile importer and connection creation
+PASS family mature import remains intact
+PASS XP-1 package script registered
+PASS XP-1 closure docs present
+
+XP-1 31/31 checks passed.
+
+> xyz-hierarchy-network@0.2.0 validate:xp0
+> node scripts/xp0-network-lifecycle-safety-gate.mjs && npm run validate:platform-parity
+
+PASS migration 090 exists
+PASS leave is explicit
+PASS archive snapshots membership states
+PASS restore exists
+PASS archived listing exists
+PASS hard purge never directly deletes storage tables
+PASS hard purge uses server Storage API
+PASS purge freezes network before external storage mutation
+PASS storage residue is checked before relational finalization
+PASS residue verifier is metadata-driven
+PASS hard purge verifies after delete
+PASS minimal purge receipt retained
+PASS family archive uses shared primitive
+PASS My Networks exposes leave archive restore delete
+PASS client hard delete routes through server API
+PASS compat productized wrappers preserved
+PASS migration has post-contract assertions
+XP-0 source gate: 17/17 passed.
+
+> xyz-hierarchy-network@0.2.0 validate:platform-parity
+> node scripts/platform-vertical-parity-gate.mjs && npm run validate:hs6
+
+PASS family easiest-start retained
+PASS productized easiest-start
+PASS alumni easiest-start
+PASS all released productized kinds share flow
+PASS template language switcher
+PASS template privacy preview
+PASS alumni language switcher
+PASS alumni localized navigation
+PASS alumni privacy preview
+PASS family mature controls retained
+PASS creator deletion from my networks
+PASS universal owner delete RPC
+PASS exact name confirmation
+PASS delete detaches active profile
+PASS migration compatibility assertion
+Platform parity source gate passed (15 checks).
+
+> xyz-hierarchy-network@0.2.0 validate:hs6
+> node scripts/hs6-founder-pilot-commercialization-gate.mjs && npm run validate:hs5
+
+PASS pilot runs model
+PASS weekly checkpoints model
+PASS willingness and renewal evidence
+PASS repeatability evidence
+PASS pricing experiments evidence first
+PASS usage events
+PASS notice readership evidence
+PASS objective unit activation metrics
+PASS complaint resolution metric
+PASS maintenance visibility metric
+PASS governance and security evidence
+PASS mapped import readiness signal
+PASS second society readiness signal
+PASS admin-only pilot controls
+PASS member usage scoped to current flat
+PASS remote snapshot adapter
+PASS pricing remote adapter
+PASS pilot UI
+PASS pilot phases surfaced
+PASS operator value checkpoint UI
+PASS pricing experiment UI
+PASS evidence export
+PASS import kit link
+PASS admin app integration
+PASS housing navigation tab contract stays exhaustive
+PASS feature flags catalogued
+PASS launch composition updated
+PASS template closes HS6
+PASS migration rerunnable
+PASS migration assertions
+HS-6 source gate passed (30 checks).
+
+> xyz-hierarchy-network@0.2.0 validate:hs5
+> node scripts/hs5-security-compliance-assets-gate.mjs && npm run validate:hs4
+
+PASS HS5 capability ids typed
+PASS template declares HS5 capabilities
+PASS scoped security grants
+PASS visitor lifecycle
+PASS resident visitor flat scope
+PASS security operator check in out
+PASS domestic staff + flat permission
+PASS move in out requests
+PASS renovation NOC flow
+PASS asset registry
+PASS asset service AMC history
+PASS compliance calendar
+PASS emergency contacts
+PASS RLS boundaries
+PASS snapshot privacy masks visitor phone
+PASS remote adapter
+PASS resident security surface
+PASS template renders security panel
+PASS admin includes HS5
+PASS visitor UI
+PASS move renovation UI
+PASS staff UI
+PASS assets UI
+PASS compliance UI
+PASS emergency UI
+PASS feature flags catalogued
+PASS migration rerunnable
+PASS migration assertions
+HS-5 source gate passed (28 checks).
+
+> xyz-hierarchy-network@0.2.0 validate:hs4
+> node scripts/hs4-governance-decisions-gate.mjs && npm run validate:hs3
+
+PASS HS4 capability ids typed
+PASS housing template declares governance capabilities
+PASS committee term history persistence
+PASS controlled role catalog
+PASS meeting persistence
+PASS agenda and minutes
+PASS action register
+PASS resolution persistence
+PASS one member one vote
+PASS vote choices controlled
+PASS not election grade
+PASS governance documents
+PASS member read RLS
+PASS official governance admin writes
+PASS member voting allowed via rpc
+PASS snapshot includes committee meetings actions resolutions
+PASS remote adapter
+PASS resident governance surface
+PASS template renders governance panel
+PASS admin governance panel included
+PASS committee UI
+PASS meeting UI
+PASS resolution UI
+PASS member vote UI
+PASS feature flags catalogued
+PASS migration feature flags
+PASS migration rerunnable
+PASS migration assertions
+HS-4 source gate passed (28 checks).
+
+> xyz-hierarchy-network@0.2.0 validate:hs3
+> node scripts/hs3-maintenance-finance-gate.mjs && npm run validate:hs2
+
+PASS HS2 capability contract build fix
+PASS HS3 capability ids typed
+PASS housing template capabilities compile against shared contract
+PASS charge heads persistence
+PASS billing cycle persistence
+PASS flat ledger persistence
+PASS immutable bill lines
+PASS adjustment waiver history
+PASS payments and receipt references
+PASS fund persistence
+PASS budget vs actual persistence
+PASS resident bill RLS is current-flat scoped
+PASS admin-only official finance writes
+PASS generate complete cycle for units
+PASS payment recalculates bill status
+PASS finance snapshot member safe
+PASS payment gateway deferred
+PASS finance remote adapter
+PASS maintenance resident surface
+PASS template renders finance panel
+PASS member flat ledger UI
+PASS admin charge catalog UI
+PASS admin flat ledger UI
+PASS budget and funds UI
+PASS arrears watch UI
+PASS feature flags catalogued
+PASS migration rerunnable structures
+PASS migration assertions
+HS-3 source gate passed (28 checks).
+
+> xyz-hierarchy-network@0.2.0 validate:hs2
+> node scripts/hs2-daily-operations-gate.mjs && npm run validate:hs1
+
+PASS unknown feature probes are non-fatal
+PASS housing intelligence kind type is exhaustive
+PASS housing intelligence copy is exhaustive
+PASS notices persistence + expiry
+PASS complaint service desk persistence
+PASS complaint comments retained
+PASS admin complaint lifecycle + SLA
+PASS vendor and contract persistence
+PASS amenity and booking persistence
+PASS booking overlap protection
+PASS member/admin authorization boundaries
+PASS operations snapshot is society-scoped
+PASS feature flags catalogued
+PASS resident nav exposes daily ops
+PASS template renders HS2 surfaces
+PASS admin includes HS1 + HS2
+PASS resident notice UI
+PASS resident complaint UI
+PASS amenity booking UI
+PASS vendor/contract admin UI
+PASS shared event engine reused
+PASS Coming Up implemented
+PASS HS3 billing excluded
+PASS migration rerunnable structures
+PASS migration post assertions
+PASS runtime adapter covers daily ops
+HS-2 source gate passed (26 checks).
+
+> xyz-hierarchy-network@0.2.0 validate:hs1
+> node scripts/hs1-property-resident-core-gate.mjs && npm run validate:hs0
+
+PASS temporal occupancy table
+PASS history never modeled as overwrite-only metadata
+PASS parking and vehicle tables
+PASS parking allocation preserves history
+PASS resident invitation persistence
+PASS invitation preview and acceptance
+PASS invite claims only matching email
+PASS my flat RPC is identity scoped
+PASS resident vehicle write checks current flat
+PASS official occupancy is admin governed
+PASS bulk import mapper backend
+PASS bulk import creates units residents household links
+PASS bulk import can seed invitations vehicles parking
+PASS mapped onboarding UI
+PASS my flat UI
+PASS admin lifecycle UI
+PASS housing directory filters and thumbnails
+PASS direct parking allocation UI
+PASS resident invitation link UI
+PASS dedicated society invitation page
+PASS runtime adapter covers HS1
+PASS My Flat is a real navigation surface
+PASS HS1 features catalogued
+PASS generic import hidden for housing
+PASS template truth updated to HS1
+PASS migration rerunnable table/index patterns
+PASS migration post assertions
+HS-1 source gate passed (27 checks).
+
+> xyz-hierarchy-network@0.2.0 validate:hs0
+> node scripts/hs0-housing-society-gate.mjs && npm run validate:fca0
+
+PASS typed vertical kind
+PASS domain capability declared
+PASS registry and runtime registered
+PASS capability runtime fails closed as productized template
+PASS unit is primary operating entity
+PASS property dimensions include building wing floor
+PASS ownership and occupancy semantics explicit
+PASS setup exposes create and playground
+PASS productized config has synthetic society
+PASS resident UX hides platform intelligence
+PASS resident directory includes unit household person
+PASS distinct civic theme
+PASS guide truth distinguishes current vs future
+PASS rerun-safe constraints
+PASS database productized contract includes housing
+PASS database allowed entities include unit household person
+PASS database relationship contract includes ownership tenancy occupancy
+PASS database hierarchy seeded
+PASS launch control recognizes housing
+PASS post-migration assertions included
+PASS global network home surfaces housing
+PASS network switcher uses society icon
+PASS founder launch control includes housing
+PASS housing home cannot open hidden generic contribute/outcome surfaces
+HS-0 source gate passed (24 checks).
+
+> xyz-hierarchy-network@0.2.0 validate:fca0
+> node scripts/fca0-family-association-gate.mjs
+
+PASS new vertical kind registered
+PASS generic association remains separate
+PASS family-association template exists
+PASS Pune city and area semantics
+PASS creation/playground exposed
+PASS runtime registered
+PASS advanced intelligence hidden from composition
+PASS directory includes families and people
+PASS explicit add family/member flows
+PASS member can be linked to family
+PASS profile reuses rich family/professional fields
+PASS relationship DB contract complete
+PASS temporal annual membership foundation
+PASS controlled role catalog/history
+PASS finance/carry-forward foundation
+PASS awards history foundation
+PASS co-admin scope reused safely
+PASS Mahesh-inspired theme isolated
+PASS directory modes and filters visible
+PASS profile thumbnails supported
+PASS official membership fields admin governed
+PASS dedicated annual operations panel
+PASS governed annual operating RPCs
+PASS safe lifecycle operations
+PASS shared activity likes and comments
+PASS generic outcome/pulse hidden from family community home
+PASS shared productized seeding preserved
+FCA-0 source gate passed (27 checks).
+
+ADDITIONAL CHECKPOINT AUDITS
+PASS TS/TSX independent parse/transpile: 17/17 changed/cumulative-closure files
+PASS repository relative import existence audit: 337 source files, 0 missing relative imports
+PASS XP-7 core strict TypeScript check
+NOT RUN full next build: npm registry unavailable in packaging environment (EAI_AGAIN registry.npmjs.org; no npm cache)

@@ -14,7 +14,7 @@ const checks=[
  ['restore exists',sql.includes('restore_owned_network')&&life.includes('restoreNetwork')],
  ['archived listing exists',sql.includes('get_my_archived_networks')&&(home.includes('Archived networks')||home.includes('XP2Visible0488Txt'))&&fs.readFileSync('lib/i18n/messages/en.ts','utf8').includes('Archived networks')],
  ['hard purge never directly deletes storage tables',!sql.toLowerCase().includes('delete from storage.objects where')&&!closure.toLowerCase().includes('delete from storage.objects where')],
- ['hard purge uses server Storage API',purge.includes('.storage.from(bucket).remove(')&&purge.includes('SUPABASE_SERVICE_ROLE_KEY')&&route.includes('purgeOwnedNetwork')],
+ ['hard purge uses server Storage API',(purge.includes('storage.from(bucket).remove(')||purge.includes('.storage.from(bucket).remove('))&&purge.includes('SUPABASE_SERVICE_ROLE_KEY')&&route.includes('purgeOwnedNetwork')],
  ['purge freezes network before external storage mutation',sql.includes('prepare_owned_network_for_purge')&&sql.includes("status='archived'")&&purge.includes('prepare_owned_network_for_purge')],
  ['storage residue is checked before relational finalization',sql.includes("before_report:=public.xp0_network_residue_report")&&sql.includes("storageResidue")&&sql.includes('Storage API before relational deletion')],
  ['residue verifier is metadata-driven',sql.includes('pg_constraint')&&sql.includes("refcl.relname='networks'")],

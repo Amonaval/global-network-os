@@ -1,0 +1,11 @@
+# XP-6 Runtime Verification Checklist
+- [ ] Apply migration 094 twice without error.
+- [ ] Owner/admin creates member invitation for each released vertical.
+- [ ] Supabase Auth sends email to a new user; existing-user fallback exposes/copies governed link without losing invitation state.
+- [ ] Resend rotates token and extends expiry; old token no longer works.
+- [ ] Revoke prevents acceptance; expired invitation is rejected and shown expired.
+- [ ] Acceptance creates/activates membership and switches active network.
+- [ ] Productized targeted identity claim succeeds only for unclaimed profile and rejects duplicate identity ownership.
+- [ ] Family and Alumni legacy claim flows still work.
+- [ ] Productized correction request accept/reject writes network_contribution_audit.
+- [ ] Owner/Admin/Member/Invited/Claimed role matrix tested across all released verticals.

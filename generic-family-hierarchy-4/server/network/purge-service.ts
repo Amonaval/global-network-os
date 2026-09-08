@@ -6,15 +6,16 @@ import {getRuntimeConfig} from "../shared/runtime-config";
 const NETWORK_BUCKETS=["profile-photos","community-media"] as const;
 
 type StorageEntry={name:string;id?:string|null;metadata?:unknown};
+type StorageApi=ReturnType<typeof createClient>["storage"];
 
-async function listAllFiles(client:ReturnType<typeof createClient>,bucket:string,prefix:string):Promise<string[]> {
+async function listAllFiles(storage:StorageApi,bucket:string,prefix:string):Promise<string[]> {
  const files:string[]=[];
  const queue=[prefix.replace(/\/+$/g,"")];
  while(queue.length){
   const dir=queue.shift()!;
   let offset=0;
   for(;;){
-   const {data,error}=await client.storage.from(bucket).list(dir,{limit:100,offset,sortBy:{column:"name",order:"asc"}});
+   const {data,error}=await storage.from(bucket).list(dir,{limit:100,offset,sortBy:{column:"name",order:"asc"}});
    if(error)throw new CommandError("STORAGE_LIST_FAILED",`Could not inspect ${bucket} during network purge: ${error.message}`,500);
    const rows=(data||[]) as StorageEntry[];
    for(const row of rows){
@@ -29,10 +30,10 @@ async function listAllFiles(client:ReturnType<typeof createClient>,bucket:string
  return files;
 }
 
-async function removeBatch(client:ReturnType<typeof createClient>,bucket:string,paths:string[]){
+async function removeBatch(storage:StorageApi,bucket:string,paths:string[]){
  for(let i=0;i<paths.length;i+=100){
   const batch=paths.slice(i,i+100);
-  const {error}=await client.storage.from(bucket).remove(batch);
+  const {error}=await storage.from(bucket).remove(batch);
   if(error)throw new CommandError("STORAGE_DELETE_FAILED",`Could not delete ${bucket} media during network purge: ${error.message}`,500);
  }
 }
@@ -51,9 +52,9 @@ export async function purgeOwnedNetwork(ctx:RequestContext,networkId:string,conf
  const admin=createClient(supabaseUrl,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
  let deletedObjects=0;
  for(const bucket of NETWORK_BUCKETS){
-  const paths=await listAllFiles(admin,bucket,networkId);
-  if(paths.length){await removeBatch(admin,bucket,paths);deletedObjects+=paths.length;}
-  const residue=await listAllFiles(admin,bucket,networkId);
+  const paths=await listAllFiles(admin.storage,bucket,networkId);
+  if(paths.length){await removeBatch(admin.storage,bucket,paths);deletedObjects+=paths.length;}
+  const residue=await listAllFiles(admin.storage,bucket,networkId);
   if(residue.length)throw new CommandError("STORAGE_RESIDUE",`${residue.length} ${bucket} object(s) remain after purge. The network was left archived and was not relationally deleted.`,500);
  }
 

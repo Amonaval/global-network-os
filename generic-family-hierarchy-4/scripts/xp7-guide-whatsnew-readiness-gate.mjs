@@ -1,0 +1,46 @@
+import fs from "node:fs";
+const read=p=>fs.readFileSync(p,"utf8");
+const checks=[];const ok=(name,pass)=>checks.push([name,Boolean(pass)]);
+const verticals=["family","alumni","housing-society","family-association","association","organization","business-trust","franchise","professional"];
+const guide=read("core/guide/contextual-guide.ts"),matrix=read("core/readiness/regression-matrix.ts"),health=read("core/readiness/network-health.ts");
+const template=read("components/TemplateNetworkApp.tsx"),alumni=read("components/AlumniNetworkApp.tsx"),family=read("components/NetworkApp.tsx"),admin=read("components/shared/NetworkAdminCenter.tsx");
+const en=read("lib/i18n/messages/en.ts"),hi=read("lib/i18n/messages/hi.ts"),mr=read("lib/i18n/messages/mr.ts");
+for(const v of verticals){ok(`guide registry: ${v}`,guide.includes(v==='family-association'?`"family-association"`:v==='housing-society'?`"housing-society"`:v==='business-trust'?`"business-trust"`:`${v}:`)||guide.includes(`kind:"${v}"`));ok(`matrix vertical: ${v}`,matrix.includes(`"${v}"`));}
+for(const role of ["owner","admin","member","invited","claimed","anonymous"])ok(`actor state: ${role}`,matrix.includes(`"${role}"`));
+for(const state of ["active","archived","restored","hard-deleted"])ok(`lifecycle state: ${state}`,matrix.includes(`"${state}"`));
+ok("matrix expands cross product",matrix.includes("flatMap(vertical=>XP7_ACTOR_STATES.flatMap(actor=>XP7_LIFECYCLE_STATES.map"));
+ok("shared contextual guide component",fs.existsSync("components/shared/NetworkContextualGuide.tsx"));
+ok("shared whats new component",fs.existsSync("components/shared/NetworkWhatsNew.tsx"));
+ok("shared health component",fs.existsSync("components/shared/NetworkHealthPanel.tsx"));
+ok("health evaluates verified signals",health.includes("profileCompletion")&&health.includes("pendingInvitations")&&health.includes("claimedProfiles")&&health.includes("storageUsagePercent"));
+ok("productized uses contextual guide",template.includes("<NetworkContextualGuide kind={kind}"));
+ok("alumni uses contextual guide",alumni.includes('<NetworkContextualGuide kind="alumni"'));
+ok("family retains mature guide portal",family.includes("<GuidePortal audience={guideAudience}"));
+ok("productized uses persisted whats new",template.includes("<NetworkWhatsNew kind={kind}"));
+ok("alumni uses persisted whats new",alumni.includes('<NetworkWhatsNew kind="alumni"'));
+ok("family retains persisted announcements",family.includes("markFeatureAnnouncementSeen")&&family.includes("activeAnnouncement"));
+ok("admin center uses network health",admin.includes("<NetworkHealthPanel networkId={networkId}"));
+ok("xp6 shared participation module present",fs.existsSync("components/shared/NetworkParticipationAdmin.tsx"));
+ok("091 runtime closure migration present",fs.existsSync("supabase/migrations/091_xp01_runtime_closure.sql"));
+ok("archive/restore/hard delete migration present",read("supabase/migrations/090_xp0_network_lifecycle_safety.sql").includes("restore_owned_network")&&read("supabase/migrations/090_xp0_network_lifecycle_safety.sql").includes("delete_owned_network_permanently"));
+ok("invited/claiming migration present",read("supabase/migrations/094_xp6_participation_parity.sql").includes("accept_network_participation_invitation"));
+for(const token of ["XP7ContextGuideTxt","XP7WhatsNewTxt","XP7NetworkHealthTxt","XP7HealthProfilesTxt","XP7HealthInvitationsTxt"]){ok(`EN token ${token}`,en.includes(token));ok(`HI token ${token}`,hi.includes(token));ok(`MR token ${token}`,mr.includes(token));}
+
+const verticalRuntime=read("app-shell/vertical-runtime.ts"),whatsNewComponent=read("components/shared/NetworkWhatsNew.tsx");
+ok("vertical app accessor widens to shared composition contract",verticalRuntime.includes("getVerticalAppComposition(kind: NetworkVerticalKind): VerticalAppComposition"));
+ok("whats-new supports dynamic feature keys",whatsNewComponent.includes("featureToView[current.feature_key]"));
+const participation=read("core/participation/contracts.ts"),apiClient=read("lib/api-client.ts");
+ok("legacy participation contract preserved",participation.includes("export interface ParticipationAdapter")&&participation.includes("InvitationCreateRequest")&&participation.includes("GovernedContributionPrompt"));
+ok("xp6 participation contract remains additive",participation.includes("NetworkParticipationInvitation")&&participation.includes("InvitationDelivery"));
+ok("API response failure narrowing is explicit",apiClient.includes("payload.ok===false")&&apiClient.includes("payload.error.code"));
+const purgeService=read("server/network/purge-service.ts"),exportService=read("server/network/export-service.ts");
+ok("purge storage helpers accept Storage API boundary",purgeService.includes('type StorageApi=ReturnType<typeof createClient>["storage"]')&&purgeService.includes("listAllFiles(admin.storage,bucket,networkId)")&&purgeService.includes("removeBatch(admin.storage,bucket,paths)"));
+ok("purge storage helpers do not accept whole Supabase client",!purgeService.includes("listAllFiles(client:ReturnType<typeof createClient>")&&!purgeService.includes("removeBatch(client:ReturnType<typeof createClient>"));
+ok("export storage helper uses Storage API boundary",exportService.includes('type StorageApi=ReturnType<typeof createClient>["storage"]')&&exportService.includes("listAll(admin.storage,b,networkId)"));
+const sourceFiles=[];
+const walk=dir=>{for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const path=`${dir}/${entry.name}`;if(entry.isDirectory())walk(path);else if(/\.(?:ts|tsx)$/.test(entry.name))sourceFiles.push(path)}};
+for(const dir of ["components","core","lib"])walk(dir);
+const translatedLogic=/\b(?:membership_role|role|status|kind|confidence_band)\s*(?:===|!==|==|!=)\s*(?:tr|t|xp2t)\s*\(/;
+const translatedLogicReverse=/(?:tr|t|xp2t)\s*\([^\n]*?\)\s*(?:===|!==|==|!=)\s*[^;\n]*(?:membership_role|role|status|kind|confidence_band)/;
+ok("i18n does not replace machine role/status/kind comparisons",!sourceFiles.some(path=>{const text=read(path);return translatedLogic.test(text)||translatedLogicReverse.test(text)}));
+const failed=checks.filter(([,pass])=>!pass);for(const [name,pass] of checks)console.log(`${pass?"PASS":"FAIL"} ${name}`);console.log(`\nXP-7 ${checks.length-failed.length}/${checks.length}`);if(failed.length)process.exit(1);

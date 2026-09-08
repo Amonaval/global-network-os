@@ -549,3 +549,11 @@ Network owners/admins can use Admin to jump between members, invitations, workbo
 
 ## Backup & export
 Open Admin → Backup & export to download a logical JSON backup or readable XLSX. The export records media paths but does not embed media bytes. Keep the JSON before major imports/changes. Full automatic restore is not exposed; use the guided workbook importer for supported re-import and a controlled recovery process for full disaster restoration.
+
+## Invitations and claiming
+Admins can invite a person by email from Admin, resend an active invitation, or revoke it. When automatic mail delivery is unavailable, the private invitation link is copied for direct sharing. Accepting an invitation joins the network; existing profile claiming still follows the vertical’s verified identity flow. Corrections remain admin-reviewed and auditable.
+
+## Contextual Guide, What's New and Network Health
+Open **Guide** for role-aware tasks that lead to working product surfaces. Admins/owners see operating and contribution tasks; members see exploration/community tasks; platform owners can reach Launch Control where supported. **What's New** surfaces unseen feature announcements relevant to the current network and remembers dismissed/opened announcements. **Admin → Network Health** summarizes only signals the product currently knows, such as profile completion, pending invitations, unclaimed profiles, structure, pending work, administrators and capabilities. Treat the health score as an operational checklist, not as a guarantee of production readiness.
+
+Before broad onboarding, complete `docs/xp/XP-7-RUNTIME-VERIFICATION-CHECKLIST.md`, including all released verticals and archived/restored/hard-deleted behavior.

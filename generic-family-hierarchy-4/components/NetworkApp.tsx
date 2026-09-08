@@ -108,6 +108,7 @@ import type {NetworkMembership as NeutralNetworkMembership} from "../core/networ
 import { validateImportRows, validateNetwork } from "../lib/validation";
 import {createAlumniNetwork,fetchClaimableAlumniProfiles,claimAlumniProfile,acceptAlumniInvitation,type ClaimableAlumniProfile} from "../verticals/alumni/data/remote";
 import {createTemplateNetwork,joinProductizedNetworkByCode} from "../capabilities/template-product/remote";
+import {acceptNetworkInvitation} from "../capabilities/participation/remote";
 import {PRODUCTIZED_NETWORK_CONFIGS,isProductizedVerticalKind,type ProductizedVerticalKind} from "../templates/productized/config";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/i18n";
@@ -155,6 +156,7 @@ export default function NetworkApp() {
     [alumniDemo,setAlumniDemo]=useState(false),
     [productizedDemo,setProductizedDemo]=useState<ProductizedVerticalKind|null>(null),
     [pendingAlumniInvite,setPendingAlumniInvite]=useState<string>(""),
+    [pendingNetworkInvite,setPendingNetworkInvite]=useState<string>(""),
     [demoPreview,setDemoPreview]=useState(false),
     [demoViewerId,setDemoViewerId]=useState<string | undefined>(undefined),
     [editingMember, setEditingMember] = useState<Member | undefined>();
@@ -294,7 +296,7 @@ export default function NetworkApp() {
       }
     })();
   }, []);
-  useEffect(()=>{if(typeof window!=="undefined"){setPendingAlumniInvite(new URLSearchParams(window.location.search).get("alumniInvite")||"")}},[]);
+  useEffect(()=>{if(typeof window!=="undefined"){const q=new URLSearchParams(window.location.search);setPendingAlumniInvite(q.get("alumniInvite")||"");setPendingNetworkInvite(q.get("networkInvite")||"")}},[]);
   useEffect(() => {
     if(!supabase)return;
     const {data:{subscription}}=supabase.auth.onAuthStateChange((event)=>{
@@ -1201,6 +1203,8 @@ export default function NetworkApp() {
           onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify(tr("FamilyJoinedWelcomeTxt"))}}
           onExploreDemo={enterSetupPlayground}
           claimableAlumniProfiles={claimableAlumniProfiles}
+          networkInviteToken={pendingNetworkInvite}
+          onAcceptNetworkInvite={pendingNetworkInvite?async()=>{await acceptNetworkInvitation(pendingNetworkInvite);window.history.replaceState({},"",window.location.pathname);setPendingNetworkInvite("");setProductizedDemo(null);setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify(tr("XP6InvitationAcceptedTxt"))}:undefined}
           alumniInviteToken={pendingAlumniInvite}
           onAcceptAlumniInvite={pendingAlumniInvite?async()=>{await acceptAlumniInvitation(pendingAlumniInvite);window.history.replaceState({},"",window.location.pathname);setPendingAlumniInvite("");setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify(tr("AlumniInvitationAcceptedTxt"))}:undefined}
           onClaimAlumniProfile={async(profileId)=>{await claimAlumniProfile(profileId);await hydrate(await getAuthUser());setView("home");notify(tr("WelcomeToYourAlumniNetworkTxt"))}}
@@ -2010,7 +2014,7 @@ export default function NetworkApp() {
           onClose={() => setShowRelationships(false)}
           onSave={saveRel}
           onDelete={removeRel}
-          canRemoveFoundational={!isSupabaseConfigured || network?.membership_role === tr("Owner2Txt")}
+          canRemoveFoundational={!isSupabaseConfigured || network?.membership_role === "owner"}
           onOpenGuide={(key)=>{setShowRelationships(false);openGuide(key)}}
         />
       )}{" "}
