@@ -1,17 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as XLSX from 'xlsx';
-import {IMPORT_SCHEMA_KINDS,IMPORT_SCHEMA_REGISTRY,getImportSchema} from '../../core/import/registry.ts';
-import {getImportWorkbookSheetNames} from '../../core/import/sheet-names.ts';
-import {createImportWorkbook} from '../../core/import/workbook.ts';
-import {parseImportWorkbook} from '../../core/import/parser.ts';
-import {QUICK_START_REGISTRY} from '../../core/activation/quick-start.ts';
-import {evaluateNetworkHealth} from '../../core/readiness/network-health.ts';
-import {validateGraphRelationship,buildGovernedEdge,graphAdjacency} from '../../core/graph/runtime.ts';
-import {NETWORK_BACKUP_FORMAT,NETWORK_BACKUP_VERSION,isNetworkBackup,type NetworkBackup} from '../../core/export/contracts.ts';
-import {createBackupWorkbook} from '../../core/export/workbook.ts';
-import {CommandError,normalizeCommandError} from '../../server/shared/errors.ts';
-import {booleanValue,objectBody,optionalText,text} from '../../server/shared/validation.ts';
+import {IMPORT_SCHEMA_KINDS,IMPORT_SCHEMA_REGISTRY,getImportSchema} from '../../core/import/registry';
+import {getImportWorkbookSheetNames} from '../../core/import/sheet-names';
+import {createImportWorkbook} from '../../core/import/workbook';
+import {parseImportWorkbook} from '../../core/import/parser';
+import {QUICK_START_REGISTRY} from '../../core/activation/quick-start';
+import {evaluateNetworkHealth} from '../../core/readiness/network-health';
+import {validateGraphRelationship,buildGovernedEdge,graphAdjacency} from '../../core/graph/runtime';
+import {NETWORK_BACKUP_FORMAT,NETWORK_BACKUP_VERSION,isNetworkBackup,type NetworkBackup} from '../../core/export/contracts';
+import {createBackupWorkbook} from '../../core/export/workbook';
+import {CommandError,normalizeCommandError} from '../../server/shared/errors';
+import {booleanValue,objectBody,optionalText,text} from '../../server/shared/validation';
 import {VERTICALS} from '../runtime/catalog.mjs';
 
 const expectedKinds=VERTICALS.map(v=>v.kind).sort();

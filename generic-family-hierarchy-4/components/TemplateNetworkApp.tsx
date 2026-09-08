@@ -1,5 +1,6 @@
 "use client";
 import {useEffect,useMemo,useState,type CSSProperties,type ReactNode} from "react";
+import dynamic from "next/dynamic";
 import {ArrowRight,BookOpen,BrainCircuit,BriefcaseBusiness,Building2,CalendarDays,CheckCircle2,CircleDot,FileSpreadsheet,GitBranch,Handshake,Home,KeyRound,Layers3,Link2,LogOut,MapPinned,Plus,RefreshCw,Rocket,Search,ShieldCheck,Sparkles,Store,UserRound,UsersRound,X} from "lucide-react";
 import type {NetworkSettings} from "../lib/network";
 import type {AuthUser} from "../lib/auth";
@@ -22,7 +23,6 @@ import NetworkProjectionExplorer from "./shared/NetworkProjectionExplorer";
 import NetworkActivityHub from "./shared/NetworkActivityHub";
 import {InitialsAvatar,NetworkEmpty,NetworkMetric,NetworkSectionHead} from "./shared/NetworkUi";
 import NetworkPulse from "./shared/NetworkPulse";
-import NetworkGeography from "./shared/NetworkGeography";
 import NetworkRelationshipExplorer from "./shared/NetworkRelationshipExplorer";
 import NetworkEntityDetail from "./shared/NetworkEntityDetail";
 import NetworkStructureView from "./shared/NetworkStructureView";
@@ -54,6 +54,10 @@ import type {QuickStartAction} from "../core/activation/quick-start";
 import {commitProductizedWorkbook} from "../capabilities/import/productized-workbook";
 import {recordHsPilotUsageEvent} from "../verticals/housing-society/runtime/pilot-remote";
 import {buildGovernedEdge,validateGraphRelationship} from "../core/graph/runtime";
+
+// Leaflet touches `window` while its module is evaluated. Keep the geography surface
+// behind a client-only boundary so Next.js can prerender the application shell safely.
+const NetworkGeography = dynamic(() => import("./shared/NetworkGeography"), { ssr: false });
 
 type Tab="home"|"me"|"notices"|"complaints"|"maintenance"|"amenities"|"governance"|"security"|"intelligence"|"explorer"|"directory"|"community"|"places"|"connections"|"contribute"|"admin"|"guide"|"launch";
 type EditorState={id?:string;kind:string;label:string;metadata:Record<string,string>;affiliations:Record<string,string>};
