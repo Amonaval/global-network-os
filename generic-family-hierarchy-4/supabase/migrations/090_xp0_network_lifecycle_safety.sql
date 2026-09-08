@@ -134,32 +134,50 @@ language sql security definer stable set search_path=public as $$
 $$;
 revoke all on function public.get_my_archived_networks() from public; grant execute on function public.get_my_archived_networks() to authenticated;
 
--- Replace the 089 implementation with explicit storage cleanup + post-delete metadata verification.
+-- Hard purge is a two-phase operation. SQL authorizes/freezes and later finalizes relational deletion.
+-- Supabase Storage objects are removed through the supported Storage API by the server route; direct
+-- DELETE FROM storage.objects is intentionally forbidden by modern Supabase and must never be used.
+drop function if exists public.prepare_owned_network_for_purge(uuid,text);
+create function public.prepare_owned_network_for_purge(p_network_id uuid,p_confirm_name text) returns void
+language plpgsql security definer set search_path=public as $$
+declare uid uuid:=auth.uid(); nname text; nstatus text; next_id uuid;
+begin
+ if uid is null then raise exception 'Sign in required.' using errcode='42501'; end if;
+ select n.name,n.status into nname,nstatus from public.networks n join public.network_memberships nm on nm.network_id=n.id
+ where n.id=p_network_id and nm.user_id=uid and nm.role='owner' and nm.status in ('active','suspended');
+ if nname is null then raise exception 'Only the network Owner can permanently delete this network.' using errcode='42501'; end if;
+ if trim(coalesce(p_confirm_name,''))<>nname then raise exception 'Network name confirmation does not match.' using errcode='22023'; end if;
+ if nstatus='active' then
+  delete from public.network_archive_membership_state where network_id=p_network_id;
+  insert into public.network_archive_membership_state(network_id,user_id,previous_status) select network_id,user_id,status from public.network_memberships where network_id=p_network_id;
+  update public.networks set status='archived',updated_at=now() where id=p_network_id;
+  update public.network_memberships set status='suspended' where network_id=p_network_id and status='active';
+ elsif nstatus<>'archived' then raise exception 'Network is not in a purgeable lifecycle state.' using errcode='55000'; end if;
+ select nm.network_id into next_id from public.network_memberships nm join public.networks n on n.id=nm.network_id and n.status='active'
+ where nm.user_id=uid and nm.status='active' and nm.network_id<>p_network_id order by nm.joined_at desc limit 1;
+ update public.profiles set active_network_id=next_id,member_id=case when next_id is null then null else member_id end,updated_at=now() where active_network_id=p_network_id;
+end $$;
+revoke all on function public.prepare_owned_network_for_purge(uuid,text) from public; grant execute on function public.prepare_owned_network_for_purge(uuid,text) to authenticated;
+
 drop function if exists public.delete_owned_network_permanently(uuid,text);
 create function public.delete_owned_network_permanently(p_network_id uuid,p_confirm_name text) returns uuid
 language plpgsql security definer set search_path=public,storage as $$
-declare uid uuid:=auth.uid(); nname text; next_id uuid; report jsonb;
+declare uid uuid:=auth.uid(); nname text; next_id uuid; before_report jsonb; after_report jsonb;
 begin
  if uid is null then raise exception 'Sign in required.' using errcode='42501'; end if;
  select n.name into nname from public.networks n join public.network_memberships nm on nm.network_id=n.id
  where n.id=p_network_id and nm.user_id=uid and nm.status in ('active','suspended') and nm.role='owner';
  if nname is null then raise exception 'Only the network Owner can permanently delete this network.' using errcode='42501'; end if;
  if trim(coalesce(p_confirm_name,''))<>nname then raise exception 'Network name confirmation does not match.' using errcode='22023'; end if;
-
- -- Storage does not participate in public.networks FK cascades. Network-owned object paths always begin with <network_uuid>/.
- if to_regclass('storage.objects') is not null then delete from storage.objects where split_part(name,'/',1)=p_network_id::text; end if;
+ before_report:=public.xp0_network_residue_report(p_network_id);
+ if coalesce((before_report->>'storageResidue')::bigint,0)>0 then raise exception 'Network storage must be purged through the Supabase Storage API before relational deletion. Remaining objects: %',before_report->>'storageResidue' using errcode='P0001'; end if;
  update public.profiles set active_network_id=null,member_id=null,updated_at=now() where active_network_id=p_network_id;
  delete from public.networks where id=p_network_id;
-
- report:=public.xp0_network_residue_report(p_network_id);
- if not coalesce((report->>'clean')::boolean,false) then
-  raise exception 'XP-0 purge residue verification failed: %',report::text using errcode='P0001';
- end if;
- insert into public.network_purge_receipts(purged_network_id,purged_by,relational_residue,storage_residue)
- values(p_network_id,uid,coalesce((report->>'relationalResidue')::bigint,0),coalesce((report->>'storageResidue')::bigint,0));
-
- select nm.network_id into next_id from public.network_memberships nm join public.networks n on n.id=nm.network_id and n.status='active'
- where nm.user_id=uid and nm.status='active' order by nm.joined_at desc limit 1;
+ after_report:=public.xp0_network_residue_report(p_network_id);
+ if not coalesce((after_report->>'clean')::boolean,false) then raise exception 'XP-0 purge residue verification failed: %',after_report::text using errcode='P0001'; end if;
+ insert into public.network_purge_receipts(purged_network_id,purged_by,relational_residue,storage_residue,verifier_version)
+ values(p_network_id,uid,coalesce((after_report->>'relationalResidue')::bigint,0),coalesce((after_report->>'storageResidue')::bigint,0),'xp0-v2-storage-api');
+ select nm.network_id into next_id from public.network_memberships nm join public.networks n on n.id=nm.network_id and n.status='active' where nm.user_id=uid and nm.status='active' order by nm.joined_at desc limit 1;
  update public.profiles set active_network_id=next_id,updated_at=now() where id=uid and active_network_id is null;
  return next_id;
 end $$;
@@ -189,5 +207,6 @@ revoke all on function public.leave_current_family() from public; grant execute 
 do $$ begin
  if to_regprocedure('public.restore_owned_network(uuid)') is null then raise exception 'XP-0 compatibility check failed: restore_owned_network missing.'; end if;
  if to_regprocedure('public.xp0_network_residue_report(uuid)') is null then raise exception 'XP-0 compatibility check failed: residue verifier missing.'; end if;
+ if to_regprocedure('public.prepare_owned_network_for_purge(uuid,text)') is null then raise exception 'XP-0 compatibility check failed: purge preparation missing.'; end if;
  if to_regprocedure('public.delete_owned_network_permanently(uuid,text)') is null then raise exception 'XP-0 compatibility check failed: permanent purge missing.'; end if;
 end $$;

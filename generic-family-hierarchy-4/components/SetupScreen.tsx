@@ -34,6 +34,8 @@ type Props = {
   onClaimAlumniProfile?:(profileId:string)=>Promise<void>;
   onCreateAlumni?:(name:string,institution:string,description:string)=>Promise<void>;
   onExploreAlumniDemo?:()=>void;
+  networkInviteToken?:string;
+  onAcceptNetworkInvite?:()=>Promise<void>;
   alumniInviteToken?:string;
   onAcceptAlumniInvite?:()=>Promise<void>;
   onCreateProductized?:(kind:ProductizedVerticalKind,name:string,contextValue:string,description:string)=>Promise<void>;
@@ -41,7 +43,7 @@ type Props = {
   onJoinProductizedCode?:(code:string)=>Promise<void>;
 };
 
-export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],existingFamilies=[],onOpenFamily,onSignOut,onClaimProfile,shared,canSetup,approvalRequired=false,onOpenGuide,claimableAlumniProfiles=[],onClaimAlumniProfile,onCreateAlumni,onExploreAlumniDemo,alumniInviteToken,onAcceptAlumniInvite,onCreateProductized,onExploreProductizedDemo,onJoinProductizedCode }: Props) {
+export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimableProfiles=[],existingFamilies=[],onOpenFamily,onSignOut,onClaimProfile,shared,canSetup,approvalRequired=false,onOpenGuide,claimableAlumniProfiles=[],onClaimAlumniProfile,onCreateAlumni,onExploreAlumniDemo,networkInviteToken,onAcceptNetworkInvite,alumniInviteToken,onAcceptAlumniInvite,onCreateProductized,onExploreProductizedDemo,onJoinProductizedCode }: Props) {
  const {t:xp2t}=useLanguage();
  const {t:tr}=useLanguage();
   const {t}=useLanguage();
@@ -98,6 +100,7 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
       {path==="entry"&&<>
         <div className="setup-heading"><div className="brand-mark"><TreePine size={24}/></div><div><span className="setup-eyebrow">{tr("WelcomeTxt")}</span><h2>{t("WhatWouldYouLikeTxt")}</h2></div></div>
         {existingFamilies.length>0&&<div className="claimable-family-box existing-family-box"><span className="warm-kicker">{t("YourNetworksTxt")}</span>{existingFamilies.map(f=><div className="claimable-family-row" key={f.network_id}><span><b>{f.name}</b><small>{f.vertical_kind?`${getVerticalDefinition(f.vertical_kind).displayName} · ${f.role}`:`Family · ${f.role}`}</small></span><button className="btn" disabled={busy||!onOpenFamily} onClick={async()=>{if(!onOpenFamily)return;setBusy(true);setError("");try{await onOpenFamily(f.network_id)}catch(e:any){setError(e.message||tr("CouldNotOpenThatNetworkTxt"))}finally{setBusy(false)}}}>{tr("OpenTxt")}</button></div>)}</div>}
+        {networkInviteToken&&onAcceptNetworkInvite&&<div className="claimable-family-box"><span className="warm-kicker">{t("XP6NetworkInvitationReadyTxt")}</span><div className="claimable-family-row"><span><b>{t("XP6PrivateNetworkInvitationTxt")}</b><small>{t("NothingJoinedUntilConfirmTxt")}</small></span><button className="btn primary" disabled={busy} onClick={async()=>{setBusy(true);setError("");try{await onAcceptNetworkInvite()}catch(e:any){setError(e.message||t("XP6InviteFailedTxt"))}finally{setBusy(false)}}}>{t("XP6JoinInvitedNetworkTxt")}</button></div></div>}
         {alumniInviteToken&&onAcceptAlumniInvite&&<div className="claimable-family-box"><span className="warm-kicker">{t("AlumniInvitationReadyTxt")}</span><div className="claimable-family-row"><span><b>{tr("PrivateAlumniInvitationTxt")}</b><small>{t("NothingJoinedUntilConfirmTxt")}</small></span><button className="btn primary" disabled={busy} onClick={async()=>{setBusy(true);setError("");try{await onAcceptAlumniInvite()}catch(e:any){setError(e.message||tr("CouldNotAcceptAlumniInvitationTxt"))}finally{setBusy(false)}}}>{t("JoinThisAlumniTxt")}</button></div></div>}
         {claimableAlumniProfiles.length>0&&<div className="claimable-family-box"><span className="warm-kicker">{tr("AlumniProfilesMatchTxt")}</span>{claimableAlumniProfiles.slice(0,3).map(p=><div className="claimable-family-row" key={p.profile_id}><span><b>{p.full_name}</b><small>{p.network_name} · {[p.program,p.graduation_year].filter(Boolean).join(" · ")}</small></span><button className="btn primary" disabled={busy||!onClaimAlumniProfile} onClick={async()=>{if(!onClaimAlumniProfile)return;setBusy(true);setError("");try{await onClaimAlumniProfile(p.profile_id)}catch(e:any){setError(e.message||tr("CouldNotClaimThatAlumniProfileTxt"))}finally{setBusy(false)}}}>{t("ThisIsMeTxt")}</button></div>)}</div>}
         {claimableProfiles.length>0&&<div className="claimable-family-box"><span className="warm-kicker">{tr("MayHaveFoundYouTxt")}</span>{claimableProfiles.slice(0,3).map(p=><div className="claimable-family-row" key={`${p.network_id}-${p.member_id}`}><span><b>{p.member_name}</b><small>{p.family_name}</small></span><button className="btn primary" disabled={busy} onClick={()=>claim(p.member_id)}>{t("ThisIsMeTxt")}</button></div>)}</div>}

@@ -298,3 +298,7 @@ Runtime testing found and corrected two source-gate blind spots: cross-vertical 
 
 ## XP-2 update — i18n Closure
 Released production surfaces now consume shared i18n catalog tokens for the XP audit backlog. The AST visible-literal audit is zero; English/Hindi/Marathi catalog shape is complete. Browser/native-language QA remains pending before runtime certification.
+
+
+## XP-3 update — Quick Start & Activation
+Shared role-aware Quick Start is configured across all released verticals, persisted per user/network, dismissible/resumable, progress-aware and linked to real actions. Family retains its mature Quick Family Start. Migration 092 requires staging verification.

@@ -930,5 +930,11 @@ export const hi:LocaleCatalog={
   XP2ImportFixTxt:"आयात से पहले अस्वीकृत पंक्तियाँ ठीक करें",
   XP2ImportValidatedTxt:"सत्यापित",
   XP2ImportImportingTxt:"आयात हो रहा है…",
+  XP3CompleteTxt:"पूर्ण",
+  XP3ResumeTxt:"फिर शुरू करें",
+  XP3QuickStartTxt:"त्वरित शुरुआत",
+  XP3DismissQuickStartTxt:"त्वरित शुरुआत बंद करें",
+  XP3OfTxt:"में से",
+  XP3DoneTxt:"पूर्ण",
 
 };

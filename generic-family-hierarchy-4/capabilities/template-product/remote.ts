@@ -1,5 +1,6 @@
 import {supabase} from "../../lib/supabase";
 import {postCommand} from "../../lib/api-client";
+import {deleteOwnedNetworkPermanently} from "../../lib/network-lifecycle";
 import type {BootstrapInstitutionResult,ClaimIdentityResult,CreateGraphRelationshipResult,CreateNetworkResult,JoinNetworkResult} from "../../core/api/contracts";
 import type {ProductizedVerticalKind} from "../../templates/productized/config";
 function required(){if(!supabase)throw new Error("Shared Supabase mode is required.");return supabase}
@@ -36,7 +37,7 @@ export async function setAssociationHouseholdAdmin(householdId:string,userId:str
 
 export async function leaveProductizedNetwork(){const s=required();const {data,error}=await s.rpc("leave_productized_network");if(error)throw error;return data?String(data):null}
 export async function archiveProductizedNetwork(confirmName:string){const s=required();const {error}=await s.rpc("archive_productized_network",{p_confirm_name:confirmName});if(error)throw error}
-export async function deleteProductizedNetworkPermanently(confirmName:string){const s=required();const {error}=await s.rpc("delete_productized_network_permanently",{p_confirm_name:confirmName});if(error)throw error}
+export async function deleteProductizedNetworkPermanently(networkId:string,confirmName:string){return deleteOwnedNetworkPermanently(networkId,confirmName)}
 export type FcaAdminSnapshot={settings:Record<string,any>;years:any[];memberships:any[];roles:any[];role_history:any[];finance:any[]};
 export async function fetchFcaAdminSnapshot(){const s=required();const {data,error}=await s.rpc("get_fca_admin_snapshot");if(error)throw error;return (data||{settings:{},years:[],memberships:[],roles:[],role_history:[],finance:[]}) as FcaAdminSnapshot}
 export async function updateFcaSettings(input:{dependentAgeLimit:number;gracePeriodDays:number;maxAutoChildren:number;onboardingPolicy:string;financeVisibility:string}){const s=required();const {error}=await s.rpc("update_fca_settings",{p_dependent_age_limit:input.dependentAgeLimit,p_grace_period_days:input.gracePeriodDays,p_max_auto_children:input.maxAutoChildren,p_onboarding_policy:input.onboardingPolicy,p_finance_visibility:input.financeVisibility});if(error)throw error}

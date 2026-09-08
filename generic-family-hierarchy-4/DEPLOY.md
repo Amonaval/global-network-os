@@ -55,3 +55,10 @@ Photos can later move to Supabase Storage. The service-role key is never used cl
 Implemented: shared members, relationships, authentication, member/admin roles, RLS baseline, profile submissions, admin approval, relationship management, import/export, map, lineage focus, in-memoriam.
 
 Still recommended before opening the system broadly: audit history, duplicate detection/merge, invitation-only onboarding, photo storage policies, admin activity log, automated backups and custom domain.
+
+
+## Permanent network deletion / Supabase Storage
+
+Set `SUPABASE_SERVICE_ROLE_KEY` as a **server-only** deployment secret. Permanent network deletion uses it only inside the `/api/v1/networks/[networkId]/purge` server route to remove network-prefixed objects through the supported Supabase Storage API. Do not expose the service-role key to client-side code and do not prefix it with `NEXT_PUBLIC_`.
+
+Apply migration `091_xp01_runtime_closure.sql` after `090_xp0_network_lifecycle_safety.sql`. Migration 091 removes the unsupported direct `DELETE FROM storage.objects` hard-delete path and makes relational deletion refuse to proceed until Storage API residue is zero.

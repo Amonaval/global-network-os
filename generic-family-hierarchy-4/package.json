@@ -95,7 +95,8 @@
     "validate:xp0": "node scripts/xp0-network-lifecycle-safety-gate.mjs && npm run validate:platform-parity",
     "validate:xp1": "node scripts/xp1-guided-workbook-onboarding-gate.mjs && npm run validate:xp0",
     "validate:xp1-runtime": "node scripts/xp1-runtime-closure-gate.mjs && npm run validate:xp1",
-    "validate:xp2": "node scripts/xp2-i18n-closure-gate.mjs && npm run validate:xp1-runtime"
+    "validate:xp2": "node scripts/xp2-i18n-closure-gate.mjs && npm run validate:xp1-runtime",
+    "validate:xp3": "node scripts/xp3-quick-start-activation-gate.mjs && npm run validate:xp2"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

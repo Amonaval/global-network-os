@@ -3372,6 +3372,12 @@ export const en={
   XP2ImportFixTxt:"Fix rejected rows before import",
   XP2ImportValidatedTxt:"validated",
   XP2ImportImportingTxt:"Importing…",
+  XP3CompleteTxt:"complete",
+  XP3ResumeTxt:"Resume",
+  XP3QuickStartTxt:"Quick Start",
+  XP3DismissQuickStartTxt:"Dismiss Quick Start",
+  XP3OfTxt:"of",
+  XP3DoneTxt:"Done",
 } as const;
 export type MessageToken=keyof typeof en;
 export type MessageCatalog=Record<MessageToken,string>;

@@ -930,5 +930,11 @@ export const mr:LocaleCatalog={
   XP2ImportFixTxt:"आयातापूर्वी नाकारलेल्या ओळी दुरुस्त करा",
   XP2ImportValidatedTxt:"तपासलेले",
   XP2ImportImportingTxt:"आयात करत आहोत…",
+  XP3CompleteTxt:"पूर्ण",
+  XP3ResumeTxt:"पुन्हा सुरू करा",
+  XP3QuickStartTxt:"जलद सुरुवात",
+  XP3DismissQuickStartTxt:"जलद सुरुवात बंद करा",
+  XP3OfTxt:"पैकी",
+  XP3DoneTxt:"पूर्ण",
 
 };

@@ -1,0 +1,18 @@
+import fs from 'node:fs';const read=p=>fs.readFileSync(p,'utf8'),checks=[],ok=(n,c)=>{checks.push([n,!!c]);console.log(c?'PASS':'FAIL',n)};
+const registry=read('core/activation/quick-start.ts'),ui=read('components/shared/NetworkQuickStart.tsx'),remote=read('capabilities/activation/remote.ts'),sql=read('supabase/migrations/092_xp3_quick_start_activation.sql'),product=read('components/TemplateNetworkApp.tsx'),alumni=read('components/AlumniNetworkApp.tsx'),family=read('components/NetworkApp.tsx');
+for(const kind of ['family','alumni','housing-society','association','family-association','organization','business-trust','franchise','professional'])ok(`registry covers ${kind}`,registry.includes(`kind:"${kind}"`)||registry.includes(`${kind}:{kind:"${kind}"`));
+ok('role aware',ui.includes('role==="member"')&&registry.includes('minimumRole'));
+ok('dismissible and resumable',ui.includes('dismissed')&&ui.includes('XP3ResumeTxt')&&remote.includes('dismissed'));
+ok('progress aware',ui.includes('completeWhen')&&ui.includes('doneCount')&&ui.includes('signals'));
+ok('actions are executable callbacks',ui.includes('await onAction(step.action)'));
+ok('productized shell integrated',product.includes('<NetworkQuickStart kind={kind}')&&product.includes('quickStartAction'));
+ok('alumni shell integrated',alumni.includes('<NetworkQuickStart kind="alumni"')&&alumni.includes('quickStartAction'));
+ok('family mature quick start retained',family.includes('<QuickFamilyStart'));
+ok('housing notice activation action',registry.includes('hs-notice')&&product.includes('action==="publish-notice"'));
+ok('all product actions route to real surfaces/editors',product.includes('setTab("admin")')&&product.includes('openEditor')&&product.includes('setTab("community")'));
+ok('persistent per-user state',sql.includes('primary key(network_id,user_id)')&&sql.includes('get_network_quick_start_state')&&sql.includes('save_network_quick_start_state'));
+ok('tenant membership guarded',sql.includes('network_memberships')&&sql.includes("status='active'"));
+ok('migration rerunnable',sql.includes('create table if not exists')&&sql.includes('drop policy if exists')&&sql.includes('create or replace function'));
+ok('migration assertion',sql.includes('XP-3 compatibility check failed'));
+ok('closure docs',fs.existsSync('docs/xp/XP-3-QUICK-START-ACTIVATION.md')&&fs.existsSync('docs/xp/XP-3-RUNTIME-VERIFICATION-CHECKLIST.md')&&fs.existsSync('docs/xp/XP-3-RELEASE-MANIFEST.md'));
+const fail=checks.filter(x=>!x[1]);console.log(`XP-3 Quick Start gate: ${checks.length-fail.length}/${checks.length}`);if(fail.length)process.exit(1);
