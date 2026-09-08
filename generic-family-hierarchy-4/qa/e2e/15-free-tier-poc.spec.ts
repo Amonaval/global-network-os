@@ -20,6 +20,7 @@ test('Free-tier owner POC: Family admin + Housing Society shell with one login',
   const s=seedState();
   await login(page,'owner');
 
+  await expect(page.getByTestId('qa-setup-shell'),'Seeded owner unexpectedly landed in setup instead of an active network').toHaveCount(0);
   await openSeededNetwork(page,'family',s.networks.family.id);
   await expect(page.locator('body')).not.toContainText(fatal);
   const admin=page.getByTestId('qa-nav-admin');

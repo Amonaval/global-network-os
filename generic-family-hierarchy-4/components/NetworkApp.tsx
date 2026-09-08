@@ -1061,7 +1061,7 @@ export default function NetworkApp() {
           <h1>{tr("WelcomeToYourFamilyTxt")}</h1>
           <p>{tr("SignInToExploreYourFamilyTreeTxt")}</p>
           <div className="family-signin-actions">
-            <button className="btn primary" onClick={() => setShowAuth(true)}>
+            <button className="btn primary" data-testid="qa-open-auth" onClick={() => setShowAuth(true)}>
               {tr("JoinOrSignInTxt")}{" "}<ArrowRight size={16} />
             </button>
             <button className="btn" onClick={enterPublicPlayground}>
