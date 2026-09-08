@@ -1583,3 +1583,5 @@ Released production surfaces now consume shared i18n catalog tokens for the XP a
 Shared role-aware Quick Start is configured across all released verticals, persisted per user/network, dismissible/resumable, progress-aware and linked to real actions. Family retains its mature Quick Family Start. Migration 092 requires staging verification.
 
 | XP-4 | Shared Network Admin Center | Source complete | Runtime role/browser verification pending |
+
+| XP-5 | Backup / Export / Recovery | Source complete | Apply 093 + staging export/re-import/media checks |

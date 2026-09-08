@@ -3404,6 +3404,15 @@ export const en={
   XP4LaunchDescTxt:"Review platform release state and readiness.",
   XP4PrivacyHintTxt:"Use the Public / Member / Admin preview in the top bar to inspect privacy before changing network configuration.",
   XP4ExportPendingTxt:"Backup / Export is registered in the shared Admin Center and is completed by XP-5.",
+  XP5BackupReadyTxt:"Backup prepared and downloaded.",
+  XP5BackupFailedTxt:"Could not prepare backup.",
+  XP5BackupExportTxt:"Portable backup & export",
+  XP5BackupExportDescTxt:"Create a versioned logical backup and a human-readable workbook from the same network snapshot.",
+  XP5JSONBackupTxt:"Download JSON backup",
+  XP5WorkbookExportTxt:"Download XLSX",
+  XP5RecoveryNoteTxt:"Full automatic restore is intentionally disabled. Use guided workbook re-import for supported data; media is recorded as a recovery manifest.",
+  XP5DatasetsTxt:"datasets",
+  XP5MediaObjectsTxt:"media objects",
 } as const;
 export type MessageToken=keyof typeof en;
 export type MessageCatalog=Record<MessageToken,string>;

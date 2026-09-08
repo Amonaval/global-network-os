@@ -97,7 +97,8 @@
     "validate:xp1-runtime": "node scripts/xp1-runtime-closure-gate.mjs && npm run validate:xp1",
     "validate:xp2": "node scripts/xp2-i18n-closure-gate.mjs && npm run validate:xp1-runtime",
     "validate:xp3": "node scripts/xp3-quick-start-activation-gate.mjs && npm run validate:xp2",
-    "validate:xp4": "node scripts/xp4-shared-admin-center-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp3"
+    "validate:xp4": "node scripts/xp4-shared-admin-center-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp3",
+    "validate:xp5": "node scripts/xp5-backup-export-recovery-gate.mjs && node scripts/i18n-extraction-audit.mjs && npm run validate:xp4"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

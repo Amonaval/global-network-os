@@ -546,3 +546,6 @@ Shared role-aware Quick Start is configured across all released verticals, persi
 
 ## Shared Admin Center
 Network owners/admins can use Admin to jump between members, invitations, workbook import, privacy/corrections, lifecycle and other operational modules. Vertical-specific panels remain available within the same Admin experience.
+
+## Backup & export
+Open Admin → Backup & export to download a logical JSON backup or readable XLSX. The export records media paths but does not embed media bytes. Keep the JSON before major imports/changes. Full automatic restore is not exposed; use the guided workbook importer for supported re-import and a controlled recovery process for full disaster restoration.

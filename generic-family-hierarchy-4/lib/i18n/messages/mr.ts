@@ -962,5 +962,14 @@ export const mr:LocaleCatalog={
   XP4LaunchDescTxt:"प्लॅटफॉर्म रिलीज स्थिती आणि तयारी तपासा.",
   XP4PrivacyHintTxt:"नेटवर्क कॉन्फिगरेशन बदलण्यापूर्वी गोपनीयता तपासण्यासाठी वरचा Public / Member / Admin पूर्वावलोकन वापरा.",
   XP4ExportPendingTxt:"बॅकअप / निर्यात सामायिक प्रशासन केंद्रात नोंदले आहे आणि XP-5 मध्ये पूर्ण होईल.",
+  XP5BackupReadyTxt:"बॅकअप तयार होऊन डाउनलोड झाला.",
+  XP5BackupFailedTxt:"बॅकअप तयार करता आला नाही.",
+  XP5BackupExportTxt:"पोर्टेबल बॅकअप आणि निर्यात",
+  XP5BackupExportDescTxt:"त्याच नेटवर्क स्नॅपशॉटमधून आवृत्तीबद्ध लॉजिकल बॅकअप आणि वाचनीय वर्कबुक तयार करा.",
+  XP5JSONBackupTxt:"JSON बॅकअप डाउनलोड करा",
+  XP5WorkbookExportTxt:"XLSX डाउनलोड करा",
+  XP5RecoveryNoteTxt:"पूर्ण स्वयंचलित पुनर्स्थापना जाणीवपूर्वक बंद आहे. समर्थित डेटासाठी मार्गदर्शित वर्कबुक पुनः-आयात वापरा; मीडिया रिकव्हरी मॅनिफेस्टमध्ये नोंदवला जातो.",
+  XP5DatasetsTxt:"डेटासेट",
+  XP5MediaObjectsTxt:"मीडिया ऑब्जेक्ट",
 
 };

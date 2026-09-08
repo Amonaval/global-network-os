@@ -305,3 +305,6 @@ Shared role-aware Quick Start is configured across all released verticals, persi
 
 ## XP-4 Shared Admin Center
 Source-complete: shared role-aware admin registry/shell across all nine released verticals; Productized and Alumni integrated, Family mature admin preserved. Runtime role/browser verification pending.
+
+## XP-5 Backup / Export / Recovery
+Source-complete: versioned logical JSON backup + XLSX export + Storage media manifest across shared Admin surfaces. Security credentials excluded; full automatic restore intentionally not claimed. Migration 093/staging restore verification pending.
