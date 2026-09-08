@@ -16,7 +16,7 @@ if(isStaging()&&mutationAllowed()){
  await run('rls-adversarial-poc','node',['qa/db/rls-adversarial-poc.mjs']);
  await run('playwright-poc','npx',['playwright','test','qa/e2e/15-free-tier-poc.spec.ts','--workers=1']);
 }else steps.push({name:'staging-runtime-foundation',status:'blocked',required:true,reason:'POC runtime requires QA_MODE=staging and QA_ALLOW_MUTATION=true.'});
-await run('evidence-report','node',['qa/report-summary.mjs'],false);
+await run('poc-evidence-report','node',['qa/report-poc-summary.mjs'],false);
 const requiredFailed=steps.some(x=>x.required&&(x.status==='failed'||x.status==='blocked'));
 const finalStatus=requiredFailed?'FAILED':'POC_CERTIFIED';
 writeJson('qa-results/poc-certification-run.json',{generatedAt:new Date().toISOString(),profile:'free-tier-poc',status:finalStatus,scope:{verticals:['family','housing-society'],roles:['owner','member','tenantB'],workers:1,volume:false,stress:false,destructiveLoops:false},steps});

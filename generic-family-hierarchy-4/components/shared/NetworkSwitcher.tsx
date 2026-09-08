@@ -17,10 +17,10 @@ export default function NetworkSwitcher({onSwitched,onCreate,label}:{onSwitched:
  const kind=active.network.verticalKind;
  const switchTo=async(id:string)=>{if(id===active.network.id){setOpen(false);return;}setBusy(true);try{await setActiveNetwork(id);await onSwitched();await load();setOpen(false);}finally{setBusy(false)}};
  return <div className="family-switcher network-switcher">
-  <button className="family-switcher-trigger" onClick={()=>setOpen(v=>!v)} disabled={busy}>{kindIcon(kind,16)}<span><small>{label||t("NetworkTxt")}</small><b>{active.network.name}</b></span><ChevronDown size={15}/></button>
+  <button data-testid="qa-network-switcher" className="family-switcher-trigger" onClick={()=>setOpen(v=>!v)} disabled={busy}>{kindIcon(kind,16)}<span><small>{label||t("NetworkTxt")}</small><b>{active.network.name}</b></span><ChevronDown size={15}/></button>
   {open&&<div className="family-switcher-menu network-switcher-menu">
    <div className="network-switcher-menu-head"><span><b>{t("YourNetworksTxt")}</b><small>{networks.length} {t("AvailableTxt")}</small></span></div>
-   <div className="network-switcher-list">{networks.map(n=><button key={n.network.id} className={n.isActive?"active":""} onClick={()=>switchTo(n.network.id)}><span className="network-switcher-row"><i className={`network-kind-icon ${n.network.verticalKind}`}>{kindIcon(n.network.verticalKind)}</i><span className="network-switcher-copy"><b>{n.network.name}</b><small>{getVerticalDefinition(n.network.verticalKind).displayName} · {n.role}</small></span></span>{n.isActive&&<b className="network-current-pill">{t("CurrentTxt")}</b>}</button>)}</div>
+   <div className="network-switcher-list">{networks.map(n=><button data-testid={`qa-network-switch-${n.network.verticalKind}-${n.network.id}`} key={n.network.id} className={n.isActive?"active":""} onClick={()=>switchTo(n.network.id)}><span className="network-switcher-row"><i className={`network-kind-icon ${n.network.verticalKind}`}>{kindIcon(n.network.verticalKind)}</i><span className="network-switcher-copy"><b>{n.network.name}</b><small>{getVerticalDefinition(n.network.verticalKind).displayName} · {n.role}</small></span></span>{n.isActive&&<b className="network-current-pill">{t("CurrentTxt")}</b>}</button>)}</div>
    {onCreate&&<button className="family-switcher-create" onClick={()=>{setOpen(false);onCreate()}}><Plus size={15}/> {t("AddJoinNetworkTxt")}</button>}
   </div>}
  </div>;
