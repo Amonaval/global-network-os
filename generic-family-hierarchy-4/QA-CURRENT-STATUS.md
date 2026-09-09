@@ -78,3 +78,7 @@ Formal Phase-1 closure is achieved locally with `npm run qa:certify` ending in `
 ## Phase-1 browser runtime decision
 
 Compact local Free-Tier POC certification runs its single Chromium journey in headed mode. The identical test is proven stable headed on the current Windows/Next.js development runtime; headless hydration stability is tracked separately for later CI/production hardening. See `QA-PHASE1-HEADED-POC-DECISION.md`.
+
+## 2026-09-10 — Phase-2 implementation started
+
+Phase 2 now has a dedicated representative capability profile without altering the certified Phase-1 runner. `qa/e2e/16-phase2-representative-capabilities.spec.ts` adds Organization member proof, browser-authenticated Tenant-A→Tenant-B denial, compact API/lifecycle mutation with cleanup, two axe baselines and one 390×844 Chromium mobile smoke. `qa/unit/phase2-parity.test.mjs` adds cheap released-kind parity. `qa/run-phase2-certification.mjs` reuses the deterministic seed and compact DB/RPC/RLS foundation; RPC privilege findings remain advisory in this profile and preserved for strict certification.

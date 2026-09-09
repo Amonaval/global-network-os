@@ -99,3 +99,16 @@ The executable suite is intentionally split roughly between shared platform beha
 ## Regression closure rule
 
 Every defect discovered by runtime certification receives a permanent automated regression assertion. The defect is not closed until the focused suite and full `npm run qa:certify` pass for the certified scope.
+
+## Phase-2 representative capability profile
+
+The compact Phase-2 certification intentionally promotes only a representative subset of the broader mega-suite:
+
+41. Organization member browser journey: authenticated shell, directory visibility, seeded member-readable data, and absence of admin navigation.
+42. Browser-authenticated Tenant-A → known Tenant-B export substitution is denied and leaks no Tenant-B network name.
+43. Disposable Organization API/lifecycle: create network, export/readback, bootstrap entity, persisted read, governed update, purge, and zero-residue verification.
+44. axe serious/critical baseline on one Family owner/admin screen and one Organization member screen.
+45. Chromium 390×844 Organization member smoke with usable directory/search action, visible authenticated content, fatal-error check and horizontal-overflow limit.
+46. Cheap all-nine released-kind parity contracts; no Phase-2 role × vertical Cartesian browser expansion.
+
+Phase-2 policy keeps RPC privilege findings advisory-but-preserved. They remain blocking for strict/full/production certification.

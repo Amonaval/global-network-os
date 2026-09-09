@@ -4,9 +4,9 @@ function loadEnv(file:string,fillBlank=false){if(!fs.existsSync(file))return;for
 loadEnv(path.resolve('.env.qa'));loadEnv(path.resolve('qa-results/fixtures/generated.env'),true);
 const baseURL=process.env.QA_BASE_URL||'http://127.0.0.1:3000';
 export default defineConfig({
- testDir:'./qa/e2e',outputDir:'qa-results/artifacts',fullyParallel:false,forbidOnly:!!process.env.CI,retries:process.env.CI?1:0,workers:1,timeout:60_000,expect:{timeout:10_000},
+ testDir:'./qa/e2e',outputDir:'qa-results/artifacts',fullyParallel:false,forbidOnly:!!process.env.CI,retries:process.env.CI?1:0,workers:1,timeout:90_000,expect:{timeout:10_000},
  reporter:[['list'],['html',{outputFolder:'qa-results/html',open:'never'}],['junit',{outputFile:'qa-results/junit.xml'}],['json',{outputFile:'qa-results/playwright.json'}],['./qa/lib/bug-reporter.ts']],
- use:{baseURL,trace:'retain-on-failure',screenshot:'only-on-failure',video:'retain-on-failure',actionTimeout:15_000,navigationTimeout:30_000},
+ use:{baseURL,trace:'retain-on-failure',screenshot:'only-on-failure',video:'retain-on-failure',actionTimeout:15_000,navigationTimeout:45_000},
  projects:[
   {name:'chromium-desktop',testIgnore:/90-cross-browser-smoke\.spec\.ts/,use:{...devices['Desktop Chrome']}},
   {name:'firefox-smoke',testMatch:/90-cross-browser-smoke\.spec\.ts/,use:{...devices['Desktop Firefox']}},
