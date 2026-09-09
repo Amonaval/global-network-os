@@ -141,7 +141,10 @@
     "qa:certify:phase4b": "node qa/run-phase4b-certification.mjs",
     "qa:phase4c:local": "tsx --test qa/unit/runtime-contracts.test.mjs qa/unit/core-contracts.test.ts qa/unit/phase2-parity.test.mjs qa/unit/phase4c-governance-contracts.test.mjs",
     "qa:phase4c:browser": "playwright test qa/e2e/21-phase4c-governance-permissions-destructive.spec.ts --project=chromium-desktop --workers=1 --headed",
-    "qa:certify:phase4c": "node qa/run-phase4c-certification.mjs"
+    "qa:certify:phase4c": "node qa/run-phase4c-certification.mjs",
+    "qa:phase4d:local": "tsx --test qa/unit/runtime-contracts.test.mjs qa/unit/core-contracts.test.ts qa/unit/phase2-parity.test.mjs qa/unit/phase4d-business-rules.test.ts qa/unit/phase4d-safety-contracts.test.mjs",
+    "qa:phase4d:browser": "playwright test qa/e2e/22-phase4d-vertical-business-rules.spec.ts --project=chromium-desktop --workers=1 --headed",
+    "qa:certify:phase4d": "node qa/run-phase4d-certification.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

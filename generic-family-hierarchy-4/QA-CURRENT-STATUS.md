@@ -202,3 +202,25 @@ Commands:
 - `npm run qa:certify:phase4c`
 
 Expected closure status: `PHASE4C_CERTIFIED`.
+
+## 2026-09-10 — Phase-4D implementation started
+
+Phase 4D moves QA from shared-platform correctness into **vertical-specific workflow and business-rule certification**. It intentionally does not reopen the unresolved Phase-3 Storage/RLS investigation and introduces no Supabase migrations, Storage mutation, destructive lifecycle execution, service-role access, seed or cleanup.
+
+Certified target distinctions:
+- Family remains kinship/tree-first and retains strict self-link, duplicate, generation-order and parent/child-cycle validation.
+- Housing Society remains unit-centric; ownership, tenancy, household membership and residency are separate concepts, with dedicated society directory/admin operating surfaces.
+- Family Association uses `family` as the annual paid membership unit and keeps representatives/members plus annual operating administration distinct from generic Association.
+- Association stays household-centric and does not silently inherit Family Association-specific controls.
+- Alumni remains institutional/cohort-oriented with batch/program directory semantics rather than Family generations/kinship.
+- Organization, Business Trust, Franchise and Professional each retain their own governed relationship vocabulary rather than collapsing into a generic edge model.
+- Professional explicitly keeps regulated clinical/patient workflows outside the released scope.
+
+Phase-4D browser tests are read-only with respect to governed network/domain data. They reuse the existing deterministic seed and only switch the user's active-network context between already-seeded networks. New `data-testid` attributes are observability-only and do not change product behavior.
+
+Commands:
+- `npm run qa:phase4d:local`
+- `npm run qa:phase4d:browser`
+- `npm run qa:certify:phase4d`
+
+Expected closure status: `PHASE4D_CERTIFIED`.

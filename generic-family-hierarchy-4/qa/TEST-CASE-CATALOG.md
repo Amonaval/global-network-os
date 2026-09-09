@@ -145,3 +145,16 @@ Phase-2 policy keeps RPC privilege findings advisory-but-preserved. They remain 
 - P4C-GOV-RPC-001: unauthorized role changes, admin-role invitation escalation, wrong-name destructive requests and non-owner destructive requests are denied before mutation.
 - P4C-STALE-ROLE-001: demoted Organization admin loses backend authority immediately and admin UI after reload; owner restoration is deterministic.
 - P4C-DOUBLE-SUBMIT-001: member removal disables while pending and emits exactly one governed RPC; synthetic interception proves no seeded-data mutation.
+
+## Phase 4D — Vertical-specific workflow & business rules
+
+- P4D-FAMILY-001: Family remains tree/kinship-first; Family validator rejects self-links, duplicate relationships, generation inversion and parent/child cycles.
+- P4D-HS-001: Housing Society keeps `unit` as the operating object and distinguishes ownership, tenancy, household membership and residency; dedicated society directory/admin controls render only for that vertical.
+- P4D-FCA-001: Family Association keeps `family` as the paid annual membership unit with Family/Representative/Member directory modes and dedicated annual operating administration.
+- P4D-ASSOCIATION-001: generic Association remains `household`-centric and does not inherit Family Association-specific operating controls.
+- P4D-ALUMNI-001: Alumni directory retains batch/cohort/program semantics and never receives Family tree navigation.
+- P4D-ORG-REL-001: Organization relationship composer exposes only Reports to / Works with / Owns / Depends on.
+- P4D-BUSINESS-REL-001: Business Trust exposes Recommends / Verified by / Supplies to / Worked with.
+- P4D-FRANCHISE-REL-001: Franchise exposes Owns / Operates / Manages / Supports and retains geography/owner dimensions.
+- P4D-PROFESSIONAL-REL-001: Professional exposes Worked with / Referred by / Collaborates with / Mentors; mentoring enforces person→person and regulated clinical/patient workflows remain out of released scope.
+- P4D-VERTICAL-ROLE-001: member role never receives Housing Society or Family Association vertical admin operating panels.
