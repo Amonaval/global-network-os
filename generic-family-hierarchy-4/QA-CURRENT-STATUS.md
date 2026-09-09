@@ -177,3 +177,28 @@ Both malformed and canonical Organization workbook browser tests attach the file
 ## 2026-09-10 — Phase-4B harness defect P4B-QA-003
 
 The import diagnostic proved both malformed and canonical Organization XLSX uploads failed before parsing with the browser-side message `A requested file or directory could not be found at the time an operation was processed.` The common failure is the Playwright filesystem-backed upload fixture, not the Organization parser contract. Phase-4B now serializes XLSX workbooks to in-memory buffers and attaches them with `setInputFiles({ name, mimeType, buffer })`, eliminating transient filesystem-path lifetime from the browser import proof. Review, commit-block/readiness, reload recovery, and zero-governed-data-change assertions remain unchanged. No product, Supabase, Storage, SQL or import-commit behavior was modified.
+
+## 2026-09-10 — Phase-4B formally certified
+
+`npm run qa:certify:phase4b` completed with `PHASE4B_CERTIFIED`. Deterministic import/export contracts, Family portable snapshots, Organization logical backup semantics, malformed-workbook containment, client-staged review recovery and zero-governed-data-change proofs are formally closed for the Phase-4B profile.
+
+## 2026-09-10 — Phase-4C Governance, Permissions & Destructive-Action Safety implemented
+
+Phase 4C adds application-level governance certification without reopening the Phase-3 Storage/RLS investigation. It introduces explicit QA observability for Family and productized lifecycle/member controls, owner/admin/member UI-boundary proofs, backend role/invitation/destructive negative checks, stale-session permission revocation, exact-name/confirmation protection, and duplicate-submit prevention.
+
+Safety policy:
+- no Supabase migrations;
+- no Storage mutation;
+- no service-role client;
+- no permanent purge/delete execution;
+- no QA seed or cleanup;
+- one narrowly scoped Organization admin-role downgrade requires explicit staging mutation mode and is restored to `admin` in `finally`;
+- member-removal duplicate-submit proof is intercepted in-browser and never mutates the database;
+- Phase-3 `P3-STORAGE-002` remains open and is neither evaluated nor waived by Phase 4C.
+
+Commands:
+- `npm run qa:phase4c:local`
+- `npm run qa:phase4c:browser`
+- `npm run qa:certify:phase4c`
+
+Expected closure status: `PHASE4C_CERTIFIED`.

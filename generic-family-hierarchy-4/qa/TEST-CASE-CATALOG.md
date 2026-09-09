@@ -123,3 +123,25 @@ Phase-2 policy keeps RPC privilege findings advisory-but-preserved. They remain 
 - P3-TENANT-MUTATION-001: Tenant-A owner cannot create an invitation in Tenant-B by substituting Tenant-B network ID.
 - P3-RLS-001: full adversarial RLS suite is required.
 - P3-RPC-NONREGRESSION-001: unexpected RPC privilege findings must not exceed Phase-2-certified ceiling of 331; findings remain fully preserved.
+
+## Phase 4A — Runtime robustness & recovery
+
+- Authenticated reload/session recovery for Family owner and Organization member.
+- Query-string, browser history, slow-backend and simulated REST-outage containment.
+- 390×844 mobile reload/navigation/overflow recovery and post-recovery axe gate.
+
+## Phase 4B — Data integrity, import/export & recovery
+
+- All-nine deterministic guided workbook generation/parser round-trip and rejection contracts.
+- Family JSON/CSV portable snapshot verification.
+- Organization logical backup + manifest-only media contract.
+- Malformed/valid staged-import review containment and reload recovery without commit mutation.
+
+## Phase 4C — Governance, permissions & destructive-action safety
+
+- P4C-FAMILY-DANGER-001: Family owner archive/delete require exact-name confirmation; cancelling confirmation emits zero mutation request.
+- P4C-FAMILY-ADMIN-001: Family admin can inspect danger zone but cannot enable owner-only archive/delete controls.
+- P4C-PRODUCT-ROLE-UI-001: Organization owner/admin/member receive only role-appropriate lifecycle/member controls.
+- P4C-GOV-RPC-001: unauthorized role changes, admin-role invitation escalation, wrong-name destructive requests and non-owner destructive requests are denied before mutation.
+- P4C-STALE-ROLE-001: demoted Organization admin loses backend authority immediately and admin UI after reload; owner restoration is deterministic.
+- P4C-DOUBLE-SUBMIT-001: member removal disables while pending and emits exactly one governed RPC; synthetic interception proves no seeded-data mutation.

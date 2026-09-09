@@ -63,3 +63,13 @@ A release is not certified when a mandatory layer is failed/blocked/not-run, whe
 ## Phase-1 browser runtime decision
 
 Compact local Free-Tier POC certification runs its single Chromium journey in headed mode. The identical test is proven stable headed on the current Windows/Next.js development runtime; headless hydration stability is tracked separately for later CI/production hardening. See `QA-PHASE1-HEADED-POC-DECISION.md`.
+
+## Phase-4C governance / destructive-action profile
+
+```bash
+npm run qa:phase4c:local
+npm run qa:phase4c:browser
+npm run qa:certify:phase4c
+```
+
+Phase 4C is deliberately narrow and staging-safe: no migration execution, Storage mutation, service-role access, seed/cleanup, or permanent purge. It certifies owner/admin/member control visibility, exact-name + confirmation guards, backend role/invitation/destructive denials, stale-session revocation, and duplicate-submit protection. One reversible Organization admin-role downgrade is restored in `finally`.
