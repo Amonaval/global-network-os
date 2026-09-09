@@ -132,11 +132,24 @@ test.describe.serial('Phase-3 expanded platform parity and role certification',(
   });
 
   test('cross-tenant mutation denial: Tenant-A owner cannot create invitation in Tenant-B network',async({request})=>{
+    test.skip(process.env.QA_MODE!=='staging'||process.env.QA_ALLOW_MUTATION!=='true','staging mutation suite');
+    assertMutationAllowed();
     const s=seedState();const owner=await authenticatedClient('owner');
-    const r=await request.post(`/api/v1/networks/${s.tenantB.id}/invitations`,{headers:{authorization:`Bearer ${owner.token}`},data:{action:'create',email:s.users.invitee.email}});
-    expect([401,403,404]).toContain(r.status());
-    let body:any=null;try{body=await r.json()}catch{}
-    expect(body?.ok).not.toBe(true);
-    expect(JSON.stringify(body||{})).not.toContain(s.tenantB.name);
+    const service=createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!,process.env.SUPABASE_SERVICE_ROLE_KEY!,{auth:{persistSession:false,autoRefreshToken:false}});
+    const email=s.users.invitee.email;
+    // Remove residue from any earlier failed exploit attempt before proving the fixed behavior.
+    await service.from('network_participation_invitations').delete().eq('network_id',s.tenantB.id).eq('email',email);
+    try{
+      const r=await request.post(`/api/v1/networks/${s.tenantB.id}/invitations`,{headers:{authorization:`Bearer ${owner.token}`},data:{action:'create',email}});
+      let body:any=null;try{body=await r.json()}catch{}
+      const residue=await service.from('network_participation_invitations').select('id',{count:'exact',head:true}).eq('network_id',s.tenantB.id).eq('email',email);
+      expect(residue.error).toBeNull();
+      expect(residue.count,'cross-tenant invitation must leave zero persisted rows').toBe(0);
+      expect([401,403,404]).toContain(r.status());
+      expect(body?.ok).not.toBe(true);
+      expect(JSON.stringify(body||{})).not.toContain(s.tenantB.name);
+    }finally{
+      await service.from('network_participation_invitations').delete().eq('network_id',s.tenantB.id).eq('email',email);
+    }
   });
 });

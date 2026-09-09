@@ -24,3 +24,12 @@ test('Phase 3 RPC gate prevents debt growth without suppressing findings',()=>{
  assert.match(gate,/does not waive or suppress existing findings/);
  assert.match(runner,/rpc-permission-nonregression/);
 });
+
+
+test('Phase 3 hardens SECURITY DEFINER role lookups against SQL NULL bypass',()=>{
+ const migration=fs.readFileSync('supabase/migrations/095_phase3_security_definer_null_authorization_hardening.sql','utf8');
+ assert.match(migration,/if actor is null or actor not in \('owner','admin'\)/);
+ assert.match(migration,/if actor_role is null or actor_role not in \('owner','admin'\)/);
+ assert.match(migration,/if actor_role is null or actor_role<>'owner'/);
+ assert.match(e2e,/cross-tenant invitation must leave zero persisted rows/);
+});

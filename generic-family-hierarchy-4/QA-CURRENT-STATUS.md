@@ -104,3 +104,9 @@ Phase-2 closure includes representative owner/admin/member behavior, browser ten
 ## 2026-09-10 — Phase-3 implementation started
 
 Phase 3 expands from representative proof to broad platform parity while retaining Free-Tier discipline. It adds reused-session owner/admin/member traversal across all 9 released verticals, selected Housing Society + Family Association depth, a governed invitee invitation lifecycle, cross-tenant mutation denial, full adversarial RLS as a required gate, and an RPC permission non-regression ceiling anchored to the Phase-2-certified 386-function / 331-finding inventory. Existing RPC findings remain preserved and are not waived; strict remediation is still deferred.
+
+### P3-SEC-001 — SECURITY DEFINER NULL authorization bypass (fixed, migration 095)
+
+Phase-3 cross-tenant invitation testing found that `create_network_participation_invitation` could authorize a non-member against a known foreign network UUID. The function selected membership role into a scalar and used `actor NOT IN ('owner','admin')`; when no membership row existed, `actor` was NULL, PostgreSQL three-valued logic made the predicate NULL rather than TRUE, and the PL/pgSQL IF did not execute. This allowed the subsequent SECURITY DEFINER insert to run.
+
+Fix: migration `095_phase3_security_definer_null_authorization_hardening.sql` explicitly rejects NULL role lookups and applies the same defensive correction to the other SECURITY DEFINER role-changing functions with equivalent NULL-unsafe comparisons. Regression coverage exists both at the direct RPC isolation layer and the HTTP browser/API layer, including zero-persisted-row proof. The API assertion remains strict at 401/403/404.

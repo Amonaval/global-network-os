@@ -27,6 +27,13 @@ const del=await A.client.from('network_memberships').delete().eq('network_id',st
 const ins=await A.client.from('network_memberships').insert({network_id:state.tenantB.id,user_id:state.users.member.id,role:'member',status:'active'}).select('network_id');assert(!!ins.error||!ins.data?.length,'Tenant A cannot inject a member into tenant B',{error:ins.error?.message||null,rows:ins.data?.length||0});
 // Repair fixture even if the attack unexpectedly succeeded so later tests remain deterministic.
 await service.from('network_memberships').delete().eq('network_id',state.tenantB.id).eq('user_id',state.users.member.id);await service.from('network_memberships').upsert({network_id:state.tenantB.id,user_id:state.users.tenantB.id,role:'owner',status:'active'},{onConflict:'network_id,user_id'});
+// Cross-tenant SECURITY DEFINER mutation: known foreign network UUID must not bypass a NULL role lookup.
+const crossInviteEmail=state.users.invitee.email;
+await service.from('network_participation_invitations').delete().eq('network_id',state.tenantB.id).eq('email',crossInviteEmail);
+const crossInvite=await A.client.rpc('create_network_participation_invitation',{p_network_id:state.tenantB.id,p_email:crossInviteEmail,p_target_ref:null,p_target_kind:null,p_invited_role:'member',p_expires_days:14});
+const crossInviteResidue=await service.from('network_participation_invitations').select('id',{count:'exact',head:true}).eq('network_id',state.tenantB.id).eq('email',crossInviteEmail);
+assert(!!crossInvite.error&&crossInviteResidue.count===0,'Tenant A cannot create tenant B participation invitation via SECURITY DEFINER RPC',{error:crossInvite.error?.message||null,residue:crossInviteResidue.count});
+await service.from('network_participation_invitations').delete().eq('network_id',state.tenantB.id).eq('email',crossInviteEmail);
 // Storage tenant prefix isolation: owner B may upload own object; A cannot read/list/write B path.
 const png=Uint8Array.from([137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,1,0,0,0,1,8,6,0,0,0,31,21,196,137,0,0,0,13,73,68,65,84,8,215,99,248,207,192,240,31,0,5,0,1,255,137,153,61,29,0,0,0,0,73,69,78,68,174,66,96,130]);
 const storagePath=`${state.tenantB.id}/profiles/${state.users.tenantB.id}/qa-rls-${Date.now()}.png`;
