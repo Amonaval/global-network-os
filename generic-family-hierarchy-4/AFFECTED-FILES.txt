@@ -40,3 +40,9 @@
 ./verticals/professional/definition.ts
 ./verticals/professional/features/catalog.ts
 ./verticals/professional/runtime/composition.ts
+qa/e2e/16-phase2-representative-capabilities.spec.ts
+qa/e2e/70-destructive-lifecycle-import.spec.ts
+qa/e2e/80-data-volume-resilience.spec.ts
+qa/unit/phase2-parity.test.mjs
+QA-CURRENT-STATUS.md
+QA-PHASE2-PLAN.md

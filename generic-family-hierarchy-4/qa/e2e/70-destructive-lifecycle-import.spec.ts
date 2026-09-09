@@ -8,7 +8,7 @@ test('controlled staging lifecycle: create → import → media → archive → 
   expect((await a.client.rpc('set_active_network',{p_network_id:id})).error).toBeNull();
   const rows=Array.from({length:10},(_,i)=>({kind:'person',label:`QA Imported ${suffix}-${i}`,metadata:{qa:true,index:i,email:`qa-lifecycle-${suffix}-${i}@example.test`}}));
   const boot=await request.post('/api/v1/institutional/bootstrap',{headers:{...headers,'idempotency-key':crypto.randomUUID()},data:{rows}});expect([200,201]).toContain(boot.status());
-  const entityCount=await a.client.from('network_entities').select('id',{count:'exact',head:true}).eq('network_id',id);expect(entityCount.error).toBeNull();expect(entityCount.count||0).toBeGreaterThanOrEqual(10);
+  const entityRead=await a.client.rpc('get_network_affiliated_entities');expect(entityRead.error).toBeNull();expect((entityRead.data||[]).filter((e:any)=>String(e.entity_label||'').startsWith(`QA Imported ${suffix}-`)).length).toBeGreaterThanOrEqual(10);
   mediaPath=`${id}/community/${a.userId}/qa-purge-${suffix}.png`;const upload=await a.client.storage.from('community-media').upload(mediaPath,png,{contentType:'image/png'});expect(upload.error).toBeNull();
   expect((await a.client.rpc('archive_owned_network',{p_network_id:id,p_confirm_name:name})).error).toBeNull();expect((await a.client.rpc('restore_owned_network',{p_network_id:id})).error).toBeNull();
   const purge=await request.post(`/api/v1/networks/${id}/purge`,{headers:{authorization:`Bearer ${a.token}`},data:{confirmName:name}});expect(purge.status()).toBe(200);const pj=await purge.json();expect(pj.ok).toBeTruthy();expect(pj.data?.deletedStorageObjects||0).toBeGreaterThanOrEqual(1);purged=true;

@@ -82,3 +82,16 @@ Compact local Free-Tier POC certification runs its single Chromium journey in he
 ## 2026-09-10 — Phase-2 implementation started
 
 Phase 2 now has a dedicated representative capability profile without altering the certified Phase-1 runner. `qa/e2e/16-phase2-representative-capabilities.spec.ts` adds Organization member proof, browser-authenticated Tenant-A→Tenant-B denial, compact API/lifecycle mutation with cleanup, two axe baselines and one 390×844 Chromium mobile smoke. `qa/unit/phase2-parity.test.mjs` adds cheap released-kind parity. `qa/run-phase2-certification.mjs` reuses the deterministic seed and compact DB/RPC/RLS foundation; RPC privilege findings remain advisory in this profile and preserved for strict certification.
+
+
+## 2026-09-10 — Phase-2 QA harness correction P2-QA-001
+
+Phase-2 lifecycle runtime exposed a harness defect: authenticated QA code attempted direct `SELECT` access to `public.network_entities`. The database correctly denied this with SQLSTATE `42501`; authenticated clients are expected to use governed SECURITY DEFINER read contracts rather than direct table grants. No database privilege was broadened.
+
+Corrective action:
+- Phase-2 lifecycle create/read/update verification now uses `get_network_affiliated_entities()` for persisted readback.
+- The same direct-read misuse was audited and corrected in the older destructive lifecycle and deferred volume suites.
+- A static Phase-2 contract now rejects literal direct `network_entities` reads from E2E tests, preventing recurrence.
+- Service-role table reads remain allowed only for explicit administrative zero-residue cleanup verification.
+
+Classification: QA harness defect, not product authorization defect.
