@@ -140,3 +140,40 @@ The post-recovery 390×844 Organization axe gate found a critical `button-name` 
 
 The slow-REST robustness test intermittently raised `Route is already handled!` because a delayed `route.continue()` could race with route teardown while outstanding REST requests were still pending. This was a QA harness defect, not a product/runtime failure. The test now uses a named cooperative `route.fallback()` handler, waits for delayed requests to drain, and unregisters only that handler. Product assertions remain unchanged.
 
+
+## 2026-09-10 — Phase-4A formally certified
+
+`npm run qa:certify:phase4a` completed with `PHASE4A_CERTIFIED`. Runtime robustness, reload/session recovery, simulated REST failure containment, mobile recovery and post-recovery accessibility are formally closed for the Phase-4A profile.
+
+## 2026-09-10 — Phase-4B implementation started
+
+QA Phase 4B is **Data Integrity, Import/Export & Recovery Certification**. It is intentionally independent of the unresolved Phase-3 Storage/RLS blocker and performs no migrations, Storage mutation, security audits, destructive network lifecycle or import commit mutation.
+
+Phase-4B coverage includes:
+- deterministic guided workbook generation and parser round-trip across exactly the nine released verticals;
+- missing required sheet and required column rejection across all nine verticals;
+- unknown-sheet warning behavior without invalidating otherwise valid data;
+- Family owner JSON/CSV portable snapshot verification;
+- Organization logical backup contract and manifest-only media verification;
+- malformed workbook browser review with commit blocked and zero governed-data change;
+- valid workbook browser review interruption/reload proving uncommitted review is client-staged and leaves governed data unchanged.
+
+Commands:
+- `npm run qa:phase4b:local`
+- `npm run qa:phase4b:browser`
+- `npm run qa:certify:phase4b`
+
+Phase-3 `P3-STORAGE-002` remains open. Experimental migrations 096/097 are not part of the accepted certified source baseline and are not evaluated or modified by Phase 4B.
+
+## 2026-09-10 — Phase-4B harness corrections P4B-QA-001
+
+The first Phase-4B browser run exposed three test-harness assumptions rather than product data-loss defects. Family JSON export stores the real tenant UUID in `network.network_id` while the legacy settings row can retain `network.id = "network"`; the assertion now validates the canonical tenant identity. The malformed XLSX fixture now creates the Playwright output directory before `XLSX.writeFile`. The valid Organization recovery proof no longer depends on a browser download before testing staged-import recovery; it creates a canonical workbook with the production `createImportWorkbook(getImportSchema("organization"))` builder, then verifies browser review, commit readiness, reload clearing and unchanged governed data. No product code, database migration, Storage or import commit mutation was added.
+
+
+## 2026-09-10 — Phase-4B import review diagnostic P4B-QA-002
+
+Both malformed and canonical Organization workbook browser tests attach the file successfully but no review surface appears. `GuidedWorkbookImport` already catches file-read/parser exceptions and renders a notice, so Phase-4B now exposes that existing notice via `qa-guided-import-message` and fails with the exact product-side read/parser message when review is absent. This is observability only: no import behavior, parser rule, commit behavior, or Supabase state is changed, and the review/commit assertions remain strict.
+
+## 2026-09-10 — Phase-4B harness defect P4B-QA-003
+
+The import diagnostic proved both malformed and canonical Organization XLSX uploads failed before parsing with the browser-side message `A requested file or directory could not be found at the time an operation was processed.` The common failure is the Playwright filesystem-backed upload fixture, not the Organization parser contract. Phase-4B now serializes XLSX workbooks to in-memory buffers and attaches them with `setInputFiles({ name, mimeType, buffer })`, eliminating transient filesystem-path lifetime from the browser import proof. Review, commit-block/readiness, reload recovery, and zero-governed-data-change assertions remain unchanged. No product, Supabase, Storage, SQL or import-commit behavior was modified.
