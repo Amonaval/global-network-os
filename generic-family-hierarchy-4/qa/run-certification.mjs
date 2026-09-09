@@ -9,7 +9,7 @@ if(isStaging()&&mutationAllowed()){
  await run('deterministic-seed','node',['qa/setup/seed.mjs']);
  await run('migration-replay','node',['qa/db/migration-replay.mjs']);
  await run('database-integrity','node',['qa/db/database-integrity.mjs']);
- await run('rpc-permission-audit','node',['qa/db/rpc-permission-audit.mjs']);
+ await run('rpc-permission-audit','node',['qa/db/rpc-permission-audit.mjs','--strict']);
  await run('rpc-smoke','node',['qa/db/rpc-smoke.mjs']);
  await run('rls-adversarial','node',['qa/db/rls-adversarial.mjs']);
  await run('playwright-runtime','npx',['playwright','test']);

@@ -59,3 +59,7 @@ Primary outputs:
 - RLS/security evidence
 
 A release is not certified when a mandatory layer is failed/blocked/not-run, when any P0/P1 remains, or merely because source checks pass. Every fixed runtime bug must retain a regression assertion.
+
+## Phase-1 browser runtime decision
+
+Compact local Free-Tier POC certification runs its single Chromium journey in headed mode. The identical test is proven stable headed on the current Windows/Next.js development runtime; headless hydration stability is tracked separately for later CI/production hardening. See `QA-PHASE1-HEADED-POC-DECISION.md`.

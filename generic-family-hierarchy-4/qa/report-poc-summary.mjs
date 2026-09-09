@@ -8,7 +8,7 @@ const result={
  generatedAt:new Date().toISOString(),profile:'free-tier-poc',
  status:requiredFailures.length?'FAILED':'POC_CERTIFIED',
  mandatoryFailures:requiredFailures,
- advisory:{rpcPermissionAudit:{status:rpc.status||'not-run',functionCount:rpc.functionCount||0,unexpectedPrivilegeFindings:(rpc.checks||[]).filter(x=>x.status==='failed').length,evidence:'qa-results/db/rpc-permission-audit.json'}},
+ advisory:{rpcPermissionAudit:{status:rpc.status||'not-run',strictStatus:rpc.strictStatus||rpc.status||'not-run',policy:rpc.policy||'unknown',functionCount:rpc.functionCount||0,unexpectedPrivilegeFindings:rpc.findingCount??(rpc.checks||[]).filter(x=>x.finding===true||x.status==='failed').length,evidence:'qa-results/db/rpc-permission-audit.json'}},
  evidence:{playwright:'qa-results/playwright.json',databaseIntegrity:'qa-results/db/database-integrity.json',rpc:'qa-results/db/rpc-smoke-poc.json',rls:'qa-results/security/rls-adversarial-poc.json'}
 };
 fs.writeFileSync('qa-results/POC-CERTIFICATION-SUMMARY.json',JSON.stringify(result,null,2)+'\n');

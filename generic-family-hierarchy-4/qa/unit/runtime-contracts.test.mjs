@@ -9,3 +9,20 @@ test('network membership transport preserves every released vertical kind',()=>{
  for(const {kind} of VERTICALS)assert.match(source,new RegExp(`[\"']${kind}[\"']`),`network-context transport must recognize ${kind}`);
  assert.match(source,/NETWORK_VERTICAL_KINDS\.includes\(value as NetworkVerticalKind\)/);
 });
+
+test('POC RPC privilege audit is explicitly advisory while full certification is strict',()=>{
+ const poc=fs.readFileSync('qa/run-poc-certification.mjs','utf8');
+ const full=fs.readFileSync('qa/run-certification.mjs','utf8');
+ const audit=fs.readFileSync('qa/db/rpc-permission-audit.mjs','utf8');
+ assert.match(poc,/rpc-permission-audit\.mjs','--advisory'/);
+ assert.match(full,/rpc-permission-audit\.mjs','--strict'/);
+ assert.match(audit,/configuredPolicy=.*'strict'/);
+ assert.match(audit,/status=findings\.length\?\(policy==='advisory'\?'advisory':'failed'\):'passed'/);
+ assert.match(audit,/if\(findings\.length&&policy==='strict'\)process\.exit\(1\)/);
+});
+
+test('Playwright login waits for application state instead of the browser load event',()=>{
+ const login=fs.readFileSync('qa/lib/login.ts','utf8');
+ assert.match(login,/page\.goto\('\/',\{waitUntil:'commit',timeout:45_000\}\)/);
+ assert.match(login,/login should reach an authenticated app state/);
+});

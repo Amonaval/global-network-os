@@ -13,10 +13,11 @@ if(isStaging()&&mutationAllowed()){
  if(fs.existsSync('qa-results/fixtures/seed-state.json')) steps.push({name:'deterministic-seed',status:'reused',required:true,reason:'Existing deterministic seed reused to avoid unnecessary Auth/API writes.'});
  else await run('deterministic-seed','node',['qa/setup/seed.mjs']);
  await run('database-integrity','node',['qa/db/database-integrity.mjs']);
- await run('rpc-permission-audit','node',['qa/db/rpc-permission-audit.mjs'],false);
+ await run('rpc-permission-audit','node',['qa/db/rpc-permission-audit.mjs','--advisory'],false);
  await run('rpc-smoke-poc','node',['qa/db/rpc-smoke-poc.mjs']);
  await run('rls-adversarial-poc','node',['qa/db/rls-adversarial-poc.mjs']);
- await run('playwright-poc','npx',['playwright','test','qa/e2e/15-free-tier-poc.spec.ts','--workers=1']);
+ console.log('Playwright POC mode: headed Chromium (local Free-Tier certification; one worker; same automated assertions)');
+ await run('playwright-poc','npx',['playwright','test','qa/e2e/15-free-tier-poc.spec.ts','--project=chromium-desktop','--workers=1','--headed']);
 }else steps.push({name:'staging-runtime-foundation',status:'blocked',required:true,reason:'POC runtime requires QA_MODE=staging and QA_ALLOW_MUTATION=true.'});
 const requiredFailed=steps.some(x=>x.required&&(x.status==='failed'||x.status==='blocked'));
 const finalStatus=requiredFailed?'FAILED':'POC_CERTIFIED';
