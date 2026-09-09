@@ -83,15 +83,11 @@ Compact local Free-Tier POC certification runs its single Chromium journey in he
 
 Phase 2 now has a dedicated representative capability profile without altering the certified Phase-1 runner. `qa/e2e/16-phase2-representative-capabilities.spec.ts` adds Organization member proof, browser-authenticated Tenant-A→Tenant-B denial, compact API/lifecycle mutation with cleanup, two axe baselines and one 390×844 Chromium mobile smoke. `qa/unit/phase2-parity.test.mjs` adds cheap released-kind parity. `qa/run-phase2-certification.mjs` reuses the deterministic seed and compact DB/RPC/RLS foundation; RPC privilege findings remain advisory in this profile and preserved for strict certification.
 
+## 2026-09-10 — Phase-2 accessibility defect P2-A11Y-001
 
-## 2026-09-10 — Phase-2 QA harness correction P2-QA-001
+The representative Family owner/admin axe gate found a serious WCAG 2 AA `color-contrast` violation in the Family Admin Center. Root cause was a family of muted text colors below 4.5:1 on white/light surfaces, not an axe false positive. The shared admin-center CSS was corrected for member/simple-row secondary text, setting descriptions, storage captions, and settings-readout labels. The existing Phase-2 axe serious/critical assertion remains unchanged and is the regression gate; no violation was waived or filtered.
 
-Phase-2 lifecycle runtime exposed a harness defect: authenticated QA code attempted direct `SELECT` access to `public.network_entities`. The database correctly denied this with SQLSTATE `42501`; authenticated clients are expected to use governed SECURITY DEFINER read contracts rather than direct table grants. No database privilege was broadened.
 
-Corrective action:
-- Phase-2 lifecycle create/read/update verification now uses `get_network_affiliated_entities()` for persisted readback.
-- The same direct-read misuse was audited and corrected in the older destructive lifecycle and deferred volume suites.
-- A static Phase-2 contract now rejects literal direct `network_entities` reads from E2E tests, preventing recurrence.
-- Service-role table reads remain allowed only for explicit administrative zero-residue cleanup verification.
+## 2026-09-10 — Phase-2 accessibility follow-up P2-A11Y-002
 
-Classification: QA harness defect, not product authorization defect.
+The Family owner/admin axe gate exposed two remaining source-level issues after the first contrast hardening: the sidebar generation count measured 4.46:1 against its light surface (just below WCAG AA 4.5:1), and the member-experience preview `<select>` had no programmatic accessible name. The generation-count color is now explicitly darkened to a >4.5:1 light-theme value, and the existing visible preview label is bound to the select with `htmlFor`/`id`. The axe serious/critical gate remains unchanged; no rule is excluded or waived.

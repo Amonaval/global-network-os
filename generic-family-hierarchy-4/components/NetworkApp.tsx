@@ -1275,8 +1275,8 @@ export default function NetworkApp() {
             <button className={`nav-btn founder-nav ${view === "founder" ? "active" : ""}`} onClick={() => setView("founder")}><Rocket size={17}/> {tr("LaunchControlTxt")}</button>
           </div>}
           {canAdmin && <div className="experience-preview">
-            <label>{language === "hi" ? "सदस्य अनुभव देखें" : language === "mr" ? "सदस्य अनुभव पहा" : tr("PreviewMemberExperienceTxt")}</label>
-            <select className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>
+            <label htmlFor="member-experience-preview">{language === "hi" ? "सदस्य अनुभव देखें" : language === "mr" ? "सदस्य अनुभव पहा" : tr("PreviewMemberExperienceTxt")}</label>
+            <select id="member-experience-preview" className="select" value={experience} onChange={e=>setExperiencePreview(e.target.value as ExperienceLevel)}>
               {(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map(level=><option key={level} value={level}>{EXPERIENCE_LABELS[level].label}</option>)}
             </select>
             <small>{EXPERIENCE_LABELS[experience].description}</small>
