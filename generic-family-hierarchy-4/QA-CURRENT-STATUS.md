@@ -110,3 +110,33 @@ Phase 3 expands from representative proof to broad platform parity while retaini
 Phase-3 cross-tenant invitation testing found that `create_network_participation_invitation` could authorize a non-member against a known foreign network UUID. The function selected membership role into a scalar and used `actor NOT IN ('owner','admin')`; when no membership row existed, `actor` was NULL, PostgreSQL three-valued logic made the predicate NULL rather than TRUE, and the PL/pgSQL IF did not execute. This allowed the subsequent SECURITY DEFINER insert to run.
 
 Fix: migration `095_phase3_security_definer_null_authorization_hardening.sql` explicitly rejects NULL role lookups and applies the same defensive correction to the other SECURITY DEFINER role-changing functions with equivalent NULL-unsafe comparisons. Regression coverage exists both at the direct RPC isolation layer and the HTTP browser/API layer, including zero-persisted-row proof. The API assertion remains strict at 401/403/404.
+
+### P3-STORAGE-001 — Supabase Storage investigation attempt (not accepted as closure)
+- Classification remains open; the initial `22023` symptom was later resolved to an authorization message rather than proven size-metadata failure.
+- Migration `096_phase3_storage_metadata_compatibility.sql` was applied experimentally to staging but did **not** resolve the required adversarial upload check. It also introduced a 1 MB bucket hard ceiling that must be reviewed in a later controlled database-hardening session.
+- Migration `097_phase3_storage_path_scoped_authorization.sql` was also applied experimentally to staging and did **not** resolve the observed runtime denial.
+- Neither 096 nor 097 is accepted as a certified baseline migration while P3-STORAGE-002 remains open. Do not rerun or extend them during Phase 4A. Staging database drift from these manual experiments must be reconciled deliberately later.
+
+## 2026-09-10 — Phase-3 closure remains blocked by P3-STORAGE-002
+
+Phase-3 local/browser capability work is green, but formal Phase-3 certification remains blocked by one adversarial Storage/RLS check: a valid Tenant-B upload still receives the legacy `Media can only be uploaded to your active family.` denial. Investigation is intentionally frozen to avoid further churn on the sensitive Supabase project. Migrations 096/097 must not be rerun or extended during Phase 4A. The known 1 MB bucket hard ceiling introduced by 096 is recorded for later controlled review. Phase 4A does not waive or reclassify this blocker.
+
+## 2026-09-10 — Phase-4A Runtime Robustness, Recovery & Failure Handling implemented
+
+Phase 4A is an independent, DB-hardening-safe certification profile. It adds authenticated reload/session recovery for Family owner and Organization member, query-string and browser history recovery, delayed-backend tolerance, browser-local simulated REST 503 containment + recovery, 390×844 mobile reload/navigation/overflow proof, and a post-recovery mobile axe serious/critical gate. Failure injection is implemented only with Playwright route interception and is removed within the test.
+
+The Phase-4A runner intentionally does not execute migrations, RLS/RPC audits, Storage mutations, network lifecycle create/delete/purge, seed, or cleanup. It reuses the existing deterministic seed fixture and performs only ordinary authenticated application access plus minimal active-network context switching needed for deterministic representative coverage.
+
+Commands:
+- `npm run qa:phase4a:local`
+- `npm run qa:phase4a:browser`
+- `npm run qa:certify:phase4a`
+
+Expected closure status: `PHASE4A_CERTIFIED`. This status is independent of the still-open Phase-3 Storage/RLS blocker.
+## 2026-09-10 — Phase-4A accessibility defect P4A-A11Y-001
+
+The post-recovery 390×844 Organization axe gate found a critical `button-name` violation. Responsive CSS intentionally hides the visible copy inside shared top-bar controls on mobile, which can leave their buttons visually icon-only. `NetworkAccountMenu` and `NetworkSwitcher` now provide explicit programmatic `aria-label` names independent of visible responsive text. The axe serious/critical gate remains unchanged; no accessibility finding is filtered or waived.
+## 2026-09-10 — Phase-4A harness defect P4A-QA-001
+
+The slow-REST robustness test intermittently raised `Route is already handled!` because a delayed `route.continue()` could race with route teardown while outstanding REST requests were still pending. This was a QA harness defect, not a product/runtime failure. The test now uses a named cooperative `route.fallback()` handler, waits for delayed requests to drain, and unregisters only that handler. Product assertions remain unchanged.
+
