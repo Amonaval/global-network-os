@@ -1,6 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
 import {VERTICALS} from '../runtime/catalog.mjs';
 import {mutationAllowed} from '../runtime/env.mjs';
+import {normalizeCommandError} from '../../server/shared/errors.ts';
 test('released QA vertical catalog contains exactly 9 unique verticals',()=>{assert.equal(VERTICALS.length,9);assert.equal(new Set(VERTICALS.map(v=>v.kind)).size,9)});
 test('mutation guard requires staging plus explicit allow flag',()=>{const a=process.env.QA_MODE,b=process.env.QA_ALLOW_MUTATION;process.env.QA_MODE='readonly';process.env.QA_ALLOW_MUTATION='true';assert.equal(mutationAllowed(),false);process.env.QA_MODE='staging';process.env.QA_ALLOW_MUTATION='false';assert.equal(mutationAllowed(),false);process.env.QA_ALLOW_MUTATION='true';assert.equal(mutationAllowed(),true);if(a===undefined)delete process.env.QA_MODE;else process.env.QA_MODE=a;if(b===undefined)delete process.env.QA_ALLOW_MUTATION;else process.env.QA_ALLOW_MUTATION=b});
 
@@ -25,4 +26,17 @@ test('Playwright login waits for application state instead of the browser load e
  const login=fs.readFileSync('qa/lib/login.ts','utf8');
  assert.match(login,/page\.goto\('\/',\{waitUntil:'commit',timeout:45_000\}\)/);
  assert.match(login,/login should reach an authenticated app state/);
+});
+
+
+test('API error normalization preserves Supabase/PostgREST authorization semantics',()=>{
+ const forbidden=normalizeCommandError({code:'42501',message:'Network administrator access required.',details:null,hint:null});
+ assert.equal(forbidden.status,403);
+ assert.equal(forbidden.code,'FORBIDDEN');
+ const missing=normalizeCommandError({code:'P0002',message:'Network not found.',details:null,hint:null});
+ assert.equal(missing.status,404);
+ assert.equal(missing.code,'NOT_FOUND');
+ const generic=normalizeCommandError({code:'P1234',message:'Unexpected database failure.'});
+ assert.equal(generic.status,400);
+ assert.equal(generic.code,'P1234');
 });
