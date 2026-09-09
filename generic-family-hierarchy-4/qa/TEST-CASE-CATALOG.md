@@ -112,3 +112,14 @@ The compact Phase-2 certification intentionally promotes only a representative s
 46. Cheap all-nine released-kind parity contracts; no Phase-2 role × vertical Cartesian browser expansion.
 
 Phase-2 policy keeps RPC privilege findings advisory-but-preserved. They remain blocking for strict/full/production certification.
+
+## Phase 3 — Expanded platform parity & role/security
+
+- P3-VERTICAL-OWNER-001: one owner browser session traverses all 9 released vertical shells and must-exist navigation.
+- P3-VERTICAL-ADMIN-001: one admin browser session traverses all 9 released vertical shells and retains governed admin access.
+- P3-VERTICAL-MEMBER-001: one member browser session traverses all 9 verticals, sees governed directory data, and never receives admin navigation.
+- P3-DEEP-HS-FCA-001: Housing Society and Family Association directory/guide paths remain healthy for owner.
+- P3-INVITE-001: governed invitation create/resend rotates token; stale/replayed tokens fail; accepted invite reaches Family as member; cleanup restores isolated invitee.
+- P3-TENANT-MUTATION-001: Tenant-A owner cannot create an invitation in Tenant-B by substituting Tenant-B network ID.
+- P3-RLS-001: full adversarial RLS suite is required.
+- P3-RPC-NONREGRESSION-001: unexpected RPC privilege findings must not exceed Phase-2-certified ceiling of 331; findings remain fully preserved.

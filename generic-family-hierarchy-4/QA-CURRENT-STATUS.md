@@ -91,3 +91,16 @@ The representative Family owner/admin axe gate found a serious WCAG 2 AA `color-
 ## 2026-09-10 — Phase-2 accessibility follow-up P2-A11Y-002
 
 The Family owner/admin axe gate exposed two remaining source-level issues after the first contrast hardening: the sidebar generation count measured 4.46:1 against its light surface (just below WCAG AA 4.5:1), and the member-experience preview `<select>` had no programmatic accessible name. The generation-count color is now explicitly darkened to a >4.5:1 light-theme value, and the existing visible preview label is bound to the select with `htmlFor`/`id`. The axe serious/critical gate remains unchanged; no rule is excluded or waived.
+
+## 2026-09-10 — Phase-2 formally certified
+
+Local execution completed with:
+
+- `Phase-2 report: PHASE2_CERTIFIED`
+- `TrustWeave Phase-2 representative certification: PHASE2_CERTIFIED`
+
+Phase-2 closure includes representative owner/admin/member behavior, browser tenant isolation, governed API/lifecycle proof, representative accessibility, mobile Chromium smoke, nine-kind parity contracts, and regression coverage for defects found during the mission.
+
+## 2026-09-10 — Phase-3 implementation started
+
+Phase 3 expands from representative proof to broad platform parity while retaining Free-Tier discipline. It adds reused-session owner/admin/member traversal across all 9 released verticals, selected Housing Society + Family Association depth, a governed invitee invitation lifecycle, cross-tenant mutation denial, full adversarial RLS as a required gate, and an RPC permission non-regression ceiling anchored to the Phase-2-certified 386-function / 331-finding inventory. Existing RPC findings remain preserved and are not waived; strict remediation is still deferred.
