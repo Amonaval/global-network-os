@@ -147,7 +147,11 @@
     "qa:certify:phase4d": "node qa/run-phase4d-certification.mjs",
     "qa:phase5a:local": "tsx --test qa/unit/runtime-contracts.test.mjs qa/unit/core-contracts.test.ts qa/unit/phase2-parity.test.mjs qa/unit/phase5a-security-contracts.test.mjs",
     "qa:phase5a:audit": "node qa/db/rpc-security-closure.mjs --report-only",
-    "qa:certify:phase5a": "node qa/run-phase5a-certification.mjs"
+    "qa:certify:phase5a": "node qa/run-phase5a-certification.mjs",
+    "qa:phase5b:local": "tsx --test qa/unit/runtime-contracts.test.mjs qa/unit/core-contracts.test.ts qa/unit/phase2-parity.test.mjs qa/unit/phase5a-security-contracts.test.mjs qa/unit/phase5b-migration-contracts.test.mjs",
+    "qa:phase5b:inventory": "node qa/db/phase5b-migration-inventory.mjs",
+    "qa:phase5b:replay": "node qa/db/phase5b-fresh-replay.mjs",
+    "qa:certify:phase5b": "node qa/run-phase5b-certification.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

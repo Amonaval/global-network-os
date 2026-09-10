@@ -171,3 +171,13 @@ Phase-2 policy keeps RPC privilege findings advisory-but-preserved. They remain 
 - P5A-RPC-OVERLOAD-001: live overloads are blocking until access intent is signature-specific.
 - P5A-SCHEMA-001: anon/authenticated must not have CREATE on public schema when SECURITY DEFINER resolution depends on trusted schema names.
 - P5A-REMEDIATION-001: remediation preview is generated only as rollback-protected review evidence and is never auto-executed.
+
+## Phase 5B — Fresh Database Migration & Upgrade Certification
+- P5B-SRC-01: migration versions are contiguous and collision-free.
+- P5B-SRC-02: unresolved experimental Phase-3 storage migrations 096/097 are quarantined from the accepted chain.
+- P5B-DB-01: disposable database is empty before replay; no reset/drop fallback exists.
+- P5B-DB-02: fresh 001 → checkpoint migration replay succeeds.
+- P5B-DB-03: checkpoint → latest upgrade succeeds.
+- P5B-DB-04: configured latest migration suffix reruns successfully.
+- P5B-DB-05: core post-replay tables exist with RLS; anon/authenticated lack public-schema CREATE.
+- P5B-EVID-01: final certification evidence fingerprint matches the current migration source exactly.

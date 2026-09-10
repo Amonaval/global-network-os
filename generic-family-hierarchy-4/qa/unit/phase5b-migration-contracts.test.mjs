@@ -1,0 +1,9 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+import {buildPhase5bInventory,QUARANTINED_MIGRATIONS} from '../db/phase5b-migration-inventory.mjs';
+const replay=fs.readFileSync('qa/db/phase5b-fresh-replay.mjs','utf8'),verify=fs.readFileSync('qa/db/phase5b-evidence-verify.mjs','utf8'),runner=fs.readFileSync('qa/run-phase5b-certification.mjs','utf8');
+
+test('Phase 5B inventory explicitly quarantines the unresolved experimental storage migrations',()=>{assert.deepEqual([...QUARANTINED_MIGRATIONS].sort(),['096_phase3_storage_metadata_compatibility.sql','097_phase3_storage_path_scoped_authorization.sql'])});
+test('Phase 5B source inventory detects duplicate versions, gaps and quarantined experiments',()=>{const i=buildPhase5bInventory();assert.ok(Array.isArray(i.collisions));assert.ok(Array.isArray(i.missing));assert.ok(Array.isArray(i.quarantinePresent));assert.match(i.sourceFingerprint,/^[a-f0-9]{64}$/)});
+test('Phase 5B replay requires explicit disposable confirmation and refuses normal staging identity',()=>{assert.match(replay,/QA_FRESH_CONFIRM_DISPOSABLE/);assert.match(replay,/YES_DELETE_ME/);assert.match(replay,/must not equal QA_DATABASE_URL/);assert.match(replay,/must differ from QA_STAGING_PROJECT_REF/);assert.match(replay,/never drops\/resets/i)});
+test('Phase 5B replay proves fresh, checkpoint-upgrade and rerunnable suffix phases',()=>{assert.match(replay,/fresh-001-/);assert.match(replay,/upgrade-/);assert.match(replay,/rerun-/);assert.match(replay,/postReplay/)});
+test('Phase 5B certification consumes replay evidence rather than rerunning destructive replay',()=>{assert.match(runner,/phase5b-evidence-verify\.mjs/);assert.doesNotMatch(runner,/phase5b-fresh-replay\.mjs/);assert.match(verify,/source fingerprint changed/);assert.match(runner,/PHASE5B_CERTIFIED/)});

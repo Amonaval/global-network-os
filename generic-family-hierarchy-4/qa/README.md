@@ -83,3 +83,6 @@ npm run qa:certify:phase5a
 ```
 
 Phase 5A is intentionally read-only against the configured QA database. It reconciles live PostgreSQL function ACLs and SECURITY DEFINER metadata against migration-derived access intent, produces P0/P1 evidence, and generates a rollback-protected remediation preview. It executes no migration or ACL change itself. Unlike compact Phase-1/Phase-3 handling, unexpected RPC privilege findings are not advisory here: certification requires zero blocking findings.
+
+### Phase 5B — Fresh Database Migration & Upgrade
+`qa:phase5b:local` validates the migration-source contract. `qa:phase5b:replay` is intentionally a one-time operation against an explicitly confirmed disposable empty project; it never resets a database. `qa:certify:phase5b` validates the replay evidence fingerprint instead of repeating replay.

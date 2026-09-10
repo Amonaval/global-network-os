@@ -1,0 +1,14 @@
+.env.qa.example
+QA-CURRENT-STATUS.md
+QA-PHASE5B-APPLY-NOTE.md
+QA-PHASE5B-FRESH-DATABASE-MIGRATION-UPGRADE-MISSION.docx
+QA-PHASE5B-FRESH-DATABASE-MIGRATION-UPGRADE-MISSION.md
+package.json
+qa/README.md
+qa/TEST-CASE-CATALOG.md
+qa/db/phase5b-evidence-verify.mjs
+qa/db/phase5b-fresh-replay.mjs
+qa/db/phase5b-migration-inventory.mjs
+qa/report-phase5b-summary.mjs
+qa/run-phase5b-certification.mjs
+qa/unit/phase5b-migration-contracts.test.mjs

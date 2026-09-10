@@ -245,3 +245,17 @@ Commands:
 - `npm run qa:certify:phase5a`
 
 Expected first-run outcome may be `REMEDIATION_REQUIRED`; `PHASE5A_CERTIFIED` is only possible after strict P0/P1 closure. Phase-3 `P3-STORAGE-002` and experimental staging migrations 096/097 remain separate and are not modified by Phase 5A.
+
+## 2026-09-10 — Phase-5B Fresh Database Migration & Upgrade Certification implemented
+
+Phase 5B implements the production migration-chain gate without mutating the normal QA/staging project. Source inventory blocks duplicate/gapped migration versions and explicitly quarantines the unresolved experimental Phase-3 storage migrations `096_phase3_storage_metadata_compatibility.sql` and `097_phase3_storage_path_scoped_authorization.sql` until they are deliberately reconciled. A one-time replay command requires an explicitly confirmed disposable empty Supabase project, proves fresh `001 → checkpoint`, checkpoint → latest upgrade, configured latest-suffix rerun safety, and core post-replay RLS/schema-privilege integrity. It never drops or resets an existing schema.
+
+The final `qa:certify:phase5b` command does **not** replay migrations again. It consumes replay evidence and requires its SHA-256 migration-source fingerprint to match the current source, avoiding repeated destructive/free-tier work.
+
+Commands:
+- `npm run qa:phase5b:local`
+- `npm run qa:phase5b:inventory`
+- `npm run qa:phase5b:replay` — once, disposable project only
+- `npm run qa:certify:phase5b` — evidence-only closure
+
+Expected closure status: `PHASE5B_CERTIFIED`.
