@@ -86,3 +86,6 @@ Phase 5A is intentionally read-only against the configured QA database. It recon
 
 ### Phase 5B — Fresh Database Migration & Upgrade
 `qa:phase5b:local` validates the migration-source contract. `qa:phase5b:replay` is intentionally a one-time operation against an explicitly confirmed disposable empty project; it never resets a database. `qa:certify:phase5b` validates the replay evidence fingerprint instead of repeating replay.
+
+### Phase 5C — Production Release Certification
+Use a dedicated `.env.qa.release` copied from `.env.qa.release.example`. `qa:phase5c:runtime` is the only mutating command and refuses normal/protected staging. `qa:certify:phase5c` consumes prerequisite and runtime evidence without repeating destructive work.

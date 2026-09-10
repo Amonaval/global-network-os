@@ -259,3 +259,18 @@ Commands:
 - `npm run qa:certify:phase5b` — evidence-only closure
 
 Expected closure status: `PHASE5B_CERTIFIED`.
+
+## 2026-09-10 — Phase-5C Production Release Certification implemented
+
+Phase 5C is the final evidence-composition and release-candidate runtime gate. It is designed to run only after Phase 5A strict security closure and Phase 5B fresh migration certification. The mutating runtime command uses a dedicated `.env.qa.release` configuration and refuses to target the normal/protected staging project, a production-like project, or an environment that has not been explicitly confirmed disposable.
+
+The Phase-5C runtime reuses the Phase-5B disposable project and requires the project reference to match Phase-5B replay evidence. It seeds deterministic QA identities/networks once, reruns strict RPC security on that release candidate, executes the adversarial RLS matrix, verifies health/anonymous denial, owner/admin/member and cross-tenant boundaries, invitation expiry/revoke/resend/replay behavior, private signed-media authorization, logical backup semantics, and the full disposable create/import/media/archive/restore/purge/zero-residue lifecycle. Fixture networks are cleaned in `finally`-style runner closure.
+
+The final `qa:certify:phase5c` command is evidence-only: it requires Phase 4A/4B/4C/4D, Phase 5A, Phase 5B and current Phase-5C runtime evidence, but it does not rerun seed, migration replay or destructive lifecycle.
+
+Commands:
+- `npm run qa:phase5c:local`
+- `npm run qa:phase5c:runtime` — explicit disposable release project only
+- `npm run qa:certify:phase5c` — evidence-only finalizer
+
+Expected final status: `TrustWeave Production Certification: PRODUCTION_CERTIFIED`.

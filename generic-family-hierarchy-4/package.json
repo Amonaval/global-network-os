@@ -151,7 +151,10 @@
     "qa:phase5b:local": "tsx --test qa/unit/runtime-contracts.test.mjs qa/unit/core-contracts.test.ts qa/unit/phase2-parity.test.mjs qa/unit/phase5a-security-contracts.test.mjs qa/unit/phase5b-migration-contracts.test.mjs",
     "qa:phase5b:inventory": "node qa/db/phase5b-migration-inventory.mjs",
     "qa:phase5b:replay": "node qa/db/phase5b-fresh-replay.mjs",
-    "qa:certify:phase5b": "node qa/run-phase5b-certification.mjs"
+    "qa:certify:phase5b": "node qa/run-phase5b-certification.mjs",
+    "qa:phase5c:local": "tsx --test qa/unit/runtime-contracts.test.mjs qa/unit/core-contracts.test.ts qa/unit/phase2-parity.test.mjs qa/unit/phase5a-security-contracts.test.mjs qa/unit/phase5b-migration-contracts.test.mjs qa/unit/phase5c-production-release-contracts.test.mjs",
+    "qa:phase5c:runtime": "node qa/run-phase5c-runtime.mjs",
+    "qa:certify:phase5c": "node qa/run-phase5c-certification.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

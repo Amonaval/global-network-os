@@ -10,7 +10,7 @@ function loadEnvFile(file,{overrideExisting=false,overrideBlank=false}={}){
   if(overrideExisting||process.env[key]===undefined||(overrideBlank&&!process.env[key]))process.env[key]=value;
  }
 }
-export function loadQaEnv(file=path.resolve('.env.qa')){
+export function loadQaEnv(file=path.resolve(process.env.QA_ENV_FILE||'.env.qa')){
  const resolved=path.resolve(file);
  loadEnvFile(resolved,{overrideExisting:true});
  loadEnvFile(path.resolve('qa-results/fixtures/generated.env'),{overrideBlank:true});

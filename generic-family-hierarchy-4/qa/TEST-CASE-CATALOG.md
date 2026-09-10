@@ -181,3 +181,16 @@ Phase-2 policy keeps RPC privilege findings advisory-but-preserved. They remain 
 - P5B-DB-04: configured latest migration suffix reruns successfully.
 - P5B-DB-05: core post-replay tables exist with RLS; anon/authenticated lack public-schema CREATE.
 - P5B-EVID-01: final certification evidence fingerprint matches the current migration source exactly.
+
+## Phase 5C — Production Release Certification
+- P5C-GUARD-01: release runtime requires explicit disposable confirmation and a project ref distinct from protected staging.
+- P5C-DEP-01: 4A, 4B, 4C, 4D, 5A and 5B certifications are mandatory.
+- P5C-RUN-01: health/readiness and anonymous protected API boundaries.
+- P5C-RUN-02: owner/admin/member browser boundary and cross-tenant export denial.
+- P5C-RUN-03: invitation expiry, resend token rotation, replay denial and revoke denial.
+- P5C-RUN-04: private-media signed URL generation allowed only to target-network members.
+- P5C-RUN-05: strict RPC closure and full adversarial RLS matrix pass on the release candidate.
+- P5C-RUN-06: logical backup retains manifest-only media semantics and member export denial.
+- P5C-RUN-07: disposable create/import/media/archive/restore/purge leaves zero database/storage residue.
+- P5C-CLEAN-01: deterministic fixture networks are cleaned after runtime execution.
+- P5C-EVID-01: final certification is evidence-only and bound to the Phase-5B migration fingerprint/project.
