@@ -158,3 +158,16 @@ Phase-2 policy keeps RPC privilege findings advisory-but-preserved. They remain 
 - P4D-FRANCHISE-REL-001: Franchise exposes Owns / Operates / Manages / Supports and retains geography/owner dimensions.
 - P4D-PROFESSIONAL-REL-001: Professional exposes Worked with / Referred by / Collaborates with / Mentors; mentoring enforces person→person and regulated clinical/patient workflows remain out of released scope.
 - P4D-VERTICAL-ROLE-001: member role never receives Housing Society or Family Association vertical admin operating panels.
+
+## Phase 5A — Strict Security Contract & RPC Closure
+
+- P5A-RPC-CONTRACT-001: derive explicit anon/authenticated/internal RPC intent from migration GRANT/REVOKE history without treating default PUBLIC EXECUTE as valid intent.
+- P5A-RPC-LIVE-001: read-only catalog inventory reconciles every live public RPC with migration intent.
+- P5A-RPC-PUBLIC-001: unexpected PUBLIC EXECUTE is P0 for SECURITY DEFINER and P1 otherwise; strict closure requires zero.
+- P5A-RPC-ANON-001: anon EXECUTE is allowed only for explicitly anonymous RPCs; unexpected exposure is blocking.
+- P5A-RPC-INTERNAL-001: internal/helper RPCs must not be executable by client roles.
+- P5A-RPC-SEARCHPATH-001: every live SECURITY DEFINER function must have fixed `search_path` in `pg_proc.proconfig`.
+- P5A-RPC-OWNER-001: SECURITY DEFINER functions cannot be owned by `anon` or `authenticated`.
+- P5A-RPC-OVERLOAD-001: live overloads are blocking until access intent is signature-specific.
+- P5A-SCHEMA-001: anon/authenticated must not have CREATE on public schema when SECURITY DEFINER resolution depends on trusted schema names.
+- P5A-REMEDIATION-001: remediation preview is generated only as rollback-protected review evidence and is never auto-executed.

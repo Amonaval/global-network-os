@@ -73,3 +73,13 @@ npm run qa:certify:phase4c
 ```
 
 Phase 4C is deliberately narrow and staging-safe: no migration execution, Storage mutation, service-role access, seed/cleanup, or permanent purge. It certifies owner/admin/member control visibility, exact-name + confirmation guards, backend role/invitation/destructive denials, stale-session revocation, and duplicate-submit protection. One reversible Organization admin-role downgrade is restored in `finally`.
+
+## Phase-5A strict RPC security profile
+
+```bash
+npm run qa:phase5a:local
+npm run qa:phase5a:audit
+npm run qa:certify:phase5a
+```
+
+Phase 5A is intentionally read-only against the configured QA database. It reconciles live PostgreSQL function ACLs and SECURITY DEFINER metadata against migration-derived access intent, produces P0/P1 evidence, and generates a rollback-protected remediation preview. It executes no migration or ACL change itself. Unlike compact Phase-1/Phase-3 handling, unexpected RPC privilege findings are not advisory here: certification requires zero blocking findings.

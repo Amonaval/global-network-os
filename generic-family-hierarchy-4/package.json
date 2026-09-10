@@ -144,7 +144,10 @@
     "qa:certify:phase4c": "node qa/run-phase4c-certification.mjs",
     "qa:phase4d:local": "tsx --test qa/unit/runtime-contracts.test.mjs qa/unit/core-contracts.test.ts qa/unit/phase2-parity.test.mjs qa/unit/phase4d-business-rules.test.ts qa/unit/phase4d-safety-contracts.test.mjs",
     "qa:phase4d:browser": "playwright test qa/e2e/22-phase4d-vertical-business-rules.spec.ts --project=chromium-desktop --workers=1 --headed",
-    "qa:certify:phase4d": "node qa/run-phase4d-certification.mjs"
+    "qa:certify:phase4d": "node qa/run-phase4d-certification.mjs",
+    "qa:phase5a:local": "tsx --test qa/unit/runtime-contracts.test.mjs qa/unit/core-contracts.test.ts qa/unit/phase2-parity.test.mjs qa/unit/phase5a-security-contracts.test.mjs",
+    "qa:phase5a:audit": "node qa/db/rpc-security-closure.mjs --report-only",
+    "qa:certify:phase5a": "node qa/run-phase5a-certification.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",
