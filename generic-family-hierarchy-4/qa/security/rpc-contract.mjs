@@ -15,14 +15,21 @@ function extractNames(spec){
 }
 
 function ensure(map,name){
-  if(!map.has(name))map.set(name,{name,expectedRoles:new Set(),explicitPublicRevoke:false,explicitRoleEvents:[],definitionFiles:[],dropFiles:[],securityDefinerDefinitions:0,fixedSearchPathDefinitions:0});
+  if(!map.has(name))map.set(name,{name,explicitPublicRevoke:false,explicitRoleEvents:[],definitionFiles:[],dropFiles:[],securityDefinerDefinitions:0,fixedSearchPathDefinitions:0});
   return map.get(name);
+}
+
+function finalRoleState(events){
+  const state=new Map(ROLE_NAMES.map(r=>[r,false]));
+  for(const event of [...events].sort((a,b)=>a.sequence-b.sequence))state.set(event.role,event.action==='grant');
+  return state;
 }
 
 export function buildMigrationRpcIntent(root='supabase/migrations'){
   const map=new Map();
   const files=migrationFiles(root);
-  for(const file of files){
+  for(let fileIndex=0;fileIndex<files.length;fileIndex++){
+    const file=files[fileIndex];
     const t=file.text;
     const creates=[...t.matchAll(/create\s+(?:or\s+replace\s+)?function\s+(?:public\.)?([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/ig)];
     for(let i=0;i<creates.length;i++){
@@ -41,30 +48,31 @@ export function buildMigrationRpcIntent(root='supabase/migrations'){
       for(const n of extractNames(m[1])){
         const item=ensure(map,n);
         if(/\bpublic\b/.test(roles))item.explicitPublicRevoke=true;
-        for(const role of ROLE_NAMES)if(new RegExp(`\\b${role}\\b`,'i').test(roles))item.explicitRoleEvents.push({file:file.name,action:'revoke',role});
+        for(const role of ROLE_NAMES)if(new RegExp(`\\b${role}\\b`,'i').test(roles))item.explicitRoleEvents.push({file:file.name,action:'revoke',role,sequence:fileIndex*1_000_000_000+(m.index||0)});
       }
     }
     for(const m of t.matchAll(/grant\s+execute\s+on\s+function\s+([\s\S]*?)\s+to\s+([^;]+);/ig)){
       const roles=m[2].toLowerCase();
       for(const n of extractNames(m[1])){
         const item=ensure(map,n);
-        for(const role of ROLE_NAMES){
-          if(new RegExp(`\\b${role}\\b`,'i').test(roles)){
-            if(role!=='public')item.expectedRoles.add(role);
-            item.explicitRoleEvents.push({file:file.name,action:'grant',role});
-          }
-        }
+        for(const role of ROLE_NAMES)if(new RegExp(`\\b${role}\\b`,'i').test(roles))item.explicitRoleEvents.push({file:file.name,action:'grant',role,sequence:fileIndex*1_000_000_000+(m.index||0)});
       }
     }
   }
-  const functions=[...map.values()].map(item=>({
-    ...item,
-    expectedRoles:[...item.expectedRoles].sort(),
-    definitionFiles:[...new Set(item.definitionFiles)],
-    dropFiles:[...new Set(item.dropFiles)],
-    classification:item.expectedRoles.has('anon')?'anonymous':item.expectedRoles.has('authenticated')?'authenticated':item.explicitPublicRevoke?'internal':'unclassified',
-    aclResetRisk:item.dropFiles.length>0 && item.explicitRoleEvents.length>0 && item.dropFiles.some(drop=>drop>item.explicitRoleEvents.at(-1)?.file),
-  })).sort((a,b)=>a.name.localeCompare(b.name));
+  const functions=[...map.values()].map(item=>{
+    const roleState=finalRoleState(item.explicitRoleEvents);
+    const expectedRoles=['anon','authenticated'].filter(role=>roleState.get(role));
+    const publicGranted=Boolean(roleState.get('public'));
+    return {
+      ...item,
+      expectedRoles,
+      publicGranted,
+      definitionFiles:[...new Set(item.definitionFiles)],
+      dropFiles:[...new Set(item.dropFiles)],
+      classification:publicGranted?'public-unsafe':expectedRoles.includes('anon')?'anonymous':expectedRoles.includes('authenticated')?'authenticated':item.explicitPublicRevoke?'internal':'unclassified',
+      aclResetRisk:item.dropFiles.length>0 && item.explicitRoleEvents.length>0,
+    };
+  }).sort((a,b)=>a.name.localeCompare(b.name));
   return {
     generatedAt:new Date().toISOString(),
     migrationCount:files.length,
@@ -72,6 +80,7 @@ export function buildMigrationRpcIntent(root='supabase/migrations'){
     anonymousFunctions:functions.filter(x=>x.classification==='anonymous').map(x=>x.name),
     authenticatedFunctions:functions.filter(x=>x.classification==='authenticated').map(x=>x.name),
     internalFunctions:functions.filter(x=>x.classification==='internal').map(x=>x.name),
+    publicUnsafeFunctions:functions.filter(x=>x.classification==='public-unsafe').map(x=>x.name),
     unclassifiedFunctions:functions.filter(x=>x.classification==='unclassified').map(x=>x.name),
     functions,
   };

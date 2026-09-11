@@ -274,3 +274,15 @@ Commands:
 - `npm run qa:certify:phase5c` — evidence-only finalizer
 
 Expected final status: `TrustWeave Production Certification: PRODUCTION_CERTIFIED`.
+
+## 2026-09-10 — Phase 5A/5B/5C stabilization after first combined execution
+
+First combined execution exposed three different states. Phase 5A correctly remained blocked on strict RPC security debt, but its first audit implementation over-counted some ACL root causes because PostgreSQL effective `anon` privilege includes inheritance from `PUBLIC`, and migration intent was accumulated historically instead of evaluated as final grant/revoke state. The audit now distinguishes explicit anon/authenticated ACL entries from PUBLIC inheritance, evaluates final migration ACL intent, and reports findings by root-cause code. It remains strict and read-only; no security debt is waived.
+
+Phase 5B found a real source-history collision: `095_xp7_admin_status_ambiguity_hotfix.sql` and the later Phase-3 security hardening both used version 095. A filesystem-only, SHA-256-guarded reconciliation command now renames only the certified Phase-3 hardening migration to 098. Experimental versions 096 and 097 are permanently reserved and must not be reused. The fresh replay runner now requires only `QA_FRESH_DATABASE_URL` plus the existing explicit disposable confirmation; project ref/public URL are derived where possible and remain optional safety cross-checks.
+
+Phase 5C was executed before its 5A/5B dependencies and before a dedicated release-candidate env existed. Runtime orchestration now checks prerequisite certifications before loading release credentials, so it cannot even attempt release-project work while 5A/5B are blocked. `npm run qa:phase5c:init` creates a local `.env.qa.release` template from Phase-5B disposable-project evidence without copying protected staging anon/service-role keys. The user must still explicitly provide those two disposable-project keys and `YES_DELETE_ME` confirmation before mutating release-candidate runtime can begin.
+
+## 2026-09-10 — Phase-5A Batch 1 contract review
+
+Phase-5A Batch 1 begins with a zero-database-write contract-review step. The current strict audit reports 22 unclassified live RPC signatures and two overloaded RPC names requiring signature-level intent. Batch 1 classifies obvious trigger-only candidates separately from internal/helper and likely authenticated application RPCs, but does not alter grants or migration history. The first actual permission remediation will be generated only after source/live-trigger verification of the five high-confidence trigger-only candidates and will be proven on the disposable QA project before promotion to main/staging.

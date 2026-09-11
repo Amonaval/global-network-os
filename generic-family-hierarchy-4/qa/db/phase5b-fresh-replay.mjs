@@ -1,29 +1,40 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import {loadQaEnv,requiredEnv,writeJson} from '../runtime/env.mjs';
+import {loadQaEnv,writeJson} from '../runtime/env.mjs';
 import {executeSql,queryRows,queryScalar,validatePostgresUrl} from './postgres-client.mjs';
 import {buildPhase5bInventory} from './phase5b-migration-inventory.mjs';
 
 loadQaEnv();
-requiredEnv(['QA_FRESH_DATABASE_URL','QA_FRESH_SUPABASE_URL','QA_FRESH_PROJECT_REF']);
 const inventory=buildPhase5bInventory();
 const out='qa-results/db/PHASE5B-FRESH-MIGRATION-REPLAY.json';
 const result={generatedAt:new Date().toISOString(),status:'blocked',sourceFingerprint:inventory.sourceFingerprint,inventoryStatus:inventory.status,projectRef:null,checkpoint:null,rerunFrom:null,phases:[],postReplay:null,safety:{database:'disposable-only',dropsOrReset:'none',normalStagingMutation:'forbidden'}};
 function finish(status,reason){result.status=status;if(reason)result.reason=reason;writeJson(out,result);console.log(`Phase-5B fresh migration replay ${status.toUpperCase()}${reason?`: ${reason}`:''}`);if(status!=='passed')process.exit(1)}
+function deriveProjectRef(raw){
+  try{
+    const u=new URL(raw);const host=u.hostname.toLowerCase();const user=decodeURIComponent(u.username||'').toLowerCase();
+    let m=host.match(/^db\.([a-z0-9-]+)\.supabase\.co$/);if(m)return m[1];
+    m=user.match(/^postgres\.([a-z0-9-]+)$/);if(m)return m[1];
+    return null;
+  }catch{return null}
+}
+
 if(inventory.status!=='passed')finish('blocked','Migration source inventory is not certifiable; resolve inventory blockers first.');
+const db=process.env.QA_FRESH_DATABASE_URL;
+if(!db)finish('blocked','QA_FRESH_DATABASE_URL is required. QA_FRESH_PROJECT_REF and QA_FRESH_SUPABASE_URL are optional cross-checks and will be derived when possible.');
 if(process.env.QA_DB_ALLOW_FRESH_REPLAY!=='true'||process.env.QA_FRESH_CONFIRM_DISPOSABLE!=='YES_DELETE_ME')finish('blocked','Set QA_DB_ALLOW_FRESH_REPLAY=true and QA_FRESH_CONFIRM_DISPOSABLE=YES_DELETE_ME only for a disposable empty project.');
-const db=process.env.QA_FRESH_DATABASE_URL;validatePostgresUrl(db,'QA_FRESH_DATABASE_URL');
+validatePostgresUrl(db,'QA_FRESH_DATABASE_URL');
 if(process.env.QA_DATABASE_URL&&db===process.env.QA_DATABASE_URL)finish('blocked','QA_FRESH_DATABASE_URL must not equal QA_DATABASE_URL.');
-const projectRef=process.env.QA_FRESH_PROJECT_REF.trim().toLowerCase();result.projectRef=projectRef;
+const derivedRef=deriveProjectRef(db);const configuredRef=process.env.QA_FRESH_PROJECT_REF?.trim().toLowerCase()||null;
+if(configuredRef&&derivedRef&&configuredRef!==derivedRef)finish('blocked',`QA_FRESH_PROJECT_REF (${configuredRef}) does not match project ref derived from QA_FRESH_DATABASE_URL (${derivedRef}).`);
+const projectRef=configuredRef||derivedRef;if(!projectRef)finish('blocked','Could not derive disposable Supabase project ref from QA_FRESH_DATABASE_URL. Set QA_FRESH_PROJECT_REF explicitly.');result.projectRef=projectRef;
 if(process.env.QA_STAGING_PROJECT_REF&&projectRef===process.env.QA_STAGING_PROJECT_REF.trim().toLowerCase())finish('blocked','Fresh project ref must differ from QA_STAGING_PROJECT_REF.');
-let publicUrl;try{publicUrl=new URL(process.env.QA_FRESH_SUPABASE_URL)}catch{finish('blocked','QA_FRESH_SUPABASE_URL must be a valid URL.');}
-if(!publicUrl.hostname.endsWith('.supabase.co')||publicUrl.hostname.split('.')[0].toLowerCase()!==projectRef)finish('blocked','QA_FRESH_SUPABASE_URL does not match QA_FRESH_PROJECT_REF.');
-if(/prod(uction)?/i.test(projectRef)||/prod(uction)?/i.test(publicUrl.hostname))finish('blocked','Production-like project identity rejected.');
+const suppliedPublic=process.env.QA_FRESH_SUPABASE_URL?.trim();if(suppliedPublic){let publicUrl;try{publicUrl=new URL(suppliedPublic)}catch{finish('blocked','QA_FRESH_SUPABASE_URL is invalid.');}if(!publicUrl.hostname.endsWith('.supabase.co')||publicUrl.hostname.split('.')[0].toLowerCase()!==projectRef)finish('blocked','QA_FRESH_SUPABASE_URL does not match the disposable project ref.');}
+if(/prod(uction)?/i.test(projectRef))finish('blocked','Production-like project identity rejected.');
 const empty=await queryScalar(db,"select case when to_regclass('public.networks') is null and to_regclass('public.profiles') is null then 'empty' else 'not-empty' end");
 if(empty!=='empty')finish('blocked','Disposable database is not empty. Phase 5B never drops/resets an existing schema.');
 const checkpoint=Math.max(1,Math.min(inventory.latestAccepted-1,Number(process.env.QA_PHASE5B_CHECKPOINT||80)));
 const rerunFrom=Math.max(1,Math.min(inventory.latestAccepted,Number(process.env.QA_PHASE5B_RERUN_FROM||90)));
-result.checkpoint=checkpoint;result.rerunFrom=rerunFrom;
+result.checkpoint=checkpoint;result.rerunFrom=rerunFrom;result.derivedProjectRef=derivedRef;result.publicSupabaseUrl=suppliedPublic||`https://${projectRef}.supabase.co`;
 async function applyPhase(label,entries){const phase={label,status:'passed',migrations:[]};for(const entry of entries){const started=Date.now();try{await executeSql(db,fs.readFileSync(path.join('supabase/migrations',entry.name),'utf8'));phase.migrations.push({file:entry.name,number:entry.number,sha256:entry.sha256,status:'passed',durationMs:Date.now()-started});}catch(error){phase.status='failed';phase.migrations.push({file:entry.name,number:entry.number,sha256:entry.sha256,status:'failed',durationMs:Date.now()-started,error:String(error?.stack||error)});break}}result.phases.push(phase);return phase.status==='passed'}
 const before=inventory.accepted.filter(x=>x.number<=checkpoint),after=inventory.accepted.filter(x=>x.number>checkpoint),rerun=inventory.accepted.filter(x=>x.number>=rerunFrom);
 if(!(await applyPhase(`fresh-001-${String(checkpoint).padStart(3,'0')}`,before)))finish('failed','Fresh replay failed before checkpoint.');

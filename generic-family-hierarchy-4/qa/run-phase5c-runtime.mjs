@@ -1,4 +1,11 @@
-import fs from 'node:fs';import {spawn} from 'node:child_process';import {writeJson} from './runtime/env.mjs';import {loadAndAssertPhase5cReleaseCandidate} from './runtime/phase5c-release-guard.mjs';
+import fs from 'node:fs';
+import {spawn} from 'node:child_process';
+import {writeJson} from './runtime/env.mjs';
+import {loadAndAssertPhase5cReleaseCandidate} from './runtime/phase5c-release-guard.mjs';
+import {verifyPhase5cDependencies} from './phase5c-dependency-verify.mjs';
+
+const deps=verifyPhase5cDependencies();
+if(!deps.ok){console.error('Phase-5C runtime BLOCKED: prerequisite certifications are not complete. Release environment was not loaded and no database action was attempted.');process.exit(1)}
 let rc;try{rc=loadAndAssertPhase5cReleaseCandidate()}catch(error){console.error(String(error?.message||error));process.exit(1)}
 const b='qa-results/db/PHASE5B-FRESH-MIGRATION-REPLAY.json';if(!fs.existsSync(b)){console.error('Phase-5C runtime BLOCKED: missing Phase-5B replay evidence.');process.exit(1)}const be=JSON.parse(fs.readFileSync(b,'utf8'));if(be.status!=='passed'||be.projectRef!==rc.projectRef){console.error(`Phase-5C runtime BLOCKED: Phase-5B replay evidence must PASS on release project ${rc.projectRef}.`);process.exit(1)}
 fs.mkdirSync('qa-results',{recursive:true});fs.mkdirSync('qa-results/fixtures',{recursive:true});for(const f of ['qa-results/fixtures/generated.env','qa-results/fixtures/seed-state.json'])fs.rmSync(f,{force:true});const steps=[];

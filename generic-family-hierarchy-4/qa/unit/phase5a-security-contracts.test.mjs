@@ -5,14 +5,11 @@ const audit=fs.readFileSync('qa/db/rpc-security-closure.mjs','utf8');
 const runner=fs.readFileSync('qa/run-phase5a-certification.mjs','utf8');
 const contract=buildMigrationRpcIntent();
 
-test('Phase 5A migration intent has no explicit GRANT EXECUTE to PUBLIC',()=>{
-  for(const f of contract.functions){
-    const publicGrant=f.explicitRoleEvents.find(x=>x.action==='grant'&&x.role==='public');
-    assert.equal(publicGrant,undefined,`${f.name} grants EXECUTE to PUBLIC in ${publicGrant?.file}`);
-  }
+test('Phase 5A migration intent uses final ACL state and has no final GRANT EXECUTE to PUBLIC',()=>{
+  assert.deepEqual(contract.publicUnsafeFunctions,[]);
 });
 
-test('Phase 5A every explicitly client-callable RPC has an explicit PUBLIC revoke somewhere in migration history',()=>{
+test('Phase 5A every final client-callable RPC has an explicit PUBLIC revoke somewhere in migration history',()=>{
   const bad=contract.functions.filter(x=>x.expectedRoles.length&&!x.explicitPublicRevoke);
   assert.deepEqual(bad.map(x=>x.name),[]);
 });
@@ -22,9 +19,16 @@ test('Phase 5A SECURITY DEFINER migration definitions pin search_path',()=>{
   assert.deepEqual(bad.map(x=>({name:x.name,securityDefinerDefinitions:x.securityDefinerDefinitions,fixedSearchPathDefinitions:x.fixedSearchPathDefinitions})),[]);
 });
 
+test('Phase 5A live audit distinguishes PUBLIC inheritance from explicit client-role ACL grants',()=>{
+  assert.match(audit,/anon_explicit_execute/);
+  assert.match(audit,/authenticated_explicit_execute/);
+  assert.match(audit,/aclexplode\(coalesce\(p\.proacl,'\{\}'::aclitem\[\]\)\)/);
+  assert.doesNotMatch(audit,/has_function_privilege\('anon'/);
+});
+
 test('Phase 5A live audit is catalog-read-only and strict findings are not advisory',()=>{
   assert.match(audit,/readOnly:true/);
-  assert.match(audit,/zero unexpected PUBLIC\/anon exposure/);
+  assert.match(audit,/zero unexpected PUBLIC\/explicit client-role exposure/);
   assert.match(audit,/if\(!reportOnly&&status!==['"]passed['"]\)process\.exit\(1\)/);
   assert.doesNotMatch(audit,/insert\s+into|update\s+public\.|delete\s+from|drop\s+function|alter\s+function/i);
 });
