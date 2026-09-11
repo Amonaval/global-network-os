@@ -1,19 +1,20 @@
 "use client";
-import {DEFAULT_CATALOG} from "../lib/i18n/catalog";
-import {useLanguage} from "../lib/i18n";
-import {Moon,Palette,Sun} from "lucide-react";
+import {useLanguage,type MessageToken} from "../lib/i18n";
+import {Heart,Moon,Palette,Sparkles,Sun} from "lucide-react";
 import {useTheme,type AppTheme} from "./ThemeProvider";
 
-const OPTIONS:{value:AppTheme;label:string;icon:typeof Sun}[]=[
- {value:"light",label:DEFAULT_CATALOG.LightTxt,icon:Sun},
- {value:"dark",label:DEFAULT_CATALOG.DarkTxt,icon:Moon},
- {value:"aurora",label:DEFAULT_CATALOG.AuroraTxt,icon:Palette},
+const OPTIONS:{value:AppTheme;labelKey:MessageToken;icon:typeof Sun}[]=[
+ {value:"light",labelKey:"LightTxt",icon:Sun},
+ {value:"warm",labelKey:"WarmThemeTxt",icon:Heart},
+ {value:"modern",labelKey:"ModernThemeTxt",icon:Palette},
+ {value:"aurora",labelKey:"AuroraTxt",icon:Sparkles},
+ {value:"dark",labelKey:"DarkTxt",icon:Moon},
 ];
 
 export default function ThemeSwitcher({compact=false}:{compact?:boolean}){
  const {t:tr}=useLanguage();
  const {theme,setTheme}=useTheme();
  return <div className={`theme-switcher ${compact?"compact":""}`} role="group" aria-label={tr("AppearanceTxt")}>
-  {OPTIONS.map(({value,label,icon:Icon})=><button key={value} type="button" className={theme===value?"active":""} onClick={()=>setTheme(value)} title={`${label} theme`} aria-label={`${label} theme`} aria-pressed={theme===value}><Icon size={14}/>{!compact&&<span>{label}</span>}</button>)}
+  {OPTIONS.map(({value,labelKey,icon:Icon})=>{const label=tr(labelKey);return <button key={value} type="button" className={theme===value?"active":""} onClick={()=>setTheme(value)} title={`${label} · ${tr("AppearanceTxt")}`} aria-label={`${label} · ${tr("AppearanceTxt")}`} aria-pressed={theme===value}><Icon size={14}/>{!compact&&<span>{label}</span>}</button>})}
  </div>;
 }

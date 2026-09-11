@@ -1,20 +1,22 @@
 import type {VerticalAppComposition} from "../../core/verticals/app-composition";
 import type {ProductizedNetworkConfig,ProductizedVerticalKind} from "../../templates/productized/config";
-const label=(en:string)=>({en,hi:en,mr:en});
+const label=(en:string,hi:string,mr:string)=>({en,hi,mr});
 export function createProductizedAppComposition(kind:ProductizedVerticalKind,cfg:ProductizedNetworkConfig):VerticalAppComposition{return {
  kind,renderStatus:"active",featureCatalogId:kind,
  primaryNavigation:[
-  {viewId:"home",featureKey:`${kind}.core.home`,iconToken:"home",label:label("Home")},
-  {viewId:"intelligence",featureKey:`${kind}.shared.intelligence`,iconToken:"intelligence",label:label("Intelligence")},
-  {viewId:"explorer",featureKey:`${kind}.shared.explorer`,iconToken:"layers",label:label("Explore")},
-  {viewId:"directory",featureKey:`${kind}.core.directory`,iconToken:"users",label:label("Directory")},
-  {viewId:"community",featureKey:`${kind}.shared.community`,iconToken:"calendar",label:label("Community")},
-  {viewId:"places",featureKey:`${kind}.shared.places`,iconToken:"map",label:label("Places")},
-  {viewId:"connections",featureKey:`${kind}.core.connections`,iconToken:"heart-handshake",label:label("Connections")},
-  {viewId:"contribute",featureKey:`${kind}.shared.contribute`,iconToken:"contribute",label:label("Contribute")},
-  {viewId:"guide",iconToken:"book-open",label:label("Guide")},
+  {viewId:"home",featureKey:`${kind}.core.home`,iconToken:"home",label:label("Home","होम","होम")},
+  {viewId:"explorer",featureKey:`${kind}.shared.explorer`,iconToken:"layers",label:label("Explore","देखें","पाहा")},
+  {viewId:"directory",featureKey:`${kind}.core.directory`,iconToken:"users",label:label("Directory","डायरेक्टरी","डिरेक्टरी")},
+  {viewId:"community",featureKey:`${kind}.shared.community`,iconToken:"calendar",label:label("Community","समुदाय","समुदाय")},
+  {viewId:"guide",iconToken:"book-open",label:label("Guide & Help","मार्गदर्शिका व सहायता","मार्गदर्शक व मदत")},
  ],
- mobileMoreNavigation:[{viewId:"admin",featureKey:`${kind}.admin.manage`,iconToken:"settings",label:label("Admin"),adminOnly:true}],
+ mobileMoreNavigation:[
+  {viewId:"intelligence",featureKey:`${kind}.shared.intelligence`,iconToken:"intelligence",label:label("Insights","अंतर्दृष्टि","अंतर्दृष्टी")},
+  {viewId:"places",featureKey:`${kind}.shared.places`,iconToken:"map",label:label("Places","स्थान","ठिकाणे")},
+  {viewId:"connections",featureKey:`${kind}.core.connections`,iconToken:"heart-handshake",label:label("Connections","संबंध","जोडणी")},
+  {viewId:"contribute",featureKey:`${kind}.shared.contribute`,iconToken:"contribute",label:label("Contribute","योगदान","योगदान")},
+  {viewId:"admin",featureKey:`${kind}.admin.manage`,iconToken:"settings",label:label("Manage","प्रबंधन","व्यवस्थापन"),adminOnly:true},
+ ],
  mobileBottomViewIds:["home","explorer","directory","community"],mobileMoreActiveViewIds:["intelligence","places","connections","contribute","admin","guide"],
  guide:{registryId:`${kind}-guide-g8`,guideByView:{home:`${kind}-home`,intelligence:`${kind}-intelligence`,explorer:`${kind}-explorer`,directory:`${kind}-directory`,community:`${kind}-community`,places:`${kind}-places`,connections:`${kind}-connections`,contribute:`${kind}-contribute`,admin:`${kind}-admin`},actionToView:{"Open explorer":"explorer","Open directory":"directory","Open community":"community","Open admin":"admin"},playgroundViewIds:["home","intelligence","explorer","directory","community","places","connections","contribute"]},
  playground:{enabled:true,startView:"home",publicNetworkSettings:{name:cfg.sampleName,network_template:kind,vertical_kind:kind}},

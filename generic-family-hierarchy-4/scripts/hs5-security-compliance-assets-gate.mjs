@@ -17,7 +17,7 @@ ok('emergency contacts',sql.includes('hs_emergency_contacts')&&sql.includes('pho
 ok('RLS boundaries',sql.includes('hs_visitors_scoped_read')&&sql.includes('hs_compliance_visibility_read'));
 ok('snapshot privacy masks visitor phone',sql.includes("case when issec then v.phone else null end"));
 ok('remote adapter',remote.includes('fetchHsSecuritySnapshot')&&remote.includes('createHsVisitor')&&remote.includes('upsertHsAsset'));
-ok('resident security surface',comp.includes('viewId:"security"')&&comp.includes('Security & Services'));
+ok('resident security surface',comp.includes('viewId:"security"')&&comp.includes('Visitors & Security'));
 ok('template renders security panel',hasCopy(app,'tab==="security"')&&hasCopy(app,'<HousingSocietySecurityPanel'));
 ok('admin includes HS5',hasCopy(app,'<HousingSocietySecurityPanel isAdmin={isAdmin}'));
 ok('visitor UI',hasCopy(ui,'Visitor pre-approval')&&hasCopy(ui,'Check in')&&hasCopy(ui,'Check out'));

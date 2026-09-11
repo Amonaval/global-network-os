@@ -9,7 +9,7 @@ ok('family-association template exists',tpl.includes('primaryEntityKind:"family"
 ok('Pune city and area semantics',cfg.includes('city:"Pune"')&&cfg.includes('familyAssociationAreas')&&tpl.includes('Area / Locality'));
 ok('creation/playground exposed',hasCopy(setup,'"family-association"'));
 ok('runtime registered',vr.includes('FAMILY_ASSOCIATION_VERTICAL')&&runtime.includes('FAMILY_ASSOCIATION_APP_COMPOSITION'));
-ok('advanced intelligence hidden from composition',read('verticals/family-association/runtime/composition.ts').includes('s.viewId!=="intelligence"'));
+ok('advanced intelligence hidden from composition',!read('verticals/family-association/runtime/composition.ts').includes('find("intelligence")'));
 ok('directory includes families and people',hasCopy(app,'directoryEntities')&&hasCopy(app,'e.entity.kind==="family"||e.entity.kind==="person"'));
 ok('explicit add family/member flows',hasCopy(app,'Add Family')&&hasCopy(app,'Add Member')&&hasCopy(app,'openEditor(undefined,"person")'));
 ok('member can be linked to family',hasCopy(app,'member_of_family')&&hasCopy(app,'family_id'));

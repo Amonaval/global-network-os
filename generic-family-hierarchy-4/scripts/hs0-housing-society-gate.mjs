@@ -25,7 +25,7 @@ ok('property dimensions include building wing floor',template.includes('key:"bui
 ok('ownership and occupancy semantics explicit',template.includes('owned_by')&&template.includes('tenanted_by')&&template.includes('resident_of')&&template.includes('member_of_household'));
 ok('setup exposes create and playground',setup.includes('"housing-society"'));
 ok('productized config has synthetic society',config.includes('Green Meadows Housing Society')&&config.includes('housingUnits')&&config.includes('housingPeople'));
-ok('resident UX hides platform intelligence',!composition.includes('viewId:"intelligence"')&&composition.includes('s.viewId!=="intelligence"'));
+ok('resident UX hides platform intelligence',!composition.includes('find("intelligence")'));
 ok('resident directory includes unit household person',app.includes('kind==="housing-society"?entities.filter(e=>e.entity.kind==="unit"||e.entity.kind==="household"||e.entity.kind==="person")'));
 ok('distinct civic theme',css.includes('.housing-society-network')&&css.includes('--product:#176b72'));
 ok('guide truth distinguishes current vs future',guide.includes('housing-society-home')&&guide.includes('housing-society-roadmap')&&guide.includes('status:"future"'));

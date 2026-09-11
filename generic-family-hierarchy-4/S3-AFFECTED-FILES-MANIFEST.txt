@@ -1,0 +1,27 @@
+S3 affected-files package
+
+Changed/new files:
+SHOWCASE-HANDOVER-STATE.md
+SHOWCASE-S3-APPLY-NOTE.md
+SHOWCASE-S3-NAVIGATION-THEME-I18N.md
+app/globals.css
+capabilities/template-product/composition.ts
+components/FeatureGuide.tsx
+components/MyNetworksHome.tsx
+components/NetworkApp.tsx
+components/SetupScreen.tsx
+components/TemplateNetworkApp.tsx
+components/ThemeProvider.tsx
+components/ThemeSwitcher.tsx
+lib/i18n/messages/en.ts
+lib/i18n/messages/hi.ts
+lib/i18n/messages/mr.ts
+package.json
+scripts/fca0-family-association-gate.mjs
+scripts/hs0-housing-society-gate.mjs
+scripts/hs1-property-resident-core-gate.mjs
+scripts/hs5-security-compliance-assets-gate.mjs
+scripts/showcase-s3-source-gate.mjs
+verticals/family/runtime/composition.ts
+verticals/family-association/runtime/composition.ts
+verticals/housing-society/runtime/composition.ts

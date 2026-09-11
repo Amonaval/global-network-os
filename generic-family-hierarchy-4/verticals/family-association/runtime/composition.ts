@@ -2,22 +2,27 @@ import {createProductizedAppComposition} from "../../../capabilities/template-pr
 import {PRODUCTIZED_NETWORK_CONFIGS} from "../../../templates/productized/config";
 import type {VerticalAppComposition,VerticalSurfaceDescriptor} from "../../../core/verticals/app-composition";
 const base=createProductizedAppComposition("family-association",PRODUCTIZED_NETWORK_CONFIGS["family-association"]);
-const label=(en:string)=>({en,hi:en,mr:en});
-const rename=(s:VerticalSurfaceDescriptor,next:string):VerticalSurfaceDescriptor=>({...s,label:label(next)});
-const memberSurfaces=base.primaryNavigation.filter(s=>s.viewId!=="intelligence"&&s.viewId!=="places").map(s=>{
- if(s.viewId==="explorer")return rename(s,"Family Structure");
- if(s.viewId==="directory")return rename(s,"Families & Members");
- if(s.viewId==="community")return rename(s,"Community Life");
- if(s.viewId==="connections")return rename(s,"Family & Community Links");
- if(s.viewId==="contribute")return rename(s,"Build Together");
- if(s.viewId==="guide")return rename(s,"Explore & Guide");
- return s;
-});
+const label=(en:string,hi:string,mr:string)=>({en,hi,mr});
+const find=(viewId:string)=>[...base.primaryNavigation,...base.mobileMoreNavigation].find(s=>s.viewId===viewId)!;
+const relabel=(surface:VerticalSurfaceDescriptor,en:string,hi:string,mr:string):VerticalSurfaceDescriptor=>({...surface,label:label(en,hi,mr)});
+const meSurface:VerticalSurfaceDescriptor={viewId:"me",featureKey:"family-association.core.me",iconToken:"user",label:label("Me & My Family","मैं और मेरा परिवार","मी आणि माझे कुटुंब")};
 export const FAMILY_ASSOCIATION_APP_COMPOSITION={
  ...base,
- primaryNavigation:[...memberSurfaces.slice(0,1),{viewId:"me",featureKey:"family-association.core.me",iconToken:"user",label:label("Me & My Family")},...memberSurfaces.slice(1)],
+ primaryNavigation:[
+  relabel(find("home"),"Home","होम","होम"),
+  meSurface,
+  relabel(find("directory"),"Families","परिवार","कुटुंबे"),
+  relabel(find("community"),"Community Life","सामुदायिक जीवन","समुदाय जीवन"),
+  relabel(find("guide"),"Guide & Help","मार्गदर्शिका व सहायता","मार्गदर्शक व मदत"),
+ ],
+ mobileMoreNavigation:[
+  relabel(find("explorer"),"Family Structure","परिवार संरचना","कुटुंब रचना"),
+  relabel(find("connections"),"Family & Community Links","परिवार व समुदाय संबंध","कुटुंब व समुदाय जोडणी"),
+  relabel(find("contribute"),"Build Together","मिलकर बनाएँ","एकत्र उभारा"),
+  {...relabel(find("admin"),"Manage Community","समुदाय प्रबंधन","समुदाय व्यवस्थापन"),adminOnly:true},
+ ],
  mobileBottomViewIds:["home","me","directory","community"],
  mobileMoreActiveViewIds:["explorer","connections","contribute","admin","guide"],
- guide:{...base.guide,playgroundViewIds:["home","me","explorer","directory","community","connections","contribute"]},
- launch:{...base.launch,playgroundTitle:"Family Community Association Playground",playgroundDescription:"Family-grade people and hierarchy plus annual membership, celebrations, committees, history and community participation.",playgroundRecommendation:"Start at Home, explore Families & Members, then open Community Life and Me & My Family."},
+ guide:{...base.guide,playgroundViewIds:["home","me","directory","community","explorer","connections","contribute"]},
+ launch:{...base.launch,playgroundTitle:"Family Community Association Playground",playgroundDescription:"Family-grade people and hierarchy plus annual membership, celebrations, committees, history and community participation.",playgroundRecommendation:"Start at Home, explore Families, then open Community Life and Me & My Family."},
 } satisfies VerticalAppComposition;

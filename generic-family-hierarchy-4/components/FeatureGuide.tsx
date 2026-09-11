@@ -14,7 +14,7 @@ export default function FeatureGuide({entry,onOpenGuide,onOpenFeature,onTryPlayg
  const toggle=()=>{const next=!open;setOpen(next);if(next){setSeen(true);try{localStorage.setItem(storageKey,"1")}catch{}}};
  return <section className={`feature-guide ${open?"open":""}`} aria-label={`Guide for ${entry.title}`}>
   <button className="feature-guide-toggle" type="button" onClick={toggle} aria-expanded={open}>
-   <span className="feature-guide-icon"><BookOpen size={18}/></span><span><b>{tr("WhatCanIDoHereTxt")}</b><small>{seen?entry.summary:`New here? ${entry.summary}`}</small></span>{open?<ChevronUp size={18}/>:<ChevronDown size={18}/>} 
+   <span className="feature-guide-icon"><BookOpen size={18}/></span><span><b>{tr("WhatCanIDoHereTxt")}</b><small>{seen?entry.summary:`${tr("NewHereTxt")} ${entry.summary}`}</small></span>{open?<ChevronUp size={18}/>:<ChevronDown size={18}/>} 
   </button>
   {open&&<div className="feature-guide-body">
    <div className="feature-guide-grid"><div><h4>{tr("WhyUseItTxt")}</h4><p>{entry.why}</p></div><div><h4>{tr("HowToUseItTxt")}</h4><ol>{entry.steps.slice(0,4).map(x=><li key={x}>{x}</li>)}</ol></div></div>

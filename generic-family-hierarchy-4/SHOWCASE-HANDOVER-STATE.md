@@ -39,3 +39,32 @@ Preserve existing QA coverage and security/business-rule assertions while transf
 - S1 deterministic MPF Pune East + Emerald Heights showcase universe strengthened. JSON packs are source/reference only and require no manual database upload.
 - S2 First Impression Foundation implemented: TrustWeave-wide sign-in, focused Family / Community / Residential / Explore entry, Launch-Control-filtered Playground gallery, and a runtime guard preventing hidden Playground types from opening through alternate routes such as “Back to network selection”.
 - Next planned mission: S3 Navigation & Progressive Disclosure.
+
+---
+
+## S3 — Navigation, Progressive Disclosure, Appearance & High-Visibility i18n
+Status: IMPLEMENTED / TARGETED SOURCE VALIDATION PASS
+
+Completed:
+- reduced primary navigation for Family Community and Residential
+- advanced capabilities moved to role-aware More areas instead of removed
+- mobile More prevents destinations from becoming unreachable
+- five user Appearance themes: Light / Warm / Modern / Aurora / Dark
+- Light keeps editorial/vintage character; non-Light themes use cleaner typography
+- Dark contrast repaired for Family guide/ready/sidebar surfaces reported in showcase review
+- founder Brand palette remains a separate five-choice control in Launch Control
+- key login/setup/menu/Playground/My Networks copy expanded into Hindi and Marathi locale files
+- localized flagship navigation labels added to vertical compositions
+
+No database migration added for S3.
+
+Validation:
+- Showcase S3 12/12 PASS
+- Showcase S2 9/9 PASS
+- FCA0 27/27 PASS
+- HS0–HS5 PASS
+- changed-file TypeScript syntax transpile PASS
+
+Known inherited validation limitations:
+- repository-wide TypeScript check is blocked by pre-existing syntax errors in qa/e2e/19-phase4b-data-integrity-recovery.spec.ts
+- historical NX6 source gate has three pre-existing source-string assertions already failing on the S2 baseline

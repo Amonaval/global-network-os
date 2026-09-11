@@ -158,7 +158,9 @@
     "qa:phase5b:reconcile-source": "node qa/maintenance/phase5b-source-reconcile.mjs",
     "qa:phase5c:init": "node qa/init-phase5c-release-env.mjs",
     "qa:phase5a:batch1:plan": "node qa/security/phase5a-batch1-contract-review.mjs",
-    "validate:showcase-s2": "node scripts/showcase-s2-source-gate.mjs"
+    "validate:showcase-s2": "node scripts/showcase-s2-source-gate.mjs",
+    "validate:showcase-s3": "node scripts/showcase-s3-source-gate.mjs",
+    "validate:showcase-flow-repair": "node scripts/showcase-flow-repair-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

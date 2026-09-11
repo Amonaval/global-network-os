@@ -1,10 +1,11 @@
 "use client";
 import {createContext,useContext,useEffect,useMemo,useState,type ReactNode} from "react";
 
-export type AppTheme="light"|"dark"|"aurora";
+export type AppTheme="light"|"warm"|"modern"|"aurora"|"dark";
 type ThemeContextValue={theme:AppTheme;setTheme:(theme:AppTheme)=>void};
 const ThemeContext=createContext<ThemeContextValue|undefined>(undefined);
 const STORAGE_KEY="network-os-theme";
+const THEMES:AppTheme[]=["light","warm","modern","aurora","dark"];
 
 function applyTheme(theme:AppTheme){
  if(typeof document==="undefined")return;
@@ -16,7 +17,7 @@ export function ThemeProvider({children}:{children:ReactNode}){
  const [theme,setThemeState]=useState<AppTheme>("light");
  useEffect(()=>{
   const stored=typeof window!=="undefined"?window.localStorage.getItem(STORAGE_KEY) as AppTheme|null:null;
-  const initial=stored&&["light","dark","aurora"].includes(stored)?stored:"light";
+  const initial=stored&&THEMES.includes(stored)?stored:"light";
   setThemeState(initial);applyTheme(initial);
  },[]);
  const setTheme=(next:AppTheme)=>{setThemeState(next);applyTheme(next);try{if(typeof window!=="undefined")window.localStorage.setItem(STORAGE_KEY,next)}catch{}};

@@ -23,7 +23,7 @@ ok('direct parking allocation UI',hasCopy(ui,'Allocate parking')&&hasCopy(ui,'al
 ok('resident invitation link UI',hasCopy(ui,'/society-invite/')&&hasCopy(ui,'Copy invitation link'));
 ok('dedicated society invitation page',hasCopy(invite,'acceptHsInvitation')&&hasCopy(invite,'Join & claim resident profile'));
 ok('runtime adapter covers HS1',remote.includes('fetchHsMyFlat')&&remote.includes('importHsResidentRows')&&remote.includes('allocateHsParking'));
-ok('My Flat is a real navigation surface',comp.includes('featureKey:"housing-society.core.my-flat"')&&comp.includes('label("My Flat")'));
+ok('My Home is a real navigation surface',comp.includes('featureKey:"housing-society.core.my-flat"')&&comp.includes('label("My Home"'));
 ok('HS1 features catalogued',cat.includes('housing-society.core.occupancy-history')&&cat.includes('housing-society.admin.bulk-onboarding'));
 ok('generic import hidden for housing',hasCopy(app,'kind!=="housing-society"&&<><InstitutionalBootstrapPanel'));
 ok('template truth updated to HS1',template.includes('HS-1 adds append-only ownership'));

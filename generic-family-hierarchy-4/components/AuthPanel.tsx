@@ -1,14 +1,15 @@
 "use client";
 import {useLanguage} from "../lib/i18n";
 import { useEffect,useState } from "react";
-import { ArrowLeft,ArrowRight,Eye,EyeOff,Heart,KeyRound,Mail,ShieldCheck } from "lucide-react";
+import { ArrowLeft,ArrowRight,Eye,EyeOff,Heart,KeyRound,Mail,ShieldCheck,X } from "lucide-react";
 import { requestPasswordReset,resendSignupConfirmation,signIn,signUp,updatePassword } from "../lib/auth";
 
 type AuthMode="signin"|"signup"|"forgot"|"reset";
-export default function AuthPanel({ onDone, initialMode="signin", onResetDone }: { onDone: () => void; initialMode?:AuthMode; onResetDone?:()=>void }) {
+export default function AuthPanel({ onDone, initialMode="signin", onResetDone, onClose }: { onDone: () => void; initialMode?:AuthMode; onResetDone?:()=>void; onClose?:()=>void }) {
  const {t:tr}=useLanguage();
   const [mode,setMode]=useState<AuthMode>(initialMode),[email,setEmail]=useState(""),[password,setPassword]=useState(""),[confirmPassword,setConfirmPassword]=useState(""),[name,setName]=useState(""),[message,setMessage]=useState(""),[error,setError]=useState(""),[busy,setBusy]=useState(false),[showPassword,setShowPassword]=useState(false),[confirmationPending,setConfirmationPending]=useState(false);
   useEffect(()=>setMode(initialMode),[initialMode]);
+  useEffect(()=>{if(!onClose)return;const onKey=(event:KeyboardEvent)=>{if(event.key==="Escape")onClose()};window.addEventListener("keydown",onKey);return()=>window.removeEventListener("keydown",onKey)},[onClose]);
   const clear=()=>{setError("");setMessage("")};
   const submit=async(event:React.FormEvent)=>{
     event.preventDefault();clear();setBusy(true);
@@ -38,7 +39,8 @@ export default function AuthPanel({ onDone, initialMode="signin", onResetDone }:
   };
   const resend=async()=>{clear();setBusy(true);try{await resendSignupConfirmation(email);setMessage(tr("ConfirmationEmailSentAgainPleaseCheckYourTxt"));}catch(e:any){setError(e.message||"Could not resend the confirmation email.");}finally{setBusy(false)}};
   const resetTitle=mode==="reset";
-  return <div className="modal-overlay"><form className="modal auth-modal family-auth" data-testid="qa-auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title" onSubmit={submit}>
+  return <div className="modal-overlay" onMouseDown={event=>{if(onClose&&event.target===event.currentTarget)onClose()}}><form className="modal auth-modal family-auth" data-testid="qa-auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title" onSubmit={submit} onMouseDown={event=>event.stopPropagation()}>
+    {onClose&&<button type="button" className="modal-x auth-modal-close" aria-label={tr("CloseTxt")} onClick={onClose}><X size={18}/></button>}
     <span className="warm-kicker"><Heart size={13} fill="currentColor" /> {mode==="signin"?tr("WelcomeBackTxt"):mode==="signup"?tr("JoinYourFamilyTxt"):mode==="forgot"?tr("AccountHelpTxt"):tr("ChooseANewPasswordTxt")}</span>
     <h2 id="auth-title">{mode==="signin"?tr("ContinueToYourFamilyTxt"):mode==="signup"?tr("CreateYourFamilyAccountTxt"):mode==="forgot"?tr("ForgotYourPasswordTxt"):tr("ResetYourPasswordTxt")}</h2>
     <p className="page-subtitle">{mode==="signin"?tr("UseTheEmailAddressConnectedToYourTxt"):mode==="signup"?tr("CreateYourAccountThenFindAndConnectTxt"):mode==="forgot"?tr("EnterYourEmailAndWeLlSendTxt"):tr("CreateANewPasswordForYourFamilyTxt")}</p>

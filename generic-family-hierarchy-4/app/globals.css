@@ -1201,3 +1201,109 @@ html[data-theme="aurora"] .product-network-app.housing-society-network{backgroun
 
 @media(max-width:900px){.showcase-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.showcase-signin-types,.showcase-explore-grid,.showcase-playground-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.showcase-signin-card{padding:24px 18px}.showcase-signin-types,.showcase-choice-grid,.showcase-explore-grid,.showcase-playground-grid{grid-template-columns:1fr}.showcase-choice-card{min-height:auto}.showcase-explore-head{display:block}.showcase-readonly-pill{width:max-content;margin-top:10px}.showcase-more-grid{position:fixed;left:12px;right:12px;bottom:12px;top:auto;width:auto;grid-template-columns:1fr;max-height:60vh;overflow:auto}}
+
+/* S3 — five genuinely distinct appearance themes + progressive navigation. */
+html[data-theme="warm"]{
+  --bg:#fbf5eb;--surface:#fffaf2;--surface-raised:#fffdf8;--surface-soft:#f7eadc;--surface-hover:#f3e2d1;
+  --text:#3c3028;--muted:#7b695d;--line:#ead7c2;--brand:#9a573d;--brand-soft:#f4dfd2;
+  --success:#3e7b62;--warning:#a56d20;--danger:#b94c48;--overlay:rgba(65,45,32,.40);
+}
+html[data-theme="warm"] body{background:radial-gradient(circle at 8% -8%,rgba(76,136,108,.16),transparent 32%),radial-gradient(circle at 91% 2%,rgba(211,145,66,.18),transparent 28%),linear-gradient(180deg,#fff9ef,#f9f1e6 58%,#f4eadf);background-attachment:fixed}
+html[data-theme="warm"] .topbar,html[data-theme="warm"] .sidebar{background:rgba(255,250,242,.95)}
+
+html[data-theme="modern"]{
+  --bg:#edf4f6;--surface:#f9fcfd;--surface-raised:#ffffff;--surface-soft:#e5f1f3;--surface-hover:#dcecef;
+  --text:#17313b;--muted:#607681;--line:#cddfe4;--brand:#16717b;--brand-soft:#d9eef0;
+  --success:#267d63;--warning:#a96d1d;--danger:#b9474d;--overlay:rgba(17,45,56,.42);
+}
+html[data-theme="modern"] body{background:radial-gradient(circle at 8% -5%,rgba(30,135,147,.17),transparent 31%),radial-gradient(circle at 92% 0%,rgba(72,114,181,.13),transparent 28%),linear-gradient(180deg,#f5fafb,#edf4f6 58%,#e9f1f4);background-attachment:fixed}
+html[data-theme="modern"] .topbar,html[data-theme="modern"] .sidebar{background:rgba(249,252,253,.95)}
+
+html[data-theme="aurora"]{
+  --bg:#f4f1fb;--surface:#fffefe;--surface-raised:#ffffff;--surface-soft:#f0ebfb;--surface-hover:#e9e3f8;
+  --text:#29283e;--muted:#6d6c83;--line:#ded9ed;--brand:#6b55bd;--brand-soft:#ece7fb;
+  --success:#28846d;--warning:#a86f22;--danger:#be4e64;--overlay:rgba(35,28,63,.42);
+}
+html[data-theme="aurora"] body{background:radial-gradient(circle at 7% -4%,rgba(38,170,151,.23),transparent 30%),radial-gradient(circle at 76% -9%,rgba(117,82,199,.20),transparent 34%),radial-gradient(circle at 102% 35%,rgba(231,132,105,.15),transparent 28%),linear-gradient(180deg,#fbf9ff,#f3f2fb 57%,#edf6f4);background-attachment:fixed}
+html[data-theme="aurora"] .topbar,html[data-theme="aurora"] .sidebar{background:rgba(255,254,255,.93)}
+
+html[data-theme="dark"]{
+  --bg:#0b1218;--surface:#142029;--surface-raised:#1a2933;--surface-soft:#20343f;--surface-hover:#29414d;
+  --text:#f2f7f8;--muted:#b2c1c8;--line:#344b58;--brand:#69d2bc;--brand-soft:#193f39;
+  --success:#70d9ac;--warning:#f2bf6c;--danger:#ff969c;--overlay:rgba(0,0,0,.72);
+}
+html[data-theme="dark"] body{background:radial-gradient(circle at 8% -8%,rgba(44,154,137,.18),transparent 31%),radial-gradient(circle at 93% 0%,rgba(58,97,149,.15),transparent 28%),#0b1218;background-attachment:fixed}
+html[data-theme="dark"] .topbar{background:rgba(14,24,31,.96)!important}
+html[data-theme="dark"] .sidebar,html[data-theme="dark"] .product-side-nav{background:rgba(18,30,38,.98)!important}
+
+/* Light deliberately keeps the warm editorial/vintage character. Other modes use a cleaner face. */
+html:is([data-theme="warm"],[data-theme="modern"],[data-theme="aurora"],[data-theme="dark"]) :where(h1,h2,h3,.family-welcome h1,.onboarding-story h1,.alumni-hero-community b){font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;letter-spacing:-.025em}
+
+/* Dark-mode contrast repair for the exact family surfaces that remained light in S2. */
+html[data-theme="dark"] .nav-btn{color:#b5c5ca!important}
+html[data-theme="dark"] .nav-btn:hover{background:#20343f!important;color:#f5fafb!important}
+html[data-theme="dark"] .nav-btn.active{background:#dff4ed!important;color:#174d43!important}
+html[data-theme="dark"] .nav-btn svg{color:currentColor!important;opacity:1!important}
+html[data-theme="dark"] .sidebar-section-label{color:#91a8b1!important}
+html[data-theme="dark"] .sidebar-family-summary>span{color:#aebdc3!important}
+html[data-theme="dark"] .feature-guide{background:linear-gradient(135deg,#172630,#1a2933)!important;border-color:#39515d!important;color:var(--text)!important;box-shadow:0 10px 28px rgba(0,0,0,.2)}
+html[data-theme="dark"] .feature-guide-toggle{color:var(--text)!important}
+html[data-theme="dark"] .feature-guide-toggle b{color:#f6fafb!important}
+html[data-theme="dark"] .feature-guide-toggle small,html[data-theme="dark"] .feature-guide p,html[data-theme="dark"] .feature-guide ol{color:#bdcbd1!important}
+html[data-theme="dark"] .feature-guide-icon{background:#253945!important;color:#83dbc8!important}
+html[data-theme="dark"] .feature-guide-body{border-top-color:#39515d!important}
+html[data-theme="dark"] .feature-guide-examples{background:#302b22!important;color:#f1d49d!important}
+html[data-theme="dark"] .feature-guide-trust{background:#17352f!important;color:#a9e2d2!important}
+html[data-theme="dark"] .family-ready-celebration{background:linear-gradient(135deg,#17352f,#242c2a)!important;border-color:#396357!important;color:var(--text)!important;box-shadow:0 12px 34px rgba(0,0,0,.22)}
+html[data-theme="dark"] .family-ready-celebration h2{color:#f7fbfa!important}
+html[data-theme="dark"] .family-ready-celebration p{color:#c0cec9!important}
+html[data-theme="dark"] .family-ready-icon{background:#213d37!important;color:#7fddc5!important;box-shadow:none!important}
+html[data-theme="dark"] .quick-family-start{background:linear-gradient(135deg,#172b28,#1a2933)!important;border-color:#35554d!important}
+html[data-theme="dark"] .warm-kicker{color:#e2b978}
+html[data-theme="dark"] :where(.family-home-card,.nx6-now-card,.member-experience-card,.experience-preview){color:var(--text)}
+
+/* More = progressive disclosure. Primary rails stay short; advanced capability remains reachable. */
+.family-nav-more,.product-nav-more{margin:4px 0}
+.family-nav-more>summary,.product-nav-more>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;color:var(--muted);font-size:12px;font-weight:800;user-select:none}
+.family-nav-more>summary::-webkit-details-marker,.product-nav-more>summary::-webkit-details-marker{display:none}
+.family-nav-more>summary:hover,.product-nav-more>summary:hover,.family-nav-more.active>summary,.product-nav-more.active>summary{background:var(--brand-soft);color:var(--brand)}
+.product-nav-more.active>summary{background:var(--product-soft);color:var(--product)}
+.family-nav-more>div,.product-nav-more>div{margin:3px 0 7px;padding:4px 0 4px 8px;border-left:1px solid var(--line)}
+.family-nav-more>div .nav-btn,.product-nav-more>div .nav-btn{font-size:11px;padding:9px 10px}
+html[data-theme="dark"] .family-nav-more>summary,html[data-theme="dark"] .product-nav-more>summary{color:#b5c5ca}
+html[data-theme="dark"] .family-nav-more>summary:hover,html[data-theme="dark"] .family-nav-more.active>summary{background:#20343f;color:#eef8f5}
+
+.product-mobile-more-backdrop{position:fixed;inset:0;z-index:90;background:rgba(15,23,42,.45);display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.product-mobile-more-sheet{width:min(560px,100%);max-height:min(76vh,680px);overflow:auto;background:var(--surface-raised);border:1px solid var(--line);border-radius:22px 22px 16px 16px;box-shadow:0 -18px 55px rgba(17,28,40,.2);padding:14px}
+.product-mobile-more-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:4px 4px 12px;border-bottom:1px solid var(--line)}
+.product-mobile-more-head h2{margin:3px 0 0;font-size:21px}
+.product-mobile-more-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-top:11px}
+.product-mobile-more-list>button{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:13px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:9px;text-align:left}
+.product-mobile-more-list>button>span{display:flex;align-items:center;gap:8px}.product-mobile-more-list>button b{font-size:11px}
+.product-mobile-more-list>button:hover,.product-mobile-more-list>button.active{background:var(--product-soft,var(--brand-soft));border-color:color-mix(in srgb,var(--product,var(--brand)) 35%,var(--line));color:var(--product,var(--brand))}
+@media(max-width:480px){.product-mobile-more-list{grid-template-columns:1fr}.theme-switcher.compact button{padding:6px 5px}}
+/* Non-light themes carry their palette into first-run/help surfaces instead of leaving white vintage cards behind. */
+html:is([data-theme="warm"],[data-theme="modern"],[data-theme="aurora"]) .feature-guide{background:linear-gradient(135deg,color-mix(in srgb,var(--brand-soft) 42%,var(--surface)),var(--surface-raised));border-color:color-mix(in srgb,var(--brand) 18%,var(--line));color:var(--text)}
+html:is([data-theme="warm"],[data-theme="modern"],[data-theme="aurora"]) .feature-guide-icon{background:var(--brand-soft);color:var(--brand)}
+html:is([data-theme="warm"],[data-theme="modern"],[data-theme="aurora"]) .feature-guide-body{border-top-color:var(--line)}
+html:is([data-theme="warm"],[data-theme="modern"],[data-theme="aurora"]) .feature-guide-examples{background:color-mix(in srgb,var(--warning) 9%,var(--surface))}
+html:is([data-theme="warm"],[data-theme="modern"],[data-theme="aurora"]) .feature-guide-trust{background:color-mix(in srgb,var(--success) 9%,var(--surface));color:color-mix(in srgb,var(--success) 82%,var(--text))}
+html:is([data-theme="warm"],[data-theme="modern"],[data-theme="aurora"]) .family-ready-celebration{background:linear-gradient(135deg,color-mix(in srgb,var(--brand-soft) 64%,var(--surface)),color-mix(in srgb,var(--warning) 7%,var(--surface)));border-color:color-mix(in srgb,var(--brand) 22%,var(--line));color:var(--text)}
+html:is([data-theme="warm"],[data-theme="modern"],[data-theme="aurora"]) .family-ready-icon{background:var(--surface-raised);color:var(--brand)}
+html:is([data-theme="warm"],[data-theme="modern"],[data-theme="aurora"]) .quick-family-start{background:linear-gradient(135deg,color-mix(in srgb,var(--brand-soft) 40%,var(--surface)),var(--surface));border-color:color-mix(in srgb,var(--brand) 18%,var(--line))}
+
+/* Showcase flow repair — preserve original selection flow while making async transitions obvious. */
+.onboarding-card{position:relative}
+.setup-action-loader{position:absolute;inset:0;z-index:35;display:flex;align-items:center;justify-content:center;gap:9px;border-radius:inherit;background:color-mix(in srgb,var(--surface) 78%,transparent);backdrop-filter:blur(2px);color:var(--text);font-weight:800}
+.setup-action-loader svg,.product-navigation-loader svg{animation:showcase-spin .8s linear infinite}
+@keyframes showcase-spin{to{transform:rotate(360deg)}}
+.product-network-app{position:relative}
+.product-navigation-loader{position:fixed;inset:72px 0 0;z-index:75;display:flex;align-items:center;justify-content:center;gap:10px;background:color-mix(in srgb,var(--bg) 62%,transparent);backdrop-filter:blur(2px);color:var(--text);font-size:13px;font-weight:850}
+.auth-modal.family-auth{position:relative}
+.auth-modal-close{position:absolute;right:12px;top:12px;width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--muted);cursor:pointer}
+.auth-modal-close:hover{background:var(--surface-hover);color:var(--text)}
+@media(max-width:600px){
+  .onboarding-card{padding-bottom:88px}
+  .onboarding-card .setup-next{position:fixed;left:14px;right:14px;bottom:14px;width:auto;z-index:45;min-height:48px;box-shadow:0 12px 34px rgba(15,23,42,.2)}
+  .product-navigation-loader{inset:64px 0 64px}
+}
