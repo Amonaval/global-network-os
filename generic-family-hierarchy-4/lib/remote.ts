@@ -75,6 +75,7 @@ export {
   fetchShowcaseVerticalSettings,
   fetchPlatformShowcaseVerticalSettings,
   setPlatformShowcaseVerticalSetting,
+  getDefaultShowcaseVerticalSetting,
 } from "../capabilities/launch-runtime/remote";
 export type { PlatformOwnerRow, PlatformOwnerAuditRow } from "../capabilities/platform-ownership/remote";
 export {

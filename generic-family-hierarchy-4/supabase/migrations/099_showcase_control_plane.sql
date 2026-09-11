@@ -20,12 +20,12 @@ insert into public.platform_showcase_verticals(vertical_kind,create_enabled,play
  ('family',true,true,true,'signature'),
  ('family-association',true,true,true,'signature'),
  ('housing-society',true,true,true,'signature'),
- ('alumni',true,true,false,'signature'),
- ('association',true,true,false,'signature'),
- ('organization',true,true,false,'signature'),
- ('business-trust',true,true,false,'signature'),
- ('franchise',true,true,false,'signature'),
- ('professional',true,true,false,'signature')
+ ('alumni',false,false,false,'signature'),
+ ('association',false,false,false,'signature'),
+ ('organization',false,false,false,'signature'),
+ ('business-trust',false,false,false,'signature'),
+ ('franchise',false,false,false,'signature'),
+ ('professional',false,false,false,'signature')
 on conflict(vertical_kind) do nothing;
 
 create or replace function public.get_showcase_vertical_settings()

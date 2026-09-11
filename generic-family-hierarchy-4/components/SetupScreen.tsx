@@ -11,7 +11,7 @@ import { getVerticalDefinition } from "../app-shell/vertical-registry";
 import type {NetworkVerticalKind} from "../core/verticals/contracts";
 import {PRODUCTIZED_NETWORK_CONFIGS,type ProductizedVerticalKind} from "../templates/productized/config";
 import { useLanguage } from "../lib/i18n";
-import {fetchShowcaseVerticalSettings,type ShowcaseVerticalSetting} from "../lib/remote";
+import {fetchShowcaseVerticalSettings,getDefaultShowcaseVerticalSetting,type ShowcaseVerticalSetting} from "../lib/remote";
 const ImportModal = dynamic(() => import("./ImportModal"), { ssr: false });
 
 
@@ -81,8 +81,9 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
   const [showcaseSettings,setShowcaseSettings]=useState<ShowcaseVerticalSetting[]>([]);
   useEffect(()=>{if(!shared)return;fetchShowcaseVerticalSettings().then(setShowcaseSettings).catch(()=>setShowcaseSettings([]))},[shared]);
   const showcaseByKind=useMemo(()=>new Map(showcaseSettings.map(row=>[row.vertical_kind,row] as const)),[showcaseSettings]);
-  const canCreateVertical=(kind:NetworkVerticalKind)=>showcaseByKind.get(kind)?.create_enabled!==false;
-  const canPlayVertical=(kind:NetworkVerticalKind)=>showcaseByKind.get(kind)?.playground_enabled!==false;
+  const showcaseSetting=(kind:NetworkVerticalKind)=>showcaseByKind.get(kind)||getDefaultShowcaseVerticalSetting(kind);
+  const canCreateVertical=(kind:NetworkVerticalKind)=>showcaseSetting(kind).create_enabled;
+  const canPlayVertical=(kind:NetworkVerticalKind)=>showcaseSetting(kind).playground_enabled;
 
   const create = async (mode: "empty" | "demo" | "import", members: Member[] = [], relationships: Relationship[] = []) => {
     setError("");

@@ -13,6 +13,18 @@ export type ShowcaseVerticalSetting = {
   updated_at?: string;
 };
 
+const DEFAULT_SHOWCASE_VISIBLE = new Set<NetworkVerticalKind>(["family","family-association","housing-society"]);
+export function getDefaultShowcaseVerticalSetting(kind: NetworkVerticalKind): ShowcaseVerticalSetting {
+  const visible = DEFAULT_SHOWCASE_VISIBLE.has(kind);
+  return {
+    vertical_kind: kind,
+    create_enabled: visible,
+    playground_enabled: visible,
+    featured: visible,
+    palette_key: "signature",
+  };
+}
+
 export type PlatformFeatureRow = { feature_key: string; rollout_state: LaunchState; enabled: boolean };
 export type PlatformLaunchFeature = {
   feature_key: string;
