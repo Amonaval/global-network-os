@@ -12,6 +12,7 @@ import type {NetworkVerticalKind} from "../core/verticals/contracts";
 import {getVerticalDefinition} from "../app-shell/vertical-registry";
 import {fetchEffectivePlatformFeatures} from "../capabilities/launch-runtime/remote";
 import {archiveNetwork,deleteOwnedNetworkPermanently,fetchMyArchivedNetworks,leaveNetwork,restoreNetwork,type ArchivedNetwork} from "../lib/network-lifecycle";
+import {fetchShowcaseVerticalSettings,getDefaultShowcaseVerticalSetting,type ShowcaseVerticalSetting} from "../lib/remote";
 import {advancedNetworkFeatureKey,type AdvancedNetworkFeatureSuffix} from "../core/features/advanced-network";
 
 // Advanced capabilities are delivered only when their journey AND tool are selected and Launch Control enables them.
@@ -50,6 +51,7 @@ export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onEx
  const {t:tr}=useLanguage();
  const memberships=identity.memberships.filter(m=>m.status==="active");
  const kinds:Array<NetworkVerticalKind>=["family","housing-society","family-association","association","alumni","organization","business-trust","franchise","professional"];
+ const [showcaseSettings,setShowcaseSettings]=useState<ShowcaseVerticalSetting[]>([]);
  const initialKind=(memberships.find(m=>m.isActive)?.network.verticalKind||memberships[0]?.network.verticalKind||"family") as NetworkVerticalKind;
  const availableKinds=useMemo(()=>Array.from(new Set(memberships.map(m=>m.network.verticalKind))) as NetworkVerticalKind[],[memberships]);
  const [workspaceKind,setWorkspaceKind]=useState<NetworkVerticalKind>(initialKind);
@@ -61,12 +63,15 @@ export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onEx
  const [lifecycleBusy,setLifecycleBusy]=useState(false);
  const loadArchived=()=>fetchMyArchivedNetworks().then(setArchivedNetworks).catch(()=>setArchivedNetworks([]));
  useEffect(()=>{void loadArchived()},[]);
+ useEffect(()=>{let live=true;fetchShowcaseVerticalSettings().then(rows=>{if(live)setShowcaseSettings(rows)}).catch(()=>{if(live)setShowcaseSettings([])});return()=>{live=false}},[]);
  useEffect(()=>{let live=true;fetchEffectivePlatformFeatures().then(rows=>{if(!live)return;setAdvancedRows(Object.fromEntries(rows.filter(r=>r.feature_key.includes(".advanced.")).map(r=>[r.feature_key,r.enabled])))}).catch(()=>{if(live)setAdvancedRows({})});return()=>{live=false}},[]);
  useEffect(()=>{if(availableKinds.length&&!availableKinds.includes(workspaceKind))setWorkspaceKind(availableKinds[0])},[availableKinds,workspaceKind]);
  const enabled=(suffix:AdvancedNetworkFeatureSuffix)=>advancedRows[advancedNetworkFeatureKey(workspaceKind,suffix)]===true;
  const enabledCount=(features:AdvancedNetworkFeatureSuffix[])=>features.filter(enabled).length;
  const advancedReach=useMemo(()=>({activeNetworks:memberships.length,verticals:new Set(memberships.map(m=>m.network.verticalKind)).size,ownedNetworks:memberships.filter(m=>m.role==="owner").length,administeredNetworks:memberships.filter(m=>m.role==="owner"||m.role==="admin").length}),[memberships]);
  const isAdmin=advancedReach.administeredNetworks>0;
+ const showcaseByKind=useMemo(()=>new Map(showcaseSettings.map(row=>[row.vertical_kind,row] as const)),[showcaseSettings]);
+ const playgroundKinds=useMemo(()=>kinds.filter(kind=>(showcaseByKind.get(kind)||getDefaultShowcaseVerticalSetting(kind)).playground_enabled),[showcaseByKind]);
 
  const trustTools:ToolDefinition[]=[
   {key:"identity_reach",label:tr("NX8ReachSnapshotTxt"),description:tr("NX8ReachSnapshotDescTxt"),helper:tr("NX8ReachSnapshotHelpTxt"),icon:<Layers3 size={18}/>},
@@ -155,10 +160,12 @@ export default function MyNetworksHome({identity,onOpenNetwork,onAddNetwork,onEx
  return <div data-testid="qa-my-networks" className="my-networks-page nx6-my-networks nx8-workspace">
   <section className="nx8-topbar">
    <div className="nx8-welcome"><span className="nx8-welcome-icon"><Layers3 size={20}/></span><div><small>{tr("NX8HomeEyebrowTxt")}</small><h1>{tr("NX8HomeTitleTxt")}</h1><p>{tr("NX8HomeDescTxt")}</p></div></div>
-   <div className="nx8-top-actions"><button data-testid="qa-add-network" className="btn primary" onClick={onAddNetwork}><Plus size={16}/> {tr("AddOrJoinNetworkTxt")}</button>{onExploreDemo&&<button className="btn" onClick={()=>onExploreDemo("family")}><Sparkles size={16}/> {tr("ExperienceASampleTxt")}</button>}<div className="nx8-account"><span><UserRound size={16}/></span><div><b>{identity.displayName}</b><small>{memberships.length} {tr("ActiveNetworkTxt")}{memberships.length===1?"":"s"}</small></div>{onSignOut&&<button className="nx6-text-button danger" onClick={()=>void onSignOut()} aria-label={tr("SignOutTxt")}><LogOut size={14}/></button>}</div></div>
+   <div className="nx8-top-actions"><button data-testid="qa-add-network" className="btn primary" onClick={onAddNetwork}><Plus size={16}/> {tr("AddOrJoinNetworkTxt")}</button>{onExploreDemo&&<button className="btn" onClick={()=>document.getElementById("showcase-playgrounds")?.scrollIntoView({behavior:"smooth",block:"start"})}><Sparkles size={16}/> {tr("ExplorePlaygroundTxt")}</button>}<div className="nx8-account"><span><UserRound size={16}/></span><div><b>{identity.displayName}</b><small>{memberships.length} {tr("ActiveNetworkTxt")}{memberships.length===1?"":"s"}</small></div>{onSignOut&&<button className="nx6-text-button danger" onClick={()=>void onSignOut()} aria-label={tr("SignOutTxt")}><LogOut size={14}/></button>}</div></div>
   </section>
 
   <section className="nx8-trust-note"><ShieldCheck size={18}/><div><b>{tr("NX8PrivacyPromiseTxt")}</b><span>{tr("NX8PrivacyPromiseDescTxt")}</span></div><span>{tr("PrivateByNetwork2Txt")}</span></section>
+
+  {onExploreDemo&&<section id="showcase-playgrounds" className="showcase-explore-panel card"><div className="showcase-explore-head"><div><span className="warm-kicker"><Sparkles size={13}/> {tr("ShowcaseExploreKickerTxt")}</span><h2>{tr("ShowcaseExploreTitleTxt")}</h2><p>{tr("ShowcaseExploreDescTxt")}</p></div><span className="showcase-readonly-pill"><ShieldCheck size={13}/>{tr("ShowcaseReadOnlyTxt")}</span></div><div className="showcase-explore-grid">{playgroundKinds.map(kind=>{const def=getVerticalDefinition(kind);return <button data-testid={`qa-showcase-playground-${kind}`} key={kind} onClick={()=>onExploreDemo(kind)}><span className={`my-network-icon ${kind}`}>{icon(kind,22)}</span><span><small>{tr("ShowcaseSampleTxt")}</small><b>{def.displayName}</b><p>{outcome[kind]}</p><em>{tr("OpenPlaygroundTxt")} <ArrowRight size={14}/></em></span></button>})}</div></section>}
 
   <section className="nx8-start" id="nx8-workspace">
    <div className="nx8-start-copy"><span className="warm-kicker">{tr("NX8ChooseWorkspaceKickerTxt")}</span><div className="nx9-title-row"><h2>{section==="overview"?tr("NX8ChooseWorkspaceTitleTxt"):currentMeta.plainLabel}</h2><button className="nx9-info-button" onClick={()=>setHelpTopic(sectionHelp(section))} aria-label={tr("NX9AboutThisAreaTxt")} title={tr("NX9AboutThisAreaTxt")}><Info size={15}/></button></div><p>{section==="overview"?tr("NX8ChooseWorkspaceDescTxt"):currentMeta.question}</p></div>
@@ -189,7 +196,6 @@ ${n.name}`);if(typed!==n.name)return;if(!window.confirm(`Permanently delete arch
     <aside className="nx8-quick-panel"><span className="warm-kicker">{tr("NX8QuickStartKickerTxt")}</span><h3>{tr("NX8QuickStartTitleTxt")}</h3><p>{tr("NX8QuickStartDescTxt")}</p><button onClick={()=>openSection("outcomes")}><HeartHandshake/><span><b>{tr("NX8QuickAskTxt")}</b><small>{tr("NX8QuickAskDescTxt")}</small></span><ChevronRight/></button><button onClick={()=>openSection("federation")}><Handshake/><span><b>{tr("NX8QuickFederateTxt")}</b><small>{tr("NX8QuickFederateDescTxt")}</small></span><ChevronRight/></button><button onClick={()=>openSection("trust")}><Link2/><span><b>{tr("NX8QuickConnectTxt")}</b><small>{tr("NX8QuickConnectDescTxt")}</small></span><ChevronRight/></button>{isAdmin&&<button onClick={()=>openSection("launch")}><Rocket/><span><b>{tr("NX8QuickAdminTxt")}</b><small>{tr("NX8QuickAdminDescTxt")}</small></span><ChevronRight/></button>}</aside>
    </section>
    <section className="nx8-understand-panel"><div><span className="warm-kicker">{tr("NX8LearnKickerTxt")}</span><h2>{tr("NX8LearnTitleTxt")}</h2><p>{tr("NX8LearnDescTxt")}</p></div><div className="nx8-learning-cards"><article><Link2/><span><b>{tr("NX8LearnTrustTxt")}</b><small>{tr("NX8LearnTrustDescTxt")}</small></span><button className="nx9-mini-info" onClick={()=>setHelpTopic(sectionHelp("trust"))} aria-label={tr("NX9LearnMoreTxt")}><Info size={13}/></button></article><article><Handshake/><span><b>{tr("NX8LearnFederationTxt")}</b><small>{tr("NX8LearnFederationDescTxt")}</small></span><button className="nx9-mini-info" onClick={()=>setHelpTopic(sectionHelp("federation"))} aria-label={tr("NX9LearnMoreTxt")}><Info size={13}/></button></article><article><HeartHandshake/><span><b>{tr("NX8LearnOutcomeTxt")}</b><small>{tr("NX8LearnOutcomeDescTxt")}</small></span><button className="nx9-mini-info" onClick={()=>setHelpTopic(sectionHelp("outcomes"))} aria-label={tr("NX9LearnMoreTxt")}><Info size={13}/></button></article></div></section>
-   {onExploreDemo&&<details className="card nx6-playground-drawer"><summary><span><Sparkles size={16}/><span><b>{tr("SafePlaygroundTxt")}</b><small>{tr("ExploreAllSixNetworkProductsWithSampleTxt")}</small></span></span><ChevronRight size={18}/></summary><div className="network-demo-strip nx6-demo-strip">{kinds.map(kind=>{const def=getVerticalDefinition(kind);return <button key={kind} onClick={()=>onExploreDemo(kind)}><span className={`my-network-icon ${kind}`}>{icon(kind,18)}</span><span><b>{def.displayName}</b><small>{outcome[kind]}</small></span><ChevronRight size={17}/></button>})}</div></details>}
    <details className="card nx6-privacy-drawer"><summary><span><ShieldCheck size={17}/><span><b>{tr("HowPrivacyAndIdentityWorkTxt")}</b><small>{tr("SeeWhatCanAndCannotCrossNetworkTxt")}</small></span></span><ChevronRight size={18}/></summary><div className="my-networks-privacy-grid">{TRUSTED_IDENTITY_PRIVACY_RULES.map(rule=><article key={rule.key}><b>{rule.title}</b><p>{rule.description}</p></article>)}</div></details>
   </>}
 

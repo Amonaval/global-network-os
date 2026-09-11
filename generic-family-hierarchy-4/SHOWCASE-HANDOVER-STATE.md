@@ -32,3 +32,10 @@ Feature expansion and strict security remediation are paused. Priority is first-
 3. Residential Community / Housing Society
 
 Preserve existing QA coverage and security/business-rule assertions while transforming UX/UI.
+
+## Showcase progress — S0/S1/S2
+
+- S0 Showcase Control Plane implemented: founder-controlled Create / Playground / Featured / curated palette per vertical.
+- S1 deterministic MPF Pune East + Emerald Heights showcase universe strengthened. JSON packs are source/reference only and require no manual database upload.
+- S2 First Impression Foundation implemented: TrustWeave-wide sign-in, focused Family / Community / Residential / Explore entry, Launch-Control-filtered Playground gallery, and a runtime guard preventing hidden Playground types from opening through alternate routes such as “Back to network selection”.
+- Next planned mission: S3 Navigation & Progressive Disclosure.

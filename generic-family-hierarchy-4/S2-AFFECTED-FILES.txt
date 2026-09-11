@@ -1,0 +1,13 @@
+SHOWCASE-HANDOVER-STATE.md
+SHOWCASE-S2-APPLY-NOTE.md
+SHOWCASE-S2-FIRST-IMPRESSION-FOUNDATION.md
+S2-AFFECTED-FILES.txt
+app/globals.css
+components/FounderLaunchConsole.tsx
+components/MyNetworksHome.tsx
+components/NetworkApp.tsx
+components/SetupScreen.tsx
+lib/i18n/messages/en.ts
+package.json
+scripts/showcase-s2-source-gate.mjs
+showcase-data/README.md

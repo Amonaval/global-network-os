@@ -6,6 +6,7 @@ import {
   TreePine,
   Users,
   UsersRound,
+  Building2,
   ShieldCheck,
   Upload,
   Download,
@@ -99,9 +100,10 @@ import {GUIDE_ENTRIES} from "../lib/user-guide-content";
 import type {GuideAudience} from "../lib/guide-types";
 import {getRenderableVerticalRuntime, localizedSurfaceLabel} from "../app-shell/vertical-runtime";
 import {getVerticalDefinition} from "../app-shell/vertical-registry";
+import type {NetworkVerticalKind} from "../core/verticals/contracts";
 // CR2.2 compatibility marker: "Preview detailed family guide" is superseded by the first-class Explore & Guide portal.
 // S1-D compatibility marker for historical help-modal regression gate: event.target===event.currentTarget&&setShowGuide(false)
-import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail, setActiveNetwork, addMyselfToFamily, fetchPlaygroundFeatures, enterFamilyLobby, leaveCurrentFamily, fetchMyNetworks, NetworkMembership } from "../lib/remote";
+import { createFamily as createSharedFamily, fetchEffectivePlatformFeatures, fetchMyFeatureAnnouncements, FeatureAnnouncement, markFeatureAnnouncementSeen, setMyExperienceLevel, requestFamilyCreation, fetchMyFamilyCreationRequests, FamilyCreationRequest, fetchFamilyCreationPolicy, joinFamilyByCode, fetchMyClaimableProfiles, ClaimableFamilyProfile, claimProfileByVerifiedEmail, setActiveNetwork, addMyselfToFamily, fetchPlaygroundFeatures, enterFamilyLobby, leaveCurrentFamily, fetchMyNetworks, NetworkMembership, fetchShowcaseVerticalSettings, getDefaultShowcaseVerticalSetting } from "../lib/remote";
 import {buildTrustedPersonIdentity} from "../capabilities/trusted-identity/runtime";
 import type {TrustedPersonIdentity} from "../core/identity/trusted-person";
 import type {NetworkMembership as NeutralNetworkMembership} from "../core/network/contracts";
@@ -1027,6 +1029,18 @@ export default function NetworkApp() {
   };
   const enterPublicPlayground = () => enterVerticalPlayground("public");
   const enterSetupPlayground = () => enterVerticalPlayground("setup");
+  const getShowcaseVerticalSetting=async(kind:NetworkVerticalKind)=>{
+    try{const rows=await fetchShowcaseVerticalSettings();return rows.find(row=>row.vertical_kind===kind)||getDefaultShowcaseVerticalSetting(kind)}catch{return getDefaultShowcaseVerticalSetting(kind)}
+  };
+  const openNetworkPlayground=async(kind:NetworkVerticalKind,familyVariant:"public"|"setup"="setup")=>{
+    const showcase=await getShowcaseVerticalSetting(kind);
+    if(!showcase.playground_enabled){notify(tr("ShowcasePlaygroundNotAvailableTxt"));return false;}
+    setShowMyNetworks(false);setSetupNeeded(false);setDemoPreview(false);
+    if(kind==="family"){familyVariant==="public"?enterPublicPlayground():enterSetupPlayground();return true;}
+    if(kind==="alumni"){const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setProductizedDemo(null);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:tr("ReadOnlySampleAlumniCommunityTxt"),entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);return true;}
+    if(isProductizedVerticalKind(kind)){const def=getVerticalDefinition(kind);const pc=PRODUCTIZED_NETWORK_CONFIGS[kind];setProductizedDemo(kind);setAlumniDemo(false);setNetwork({id:`${kind}-playground`,name:pc.sampleName,description:pc.sampleDescription,entity_label:def.legacyNetworkLabels.entityLabel,entity_label_plural:def.legacyNetworkLabels.entityLabelPlural,level_label:def.legacyNetworkLabels.levelLabel,level_label_plural:def.legacyNetworkLabels.levelLabelPlural,parent_label:def.legacyNetworkLabels.parentLabel,child_label:def.legacyNetworkLabels.childLabel,peer_label:def.legacyNetworkLabels.peerLabel,network_template:kind,vertical_kind:kind,membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);return true;}
+    return false;
+  };
 
   if (!ready)
     return (
@@ -1052,22 +1066,25 @@ export default function NetworkApp() {
     );
   if (isSupabaseConfigured && !auth && !demoPreview)
     return (
-      <div className="landing family-signin-page">
-        <div className="landing-card family-signin-card">
-          <div className="brand-mark">
-            <TreePine size={24} />
+      <div className="landing family-signin-page showcase-signin-page">
+        <div className="landing-card family-signin-card showcase-signin-card">
+          <div className="showcase-signin-brand"><div className="brand-mark"><TreePine size={24} /></div><div><span>{tr("TrustWeaveTxt")}</span><small>{tr("ShowcasePrivateNetworkOsTxt")}</small></div></div>
+          <span className="warm-kicker"><ShieldCheck size={13}/>{tr("ShowcaseWelcomeKickerTxt")}</span>
+          <h1>{tr("ShowcaseWelcomeTitleTxt")}</h1>
+          <p className="showcase-signin-lead">{tr("ShowcaseWelcomeDescTxt")}</p>
+          <div className="showcase-signin-types" aria-label={tr("ShowcaseWhatCanBuildTxt")}>
+            <article><span className="showcase-type-icon family"><TreePine size={18}/></span><div><b>{tr("ShowcaseFamilyTitleTxt")}</b><small>{tr("ShowcaseFamilyDescTxt")}</small></div></article>
+            <article><span className="showcase-type-icon community"><UsersRound size={18}/></span><div><b>{tr("ShowcaseCommunityTitleTxt")}</b><small>{tr("ShowcaseCommunityDescTxt")}</small></div></article>
+            <article><span className="showcase-type-icon residential"><Building2 size={18}/></span><div><b>{tr("ShowcaseResidentialTitleTxt")}</b><small>{tr("ShowcaseResidentialDescTxt")}</small></div></article>
           </div>
-          <span className="warm-kicker">{tr("APrivatePlaceForYourPeopleTxt")}</span>
-          <h1>{tr("WelcomeToYourFamilyTxt")}</h1>
-          <p>{tr("SignInToExploreYourFamilyTreeTxt")}</p>
-          <div className="family-signin-actions">
+          <div className="family-signin-actions showcase-signin-actions">
             <button className="btn primary" data-testid="qa-open-auth" onClick={() => setShowAuth(true)}>
-              {tr("JoinOrSignInTxt")}{" "}<ArrowRight size={16} />
+              {tr("ShowcaseSignInTxt")} <ArrowRight size={16} />
             </button>
-            <button className="btn" onClick={enterPublicPlayground}>
-              <PlayCircle size={16} /> {tr("TryPlaygroundNoLoginTxt")}{" "}</button>
+            <button className="btn" onClick={()=>void openNetworkPlayground("family","public")}>
+              <PlayCircle size={16} /> {tr("ShowcaseTryFamilySampleTxt")}</button>
           </div>
-          <p className="playground-note">{tr("PlaygroundIsReadOnlyAndTemporaryNothingTxt")}</p>
+          <p className="playground-note"><ShieldCheck size={13}/>{tr("PlaygroundIsReadOnlyAndTemporaryNothingTxt")}</p>
           <LanguageSwitcher />
         </div>
         {showAuth && (
@@ -1092,12 +1109,6 @@ export default function NetworkApp() {
     if(!membership.isActive)await setActiveNetwork(membership.network.id);
     setShowMyNetworks(false);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);
     await hydrate(await getAuthUser());setView("home");
-  };
-  const openNetworkPlayground=(kind:any)=>{
-    setShowMyNetworks(false);setSetupNeeded(false);setDemoPreview(false);
-    if(kind==="family"){enterSetupPlayground();return;}
-    if(kind==="alumni"){const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setProductizedDemo(null);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:tr("ReadOnlySampleAlumniCommunityTxt"),entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);return;}
-    if(isProductizedVerticalKind(kind)){const def=getVerticalDefinition(kind);const pc=PRODUCTIZED_NETWORK_CONFIGS[kind];setProductizedDemo(kind);setAlumniDemo(false);setNetwork({id:`${kind}-playground`,name:pc.sampleName,description:pc.sampleDescription,entity_label:def.legacyNetworkLabels.entityLabel,entity_label_plural:def.legacyNetworkLabels.entityLabelPlural,level_label:def.legacyNetworkLabels.levelLabel,level_label_plural:def.legacyNetworkLabels.levelLabelPlural,parent_label:def.legacyNetworkLabels.parentLabel,child_label:def.legacyNetworkLabels.childLabel,peer_label:def.legacyNetworkLabels.peerLabel,network_template:kind,vertical_kind:kind,membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);}
   };
   const canAdmin = !demoPreview && (!isSupabaseConfigured || network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.role === "admin");
   const isPlatformOwner = !isSupabaseConfigured || !!auth?.platform_owner;
@@ -1191,7 +1202,7 @@ export default function NetworkApp() {
   if (setupNeeded)
     return (
       <>
-        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">{tr("FamilyRequestSentTxt")}</span><h1>{pendingFamilyRequest.name}</h1><p>{tr("YourFamilySpaceIsWaitingForApprovalTxt")}</p><div className="notice"><b>{tr("StatusTxt")}</b> {tr("WaitingForApprovalTxt")}</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify(tr("ApprovalStatusRefreshedTxt"))}catch(e:any){notify(e.message||tr("CouldNotRefreshApprovalStatusTxt"))}}}>{tr("CheckApprovalStatusTxt")}</button><button className="btn" onClick={enterSetupPlayground}>{tr("ExploreSampleTxt")}</button><button className="btn" onClick={async()=>{await signOut();setAuth(null);setPendingFamilyRequest(null);setSetupNeeded(true)}}><LogOut size={15}/> {tr("SignOutTxt")}</button></div></div></div> : <SetupScreen
+        {pendingFamilyRequest ? <div className="landing family-approval-page"><div className="landing-card family-approval-card"><div className="brand-mark"><TreePine size={24}/></div><span className="warm-kicker">{tr("FamilyRequestSentTxt")}</span><h1>{pendingFamilyRequest.name}</h1><p>{tr("YourFamilySpaceIsWaitingForApprovalTxt")}</p><div className="notice"><b>{tr("StatusTxt")}</b> {tr("WaitingForApprovalTxt")}</div><div className="card-actions"><button className="btn primary" onClick={async()=>{try{await hydrate(await getAuthUser());notify(tr("ApprovalStatusRefreshedTxt"))}catch(e:any){notify(e.message||tr("CouldNotRefreshApprovalStatusTxt"))}}}>{tr("CheckApprovalStatusTxt")}</button><button className="btn" onClick={()=>void openNetworkPlayground("family")}>{tr("ExploreSampleTxt")}</button><button className="btn" onClick={async()=>{await signOut();setAuth(null);setPendingFamilyRequest(null);setSetupNeeded(true)}}><LogOut size={15}/> {tr("SignOutTxt")}</button></div></div></div> : <SetupScreen
           shared={isSupabaseConfigured}
           canSetup={canSetupFamily}
           approvalRequired={isSupabaseConfigured&&!isPlatformOwner&&familyCreationApprovalRequired}
@@ -1201,19 +1212,19 @@ export default function NetworkApp() {
           onSignOut={async()=>{await signOut();setAuth(null);setNetwork(null);setMembers([]);setRelationships([]);setSetupNeeded(true)}}
           onClaimProfile={async(memberId)=>{await claimProfileByVerifiedEmail(memberId);await hydrate(await getAuthUser());setView("home");notify(tr("WelcomeToYourFamily2Txt"))}}
           onJoinCode={async(code)=>{await joinFamilyByCode(code);await hydrate(await getAuthUser());setView("home");notify(tr("FamilyJoinedWelcomeTxt"))}}
-          onExploreDemo={enterSetupPlayground}
+          onExploreDemo={()=>void openNetworkPlayground("family")}
           claimableAlumniProfiles={claimableAlumniProfiles}
           networkInviteToken={pendingNetworkInvite}
           onAcceptNetworkInvite={pendingNetworkInvite?async()=>{await acceptNetworkInvitation(pendingNetworkInvite);window.history.replaceState({},"",window.location.pathname);setPendingNetworkInvite("");setProductizedDemo(null);setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify(tr("XP6InvitationAcceptedTxt"))}:undefined}
           alumniInviteToken={pendingAlumniInvite}
           onAcceptAlumniInvite={pendingAlumniInvite?async()=>{await acceptAlumniInvitation(pendingAlumniInvite);window.history.replaceState({},"",window.location.pathname);setPendingAlumniInvite("");setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify(tr("AlumniInvitationAcceptedTxt"))}:undefined}
           onClaimAlumniProfile={async(profileId)=>{await claimAlumniProfile(profileId);await hydrate(await getAuthUser());setView("home");notify(tr("WelcomeToYourAlumniNetworkTxt"))}}
-          onCreateAlumni={async(name,institution,description)=>{const id=await createAlumniNetwork(name,institution,description);await setActiveNetwork(id);setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify(`${name} is ready.`)}}
-          onExploreAlumniDemo={()=>{const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setDemoPreview(false);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:tr("ReadOnlySampleAlumniCommunityTxt"),entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setSetupNeeded(false);setMembers([]);setRelationships([]);setSubmissions([]);}}
-          onCreateProductized={async(kind,name,contextValue,description)=>{const id=await createTemplateNetwork(kind,name,contextValue,description);await setActiveNetwork(id);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);await hydrate(await getAuthUser());setView("home");notify(`${name} is ready.`)}}
-          onExploreProductizedDemo={(kind)=>{const def=getVerticalDefinition(kind);const pc=PRODUCTIZED_NETWORK_CONFIGS[kind];setProductizedDemo(kind);setAlumniDemo(false);setDemoPreview(false);setNetwork({id:`${kind}-playground`,name:pc.sampleName,description:pc.sampleDescription,entity_label:def.legacyNetworkLabels.entityLabel,entity_label_plural:def.legacyNetworkLabels.entityLabelPlural,level_label:def.legacyNetworkLabels.levelLabel,level_label_plural:def.legacyNetworkLabels.levelLabelPlural,parent_label:def.legacyNetworkLabels.parentLabel,child_label:def.legacyNetworkLabels.childLabel,peer_label:def.legacyNetworkLabels.peerLabel,network_template:kind,vertical_kind:kind,membership_role:"member"});setSetupNeeded(false);setMembers([]);setRelationships([]);setSubmissions([]);}}
+          onCreateAlumni={async(name,institution,description)=>{if(!(await getShowcaseVerticalSetting("alumni")).create_enabled)throw new Error(tr("ShowcaseCreationNotAvailableTxt"));const id=await createAlumniNetwork(name,institution,description);await setActiveNetwork(id);setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify(`${name} is ready.`)}}
+          onExploreAlumniDemo={()=>void openNetworkPlayground("alumni")}
+          onCreateProductized={async(kind,name,contextValue,description)=>{if(!(await getShowcaseVerticalSetting(kind)).create_enabled)throw new Error(tr("ShowcaseCreationNotAvailableTxt"));const id=await createTemplateNetwork(kind,name,contextValue,description);await setActiveNetwork(id);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);await hydrate(await getAuthUser());setView("home");notify(`${name} is ready.`)}}
+          onExploreProductizedDemo={(kind)=>void openNetworkPlayground(kind)}
           onJoinProductizedCode={async(code)=>{await joinProductizedNetworkByCode(code);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);await hydrate(await getAuthUser());setView("home");notify(tr("NetworkJoinedWelcomeTxt"))}}
-          onOpenGuide={()=>{enterPublicPlayground();setGuideKey("");setView("guide")}}
+          onOpenGuide={async()=>{if(await openNetworkPlayground("family")){setGuideKey("");setView("guide")}}}
           onCreate={createNetwork}
         />}
         {toast && (
