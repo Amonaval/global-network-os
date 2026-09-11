@@ -3,6 +3,16 @@ import type { NetworkVerticalKind } from "../../core/verticals/contracts";
 import { supabase } from "../../lib/supabase";
 
 export type PlaygroundFeatureRow = { feature_key: string; enabled: boolean; updated_at?: string };
+export type ShowcasePaletteKey = "signature" | "warm" | "modern" | "classic" | "minimal";
+export type ShowcaseVerticalSetting = {
+  vertical_kind: NetworkVerticalKind;
+  create_enabled: boolean;
+  playground_enabled: boolean;
+  featured: boolean;
+  palette_key: ShowcasePaletteKey;
+  updated_at?: string;
+};
+
 export type PlatformFeatureRow = { feature_key: string; rollout_state: LaunchState; enabled: boolean };
 export type PlatformLaunchFeature = {
   feature_key: string;
@@ -177,4 +187,31 @@ export async function fetchPlatformNetworkTargets(): Promise<PlatformFamilyTarge
   const { data, error } = await supabase.rpc("get_platform_network_targets");
   if (error) throw error;
   return (data || []).map((row: any) => ({ ...row, member_count: Number(row.member_count || 0) })) as PlatformFamilyTarget[];
+}
+
+
+export async function fetchShowcaseVerticalSettings(): Promise<ShowcaseVerticalSetting[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("get_showcase_vertical_settings");
+  if (error) throw error;
+  return (data || []) as ShowcaseVerticalSetting[];
+}
+
+export async function fetchPlatformShowcaseVerticalSettings(): Promise<ShowcaseVerticalSetting[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("get_platform_showcase_vertical_settings");
+  if (error) throw error;
+  return (data || []) as ShowcaseVerticalSetting[];
+}
+
+export async function setPlatformShowcaseVerticalSetting(row: ShowcaseVerticalSetting): Promise<void> {
+  if (!supabase) return;
+  const { error } = await supabase.rpc("set_platform_showcase_vertical_setting", {
+    p_vertical_kind: row.vertical_kind,
+    p_create_enabled: row.create_enabled,
+    p_playground_enabled: row.playground_enabled,
+    p_featured: row.featured,
+    p_palette_key: row.palette_key,
+  });
+  if (error) throw error;
 }

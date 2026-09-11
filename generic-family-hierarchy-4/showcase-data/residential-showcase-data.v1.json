@@ -1,0 +1,1109 @@
+{
+  "version": "showcase-residential.v1",
+  "synthetic": true,
+  "network": {
+    "name": "Emerald Heights Co-operative Housing Society",
+    "vertical": "housing-society",
+    "location": "Kharadi, Pune",
+    "buildings": [
+      "Aster",
+      "Cedar",
+      "Maple"
+    ],
+    "story": "A 72-home premium Pune society showing resident life, operations, governance, finance, security and asset management in one private place."
+  },
+  "units": [
+    {
+      "unit_id": "UNIT-01",
+      "unit": "Aster-A-301",
+      "building": "Aster",
+      "wing": "A",
+      "floor": 3,
+      "unit_type": "2 BHK",
+      "area_sqft": 1120,
+      "occupancy": "owner",
+      "owner": "Sanjay Mehta",
+      "primary_resident": "Sanjay Mehta",
+      "household_members": [
+        "Sanjay Mehta",
+        "Radhika Mehta",
+        "Child 1A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1200",
+          "type": "Car",
+          "ev": true,
+          "parking_slot": "A-P20"
+        },
+        {
+          "registration": "MH12XY3300",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-02",
+      "unit": "Cedar-B-302",
+      "building": "Cedar",
+      "wing": "B",
+      "floor": 3,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "owner",
+      "owner": "Anita Shah",
+      "primary_resident": "Anita Shah",
+      "household_members": [
+        "Anita Shah",
+        "Ketan Shah",
+        "Child 2A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1201",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "B-P21"
+        },
+        {
+          "registration": "MH12XY3301",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-03",
+      "unit": "Maple-C-303",
+      "building": "Maple",
+      "wing": "C",
+      "floor": 3,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "owner",
+      "owner": "Vivek Kulkarni",
+      "primary_resident": "Vivek Kulkarni",
+      "household_members": [
+        "Vivek Kulkarni",
+        "Meera Kulkarni",
+        "Child 3A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1202",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "C-P22"
+        },
+        {
+          "registration": "MH12XY3302",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "overdue"
+    },
+    {
+      "unit_id": "UNIT-04",
+      "unit": "Aster-A-401",
+      "building": "Aster",
+      "wing": "A",
+      "floor": 4,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "owner",
+      "owner": "Neeraj Patil",
+      "primary_resident": "Neeraj Patil",
+      "household_members": [
+        "Neeraj Patil",
+        "Sneha Patil",
+        "Child 4A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1203",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "A-P23"
+        },
+        {
+          "registration": "MH12XY3303",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-05",
+      "unit": "Cedar-B-402",
+      "building": "Cedar",
+      "wing": "B",
+      "floor": 4,
+      "unit_type": "2 BHK",
+      "area_sqft": 1120,
+      "occupancy": "tenant",
+      "owner": "Rohini Deshpande",
+      "primary_resident": "Tenant Family 5",
+      "household_members": [
+        "Rohini Deshpande",
+        "Amit Deshpande",
+        "Child 5A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1204",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "B-P24"
+        },
+        {
+          "registration": "MH12XY3304",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-06",
+      "unit": "Maple-C-403",
+      "building": "Maple",
+      "wing": "C",
+      "floor": 4,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "owner",
+      "owner": "Ajay Jain",
+      "primary_resident": "Ajay Jain",
+      "household_members": [
+        "Ajay Jain",
+        "Kavita Jain",
+        "Child 6A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1205",
+          "type": "Car",
+          "ev": true,
+          "parking_slot": "C-P25"
+        },
+        {
+          "registration": "MH12XY3305",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "partial"
+    },
+    {
+      "unit_id": "UNIT-07",
+      "unit": "Aster-A-501",
+      "building": "Aster",
+      "wing": "A",
+      "floor": 5,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "owner",
+      "owner": "Rahul Bansal",
+      "primary_resident": "Rahul Bansal",
+      "household_members": [
+        "Rahul Bansal",
+        "Isha Bansal",
+        "Child 7A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1206",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "A-P26"
+        },
+        {
+          "registration": "MH12XY3306",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-08",
+      "unit": "Cedar-B-502",
+      "building": "Cedar",
+      "wing": "B",
+      "floor": 5,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "owner",
+      "owner": "Devika Rao",
+      "primary_resident": "Devika Rao",
+      "household_members": [
+        "Devika Rao",
+        "Arun Rao",
+        "Child 8A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1207",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "B-P27"
+        },
+        {
+          "registration": "MH12XY3307",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "overdue"
+    },
+    {
+      "unit_id": "UNIT-09",
+      "unit": "Maple-C-503",
+      "building": "Maple",
+      "wing": "C",
+      "floor": 5,
+      "unit_type": "2 BHK",
+      "area_sqft": 1120,
+      "occupancy": "owner",
+      "owner": "Nikhil Joshi",
+      "primary_resident": "Nikhil Joshi",
+      "household_members": [
+        "Nikhil Joshi",
+        "Priya Joshi",
+        "Child 9A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1208",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "C-P28"
+        },
+        {
+          "registration": "MH12XY3308",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-10",
+      "unit": "Aster-A-601",
+      "building": "Aster",
+      "wing": "A",
+      "floor": 6,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "tenant",
+      "owner": "Karan Malhotra",
+      "primary_resident": "Tenant Family 10",
+      "household_members": [
+        "Karan Malhotra",
+        "Rhea Malhotra",
+        "Child 10A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1209",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "A-P29"
+        },
+        {
+          "registration": "MH12XY3309",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-11",
+      "unit": "Cedar-B-602",
+      "building": "Cedar",
+      "wing": "B",
+      "floor": 6,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "owner",
+      "owner": "Mitesh Gandhi",
+      "primary_resident": "Mitesh Gandhi",
+      "household_members": [
+        "Mitesh Gandhi",
+        "Juhi Gandhi",
+        "Child 11A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1210",
+          "type": "Car",
+          "ev": true,
+          "parking_slot": "B-P30"
+        },
+        {
+          "registration": "MH12XY3310",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-12",
+      "unit": "Maple-C-603",
+      "building": "Maple",
+      "wing": "C",
+      "floor": 6,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "owner",
+      "owner": "Sameer Sethi",
+      "primary_resident": "Sameer Sethi",
+      "household_members": [
+        "Sameer Sethi",
+        "Pallavi Sethi",
+        "Child 12A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1211",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "C-P31"
+        },
+        {
+          "registration": "MH12XY3311",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "partial"
+    },
+    {
+      "unit_id": "UNIT-13",
+      "unit": "Aster-A-701",
+      "building": "Aster",
+      "wing": "A",
+      "floor": 7,
+      "unit_type": "2 BHK",
+      "area_sqft": 1120,
+      "occupancy": "owner",
+      "owner": "Rakesh Goel",
+      "primary_resident": "Rakesh Goel",
+      "household_members": [
+        "Rakesh Goel",
+        "Shalini Goel",
+        "Child 13A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1212",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "A-P32"
+        },
+        {
+          "registration": "MH12XY3312",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-14",
+      "unit": "Cedar-B-702",
+      "building": "Cedar",
+      "wing": "B",
+      "floor": 7,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "owner",
+      "owner": "Harish Nair",
+      "primary_resident": "Harish Nair",
+      "household_members": [
+        "Harish Nair",
+        "Lakshmi Nair",
+        "Child 14A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1213",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "B-P33"
+        },
+        {
+          "registration": "MH12XY3313",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "overdue"
+    },
+    {
+      "unit_id": "UNIT-15",
+      "unit": "Maple-C-703",
+      "building": "Maple",
+      "wing": "C",
+      "floor": 7,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "tenant",
+      "owner": "Varun Arora",
+      "primary_resident": "Tenant Family 15",
+      "household_members": [
+        "Varun Arora",
+        "Naina Arora",
+        "Child 15A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1214",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "C-P34"
+        },
+        {
+          "registration": "MH12XY3314",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-16",
+      "unit": "Aster-A-801",
+      "building": "Aster",
+      "wing": "A",
+      "floor": 8,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "owner",
+      "owner": "Prashant Gupta",
+      "primary_resident": "Prashant Gupta",
+      "household_members": [
+        "Prashant Gupta",
+        "Nupur Gupta",
+        "Child 16A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1215",
+          "type": "Car",
+          "ev": true,
+          "parking_slot": "A-P35"
+        },
+        {
+          "registration": "MH12XY3315",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-17",
+      "unit": "Cedar-B-802",
+      "building": "Cedar",
+      "wing": "B",
+      "floor": 8,
+      "unit_type": "2 BHK",
+      "area_sqft": 1120,
+      "occupancy": "owner",
+      "owner": "Alok Mathur",
+      "primary_resident": "Alok Mathur",
+      "household_members": [
+        "Alok Mathur",
+        "Ritu Mathur",
+        "Child 17A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1216",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "B-P36"
+        },
+        {
+          "registration": "MH12XY3316",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    },
+    {
+      "unit_id": "UNIT-18",
+      "unit": "Maple-C-803",
+      "building": "Maple",
+      "wing": "C",
+      "floor": 8,
+      "unit_type": "3 BHK",
+      "area_sqft": 1450,
+      "occupancy": "owner",
+      "owner": "Yash Doshi",
+      "primary_resident": "Yash Doshi",
+      "household_members": [
+        "Yash Doshi",
+        "Priti Doshi",
+        "Child 18A"
+      ],
+      "vehicles": [
+        {
+          "registration": "MH12AB1217",
+          "type": "Car",
+          "ev": false,
+          "parking_slot": "C-P37"
+        },
+        {
+          "registration": "MH12XY3317",
+          "type": "Two Wheeler",
+          "ev": false,
+          "parking_slot": null
+        }
+      ],
+      "maintenance_status": "paid"
+    }
+  ],
+  "notices": [
+    {
+      "title": "Water tank cleaning — Sunday 10:00 AM to 2:00 PM",
+      "type": "urgent",
+      "pinned": true,
+      "audience": "All residents"
+    },
+    {
+      "title": "AGM on 27 September at Clubhouse",
+      "type": "general",
+      "pinned": true,
+      "audience": "Owners"
+    },
+    {
+      "title": "Ganesh immersion traffic advisory",
+      "type": "targeted",
+      "pinned": false,
+      "audience": "Aster + Cedar"
+    },
+    {
+      "title": "EV charging pilot registration open",
+      "type": "general",
+      "pinned": false,
+      "audience": "All residents"
+    }
+  ],
+  "complaints": [
+    {
+      "id": "CMP-101",
+      "title": "Lift vibration in Cedar B",
+      "unit": "Cedar-B-704",
+      "category": "Lift",
+      "priority": "high",
+      "status": "in_progress",
+      "assigned_to": "Kone Elevators",
+      "age_hours": 19
+    },
+    {
+      "id": "CMP-102",
+      "title": "Street light near Aster gate not working",
+      "unit": "Aster-A-302",
+      "category": "Electrical",
+      "priority": "medium",
+      "status": "open",
+      "assigned_to": "BrightServe Electricals",
+      "age_hours": 6
+    },
+    {
+      "id": "CMP-103",
+      "title": "Seepage near Maple basement parking",
+      "unit": "Maple-C-1102",
+      "category": "Civil",
+      "priority": "high",
+      "status": "in_progress",
+      "assigned_to": "BuildCare Services",
+      "age_hours": 31
+    },
+    {
+      "id": "CMP-104",
+      "title": "Clubhouse AC cooling issue",
+      "unit": "Common",
+      "category": "Amenity",
+      "priority": "low",
+      "status": "resolved",
+      "assigned_to": "CoolAir Systems",
+      "age_hours": 52
+    }
+  ],
+  "amenities": [
+    {
+      "name": "Clubhouse Hall",
+      "capacity": 80,
+      "status": "active"
+    },
+    {
+      "name": "Badminton Court",
+      "capacity": 8,
+      "status": "active"
+    },
+    {
+      "name": "Guest Room 1",
+      "capacity": 4,
+      "status": "active"
+    },
+    {
+      "name": "Terrace Party Deck",
+      "capacity": 50,
+      "status": "active"
+    },
+    {
+      "name": "Indoor Games Room",
+      "capacity": 20,
+      "status": "active"
+    }
+  ],
+  "bookings": [
+    {
+      "amenity": "Clubhouse Hall",
+      "unit": "Aster-A-804",
+      "purpose": "Birthday celebration",
+      "starts_at": "2026-09-12T18:00:00",
+      "status": "confirmed"
+    },
+    {
+      "amenity": "Badminton Court",
+      "unit": "Cedar-B-504",
+      "purpose": "Resident game",
+      "starts_at": "2026-09-11T20:00:00",
+      "status": "confirmed"
+    },
+    {
+      "amenity": "Guest Room 1",
+      "unit": "Maple-C-903",
+      "purpose": "Family guest stay",
+      "starts_at": "2026-09-14T12:00:00",
+      "status": "confirmed"
+    },
+    {
+      "amenity": "Terrace Party Deck",
+      "unit": "Aster-A-1201",
+      "purpose": "Anniversary dinner",
+      "starts_at": "2026-09-19T19:00:00",
+      "status": "pending"
+    }
+  ],
+  "visitors": [
+    {
+      "name": "Rajesh Kulkarni",
+      "unit": "Aster-A-804",
+      "purpose": "Family visit",
+      "expected_at": "2026-09-11T19:45:00",
+      "status": "expected"
+    },
+    {
+      "name": "UrbanFix Technician",
+      "unit": "Cedar-B-704",
+      "purpose": "Lift inspection",
+      "expected_at": "2026-09-11T16:00:00",
+      "status": "checked_in"
+    },
+    {
+      "name": "Swiggy Delivery",
+      "unit": "Maple-C-603",
+      "purpose": "Delivery",
+      "expected_at": "2026-09-11T20:10:00",
+      "status": "expected"
+    },
+    {
+      "name": "Dr. Mehta",
+      "unit": "Aster-A-302",
+      "purpose": "Home visit",
+      "expected_at": "2026-09-12T09:00:00",
+      "status": "expected"
+    }
+  ],
+  "vendors": [
+    {
+      "name": "SecureGate Services",
+      "category": "Security",
+      "contract": "2026-04-01 to 2027-03-31",
+      "amount": 720000,
+      "sla": "24x7 guards + supervisor"
+    },
+    {
+      "name": "Kone Elevators",
+      "category": "Lift Maintenance",
+      "contract": "2026-04-01 to 2027-03-31",
+      "amount": 285000,
+      "sla": "4-hour critical response"
+    },
+    {
+      "name": "GreenLeaf Facility Management",
+      "category": "Housekeeping",
+      "contract": "2026-04-01 to 2027-03-31",
+      "amount": 540000,
+      "sla": "Daily common-area cleaning"
+    },
+    {
+      "name": "AquaPure Systems",
+      "category": "Water Systems",
+      "contract": "2026-05-01 to 2027-04-30",
+      "amount": 132000,
+      "sla": "Monthly inspection"
+    },
+    {
+      "name": "BrightServe Electricals",
+      "category": "Electrical",
+      "contract": "On-call",
+      "amount": 0,
+      "sla": "8-hour standard response"
+    }
+  ],
+  "finance": {
+    "billing_cycle": {
+      "label": "September 2026",
+      "period_start": "2026-09-01",
+      "period_end": "2026-09-30",
+      "due_on": "2026-09-15",
+      "status": "issued"
+    },
+    "charge_heads": [
+      {
+        "code": "MAINT",
+        "label": "Monthly Maintenance",
+        "category": "maintenance",
+        "default_amount": 4200
+      },
+      {
+        "code": "SINK",
+        "label": "Sinking Fund",
+        "category": "sinking_fund",
+        "default_amount": 750
+      },
+      {
+        "code": "PARK2",
+        "label": "Additional Parking",
+        "category": "parking",
+        "default_amount": 500
+      },
+      {
+        "code": "WATER",
+        "label": "Water Charge",
+        "category": "water",
+        "default_amount": 350
+      }
+    ],
+    "funds": [
+      {
+        "code": "OPERATING",
+        "label": "Operating Fund",
+        "opening_balance": 480000,
+        "current_balance": 612000
+      },
+      {
+        "code": "SINKING",
+        "label": "Sinking Fund",
+        "opening_balance": 1850000,
+        "current_balance": 2025000
+      },
+      {
+        "code": "REPAIR",
+        "label": "Major Repair Fund",
+        "opening_balance": 925000,
+        "current_balance": 1010000
+      }
+    ],
+    "budget": [
+      {
+        "category": "Security",
+        "budget_amount": 720000
+      },
+      {
+        "category": "Housekeeping",
+        "budget_amount": 600000
+      },
+      {
+        "category": "Lift AMC",
+        "budget_amount": 300000
+      },
+      {
+        "category": "Electricity",
+        "budget_amount": 480000
+      },
+      {
+        "category": "Repairs",
+        "budget_amount": 500000
+      },
+      {
+        "category": "Community Events",
+        "budget_amount": 180000
+      }
+    ],
+    "expenses": [
+      {
+        "category": "Security",
+        "description": "August security services",
+        "amount": 60000,
+        "date": "2026-09-05"
+      },
+      {
+        "category": "Housekeeping",
+        "description": "August housekeeping",
+        "amount": 45000,
+        "date": "2026-09-06"
+      },
+      {
+        "category": "Repairs",
+        "description": "Basement drainage repair",
+        "amount": 38500,
+        "date": "2026-09-08"
+      }
+    ]
+  },
+  "governance": {
+    "committee": [
+      {
+        "name": "Sanjay Mehta",
+        "role": "Chairman",
+        "term": "2026-27"
+      },
+      {
+        "name": "Anita Shah",
+        "role": "Secretary",
+        "term": "2026-27"
+      },
+      {
+        "name": "Vivek Kulkarni",
+        "role": "Treasurer",
+        "term": "2026-27"
+      },
+      {
+        "name": "Neeraj Patil",
+        "role": "Committee Member",
+        "portfolio": "Security"
+      },
+      {
+        "name": "Rohini Deshpande",
+        "role": "Committee Member",
+        "portfolio": "Cultural"
+      },
+      {
+        "name": "Ajay Jain",
+        "role": "Committee Member",
+        "portfolio": "Maintenance"
+      }
+    ],
+    "meetings": [
+      {
+        "title": "September Managing Committee Meeting",
+        "date": "2026-09-06",
+        "status": "completed",
+        "agenda_items": 5,
+        "action_items_open": 3
+      },
+      {
+        "title": "Annual General Meeting 2026",
+        "date": "2026-09-27",
+        "status": "scheduled",
+        "agenda_items": 7,
+        "action_items_open": 0
+      }
+    ],
+    "resolutions": [
+      {
+        "title": "Approve EV charging pilot",
+        "status": "passed",
+        "votes_for": 5,
+        "votes_against": 1
+      },
+      {
+        "title": "Replace Cedar tower CCTV recorder",
+        "status": "passed",
+        "votes_for": 6,
+        "votes_against": 0
+      },
+      {
+        "title": "Revise clubhouse booking deposit",
+        "status": "under_review",
+        "votes_for": 0,
+        "votes_against": 0
+      }
+    ]
+  },
+  "security_and_assets": {
+    "domestic_staff": [
+      {
+        "name": "Savita Kamble",
+        "type": "Househelp",
+        "approved_units": [
+          "Aster-A-804",
+          "Aster-A-903"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "Ramesh Yadav",
+        "type": "Car Cleaner",
+        "approved_units": [
+          "Cedar-B-504",
+          "Cedar-B-704",
+          "Maple-C-603"
+        ],
+        "status": "active"
+      }
+    ],
+    "move_requests": [
+      {
+        "unit": "Cedar-B-1002",
+        "type": "Move-in",
+        "date": "2026-09-15",
+        "status": "approved"
+      },
+      {
+        "unit": "Maple-C-402",
+        "type": "Move-out",
+        "date": "2026-09-18",
+        "status": "pending"
+      }
+    ],
+    "renovation_requests": [
+      {
+        "unit": "Aster-A-1104",
+        "work": "Kitchen renovation",
+        "period": "2026-09-12 to 2026-09-25",
+        "status": "approved"
+      },
+      {
+        "unit": "Maple-C-903",
+        "work": "Bathroom repair",
+        "period": "2026-09-14 to 2026-09-17",
+        "status": "pending"
+      }
+    ],
+    "assets": [
+      {
+        "asset": "Diesel Generator 125 KVA",
+        "category": "Power",
+        "status": "operational",
+        "next_service": "2026-10-10"
+      },
+      {
+        "asset": "Fire Pump System",
+        "category": "Safety",
+        "status": "operational",
+        "next_service": "2026-09-30"
+      },
+      {
+        "asset": "Cedar Lift B2",
+        "category": "Lift",
+        "status": "attention",
+        "next_service": "2026-09-12"
+      },
+      {
+        "asset": "STP Plant",
+        "category": "Utilities",
+        "status": "operational",
+        "next_service": "2026-10-05"
+      },
+      {
+        "asset": "CCTV NVR - Cedar",
+        "category": "Security",
+        "status": "replacement_planned",
+        "next_service": "2026-09-20"
+      }
+    ],
+    "compliance": [
+      {
+        "item": "Fire equipment inspection",
+        "due": "2026-09-30",
+        "status": "due_soon"
+      },
+      {
+        "item": "Lift fitness certificate - Cedar",
+        "due": "2026-10-15",
+        "status": "upcoming"
+      },
+      {
+        "item": "Water quality test",
+        "due": "2026-09-18",
+        "status": "due_soon"
+      }
+    ],
+    "emergency_contacts": [
+      {
+        "label": "Security Desk",
+        "phone": "020-5550-1001"
+      },
+      {
+        "label": "Nearest Hospital",
+        "phone": "020-5550-2002"
+      },
+      {
+        "label": "Fire Brigade",
+        "phone": "101"
+      },
+      {
+        "label": "Police",
+        "phone": "112"
+      }
+    ]
+  },
+  "community": [
+    {
+      "type": "event",
+      "title": "Ganesh Festival 2026",
+      "date": "2026-09-13",
+      "participants": 138
+    },
+    {
+      "type": "event",
+      "title": "Children's Drawing Morning",
+      "date": "2026-09-20",
+      "participants": 36
+    },
+    {
+      "type": "memory",
+      "title": "Monsoon Tree Plantation",
+      "date": "2026-07-12",
+      "photos": 24
+    },
+    {
+      "type": "milestone",
+      "title": "Solar lighting phase 1 commissioned",
+      "date": "2026-08-22"
+    }
+  ],
+  "showcase_attention": {
+    "open_complaints": 3,
+    "urgent_notices": 1,
+    "expected_visitors_today": 4,
+    "bookings_next_7_days": 4,
+    "dues_outstanding_units": 7,
+    "committee_actions_open": 3,
+    "compliance_due_soon": 2,
+    "assets_needing_attention": 2
+  }
+}

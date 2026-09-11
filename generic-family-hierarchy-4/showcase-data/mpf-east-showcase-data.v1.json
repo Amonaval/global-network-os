@@ -1,0 +1,1008 @@
+{
+  "version": "showcase-mpf-east.v1",
+  "synthetic": true,
+  "network": {
+    "name": "MPF Pune East",
+    "vertical": "family-association",
+    "chapter": "Pune East",
+    "city": "Pune",
+    "state": "Maharashtra",
+    "membership_cycle": "April-March",
+    "family_fee": 5100,
+    "grace_period_days": 30,
+    "dependent_age_limit": 22,
+    "voting_eligibility": "representative_spouse",
+    "story": "A living cultural/professional family community replacing spreadsheets, scattered WhatsApp groups and disconnected event records."
+  },
+  "families": [
+    {
+      "family_id": "FAM-01",
+      "family_name": "Bajaj Family",
+      "area": "Kharadi",
+      "representative": {
+        "name": "Amit Bajaj",
+        "profession": "Technology",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Neha Bajaj",
+        "profession": "Design",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Amit & Neha's Child 1",
+          "age": 9,
+          "status": "dependent"
+        },
+        {
+          "name": "Amit & Neha's Child 2",
+          "age": 5,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-02"
+      },
+      "professional_tags": [
+        "Technology",
+        "Kharadi",
+        "MPF East"
+      ],
+      "interests": [
+        "Mentoring",
+        "Professional Connect"
+      ]
+    },
+    {
+      "family_id": "FAM-02",
+      "family_name": "Laddha Family",
+      "area": "Viman Nagar",
+      "representative": {
+        "name": "Rohit Laddha",
+        "profession": "Manufacturing",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Pooja Laddha",
+        "profession": "Finance",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Rohit & Pooja's Child 1",
+          "age": 10,
+          "status": "dependent"
+        },
+        {
+          "name": "Rohit & Pooja's Child 2",
+          "age": 6,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-03"
+      },
+      "professional_tags": [
+        "Manufacturing",
+        "Viman Nagar",
+        "MPF East"
+      ],
+      "interests": [
+        "Volunteering",
+        "Family Events"
+      ]
+    },
+    {
+      "family_id": "FAM-03",
+      "family_name": "Rathi Family",
+      "area": "Kalyani Nagar",
+      "representative": {
+        "name": "Nitin Rathi",
+        "profession": "Finance",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Shweta Rathi",
+        "profession": "Healthcare",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Nitin & Shweta's Child 1",
+          "age": 11,
+          "status": "dependent"
+        },
+        {
+          "name": "Nitin & Shweta's Child 2",
+          "age": 21,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-04"
+      },
+      "professional_tags": [
+        "Finance",
+        "Kalyani Nagar",
+        "MPF East"
+      ],
+      "interests": [
+        "Sports",
+        "Cultural"
+      ]
+    },
+    {
+      "family_id": "FAM-04",
+      "family_name": "Kabadi Family",
+      "area": "Wagholi",
+      "representative": {
+        "name": "Manish Kabadi",
+        "profession": "Real Estate",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Ritu Kabadi",
+        "profession": "Consulting",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Manish & Ritu's Child 1",
+          "age": 12,
+          "status": "dependent"
+        },
+        {
+          "name": "Manish & Ritu's Child 2",
+          "age": 8,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-05"
+      },
+      "professional_tags": [
+        "Real Estate",
+        "Wagholi",
+        "MPF East"
+      ],
+      "interests": [
+        "Mentoring",
+        "Professional Connect"
+      ]
+    },
+    {
+      "family_id": "FAM-05",
+      "family_name": "Somani Family",
+      "area": "Hadapsar",
+      "representative": {
+        "name": "Ankit Somani",
+        "profession": "Healthcare",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Priyanka Somani",
+        "profession": "Education",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Ankit & Priyanka's Child 1",
+          "age": 13,
+          "status": "dependent"
+        },
+        {
+          "name": "Ankit & Priyanka's Child 2",
+          "age": 9,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-06"
+      },
+      "professional_tags": [
+        "Healthcare",
+        "Hadapsar",
+        "MPF East"
+      ],
+      "interests": [
+        "Volunteering",
+        "Family Events"
+      ]
+    },
+    {
+      "family_id": "FAM-06",
+      "family_name": "Biyani Family",
+      "area": "Mundhwa",
+      "representative": {
+        "name": "Saurabh Biyani",
+        "profession": "Retail",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Nidhi Biyani",
+        "profession": "Design",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Saurabh & Nidhi's Child 1",
+          "age": 14,
+          "status": "dependent"
+        },
+        {
+          "name": "Saurabh & Nidhi's Child 2",
+          "age": 21,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-07"
+      },
+      "professional_tags": [
+        "Retail",
+        "Mundhwa",
+        "MPF East"
+      ],
+      "interests": [
+        "Sports",
+        "Cultural"
+      ]
+    },
+    {
+      "family_id": "FAM-07",
+      "family_name": "Naval Family",
+      "area": "Kharadi",
+      "representative": {
+        "name": "Amol Naval",
+        "profession": "Software",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Priya Naval",
+        "profession": "Finance",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Amol & Priya's Child 1",
+          "age": 15,
+          "status": "dependent"
+        },
+        {
+          "name": "Amol & Priya's Child 2",
+          "age": 11,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-08"
+      },
+      "professional_tags": [
+        "Software",
+        "Kharadi",
+        "MPF East"
+      ],
+      "interests": [
+        "Mentoring",
+        "Professional Connect"
+      ]
+    },
+    {
+      "family_id": "FAM-08",
+      "family_name": "Kabra Family",
+      "area": "Viman Nagar",
+      "representative": {
+        "name": "Vikas Kabra",
+        "profession": "Consulting",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Swati Kabra",
+        "profession": "Healthcare",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Vikas & Swati's Child 1",
+          "age": 8,
+          "status": "dependent"
+        },
+        {
+          "name": "Vikas & Swati's Child 2",
+          "age": 12,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-09"
+      },
+      "professional_tags": [
+        "Consulting",
+        "Viman Nagar",
+        "MPF East"
+      ],
+      "interests": [
+        "Volunteering",
+        "Family Events"
+      ]
+    },
+    {
+      "family_id": "FAM-09",
+      "family_name": "Bang Family",
+      "area": "Kalyani Nagar",
+      "representative": {
+        "name": "Pratik Bang",
+        "profession": "Education",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Rashmi Bang",
+        "profession": "Consulting",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Pratik & Rashmi's Child 1",
+          "age": 9,
+          "status": "dependent"
+        },
+        {
+          "name": "Pratik & Rashmi's Child 2",
+          "age": 21,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "partial",
+        "amount_due": 5100,
+        "amount_paid": 2500,
+        "renewed_on": null
+      },
+      "professional_tags": [
+        "Education",
+        "Kalyani Nagar",
+        "MPF East"
+      ],
+      "interests": [
+        "Sports",
+        "Cultural"
+      ]
+    },
+    {
+      "family_id": "FAM-10",
+      "family_name": "Mundra Family",
+      "area": "Kharadi",
+      "representative": {
+        "name": "Gaurav Mundra",
+        "profession": "Logistics",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Kavita Mundra",
+        "profession": "Education",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Gaurav & Kavita's Child 1",
+          "age": 10,
+          "status": "dependent"
+        },
+        {
+          "name": "Gaurav & Kavita's Child 2",
+          "age": 4,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-11"
+      },
+      "professional_tags": [
+        "Logistics",
+        "Kharadi",
+        "MPF East"
+      ],
+      "interests": [
+        "Mentoring",
+        "Professional Connect"
+      ]
+    },
+    {
+      "family_id": "FAM-11",
+      "family_name": "Agrawal Family",
+      "area": "Wagholi",
+      "representative": {
+        "name": "Sachin Agrawal",
+        "profession": "Legal",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Megha Agrawal",
+        "profession": "Design",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Sachin & Megha's Child 1",
+          "age": 11,
+          "status": "dependent"
+        },
+        {
+          "name": "Sachin & Megha's Child 2",
+          "age": 5,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "grace",
+        "payment_status": "unpaid",
+        "amount_due": 5100,
+        "amount_paid": 0,
+        "renewed_on": null
+      },
+      "professional_tags": [
+        "Legal",
+        "Wagholi",
+        "MPF East"
+      ],
+      "interests": [
+        "Volunteering",
+        "Family Events"
+      ]
+    },
+    {
+      "family_id": "FAM-12",
+      "family_name": "Mantri Family",
+      "area": "Hadapsar",
+      "representative": {
+        "name": "Harsh Mantri",
+        "profession": "Hospitality",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Richa Mantri",
+        "profession": "Finance",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Harsh & Richa's Child 1",
+          "age": 12,
+          "status": "dependent"
+        },
+        {
+          "name": "Harsh & Richa's Child 2",
+          "age": 21,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-13"
+      },
+      "professional_tags": [
+        "Hospitality",
+        "Hadapsar",
+        "MPF East"
+      ],
+      "interests": [
+        "Sports",
+        "Cultural"
+      ]
+    },
+    {
+      "family_id": "FAM-13",
+      "family_name": "Jaju Family",
+      "area": "Kharadi",
+      "representative": {
+        "name": "Deepak Jaju",
+        "profession": "Architecture",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Monika Jaju",
+        "profession": "Healthcare",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Deepak & Monika's Child 1",
+          "age": 13,
+          "status": "dependent"
+        },
+        {
+          "name": "Deepak & Monika's Child 2",
+          "age": 7,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-14"
+      },
+      "professional_tags": [
+        "Architecture",
+        "Kharadi",
+        "MPF East"
+      ],
+      "interests": [
+        "Mentoring",
+        "Professional Connect"
+      ]
+    },
+    {
+      "family_id": "FAM-14",
+      "family_name": "Malpani Family",
+      "area": "Mundhwa",
+      "representative": {
+        "name": "Kunal Malpani",
+        "profession": "Pharma",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Sneha Malpani",
+        "profession": "Consulting",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Kunal & Sneha's Child 1",
+          "age": 14,
+          "status": "dependent"
+        },
+        {
+          "name": "Kunal & Sneha's Child 2",
+          "age": 8,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "active",
+        "payment_status": "paid",
+        "amount_due": 5100,
+        "amount_paid": 5100,
+        "renewed_on": "2026-04-15"
+      },
+      "professional_tags": [
+        "Pharma",
+        "Mundhwa",
+        "MPF East"
+      ],
+      "interests": [
+        "Volunteering",
+        "Family Events"
+      ]
+    },
+    {
+      "family_id": "FAM-15",
+      "family_name": "Chandak Family",
+      "area": "Viman Nagar",
+      "representative": {
+        "name": "Raj Chandak",
+        "profession": "Automotive",
+        "profile_visibility": "members",
+        "contact_visibility": "members"
+      },
+      "spouse": {
+        "name": "Anjali Chandak",
+        "profession": "Education",
+        "profile_visibility": "members"
+      },
+      "children": [
+        {
+          "name": "Raj & Anjali's Child 1",
+          "age": 15,
+          "status": "dependent"
+        },
+        {
+          "name": "Raj & Anjali's Child 2",
+          "age": 21,
+          "status": "dependent"
+        }
+      ],
+      "membership_2026_27": {
+        "status": "pending",
+        "payment_status": "unpaid",
+        "amount_due": 5100,
+        "amount_paid": 0,
+        "renewed_on": null
+      },
+      "professional_tags": [
+        "Automotive",
+        "Viman Nagar",
+        "MPF East"
+      ],
+      "interests": [
+        "Sports",
+        "Cultural"
+      ]
+    }
+  ],
+  "membership_years": [
+    {
+      "label": "2024-25",
+      "status": "archived",
+      "family_fee": 4500
+    },
+    {
+      "label": "2025-26",
+      "status": "closed",
+      "family_fee": 4800
+    },
+    {
+      "label": "2026-27",
+      "status": "open",
+      "family_fee": 5100
+    }
+  ],
+  "roles": [
+    {
+      "role_key": "president",
+      "label": "President",
+      "portfolio": "Chapter Leadership"
+    },
+    {
+      "role_key": "president-elect",
+      "label": "President Elect",
+      "portfolio": "Leadership Continuity"
+    },
+    {
+      "role_key": "past-president",
+      "label": "Past President",
+      "portfolio": "Advisory"
+    },
+    {
+      "role_key": "secretary",
+      "label": "Secretary",
+      "portfolio": "Administration"
+    },
+    {
+      "role_key": "treasurer",
+      "label": "Treasurer",
+      "portfolio": "Finance"
+    },
+    {
+      "role_key": "director-events",
+      "label": "Director - Events",
+      "portfolio": "Events"
+    },
+    {
+      "role_key": "director-membership",
+      "label": "Director - Membership",
+      "portfolio": "Membership"
+    },
+    {
+      "role_key": "director-professional",
+      "label": "Director - Professional Connect",
+      "portfolio": "Professional Connect"
+    },
+    {
+      "role_key": "chair-cultural",
+      "label": "Chairperson - Cultural",
+      "portfolio": "Cultural"
+    },
+    {
+      "role_key": "chair-sports",
+      "label": "Chairperson - Sports",
+      "portfolio": "Sports"
+    }
+  ],
+  "role_history": [
+    {
+      "person": "Amit Bajaj",
+      "role": "President",
+      "year": "2026-27",
+      "starts_on": "2026-04-01"
+    },
+    {
+      "person": "Rohit Laddha",
+      "role": "President Elect",
+      "year": "2026-27",
+      "starts_on": "2026-04-01"
+    },
+    {
+      "person": "Nitin Rathi",
+      "role": "Secretary",
+      "year": "2026-27",
+      "starts_on": "2026-04-01"
+    },
+    {
+      "person": "Manish Kabadi",
+      "role": "Treasurer",
+      "year": "2026-27",
+      "starts_on": "2026-04-01"
+    },
+    {
+      "person": "Amol Naval",
+      "role": "Director - Professional Connect",
+      "year": "2026-27",
+      "starts_on": "2026-04-01"
+    },
+    {
+      "person": "Saurabh Biyani",
+      "role": "Director - Events",
+      "year": "2026-27",
+      "starts_on": "2026-04-01"
+    },
+    {
+      "person": "Vikas Kabra",
+      "role": "Director - Membership",
+      "year": "2026-27",
+      "starts_on": "2026-04-01"
+    },
+    {
+      "person": "Gaurav Mundra",
+      "role": "Chairperson - Sports",
+      "year": "2026-27",
+      "starts_on": "2026-04-01"
+    }
+  ],
+  "events": [
+    {
+      "title": "Ashirwad Samaroh 2026",
+      "date": "2026-04-19",
+      "venue": "Boat Club, Pune",
+      "rsvp_yes": 118,
+      "families": 42,
+      "status": "completed",
+      "highlight": "Welcomed new families and recognized senior members."
+    },
+    {
+      "title": "Professional Connect Evening",
+      "date": "2026-07-18",
+      "venue": "World Trade Center, Kharadi",
+      "rsvp_yes": 86,
+      "families": 34,
+      "status": "completed",
+      "highlight": "Member expertise, mentoring and business introductions."
+    },
+    {
+      "title": "Family Sports Day",
+      "date": "2026-09-20",
+      "venue": "Amanora Sports Arena",
+      "rsvp_yes": 92,
+      "families": 37,
+      "status": "upcoming",
+      "highlight": "Cricket, relay, kids activities and family teams."
+    },
+    {
+      "title": "Diwali Milan 2026",
+      "date": "2026-10-31",
+      "venue": "Royal Orchid Central",
+      "rsvp_yes": 247,
+      "families": 78,
+      "status": "upcoming",
+      "highlight": "Cultural performances, recognition and family dinner."
+    },
+    {
+      "title": "MPF East Cricket League",
+      "date": "2026-12-12",
+      "venue": "Legends Turf, Pune",
+      "rsvp_yes": 84,
+      "families": 31,
+      "status": "upcoming",
+      "highlight": "Two-day sponsored tournament with youth participation."
+    },
+    {
+      "title": "Family Picnic 2027",
+      "date": "2027-01-24",
+      "venue": "Mulshi",
+      "rsvp_yes": 196,
+      "families": 66,
+      "status": "planned",
+      "highlight": "Full-day family outing with transport and meals."
+    },
+    {
+      "title": "AGM & Leadership Handover",
+      "date": "2027-03-14",
+      "venue": "Kharadi, Pune",
+      "rsvp_yes": 0,
+      "families": 0,
+      "status": "planned",
+      "highlight": "Annual report, finances, elections and next-year roadmap."
+    }
+  ],
+  "announcements": [
+    {
+      "title": "2026-27 membership renewal is open",
+      "priority": "high",
+      "audience": "All families"
+    },
+    {
+      "title": "Sports Day registrations close on 15 September",
+      "priority": "medium",
+      "audience": "All members"
+    },
+    {
+      "title": "Professional directory profile completion drive",
+      "priority": "normal",
+      "audience": "Representatives + spouses"
+    },
+    {
+      "title": "Volunteer nominations for Diwali Milan",
+      "priority": "normal",
+      "audience": "All adult members"
+    }
+  ],
+  "awards": [
+    {
+      "person": "Shweta Rathi",
+      "award": "Community Contribution Award",
+      "year": "2025-26",
+      "event": "Diwali Milan 2025"
+    },
+    {
+      "person": "Saurabh Biyani",
+      "award": "Outstanding Event Leadership",
+      "year": "2025-26",
+      "event": "Family Picnic 2026"
+    },
+    {
+      "person": "Amol Naval",
+      "award": "Professional Connect Contributor",
+      "year": "2026-27",
+      "event": "Professional Connect Evening"
+    },
+    {
+      "person": "Pooja Laddha",
+      "award": "Youth Mentoring Recognition",
+      "year": "2026-27",
+      "event": "Ashirwad Samaroh 2026"
+    }
+  ],
+  "finance_story": [
+    {
+      "type": "opening_balance",
+      "amount": 185000,
+      "description": "Opening balance FY 2026-27"
+    },
+    {
+      "type": "membership_collection",
+      "amount": 663000,
+      "description": "130 family renewals collected"
+    },
+    {
+      "type": "sponsorship",
+      "amount": 125000,
+      "description": "Event sponsorships"
+    },
+    {
+      "type": "event_contribution",
+      "amount": 92000,
+      "description": "Sports and picnic contributions"
+    },
+    {
+      "type": "event_allocation",
+      "amount": -210000,
+      "description": "Diwali Milan allocation"
+    },
+    {
+      "type": "good_cause",
+      "amount": -51000,
+      "description": "Education support initiative"
+    },
+    {
+      "type": "carry_forward",
+      "amount": 804000,
+      "description": "Projected carry-forward before future events"
+    }
+  ],
+  "memories": [
+    {
+      "title": "Diwali Milan 2025",
+      "type": "album",
+      "photos": 42,
+      "caption": "Performances, awards and family moments."
+    },
+    {
+      "title": "Cricket League 2025 Champions",
+      "type": "album",
+      "photos": 28,
+      "caption": "Teams, volunteers and presentation ceremony."
+    },
+    {
+      "title": "Founding Journey: MPF East",
+      "type": "timeline",
+      "photos": 8,
+      "caption": "How the chapter grew from a small group to a structured family community."
+    }
+  ],
+  "birthdays_next_30_days": [
+    {
+      "name": "Neha Bajaj",
+      "date": "2026-09-16",
+      "family": "Bajaj Family"
+    },
+    {
+      "name": "Rohit Laddha",
+      "date": "2026-09-20",
+      "family": "Laddha Family"
+    },
+    {
+      "name": "Shweta Rathi",
+      "date": "2026-09-25",
+      "family": "Rathi Family"
+    },
+    {
+      "name": "Priya Naval",
+      "date": "2026-10-02",
+      "family": "Naval Family"
+    },
+    {
+      "name": "Kunal Malpani",
+      "date": "2026-10-07",
+      "family": "Malpani Family"
+    },
+    {
+      "name": "Anjali Chandak",
+      "date": "2026-10-10",
+      "family": "Chandak Family"
+    }
+  ],
+  "showcase_attention": {
+    "renewals_due": 3,
+    "families_in_grace": 1,
+    "pending_member_profile_updates": 7,
+    "upcoming_events": 3,
+    "birthdays_this_month": 6,
+    "open_volunteer_slots": 4
+  }
+}

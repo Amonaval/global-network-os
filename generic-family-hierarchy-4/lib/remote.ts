@@ -54,6 +54,8 @@ export type {
   PlatformFamilyTarget,
   PlatformRolloutAudit,
   FeatureAnnouncement,
+  ShowcasePaletteKey,
+  ShowcaseVerticalSetting,
 } from "../capabilities/launch-runtime/remote";
 export {
   fetchPlaygroundFeatures,
@@ -70,6 +72,9 @@ export {
   setPlatformVerticalBundleRollout,
   fetchMyFeatureAnnouncements,
   markFeatureAnnouncementSeen,
+  fetchShowcaseVerticalSettings,
+  fetchPlatformShowcaseVerticalSettings,
+  setPlatformShowcaseVerticalSetting,
 } from "../capabilities/launch-runtime/remote";
 export type { PlatformOwnerRow, PlatformOwnerAuditRow } from "../capabilities/platform-ownership/remote";
 export {

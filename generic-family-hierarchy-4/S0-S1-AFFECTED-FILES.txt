@@ -1,0 +1,16 @@
+components/SetupScreen.tsx
+components/FounderLaunchConsole.tsx
+components/TemplateNetworkApp.tsx
+components/HousingSocietyOperationsPanel.tsx
+components/HousingSocietyFinancePanel.tsx
+components/HousingSocietyGovernancePanel.tsx
+components/HousingSocietySecurityPanel.tsx
+capabilities/launch-runtime/remote.ts
+lib/remote.ts
+templates/productized/config.ts
+app/globals.css
+supabase/migrations/099_showcase_control_plane.sql
+showcase-data/mpf-east-showcase-data.v1.json
+showcase-data/residential-showcase-data.v1.json
+SHOWCASE-S0-S1-APPLY-NOTE.md
+S0-S1-AFFECTED-FILES.txt
