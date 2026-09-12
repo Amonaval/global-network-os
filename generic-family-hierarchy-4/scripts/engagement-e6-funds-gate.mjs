@@ -22,6 +22,6 @@ ok('member-facing funds panel exists',panel.includes('qa-network-funds-panel')&&
 ok('admin can create funds and record transactions',panel.includes('createNetworkFund')&&panel.includes('recordNetworkFundTransaction'));
 ok('membership dues table is visible to admin',panel.includes('membership_dues')&&panel.includes('E6MembershipDuesTxt'));
 ok('family association navigation exposes funds without removing old surfaces',composition.includes('fundsSurface')&&composition.includes('Family Structure')&&composition.includes('Build Together'));
-ok('notification deep link surface is routable',app.includes('"funds"|"intelligence"')&&app.includes('tab==="funds"'));
+ok('notification deep link surface is routable',app.includes('"funds"')&&app.includes('tab==="funds"'));
 ok('responsive fund UI styles exist',css.includes('.network-fund-grid')&&css.includes('.network-funds-admin-grid'));
 for(const [n,v] of checks)console.log(`${v?'✓':'✗'} ${n}`);if(checks.some(x=>!x[1]))process.exit(1);console.log(`E6 PASS ${checks.length}/${checks.length}`);
