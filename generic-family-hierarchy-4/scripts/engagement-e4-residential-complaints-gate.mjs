@@ -1,0 +1,16 @@
+import fs from 'node:fs';const c=[];const ok=(n,v)=>c.push([n,!!v]);const m=fs.readFileSync('supabase/migrations/106_residential_complaint_routing_media.sql','utf8'),ui=fs.readFileSync('components/HousingSocietyOperationsPanel.tsx','utf8'),remote=fs.readFileSync('verticals/housing-society/runtime/operations-remote.ts','utf8'),storage=fs.readFileSync('lib/storage.ts','utf8');
+ok('housing photo uploads enabled with compressed limit',m.includes("vertical_kind='housing-society'")&&m.includes('262144'));
+ok('complaint category routing table exists',m.includes('hs_complaint_routes'));
+ok('complaint routes use notification responsibility roles',m.includes('network_notification_roles'));
+ok('new complaint notifies resolver',m.includes("'complaint-created'"));
+ok('status updates notify complaint raiser',m.includes("'complaint-updated'"));
+ok('comments notify workflow participants',m.includes("'complaint-comment'"));
+ok('assigned resolver can see complaint',m.includes('c.assigned_to=auth.uid()'));
+ok('private media read includes complaint authorization',m.includes('can_read_community_media')&&m.includes('jsonb_array_elements(c.attachments)'));
+ok('complaint upload uses existing compression pipeline',storage.includes('uploadComplaintPhoto')&&storage.includes('uploadCommunityPhoto'));
+ok('UI accepts file instead of photo URL',ui.includes('hs-complaint-photo')&&ui.includes('uploadComplaintPhoto'));
+ok('UI renders private signed complaint photos',ui.includes('c.photoUrls'));
+ok('exact complaint deep-link scroll exists',ui.includes('data-complaint-id')&&ui.includes('readNotificationDeepLink().itemId'));
+ok('remote hands push IDs to web push',remote.includes('requestPushDelivery'));
+ok('admin routing UI exists',ui.includes('ComplaintRoutingTxt')&&ui.includes('setHsComplaintRoute'));
+for(const [n,v] of c)console.log(`${v?'✓':'✗'} ${n}`);if(c.some(x=>!x[1]))process.exit(1);console.log(`E4 PASS ${c.length}/${c.length}`);

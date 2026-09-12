@@ -77,3 +77,9 @@ export async function removeStoredMedia(pathOrUrl:string|undefined|null,bucket:'
 export async function getSignedPhotoUrl(pathOrUrl:string,bucket:'profile-photos'|'community-media'=PROFILE_BUCKET):Promise<string|null>{
   if(!supabase||!pathOrUrl)return null; const {data,error}=await supabase.storage.from(bucket).createSignedUrl(extractPath(pathOrUrl),SIGNED_TTL); return error||!data?.signedUrl?null:data.signedUrl;
 }
+
+export async function uploadComplaintPhoto(file:File):Promise<string>{
+  if(!supabase)throw new Error('Shared mode is required.');
+  const {data:{user}}=await supabase.auth.getUser();if(!user)throw new Error('Please sign in before uploading a complaint photo.');
+  return uploadCommunityPhoto(file,user.id);
+}

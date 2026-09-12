@@ -3689,6 +3689,16 @@ export const en={
   UnassignedTxt:'Unassigned',
   MentionRoutingHelpTxt:'Members can mention roles such as @President or @Chairman, or a member by their email name. Routing always stays inside this network.',
   MentionPeopleRolesHelpTxt:'Tip: mention a responsibility or member, for example @President, @Chairman or @amit.',
+  ComplaintSubmittedTxt:'Complaint submitted.',
+  ComplaintSubmitFailedTxt:'Complaint could not be submitted.',
+  AddComplaintPhotoTxt:'Add photo',
+  ComplaintPhotoCompressionHelpTxt:'JPG, PNG or WebP. The image will be compressed before upload.',
+  ComplaintRoutingTxt:'Complaint routing',
+  ComplaintRoutingDescTxt:'Map complaint categories to a registered responsibility. New complaints automatically notify the people assigned to that role.',
+  ComplaintRoutingSavedTxt:'Complaint routing saved.',
+  ComplaintRoutingFailedTxt:'Complaint routing could not be saved.',
+  AssignedResolversTxt:'registered resolver(s)',
+  AssignedToTxt:'Assigned to',
 } as const;
 export type MessageToken=keyof typeof en;
 export type MessageCatalog=Record<MessageToken,string>;

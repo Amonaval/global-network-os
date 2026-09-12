@@ -1,12 +1,10 @@
 app/globals.css
-components/TemplateNetworkApp.tsx
-components/shared/NetworkActivityHub.tsx
-components/shared/NetworkNotificationRoleAdmin.tsx
+components/HousingSocietyOperationsPanel.tsx
 lib/i18n/messages/en.ts
 lib/i18n/messages/hi.ts
 lib/i18n/messages/mr.ts
-lib/mentions.ts
-lib/remote.ts
+lib/storage.ts
 package.json
-scripts/engagement-e3-mentions-routing-gate.mjs
-supabase/migrations/105_engagement_mentions_role_routing.sql
+scripts/engagement-e4-residential-complaints-gate.mjs
+supabase/migrations/106_residential_complaint_routing_media.sql
+verticals/housing-society/runtime/operations-remote.ts

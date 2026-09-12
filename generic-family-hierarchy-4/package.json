@@ -168,7 +168,8 @@
     "qa:showcase:headed": "playwright test qa/e2e/24-showcase-stabilization-certification.spec.ts --project=chromium-desktop --workers=1 --headed",
     "validate:engage-e1": "node scripts/engagement-e1-notification-core-gate.mjs",
     "validate:engage-e2": "node scripts/engagement-e2-web-push-gate.mjs && npm run validate:engage-e1",
-    "validate:engage-e3": "node scripts/engagement-e3-mentions-routing-gate.mjs && npm run validate:engage-e2"
+    "validate:engage-e3": "node scripts/engagement-e3-mentions-routing-gate.mjs && npm run validate:engage-e2",
+    "validate:engage-e4": "node scripts/engagement-e4-residential-complaints-gate.mjs && npm run validate:engage-e3"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",
