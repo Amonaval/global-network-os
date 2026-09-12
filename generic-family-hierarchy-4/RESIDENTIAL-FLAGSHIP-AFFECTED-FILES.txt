@@ -1,0 +1,10 @@
+SHOWCASE-RESIDENTIAL-CHAIRMAN-FLAGSHIP.md
+RESIDENTIAL-FLAGSHIP-AFFECTED-FILES.txt
+components/HousingSocietyHome.tsx
+components/TemplateNetworkApp.tsx
+app/globals.css
+lib/i18n/messages/en.ts
+lib/i18n/messages/hi.ts
+lib/i18n/messages/mr.ts
+scripts/showcase-residential-flagship-gate.mjs
+package.json
