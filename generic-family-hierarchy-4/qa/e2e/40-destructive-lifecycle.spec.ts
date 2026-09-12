@@ -1,2 +1,0 @@
-import {test} from '@playwright/test';import {assertMutationAllowed} from '../lib/safety';
-test('staging destructive lifecycle placeholder is safety-gated',async()=>{test.skip(process.env.QA_MODE!=='staging','staging-only');assertMutationAllowed();/* Detailed create -> archive -> restore -> purge scenario is intentionally implemented in the runtime-certification mission once seeded vertical fixtures are bound to the current UI. */});

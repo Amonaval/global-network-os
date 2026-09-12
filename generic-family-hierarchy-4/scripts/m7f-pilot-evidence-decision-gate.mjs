@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8');let passed=0;const ok=(n,c)=>{if(!c){console.error(`FAIL: ${n}`);process.exitCode=1}else{passed++;console.log(`PASS: ${n}`)}};
-const ui=read('components/PilotEvidenceDecisionGate.tsx'),sql=read('supabase/migrations/067_m7f_pilot_evidence_product_decision_gate.sql'),remote=read('capabilities/pilot-decision/remote.ts'),home=read('components/MyNetworksHome.tsx'),doc=read('MISSION-7F-PILOT-EVIDENCE-REVIEW-PRODUCT-DECISION-GATE.md'),pkg=JSON.parse(read('package.json'));
+const ui=read('components/PilotEvidenceDecisionGate.tsx'),sql=read('supabase/migrations/067_m7f_pilot_evidence_product_decision_gate.sql'),remote=read('capabilities/pilot-decision/remote.ts'),home=read('components/MyNetworksHome.tsx'),doc=read('archive/docs/missions/core-platform/MISSION-7F-PILOT-EVIDENCE-REVIEW-PRODUCT-DECISION-GATE.md'),pkg=JSON.parse(read('package.json'));
 ok('Decision gate is surfaced in My Networks',home.includes('<PilotEvidenceDecisionGate identity={identity}/>'));
 ok('Evidence uses M7-D pilot feedback',sql.includes('public.pilot_feedback')&&sql.includes('get_my_pilot_product_decision_gate'));
 ok('Four explicit dispositions exist',sql.includes("'invest','fix','hold','stop'")&&ui.includes("['invest','fix','hold','stop']"));

@@ -4,8 +4,8 @@ const checks=[
  ['components/FamilyExperienceHub.tsx',['FamilyTimeMachine','<FamilyTimeMachine']],
  ['lib/user-guide-content.ts',['family-time-machine','Family Time Machine & Generational Legacy']],
  ['app/globals.css',['family-time-machine','time-machine-shell','legacy-risk-grid']],
- ['NX-3-FAMILY-TIME-MACHINE.md',['No AI-generated family narrative','No cross-network data']],
- ['NX-3-RUNTIME-VERIFICATION-CHECKLIST.md',['Time Machine shows eras','Sparse data shows the honest empty-state']]
+ ['archive/docs/missions/network-experience/NX-3-FAMILY-TIME-MACHINE.md',['No AI-generated family narrative','No cross-network data']],
+ ['archive/docs/missions/network-experience/NX-3-RUNTIME-VERIFICATION-CHECKLIST.md',['Time Machine shows eras','Sparse data shows the honest empty-state']]
 ];
 let failed=false;
 for(const [file,needles] of checks){

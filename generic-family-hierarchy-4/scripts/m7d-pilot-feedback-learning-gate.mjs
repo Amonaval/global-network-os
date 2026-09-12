@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8');let passed=0;const ok=(n,c)=>{if(!c){console.error(`FAIL: ${n}`);process.exitCode=1}else{passed++;console.log(`PASS: ${n}`)}};
-const ui=read('components/PilotFeedbackLearningLoop.tsx'),home=read('components/MyNetworksHome.tsx'),sql=read('supabase/migrations/064_m7d_pilot_feedback_product_learning.sql'),remote=read('capabilities/pilot-learning/remote.ts'),docs=read('MISSION-7D-PILOT-FEEDBACK-PRODUCT-LEARNING.md'),pkg=JSON.parse(read('package.json'));
+const ui=read('components/PilotFeedbackLearningLoop.tsx'),home=read('components/MyNetworksHome.tsx'),sql=read('supabase/migrations/064_m7d_pilot_feedback_product_learning.sql'),remote=read('capabilities/pilot-learning/remote.ts'),docs=read('archive/docs/missions/core-platform/MISSION-7D-PILOT-FEEDBACK-PRODUCT-LEARNING.md'),pkg=JSON.parse(read('package.json'));
 ok('Feedback loop is present in My Networks',home.includes('<PilotFeedbackLearningLoop identity={identity}/>')&&ui.includes('pilot-feedback-learning-loop'));
 ok('Feedback is contextual and lightweight',ui.includes('M7DHelpfulTxt')&&ui.includes('M7DPartialTxt')&&ui.includes('M7DBlockedTxt'));
 ok('Privacy hint is explicit',ui.includes('M7DPrivacyHintTxt')&&sql.includes('never joined to discovery candidates/search text'));

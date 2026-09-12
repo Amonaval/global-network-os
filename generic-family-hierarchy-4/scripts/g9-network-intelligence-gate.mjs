@@ -4,7 +4,7 @@ import {createRequire} from 'node:module';
 const require=createRequire(import.meta.url);const ts=require('typescript');
 const root=process.cwd(),read=p=>fs.readFileSync(path.join(root,p),'utf8'),exists=p=>fs.existsSync(path.join(root,p));
 const failures=[];const fail=m=>failures.push(m);
-const required=['core/intelligence/contracts.ts','core/intelligence/engine.ts','components/shared/NetworkIntelligenceCenter.tsx','supabase/migrations/049_g9_network_intelligence.sql','G9-NETWORK-INTELLIGENCE-LAYER.md','G9-RUNTIME-VERIFICATION-CHECKLIST.md'];
+const required=['core/intelligence/contracts.ts','core/intelligence/engine.ts','components/shared/NetworkIntelligenceCenter.tsx','supabase/migrations/049_g9_network_intelligence.sql','archive/docs/missions/intelligence/G9-NETWORK-INTELLIGENCE-LAYER.md','archive/docs/missions/intelligence/G9-RUNTIME-VERIFICATION-CHECKLIST.md'];
 for(const f of required)if(!exists(f))fail(`missing ${f}`);
 const contracts=read('core/intelligence/contracts.ts'),engine=read('core/intelligence/engine.ts'),ui=read('components/shared/NetworkIntelligenceCenter.tsx'),migration=read('supabase/migrations/049_g9_network_intelligence.sql');
 for(const marker of ['IntelligenceEvidence','IntelligenceInsight','IntelligenceAnswer','IntelligenceHealth','IntelligenceDataset'])if(!contracts.includes(marker))fail(`intelligence contracts missing ${marker}`);

@@ -5,7 +5,7 @@ const home=read("components/FamilyHome.tsx");
 const hub=read("components/FamilyExperienceHub.tsx");
 const css=read("app/globals.css");
 const guide=read("lib/user-guide-content.ts");
-const mission=read("NX-5-FAMILY-CONNECTION-BELONGING.md");
+const mission=read("archive/docs/missions/network-experience/NX-5-FAMILY-CONNECTION-BELONGING.md");
 const checks=[
  [belonging.includes("Know the people behind the family tree"),"product promise"],
  [belonging.includes("findRelationshipPath")&&belonging.includes("relationshipLabelToViewer"),"relationship-aware implementation"],

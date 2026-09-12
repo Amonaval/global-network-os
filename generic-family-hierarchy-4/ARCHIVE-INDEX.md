@@ -1,30 +1,79 @@
-# Documentation Archive Index
+# TrustWeave Documentation Archive Index
 
-G8.5-A reduced root documentation noise while preserving historical decisions and certification evidence.
+**Updated:** 2026-09-12
 
-## Active root documentation
+The archive preserves historical decisions, release evidence and superseded planning while keeping the repository root readable.
 
-The repository root now contains the small operating set used for current development: README, vision/founder compass, roadmap/status, codebase/development rules, validation/deployment/setup guides, user guide, model-selection rule, next-session prompt, the Generic Capability Utilization Rule, and current G8.5 release/audit artifacts.
+## Current root policy
 
-## Historical archive
+Root Markdown is intentionally capped at a small operating set. After the 2026-09-12 documentation orchestration, **23 Markdown files remain at root**. Historical mission/evidence files were moved without deleting them.
 
-Historical Markdown artifacts are preserved under:
+Files still at root are either:
 
-- `archive/docs/family-foundation/` — A/B/CR/D/S family-era missions and release evidence.
-- `archive/docs/g0-g6/` — architecture extraction generations through the two-vertical proof.
-- `archive/docs/g7/` — Generic Network OS/template architecture strategy and release artifacts.
-- `archive/docs/g8/` — G8 productized vertical release/certification artifacts.
-- `archive/docs/legacy-planning/` — older strategic/planning documents that are no longer active operating docs.
+- current operational truth,
+- permanent engineering rules,
+- setup/deployment/validation entry points,
+- or compatibility artifacts still referenced by active certification contracts.
 
-`archive/docs/archive-map.json` records original-root-name → archived-path mappings used during G8.5-A.
+## Canonical current documentation
 
-## Regression rule
+Start with `DOCUMENTATION.md`.
 
-Archiving is **not deletion**. Accepted-baseline manifests were repointed to the archived files so historical gates continue proving that the accepted artifacts exist. Gate assertions were not removed or weakened.
+Current product documentation lives under:
 
-- `archive/docs/g8.5/` — closed G8.5-A/G8.5-B release/audit/checklist artifacts; current G8.5-C remains at root until superseded.
+- `docs/product/`
+- `docs/engagement/`
+- `docs/housing-society/`
+- `docs/xp/`
 
-## G8.5-C and G8.6-A/B closure
-- `archive/docs/g8.5/` preserves closed G8.5-C showcase/release/verification evidence.
-- `archive/docs/g8.6/` preserves closed G8.6-A/B outcome-experience/release/verification evidence.
-- G8.6-C remains current at root until the next release closes it.
+## Historical mission archive
+
+### Family foundation
+`archive/docs/family-foundation/`
+
+### Early platform extraction
+- `archive/docs/g0-g6/`
+- `archive/docs/g7/`
+- `archive/docs/g8/`
+- `archive/docs/g8.5/`
+- `archive/docs/g8.6/`
+
+### Later mission programs
+- `archive/docs/missions/core-platform/`
+- `archive/docs/missions/federation/`
+- `archive/docs/missions/network-experience/`
+- `archive/docs/missions/community/`
+- `archive/docs/missions/housing/`
+- `archive/docs/missions/intelligence/`
+- `archive/docs/missions/experience/`
+- `archive/docs/missions/qa/`
+- `archive/docs/missions/showcase/`
+- `archive/docs/missions/governance/`
+- `archive/docs/missions/runtime-certification/`
+
+### Strategy / planning
+- `archive/docs/strategy/`
+- `archive/docs/strategy-packs/`
+- `archive/docs/legacy-planning/`
+
+### Release evidence
+`archive/evidence/affected-files/`
+
+### Earlier product history
+`archive/history/`
+
+The immediately superseded pre-orchestration living docs are preserved at:
+
+`archive/history/2026-09-12-pre-doc-orchestration/`
+
+## Archive map
+
+`archive/docs/archive-map.json` records original root filename → current archive location.
+
+## Cleanup evidence
+
+`archive/DOCUMENTATION-ROOT-CLEANUP-2026-09-12.md`
+
+## Rule
+
+**Archiving is not deletion.** Historical documents may be outdated as current product truth, but remain valuable evidence of why the system evolved as it did.

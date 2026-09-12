@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8');let passed=0;const ok=(n,c)=>{if(!c){console.error(`FAIL: ${n}`);process.exitCode=1}else{passed++;console.log(`PASS: ${n}`)}};
-const ui=read('components/ShowcaseRuntimeCertification.tsx'),disc=read('components/CrossNetworkDiscovery.tsx'),sql=read('supabase/migrations/066_m7e_showcase_runtime_hardening.sql'),home=read('components/MyNetworksHome.tsx'),doc=read('MISSION-7E-SHOWCASE-RUNTIME-HARDENING-DEMO-CERTIFICATION.md'),pkg=JSON.parse(read('package.json'));
+const ui=read('components/ShowcaseRuntimeCertification.tsx'),disc=read('components/CrossNetworkDiscovery.tsx'),sql=read('supabase/migrations/066_m7e_showcase_runtime_hardening.sql'),home=read('components/MyNetworksHome.tsx'),doc=read('archive/docs/missions/core-platform/MISSION-7E-SHOWCASE-RUNTIME-HARDENING-DEMO-CERTIFICATION.md'),pkg=JSON.parse(read('package.json'));
 ok('Runtime certification UI exists',ui.includes('showcase-runtime-certification')&&ui.includes('M7ECertificationTitleTxt'));
 ok('My Networks surfaces certification',home.includes('<ShowcaseRuntimeCertification/>'));
 ok('Zero-result discovery is diagnosed',disc.includes('diagnoseDiscovery')&&disc.includes('matching_unclaimed'));

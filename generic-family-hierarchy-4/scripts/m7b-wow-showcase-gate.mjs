@@ -11,8 +11,8 @@ const checks=[
  ['governed bridges',data.bridges.some(x=>x.pathTraversal===true)&&data.bridges.every(x=>x.discovery&&x.introductions)],
  ['privacy theater',read('components/NetworkEffectShowcase.tsx').includes('RelevantPersonAvailableTxt')&&read('components/NetworkEffectShowcase.tsx').includes('TargetControlsConsentTxt')],
  ['responsive showcase css',read('app/globals.css').includes('.m7b-showcase')&&read('app/globals.css').includes('@media(max-width:600px)')],
- ['M7 program durable',fs.existsSync('MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md')&&read('MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md').includes('M7-B — WOW Showcase Universe')],
- ['mission docs',fs.existsSync('MISSION-7B-WOW-SHOWCASE-UNIVERSE.md')&&fs.existsSync('MISSION-7B-RELEASE-MANIFEST.md')&&fs.existsSync('MISSION-7B-RUNTIME-VERIFICATION-CHECKLIST.md')],
+ ['M7 program durable',fs.existsSync('archive/docs/missions/core-platform/MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md')&&read('archive/docs/missions/core-platform/MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md').includes('M7-B — WOW Showcase Universe')],
+ ['mission docs',fs.existsSync('archive/docs/missions/core-platform/MISSION-7B-WOW-SHOWCASE-UNIVERSE.md')&&fs.existsSync('archive/docs/missions/core-platform/MISSION-7B-RELEASE-MANIFEST.md')&&fs.existsSync('archive/docs/missions/core-platform/MISSION-7B-RUNTIME-VERIFICATION-CHECKLIST.md')],
  ['ci advanced',/validate:m7(?:a|b|c|d)/.test(read('.github/workflows/ci.yml'))]
 ];
 for(const[n,ok]of checks)console.log(`${ok?'PASS':'FAIL'} ${n}`);if(checks.some(x=>!x[1]))process.exit(1);console.log(`M7-B source gate: ${checks.length}/${checks.length} PASS`);

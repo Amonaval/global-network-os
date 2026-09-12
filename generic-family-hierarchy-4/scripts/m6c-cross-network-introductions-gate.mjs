@@ -9,5 +9,5 @@ import fs from "node:fs";const checks=[
 ["My Networks integration",fs.readFileSync("components/MyNetworksHome.tsx","utf8").includes("CrossNetworkDiscovery")],
 ["privacy copy",fs.readFileSync("lib/i18n/messages/en.ts","utf8").includes("Identity hidden until consent")],
 ["mission doc rule",fs.existsSync("MISSION-DOCUMENTATION-RULE.md")],
-["mission markdown",fs.existsSync("MISSION-6C-PRIVACY-SAFE-DISCOVERY-INTRODUCTIONS.md")],
-["runtime checklist",fs.existsSync("MISSION-6C-RUNTIME-VERIFICATION-CHECKLIST.md")]];for(const [n,ok] of checks)console.log(`${ok?"PASS":"FAIL"} ${n}`);if(checks.some(x=>!x[1]))process.exit(1);console.log(`M6-C source gate: ${checks.length}/${checks.length} PASS`);
+["mission markdown",fs.existsSync("archive/docs/missions/core-platform/MISSION-6C-PRIVACY-SAFE-DISCOVERY-INTRODUCTIONS.md")],
+["runtime checklist",fs.existsSync("archive/docs/missions/core-platform/MISSION-6C-RUNTIME-VERIFICATION-CHECKLIST.md")]];for(const [n,ok] of checks)console.log(`${ok?"PASS":"FAIL"} ${n}`);if(checks.some(x=>!x[1]))process.exit(1);console.log(`M6-C source gate: ${checks.length}/${checks.length} PASS`);

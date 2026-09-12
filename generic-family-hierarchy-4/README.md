@@ -1,4 +1,6 @@
-# Current baseline: G9 Network Intelligence Layer
+# TrustWeave / Generic Network OS
+
+> **Documentation start:** [`DOCUMENTATION.md`](DOCUMENTATION.md) · [CEO brief](docs/product/CEO-PRODUCT-BRIEF.md) · [CTO capability book](docs/product/CTO-PRODUCT-CAPABILITY-BOOK.md) · [Mission journey](docs/product/TRUSTWEAVE-MISSION-JOURNEY.md) · [PM feature handbook](TRUSTWEAVE-PRODUCT-FEATURE-HANDBOOK.html)
 
 The product now goes beyond structure and participation into permission-aware deterministic network intelligence across Family, Alumni, Organization, Business Trust and Franchise. See `G9-NETWORK-INTELLIGENCE-LAYER.md` and `G9-RUNTIME-VERIFICATION-CHECKLIST.md`.
 

@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8');let passed=0;const ok=(name,cond)=>{if(!cond){console.error(`FAIL: ${name}`);process.exitCode=1}else{passed++;console.log(`PASS: ${name}`)}};
-const ui=read('components/NetworkLaunchActivation.tsx'),home=read('components/MyNetworksHome.tsx'),migration=read('supabase/migrations/062_m7a_zero_friction_launch_activation.sql'),remote=read('capabilities/launch-activation/remote.ts'),docs=read('MISSION-7A-ZERO-FRICTION-NETWORK-LAUNCH.md'),pkg=JSON.parse(read('package.json'));
+const ui=read('components/NetworkLaunchActivation.tsx'),home=read('components/MyNetworksHome.tsx'),migration=read('supabase/migrations/062_m7a_zero_friction_launch_activation.sql'),remote=read('capabilities/launch-activation/remote.ts'),docs=read('archive/docs/missions/core-platform/MISSION-7A-ZERO-FRICTION-NETWORK-LAUNCH.md'),pkg=JSON.parse(read('package.json'));
 ok('Launch activation component exists',ui.includes('network-launch-activation')&&ui.includes('BestNextActionTxt'));
 ok('My Networks includes launch guide',home.includes('<NetworkLaunchActivation'));
 ok('Readiness uses progressive milestones',ui.includes('seededItems')&&ui.includes('activeMembers')&&ui.includes('claimedIdentities')&&ui.includes('acceptedBridges')&&ui.includes('acceptedIntroductions'));

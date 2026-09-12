@@ -12,7 +12,7 @@ const checks=[
  ['bridge UX',read('components/NetworkBridgeManager.tsx').includes('AllowTrustedPathTraversalTxt')],
  ['discovery UX',read('components/CrossNetworkDiscovery.tsx').includes('TwoHopTrustedPathTxt')],
  ['pulse metric',read('components/NetworkEffectPulse.tsx').includes('multiHopOpportunities')],
- ['M7 program',fs.existsSync('MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md')&&read('MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md').includes('WOW Showcase Universe')],
- ['runtime checklist',fs.existsSync('MISSION-6E-RUNTIME-VERIFICATION-CHECKLIST.md')]
+ ['M7 program',fs.existsSync('archive/docs/missions/core-platform/MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md')&&read('archive/docs/missions/core-platform/MISSION-7-REAL-WORLD-ACTIVATION-SHOWCASE.md').includes('WOW Showcase Universe')],
+ ['runtime checklist',fs.existsSync('archive/docs/missions/core-platform/MISSION-6E-RUNTIME-VERIFICATION-CHECKLIST.md')]
 ];
 for(const[n,ok]of checks)console.log(`${ok?'PASS':'FAIL'} ${n}`);if(checks.some(x=>!x[1]))process.exit(1);console.log(`M6-E source gate: ${checks.length}/${checks.length} PASS`);

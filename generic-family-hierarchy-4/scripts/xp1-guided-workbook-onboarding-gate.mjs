@@ -25,5 +25,5 @@ ok('housing adapter maps workbook sheets into HS-1 history-aware importer',housi
 ok('alumni adapter preserves alumni profile importer and connection creation',alumniAdapter.includes('importAlumniProfiles')&&alumniAdapter.includes('createNetworkEntityRelationship'));
 ok('family mature import remains intact',read('components/ImportModal.tsx').includes('family-excel-guided-template.xlsx')&&read('components/ImportModal.tsx').includes('validateImportRows'));
 ok('XP-1 package script registered',pkg.includes('validate:xp1'));
-ok('XP-1 closure docs present',['XP-1-GUIDED-WORKBOOK-ONBOARDING.md','XP-1-RUNTIME-VERIFICATION-CHECKLIST.md','XP-1-RELEASE-MANIFEST.md','XP-1-AFFECTED-FILES.txt'].every(f=>fs.existsSync(new URL(`../${f}`,import.meta.url))));
+ok('XP-1 closure docs present',['archive/docs/missions/experience/XP-1-GUIDED-WORKBOOK-ONBOARDING.md','archive/docs/missions/experience/XP-1-RUNTIME-VERIFICATION-CHECKLIST.md','archive/docs/missions/experience/XP-1-RELEASE-MANIFEST.md','XP-1-AFFECTED-FILES.txt'].every(f=>fs.existsSync(new URL(`../${f}`,import.meta.url))));
 const failed=checks.filter(([,pass])=>!pass);for(const [name,pass] of checks)console.log(`${pass?'PASS':'FAIL'} ${name}`);console.log(`\nXP-1 ${checks.length-failed.length}/${checks.length} checks passed.`);if(failed.length)process.exit(1);

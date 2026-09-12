@@ -2,7 +2,7 @@ import fs from "node:fs";
 const need=(file,text)=>{const body=fs.readFileSync(file,"utf8");if(!body.includes(text))throw new Error(`${file} missing: ${text}`)};
 const exists=file=>{if(!fs.existsSync(file))throw new Error(`Missing ${file}`)};
 try{
- ["components/MyNetworksHome.tsx","core/identity/trusted-person.ts","capabilities/trusted-identity/runtime.ts","NX-1-MY-NETWORKS-TRUSTED-IDENTITY.md"].forEach(exists);
+ ["components/MyNetworksHome.tsx","core/identity/trusted-person.ts","capabilities/trusted-identity/runtime.ts","archive/docs/missions/network-experience/NX-1-MY-NETWORKS-TRUSTED-IDENTITY.md"].forEach(exists);
  need("components/NetworkApp.tsx","<MyNetworksHome");
  need("components/NetworkApp.tsx","<NetworkSwitcher label=\"Switch network\"");
  need("capabilities/network-context/remote.ts",'value === "organization"');
