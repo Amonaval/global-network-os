@@ -13,6 +13,7 @@ const maintenanceSurface:VerticalSurfaceDescriptor={viewId:"maintenance",feature
 const governanceSurface:VerticalSurfaceDescriptor={viewId:"governance",featureKey:"housing-society.governance.meetings",iconToken:"book-open",label:label("Committee & Meetings","समिति व बैठकें","समिती व बैठका")};
 const securitySurface:VerticalSurfaceDescriptor={viewId:"security",featureKey:"housing-society.security.visitors",iconToken:"settings",label:label("Visitors & Security","आगंतुक व सुरक्षा","पाहुणे व सुरक्षा")};
 const electionsSurface:VerticalSurfaceDescriptor={viewId:"elections",iconToken:"settings",label:label("Elections & Voting","चुनाव और मतदान","निवडणूक आणि मतदान")};
+const mediaSurface:VerticalSurfaceDescriptor={viewId:"media",iconToken:"settings",label:label("Media & Storage","मीडिया और स्टोरेज","मीडिया आणि स्टोरेज"),adminOnly:true};
 export const HOUSING_SOCIETY_APP_COMPOSITION={
  ...base,
  primaryNavigation:[
@@ -28,6 +29,7 @@ export const HOUSING_SOCIETY_APP_COMPOSITION={
   governanceSurface,
   electionsSurface,
   securitySurface,
+  mediaSurface,
   relabel(find("explorer"),"Society Structure","सोसायटी संरचना","सोसायटी रचना"),
   relabel(find("community"),"Community","समुदाय","समुदाय"),
   relabel(find("connections"),"Neighbours","पड़ोसी","शेजारी"),
@@ -35,7 +37,7 @@ export const HOUSING_SOCIETY_APP_COMPOSITION={
   {...relabel(find("admin"),"Manage Society","सोसायटी प्रबंधन","सोसायटी व्यवस्थापन"),adminOnly:true},
  ],
  mobileBottomViewIds:["home","me","directory","complaints"],
- mobileMoreActiveViewIds:["notices","maintenance","amenities","governance","elections","security","community","explorer","connections","admin","guide"],
+ mobileMoreActiveViewIds:["notices","maintenance","amenities","governance","elections","security","media","community","explorer","connections","admin","guide"],
  guide:{...base.guide,playgroundViewIds:["home","me","directory","notices","complaints","amenities","maintenance","governance","elections","security","community","explorer","connections"]},
  launch:{...base.launch,playgroundTitle:"Housing Society Playground",playgroundDescription:"A realistic residential community centered on homes, residents, daily society life and operations.",playgroundRecommendation:"Start at Home, browse Residents and Notices, then open Complaints or Amenities. Management tools stay under More.",pilotTargetsTitle:"Founder Society commercialization pilot",pilotTargetsDescription:"Run Pilot A demo → Pilot B 20–50 real units → Pilot C full society → Pilot D second society. Measure activation, weekly usage, notice reach, complaint resolution, maintenance visibility, admin time saved and willingness to pay."},
  whatsNew:{...base.whatsNew,kicker:"New in Housing Society",fallbackTitle:"Founder Society pilot & commercialization",fallbackDescription:"The completed society vertical now includes measurable pilot readiness, adoption evidence, pricing experiments and a second-society repeatability gate."}

@@ -155,3 +155,13 @@ export async function removeMediaAsset(asset:NetworkMediaAsset){
 export async function getSignedPhotoUrl(pathOrUrl:string,bucket:MediaBucket=PROFILE_BUCKET):Promise<string|null>{
   if(!supabase||!pathOrUrl)return null; const {data,error}=await supabase.storage.from(bucket).createSignedUrl(extractPath(pathOrUrl),SIGNED_TTL); return error||!data?.signedUrl?null:data.signedUrl;
 }
+
+export type ManagedMediaAsset={
+ id:string;bucket:MediaBucket;object_path:string;thumbnail_path?:string|null;media_kind:MediaKind;entity_type?:string|null;entity_id?:string|null;mime_type:string;bytes:number;thumbnail_bytes:number;width?:number|null;height?:number|null;lifecycle_state:'active'|'archived'|'delete_pending'|'deleted';created_at:string;archived_at?:string|null;deleted_at?:string|null;delete_reason?:string|null;owned_by_me:boolean;unbound:boolean;thumbnail_url?:string|null;
+};
+export type MediaManagementSnapshot={is_admin:boolean;media_usage_bytes:number;storage_limit_bytes:number;assets:ManagedMediaAsset[]};
+export async function fetchMediaManagementSnapshot():Promise<MediaManagementSnapshot>{
+ if(!supabase)throw new Error('Shared mode is required.');const {data,error}=await supabase.rpc('get_network_media_management_snapshot');if(error)throw error;const d=(data||{}) as any;const assets=await Promise.all((d.assets||[]).map(async(a:any)=>({...a,bytes:Number(a.bytes||0),thumbnail_bytes:Number(a.thumbnail_bytes||0),thumbnail_url:a.lifecycle_state!=='deleted'?await getSignedPhotoUrl(a.thumbnail_path||a.object_path,a.bucket):null})));return {is_admin:Boolean(d.is_admin),media_usage_bytes:Number(d.media_usage_bytes||0),storage_limit_bytes:Number(d.storage_limit_bytes||0),assets};
+}
+export async function setMediaArchived(assetId:string,archived:boolean){if(!supabase)throw new Error('Shared mode is required.');const {error}=await supabase.rpc('set_network_media_asset_archived',{p_asset_id:assetId,p_archived:archived});if(error)throw error;}
+export async function permanentlyDeleteManagedMedia(assetId:string,reason=''){if(!supabase)throw new Error('Shared mode is required.');const {data,error}=await supabase.rpc('request_network_media_asset_delete',{p_asset_id:assetId,p_reason:reason||null});if(error)throw error;const d=data as any;const paths=[d.object_path,...(d.thumbnail_path?[d.thumbnail_path]:[])];try{const res=await supabase.storage.from(d.bucket).remove(paths);if(res.error)throw res.error;const fin=await supabase.rpc('finalize_network_media_asset_delete',{p_asset_id:assetId});if(fin.error)throw fin.error;}catch(e){try{await supabase.rpc('cancel_network_media_asset_delete',{p_asset_id:assetId})}catch{}throw e;}}

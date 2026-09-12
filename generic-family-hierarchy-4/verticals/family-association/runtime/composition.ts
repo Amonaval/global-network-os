@@ -8,6 +8,7 @@ const relabel=(surface:VerticalSurfaceDescriptor,en:string,hi:string,mr:string):
 const meSurface:VerticalSurfaceDescriptor={viewId:"me",featureKey:"family-association.core.me",iconToken:"user",label:label("Me & My Family","मैं और मेरा परिवार","मी आणि माझे कुटुंब")};
 const fundsSurface:VerticalSurfaceDescriptor={viewId:"funds",iconToken:"settings",label:label("Funds & Collections","फंड और संग्रह","निधी आणि संकलन")};
 const electionsSurface:VerticalSurfaceDescriptor={viewId:"elections",iconToken:"settings",label:label("Elections & Voting","चुनाव और मतदान","निवडणूक आणि मतदान")};
+const mediaSurface:VerticalSurfaceDescriptor={viewId:"media",iconToken:"settings",label:label("Media & Storage","मीडिया और स्टोरेज","मीडिया आणि स्टोरेज"),adminOnly:true};
 export const FAMILY_ASSOCIATION_APP_COMPOSITION={
  ...base,
  primaryNavigation:[
@@ -20,13 +21,14 @@ export const FAMILY_ASSOCIATION_APP_COMPOSITION={
  mobileMoreNavigation:[
   fundsSurface,
   electionsSurface,
+  mediaSurface,
   relabel(find("explorer"),"Family Structure","परिवार संरचना","कुटुंब रचना"),
   relabel(find("connections"),"Family & Community Links","परिवार व समुदाय संबंध","कुटुंब व समुदाय जोडणी"),
   relabel(find("contribute"),"Build Together","मिलकर बनाएँ","एकत्र उभारा"),
   {...relabel(find("admin"),"Manage Community","समुदाय प्रबंधन","समुदाय व्यवस्थापन"),adminOnly:true},
  ],
  mobileBottomViewIds:["home","me","directory","community"],
- mobileMoreActiveViewIds:["funds","elections","explorer","connections","contribute","admin","guide"],
+ mobileMoreActiveViewIds:["funds","elections","media","explorer","connections","contribute","admin","guide"],
  guide:{...base.guide,playgroundViewIds:["home","me","directory","community","funds","elections","explorer","connections","contribute"]},
  launch:{...base.launch,playgroundTitle:"Family Community Association Playground",playgroundDescription:"Family-grade people and hierarchy plus annual membership, celebrations, committees, history and community participation.",playgroundRecommendation:"Start at Home, explore Families, then open Community Life and Me & My Family."},
 } satisfies VerticalAppComposition;
