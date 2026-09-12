@@ -7,6 +7,7 @@ export const en={
   FamSettingsTxt:"Family settings",
   HelpTxt:"Help",
   AddRelativeTxt:"Add relative",
+  ResidentialCommunityTxt: "Residential Community",
   MyProfileTxt:"My profile",
   SearchFamilyPlaceholderTxt:"Search by name, city or profession…",
   FamTogetherTitleTxt:"Your family, together",
@@ -3520,6 +3521,7 @@ export const en={
   CommunityFamilyBelongingTxt:"Community • Family • Belonging",
   CommunityHomeHeroDescTxt:"Families, members, events, renewals and community life — together in one private place.",
   CommunityAssociationTxt:"Community / Association",
+  FamilyCommunityTxt:"Family Community",
   PrivateMemberCommunityTxt:"Private member community",
   CommunityTodayTxt:"Community today",
   ThingsWorthAttentionTxt:"things worth attention",
@@ -3871,6 +3873,8 @@ export const en={
   E9CommentTxt:'Comment',
   E9NoPostsTxt:'No community posts yet',
   E9NoPostsDescTxt:'Useful updates, photos and important broadcasts will appear here.',
+  AllCaughtUpTxt:"All caught up",
+  AmenitiesTxt: "Amenities",
 } as const;
 export type MessageToken=keyof typeof en;
 export type MessageCatalog=Record<MessageToken,string>;

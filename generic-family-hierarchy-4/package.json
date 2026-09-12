@@ -174,7 +174,8 @@
     "validate:engage-e6": "node scripts/engagement-e6-funds-gate.mjs && npm run validate:engage-e5",
     "validate:engage-e7": "node scripts/engagement-e7-voting-gate.mjs && npm run validate:engage-e6",
     "validate:engage-e8": "node scripts/engagement-e8-media-lifecycle-gate.mjs && npm run validate:engage-e7",
-    "validate:engage-e9": "node scripts/engagement-e9-community-posts-gate.mjs && npm run validate:engage-e8"
+    "validate:engage-e9": "node scripts/engagement-e9-community-posts-gate.mjs && npm run validate:engage-e8",
+    "validate:stability-anonymous-login": "node scripts/stability-anonymous-login-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

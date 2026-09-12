@@ -8,6 +8,7 @@ export const hi:LocaleCatalog={
   FamSettingsTxt:"परिवार सेटिंग",
   HelpTxt:"सहायता",
   AddRelativeTxt:"रिश्तेदार जोड़ें",
+  ResidentialCommunityTxt: "Residential Community",
   MyProfileTxt:"मेरी प्रोफ़ाइल",
   SearchFamilyPlaceholderTxt:"नाम, शहर या पेशे से खोजें…",
   FamTogetherTitleTxt:"आपका परिवार, एक साथ",
@@ -1078,6 +1079,7 @@ export const hi:LocaleCatalog={
   CommunityFamilyBelongingTxt:"समुदाय • परिवार • अपनापन",
   CommunityHomeHeroDescTxt:"परिवार, सदस्य, कार्यक्रम, नवीनीकरण और सामुदायिक जीवन — एक ही निजी जगह पर।",
   CommunityAssociationTxt:"समुदाय / संस्था",
+  FamilyCommunityTxt:"परिवार समुदाय",
   PrivateMemberCommunityTxt:"निजी सदस्य समुदाय",
   CommunityTodayTxt:"आज का समुदाय",
   ThingsWorthAttentionTxt:"बातों पर ध्यान देना है",
@@ -1286,4 +1288,5 @@ export const hi:LocaleCatalog={
   E9CommentTxt:'टिप्पणी',
   E9NoPostsTxt:'अभी कोई समुदाय पोस्ट नहीं',
   E9NoPostsDescTxt:'उपयोगी अपडेट, फोटो और महत्वपूर्ण प्रसारण यहाँ दिखेंगे।',
+  AllCaughtUpTxt:"सब कुछ देखा जा चुका है"
 };
