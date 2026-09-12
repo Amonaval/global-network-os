@@ -15,7 +15,7 @@ import {
 } from "./types";
 import type {CommunityGroup,CommunityEvent} from "./participation-types";
 import { NetworkSettings } from "./network";
-import { resolveSignedUrls } from "./storage";
+import { fetchEntityMediaAssets,resolveSignedUrls } from "./storage";
 import type {CommunitySpace,CommunityProfileCard,CommunityPost,PendingCommunityLink,CommunityProfileCategory,CommunityPostCategory,CommunityTrustConnection,TrustedConnectionPath,CommunityIntroduction} from "./community-network-types";
 import type { NetworkMembership as NeutralNetworkMembershipContract } from "../core/network/contracts";
 import type {NetworkVerticalKind} from "../core/verticals/contracts";
@@ -520,10 +520,12 @@ export async function fetchMemories(memberId?: string): Promise<Memory[]> {
   const rows=await resolveSignedUrls((data || []) as Memory[], "community-media");
   if(rows.length){
     const ids=rows.map(x=>x.id);
-    const [links,reactions]=await Promise.all([
+    const [links,reactions,media]=await Promise.all([
       supabase.rpc("get_memory_people",{p_memory_ids:ids}),
-      supabase.rpc("get_memory_reactions",{p_memory_ids:ids})
+      supabase.rpc("get_memory_reactions",{p_memory_ids:ids}),
+      fetchEntityMediaAssets("memory",ids).catch(()=>[])
     ]);
+    const mediaBy=new Map(media.map(x=>[x.entityId,x] as const));for(const row of rows){const asset=mediaBy.get(row.id);if(asset?.thumbnailUrl)row.thumbnail_url=asset.thumbnailUrl||undefined;if(asset?.url)row.photo_url=asset.url||row.photo_url;}
     if(!links.error){const by=new Map<string,string[]>();for(const x of links.data||[]){by.set(x.memory_id,[...(by.get(x.memory_id)||[]),x.member_id])}for(const row of rows)row.related_member_ids=by.get(row.id)||[];}
     if(!reactions.error){const by=new Map<string,any>((reactions.data||[]).map((x:any)=>[x.memory_id,x]));for(const row of rows){const r=by.get(row.id);if(r){row.reaction_counts={heart:Number(r.heart||0),smile:Number(r.smile||0),pray:Number(r.pray||0),celebrate:Number(r.celebrate||0)};row.my_reaction=(r.my_reaction||undefined) as MemoryReaction|undefined;}}}
   }

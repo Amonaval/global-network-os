@@ -99,6 +99,7 @@ export type Memory = {
   title: string;
   story?: string;
   photo_url?: string;
+  thumbnail_url?: string;
   related_member_ids?: string[];
   event_id?: string;
   visibility: ProfileVisibility;

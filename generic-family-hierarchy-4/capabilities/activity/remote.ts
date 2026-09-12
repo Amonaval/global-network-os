@@ -1,8 +1,15 @@
 import {supabase} from "../../lib/supabase";
 import type {NetworkActivity,NetworkActivityType} from "../../core/network-os/contracts";
+import {fetchEntityMediaAssets} from "../../lib/storage";
 function required(){if(!supabase)throw new Error("Shared Supabase mode is required for network activity.");return supabase}
 export type NetworkGroup={id:string;name:string;groupType:string;description?:string|null;memberCount:number;myMember?:boolean};
-export async function fetchNetworkActivities(type?:NetworkActivityType){const s=required();const {data,error}=await s.rpc("get_network_activities",{p_activity_type:type||null});if(error)throw error;return (data||[]).map((r:any)=>({id:String(r.id),type:r.activity_type,title:r.title,body:r.body,startsAt:r.starts_at,endsAt:r.ends_at,place:r.place,visibility:r.visibility,createdBy:r.created_by,myRsvp:r.my_rsvp,goingCount:Number(r.going_count||0),myLiked:Boolean(r.my_liked),likeCount:Number(r.like_count||0),commentCount:Number(r.comment_count||0)})) as NetworkActivity[]}
+export async function fetchNetworkActivities(type?:NetworkActivityType){
+ const s=required();const {data,error}=await s.rpc("get_network_activities",{p_activity_type:type||null});if(error)throw error;
+ const rows=(data||[]).map((r:any)=>({id:String(r.id),type:r.activity_type,title:r.title,body:r.body,startsAt:r.starts_at,endsAt:r.ends_at,place:r.place,visibility:r.visibility,createdBy:r.created_by,myRsvp:r.my_rsvp,goingCount:Number(r.going_count||0),myLiked:Boolean(r.my_liked),likeCount:Number(r.like_count||0),commentCount:Number(r.comment_count||0)})) as NetworkActivity[];
+ const media=await fetchEntityMediaAssets("activity",rows.map(r=>r.id)).catch(()=>[]);const by=new Map(media.map(x=>[x.entityId,x] as const));
+ for(const row of rows){const asset=by.get(row.id);if(asset){row.mediaUrl=asset.url||null;row.thumbnailUrl=asset.thumbnailUrl||asset.url||null;}}
+ return rows;
+}
 export async function createNetworkActivity(input:{type:NetworkActivityType;title:string;body?:string;startsAt?:string;endsAt?:string;place?:string;visibility?:"members"|"private"}){const s=required();const {data,error}=await s.rpc("create_network_activity",{p_activity_type:input.type,p_title:input.title,p_body:input.body||null,p_starts_at:input.startsAt||null,p_ends_at:input.endsAt||null,p_place:input.place||null,p_visibility:input.visibility||"members"});if(error)throw error;return String(data)}
 export async function respondNetworkEvent(activityId:string,response:"going"|"maybe"|"declined"){const s=required();const {error}=await s.rpc("respond_network_event",{p_activity_id:activityId,p_response:response});if(error)throw error}
 export async function fetchNetworkGroups(){const s=required();const {data,error}=await s.rpc("get_network_groups");if(error)throw error;return (data||[]).map((r:any)=>({id:String(r.id),name:String(r.name),groupType:String(r.group_type),description:r.description,memberCount:Number(r.member_count||0),myMember:Boolean(r.my_member)})) as NetworkGroup[]}

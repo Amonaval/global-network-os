@@ -1257,4 +1257,6 @@ export const mr:LocaleCatalog={
   ComplaintRoutingFailedTxt:'तक्रार रूटिंग जतन करता आली नाही.',
   AssignedResolversTxt:'नोंदणीकृत निराकरणकर्ता',
   AssignedToTxt:'नेमलेले',
+  ActivityPhotoOptionalTxt:'फोटो (ऐच्छिक)',
+  SharedMediaCompressionHelpTxt:'JPG, PNG किंवा WebP. TrustWeave अपलोडपूर्वी स्टोरेज-कुशल WebP प्रतिमा आणि थंबनेल तयार करते व कॅमेरा मेटाडेटा काढून टाकते.',
 };

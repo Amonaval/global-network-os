@@ -8,7 +8,7 @@ ok('comments notify workflow participants',m.includes("'complaint-comment'"));
 ok('assigned resolver can see complaint',m.includes('c.assigned_to=auth.uid()'));
 ok('private media read includes complaint authorization',m.includes('can_read_community_media')&&m.includes('jsonb_array_elements(c.attachments)'));
 ok('complaint upload uses existing compression pipeline',storage.includes('uploadComplaintPhoto')&&storage.includes('uploadCommunityPhoto'));
-ok('UI accepts file instead of photo URL',ui.includes('hs-complaint-photo')&&ui.includes('uploadComplaintPhoto'));
+ok('UI accepts file instead of photo URL',ui.includes('hs-complaint-photo')&&(ui.includes('uploadComplaintPhoto')||ui.includes('uploadComplaintMedia')));
 ok('UI renders private signed complaint photos',ui.includes('c.photoUrls'));
 ok('exact complaint deep-link scroll exists',ui.includes('data-complaint-id')&&ui.includes('readNotificationDeepLink().itemId'));
 ok('remote hands push IDs to web push',remote.includes('requestPushDelivery'));

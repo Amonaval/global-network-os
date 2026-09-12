@@ -3699,6 +3699,8 @@ export const en={
   ComplaintRoutingFailedTxt:'Complaint routing could not be saved.',
   AssignedResolversTxt:'registered resolver(s)',
   AssignedToTxt:'Assigned to',
+  ActivityPhotoOptionalTxt:'Photo (optional)',
+  SharedMediaCompressionHelpTxt:'JPG, PNG or WebP. TrustWeave creates a storage-efficient WebP image and thumbnail and removes camera metadata before upload.',
 } as const;
 export type MessageToken=keyof typeof en;
 export type MessageCatalog=Record<MessageToken,string>;

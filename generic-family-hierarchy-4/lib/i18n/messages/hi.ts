@@ -1257,4 +1257,6 @@ export const hi:LocaleCatalog={
   ComplaintRoutingFailedTxt:'शिकायत रूटिंग सहेजी नहीं जा सकी।',
   AssignedResolversTxt:'पंजीकृत समाधानकर्ता',
   AssignedToTxt:'जिम्मेदार',
+  ActivityPhotoOptionalTxt:'फोटो (वैकल्पिक)',
+  SharedMediaCompressionHelpTxt:'JPG, PNG या WebP। TrustWeave अपलोड से पहले स्टोरेज-कुशल WebP तस्वीर और थंबनेल बनाता है और कैमरा मेटाडेटा हटा देता है।',
 };

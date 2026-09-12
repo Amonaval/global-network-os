@@ -73,7 +73,7 @@ export default function ProfileForm({
     try {
       let photo = form.photo_url;
       if (file) {
-        if (isSupabaseConfigured) { photo = await uploadProfilePhoto(file); newlyUploaded = photo; }
+        if (isSupabaseConfigured) { photo = await uploadProfilePhoto(file,member?.id); newlyUploaded = photo; }
         else
           photo = await new Promise<string>((resolve, reject) => {
             const r = new FileReader();

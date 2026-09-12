@@ -48,4 +48,6 @@ export type NetworkActivity={
  myLiked?:boolean;
  likeCount?:number;
  commentCount?:number;
+ mediaUrl?:string|null;
+ thumbnailUrl?:string|null;
 };
