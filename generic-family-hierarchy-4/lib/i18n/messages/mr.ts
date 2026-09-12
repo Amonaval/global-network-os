@@ -1233,4 +1233,11 @@ export const mr:LocaleCatalog={
   NotificationsWillAppearHereTxt:'आपल्या नेटवर्कमधील महत्त्वाचे अपडेट येथे दिसतील.',
   UrgentTxt:'तातडीचे',
   ImportantTxt:'महत्त्वाचे',
+  DeviceNotificationsTxt:'डिव्हाइस सूचना',
+  PushEnabledTxt:'या डिव्हाइसवर सुरू आहे. अॅप बंद असतानाही महत्त्वाचे अपडेट सूचना देऊ शकतात.',
+  PushEnableHelpTxt:'महत्त्वाच्या नेटवर्क अपडेटसाठी सूचना सुरू करा.',
+  PushCouldNotChangeTxt:'डिव्हाइस सूचना सेटिंग बदलता आली नाही.',
+  EnableTxt:'सुरू करा',
+  DisableTxt:'बंद करा',
+  NotSupportedTxt:'समर्थित नाही',
 };

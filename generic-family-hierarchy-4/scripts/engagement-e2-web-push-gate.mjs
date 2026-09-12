@@ -1,0 +1,13 @@
+import fs from 'node:fs';const c=[];const ok=(n,v)=>c.push([n,!!v]);
+const m=fs.readFileSync('supabase/migrations/104_engagement_web_push.sql','utf8');const sw=fs.readFileSync('public/sw.js','utf8');const push=fs.readFileSync('lib/push.ts','utf8');const route=fs.readFileSync('app/api/notifications/push/route.ts','utf8');const center=fs.readFileSync('components/shared/NotificationCenter.tsx','utf8');const layout=fs.readFileSync('app/layout.tsx','utf8');
+ok('private push subscription table',m.includes('push_subscriptions')&&m.includes('revoke all on public.push_subscriptions'));
+ok('own subscription RPC',m.includes('upsert_my_push_subscription'));
+ok('service worker shows notification',sw.includes('showNotification'));
+ok('notification click deep links',sw.includes('notificationclick')&&sw.includes('openWindow'));
+ok('PWA runtime registers service worker',layout.includes('<PwaRuntime/>'));
+ok('browser subscription uses VAPID public key',push.includes('NEXT_PUBLIC_WEB_PUSH_VAPID_PUBLIC_KEY'));
+ok('push API authenticates caller',route.includes('createRequestContext'));
+ok('push API uses server service role',route.includes('SUPABASE_SERVICE_ROLE_KEY'));
+ok('push API expires dead subscriptions',route.includes('statusCode===410'));
+ok('notification drawer exposes opt-in control',center.includes('DeviceNotificationsTxt')&&center.includes('enableWebPush'));
+for(const [n,v] of c)console.log(`${v?'✓':'✗'} ${n}`);if(c.some(x=>!x[1]))process.exit(1);console.log(`E2 PASS ${c.length}/${c.length}`);

@@ -1,9 +1,10 @@
 {
-  "name": "Our Family",
-  "short_name": "Our Family",
+  "name": "TrustWeave",
+  "short_name": "TrustWeave",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f7f3ea",
   "theme_color": "#216653",
-  "description": "A private, living home for family generations and memories"
+  "description": "Private family, community and residential networks",
+  "scope": "/"
 }

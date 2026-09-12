@@ -1233,4 +1233,11 @@ export const hi:LocaleCatalog={
   NotificationsWillAppearHereTxt:'आपके नेटवर्क के महत्वपूर्ण अपडेट यहाँ दिखेंगे।',
   UrgentTxt:'अत्यावश्यक',
   ImportantTxt:'महत्वपूर्ण',
+  DeviceNotificationsTxt:'डिवाइस सूचनाएँ',
+  PushEnabledTxt:'इस डिवाइस पर चालू है। महत्वपूर्ण अपडेट ऐप बंद होने पर भी अलर्ट कर सकते हैं।',
+  PushEnableHelpTxt:'महत्वपूर्ण नेटवर्क अपडेट के लिए अलर्ट चालू करें।',
+  PushCouldNotChangeTxt:'डिवाइस सूचना सेटिंग बदली नहीं जा सकी।',
+  EnableTxt:'चालू करें',
+  DisableTxt:'बंद करें',
+  NotSupportedTxt:'समर्थित नहीं',
 };

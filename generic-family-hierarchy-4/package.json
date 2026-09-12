@@ -166,7 +166,8 @@
     "validate:showcase-stabilization": "node scripts/showcase-stabilization-certification-gate.mjs",
     "qa:showcase": "playwright test qa/e2e/24-showcase-stabilization-certification.spec.ts --project=chromium-desktop --workers=1",
     "qa:showcase:headed": "playwright test qa/e2e/24-showcase-stabilization-certification.spec.ts --project=chromium-desktop --workers=1 --headed",
-    "validate:engage-e1": "node scripts/engagement-e1-notification-core-gate.mjs"
+    "validate:engage-e1": "node scripts/engagement-e1-notification-core-gate.mjs",
+    "validate:engage-e2": "node scripts/engagement-e2-web-push-gate.mjs && npm run validate:engage-e1"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",
@@ -178,7 +179,8 @@
     "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",
     "qrcode": "^1.5.4",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.16",
@@ -188,6 +190,7 @@
     "@types/react-dom": "^18.3.5",
     "typescript": "^5.8.2",
     "@playwright/test": "^1.55.0",
-    "tsx": "^4.23.13"
+    "tsx": "^4.23.13",
+    "@types/web-push": "^3.6.4"
   }
 }

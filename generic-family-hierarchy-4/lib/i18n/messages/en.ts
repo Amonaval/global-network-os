@@ -3675,6 +3675,13 @@ export const en={
   NotificationsWillAppearHereTxt:'Important updates from your networks will appear here.',
   UrgentTxt:'Urgent',
   ImportantTxt:'Important',
+  DeviceNotificationsTxt:'Device notifications',
+  PushEnabledTxt:'Enabled on this device. Important updates can alert you even when the app is closed.',
+  PushEnableHelpTxt:'Enable alerts for important network updates.',
+  PushCouldNotChangeTxt:'Device notification setting could not be changed.',
+  EnableTxt:'Enable',
+  DisableTxt:'Disable',
+  NotSupportedTxt:'Not supported',
 } as const;
 export type MessageToken=keyof typeof en;
 export type MessageCatalog=Record<MessageToken,string>;
