@@ -15,6 +15,6 @@ export default function ThemeSwitcher({compact=false}:{compact?:boolean}){
  const {t:tr}=useLanguage();
  const {theme,setTheme}=useTheme();
  return <div className={`theme-switcher ${compact?"compact":""}`} role="group" aria-label={tr("AppearanceTxt")}>
-  {OPTIONS.map(({value,labelKey,icon:Icon})=>{const label=tr(labelKey);return <button key={value} type="button" className={theme===value?"active":""} onClick={()=>setTheme(value)} title={`${label} · ${tr("AppearanceTxt")}`} aria-label={`${label} · ${tr("AppearanceTxt")}`} aria-pressed={theme===value}><Icon size={14}/>{!compact&&<span>{label}</span>}</button>})}
+  {OPTIONS.map(({value,labelKey,icon:Icon})=>{const label=tr(labelKey);return <button data-testid={`qa-theme-${value}`} key={value} type="button" className={theme===value?"active":""} onClick={()=>setTheme(value)} title={`${label} · ${tr("AppearanceTxt")}`} aria-label={`${label} · ${tr("AppearanceTxt")}`} aria-pressed={theme===value}><Icon size={14}/>{!compact&&<span>{label}</span>}</button>})}
  </div>;
 }

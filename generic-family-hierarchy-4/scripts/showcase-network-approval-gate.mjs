@@ -19,8 +19,8 @@ add('finalize network creation contract exists',migration102.includes('function 
 add('my networks is membership driven with left profile join',migration102.includes('left join public.profiles p on p.id=nm.user_id'));
 add('set active network upserts missing profile',migration102.includes('insert into public.profiles(id,full_name,active_network_id'));
 add('server never silently swallows finalization failure',service.includes('finalize_network_creation')&&!service.includes('catch{}return {networkId,approvalStatus}'));
-add('registry has organized owner sections',founder.includes('Networks & Approvals')&&founder.includes('Showcase')&&founder.includes('Feature Rollout')&&founder.includes('Governance'));
+add('registry has organized owner sections',founder.includes('LC2NetworksApprovalsTxt')&&founder.includes('LC2ShowcaseTxt')&&founder.includes('LC2FeatureRolloutTxt')&&founder.includes('LC2GovernanceTxt'));
 add('registry exposes vertical tabs',founder.includes('registry-vertical-tabs')&&founder.includes('ACTIVE_VERTICALS.map'));
-add('registry uses tabular network details',founder.includes('<table className="registry-table">')&&founder.includes('<th>Creator</th>')&&founder.includes('<th>Status</th>'));
+add('registry uses tabular network details',founder.includes('<table className="registry-table">')&&founder.includes('LC2CreatorTxt')&&founder.includes('LC2StatusTxt'));
 for(const [n,c] of checks) console.log(c?'PASS':'FAIL',n);
 const bad=checks.filter(x=>!x[1]);console.log(`Network approval/activation gate: ${checks.length-bad.length}/${checks.length}`);if(bad.length)process.exit(1);

@@ -161,7 +161,11 @@
     "validate:showcase-s2": "node scripts/showcase-s2-source-gate.mjs",
     "validate:showcase-s3": "node scripts/showcase-s3-source-gate.mjs",
     "validate:showcase-flow-repair": "node scripts/showcase-flow-repair-gate.mjs",
-    "validate:showcase-network-approval": "node scripts/showcase-network-approval-gate.mjs"
+    "validate:showcase-network-approval": "node scripts/showcase-network-approval-gate.mjs",
+    "validate:showcase-residential": "node scripts/showcase-residential-flagship-gate.mjs",
+    "validate:showcase-stabilization": "node scripts/showcase-stabilization-certification-gate.mjs",
+    "qa:showcase": "playwright test qa/e2e/24-showcase-stabilization-certification.spec.ts --project=chromium-desktop --workers=1",
+    "qa:showcase:headed": "playwright test qa/e2e/24-showcase-stabilization-certification.spec.ts --project=chromium-desktop --workers=1 --headed"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

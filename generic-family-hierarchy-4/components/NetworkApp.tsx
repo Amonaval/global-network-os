@@ -36,6 +36,7 @@ import {
   Sparkles,
   PlayCircle,
   Layers3,
+  LoaderCircle,
 } from "lucide-react";
 import TreeView from "./TreeView";
 import ProfileDrawer from "./ProfileDrawer";
@@ -163,6 +164,7 @@ export default function NetworkApp() {
     [demoPreview,setDemoPreview]=useState(false),
     [demoViewerId,setDemoViewerId]=useState<string | undefined>(undefined),
     [editingMember, setEditingMember] = useState<Member | undefined>();
+  const [shellBusy,setShellBusy]=useState("");
   const [platformFeatures,setPlatformFeatures]=useState<EffectiveFeatureMap>(()=>defaultFeatureMap(!isSupabaseConfigured)),
     [playgroundFeatures,setPlaygroundFeatures]=useState<EffectiveFeatureMap>(()=>defaultFeatureMap(true)),
     [experiencePreview,setExperiencePreview]=useState<ExperienceLevel|null>(null),
@@ -1041,13 +1043,16 @@ export default function NetworkApp() {
     try{const rows=await fetchShowcaseVerticalSettings();return rows.find(row=>row.vertical_kind===kind)||getDefaultShowcaseVerticalSetting(kind)}catch{return getDefaultShowcaseVerticalSetting(kind)}
   };
   const openNetworkPlayground=async(kind:NetworkVerticalKind,familyVariant:"public"|"setup"="setup")=>{
-    const showcase=await getShowcaseVerticalSetting(kind);
-    if(!showcase.playground_enabled){notify(tr("ShowcasePlaygroundNotAvailableTxt"));return false;}
-    setShowMyNetworks(false);setSetupNeeded(false);setDemoPreview(false);
-    if(kind==="family"){familyVariant==="public"?enterPublicPlayground():enterSetupPlayground();return true;}
-    if(kind==="alumni"){const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setProductizedDemo(null);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:tr("ReadOnlySampleAlumniCommunityTxt"),entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);return true;}
-    if(isProductizedVerticalKind(kind)){const def=getVerticalDefinition(kind);const pc=PRODUCTIZED_NETWORK_CONFIGS[kind];setProductizedDemo(kind);setAlumniDemo(false);setNetwork({id:`${kind}-playground`,name:pc.sampleName,description:pc.sampleDescription,entity_label:def.legacyNetworkLabels.entityLabel,entity_label_plural:def.legacyNetworkLabels.entityLabelPlural,level_label:def.legacyNetworkLabels.levelLabel,level_label_plural:def.legacyNetworkLabels.levelLabelPlural,parent_label:def.legacyNetworkLabels.parentLabel,child_label:def.legacyNetworkLabels.childLabel,peer_label:def.legacyNetworkLabels.peerLabel,network_template:kind,vertical_kind:kind,membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);return true;}
-    return false;
+    setShellBusy(tr("LoadingTxt"));
+    try{
+      const showcase=await getShowcaseVerticalSetting(kind);
+      if(!showcase.playground_enabled){notify(tr("ShowcasePlaygroundNotAvailableTxt"));return false;}
+      setShowMyNetworks(false);setSetupNeeded(false);setDemoPreview(false);
+      if(kind==="family"){familyVariant==="public"?enterPublicPlayground():enterSetupPlayground();return true;}
+      if(kind==="alumni"){const alumni=getVerticalDefinition("alumni");setAlumniDemo(true);setProductizedDemo(null);setNetwork({id:"alumni-playground",name:"Sample Alumni Network",description:tr("ReadOnlySampleAlumniCommunityTxt"),entity_label:alumni.legacyNetworkLabels.entityLabel,entity_label_plural:alumni.legacyNetworkLabels.entityLabelPlural,level_label:alumni.legacyNetworkLabels.levelLabel,level_label_plural:alumni.legacyNetworkLabels.levelLabelPlural,parent_label:alumni.legacyNetworkLabels.parentLabel,child_label:alumni.legacyNetworkLabels.childLabel,peer_label:alumni.legacyNetworkLabels.peerLabel,network_template:"alumni",vertical_kind:"alumni",membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);return true;}
+      if(isProductizedVerticalKind(kind)){const def=getVerticalDefinition(kind);const pc=PRODUCTIZED_NETWORK_CONFIGS[kind];setProductizedDemo(kind);setAlumniDemo(false);setNetwork({id:`${kind}-playground`,name:pc.sampleName,description:pc.sampleDescription,entity_label:def.legacyNetworkLabels.entityLabel,entity_label_plural:def.legacyNetworkLabels.entityLabelPlural,level_label:def.legacyNetworkLabels.levelLabel,level_label_plural:def.legacyNetworkLabels.levelLabelPlural,parent_label:def.legacyNetworkLabels.parentLabel,child_label:def.legacyNetworkLabels.childLabel,peer_label:def.legacyNetworkLabels.peerLabel,network_template:kind,vertical_kind:kind,membership_role:"member"});setMembers([]);setRelationships([]);setSubmissions([]);return true;}
+      return false;
+    }finally{setShellBusy("")}
   };
 
   if (!ready)
@@ -1060,6 +1065,8 @@ export default function NetworkApp() {
         </div>
       </div>
     );
+  if(shellBusy)
+    return <div className="loading-screen showcase-shell-loader" data-testid="qa-shell-loader" role="status" aria-live="polite"><div className="loading-mark"><LoaderCircle className="showcase-spin" size={30}/></div><div><b>{tr("SetupBrandTxt")}</b><div className="page-subtitle">{shellBusy}</div></div></div>;
   if (isSupabaseConfigured && passwordRecovery)
     return (
       <div className="landing family-signin-page">
@@ -1099,12 +1106,12 @@ export default function NetworkApp() {
           <AuthPanel
             onClose={()=>setShowAuth(false)}
             onDone={async () => {
-              setShowAuth(false);
+              setShowAuth(false);setShellBusy(tr("LoadingTxt"));
               try {
                 await hydrate(await getAuthUser());
               } catch (e: any) {
                 notify(e.message || tr("CouldNotSignInTxt"));
-              }
+              } finally { setShellBusy(""); }
             }}
           />
         )}
@@ -1112,12 +1119,16 @@ export default function NetworkApp() {
     );
   const openMyNetworksHome=async()=>{
     if(!auth){setSetupNeeded(true);return;}
-    try{const identity=await buildTrustedPersonIdentity(await getAuthUser());setTrustedIdentity(identity);setShowMyNetworks(true);setSetupNeeded(false);}catch(e:any){notify(e.message||"Could not load your networks.")}
+    setShellBusy(tr("LoadingTxt"));
+    try{const identity=await buildTrustedPersonIdentity(await getAuthUser());setTrustedIdentity(identity);setShowMyNetworks(true);setSetupNeeded(false);}catch(e:any){notify(e.message||"Could not load your networks.")}finally{setShellBusy("")}
   };
   const openMembershipFromHome=async(membership:NeutralNetworkMembership)=>{
-    if(!membership.isActive)await setActiveNetwork(membership.network.id);
-    setShowMyNetworks(false);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);
-    await hydrate(await getAuthUser());setView("home");
+    setShellBusy(tr("LoadingTxt"));
+    try{
+      if(!membership.isActive)await setActiveNetwork(membership.network.id);
+      setShowMyNetworks(false);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);
+      await hydrate(await getAuthUser());setView("home");
+    }finally{setShellBusy("")}
   };
   const canAdmin = !demoPreview && (!isSupabaseConfigured || network?.membership_role === "owner" || network?.membership_role === "admin" || auth?.role === "admin");
   const isPlatformOwner = !isSupabaseConfigured || !!auth?.platform_owner;

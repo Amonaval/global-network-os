@@ -68,3 +68,39 @@ Validation:
 Known inherited validation limitations:
 - repository-wide TypeScript check is blocked by pre-existing syntax errors in qa/e2e/19-phase4b-data-integrity-recovery.spec.ts
 - historical NX6 source gate has three pre-existing source-string assertions already failing on the S2 baseline
+
+## Showcase Stabilization + Certification — 2026-09-12
+
+Status: IMPLEMENTED / SOURCE-CERTIFIED.
+
+This mission hardens the three showcase journeys without removing or changing business capabilities.
+
+### Stabilized contracts
+- Auth/sign-in hydration shows visible loading feedback.
+- My Networks opening/switching shows visible loading feedback and actionable errors.
+- Existing memberships remain independent of Launch Control showcase visibility.
+- Playground discovery remains filtered by Launch Control.
+- Authenticated Playground Back returns to My Networks.
+- Setup/create asynchronous work exposes a loader.
+- Mobile "Choose how to start" remains reachable with safe-area padding.
+- Sign-in, account-menu and mobile More surfaces support dismiss/back behavior including Escape where applicable.
+- Five Appearance themes remain available.
+- MPF and Residential flagship homes retain stable certification anchors.
+- Launch Control owner-registry copy is localized through EN/HI/MR dictionaries.
+
+### Automated certification assets
+- `scripts/showcase-stabilization-certification-gate.mjs`
+- `qa/e2e/24-showcase-stabilization-certification.spec.ts`
+- `npm run validate:showcase-stabilization`
+- `npm run qa:showcase`
+- `npm run qa:showcase:headed`
+
+Source/regression gates are green. Browser E2E is intentionally left for the configured QA environment and has not been claimed as executed in this extracted baseline.
+
+### No database migration
+No Supabase migration is required for this mission. Existing 099–102 remain the current showcase/control-plane migrations.
+
+### Next mission
+**Engagement, Notifications & Media Foundation**.
+
+Planned scope is captured in `NEXT-MISSION-ENGAGEMENT-NOTIFICATIONS-MEDIA.md` and includes persisted in-app notifications + deep links, web/PWA push delivery, role/mention routing, Residential complaint assignment + photos, shared compressed-media pipeline, archive/quota/cleanup controls, followed by MPF funds/events and election/voting engagement flows.

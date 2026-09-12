@@ -158,11 +158,11 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
         {productizedStep===1?<>
           <div className="setup-heading"><div className="brand-mark"><Icon size={24}/></div><div><span className="setup-eyebrow">{t("ReadyProductTxt")}</span><h2>{createTitle}</h2></div></div>
           <p className="setup-intro">{createDescription}</p>
-          <div className="field spacious"><label>{t("NetworkNameTxt")}</label><input className="text-input" value={productizedName} onChange={e=>setProductizedName(e.target.value)} placeholder={pc.namePlaceholder}/></div>
-          <div className="field spacious"><label>{localizedCreate.contextLabel}</label><input className="text-input" value={productizedContext} onChange={e=>setProductizedContext(e.target.value)} placeholder={pc.contextPlaceholder}/></div>
+          <div className="field spacious"><label>{t("NetworkNameTxt")}</label><input data-testid="qa-productized-name" className="text-input" value={productizedName} onChange={e=>setProductizedName(e.target.value)} placeholder={pc.namePlaceholder}/></div>
+          <div className="field spacious"><label>{localizedCreate.contextLabel}</label><input data-testid="qa-productized-context" className="text-input" value={productizedContext} onChange={e=>setProductizedContext(e.target.value)} placeholder={pc.contextPlaceholder}/></div>
           <div className="field spacious"><label>{t("DescriptionTxt")} <em>{t("OptionalTxt")}</em></label><textarea className="text-input" rows={3} value={productizedDescription} onChange={e=>setProductizedDescription(e.target.value)} placeholder={t("WhatMembersUnderstandTxt")}/></div>
           <div className="notice success-notice"><ShieldCheck size={15}/><span><b>{t("SeparateNetworkSharedPlatformTxt")}</b> {t("ProductizedCreationDescTxt")}</span></div>
-          <button className="btn primary setup-next" disabled={busy||!productizedName.trim()||!productizedContext.trim()} onClick={()=>{setError("");setProductizedStep(2)}}>{t("ChooseHowStartTxt")} <ArrowRight size={17}/></button>
+          <button data-testid="qa-choose-how-start" className="btn primary setup-next" disabled={busy||!productizedName.trim()||!productizedContext.trim()} onClick={()=>{setError("");setProductizedStep(2)}}>{t("ChooseHowStartTxt")} <ArrowRight size={17}/></button>
         </>:<>
           <button className="setup-back inline-step-back" disabled={busy} onClick={()=>setProductizedStep(1)}><ArrowLeft size={15}/> {t("BackTxt")}</button>
           <div className="setup-heading compact-heading"><div><span className="setup-eyebrow">2 · {productizedName}</span><h2>{t("ChooseEasiestStartTxt")}</h2><small>{shortLabel}  {xp2t("XP2Visible0496Txt")}</small></div></div><div className="family-start-options">
@@ -176,10 +176,10 @@ export default function SetupScreen({ onCreate,onExploreDemo,onJoinCode,claimabl
         <button className="setup-back" onClick={()=>{if(step===2)setStep(1);else setPath("entry");setError("")}}><ArrowLeft size={15}/> {t("BackTxt")}</button>
         {step===1?<>
           <div className="setup-heading"><div><span className="setup-eyebrow">1 · {t("FamilyBasicsTxt")}</span><h2>{c.create}</h2></div></div><p className="setup-intro">{tr("FamilyNameHelpTxt")}</p>
-          <div className="field spacious"><label>{c.familyName}</label><input className="text-input" value={name} onChange={e=>setName(e.target.value)} placeholder={c.familyPlaceholder} autoFocus onKeyDown={e=>e.key==="Enter"&&continueSetup()}/><small>{c.familyHelp}</small></div>
+          <div className="field spacious"><label>{c.familyName}</label><input data-testid="qa-family-name" className="text-input" value={name} onChange={e=>setName(e.target.value)} placeholder={c.familyPlaceholder} autoFocus onKeyDown={e=>e.key==="Enter"&&continueSetup()}/><small>{c.familyHelp}</small></div>
           <div className="field spacious"><label>{c.description} <em>{c.optional}</em></label><textarea className="text-input" rows={3} value={description} onChange={e=>setDescription(e.target.value)} placeholder={c.descriptionPlaceholder}/></div>
           <div className="setup-create-actions">
-            <button className="btn primary setup-next" disabled={!canSetup} onClick={continueSetup}>{t("ChooseHowStartTxt")} <ArrowRight size={17}/></button>
+            <button data-testid="qa-choose-how-start" className="btn primary setup-next" disabled={!canSetup} onClick={continueSetup}>{t("ChooseHowStartTxt")} <ArrowRight size={17}/></button>
             <button className="btn" disabled={!canSetup||busy} onClick={()=>create("empty")}><Sparkles size={16}/> {t("CreateNowAddLaterTxt")}</button>
           </div>
           <small className="setup-minimum-note">{tr("OnlyFamilyNameRequiredTxt")}</small>

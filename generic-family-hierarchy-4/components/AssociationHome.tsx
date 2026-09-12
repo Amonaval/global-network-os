@@ -24,7 +24,7 @@ export default function AssociationHome({networkName,entities,activities,groups,
  const timeline=[...activities].filter(a=>a.startsAt||a.type==="memory"||a.type==="milestone").sort((a,b)=>text(b.startsAt).localeCompare(text(a.startsAt))).slice(0,5);
  const currentYear=households.flatMap(h=>h.affiliations.membership_year||[])[0]||"2026–27";
  const attentionCount=(renewalDue?1:0)+(announcements.length?1:0)+(upcomingEvents.length?1:0);
- return <div className="association-signature-home">
+ return <div data-testid="qa-fca-flagship-home" className="association-signature-home">
   <section className="association-hero">
    <div className="association-hero-copy"><span className="association-kicker"><Sparkles size={13}/> {t("CommunityFamilyBelongingTxt")}</span><h1>{networkName}</h1><p>{t("CommunityHomeHeroDescTxt")}</p><div className="association-hero-actions"><button className="btn primary" onClick={()=>onGo("directory")}><UsersRound size={16}/> {t("FamiliesTxt")}</button><button className="btn" onClick={()=>onGo("community")}><CalendarDays size={16}/> {t("EventsCommunityTxt")}</button><button className="btn" onClick={()=>onGo("contribute")}><HeartHandshake size={16}/> {t("BuildTogetherTxt")}</button></div></div>
    <div className="association-emblem" aria-label={t("CommunityIdentityTxt")}><div className="association-emblem-mark">म</div><small>{familyCommunity?t("FamilyCommunityTxt"):t("CommunityAssociationTxt")}</small><b>{currentYear}</b><span><BadgeCheck size={14}/> {t("PrivateMemberCommunityTxt")}</span></div>
