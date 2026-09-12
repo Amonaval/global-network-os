@@ -1,11 +1,14 @@
 import {supabase} from "../../lib/supabase";
 import type {NetworkActivity,NetworkActivityType} from "../../core/network-os/contracts";
 import {fetchEntityMediaAssets} from "../../lib/storage";
+import {requestPushDelivery} from "../../lib/push";
 function required(){if(!supabase)throw new Error("Shared Supabase mode is required for network activity.");return supabase}
 export type NetworkGroup={id:string;name:string;groupType:string;description?:string|null;memberCount:number;myMember?:boolean};
 export async function fetchNetworkActivities(type?:NetworkActivityType){
- const s=required();const {data,error}=await s.rpc("get_network_activities",{p_activity_type:type||null});if(error)throw error;
+ const s=required();const [{data,error},flagsResult]=await Promise.all([s.rpc("get_network_activities",{p_activity_type:type||null}),s.rpc("get_network_activity_social_flags")]);if(error)throw error;
  const rows=(data||[]).map((r:any)=>({id:String(r.id),type:r.activity_type,title:r.title,body:r.body,startsAt:r.starts_at,endsAt:r.ends_at,place:r.place,visibility:r.visibility,createdBy:r.created_by,myRsvp:r.my_rsvp,goingCount:Number(r.going_count||0),myLiked:Boolean(r.my_liked),likeCount:Number(r.like_count||0),commentCount:Number(r.comment_count||0)})) as NetworkActivity[];
+ const flags=new Map<string,any>((flagsResult.data||[]).map((x:any)=>[String(x.activity_id),x]));
+ for(const row of rows){const f=flags.get(row.id);if(f){row.metadata=f.metadata||{};row.authorLabel=f.author_label||null;row.createdAt=f.created_at||null;}}
  const media=await fetchEntityMediaAssets("activity",rows.map(r=>r.id)).catch(()=>[]);const by=new Map(media.map(x=>[x.entityId,x] as const));
  for(const row of rows){const asset=by.get(row.id);if(asset){row.mediaUrl=asset.url||null;row.thumbnailUrl=asset.thumbnailUrl||asset.url||null;}}
  return rows;
@@ -22,3 +25,10 @@ export type NetworkActivityComment={id:string;body:string;createdAt:string;autho
 export async function toggleNetworkActivityLike(activityId:string){const s=required();const {data,error}=await s.rpc("toggle_network_activity_like",{p_activity_id:activityId});if(error)throw error;return Boolean(data)}
 export async function addNetworkActivityComment(activityId:string,body:string){const s=required();const {data,error}=await s.rpc("add_network_activity_comment",{p_activity_id:activityId,p_body:body});if(error)throw error;return String(data)}
 export async function fetchNetworkActivityComments(activityId:string){const s=required();const {data,error}=await s.rpc("get_network_activity_comments",{p_activity_id:activityId});if(error)throw error;return (data||[]).map((r:any)=>({id:String(r.id),body:String(r.body),createdAt:r.created_at,authorLabel:String(r.author_label||"Member"),isMine:Boolean(r.is_mine)})) as NetworkActivityComment[]}
+
+export async function createNetworkPost(input:{title:string;body?:string;importance?:"normal"|"important"|"urgent";notifyAll?:boolean}){
+ const s=required();const {data,error}=await s.rpc("create_network_post",{p_title:input.title,p_body:input.body||null,p_importance:input.importance||"normal",p_notify_all:!!input.notifyAll});if(error)throw error;
+ const result=(data||{}) as {activity_id?:string;notification_ids?:string[]};for(const id of result.notification_ids||[])void requestPushDelivery(id);return String(result.activity_id||"");
+}
+export async function setNetworkActivityPinned(activityId:string,pinned:boolean){const s=required();const {error}=await s.rpc("set_network_activity_pinned",{p_activity_id:activityId,p_pinned:pinned});if(error)throw error}
+export async function addNetworkPostComment(activityId:string,body:string){const s=required();const {data,error}=await s.rpc("add_network_post_comment",{p_activity_id:activityId,p_body:body});if(error)throw error;const result=(data||{}) as {comment_id?:string;notification_id?:string};if(result.notification_id)void requestPushDelivery(result.notification_id);return String(result.comment_id||"")}

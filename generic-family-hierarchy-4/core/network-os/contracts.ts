@@ -42,6 +42,8 @@ export type NetworkActivity={
  place?:string|null;
  visibility?:"members"|"private";
  createdBy?:string|null;
+ createdAt?:string|null;
+ authorLabel?:string|null;
  metadata?:Record<string,unknown>;
  myRsvp?:"going"|"maybe"|"declined"|null;
  goingCount?:number;
