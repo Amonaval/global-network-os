@@ -434,14 +434,17 @@ export default function NetworkApp() {
         "The selected starting data contains integrity errors. Fix the data before creating the network.",
       );
     if (repository.mode === "shared") {
-      if(!auth?.platform_owner && familyCreationApprovalRequired){
-        await requestFamilyCreation(settings.name, settings.description || "");
-        const requests=await fetchMyFamilyCreationRequests();
-        setPendingFamilyRequest(requests.find(item=>item.status==="pending")||null);
-        notify(tr("FamilyRequestSentToThePlatformOwnerTxt"));
+      const creation = await createSharedFamily(settings.name, undefined, settings.description || "");
+      const networkId = creation.networkId;
+      if(creation.approvalStatus==="pending"){
+        await enterFamilyLobby();
+        setNetwork(null);
+        setSetupNeeded(false);
+        setShowMyNetworks(true);
+        setTrustedIdentity(await buildTrustedPersonIdentity(await getAuthUser()));
+        notify(tr("NetworkWaitingForApprovalTxt"));
         return;
       }
-      const networkId = await createSharedFamily(settings.name, undefined, settings.description || "");
       // create_family already creates the network settings row and owner membership.
       // Activate the returned family explicitly, then refresh auth before any admin-only work.
       await setActiveNetwork(networkId);
@@ -450,6 +453,9 @@ export default function NetworkApp() {
         // One retry protects fresh sessions where profile/membership visibility settles a moment later.
         await setActiveNetwork(networkId);
         creatorAuth = await getAuthUser();
+      }
+      if (creatorAuth?.active_network_id !== networkId) {
+        throw new Error("The family was created, but your account could not activate it. Apply migration 102 and retry.");
       }
       settings = {...settings, network_id: networkId, membership_role: "owner"};
       setAuth(creatorAuth);
@@ -504,6 +510,7 @@ export default function NetworkApp() {
       setSetupNeeded(false);
       if (mode === "empty") setSubmissions([]);
     }
+    setShowMyNetworks(false);
     setSetupNeeded(false);
     setDemoPreview(false);
     setFamilyReady(settings.name);
@@ -1225,9 +1232,9 @@ export default function NetworkApp() {
           alumniInviteToken={pendingAlumniInvite}
           onAcceptAlumniInvite={pendingAlumniInvite?async()=>{await acceptAlumniInvitation(pendingAlumniInvite);window.history.replaceState({},"",window.location.pathname);setPendingAlumniInvite("");setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify(tr("AlumniInvitationAcceptedTxt"))}:undefined}
           onClaimAlumniProfile={async(profileId)=>{await claimAlumniProfile(profileId);await hydrate(await getAuthUser());setView("home");notify(tr("WelcomeToYourAlumniNetworkTxt"))}}
-          onCreateAlumni={async(name,institution,description)=>{if(!(await getShowcaseVerticalSetting("alumni")).create_enabled)throw new Error(tr("ShowcaseCreationNotAvailableTxt"));const id=await createAlumniNetwork(name,institution,description);await setActiveNetwork(id);setAlumniDemo(false);await hydrate(await getAuthUser());setView("home");notify(`${name} is ready.`)}}
+          onCreateAlumni={async(name,institution,description)=>{if(!(await getShowcaseVerticalSetting("alumni")).create_enabled)throw new Error(tr("ShowcaseCreationNotAvailableTxt"));const creation=await createAlumniNetwork(name,institution,description);if(creation.approvalStatus==="pending"){await enterFamilyLobby();setNetwork(null);setSetupNeeded(false);setShowMyNetworks(true);setTrustedIdentity(await buildTrustedPersonIdentity(await getAuthUser()));notify(tr("NetworkWaitingForApprovalTxt"));return;}await setActiveNetwork(creation.networkId);let fresh=await getAuthUser();if(fresh?.active_network_id!==creation.networkId){await setActiveNetwork(creation.networkId);fresh=await getAuthUser();}if(fresh?.active_network_id!==creation.networkId)throw new Error("The Alumni network was created, but your account could not activate it. Apply migration 102 and retry.");setShowMyNetworks(false);setSetupNeeded(false);setAlumniDemo(false);await hydrate(fresh);setView("home");notify(`${name} is ready.`)}}
           onExploreAlumniDemo={()=>void openNetworkPlayground("alumni")}
-          onCreateProductized={async(kind,name,contextValue,description)=>{if(!(await getShowcaseVerticalSetting(kind)).create_enabled)throw new Error(tr("ShowcaseCreationNotAvailableTxt"));const id=await createTemplateNetwork(kind,name,contextValue,description);await setActiveNetwork(id);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);await hydrate(await getAuthUser());setView("home");notify(`${name} is ready.`)}}
+          onCreateProductized={async(kind,name,contextValue,description)=>{if(!(await getShowcaseVerticalSetting(kind)).create_enabled)throw new Error(tr("ShowcaseCreationNotAvailableTxt"));const creation=await createTemplateNetwork(kind,name,contextValue,description);if(creation.approvalStatus==="pending"){await enterFamilyLobby();setNetwork(null);setSetupNeeded(false);setShowMyNetworks(true);setTrustedIdentity(await buildTrustedPersonIdentity(await getAuthUser()));notify(tr("NetworkWaitingForApprovalTxt"));return;}await setActiveNetwork(creation.networkId);let fresh=await getAuthUser();if(fresh?.active_network_id!==creation.networkId){await setActiveNetwork(creation.networkId);fresh=await getAuthUser();}if(fresh?.active_network_id!==creation.networkId)throw new Error("The network was created, but your account could not activate it. Apply migration 102 and retry.");setShowMyNetworks(false);setSetupNeeded(false);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);await hydrate(fresh);setView("home");notify(`${name} is ready.`)}}
           onExploreProductizedDemo={(kind)=>void openNetworkPlayground(kind)}
           onJoinProductizedCode={async(code)=>{await joinProductizedNetworkByCode(code);setProductizedDemo(null);setAlumniDemo(false);setDemoPreview(false);await hydrate(await getAuthUser());setView("home");notify(tr("NetworkJoinedWelcomeTxt"))}}
           onOpenGuide={async()=>{if(await openNetworkPlayground("family")){setGuideKey("");setView("guide")}}}

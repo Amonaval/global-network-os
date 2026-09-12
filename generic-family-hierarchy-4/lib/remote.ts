@@ -18,6 +18,7 @@ import { NetworkSettings } from "./network";
 import { resolveSignedUrls } from "./storage";
 import type {CommunitySpace,CommunityProfileCard,CommunityPost,PendingCommunityLink,CommunityProfileCategory,CommunityPostCategory,CommunityTrustConnection,TrustedConnectionPath,CommunityIntroduction} from "./community-network-types";
 import type { NetworkMembership as NeutralNetworkMembershipContract } from "../core/network/contracts";
+import type {NetworkVerticalKind} from "../core/verticals/contracts";
 import type { LegacyFamilyNetworkMembershipRow } from "../verticals/family/network/membership-adapter";
 import { fetchMyNetworkMemberships } from "../capabilities/network-context/remote";
 
@@ -127,6 +128,12 @@ export async function applyAlphaDay1LaunchPreset(){if(!supabase)return 0;const {
 
 export async function fetchFamilyCreationPolicy():Promise<boolean>{if(!supabase)return false;const {data,error}=await supabase.rpc("get_family_creation_policy");if(error)throw error;return data!==false;}
 export async function setFamilyCreationPolicy(approvalRequired:boolean){if(!supabase)return;const {error}=await supabase.rpc("set_family_creation_policy",{p_approval_required:approvalRequired});if(error)throw error;}
+
+export type PlatformNetworkRegistryRow={network_id:string;name:string;slug:string;vertical_kind:NetworkVerticalKind;approval_status:"pending"|"approved"|"rejected";network_status:string;creator_user_id:string|null;creator_email:string|null;created_at:string;reviewed_at:string|null;approval_note:string|null;member_count:number};
+export async function fetchNetworkCreationPolicy():Promise<boolean>{if(!supabase)return false;const {data,error}=await supabase.rpc("get_network_creation_policy");if(error)throw error;return data===true;}
+export async function setNetworkCreationPolicy(required:boolean){if(!supabase)return;const {error}=await supabase.rpc("set_network_creation_policy",{p_approval_required:required});if(error)throw error;}
+export async function fetchPlatformNetworkRegistry():Promise<PlatformNetworkRegistryRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_platform_network_registry");if(error)throw error;return (data||[]) as PlatformNetworkRegistryRow[];}
+export async function reviewNetworkCreation(networkId:string,action:"approve"|"reject",note=""){if(!supabase)return;const {error}=await supabase.rpc("review_network_creation",{p_network_id:networkId,p_action:action,p_note:note||null});if(error)throw error;}
 export async function joinFamilyByCode(code:string){const data=await postCommand<JoinNetworkResult>("/api/v1/networks/join",{kind:"family",code});return data.networkId;}
 export async function getOrCreateFamilyJoinCode(){if(!supabase)return"";const {data,error}=await supabase.rpc("get_or_create_family_join_code");if(error)throw error;return String(data||"");}
 export async function regenerateFamilyJoinCode(){if(!supabase)return"";const {data,error}=await supabase.rpc("regenerate_family_join_code");if(error)throw error;return String(data||"");}
@@ -172,7 +179,7 @@ export async function fetchFamilyAdminSummary():Promise<FamilyAdminSummary|null>
 export async function fetchFamilyMemberships():Promise<FamilyMembershipRow[]>{if(!supabase)return[];const {data,error}=await supabase.rpc("get_family_memberships");if(error)throw error;return (data||[]) as FamilyMembershipRow[];}
 export async function setFamilyMemberRole(userId:string,role:"admin"|"member"){if(!supabase)return;const {error}=await supabase.rpc("set_family_member_role",{p_user_id:userId,p_role:role});if(error)throw error;}
 export async function addMyselfToFamily(fullName:string,gender?:"Male"|"Female"|"Other"){if(!supabase)throw new Error("Shared mode is required.");const {data,error}=await supabase.rpc("add_myself_to_family",{p_full_name:fullName,p_gender:gender||null});if(error)throw error;return data as string;}
-export async function createFamily(name:string,slug?:string,description=""){const data=await postCommand<CreateNetworkResult>("/api/v1/networks/create",{kind:"family",name,slug,description},{idempotent:true});return data.networkId;}
+export async function createFamily(name:string,slug?:string,description=""){return postCommand<CreateNetworkResult>("/api/v1/networks/create",{kind:"family",name,slug,description},{idempotent:true});}
 export async function fetchNetworkSettings(): Promise<NetworkSettings | null> {
   if (!supabase) return null;
   const { data, error } = await supabase

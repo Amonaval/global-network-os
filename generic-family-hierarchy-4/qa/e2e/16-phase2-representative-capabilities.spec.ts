@@ -133,7 +133,7 @@ test.describe.serial('Phase-2 representative capability certification',()=>{
   test('mobile smoke: Organization member navigation/content/action survive 390x844',async({page})=>{
     const s=seedState();await page.setViewportSize({width:390,height:844});await activate('member',s.networks.organization.id);await login(page,'member');
     await expect(page.getByTestId('qa-vertical-shell-organization')).toBeVisible();
-    await page.getByTestId('qa-mobile-nav-directory').click();
+    await page.getByTestId('qa-nav-directory').click();
     await expect(page.locator('body')).toContainText(s.networks.organization.marker);
     const search=page.locator('.product-filter input');await expect(search).toBeVisible();await search.fill(s.networks.organization.marker);
     await expect(page.locator('body')).toContainText(s.networks.organization.marker);

@@ -7,7 +7,7 @@ export type ApiResponse<T>=ApiSuccess<T>|ApiFailure;
 export type CreateNetworkCommand=
  | {kind:"family";name:string;slug?:string;description?:string}
  | {kind:ProductizedVerticalKind;name:string;contextValue:string;description?:string};
-export type CreateNetworkResult={networkId:string};
+export type CreateNetworkResult={networkId:string;approvalStatus?:"pending"|"approved"|"rejected"};
 
 export type JoinNetworkCommand={kind:"family"|"productized";code:string};
 export type JoinNetworkResult={networkId:string};

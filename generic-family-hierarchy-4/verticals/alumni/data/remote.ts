@@ -9,7 +9,18 @@ export type AlumniNetworkOverview={institution_name:string;profile_count:number;
 export type AlumniConnection={connection_id:string;related_profile_id:string;full_name:string;graduation_year?:number|null;program?:string|null;city?:string|null;company?:string|null;job_title?:string|null;relation_kind:string};
 
 function required(){if(!supabase)throw new Error("Shared Supabase mode is required for Alumni networks.");return supabase;}
-export async function createAlumniNetwork(name:string,institution:string,description=""){const s=required();const {data,error}=await s.rpc("create_alumni_network",{p_name:name,p_institution:institution,p_description:description});if(error)throw error;return data as string;}
+export async function createAlumniNetwork(name:string,institution:string,description=""){
+ const s=required();
+ const {data:{user}}=await s.auth.getUser();
+ let previousNetworkId:string|null=null;
+ if(user?.id){const previous=await s.from("profiles").select("active_network_id").eq("id",user.id).maybeSingle();previousNetworkId=(previous.data?.active_network_id as string|null)||null;}
+ const {data,error}=await s.rpc("create_alumni_network",{p_name:name,p_institution:institution,p_description:description});if(error)throw error;
+ const networkId=String(data);
+ const finalized=await s.rpc("finalize_network_creation",{p_network_id:networkId,p_previous_network_id:previousNetworkId});if(finalized.error)throw finalized.error;
+ const result=(finalized.data||{}) as {approval_status?:"pending"|"approved"|"rejected";membership_ready?:boolean};
+ if(result.membership_ready!==true)throw new Error("The network was created but your owner membership could not be prepared.");
+ return {networkId,approvalStatus:result.approval_status||"approved"};
+}
 export async function fetchAlumniDirectory(query="",year?:number,program=""){const s=required();const {data,error}=await s.rpc("get_alumni_directory",{p_query:query||null,p_year:year||null,p_program:program||null});if(error)throw error;return (data||[]) as AlumniProfile[];}
 export async function saveMyAlumniProfile(profile:Partial<AlumniProfile>&{full_name:string}){const s=required();const {data,error}=await s.rpc("upsert_my_alumni_profile",{p_full_name:profile.full_name,p_graduation_year:profile.graduation_year||null,p_program:profile.program||null,p_department:profile.department||null,p_city:profile.city||null,p_company:profile.company||null,p_job_title:profile.job_title||null,p_bio:profile.bio||null});if(error)throw error;return data as string;}
 export async function fetchClaimableAlumniProfiles(){const s=required();const {data,error}=await s.rpc("get_my_claimable_alumni_profiles");if(error)throw error;return (data||[]) as ClaimableAlumniProfile[];}
