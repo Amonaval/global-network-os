@@ -170,7 +170,8 @@
     "validate:engage-e2": "node scripts/engagement-e2-web-push-gate.mjs && npm run validate:engage-e1",
     "validate:engage-e3": "node scripts/engagement-e3-mentions-routing-gate.mjs && npm run validate:engage-e2",
     "validate:engage-e4": "node scripts/engagement-e4-residential-complaints-gate.mjs && npm run validate:engage-e3",
-    "validate:engage-e5": "node scripts/engagement-e5-shared-media-gate.mjs && npm run validate:engage-e4"
+    "validate:engage-e5": "node scripts/engagement-e5-shared-media-gate.mjs && npm run validate:engage-e4",
+    "validate:engage-e6": "node scripts/engagement-e6-funds-gate.mjs && npm run validate:engage-e5"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",
