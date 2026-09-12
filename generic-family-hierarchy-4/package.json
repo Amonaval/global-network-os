@@ -165,7 +165,8 @@
     "validate:showcase-residential": "node scripts/showcase-residential-flagship-gate.mjs",
     "validate:showcase-stabilization": "node scripts/showcase-stabilization-certification-gate.mjs",
     "qa:showcase": "playwright test qa/e2e/24-showcase-stabilization-certification.spec.ts --project=chromium-desktop --workers=1",
-    "qa:showcase:headed": "playwright test qa/e2e/24-showcase-stabilization-certification.spec.ts --project=chromium-desktop --workers=1 --headed"
+    "qa:showcase:headed": "playwright test qa/e2e/24-showcase-stabilization-certification.spec.ts --project=chromium-desktop --workers=1 --headed",
+    "validate:engage-e1": "node scripts/engagement-e1-notification-core-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",

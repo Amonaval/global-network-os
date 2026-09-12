@@ -570,9 +570,9 @@ export async function fetchLivingLoopMetrics(days=30):Promise<Record<string,numb
   return (data||{}) as Record<string,number>;
 }
 
-export async function fetchNotifications(): Promise<Notification[]> {
+export async function fetchNotifications(input?:{limit?:number;unreadOnly?:boolean}): Promise<Notification[]> {
   if (!supabase) return [];
-  const { data, error } = await supabase.rpc("get_my_notifications");
+  const { data, error } = await supabase.rpc("get_my_notifications", input?{p_limit:input.limit||80,p_unread_only:!!input.unreadOnly}:undefined);
   if (error) throw error;
   return (data || []) as Notification[];
 }
@@ -582,6 +582,17 @@ export async function markNotificationRead(id: string) {
     p_notification_id: id,
   });
   if (error) throw error;
+}
+export async function markAllNotificationsRead(networkId?:string) {
+  if (!supabase) return 0;
+  const {data,error}=await supabase.rpc("mark_all_notifications_read",{p_network_id:networkId||null});
+  if(error)throw error;return Number(data||0);
+}
+export async function fetchNotificationUnreadCount(){
+  if(!supabase)return 0;const {data,error}=await supabase.rpc("get_my_notification_unread_count");if(error)throw error;return Number(data||0);
+}
+export async function createNetworkNotification(input:{networkId:string;userId:string;type:string;title:string;body?:string;surface?:string;entityType?:string;entityId?:string;priority?:"low"|"normal"|"high"|"urgent";metadata?:Record<string,unknown>}){
+  if(!supabase)return;const {data,error}=await supabase.rpc("create_network_notification",{p_network_id:input.networkId,p_user_id:input.userId,p_type:input.type,p_title:input.title,p_body:input.body||null,p_surface:input.surface||null,p_entity_type:input.entityType||null,p_entity_id:input.entityId||null,p_priority:input.priority||"normal",p_metadata:input.metadata||{}});if(error)throw error;return data as string;
 }
 
 export async function searchRemoteMembers(input: {

@@ -3664,6 +3664,17 @@ export const en={
   LC2LegacyPolicyAuthoritativeTxt:'The generic Network Registry policy above is authoritative for new creation.',
   LC2OneControlPlaneTxt:'One control plane, separate responsibilities.',
   LC2ControlPlaneDescTxt:'Network membership and access are never controlled by showcase visibility. Create/Playground visibility, approval governance and feature rollout remain independent.',
+  NotificationsCouldNotLoadTxt:'Notifications could not load.',
+  NotificationCouldNotOpenTxt:'This notification could not be opened.',
+  NotificationsCouldNotUpdateTxt:'Notifications could not be updated.',
+  NotificationsTxt:'Notifications',
+  YourUpdatesTxt:'Your updates',
+  MarkAllReadTxt:'Mark all as read',
+  OpeningTxt:'Opening…',
+  NoNotificationsYetTxt:'No notifications yet',
+  NotificationsWillAppearHereTxt:'Important updates from your networks will appear here.',
+  UrgentTxt:'Urgent',
+  ImportantTxt:'Important',
 } as const;
 export type MessageToken=keyof typeof en;
 export type MessageCatalog=Record<MessageToken,string>;

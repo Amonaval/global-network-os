@@ -47,6 +47,8 @@ import SetupScreen from "./SetupScreen";
 import AlumniNetworkApp from "./AlumniNetworkApp";
 import TemplateNetworkApp from "./TemplateNetworkApp";
 import NetworkTopbar from "./shared/NetworkTopbar";
+import NotificationCenter from "./shared/NotificationCenter";
+import {readNotificationDeepLink} from "../lib/notification-routing";
 import NetworkAccountMenu from "./shared/NetworkAccountMenu";
 import NetworkIntelligenceCenter from "./shared/NetworkIntelligenceCenter";
 import type {NetworkAffiliatedEntity,NetworkActivity} from "../core/network-os/contracts";
@@ -219,6 +221,12 @@ export default function NetworkApp() {
   useEffect(() => {
     try { setLargeText(localStorage.getItem("family-large-text") === "1"); } catch {}
   }, []);
+  useEffect(()=>{
+    if(typeof window==="undefined"||setupNeeded||demoPreview)return;
+    const deep=readNotificationDeepLink();
+    const allowed=new Set<View>(["home","intelligence","tree","directory","map","community","umbrella","timeline","participation","admin","founder","guide"]);
+    if(deep.surface&&allowed.has(deep.surface as View))setView(deep.surface as View);
+  },[setupNeeded,demoPreview,network?.id]);
   const toggleLargeText = () => setLargeText(current => {
     const next = !current;
     try { localStorage.setItem("family-large-text", next ? "1" : "0"); } catch {}
@@ -1279,6 +1287,7 @@ export default function NetworkApp() {
         badges={canAdmin?[{label:isSupabaseConfigured?t("SharedFamilyTxt"):t("PrivatePreviewTxt"),tone:isSupabaseConfigured?"shared":"demo",icon:isSupabaseConfigured?<Database size={12}/>:undefined}]:[]}
         middle={demoPreview?<div className="demo-preview-banner"><Sparkles size={14}/><span>{tr("PlaygroundYouAreTxt")}{" "}{members.find(m=>m.id===demoViewerId)?.full_name.split(/\s+/)[0] || tr("ASampleFamilyMemberTxt")} {tr("ForThisVisitNothingIsSavedTxt")}</span><button className="btn small" onClick={async()=>{setDemoPreview(false);setDemoViewerId(undefined);setFocusId(undefined);setLineageOnly(false);setNetwork(null);setMembers([]);setRelationships([]);if(auth)await openMyNetworksHome();else setSetupNeeded(true)}}>{tr("BackToNetworkSelectionTxt")}</button></div>:undefined}
         actions={<div className={`nx6-top-actions ${experience==="simple"&&!canAdmin?"simple-top-actions":""}`}>
+          {isSupabaseConfigured && !demoPreview && auth && <NotificationCenter/>}
           {isSupabaseConfigured && !demoPreview && auth && <NetworkSwitcher label={tr("SwitchNetworkTxt")} onSwitched={async()=>{await hydrate(await getAuthUser());setView("home");}} onCreate={()=>{setNetwork(null);setSetupNeeded(true)}}/>}
           <LanguageSwitcher compact />
           {canAdmin && <select className="select nx6-privacy-preview" aria-label={tr("PreviewProfilePrivacyAsTxt")} value={visibility} onChange={(e) => setVisibility(e.target.value as Visibility)}><option value="public">{tr("PublicPreviewTxt")}</option><option value="member">{tr("MemberPreviewTxt")}</option><option value="admin">{tr("AdminPreviewTxt")}</option></select>}

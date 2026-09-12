@@ -118,10 +118,16 @@ export type NotificationPreference = {
 export type Notification = {
   id: string;
   user_id: string;
+  network_id?: string;
+  network_name?: string;
   type: string;
   title: string;
   body?: string;
   href?: string;
+  entity_type?: string;
+  entity_id?: string;
+  priority?: "low" | "normal" | "high" | "urgent";
+  metadata?: Record<string, unknown>;
   read_at?: string;
   created_at: string;
 };
