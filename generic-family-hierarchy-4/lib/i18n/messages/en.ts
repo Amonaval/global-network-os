@@ -3682,6 +3682,13 @@ export const en={
   EnableTxt:'Enable',
   DisableTxt:'Disable',
   NotSupportedTxt:'Not supported',
+  ResponsibilityRoutingTxt:'Responsibility routing',
+  ResponsibilityRoutingDescTxt:'Assign network responsibilities so @role mentions and workflow alerts reach the right person.',
+  ResponsibilityRoutingSavedTxt:'Responsibility routing saved.',
+  ResponsibilityRoutingFailedTxt:'Responsibility routing could not be saved.',
+  UnassignedTxt:'Unassigned',
+  MentionRoutingHelpTxt:'Members can mention roles such as @President or @Chairman, or a member by their email name. Routing always stays inside this network.',
+  MentionPeopleRolesHelpTxt:'Tip: mention a responsibility or member, for example @President, @Chairman or @amit.',
 } as const;
 export type MessageToken=keyof typeof en;
 export type MessageCatalog=Record<MessageToken,string>;

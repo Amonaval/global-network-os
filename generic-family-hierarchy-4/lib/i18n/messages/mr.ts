@@ -1240,4 +1240,11 @@ export const mr:LocaleCatalog={
   EnableTxt:'सुरू करा',
   DisableTxt:'बंद करा',
   NotSupportedTxt:'समर्थित नाही',
+  ResponsibilityRoutingTxt:'जबाबदारी रूटिंग',
+  ResponsibilityRoutingDescTxt:'@role उल्लेख आणि कामाच्या सूचना योग्य व्यक्तीपर्यंत पोहोचण्यासाठी नेटवर्क जबाबदाऱ्या नेमा.',
+  ResponsibilityRoutingSavedTxt:'जबाबदारी रूटिंग जतन झाली.',
+  ResponsibilityRoutingFailedTxt:'जबाबदारी रूटिंग जतन करता आली नाही.',
+  UnassignedTxt:'नेमलेले नाही',
+  MentionRoutingHelpTxt:'सदस्य @President किंवा @Chairman अशा भूमिका किंवा ईमेल नावाने सदस्याला टॅग करू शकतात. रूटिंग फक्त याच नेटवर्कमध्ये राहते.',
+  MentionPeopleRolesHelpTxt:'टीप: @President, @Chairman किंवा @amit अशा जबाबदार व्यक्तीला टॅग करा.',
 };

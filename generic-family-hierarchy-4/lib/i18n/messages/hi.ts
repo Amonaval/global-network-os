@@ -1240,4 +1240,11 @@ export const hi:LocaleCatalog={
   EnableTxt:'चालू करें',
   DisableTxt:'बंद करें',
   NotSupportedTxt:'समर्थित नहीं',
+  ResponsibilityRoutingTxt:'जिम्मेदारी रूटिंग',
+  ResponsibilityRoutingDescTxt:'नेटवर्क जिम्मेदारियाँ तय करें ताकि @role उल्लेख और कार्य-सूचनाएँ सही व्यक्ति तक पहुँचें।',
+  ResponsibilityRoutingSavedTxt:'जिम्मेदारी रूटिंग सहेजी गई।',
+  ResponsibilityRoutingFailedTxt:'जिम्मेदारी रूटिंग सहेजी नहीं जा सकी।',
+  UnassignedTxt:'निर्धारित नहीं',
+  MentionRoutingHelpTxt:'सदस्य @President या @Chairman जैसी भूमिकाओं या ईमेल नाम से सदस्य को टैग कर सकते हैं। रूटिंग हमेशा इसी नेटवर्क तक सीमित रहती है।',
+  MentionPeopleRolesHelpTxt:'सुझाव: @President, @Chairman या @amit जैसे जिम्मेदार व्यक्ति को टैग करें।',
 };

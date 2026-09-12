@@ -1,0 +1,12 @@
+import fs from 'node:fs';const c=[];const ok=(n,v)=>c.push([n,!!v]);const m=fs.readFileSync('supabase/migrations/105_engagement_mentions_role_routing.sql','utf8'),a=fs.readFileSync('components/shared/NetworkNotificationRoleAdmin.tsx','utf8'),hub=fs.readFileSync('components/shared/NetworkActivityHub.tsx','utf8'),app=fs.readFileSync('components/TemplateNetworkApp.tsx','utf8'),mention=fs.readFileSync('lib/mentions.ts','utf8');
+ok('network scoped responsibility roles',m.includes('network_notification_roles')&&m.includes('network_id uuid'));
+ok('role assignments require network admin',m.includes('is_network_admin'));
+ok('mention resolver stays in active network',m.includes('route_network_mentions')&&m.includes('nm.network_id=nid'));
+ok('mentions resolve owner/admin aliases',m.includes("'owner','owners'")&&m.includes("'admin','admins','board'"));
+ok('named member mention resolution exists',m.includes('split_part(coalesce(u.email'));
+ok('shared mention extractor exists',mention.includes('extractMentions'));
+ok('activity composer explains mentions',hub.includes('MentionPeopleRolesHelpTxt'));
+ok('activity posts route mentions',app.includes('routeNetworkMentions')&&app.includes('entityType:"activity"'));
+ok('admin responsibility assignment UI exists',a.includes('@{label.replace')&&a.includes('setNetworkNotificationRole'));
+ok('admin UI wired into productized networks',app.includes('<NetworkNotificationRoleAdmin'));
+for(const [n,v] of c)console.log(`${v?'✓':'✗'} ${n}`);if(c.some(x=>!x[1]))process.exit(1);console.log(`E3 PASS ${c.length}/${c.length}`);
